@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Restaurante X — Gestión de Tareas</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <div class="header-inner">
+      <span class="logo">🍽️</span>
+      <div>
+        <h1>Restaurante X</h1>
+        <p class="subtitle">Organización de tareas por sector</p>
+      </div>
+      <div class="stats-bar">
+        <div class="stat"><span id="total-pending">0</span><small>Pendientes</small></div>
+        <div class="stat"><span id="total-done">0</span><small>Completadas</small></div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Quick-add form -->
+    <section class="add-task-bar">
+      <select id="select-sector">
+        <option value="">Seleccionar sector…</option>
+        <option value="cocina">Cocina</option>
+        <option value="barra">Barra</option>
+        <option value="sala">Sala</option>
+        <option value="caja">Caja</option>
+        <option value="limpieza">Limpieza</option>
+      </select>
+      <input id="task-input" type="text" placeholder="Nueva tarea…" maxlength="120" />
+      <select id="select-priority">
+        <option value="normal">Normal</option>
+        <option value="alta">Alta</option>
+        <option value="baja">Baja</option>
+      </select>
+      <button id="btn-add">+ Agregar</button>
+    </section>
+
+    <!-- Sector columns -->
+    <div class="board" id="board">
+      <div class="sector-card" id="sector-cocina">
+        <div class="sector-header cocina">
+          <span class="sector-icon">👨‍🍳</span>
+          <h2>Cocina</h2>
+          <span class="badge" id="badge-cocina">0</span>
+        </div>
+        <ul class="task-list" data-sector="cocina"></ul>
+        <p class="empty-msg">Sin tareas pendientes</p>
+      </div>
+
+      <div class="sector-card" id="sector-barra">
+        <div class="sector-header barra">
+          <span class="sector-icon">🍹</span>
+          <h2>Barra</h2>
+          <span class="badge" id="badge-barra">0</span>
+        </div>
+        <ul class="task-list" data-sector="barra"></ul>
+        <p class="empty-msg">Sin tareas pendientes</p>
+      </div>
+
+      <div class="sector-card" id="sector-sala">
+        <div class="sector-header sala">
+          <span class="sector-icon">🪑</span>
+          <h2>Sala</h2>
+          <span class="badge" id="badge-sala">0</span>
+        </div>
+        <ul class="task-list" data-sector="sala"></ul>
+        <p class="empty-msg">Sin tareas pendientes</p>
+      </div>
+
+      <div class="sector-card" id="sector-caja">
+        <div class="sector-header caja">
+          <span class="sector-icon">💰</span>
+          <h2>Caja</h2>
+          <span class="badge" id="badge-caja">0</span>
+        </div>
+        <ul class="task-list" data-sector="caja"></ul>
+        <p class="empty-msg">Sin tareas pendientes</p>
+      </div>
+
+      <div class="sector-card" id="sector-limpieza">
+        <div class="sector-header limpieza">
+          <span class="sector-icon">🧹</span>
+          <h2>Limpieza</h2>
+          <span class="badge" id="badge-limpieza">0</span>
+        </div>
+        <ul class="task-list" data-sector="limpieza"></ul>
+        <p class="empty-msg">Sin tareas pendientes</p>
+      </div>
+    </div>
+
+    <!-- Completed tasks -->
+    <section class="completed-section">
+      <button class="toggle-done" id="toggle-done">
+        ✅ Ver tareas completadas (<span id="done-count">0</span>)
+      </button>
+      <ul class="task-list done-list hidden" id="done-list"></ul>
+    </section>
+  </main>
+
+  <footer>
+    <small>Datos guardados localmente en este navegador · Restaurante X © <span id="year"></span></small>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
