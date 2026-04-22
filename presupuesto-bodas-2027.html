@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Presupuesto de Bodas 2027 — MAR EVENTOS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --gold: #C9A96E;
+    --gold-light: #E8D5A3;
+    --gold-dark: #A07840;
+    --white: #FFFFFF;
+    --off-white: #F5F5F0;
+    --text: #1A1A1A;
+    --text-muted: #6B6B6B;
+  }
+
+  html { scroll-snap-type: y mandatory; scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Jost', sans-serif;
+    color: var(--text);
+    background: var(--white);
+    overflow-x: hidden;
+  }
+
+  .slide {
+    min-height: 100vh;
+    width: 100%;
+    scroll-snap-align: start;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    padding: 60px 80px;
+  }
+
+  /* ── Gold ornament line ── */
+  .ornament {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    width: 100%;
+    justify-content: center;
+    margin: 20px 0;
+  }
+  .ornament-line {
+    height: 1px;
+    width: 80px;
+    background: linear-gradient(to right, transparent, var(--gold));
+  }
+  .ornament-line.right {
+    background: linear-gradient(to left, transparent, var(--gold));
+  }
+  .ornament-diamond {
+    width: 6px;
+    height: 6px;
+    background: var(--gold);
+    transform: rotate(45deg);
+    flex-shrink: 0;
+  }
+
+  /* ═══════════════════════════════
+     SLIDE 1 — PORTADA
+  ═══════════════════════════════ */
+  #slide-1 {
+    background: var(--white);
+    padding: 0;
+    overflow: hidden;
+  }
+
+  .portada-inner {
+    width: 100%;
+    height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .portada-left {
+    background: var(--white);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 80px 70px 80px 100px;
+    position: relative;
+  }
+
+  .portada-left::after {
+    content: '';
+    position: absolute;
+    right: 0; top: 15%; bottom: 15%;
+    width: 1px;
+    background: linear-gradient(to bottom, transparent, var(--gold), transparent);
+  }
+
+  .mar-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 60px;
+  }
+
+  .portada-eyebrow {
+    font-family: 'Jost', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 16px;
+  }
+
+  .portada-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(48px, 5.5vw, 72px);
+    font-weight: 300;
+    line-height: 1.1;
+    color: var(--text);
+    margin-bottom: 8px;
+  }
+
+  .portada-title em {
+    font-style: italic;
+    color: var(--gold-dark);
+  }
+
+  .portada-year {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(72px, 10vw, 130px);
+    font-weight: 300;
+    line-height: 0.9;
+    color: var(--off-white);
+    letter-spacing: -4px;
+    margin-bottom: 40px;
+    display: block;
+  }
+
+  .portada-subtitle {
+    font-family: 'Jost', sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: 2px;
+    color: var(--text-muted);
+    margin-bottom: 50px;
+    line-height: 1.8;
+  }
+
+  .portada-web {
+    font-family: 'Jost', sans-serif;
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 3px;
+    color: var(--gold);
+    text-decoration: none;
+    text-transform: lowercase;
+    border-bottom: 1px solid var(--gold-light);
+    padding-bottom: 3px;
+    width: fit-content;
+  }
+
+  /* Corner ornaments */
+  .corner-ornament {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+  }
+  .corner-ornament.tl { top: 30px; left: 40px; border-top: 1px solid var(--gold); border-left: 1px solid var(--gold); }
+  .corner-ornament.br { bottom: 30px; right: 40px; border-bottom: 1px solid var(--gold); border-right: 1px solid var(--gold); }
+
+  .portada-right {
+    position: relative;
+    background: linear-gradient(160deg, #e8ddd0 0%, #d4c4b0 50%, #c8b89a 100%);
+    overflow: hidden;
+  }
+
+  .portada-right-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(201,169,110,0.15) 0%, rgba(26,26,26,0.25) 100%);
+  }
+
+  .portada-right-text {
+    position: absolute;
+    bottom: 60px;
+    left: 50px;
+    right: 50px;
+  }
+
+  .portada-right-text h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    font-weight: 400;
+    color: rgba(255,255,255,0.95);
+    font-style: italic;
+    line-height: 1.4;
+    text-shadow: 0 1px 20px rgba(0,0,0,0.3);
+  }
+
+  .portada-right-text p {
+    font-family: 'Jost', sans-serif;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.7);
+    margin-top: 8px;
+  }
+
+  /* Geometric wave SVG overlay */
+  .portada-wave {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    opacity: 0.12;
+  }
+
+  /* ═══════════════════════════════
+     SLIDE 2 — BIENVENIDA
+  ═══════════════════════════════ */
+  #slide-2 {
+    background: var(--white);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding: 0;
+    min-height: 100vh;
+  }
+
+  .bienvenida-left {
+    background: var(--off-white);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 80px 60px 80px 80px;
+    position: relative;
+  }
+
+  .bienvenida-left::after {
+    content: '';
+    position: absolute;
+    right: 0; top: 15%; bottom: 15%;
+    width: 1px;
+    background: linear-gradient(to bottom, transparent, var(--gold), transparent);
+  }
+
+  .section-label {
+    font-family: 'Jost', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 30px;
+  }
+
+  .bienvenida-heading {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(36px, 4vw, 52px);
+    font-weight: 400;
+    font-style: italic;
+    line-height: 1.2;
+    color: var(--text);
+    margin-bottom: 20px;
+  }
+
+  .bienvenida-location {
+    font-family: 'Jost', sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: 1px;
+    color: var(--text-muted);
+    margin-bottom: 40px;
+    line-height: 1.6;
+  }
+
+  .bienvenida-quote {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 300;
+    font-style: italic;
+    color: var(--gold-dark);
+    line-height: 1.5;
+    border-left: 2px solid var(--gold);
+    padding-left: 24px;
+    margin-bottom: 50px;
+  }
+
+  .bienvenida-firma {
+    font-family: 'Jost', sans-serif;
+    font-size: 12px;
+    letter-spacing: 2px;
+    color: var(--text-muted);
+  }
+
+  .bienvenida-firma strong {
+    display: block;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+    font-weight: 500;
+    font-style: italic;
+    color: var(--text);
+    letter-spacing: 0;
+    margin-top: 4px;
+  }
+
+  .bienvenida-right {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 80px 80px 80px 60px;
+  }
+
+  .bienvenida-right-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text);
+    margin-bottom: 40px;
+  }
+
+  .event-details {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    margin-bottom: 60px;
+  }
+
+  .event-detail-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid #E8E8E0;
+  }
+  .event-detail-item:last-child { border-bottom: none; padding-bottom: 0; }
+
+  .event-detail-label {
+    font-family: 'Jost', sans-serif;
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+
+  .event-detail-value {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 400;
+    color: var(--text);
+  }
+
+  /* ═══════════════════════════════
+     SLIDE 3 — PROPUESTA GASTRONÓMICA
+  ═══════════════════════════════ */
+  #slide-3 {
+    background: var(--text);
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .gastronomia-bg-number {
+    position: absolute;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 400px;
+    font-weight: 700;
+    color: rgba(255,255,255,0.03);
+    line-height: 1;
+    pointer-events: none;
+    user-select: none;
+    letter-spacing: -20px;
+  }
+
+  .gastronomia-content {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 700px;
+  }
+
+  .gastronomia-label {
+    font-family: 'Jost', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 8px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 30px;
+  }
+
+  .gastronomia-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(42px, 5vw, 68px);
+    font-weight: 300;
+    line-height: 1.15;
+    color: var(--white);
+    margin-bottom: 30px;
+  }
+
+  .gastronomia-title em {
+    font-style: italic;
+    color: var(--gold-light);
+  }
+
+  .gastronomia-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 16px;
+    border: 1px solid var(--gold);
+    padding: 12px 36px;
+    margin-top: 10px;
+  }
+
+  .gastronomia-badge span {
+    font-family: 'Jost', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    color: var(--gold-light);
+  }
+
+  /* Gold corner ornaments for dark slide */
+  #slide-3 .corner-ornament.tl { border-color: rgba(201,169,110,0.4); }
+  #slide-3 .corner-ornament.br { border-color: rgba(201,169,110,0.4); }
+  #slide-3 .corner-ornament.tr { top: 30px; right: 40px; border-top: 1px solid rgba(201,169,110,0.4); border-right: 1px solid rgba(201,169,110,0.4); }
+  #slide-3 .corner-ornament.bl { bottom: 30px; left: 40px; border-bottom: 1px solid rgba(201,169,110,0.4); border-left: 1px solid rgba(201,169,110,0.4); }
+
+  /* ── Slide number indicator ── */
+  .slide-number {
+    position: absolute;
+    bottom: 36px;
+    right: 50px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 3px;
+    color: var(--gold);
+    opacity: 0.6;
+  }
+
+  #slide-1 .slide-number,
+  #slide-2 .slide-number { color: var(--gold-dark); }
+
+  /* ── Print ── */
+  @media print {
+    html { scroll-snap-type: none; }
+    .slide { min-height: 100vh; page-break-after: always; break-after: page; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════
+     SLIDE 1 — PORTADA
+════════════════════════════════════ -->
+<section class="slide" id="slide-1">
+  <div class="portada-inner">
+
+    <div class="portada-left">
+      <div class="corner-ornament tl"></div>
+
+      <div class="mar-logo">MAR EVENTOS</div>
+
+      <p class="portada-eyebrow">Propuesta Exclusiva</p>
+      <h1 class="portada-title">Presupuesto de<br><em>Bodas</em></h1>
+      <span class="portada-year">2027</span>
+
+      <p class="portada-subtitle">
+        Mirador Waikiki · Salón Ala Wai<br>
+        Mar del Plata, Buenos Aires
+      </p>
+
+      <a class="portada-web" href="https://www.mareventos.com.ar">www.mareventos.com.ar</a>
+
+      <div class="corner-ornament br"></div>
+    </div>
+
+    <div class="portada-right">
+      <div class="portada-right-overlay"></div>
+
+      <svg class="portada-wave" viewBox="0 0 600 200" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0,100 C100,40 200,160 300,100 C400,40 500,160 600,100 L600,200 L0,200 Z" fill="white"/>
+        <path d="M0,130 C100,70 200,190 300,130 C400,70 500,190 600,130 L600,200 L0,200 Z" fill="white" opacity="0.5"/>
+      </svg>
+
+      <div class="portada-right-text">
+        <h3>Tu evento ideal,<br>frente al mar</h3>
+        <p>Salón Ala Wai · Mirador Waikiki</p>
+      </div>
+    </div>
+
+  </div>
+  <span class="slide-number">01 / 12</span>
+</section>
+
+<!-- ═══════════════════════════════════
+     SLIDE 2 — BIENVENIDA
+════════════════════════════════════ -->
+<section class="slide" id="slide-2">
+
+  <div class="bienvenida-left">
+    <p class="section-label">Bienvenida</p>
+    <h2 class="bienvenida-heading">Tu evento ideal,<br>frente al mar</h2>
+    <p class="bienvenida-location">
+      Salón Ala Wai, Mirador Waikiki<br>
+      Mar del Plata, Buenos Aires
+    </p>
+
+    <blockquote class="bienvenida-quote">
+      "No hay dos eventos iguales"
+    </blockquote>
+
+    <div class="bienvenida-firma">
+      Atentamente,
+      <strong>Leandro</strong>
+    </div>
+  </div>
+
+  <div class="bienvenida-right">
+    <h3 class="bienvenida-right-title">Detalle del Evento</h3>
+
+    <div class="event-details">
+      <div class="event-detail-item">
+        <span class="event-detail-label">Fecha</span>
+        <span class="event-detail-value">Diciembre 2026</span>
+      </div>
+      <div class="event-detail-item">
+        <span class="event-detail-label">Salón</span>
+        <span class="event-detail-value">Ala Wai</span>
+      </div>
+      <div class="event-detail-item">
+        <span class="event-detail-label">Invitados</span>
+        <span class="event-detail-value">120 personas</span>
+      </div>
+      <div class="event-detail-item">
+        <span class="event-detail-label">Complejo</span>
+        <span class="event-detail-value">Mirador Waikiki</span>
+      </div>
+    </div>
+
+    <div class="ornament" style="justify-content:flex-start;">
+      <div class="ornament-line" style="width:50px;"></div>
+      <div class="ornament-diamond"></div>
+      <div class="ornament-line right" style="width:50px;"></div>
+    </div>
+  </div>
+
+  <span class="slide-number">02 / 12</span>
+</section>
+
+<!-- ═══════════════════════════════════
+     SLIDE 3 — PROPUESTA GASTRONÓMICA
+════════════════════════════════════ -->
+<section class="slide" id="slide-3">
+  <div class="corner-ornament tl"></div>
+  <div class="corner-ornament br"></div>
+  <div class="corner-ornament tr"></div>
+  <div class="corner-ornament bl"></div>
+
+  <span class="gastronomia-bg-number">03</span>
+
+  <div class="gastronomia-content">
+    <p class="gastronomia-label">Sección Gastronómica</p>
+
+    <div class="ornament" style="margin-bottom:24px;">
+      <div class="ornament-line" style="background:linear-gradient(to right,transparent,rgba(201,169,110,0.5));"></div>
+      <div class="ornament-diamond" style="background:var(--gold);"></div>
+      <div class="ornament-line right" style="background:linear-gradient(to left,transparent,rgba(201,169,110,0.5));"></div>
+    </div>
+
+    <h2 class="gastronomia-title">
+      Nuestra Propuesta<br><em>Gastronómica</em>
+    </h2>
+
+    <div class="ornament" style="margin-bottom:30px;">
+      <div class="ornament-line" style="background:linear-gradient(to right,transparent,rgba(201,169,110,0.5));"></div>
+      <div class="ornament-diamond" style="background:var(--gold);"></div>
+      <div class="ornament-line right" style="background:linear-gradient(to left,transparent,rgba(201,169,110,0.5));"></div>
+    </div>
+
+    <div class="gastronomia-badge">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C9A96E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+      </svg>
+      <span>All Inclusive</span>
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C9A96E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+      </svg>
+    </div>
+  </div>
+
+  <span class="slide-number" style="color:rgba(201,169,110,0.5);">03 / 12</span>
+</section>
+
+</body>
+</html>
