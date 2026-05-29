@@ -102,4 +102,4 @@ BEGIN
   END IF;
 END $$;
 
-RAISE NOTICE 'Migración completada: suggestions, notifications y políticas RLS creadas.';
+DO $$ BEGIN RAISE NOTICE 'Migración completada: suggestions, notifications y políticas RLS creadas.'; END $$;
