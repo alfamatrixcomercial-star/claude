@@ -75,3 +75,22 @@ export interface AdminUserView extends Profile {
   email?: string
   exam_results_count?: number
 }
+
+export interface Suggestion {
+  id: string
+  user_id: string
+  content: string
+  category: 'sugerencia' | 'reclamo'
+  is_read: boolean
+  read_at: string | null
+  read_by: string | null
+  created_at: string
+}
+
+export interface Notification {
+  id: string
+  user_id: string
+  message: string
+  is_seen: boolean
+  created_at: string
+}
