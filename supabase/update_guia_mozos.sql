@@ -443,7 +443,7 @@ No se pregunta al aire ni se improvisa. Se debe recurrir a la Guía de Platos e 
   SELECT id INTO v_exam_id FROM exams WHERE guide_id = v_guide_id LIMIT 1;
 
   IF v_exam_id IS NULL THEN
-    INSERT INTO exams (v_guide_id, title, passing_score)
+    INSERT INTO exams (guide_id, title, passing_score)
     VALUES (v_guide_id, 'Examen: Mozos, Runners y Comisses', 70)
     RETURNING id INTO v_exam_id;
   ELSE
