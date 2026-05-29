@@ -11,7 +11,7 @@ BEGIN
 SELECT id INTO v_guide_id FROM guides WHERE title = 'Guía para Nuevos y No Tan Nuevos';
 
 IF v_guide_id IS NULL THEN
-  INSERT INTO guides (title, description, content, is_active)
+  INSERT INTO guides (title, description, content)
   VALUES (
     'Guía para Nuevos y No Tan Nuevos',
     'Guía de incorporación para todo el personal de Mirador Waikiki: filosofía, normas, roles, evaluación, propinas, pagos y preguntas frecuentes.',
@@ -347,8 +347,7 @@ No. Antes de que empiece tu turno, debés esperar **fuera del área de servicio*
 
 **¿Dónde puedo consultar los platos del menú?**
 Toda la información sobre platos, ingredientes y preparaciones está en la **Guía de Platos e Ingredientes**, disponible en la aplicación.
-$GUIDE$,
-    true
+$GUIDE$
   )
   RETURNING id INTO v_guide_id;
 ELSE
@@ -687,8 +686,7 @@ No. Antes de que empiece tu turno, debés esperar **fuera del área de servicio*
 
 **¿Dónde puedo consultar los platos del menú?**
 Toda la información sobre platos, ingredientes y preparaciones está en la **Guía de Platos e Ingredientes**, disponible en la aplicación.
-$GUIDE$,
-    is_active = true
+$GUIDE$
   WHERE id = v_guide_id;
 END IF;
 
