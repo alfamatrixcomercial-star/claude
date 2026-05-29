@@ -4,13 +4,13 @@
 -- ============================================================
 DO $$
 DECLARE
-  guide_id uuid;
-  exam_id  uuid;
+  v_guide_id uuid;
+  v_exam_id  uuid;
 BEGIN
 
-  SELECT id INTO guide_id FROM guides WHERE title = 'Guía para Mozos, Runners y Comisses' LIMIT 1;
+  SELECT id INTO v_guide_id FROM guides WHERE title = 'Guía para Mozos, Runners y Comisses' LIMIT 1;
 
-  IF guide_id IS NULL THEN
+  IF v_guide_id IS NULL THEN
     INSERT INTO guides (title, description, content, puestos)
     VALUES (
       'Guía para Mozos, Runners y Comisses',
@@ -18,7 +18,7 @@ BEGIN
       '',
       ARRAY['todos']
     )
-    RETURNING id INTO guide_id;
+    RETURNING id INTO v_guide_id;
   END IF;
 
   UPDATE guides SET
@@ -438,185 +438,185 @@ La limpieza está a cargo del mozo asignado a la plaza. Sin embargo, cualquier p
 
 **¿Qué hago si no me acuerdo qué lleva un plato?**
 No se pregunta al aire ni se improvisa. Se debe recurrir a la Guía de Platos e Ingredientes 2025, provista por los encargados. Es obligación del personal conocer los platos o estudiar el material disponible.$content$
-  WHERE id = guide_id;
+  WHERE id = v_guide_id;
 
-  SELECT id INTO exam_id FROM exams WHERE guide_id = guide_id LIMIT 1;
+  SELECT id INTO v_exam_id FROM exams WHERE guide_id = v_guide_id LIMIT 1;
 
-  IF exam_id IS NULL THEN
-    INSERT INTO exams (guide_id, title, passing_score)
-    VALUES (guide_id, 'Examen: Mozos, Runners y Comisses', 70)
-    RETURNING id INTO exam_id;
+  IF v_exam_id IS NULL THEN
+    INSERT INTO exams (v_guide_id, title, passing_score)
+    VALUES (v_guide_id, 'Examen: Mozos, Runners y Comisses', 70)
+    RETURNING id INTO v_exam_id;
   ELSE
-    UPDATE exams SET title = 'Examen: Mozos, Runners y Comisses', passing_score = 70 WHERE id = exam_id;
+    UPDATE exams SET title = 'Examen: Mozos, Runners y Comisses', passing_score = 70 WHERE id = v_exam_id;
   END IF;
 
-  DELETE FROM exam_questions WHERE exam_id = exam_id;
+  DELETE FROM exam_questions WHERE exam_id = v_exam_id;
 
   INSERT INTO exam_questions (exam_id, question, options, correct_option, "order") VALUES
 
   -- INTRODUCCIÓN Y ESTILO DE SERVICIO
-  (exam_id, '¿Cuál es el objetivo principal del estilo de servicio en Waikiki?',
+  (v_exam_id, '¿Cuál es el objetivo principal del estilo de servicio en Waikiki?',
    '["Servicio rápido a toda costa","Que los clientes vivan una experiencia relajada pero bien atendida","Servicio formal y serio en todo momento","Servicio económico y eficiente"]'::jsonb, 1, 1),
 
-  (exam_id, '¿Qué dice la "Regla de oro" de Waikiki?',
+  (v_exam_id, '¿Qué dice la "Regla de oro" de Waikiki?',
    '["Siempre sonreír al cliente","Si algo está fuera de lugar, acomodalo. Si no sabés algo, preguntá. Si ves algo mal, avisá.","El cliente siempre tiene razón","Nunca dejar una mesa sin atender más de 2 minutos"]'::jsonb, 1, 2),
 
-  (exam_id, '¿Quiénes son los encargados de salón en Mirador Waikiki?',
+  (v_exam_id, '¿Quiénes son los encargados de salón en Mirador Waikiki?',
    '["Bruno Molina y Paz Rave","Facundo Núñez y Enzo Espiño","El jefe de cocina y el sommelier","El encargado de barra y recepción"]'::jsonb, 1, 3),
 
-  (exam_id, '¿Quién es el encargado de barra?',
+  (v_exam_id, '¿Quién es el encargado de barra?',
    '["Facundo Núñez","Enzo Espiño","Bruno Molina","Paz Rave"]'::jsonb, 2, 4),
 
   -- TAREAS COMPARTIDAS
-  (exam_id, '¿A qué hora comienza la apertura del salón?',
+  (v_exam_id, '¿A qué hora comienza la apertura del salón?',
    '["06:00 hs","08:00 hs","10:00 hs","11:00 hs"]'::jsonb, 1, 5),
 
-  (exam_id, '¿A qué hora comienza el cierre del salón?',
+  (v_exam_id, '¿A qué hora comienza el cierre del salón?',
    '["17:00 hs","18:00 hs","19:00 hs","21:00 hs"]'::jsonb, 2, 6),
 
-  (exam_id, '¿Qué producto se usa para limpiar las mesas durante la apertura?',
+  (v_exam_id, '¿Qué producto se usa para limpiar las mesas durante la apertura?',
    '["Alcohol","Agua y jabón","Blem","Lavandina"]'::jsonb, 2, 7),
 
-  (exam_id, '¿Cuál de estas NO es una tarea de cierre?',
+  (v_exam_id, '¿Cuál de estas NO es una tarea de cierre?',
    '["Cierre de sombrillas","Rallado de queso","Barrido profundo del salón","Relleno de pimenteros y palillos"]'::jsonb, 1, 8),
 
-  (exam_id, '¿Está permitido usar el celular durante el servicio?',
+  (v_exam_id, '¿Está permitido usar el celular durante el servicio?',
    '["Sí, siempre","Solo para consultar la carta","No, salvo autorización del encargado","Sí, mientras no lo vea el cliente"]'::jsonb, 2, 9),
 
-  (exam_id, '¿Qué se debe hacer si hay un problema entre compañeros?',
+  (v_exam_id, '¿Qué se debe hacer si hay un problema entre compañeros?',
    '["Resolverlo en el salón frente a los clientes","Hablarlo fuera del salón y con respeto; si no se resuelve, comunicarlo al encargado","Ignorarlo y seguir trabajando","Contárselo a otros compañeros"]'::jsonb, 1, 10),
 
   -- REQUISITOS Y PROPINAS
-  (exam_id, '¿Qué porcentaje de propina cobra el personal nuevo?',
+  (v_exam_id, '¿Qué porcentaje de propina cobra el personal nuevo?',
    '["25%","50%","75%","100%"]'::jsonb, 1, 11),
 
-  (exam_id, '¿Cuántas guías hay que leer para poder trabajar como mozo o runner con el 100% de propina?',
+  (v_exam_id, '¿Cuántas guías hay que leer para poder trabajar como mozo o runner con el 100% de propina?',
    '["1 guía","2 guías","3 guías","4 guías"]'::jsonb, 3, 12),
 
-  (exam_id, '¿Dónde se debe dejar la propina recolectada?',
+  (v_exam_id, '¿Dónde se debe dejar la propina recolectada?',
    '["En el bolsillo del mozo hasta el cierre","Repartida entre los que atendieron la mesa","En el sector de caja, sin excepciones","En una caja común en la estación de servicio"]'::jsonb, 2, 13),
 
-  (exam_id, '¿Cómo se entera el personal del reparto de propinas?',
+  (v_exam_id, '¿Cómo se entera el personal del reparto de propinas?',
    '["Se reúnen al final del turno","El encargado lo dice verbalmente","Se envía un informe al grupo de WhatsApp MOZOS - MW","Cada uno cuenta lo que juntó"]'::jsonb, 2, 14),
 
-  (exam_id, '¿Qué puede pasar si alguien con 100% de propina tiene comportamientos reiterados de MAL o MUY MAL?',
+  (v_exam_id, '¿Qué puede pasar si alguien con 100% de propina tiene comportamientos reiterados de MAL o MUY MAL?',
    '["Nada, el porcentaje es fijo","Puede tener una reducción temporal de propina al 75% o 50%","Se le descuenta directamente del sueldo","Solo se le da una advertencia verbal"]'::jsonb, 1, 15),
 
   -- ROL DEL MOZO
-  (exam_id, '¿Cuál es el rol principal del mozo en Waikiki?',
+  (v_exam_id, '¿Cuál es el rol principal del mozo en Waikiki?',
    '["Llevar y retirar platos","Acompañar la experiencia del cliente con amabilidad, orden, conocimiento y ritmo","Tomar comandas y cobrar","Coordinar la cocina con el salón"]'::jsonb, 1, 16),
 
-  (exam_id, '¿Cómo se arma el servicio para el almuerzo?',
+  (v_exam_id, '¿Cómo se arma el servicio para el almuerzo?',
    '["Solo plato y cubiertos","Individual, plato, cuchillo, tenedor y copa","Individual, plato, cubiertos, copa y copón de vino","Solo copa y cubiertos"]'::jsonb, 1, 17),
 
-  (exam_id, '¿Qué se agrega en la cena que no está en el almuerzo?',
+  (v_exam_id, '¿Qué se agrega en la cena que no está en el almuerzo?',
    '["Un postre de cortesía","Copón de vino y servilleta símil tela","Agua con gas","Pan de cortesía"]'::jsonb, 1, 18),
 
-  (exam_id, '¿Qué debe tener listo el mozo al inicio del servicio de almuerzo?',
+  (v_exam_id, '¿Qué debe tener listo el mozo al inicio del servicio de almuerzo?',
    '["Solo la carta","Computadora encendida, rejilla, destapador, lapiceras y herramientas de trabajo","Solo la tablet con el sistema","La carta y los menús del día"]'::jsonb, 1, 19),
 
-  (exam_id, '¿Qué hace el mozo al finalizar el servicio?',
+  (v_exam_id, '¿Qué hace el mozo al finalizar el servicio?',
    '["Se va directamente","Limpieza y orden de la plaza, feedback al encargado sobre cómo salió el servicio","Solo barre su sector","Espera que llegue el siguiente turno"]'::jsonb, 1, 20),
 
   -- ROL DEL RUNNER
-  (exam_id, '¿En qué turnos existe el puesto de runner?',
+  (v_exam_id, '¿En qué turnos existe el puesto de runner?',
    '["Siempre, en todos los turnos","Solo en desayuno y merienda","Solo durante el almuerzo o cena","En temporada alta solamente"]'::jsonb, 2, 21),
 
-  (exam_id, '¿Qué hace el runner antes de llevar un plato a la mesa?',
+  (v_exam_id, '¿Qué hace el runner antes de llevar un plato a la mesa?',
    '["Lo lleva directamente","Revisa que el plato esté completo y bien presentado antes de salir del pasaplatos","Pregunta al mozo si está correcto","Espera que el mozo lo acompañe"]'::jsonb, 1, 22),
 
-  (exam_id, '¿Qué pregunta el runner al dejar los platos en la mesa?',
+  (v_exam_id, '¿Qué pregunta el runner al dejar los platos en la mesa?',
    '["¿Les gustó el lugar?","¿Necesitan más bebida?","¿Falta algo? (sal, pimienta, etc.)","¿Van a pedir postre?"]'::jsonb, 2, 23),
 
-  (exam_id, '¿Qué pregunta el runner al retirar los platos vacíos?',
+  (v_exam_id, '¿Qué pregunta el runner al retirar los platos vacíos?',
    '["¿Quieren la cuenta?","¿Cómo estuvo todo?","¿Les traigo el postre?","¿Necesitan algo más?"]'::jsonb, 1, 24),
 
-  (exam_id, '¿Qué hace el runner si nota que a una mesa le falta pan o hielo?',
+  (v_exam_id, '¿Qué hace el runner si nota que a una mesa le falta pan o hielo?',
    '["Avisa al mozo para que lo lleve él","Lo repone sin esperar que lo pidan","Espera que el cliente lo solicite","Pregunta al encargado si puede reponerlo"]'::jsonb, 1, 25),
 
-  (exam_id, '¿Cómo debe moverse el runner por el salón?',
+  (v_exam_id, '¿Cómo debe moverse el runner por el salón?',
    '["Corriendo para ser más rápido","Con ritmo pero sin correr, con buena cara","Caminando lento para no derramar","Solo cuando lo llaman"]'::jsonb, 1, 26),
 
   -- CRITERIOS DE EVALUACIÓN
-  (exam_id, '¿Qué significa la evaluación 🟥 Muy mal?',
+  (v_exam_id, '¿Qué significa la evaluación 🟥 Muy mal?',
    '["Algo que se puede mejorar con tiempo","Comportamientos que afectan gravemente el equipo o la experiencia del cliente, pueden derivar en apercibimiento o suspensión","Una actitud que no suma pero no es grave","Lo mínimo esperable del puesto"]'::jsonb, 1, 27),
 
-  (exam_id, '¿Qué evaluación recibe quien limpia su puesto y además ayuda a dejar todo en orden general?',
+  (v_exam_id, '¿Qué evaluación recibe quien limpia su puesto y además ayuda a dejar todo en orden general?',
    '["🟨 Bien","🟧 Mal","🟩 Muy bien","🟥 Muy mal"]'::jsonb, 2, 28),
 
-  (exam_id, '¿Qué evaluación recibe quien dice "no sé" o inventa lo que incluye un plato?',
+  (v_exam_id, '¿Qué evaluación recibe quien dice "no sé" o inventa lo que incluye un plato?',
    '["🟨 Bien","🟧 Mal","🟩 Muy bien","🟥 Muy mal"]'::jsonb, 3, 29),
 
-  (exam_id, '¿Qué evaluación recibe quien anticipa las necesidades y resuelve sin esperar órdenes?',
+  (v_exam_id, '¿Qué evaluación recibe quien anticipa las necesidades y resuelve sin esperar órdenes?',
    '["🟨 Bien","🟧 Mal","🟩 Muy bien","🟥 Muy mal"]'::jsonb, 2, 30),
 
-  (exam_id, '¿Qué evaluación recibe quien abandona la atención al cliente por estar merendando?',
+  (v_exam_id, '¿Qué evaluación recibe quien abandona la atención al cliente por estar merendando?',
    '["🟨 Bien","🟧 Mal","🟩 Muy bien","🟥 Muy mal"]'::jsonb, 3, 31),
 
-  (exam_id, '¿Qué evaluación recibe quien confirma el pedido con el cliente, detalla bien la comanda y asegura que salga perfecto?',
+  (v_exam_id, '¿Qué evaluación recibe quien confirma el pedido con el cliente, detalla bien la comanda y asegura que salga perfecto?',
    '["🟥 Muy mal","🟧 Mal","🟨 Bien","🟩 Muy bien"]'::jsonb, 3, 32),
 
   -- DINÁMICA DIARIA
-  (exam_id, '¿Dónde se consulta la plaza asignada para cada turno?',
+  (v_exam_id, '¿Dónde se consulta la plaza asignada para cada turno?',
    '["En el grupo de WhatsApp","En el cuaderno de plazas al comenzar el turno","Se lo dice el encargado verbalmente al llegar","En la pizarra de la cocina"]'::jsonb, 1, 33),
 
-  (exam_id, '¿Qué hace un runner si una mesa le pide que tome el pedido?',
+  (v_exam_id, '¿Qué hace un runner si una mesa le pide que tome el pedido?',
    '["Lo ignora porque no es su rol","Dice que esperen al mozo","Lo toma y se lo pasa al mozo de esa plaza","Llama al mozo por el handy"]'::jsonb, 2, 34),
 
-  (exam_id, '¿Qué pasa si un cliente pide sal y no es tu plaza?',
+  (v_exam_id, '¿Qué pasa si un cliente pide sal y no es tu plaza?',
    '["Se le dice que espere al mozo de esa plaza","Se lo delegás al mozo correspondiente","Se lo llevás vos de todas formas, no se delega","Se avisa al encargado"]'::jsonb, 2, 35),
 
-  (exam_id, '¿Qué debe tener siempre lista la plaza del mozo?',
+  (v_exam_id, '¿Qué debe tener siempre lista la plaza del mozo?',
    '["Solo servilleteros y copas","Servilleteros, azucareros, edulcorantes, saleros, aceiteros, aceto, queseras, platos, copas y descanso","Solo los cubiertos y la carta","La carta y el menú del día"]'::jsonb, 1, 36),
 
-  (exam_id, '¿Qué se hace si un cliente tiene una queja grave y la situación escala?',
+  (v_exam_id, '¿Qué se hace si un cliente tiene una queja grave y la situación escala?',
    '["Intentar resolverlo solos a cualquier costo","Ignorar al cliente hasta que se calme","Llamar de inmediato al encargado para que intervenga","Ofrecer una bebida de cortesía sin consultar"]'::jsonb, 2, 37),
 
-  (exam_id, '¿Qué se hace si no recordás qué lleva un plato?',
+  (v_exam_id, '¿Qué se hace si no recordás qué lleva un plato?',
    '["Se improvisa con lo que uno sabe","Se le dice al cliente que no sabe","Se recurre a la Guía de Platos e Ingredientes 2025","Se le pregunta al cliente qué quiere"]'::jsonb, 2, 38),
 
   -- PRESENTACIÓN Y UNIFORMES
-  (exam_id, '¿Cuál de estas opciones NO está permitida durante el trabajo?',
+  (v_exam_id, '¿Cuál de estas opciones NO está permitida durante el trabajo?',
    '["Calzado cerrado y cómodo","Uniforme completo y limpio","Gorras personales, auriculares y piercings excesivos","Pelo atado si es largo"]'::jsonb, 2, 39),
 
-  (exam_id, '¿Qué se espera en cuanto a conducta y vocabulario en el salón?',
+  (v_exam_id, '¿Qué se espera en cuanto a conducta y vocabulario en el salón?',
    '["Que el equipo sea divertido y animado a cualquier volumen","Actitud profesional, voz baja, respeto por el entorno y los compañeros","Que haya buena onda aunque se escuche desde el sector cliente","Que cada uno tenga su propio estilo"]'::jsonb, 1, 40),
 
   -- USO DEL HANDY
-  (exam_id, '¿Qué se considera MUY MAL en el uso del handy?',
+  (v_exam_id, '¿Qué se considera MUY MAL en el uso del handy?',
    '["Responder rápido y claro","Apagar el handy o dejarlo sin volumen sin avisar","Usar el canal solo cuando es necesario","Hacer algún chiste breve si el momento lo permite"]'::jsonb, 1, 41),
 
-  (exam_id, '¿Cuál es el uso correcto del handy?',
+  (v_exam_id, '¿Cuál es el uso correcto del handy?',
    '["Usarlo para conversar con compañeros en momentos libres","Responder rápido y claro, usarlo solo cuando es necesario","Tenerlo siempre al máximo volumen","No usarlo nunca para no molestar"]'::jsonb, 1, 42),
 
   -- HABILIDADES TÉCNICAS
-  (exam_id, '¿Cuál de estas NO es una habilidad técnica requerida?',
+  (v_exam_id, '¿Cuál de estas NO es una habilidad técnica requerida?',
    '["Apertura y servicio correcto de vinos","Manejo correcto de la bandeja","Saber cocinar los platos del menú","Toma de comandas precisa y manejo del sistema"]'::jsonb, 2, 43),
 
-  (exam_id, '¿Qué se espera de un buen mozo respecto a la carta?',
+  (v_exam_id, '¿Qué se espera de un buen mozo respecto a la carta?',
    '["Conocer solo los platos más vendidos","Saber cada ítem, recomendar con fundamento y transmitir confianza","Solo saber los precios","Conocer los platos del día"]'::jsonb, 1, 44),
 
-  (exam_id, '¿Qué significa "trinchar" en el servicio de salón?',
+  (v_exam_id, '¿Qué significa "trinchar" en el servicio de salón?',
    '["Flambear un postre en la mesa","Servir el vino correctamente","Cortar y servir piezas de carne u otros alimentos en la mesa","Preparar una bandeja de desayuno"]'::jsonb, 2, 45),
 
   -- ACTITUD DE SERVICIO
-  (exam_id, '¿Qué hace que un cliente quiera volver, según la guía?',
+  (v_exam_id, '¿Qué hace que un cliente quiera volver, según la guía?',
    '["La rapidez del servicio","Un mozo que no solo atiende bien, sino que genera una experiencia memorable","Los precios bajos","La variedad del menú"]'::jsonb, 1, 46),
 
-  (exam_id, '¿Qué actitud se debe tener al recibir una corrección del encargado?',
+  (v_exam_id, '¿Qué actitud se debe tener al recibir una corrección del encargado?',
    '["Defenderse explicando por qué se hizo así","Aceptarla con humildad y disposición a mejorar","Ignorarla si uno cree que está bien","Comentarla con otros compañeros"]'::jsonb, 1, 47),
 
-  (exam_id, '¿Cómo se llama el salón que se arma cuando hay eventos o se necesita más espacio?',
+  (v_exam_id, '¿Cómo se llama el salón que se arma cuando hay eventos o se necesita más espacio?',
    '["Salón Principal","Salón Ala Wai","Salón Mirador","Salón ili ili"]'::jsonb, 1, 48),
 
-  (exam_id, '¿Cuál es la actitud esperada de alguien con "actitud de crecimiento"?',
+  (v_exam_id, '¿Cuál es la actitud esperada de alguien con "actitud de crecimiento"?',
    '["Hacer solo lo que le piden y nada más","Demostrar interés genuino por aprender, escuchar devoluciones sin ponerse a la defensiva y buscar aportar al equipo","Esperar a que le enseñen sin preguntar","Copiar lo que hacen los compañeros más experimentados"]'::jsonb, 1, 49),
 
-  (exam_id, '¿Qué debe pasar con los problemas personales antes de entrar al trabajo?',
+  (v_exam_id, '¿Qué debe pasar con los problemas personales antes de entrar al trabajo?',
    '["Se pueden comentar con los compañeros durante el turno","Se dejan en la puerta: no se permite que afecten el servicio ni la actitud","Se resuelven durante el servicio si hay tiempo","Se le cuenta al encargado para que entienda"]'::jsonb, 1, 50);
 
-  RAISE NOTICE 'Guía creada/actualizada. ID: %', guide_id;
-  RAISE NOTICE 'Examen creado/actualizado. ID: %', exam_id;
+  RAISE NOTICE 'Guía creada/actualizada. ID: %', v_guide_id;
+  RAISE NOTICE 'Examen creado/actualizado. ID: %', v_exam_id;
   RAISE NOTICE '50 preguntas insertadas.';
 
 END $$;
