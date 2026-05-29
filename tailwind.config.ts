@@ -10,28 +10,19 @@ const config: Config = {
     extend: {
       colors: {
         brand: {
-          // Light warm sandy background
-          dark: '#F5EDE0',
-          // Off-white card surface
-          card: '#FFFDF8',
-          'card-hover': '#FAF5EB',
-          // Warm sandy border
-          border: '#E8D5B8',
-          // Deep terracotta (coastal warm) — primary action
-          accent: '#96543A',
-          'accent-hover': '#A86448',
-          'accent-muted': '#96543A18',
-          // Warm dark text
-          text: '#1A0E08',
-          muted: '#8A7060',
-          // Sage green (success) from palette swatch
+          dark: '#dbd2b5',
+          card: '#e8e0ca',
+          'card-hover': '#e0d8c0',
+          border: '#cab892',
+          accent: '#6e8f7a',
+          'accent-hover': '#5d7d6a',
+          'accent-muted': '#6e8f7a1a',
+          text: '#1f2d27',
+          muted: '#6a7d72',
           success: '#4E8A48',
-          // Red error
           error: '#C83830',
-          // Muted teal (from swatch 4) — informational
-          teal: '#5A8A96',
-          // Sandy highlight (from swatch 3)
-          sand: '#C4A882',
+          teal: '#6e8f7a',
+          sand: '#cab892',
         },
       },
       fontFamily: {
