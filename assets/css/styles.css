@@ -115,7 +115,6 @@ p {
   height: 56px;
   width: auto;
   object-fit: contain;
-  filter: brightness(0) invert(1);
   transition: var(--transition);
 }
 
@@ -509,7 +508,6 @@ p {
 .hero-logo {
   width: clamp(160px, 28vw, 260px);
   margin: 0 auto 32px;
-  filter: brightness(0) invert(1);
 }
 
 .hero-subtitle {
@@ -1399,7 +1397,6 @@ textarea.form-control {
 .footer-logo {
   height: 52px;
   width: auto;
-  filter: brightness(0) invert(1);
   opacity: 0.9;
   margin-bottom: 20px;
 }
