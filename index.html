@@ -414,6 +414,22 @@
 </head>
 <body>
 
+  <!-- Page Loader -->
+  <div class="page-loader" id="pageLoader">
+    <div class="loader-logo">
+      <div class="logo-badge"><span class="logo-m">M</span></div>
+      <div class="logo-wordmark">
+        <span class="logo-name">Mar Eventos</span>
+        <span class="logo-city">Mar del Plata</span>
+      </div>
+    </div>
+    <div class="loader-bar-wrap"><div class="loader-bar" id="loaderBar"></div></div>
+  </div>
+
+  <!-- Custom Cursor -->
+  <div class="cursor-ring"></div>
+  <div class="cursor-dot"></div>
+
   <!-- Navigation -->
   <nav class="navbar" id="navbar">
     <a href="index.html" class="nav-logo-text">
@@ -490,15 +506,29 @@
     </div>
   </div>
 
+  <!-- ===================== MARQUEE BAND ===================== -->
+  <div class="marquee-band" aria-hidden="true">
+    <div class="marquee-track">
+      <span class="marquee-item">Bodas <span class="marquee-dot"></span></span>
+      <span class="marquee-item">Fiestas de XV Años <span class="marquee-dot"></span></span>
+      <span class="marquee-item">Eventos Corporativos <span class="marquee-dot"></span></span>
+      <span class="marquee-item">Recepciones <span class="marquee-dot"></span></span>
+      <span class="marquee-item">Galas &amp; Cenas <span class="marquee-dot"></span></span>
+      <span class="marquee-item">Team Building <span class="marquee-dot"></span></span>
+      <span class="marquee-item">Fiestas de Fin de Año <span class="marquee-dot"></span></span>
+      <span class="marquee-item">Eventos Sociales <span class="marquee-dot"></span></span>
+    </div>
+  </div>
+
   <!-- ===================== ABOUT MINIMAL ===================== -->
   <section class="about-minimal">
     <div class="about-minimal-inner">
-      <div class="about-images-stacked fade-up">
+      <div class="about-images-stacked fade-left">
         <img src="https://mareventos.com.ar/wp-content/uploads/2024/07/SMF_0697.jpg" alt="Evento Mar Eventos">
         <img src="https://mareventos.com.ar/wp-content/uploads/2024/07/DSC6678.jpg" alt="Evento corporativo">
         <img src="https://mareventos.com.ar/wp-content/uploads/2024/07/SMF_0740.jpg" alt="Fiesta de quince">
       </div>
-      <div class="about-minimal-text fade-up">
+      <div class="about-minimal-text fade-right">
         <span class="script-title">Quiénes somos</span>
         <h2>El equipo detrás de tus mejores momentos</h2>
         <div class="divider"></div>
@@ -524,8 +554,8 @@
         </a>
       </div>
 
-      <div class="service-list-ed fade-up">
-        <div class="service-list-item">
+      <div class="service-list-ed" data-stagger>
+        <div class="service-list-item stagger-item">
           <div class="sli-left">
             <span class="sli-num">01</span>
             <span class="sli-name">Bodas y Casamientos</span>
@@ -535,7 +565,7 @@
             <svg class="sli-arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
           </div>
         </div>
-        <div class="service-list-item">
+        <div class="service-list-item stagger-item">
           <div class="sli-left">
             <span class="sli-num">02</span>
             <span class="sli-name">Fiestas de XV Años</span>
@@ -545,7 +575,7 @@
             <svg class="sli-arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
           </div>
         </div>
-        <div class="service-list-item">
+        <div class="service-list-item stagger-item">
           <div class="sli-left">
             <span class="sli-num">03</span>
             <span class="sli-name">Eventos Corporativos</span>
@@ -555,7 +585,7 @@
             <svg class="sli-arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
           </div>
         </div>
-        <div class="service-list-item">
+        <div class="service-list-item stagger-item">
           <div class="sli-left">
             <span class="sli-num">04</span>
             <span class="sli-name">Eventos Sociales</span>
@@ -565,7 +595,7 @@
             <svg class="sli-arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
           </div>
         </div>
-        <div class="service-list-item">
+        <div class="service-list-item stagger-item">
           <div class="sli-left">
             <span class="sli-num">05</span>
             <span class="sli-name">Fiestas de Fin de Año</span>
@@ -575,7 +605,7 @@
             <svg class="sli-arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
           </div>
         </div>
-        <div class="service-list-item">
+        <div class="service-list-item stagger-item">
           <div class="sli-left">
             <span class="sli-num">06</span>
             <span class="sli-name">Team Building</span>
@@ -599,7 +629,7 @@
 
     <div class="venues-triptych">
 
-      <a href="salon-ala-wai.html" class="triptych-panel fade-up">
+      <a href="salon-ala-wai.html" class="triptych-panel scale-in">
         <img src="https://mareventos.com.ar/wp-content/uploads/2024/07/SMF_0963-1.jpg" alt="Salón Ala Wai">
         <div class="triptych-overlay">
           <span class="trip-eye">Complejo Waikiki</span>
@@ -612,7 +642,7 @@
         </div>
       </a>
 
-      <a href="salon-mirador-9.html" class="triptych-panel fade-up">
+      <a href="salon-mirador-9.html" class="triptych-panel scale-in" style="transition-delay:0.1s">
         <img src="https://mareventos.com.ar/wp-content/uploads/2024/07/SM1_4819.jpg" alt="Salón Mirador 9">
         <div class="triptych-overlay">
           <span class="trip-eye">Balneario Mirador 9</span>
@@ -625,7 +655,7 @@
         </div>
       </a>
 
-      <a href="salon-mirador-waikiki.html" class="triptych-panel fade-up">
+      <a href="salon-mirador-waikiki.html" class="triptych-panel scale-in" style="transition-delay:0.2s">
         <img src="https://mareventos.com.ar/wp-content/uploads/2024/09/DJI_0062-scaled.jpg" alt="Salón Mirador Waikiki">
         <div class="triptych-overlay">
           <span class="trip-eye">El más grande de Mar del Plata</span>
@@ -658,7 +688,7 @@
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
         </a>
       </div>
-      <div class="gallery-mosaic fade-up">
+      <div class="gallery-mosaic blur-reveal">
         <div class="mosaic-item">
           <img src="https://mareventos.com.ar/wp-content/uploads/2024/07/SMF_0696.jpg" alt="Evento en salón" loading="lazy">
           <div class="mosaic-overlay"></div>
