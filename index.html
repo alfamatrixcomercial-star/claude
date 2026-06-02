@@ -66,8 +66,8 @@
     .hero-overlay {
       background: linear-gradient(
         160deg,
-        rgba(28,43,74,0.6) 0%,
-        rgba(28,43,74,0.3) 50%,
+        rgba(15,27,18,0.6) 0%,
+        rgba(15,27,18,0.3) 50%,
         rgba(44,74,62,0.55) 100%
       );
     }
@@ -291,7 +291,7 @@
     .triptych-overlay {
       position: absolute;
       inset: 0;
-      background: linear-gradient(to top, rgba(28,43,74,0.92) 25%, rgba(28,43,74,0.08) 65%);
+      background: linear-gradient(to top, rgba(15,27,18,0.92) 25%, rgba(15,27,18,0.08) 65%);
       display: flex;
       flex-direction: column;
       justify-content: flex-end;
@@ -299,7 +299,7 @@
       transition: background 0.4s ease;
     }
     .triptych-panel:hover .triptych-overlay {
-      background: linear-gradient(to top, rgba(28,43,74,0.97) 35%, rgba(28,43,74,0.22) 70%);
+      background: linear-gradient(to top, rgba(15,27,18,0.97) 35%, rgba(15,27,18,0.22) 70%);
     }
     .trip-eye {
       font-family: var(--font-sans);
@@ -391,10 +391,10 @@
     .mosaic-overlay {
       position: absolute;
       inset: 0;
-      background: rgba(28,43,74,0);
+      background: rgba(15,27,18,0);
       transition: background 0.3s ease;
     }
-    .mosaic-item:hover .mosaic-overlay { background: rgba(28,43,74,0.18); }
+    .mosaic-item:hover .mosaic-overlay { background: rgba(15,27,18,0.18); }
     @media (max-width: 768px) {
       .gallery-mosaic {
         grid-template-columns: 1fr 1fr;
@@ -416,8 +416,12 @@
 
   <!-- Navigation -->
   <nav class="navbar" id="navbar">
-    <a href="index.html" class="nav-logo">
-      <img src="https://mareventos.com.ar/wp-content/uploads/2024/08/cropped-Diseno-sin-titulo-22.png" alt="Mar Eventos">
+    <a href="index.html" class="nav-logo-text">
+      <div class="logo-badge"><span class="logo-m">M</span></div>
+      <div class="logo-wordmark">
+        <span class="logo-name">Mar Eventos</span>
+        <span class="logo-city">Mar del Plata</span>
+      </div>
     </a>
     <button class="nav-toggle" id="navToggle" aria-label="Abrir menú">
       <span></span><span></span><span></span>
@@ -700,7 +704,13 @@
     <div class="container-wide">
       <div class="footer-grid">
         <div class="footer-brand">
-          <img src="https://mareventos.com.ar/wp-content/uploads/2024/08/cropped-Diseno-sin-titulo-22.png" alt="Mar Eventos" class="footer-logo">
+          <div class="footer-logo-custom">
+          <div class="logo-badge"><span class="logo-m">M</span></div>
+          <div class="logo-wordmark">
+            <span class="logo-name">Mar Eventos</span>
+            <span class="logo-city">Mar del Plata</span>
+          </div>
+        </div>
           <p>Especialistas en la producción integral de eventos en Mar del Plata. Hacemos realidad el evento que siempre soñaste, en los salones más exclusivos frente al mar.</p>
           <div class="footer-social">
             <a href="https://www.instagram.com/mar.eventos/" class="social-btn" target="_blank" rel="noopener" aria-label="Instagram">

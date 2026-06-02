@@ -1,6 +1,6 @@
 /* ============================================================
    MAR EVENTOS — Global Stylesheet
-   Brand: Cream #F2EDE4 | Teal #6B9B9B | Dark Green #2C4A3E | Navy #1C2B4A
+   Brand: Cream #F2EDE4 | Teal #6B9B9B | Forest #0F1B12 | Green #2C4A3E
    ============================================================ */
 
 @import url('https://fonts.googleapis.com/css2?family=Sacramento&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600;700;800&display=swap');
@@ -12,10 +12,10 @@
   --teal-light: #8BBABA;
   --teal-dark: #4A7A7A;
   --green: #2C4A3E;
-  --navy: #1C2B4A;
+  --navy: #0F1B12;
   --white: #FFFFFF;
-  --text: #2a2a2a;
-  --text-light: #666;
+  --text: #1a1a1a;
+  --text-light: #5a5a5a;
   --text-muted: #999;
   --gold: #C9A96E;
 
@@ -45,6 +45,98 @@ body {
   background: var(--white);
   line-height: 1.6;
   overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ======== CSS LOGO ======== */
+.nav-logo-text {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.logo-badge {
+  width: 44px;
+  height: 44px;
+  background: linear-gradient(135deg, var(--teal) 0%, var(--teal-dark) 100%);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 2px 12px rgba(107,155,155,0.35);
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.nav-logo-text:hover .logo-badge {
+  box-shadow: 0 4px 20px rgba(107,155,155,0.5);
+  transform: translateY(-1px);
+}
+
+.logo-badge .logo-m {
+  font-family: var(--font-script);
+  font-size: 2rem;
+  color: var(--white);
+  line-height: 1;
+  margin-top: 6px;
+}
+
+.logo-wordmark {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.logo-name {
+  font-family: var(--font-sans);
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.92);
+  line-height: 1;
+}
+
+.logo-city {
+  font-family: var(--font-sans);
+  font-size: 0.5rem;
+  font-weight: 400;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.32);
+  line-height: 1;
+}
+
+/* Footer logo variant */
+.footer-logo-custom {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 22px;
+}
+
+.footer-logo-custom .logo-badge {
+  width: 50px;
+  height: 50px;
+  border-radius: 12px;
+}
+
+.footer-logo-custom .logo-m {
+  font-size: 2.4rem;
+  margin-top: 8px;
+}
+
+.footer-logo-custom .logo-name {
+  font-size: 0.82rem;
+  letter-spacing: 0.24em;
+}
+
+.footer-logo-custom .logo-city {
+  font-size: 0.52rem;
+  color: rgba(255,255,255,0.22);
 }
 
 img { max-width: 100%; height: auto; display: block; }
@@ -97,13 +189,13 @@ p {
 }
 
 .navbar.scrolled {
-  background: rgba(28, 43, 74, 0.97);
+  background: rgba(15, 27, 18, 0.97);
   backdrop-filter: blur(12px);
   box-shadow: 0 2px 20px rgba(0,0,0,0.2);
 }
 
 .navbar.dark-nav {
-  background: rgba(28, 43, 74, 0.97);
+  background: rgba(15, 27, 18, 0.97);
 }
 
 .nav-logo {
@@ -490,9 +582,9 @@ p {
   inset: 0;
   background: linear-gradient(
     to bottom,
-    rgba(28, 43, 74, 0.5) 0%,
-    rgba(28, 43, 74, 0.35) 40%,
-    rgba(28, 43, 74, 0.6) 100%
+    rgba(15, 27, 18, 0.5) 0%,
+    rgba(15, 27, 18, 0.35) 40%,
+    rgba(15, 27, 18, 0.6) 100%
   );
   z-index: 1;
 }
@@ -584,7 +676,7 @@ p {
 }
 
 .page-hero .hero-overlay {
-  background: linear-gradient(to bottom, rgba(28,43,74,0.55) 0%, rgba(28,43,74,0.7) 100%);
+  background: linear-gradient(to bottom, rgba(15,27,18,0.55) 0%, rgba(15,27,18,0.7) 100%);
 }
 
 .page-hero-content {
@@ -710,7 +802,7 @@ p {
 .gallery-item-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(28, 43, 74, 0);
+  background: rgba(15, 27, 18, 0);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -718,7 +810,7 @@ p {
 }
 
 .gallery-item:hover .gallery-item-overlay {
-  background: rgba(28, 43, 74, 0.35);
+  background: rgba(15, 27, 18, 0.35);
 }
 
 .gallery-item-overlay svg {
@@ -951,7 +1043,7 @@ p {
 .venue-card-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, rgba(28,43,74,0.88) 30%, rgba(28,43,74,0.1) 70%);
+  background: linear-gradient(to top, rgba(15,27,18,0.88) 30%, rgba(15,27,18,0.1) 70%);
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
@@ -960,7 +1052,7 @@ p {
 }
 
 .venue-card:hover .venue-card-overlay {
-  background: linear-gradient(to top, rgba(28,43,74,0.95) 40%, rgba(28,43,74,0.2) 70%);
+  background: linear-gradient(to top, rgba(15,27,18,0.95) 40%, rgba(15,27,18,0.2) 70%);
 }
 
 .venue-card-overlay .script-title {
