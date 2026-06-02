@@ -506,8 +506,7 @@ p {
 }
 
 .hero-logo {
-  width: clamp(160px, 28vw, 260px);
-  margin: 0 auto 32px;
+  display: none;
 }
 
 .hero-subtitle {
