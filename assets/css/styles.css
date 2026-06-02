@@ -63,25 +63,15 @@ body {
   opacity: 0.85;
 }
 
-.logo-svg {
-  height: 42px;
+.logo-svg { height: 42px; width: auto; display: block; }
+.logo-svg-lg { height: 52px; }
+.logo-svg-loader { height: 58px; }
+.footer-logo-svg { margin-bottom: 20px; }
+
+.logo-img {
   width: auto;
   display: block;
-}
-
-.logo-svg-lg {
-  height: 52px;
-}
-
-.logo-svg-loader {
-  height: 58px;
-  color: rgba(255,255,255,0.9);
-}
-
-/* Footer logo */
-.footer-logo-svg {
-  margin-bottom: 24px;
-  color: rgba(255,255,255,0.88);
+  object-fit: contain;
 }
 
 img { max-width: 100%; height: auto; display: block; }
