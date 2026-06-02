@@ -49,94 +49,39 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* ======== CSS LOGO ======== */
-.nav-logo-text {
-  display: flex;
-  align-items: center;
-  gap: 12px;
+/* ======== SVG LOGO ======== */
+.nav-logo-link {
+  display: block;
   text-decoration: none;
   flex-shrink: 0;
-}
-
-.logo-badge {
-  width: 44px;
-  height: 44px;
-  background: linear-gradient(135deg, var(--teal) 0%, var(--teal-dark) 100%);
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  box-shadow: 0 2px 12px rgba(107,155,155,0.35);
-  transition: box-shadow 0.3s ease, transform 0.3s ease;
-}
-
-.nav-logo-text:hover .logo-badge {
-  box-shadow: 0 4px 20px rgba(107,155,155,0.5);
-  transform: translateY(-1px);
-}
-
-.logo-badge .logo-m {
-  font-family: var(--font-script);
-  font-size: 2rem;
-  color: var(--white);
-  line-height: 1;
-  margin-top: 6px;
-}
-
-.logo-wordmark {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.logo-name {
-  font-family: var(--font-sans);
-  font-size: 0.76rem;
-  font-weight: 800;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
   color: rgba(255,255,255,0.92);
-  line-height: 1;
+  transition: color 0.3s ease, opacity 0.3s ease;
+  line-height: 0;
+}
+.nav-logo-link:hover {
+  color: var(--white);
+  opacity: 0.85;
 }
 
-.logo-city {
-  font-family: var(--font-sans);
-  font-size: 0.5rem;
-  font-weight: 400;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: rgba(255,255,255,0.32);
-  line-height: 1;
+.logo-svg {
+  height: 42px;
+  width: auto;
+  display: block;
 }
 
-/* Footer logo variant */
-.footer-logo-custom {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  margin-bottom: 22px;
+.logo-svg-lg {
+  height: 52px;
 }
 
-.footer-logo-custom .logo-badge {
-  width: 50px;
-  height: 50px;
-  border-radius: 12px;
+.logo-svg-loader {
+  height: 58px;
+  color: rgba(255,255,255,0.9);
 }
 
-.footer-logo-custom .logo-m {
-  font-size: 2.4rem;
-  margin-top: 8px;
-}
-
-.footer-logo-custom .logo-name {
-  font-size: 0.82rem;
-  letter-spacing: 0.24em;
-}
-
-.footer-logo-custom .logo-city {
-  font-size: 0.52rem;
-  color: rgba(255,255,255,0.22);
+/* Footer logo */
+.footer-logo-svg {
+  margin-bottom: 24px;
+  color: rgba(255,255,255,0.88);
 }
 
 img { max-width: 100%; height: auto; display: block; }
@@ -2073,11 +2018,7 @@ img {
   100% { height: 30px; top: -38px; opacity: 0; }
 }
 
-/* ----- Floating animation for logo badge on hover ----- */
-@keyframes badgeFloat {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-3px); }
-}
-.nav-logo-text:hover .logo-badge {
-  animation: badgeFloat 1.5s ease infinite;
+/* ----- Logo hover glow ----- */
+.nav-logo-link:hover .logo-svg {
+  filter: drop-shadow(0 0 8px rgba(107,155,155,0.35));
 }
