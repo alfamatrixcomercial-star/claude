@@ -70,16 +70,17 @@ body {
 
 /* Logo image sizing - max-height wins over img{height:auto} because it's more specific */
 .logo-img {
-  height: auto;
-  max-height: 36px;
-  width: auto;
+  height: 36px !important;
+  width: auto !important;
+  max-width: none !important;
   display: block;
+  flex-shrink: 0;
 }
-.logo-img-footer {
-  max-height: 44px;
+.logo-img.logo-img-footer {
+  height: 44px !important;
 }
-.logo-img-loader {
-  max-height: 58px;
+.logo-img.logo-img-loader {
+  height: 56px !important;
 }
 
 img { max-width: 100%; height: auto; display: block; }
