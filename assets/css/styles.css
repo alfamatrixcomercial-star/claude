@@ -1709,7 +1709,7 @@ textarea.form-control {
   .hero {
     align-items: flex-start;
     justify-content: flex-start;
-    padding-top: max(22vh, 120px);
+    padding-top: clamp(70px, 12vh, 110px);
   }
   .hero-content {
     padding: 0 24px;

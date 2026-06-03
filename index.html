@@ -169,12 +169,13 @@
     @media (max-width: 768px) {
       .about-minimal-inner { grid-template-columns: 1fr; }
       .about-images-stacked {
-        height: 260px;
-        grid-template-columns: 1fr;
+        height: 220px;
+        grid-template-columns: 1fr 1fr;
         grid-template-rows: 1fr;
       }
       .about-images-stacked img:first-child { grid-row: 1; }
-      .about-images-stacked img:not(:first-child) { display: none; }
+      .about-images-stacked img:nth-child(2) { display: block; }
+      .about-images-stacked img:nth-child(3) { display: none; }
     }
 
     /* ----- Services editorial ----- */
