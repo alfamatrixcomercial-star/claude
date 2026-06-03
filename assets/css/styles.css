@@ -68,10 +68,18 @@ body {
 .logo-svg-loader { height: 58px; }
 .footer-logo-svg { margin-bottom: 20px; }
 
+/* Logo image sizing - max-height wins over img{height:auto} because it's more specific */
 .logo-img {
+  height: auto;
+  max-height: 36px;
   width: auto;
   display: block;
-  object-fit: contain;
+}
+.logo-img-footer {
+  max-height: 44px;
+}
+.logo-img-loader {
+  max-height: 58px;
 }
 
 img { max-width: 100%; height: auto; display: block; }
@@ -1681,7 +1689,7 @@ textarea.form-control {
   position: fixed;
   inset: 0;
   z-index: 10000;
-  background: var(--navy);
+  background: #EFE7DB;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1706,13 +1714,13 @@ textarea.form-control {
 .loader-bar-wrap {
   width: 160px;
   height: 1px;
-  background: rgba(255,255,255,0.1);
+  background: rgba(44,74,62,0.15);
   position: relative;
   overflow: hidden;
 }
 .loader-bar {
   height: 100%;
-  background: var(--teal);
+  background: var(--green);
   width: 0%;
   transition: width 0.8s cubic-bezier(0.16,1,0.3,1);
 }
