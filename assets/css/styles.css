@@ -626,6 +626,8 @@ p {
 .page-hero {
   position: relative;
   height: clamp(480px, 65vh, 720px);
+  background-size: cover;
+  background-position: center;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -633,8 +635,12 @@ p {
   text-align: center;
 }
 
-.page-hero .hero-overlay {
+.page-hero .hero-overlay,
+.page-hero-overlay {
+  position: absolute;
+  inset: 0;
   background: linear-gradient(to bottom, rgba(15,27,18,0.30) 0%, rgba(15,27,18,0.52) 100%);
+  z-index: 1;
 }
 
 .page-hero-content {
