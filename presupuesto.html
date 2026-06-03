@@ -1,0 +1,1319 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mar Eventos — Propuesta Corporativa</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sacramento&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+
+/* ============================================================
+   BASE & RESET
+   ============================================================ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --cream:   #EFE7DB;
+  --cream-d: #E0D4C4;
+  --teal:    #6B9B9B;
+  --teal-l:  #8BB5B5;
+  --green:   #2C4A3E;
+  --navy:    #0F1B12;
+  --white:   #FFFFFF;
+  --script:  'Sacramento', cursive;
+  --serif:   'Cormorant Garamond', Georgia, serif;
+  --sans:    'Montserrat', sans-serif;
+}
+
+html { font-size: 16px; }
+body {
+  background: #2a2a2a;
+  font-family: var(--serif);
+  color: var(--navy);
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+img { display: block; max-width: 100%; }
+
+/* ============================================================
+   PAGE SYSTEM
+   ============================================================ */
+.page {
+  width: 210mm;
+  min-height: 297mm;
+  background: var(--cream);
+  margin: 0 auto 8mm;
+  position: relative;
+  overflow: hidden;
+}
+
+/* ============================================================
+   PAGE 1 — COVER
+   ============================================================ */
+.cover {
+  background: var(--navy);
+  display: flex;
+  flex-direction: column;
+  min-height: 297mm;
+}
+
+.cover-photo {
+  flex: 1;
+  min-height: 220mm;
+  position: relative;
+  overflow: hidden;
+}
+
+.cover-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  filter: brightness(0.6);
+}
+
+.cover-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(15,27,18,0.3) 0%,
+    rgba(15,27,18,0.1) 40%,
+    rgba(15,27,18,0.75) 100%
+  );
+}
+
+.cover-tag {
+  position: absolute;
+  top: 10mm;
+  left: 10mm;
+  font-family: var(--sans);
+  font-size: 8pt;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.65);
+}
+
+.cover-center {
+  position: absolute;
+  bottom: 14mm;
+  left: 12mm;
+  right: 12mm;
+}
+
+.cover-pretitle {
+  font-family: var(--sans);
+  font-size: 7pt;
+  font-weight: 600;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--teal-l);
+  margin-bottom: 4mm;
+}
+
+.cover-title {
+  font-family: var(--script);
+  font-size: 44pt;
+  color: var(--white);
+  line-height: 1.05;
+  margin-bottom: 5mm;
+}
+
+.cover-sub {
+  font-family: var(--sans);
+  font-size: 8pt;
+  font-weight: 300;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.5);
+}
+
+.cover-bottom {
+  height: 22mm;
+  background: var(--navy);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 12mm;
+  border-top: 1px solid rgba(107,155,155,0.25);
+}
+
+.cover-logo-text {
+  font-family: var(--sans);
+  font-weight: 900;
+  font-size: 20pt;
+  letter-spacing: -0.02em;
+  color: var(--white);
+  line-height: 1;
+}
+.cover-logo-text span {
+  display: block;
+  font-size: 7.5pt;
+  font-weight: 500;
+  letter-spacing: 0.35em;
+  color: rgba(255,255,255,0.55);
+  margin-top: 2px;
+}
+
+.cover-url {
+  font-family: var(--sans);
+  font-size: 7.5pt;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  color: rgba(255,255,255,0.4);
+}
+
+/* ============================================================
+   PAGE 2 — TAGLINE SPLASH
+   ============================================================ */
+.splash {
+  min-height: 297mm;
+  display: flex;
+  flex-direction: column;
+}
+
+.splash-photo {
+  height: 160mm;
+  position: relative;
+  overflow: hidden;
+}
+
+.splash-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 30%;
+}
+
+.splash-photo-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, transparent 50%, var(--cream) 100%);
+}
+
+.splash-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 14mm 18mm 10mm;
+  text-align: center;
+}
+
+.splash-headline {
+  font-family: var(--script);
+  font-size: 36pt;
+  color: var(--green);
+  line-height: 1.2;
+  margin-bottom: 7mm;
+}
+
+.splash-divider {
+  width: 50mm;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--teal), transparent);
+  margin: 0 auto 7mm;
+}
+
+.splash-venue {
+  font-family: var(--sans);
+  font-size: 8.5pt;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--teal);
+  margin-bottom: 3mm;
+}
+
+.splash-location {
+  font-family: var(--serif);
+  font-size: 12pt;
+  font-weight: 300;
+  color: var(--navy);
+  opacity: 0.6;
+}
+
+.splash-footer {
+  text-align: center;
+  padding: 8mm;
+  border-top: 1px solid var(--cream-d);
+}
+
+.splash-copy {
+  font-family: var(--sans);
+  font-size: 6.5pt;
+  letter-spacing: 0.1em;
+  color: rgba(15,27,18,0.3);
+}
+
+/* ============================================================
+   PAGE 3 — CLIENT + EVENT DETAILS
+   ============================================================ */
+.details-page {
+  min-height: 297mm;
+  display: grid;
+  grid-template-columns: 85mm 1fr;
+}
+
+.details-photo-col {
+  position: relative;
+  overflow: hidden;
+}
+
+.details-photo-col img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.details-photo-tint {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to right, transparent 70%, var(--cream) 100%);
+}
+
+.details-content {
+  padding: 14mm 12mm 10mm 10mm;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.details-date {
+  font-family: var(--sans);
+  font-size: 7pt;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--teal);
+  margin-bottom: 10mm;
+  text-align: right;
+}
+
+.details-client-label {
+  font-family: var(--sans);
+  font-size: 6.5pt;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(15,27,18,0.35);
+  margin-bottom: 2mm;
+}
+
+.details-client-name {
+  font-family: var(--serif);
+  font-size: 22pt;
+  font-weight: 600;
+  color: var(--green);
+  line-height: 1.15;
+  margin-bottom: 8mm;
+  border-bottom: 1px solid var(--cream-d);
+  padding-bottom: 6mm;
+}
+
+.details-intro {
+  font-family: var(--serif);
+  font-size: 10.5pt;
+  font-weight: 300;
+  line-height: 1.75;
+  color: var(--navy);
+  margin-bottom: 8mm;
+}
+
+.details-intro strong {
+  font-weight: 600;
+  color: var(--green);
+}
+
+.event-card {
+  background: var(--green);
+  padding: 6mm 7mm;
+  border-radius: 2mm;
+  margin-bottom: 8mm;
+}
+
+.event-card-title {
+  font-family: var(--sans);
+  font-size: 6pt;
+  font-weight: 700;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--teal-l);
+  margin-bottom: 4mm;
+}
+
+.event-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 2mm 0;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.event-row:last-child { border-bottom: none; }
+
+.event-row-label {
+  font-family: var(--sans);
+  font-size: 7pt;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.45);
+}
+
+.event-row-value {
+  font-family: var(--serif);
+  font-size: 9.5pt;
+  font-weight: 400;
+  color: var(--white);
+  text-align: right;
+}
+
+.details-tagline {
+  font-family: var(--script);
+  font-size: 20pt;
+  color: var(--teal);
+  line-height: 1.2;
+  margin-bottom: 3mm;
+}
+
+.details-sub {
+  font-family: var(--serif);
+  font-size: 9pt;
+  font-weight: 300;
+  color: rgba(15,27,18,0.55);
+  line-height: 1.7;
+}
+
+.details-footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-top: 5mm;
+  border-top: 1px solid var(--cream-d);
+}
+
+.details-footer .logo-sm {
+  font-family: var(--sans);
+  font-size: 10pt;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  color: var(--green);
+}
+
+.details-footer .logo-sm span {
+  display: block;
+  font-size: 5.5pt;
+  font-weight: 600;
+  letter-spacing: 0.32em;
+  color: var(--teal);
+}
+
+/* ============================================================
+   PAGE 4 — GASTRO INTRO
+   ============================================================ */
+.gastro-intro {
+  min-height: 297mm;
+  display: flex;
+  flex-direction: column;
+}
+
+.gastro-hero {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+}
+
+.gastro-hero img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 60%;
+  filter: brightness(0.75);
+}
+
+.gastro-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    160deg,
+    rgba(44,74,62,0.55) 0%,
+    rgba(15,27,18,0.3) 60%,
+    rgba(15,27,18,0.7) 100%
+  );
+}
+
+.gastro-hero-text {
+  position: absolute;
+  bottom: 14mm;
+  left: 14mm;
+  right: 14mm;
+}
+
+.gastro-eyebrow {
+  font-family: var(--sans);
+  font-size: 7pt;
+  font-weight: 600;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--teal-l);
+  margin-bottom: 3mm;
+}
+
+.gastro-title {
+  font-family: var(--script);
+  font-size: 48pt;
+  color: var(--white);
+  line-height: 1;
+}
+
+.gastro-footer {
+  height: 18mm;
+  background: var(--cream);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12mm;
+  border-top: 1px solid var(--cream-d);
+}
+
+.gastro-pill {
+  font-family: var(--sans);
+  font-size: 6.5pt;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--green);
+  padding: 2mm 5mm;
+  border: 1px solid var(--cream-d);
+  border-radius: 20mm;
+}
+
+/* ============================================================
+   PAGES 5 & 6 — MENU
+   ============================================================ */
+.menu-page {
+  min-height: 297mm;
+  display: grid;
+  grid-template-columns: 85mm 1fr;
+}
+
+.menu-photo-col {
+  position: relative;
+  overflow: hidden;
+}
+
+.menu-photo-col img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.menu-photo-tint {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to right, transparent 65%, var(--cream) 100%);
+}
+
+.menu-content {
+  padding: 14mm 12mm 10mm 10mm;
+  display: flex;
+  flex-direction: column;
+}
+
+.menu-section-title {
+  font-family: var(--script);
+  font-size: 30pt;
+  color: var(--green);
+  line-height: 1;
+  margin-bottom: 7mm;
+}
+
+.menu-block {
+  margin-bottom: 6mm;
+}
+
+.menu-block-title {
+  font-family: var(--sans);
+  font-size: 7pt;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--teal);
+  margin-bottom: 2mm;
+  padding-bottom: 1.5mm;
+  border-bottom: 1px solid var(--cream-d);
+}
+
+.menu-block-text {
+  font-family: var(--serif);
+  font-size: 9pt;
+  font-weight: 300;
+  line-height: 1.65;
+  color: rgba(15,27,18,0.75);
+}
+
+.menu-items {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5mm;
+  margin-top: 2mm;
+}
+
+.menu-item {
+  font-family: var(--serif);
+  font-size: 9pt;
+  font-weight: 300;
+  color: rgba(15,27,18,0.75);
+  padding-left: 3mm;
+  border-left: 1.5px solid var(--cream-d);
+  line-height: 1.5;
+}
+
+.menu-item::first-line {
+  font-weight: 400;
+  color: var(--navy);
+}
+
+.menu-divider {
+  height: 1px;
+  background: linear-gradient(to right, var(--cream-d), transparent);
+  margin: 5mm 0;
+}
+
+.menu-page-footer {
+  margin-top: auto;
+  padding-top: 5mm;
+  border-top: 1px solid var(--cream-d);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.menu-page-num {
+  font-family: var(--sans);
+  font-size: 6.5pt;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  color: rgba(15,27,18,0.25);
+}
+
+.menu-page-logo {
+  font-family: var(--sans);
+  font-size: 9pt;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  color: var(--green);
+  opacity: 0.5;
+}
+
+/* ============================================================
+   PAGE 7 — PRICING
+   ============================================================ */
+.pricing-page {
+  min-height: 297mm;
+  display: flex;
+  flex-direction: column;
+}
+
+.pricing-hero {
+  height: 105mm;
+  position: relative;
+  overflow: hidden;
+}
+
+.pricing-hero img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 40%;
+  filter: brightness(0.65);
+}
+
+.pricing-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(15,27,18,0.4) 0%,
+    rgba(15,27,18,0.6) 100%
+  );
+}
+
+.pricing-hero-logo {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  text-align: center;
+}
+
+.pricing-hero-logo .ph-mar {
+  font-family: var(--sans);
+  font-size: 38pt;
+  font-weight: 900;
+  color: var(--white);
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+.pricing-hero-logo .ph-eventos {
+  font-family: var(--sans);
+  font-size: 8pt;
+  font-weight: 500;
+  letter-spacing: 0.45em;
+  color: rgba(255,255,255,0.65);
+  margin-top: 1mm;
+}
+
+.pricing-body {
+  flex: 1;
+  padding: 12mm 12mm 10mm;
+  display: flex;
+  flex-direction: column;
+}
+
+.pricing-pretitle {
+  font-family: var(--sans);
+  font-size: 6.5pt;
+  font-weight: 700;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--teal);
+  margin-bottom: 2mm;
+  text-align: center;
+}
+
+.pricing-section-title {
+  font-family: var(--script);
+  font-size: 32pt;
+  color: var(--green);
+  text-align: center;
+  margin-bottom: 9mm;
+}
+
+.pricing-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 4mm;
+  margin-bottom: 9mm;
+}
+
+.pricing-card {
+  background: var(--white);
+  border-radius: 3mm;
+  overflow: hidden;
+  box-shadow: 0 1mm 4mm rgba(15,27,18,0.08);
+}
+
+.pricing-card-header {
+  background: var(--green);
+  padding: 5mm 5mm 4mm;
+  text-align: center;
+}
+
+.pricing-card-header .ph-icon {
+  font-size: 14pt;
+  margin-bottom: 2mm;
+}
+
+.pricing-card-subtitle {
+  font-family: var(--script);
+  font-size: 18pt;
+  color: var(--white);
+  line-height: 1.1;
+}
+
+.pricing-card-body {
+  padding: 5mm;
+  text-align: center;
+}
+
+.pricing-label {
+  font-family: var(--sans);
+  font-size: 6pt;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(15,27,18,0.35);
+  margin-bottom: 2mm;
+  display: block;
+}
+
+.pricing-amount {
+  font-family: var(--serif);
+  font-size: 14pt;
+  font-weight: 600;
+  color: var(--green);
+  line-height: 1.2;
+  margin-bottom: 1mm;
+}
+
+.pricing-note {
+  font-family: var(--sans);
+  font-size: 6pt;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  color: rgba(15,27,18,0.4);
+}
+
+.pricing-highlight {
+  background: linear-gradient(135deg, var(--green), #3d6b5a);
+}
+
+.pricing-highlight .pricing-label { color: rgba(255,255,255,0.45); }
+.pricing-highlight .pricing-amount { color: var(--white); font-size: 16pt; }
+.pricing-highlight .pricing-note { color: rgba(255,255,255,0.4); }
+
+.pricing-footer-note {
+  font-family: var(--serif);
+  font-size: 9pt;
+  font-weight: 300;
+  font-style: italic;
+  color: rgba(15,27,18,0.45);
+  text-align: center;
+  padding: 0 8mm;
+  line-height: 1.7;
+  margin-bottom: 8mm;
+}
+
+.pricing-cta {
+  display: flex;
+  gap: 3mm;
+  justify-content: center;
+  margin-top: auto;
+}
+
+.pricing-cta-btn {
+  font-family: var(--sans);
+  font-size: 7pt;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding: 3mm 7mm;
+  border-radius: 20mm;
+  text-decoration: none;
+  border: 1.5px solid var(--green);
+  color: var(--green);
+}
+
+.pricing-cta-btn.filled {
+  background: var(--green);
+  color: var(--white);
+}
+
+.pricing-page-footer {
+  padding: 5mm 12mm;
+  border-top: 1px solid var(--cream-d);
+  text-align: center;
+}
+
+.pricing-copy {
+  font-family: var(--sans);
+  font-size: 6.5pt;
+  letter-spacing: 0.08em;
+  color: rgba(15,27,18,0.3);
+}
+
+/* ============================================================
+   PAGE 8 — TERMS
+   ============================================================ */
+.terms-page {
+  min-height: 297mm;
+  display: grid;
+  grid-template-columns: 1fr 85mm;
+}
+
+.terms-content {
+  padding: 14mm 10mm 10mm 12mm;
+  display: flex;
+  flex-direction: column;
+}
+
+.terms-title {
+  font-family: var(--script);
+  font-size: 26pt;
+  color: var(--green);
+  line-height: 1.1;
+  margin-bottom: 8mm;
+}
+
+.terms-title em {
+  color: var(--teal);
+}
+
+.terms-body {
+  font-family: var(--serif);
+  font-size: 8.5pt;
+  font-weight: 300;
+  line-height: 1.85;
+  color: rgba(15,27,18,0.7);
+  margin-bottom: 8mm;
+  flex: 1;
+}
+
+.terms-body p { margin-bottom: 4mm; }
+
+.terms-body strong {
+  font-weight: 600;
+  color: var(--green);
+}
+
+.terms-highlight {
+  background: var(--cream-d);
+  border-left: 3px solid var(--teal);
+  padding: 4mm 5mm;
+  margin-bottom: 4mm;
+  border-radius: 0 1.5mm 1.5mm 0;
+}
+
+.terms-highlight p {
+  font-size: 8.5pt;
+  margin-bottom: 0;
+  color: rgba(15,27,18,0.75);
+}
+
+.terms-signature {
+  margin-top: auto;
+  padding-top: 8mm;
+  border-top: 1px solid var(--cream-d);
+}
+
+.terms-sig-row {
+  display: flex;
+  gap: 8mm;
+  margin-bottom: 2mm;
+}
+
+.terms-sig-field {
+  flex: 1;
+}
+
+.terms-sig-line {
+  height: 1px;
+  background: rgba(15,27,18,0.25);
+  margin-bottom: 1.5mm;
+  position: relative;
+}
+
+.terms-sig-name {
+  font-family: var(--script);
+  font-size: 18pt;
+  color: var(--green);
+  line-height: 1;
+  position: absolute;
+  bottom: 3mm;
+  left: 0;
+}
+
+.terms-sig-label {
+  font-family: var(--sans);
+  font-size: 6.5pt;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(15,27,18,0.4);
+}
+
+.terms-photo-col {
+  position: relative;
+  overflow: hidden;
+}
+
+.terms-photo-col img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  filter: brightness(0.85);
+}
+
+.terms-photo-tint {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to left, transparent 70%, var(--cream) 100%);
+}
+
+/* ============================================================
+   PRINT
+   ============================================================ */
+@media print {
+  body { background: none; }
+  .page { margin: 0; page-break-after: always; }
+  .page:last-child { page-break-after: auto; }
+  @page { size: A4; margin: 0; }
+}
+
+/* ============================================================
+   SCREEN WRAPPER
+   ============================================================ */
+@media screen {
+  .wrapper {
+    max-width: 220mm;
+    margin: 0 auto;
+    padding: 6mm 0;
+  }
+  .print-btn {
+    display: block;
+    width: 210mm;
+    margin: 0 auto 5mm;
+    text-align: right;
+  }
+  .print-btn button {
+    font-family: var(--sans);
+    font-size: 8.5pt;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    background: var(--green);
+    color: var(--white);
+    border: none;
+    padding: 3mm 7mm;
+    border-radius: 20mm;
+    cursor: pointer;
+  }
+  .print-btn button:hover { background: #3d6b5a; }
+}
+
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+  <!-- PRINT BUTTON -->
+  <div class="print-btn screen-only">
+    <button onclick="window.print()">⬇ Exportar PDF</button>
+  </div>
+
+  <!-- ======================================================
+       PÁGINA 1 — PORTADA
+       ====================================================== -->
+  <div class="page cover">
+    <div class="cover-photo">
+      <img src="assets/images/eventos/evento_18.jpg" alt="Salón Mirador Waikiki">
+      <div class="cover-overlay"></div>
+      <div class="cover-tag">Corporativo · 2025</div>
+      <div class="cover-center">
+        <div class="cover-pretitle">Propuesta de servicio</div>
+        <div class="cover-title">Una experiencia<br>frente al mar.</div>
+        <div class="cover-sub">Complejo Mirador Waikiki · Mar del Plata</div>
+      </div>
+    </div>
+    <div class="cover-bottom">
+      <div class="cover-logo-text">
+        MAR
+        <span>E V E N T O S</span>
+      </div>
+      <div class="cover-url">www.mareventos.com.ar</div>
+    </div>
+  </div>
+
+  <!-- ======================================================
+       PÁGINA 2 — TAGLINE
+       ====================================================== -->
+  <div class="page splash">
+    <div class="splash-photo">
+      <img src="assets/images/eventos/evento_22.jpg" alt="Evento">
+      <div class="splash-photo-overlay"></div>
+    </div>
+    <div class="splash-content">
+      <div class="splash-headline">Tu evento ideal,<br>frente al mar.</div>
+      <div class="splash-divider"></div>
+      <div class="splash-venue">Salón Complejo Mirador Waikiki</div>
+      <div class="splash-location">Mar del Plata, Buenos Aires.</div>
+    </div>
+    <div class="splash-footer">
+      <div class="splash-copy">© Mar Eventos — Todos los derechos reservados, 2025</div>
+    </div>
+  </div>
+
+  <!-- ======================================================
+       PÁGINA 3 — CLIENTE + DETALLE
+       ====================================================== -->
+  <div class="page details-page">
+    <div class="details-photo-col">
+      <img src="assets/images/eventos/evento_08.jpg" alt="Salón">
+      <div class="details-photo-tint"></div>
+    </div>
+    <div class="details-content">
+      <div class="details-date">Miércoles 13 de Agosto de 2025 · Mar del Plata</div>
+
+      <div>
+        <div class="details-client-label">Para</div>
+        <div class="details-client-name">Clínica<br>Pueyrredon</div>
+
+        <div class="details-intro">
+          Queremos agradecer su interés en celebrar con <strong>MAR EVENTOS</strong>. Nuestro equipo se dedicará a coordinar cada detalle para garantizar que su evento sea exactamente como lo imaginaron.
+        </div>
+
+        <div class="event-card">
+          <div class="event-card-title">Datos del evento</div>
+          <div class="event-row">
+            <div class="event-row-label">Fecha</div>
+            <div class="event-row-value">28 de Noviembre, 2025</div>
+          </div>
+          <div class="event-row">
+            <div class="event-row-label">Salón</div>
+            <div class="event-row-value">Complejo Mirador Waikiki</div>
+          </div>
+          <div class="event-row">
+            <div class="event-row-label">Invitados</div>
+            <div class="event-row-value">600 personas</div>
+          </div>
+          <div class="event-row">
+            <div class="event-row-label">Horario</div>
+            <div class="event-row-value">20:00 hs — 04:00 hs</div>
+          </div>
+        </div>
+
+        <div class="details-tagline">No hay dos<br>eventos iguales.</div>
+        <div class="details-sub">Cada celebración es única. Por eso diseñamos cada propuesta de manera personalizada, pensando en ustedes.</div>
+      </div>
+
+      <div class="details-footer">
+        <div class="logo-sm">MAR<span>E V E N T O S</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================
+       PÁGINA 4 — INTRO GASTRONÓMICA
+       ====================================================== -->
+  <div class="page gastro-intro">
+    <div class="gastro-hero">
+      <img src="assets/images/eventos/evento_07.jpg" alt="Gastronomía">
+      <div class="gastro-hero-overlay"></div>
+      <div class="gastro-hero-text">
+        <div class="gastro-eyebrow">Gastronomía de autor</div>
+        <div class="gastro-title">Nuestra Propuesta<br>Gastronómica</div>
+      </div>
+    </div>
+    <div class="gastro-footer">
+      <div class="gastro-pill">Finger Food</div>
+      <div class="gastro-pill">Islas</div>
+      <div class="gastro-pill">Bebidas</div>
+      <div class="gastro-pill">Barra libre</div>
+    </div>
+  </div>
+
+  <!-- ======================================================
+       PÁGINA 5 — MENÚ FINGER FOOD
+       ====================================================== -->
+  <div class="page menu-page">
+    <div class="menu-photo-col">
+      <img src="assets/images/eventos/evento_05.jpg" alt="Finger Food">
+      <div class="menu-photo-tint"></div>
+    </div>
+    <div class="menu-content">
+      <div class="menu-section-title">Finger Food</div>
+
+      <div class="menu-block">
+        <div class="menu-block-title">Bocaditos Fríos</div>
+        <div class="menu-block-text">Bruschettas en pan de campo: Mousse de palta, tomatitos confitados y cebollita morada · Salmón ahumado, queso Finlandia y ciboulette · Jamón serrano, rúcula y gruyere · Pinchos caprese · Minibollo semillado de lomo y cheddar · Mini croissant de jamón y queso · Bocaditos de hojaldre rellenos · Bollito dulce con jamón y queso tybo · Shots: Cocktail de camarones · Guacamole.</div>
+      </div>
+
+      <div class="menu-divider"></div>
+
+      <div class="menu-block">
+        <div class="menu-block-title">Estación de Campo</div>
+        <div class="menu-block-text">Jamón crudo serrano · Jamon natural · Quesos saborizados · Pategras · Fontina · Gouda · Azul · Leberwust · Lomo ahumado · Bondiola serrana · Salames criollo y español · Longaniza · Matambre casero · Olivas verdes y negras · Panes de campo.</div>
+      </div>
+
+      <div class="menu-divider"></div>
+
+      <div class="menu-block">
+        <div class="menu-block-title">Bocaditos Calientes</div>
+        <div class="menu-block-text">Satays de langostinos rebozados y alioli · Mini empanaditas de carne cortada a cuchillo · Bollitos de jamón, mozzarella y orégano · Cazuelas: Pechuguitas a la mostaza y miel · Pinchos: Lomo con morroncitos y cebolla caramelizada · Mini pechuguitas con zanahorias y morroncitos · Boconccinos con tomatitos cherrys y albahaca · Canastitas: Cebollitas con queso y orégano · Zucchinis caramelizados y queso · Mini empanaditas de carne cortada a cuchillo · Mini tortilla españolas con queso.</div>
+      </div>
+
+      <div class="menu-divider"></div>
+
+      <div class="menu-block">
+        <div class="menu-block-title">Estación de Carnes</div>
+        <div class="menu-block-text">Cuadril en cocción lenta · Bondiolas aderezadas en salsas agridulces (a la naranja, a la ciruela) · Carré de cerdo mechado con panceta y vegetales · Pernil de cerdo o vacuno con variedad de salsas y panificados de elaboración propia.</div>
+      </div>
+
+      <div class="menu-page-footer">
+        <div class="menu-page-num">01 · Gastronomía</div>
+        <div class="menu-page-logo">MAR</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================
+       PÁGINA 6 — ISLAS + BEBIDAS
+       ====================================================== -->
+  <div class="page menu-page">
+    <div class="menu-photo-col">
+      <img src="assets/images/eventos/evento_06.jpg" alt="Bebidas">
+      <div class="menu-photo-tint"></div>
+    </div>
+    <div class="menu-content">
+      <div class="menu-section-title">Islas &amp;<br>Bebidas</div>
+
+      <div class="menu-block">
+        <div class="menu-block-title">Isla Veggie</div>
+        <div class="menu-block-text">Bruschetta con base de Mousse de Palta · Bruschetta con tomates confitados y echalote · Gazpacho con dips de pepino, albahaca y apio · Pinchos de vegetales asados · Crudités con dips de hummus · Mini-burgers de calabaza y choclo y arvejas y brócoli con hummus de remolacha · Mini-salads · Snacks veggies con variedad de salsas.</div>
+      </div>
+
+      <div class="menu-divider"></div>
+
+      <div class="menu-block">
+        <div class="menu-block-title">Isla Mediterránea</div>
+        <div class="menu-block-text">Variedad de paellas Valencianas (de mariscos · de vegetales · de pollo y ternera) · Risotto de hongos.</div>
+      </div>
+
+      <div class="menu-divider"></div>
+
+      <div class="menu-block">
+        <div class="menu-block-title">Bebidas</div>
+        <div class="menu-block-text">Gaseosas y aguas línea Coca-Cola · Cerveza tirada artesanal · Vinos Alamos — Bodega Catena Zapata.</div>
+      </div>
+
+      <div class="menu-divider"></div>
+
+      <div class="menu-block">
+        <div class="menu-block-title">Postre &amp; Cafetería</div>
+        <div class="menu-block-text">Variedad de shots + Variedad de petit fours · Variedad de infusiones calientes.</div>
+      </div>
+
+      <div class="menu-divider"></div>
+
+      <div class="menu-block">
+        <div class="menu-block-title">Barra Exclusive — Libre 4 hs</div>
+        <div class="menu-block-text">Fernet Cola · Campari · Gancia Batido · Cuba Libre · Gin Tonic · Caipirinha · Caipiroska · Vodka con Naranja · Aperol Spritz · Vermouth Rosso.</div>
+      </div>
+
+      <div class="menu-page-footer">
+        <div class="menu-page-num">02 · Gastronomía</div>
+        <div class="menu-page-logo">MAR</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================
+       PÁGINA 7 — PRECIOS
+       ====================================================== -->
+  <div class="page pricing-page">
+    <div class="pricing-hero">
+      <img src="assets/images/eventos/evento_03.jpg" alt="Salón">
+      <div class="pricing-hero-overlay"></div>
+      <div class="pricing-hero-logo">
+        <div class="ph-mar">MAR</div>
+        <div class="ph-eventos">E V E N T O S</div>
+      </div>
+    </div>
+
+    <div class="pricing-body">
+      <div class="pricing-pretitle">Inversión</div>
+      <div class="pricing-section-title">Nuestra propuesta</div>
+
+      <div class="pricing-grid">
+        <div class="pricing-card">
+          <div class="pricing-card-header">
+            <div class="pricing-card-subtitle">Valor<br>por persona</div>
+          </div>
+          <div class="pricing-card-body">
+            <span class="pricing-label">Menú Finger Food Completo</span>
+            <div class="pricing-amount">AR$ 120.000<br>+ IVA</div>
+            <div class="pricing-note">por persona</div>
+          </div>
+        </div>
+
+        <div class="pricing-card">
+          <div class="pricing-card-header pricing-highlight">
+            <div class="pricing-card-subtitle">Valor<br>de Locación</div>
+          </div>
+          <div class="pricing-card-body pricing-highlight">
+            <span class="pricing-label">Uso de Salón — Mirador Waikiki</span>
+            <div class="pricing-amount">AR$ 4.900.000<br>+ IVA</div>
+            <div class="pricing-note">valor total del espacio</div>
+          </div>
+        </div>
+
+        <div class="pricing-card">
+          <div class="pricing-card-header">
+            <div class="pricing-card-subtitle">Técnica<br>y Producción</div>
+          </div>
+          <div class="pricing-card-body">
+            <span class="pricing-label">Sonido, Iluminación, AV</span>
+            <div class="pricing-amount">A cotizar</div>
+            <div class="pricing-note">según requerimientos</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="pricing-footer-note">
+        Los precios no incluyen IVA. La presente propuesta tiene una validez de 10 días corridos desde su emisión.
+        Para confirmar la reserva se deberá abonar una seña del 15%.
+      </div>
+
+      <div class="pricing-cta">
+        <div class="pricing-cta-btn">+54 223 633-3330</div>
+        <div class="pricing-cta-btn filled">Confirmar evento</div>
+      </div>
+    </div>
+
+    <div class="pricing-page-footer">
+      <div class="pricing-copy">© Mar Eventos — Todos los derechos reservados, 2025</div>
+    </div>
+  </div>
+
+  <!-- ======================================================
+       PÁGINA 8 — CONDICIONES
+       ====================================================== -->
+  <div class="page terms-page">
+    <div class="terms-content">
+      <div class="terms-title">— Condiciones <em>generales</em><br>del servicio —</div>
+
+      <div class="terms-body">
+        <p>El presente presupuesto tiene una validez de <strong>diez días</strong> a partir del día de su emisión, y está calculado sobre la base de todos los servicios solicitados. En caso de suprimir alguno de ellos, el precio será cotizado nuevamente. Los precios informados no incluyen el IVA.</p>
+
+        <p>La emisión del presente presupuesto no implica la reserva de los servicios expresados en el mismo. Para la confirmación de una reserva sobre estos, se realizará un contrato y se deberán dar cumplimiento a las formalidades de pago indicadas en dicho instrumento.</p>
+
+        <div class="terms-highlight">
+          <p>En caso de requerir el desglose del IVA en la facturación, es imprescindible que al momento de abonar el primer anticipo del evento, se presente el formulario Nro. 576, con su condición de IVA y firma del responsable en original.</p>
+        </div>
+
+        <p>Quedan a cargo del cliente: derechos de autor (SADAIC) y derechos de intérpretes y fonogramas (AADI-CAPIF).</p>
+
+        <p>Para la contratación de los servicios gastronómicos, MAR EVENTOS deberá contar con el mínimo de personas garantizadas, al menos <strong>14 días previos</strong> a la realización del evento. El menú deberá ser definido <strong>15 días previos</strong> al evento.</p>
+
+        <div class="terms-highlight">
+          <p><strong>Forma de Pago:</strong> Seña del 15% a la aceptación del presupuesto. El 85% restante deberá ser completado 72hs antes del comienzo del evento. Los ajustes se realizarán mensualmente sobre el saldo adeudado, basándose en el IPC (I.N.D.E.C).</p>
+        </div>
+      </div>
+
+      <div class="terms-signature">
+        <div class="terms-sig-row">
+          <div class="terms-sig-field">
+            <div class="terms-sig-line">
+              <div class="terms-sig-name">Enzo Espiño</div>
+            </div>
+            <div class="terms-sig-label">Firma</div>
+          </div>
+          <div class="terms-sig-field">
+            <div class="terms-sig-line"></div>
+            <div class="terms-sig-label">Responsable Comercial — Mar Eventos</div>
+          </div>
+          <div class="terms-sig-field">
+            <div class="terms-sig-line"></div>
+            <div class="terms-sig-label">Firma y aclaración — Cliente</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="terms-photo-col">
+      <img src="assets/images/eventos/evento_01.jpg" alt="Detalle">
+      <div class="terms-photo-tint"></div>
+    </div>
+  </div>
+
+</div><!-- /wrapper -->
+</body>
+</html>
