@@ -72,7 +72,7 @@ img { display: block; max-width: 100%; }
   height: 100%;
   object-fit: cover;
   object-position: center;
-  filter: brightness(0.6);
+  filter: brightness(0.72);
 }
 
 .cover-overlay {
@@ -80,9 +80,9 @@ img { display: block; max-width: 100%; }
   inset: 0;
   background: linear-gradient(
     to bottom,
-    rgba(15,27,18,0.3) 0%,
-    rgba(15,27,18,0.1) 40%,
-    rgba(15,27,18,0.75) 100%
+    rgba(15,27,18,0.15) 0%,
+    rgba(15,27,18,0.05) 35%,
+    rgba(15,27,18,0.65) 100%
   );
 }
 
@@ -192,7 +192,7 @@ img { display: block; max-width: 100%; }
 .splash-photo-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to bottom, transparent 50%, var(--cream) 100%);
+  background: linear-gradient(to bottom, transparent 60%, var(--cream) 100%);
 }
 
 .splash-content {
@@ -275,7 +275,7 @@ img { display: block; max-width: 100%; }
 .details-photo-tint {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to right, transparent 70%, var(--cream) 100%);
+  background: linear-gradient(to right, transparent 80%, var(--cream) 100%);
 }
 
 .details-content {
@@ -433,7 +433,7 @@ img { display: block; max-width: 100%; }
   height: 100%;
   object-fit: cover;
   object-position: center 60%;
-  filter: brightness(0.75);
+  filter: brightness(0.82);
 }
 
 .gastro-hero-overlay {
@@ -516,7 +516,7 @@ img { display: block; max-width: 100%; }
 .menu-photo-tint {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to right, transparent 65%, var(--cream) 100%);
+  background: linear-gradient(to right, transparent 75%, var(--cream) 100%);
 }
 
 .menu-content {
@@ -631,7 +631,7 @@ img { display: block; max-width: 100%; }
   height: 100%;
   object-fit: cover;
   object-position: center 40%;
-  filter: brightness(0.65);
+  filter: brightness(0.75);
 }
 
 .pricing-hero-overlay {
@@ -1010,6 +1010,135 @@ img { display: block; max-width: 100%; }
 }
 
 /* ============================================================
+   FAQ PAGE
+   ============================================================ */
+.faq-page {
+  min-height: 297mm;
+  display: flex;
+  flex-direction: column;
+}
+
+.faq-photo-strip {
+  height: 110mm;
+  position: relative;
+  overflow: hidden;
+}
+
+.faq-photo-strip img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 40%;
+  filter: brightness(0.7);
+}
+
+.faq-strip-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(15,27,18,0.2) 0%,
+    rgba(15,27,18,0.65) 100%
+  );
+}
+
+.faq-strip-title {
+  position: absolute;
+  bottom: 12mm;
+  left: 14mm;
+  right: 14mm;
+}
+
+.faq-eyebrow {
+  font-family: var(--sans);
+  font-size: 7pt;
+  font-weight: 600;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--teal-l);
+  margin-bottom: 3mm;
+}
+
+.faq-headline {
+  font-family: var(--script);
+  font-size: 40pt;
+  color: var(--white);
+  line-height: 1;
+}
+
+.faq-body {
+  flex: 1;
+  padding: 12mm 14mm 10mm;
+  display: flex;
+  flex-direction: column;
+}
+
+.faq-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6mm 8mm;
+  flex: 1;
+}
+
+.faq-item {
+  padding: 5mm 0;
+  border-top: 1px solid var(--cream-d);
+}
+
+.faq-q {
+  font-family: var(--serif);
+  font-size: 9.5pt;
+  font-weight: 600;
+  color: var(--green);
+  line-height: 1.4;
+  margin-bottom: 2mm;
+}
+
+.faq-a {
+  font-family: var(--serif);
+  font-size: 8.5pt;
+  font-weight: 300;
+  color: rgba(15,27,18,0.7);
+  line-height: 1.7;
+}
+
+.faq-footer {
+  margin-top: 8mm;
+  padding-top: 5mm;
+  border-top: 1px solid var(--cream-d);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.faq-cta-text {
+  font-family: var(--script);
+  font-size: 18pt;
+  color: var(--teal);
+}
+
+.faq-contact {
+  text-align: right;
+}
+
+.faq-contact-label {
+  font-family: var(--sans);
+  font-size: 6pt;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(15,27,18,0.35);
+  margin-bottom: 1.5mm;
+}
+
+.faq-contact-value {
+  font-family: var(--serif);
+  font-size: 11pt;
+  font-weight: 600;
+  color: var(--green);
+}
+
+/* ============================================================
    MOBILE RESPONSIVE
    ============================================================ */
 @media screen and (max-width: 820px) {
@@ -1020,116 +1149,133 @@ img { display: block; max-width: 100%; }
   .print-btn {
     width: 100%;
     box-sizing: border-box;
-    padding: 14px 16px;
+    padding: 10px 14px;
     text-align: right;
     background: #111;
   }
   .print-btn button {
-    font-size: 13pt;
-    padding: 10px 22px;
+    font-size: 10pt;
+    padding: 8px 18px;
   }
 
   .page {
     width: 100%;
     min-height: auto;
-    margin: 0 0 6px;
+    margin: 0 0 5px;
     border-radius: 0;
   }
 
   /* --- COVER --- */
   .cover { min-height: 100svh; }
-  .cover-photo { min-height: calc(100svh - 80px); }
-  .cover-tag { font-size: 12pt; top: 18px; left: 18px; }
-  .cover-center { bottom: 22px; left: 18px; right: 18px; }
-  .cover-pretitle { font-size: 11pt; margin-bottom: 10px; }
-  .cover-title { font-size: 54pt; }
-  .cover-sub { font-size: 12pt; }
-  .cover-bottom { height: 80px; padding: 0 18px; }
-  .logo-img-doc { height: 42px; }
-  .cover-url { font-size: 11pt; }
+  .cover-photo { min-height: calc(100svh - 68px); }
+  .cover-tag { font-size: 9pt; top: 14px; left: 14px; }
+  .cover-center { bottom: 16px; left: 14px; right: 14px; }
+  .cover-pretitle { font-size: 8.5pt; margin-bottom: 7px; }
+  .cover-title { font-size: 40pt; }
+  .cover-sub { font-size: 9pt; }
+  .cover-bottom { height: 68px; padding: 0 14px; }
+  .logo-img-doc { height: 34px; }
+  .cover-url { font-size: 8.5pt; }
 
   /* --- SPLASH --- */
   .splash { min-height: auto; }
-  .splash-photo { height: 58vw; }
-  .splash-content { padding: 28px 22px 20px; }
-  .splash-headline { font-size: 40pt; }
-  .splash-divider { margin: 16px auto; }
-  .splash-venue { font-size: 13pt; margin-bottom: 8px; }
-  .splash-location { font-size: 17pt; }
-  .splash-footer { padding: 16px; }
-  .splash-copy { font-size: 10pt; }
+  .splash-photo { height: 55vw; }
+  .splash-content { padding: 20px 18px 16px; }
+  .splash-headline { font-size: 30pt; }
+  .splash-divider { margin: 12px auto; }
+  .splash-venue { font-size: 10pt; margin-bottom: 6px; }
+  .splash-location { font-size: 13pt; }
+  .splash-footer { padding: 12px; }
+  .splash-copy { font-size: 8pt; }
 
   /* --- DETAILS (stack vertically) --- */
   .details-page {
     grid-template-columns: 1fr;
     min-height: auto;
   }
-  .details-photo-col { height: 68vw; }
+  .details-photo-col { height: 62vw; }
   .details-photo-tint {
-    background: linear-gradient(to bottom, transparent 55%, var(--cream) 100%);
+    background: linear-gradient(to bottom, transparent 50%, var(--cream) 100%);
   }
-  .details-content { padding: 22px 18px 24px; }
-  .details-date { font-size: 11pt; margin-bottom: 20px; }
-  .details-client-label { font-size: 10pt; }
-  .details-client-name { font-size: 34pt; margin-bottom: 18px; padding-bottom: 14px; }
-  .details-intro { font-size: 14pt; line-height: 1.72; margin-bottom: 18px; }
-  .event-card { padding: 16px 18px; margin-bottom: 18px; }
-  .event-card-title { font-size: 10pt; margin-bottom: 10px; }
-  .event-row { padding: 6px 0; }
-  .event-row-label { font-size: 11pt; }
-  .event-row-value { font-size: 14pt; }
-  .details-tagline { font-size: 30pt; }
-  .details-sub { font-size: 13pt; line-height: 1.65; }
-  .logo-img-doc-sm { height: 32px; }
+  .details-content { padding: 18px 16px 20px; }
+  .details-date { font-size: 9pt; margin-bottom: 16px; }
+  .details-client-label { font-size: 8pt; }
+  .details-client-name { font-size: 26pt; margin-bottom: 14px; padding-bottom: 10px; }
+  .details-intro { font-size: 11pt; line-height: 1.7; margin-bottom: 14px; }
+  .event-card { padding: 12px 14px; margin-bottom: 14px; }
+  .event-card-title { font-size: 8.5pt; margin-bottom: 8px; }
+  .event-row { padding: 5px 0; }
+  .event-row-label { font-size: 9pt; }
+  .event-row-value { font-size: 11pt; }
+  .details-tagline { font-size: 24pt; }
+  .details-sub { font-size: 10.5pt; line-height: 1.65; }
+  .logo-img-doc-sm { height: 26px; }
 
   /* --- GASTRO INTRO --- */
   .gastro-intro { min-height: auto; }
-  .gastro-hero { height: 72vw; }
-  .gastro-hero-text { bottom: 18px; left: 18px; right: 18px; }
-  .gastro-eyebrow { font-size: 12pt; margin-bottom: 8px; }
-  .gastro-title { font-size: 54pt; }
-  .gastro-footer { height: auto; padding: 20px 16px; gap: 10px; flex-wrap: wrap; justify-content: center; }
-  .gastro-pill { font-size: 12pt; padding: 8px 18px; }
+  .gastro-hero { height: 68vw; }
+  .gastro-hero-text { bottom: 14px; left: 14px; right: 14px; }
+  .gastro-eyebrow { font-size: 9.5pt; margin-bottom: 6px; }
+  .gastro-title { font-size: 42pt; }
+  .gastro-footer { height: auto; padding: 16px 14px; gap: 8px; flex-wrap: wrap; justify-content: center; }
+  .gastro-pill { font-size: 9.5pt; padding: 6px 14px; }
 
   /* --- MENU (stack vertically) --- */
   .menu-page {
     grid-template-columns: 1fr;
     min-height: auto;
   }
-  .menu-photo-col { height: 62vw; }
+  .menu-photo-col { height: 58vw; }
   .menu-photo-tint {
-    background: linear-gradient(to bottom, transparent 55%, var(--cream) 100%);
+    background: linear-gradient(to bottom, transparent 50%, var(--cream) 100%);
   }
-  .menu-content { padding: 22px 18px 24px; }
-  .menu-section-title { font-size: 42pt; margin-bottom: 18px; }
-  .menu-block { margin-bottom: 14px; }
-  .menu-block-title { font-size: 12pt; padding-bottom: 6px; margin-bottom: 8px; }
-  .menu-block-text { font-size: 13pt; line-height: 1.7; }
-  .menu-item { font-size: 13pt; line-height: 1.6; padding-left: 10px; }
-  .menu-divider { margin: 14px 0; }
-  .menu-page-footer { padding-top: 14px; }
-  .menu-page-num { font-size: 10pt; }
-  .logo-img-doc-xs { height: 24px; }
+  .menu-content { padding: 18px 16px 20px; }
+  .menu-section-title { font-size: 32pt; margin-bottom: 14px; }
+  .menu-block { margin-bottom: 12px; }
+  .menu-block-title { font-size: 9.5pt; padding-bottom: 5px; margin-bottom: 6px; }
+  .menu-block-text { font-size: 10.5pt; line-height: 1.68; }
+  .menu-item { font-size: 10.5pt; line-height: 1.55; padding-left: 8px; }
+  .menu-divider { margin: 10px 0; }
+  .menu-page-footer { padding-top: 10px; }
+  .menu-page-num { font-size: 8.5pt; }
+  .logo-img-doc-xs { height: 20px; }
 
   /* --- PRICING --- */
   .pricing-page { min-height: auto; }
-  .pricing-hero { height: 58vw; }
-  .logo-img-doc-lg { height: 60px; }
-  .pricing-body { padding: 24px 18px 20px; }
-  .pricing-pretitle { font-size: 12pt; margin-bottom: 6px; }
-  .pricing-section-title { font-size: 40pt; margin-bottom: 20px; }
-  .pricing-grid { grid-template-columns: 1fr; gap: 14px; margin-bottom: 20px; }
-  .pricing-card-header { padding: 16px; }
-  .pricing-card-subtitle { font-size: 26pt; }
-  .pricing-card-body { padding: 16px; }
-  .pricing-label { font-size: 11pt; margin-bottom: 6px; }
-  .pricing-amount { font-size: 22pt; }
-  .pricing-note { font-size: 11pt; }
-  .pricing-footer-note { font-size: 14pt; line-height: 1.7; padding: 0 4px; margin-bottom: 20px; }
-  .pricing-cta { gap: 10px; flex-wrap: wrap; justify-content: center; }
-  .pricing-cta-btn { font-size: 13pt; padding: 12px 22px; }
-  .pricing-page-footer { padding: 14px 18px; }
-  .pricing-copy { font-size: 11pt; }
+  .pricing-hero { height: 52vw; }
+  .logo-img-doc-lg { height: 50px; }
+  .pricing-body { padding: 20px 16px 18px; }
+  .pricing-pretitle { font-size: 9.5pt; margin-bottom: 4px; }
+  .pricing-section-title { font-size: 30pt; margin-bottom: 16px; }
+  .pricing-grid { grid-template-columns: 1fr; gap: 10px; margin-bottom: 16px; }
+  .pricing-card-header { padding: 12px; }
+  .pricing-card-subtitle { font-size: 20pt; }
+  .pricing-card-body { padding: 12px; }
+  .pricing-label { font-size: 9pt; margin-bottom: 4px; }
+  .pricing-amount { font-size: 17pt; }
+  .pricing-note { font-size: 9pt; }
+  .pricing-footer-note { font-size: 10.5pt; line-height: 1.65; padding: 0; margin-bottom: 16px; }
+  .pricing-cta { gap: 8px; flex-wrap: wrap; justify-content: center; }
+  .pricing-cta-btn { font-size: 10pt; padding: 9px 18px; }
+  .pricing-page-footer { padding: 10px 16px; }
+  .pricing-copy { font-size: 8.5pt; }
+
+  /* --- FAQ --- */
+  .faq-page { min-height: auto; }
+  .faq-photo-strip { height: 55vw; }
+  .faq-strip-title { bottom: 14px; left: 14px; right: 14px; }
+  .faq-eyebrow { font-size: 9.5pt; }
+  .faq-headline { font-size: 32pt; }
+  .faq-body { padding: 18px 16px 20px; }
+  .faq-grid { grid-template-columns: 1fr; gap: 0; }
+  .faq-item { padding: 10px 0; }
+  .faq-q { font-size: 11pt; margin-bottom: 4px; }
+  .faq-a { font-size: 10pt; line-height: 1.65; }
+  .faq-footer { flex-direction: column; align-items: flex-start; gap: 10px; margin-top: 16px; }
+  .faq-cta-text { font-size: 22pt; }
+  .faq-contact { text-align: left; }
+  .faq-contact-label { font-size: 8.5pt; }
+  .faq-contact-value { font-size: 13pt; }
 
   /* --- TERMS --- */
   .terms-page {
@@ -1137,16 +1283,16 @@ img { display: block; max-width: 100%; }
     min-height: auto;
   }
   .terms-photo-col { display: none; }
-  .terms-content { padding: 22px 18px 28px; }
-  .terms-title { font-size: 36pt; margin-bottom: 20px; }
-  .terms-body { font-size: 14pt; line-height: 1.82; margin-bottom: 20px; }
-  .terms-body p { margin-bottom: 14px; }
-  .terms-highlight { padding: 14px 16px; margin-bottom: 14px; }
-  .terms-highlight p { font-size: 14pt; }
-  .terms-signature { padding-top: 20px; }
-  .terms-sig-row { gap: 20px; flex-direction: column; }
-  .terms-sig-name { font-size: 30pt; }
-  .terms-sig-label { font-size: 12pt; }
+  .terms-content { padding: 18px 16px 24px; }
+  .terms-title { font-size: 28pt; margin-bottom: 16px; }
+  .terms-body { font-size: 11pt; line-height: 1.78; margin-bottom: 16px; }
+  .terms-body p { margin-bottom: 10px; }
+  .terms-highlight { padding: 10px 12px; margin-bottom: 10px; }
+  .terms-highlight p { font-size: 11pt; }
+  .terms-signature { padding-top: 16px; }
+  .terms-sig-row { gap: 16px; flex-direction: column; }
+  .terms-sig-name { font-size: 24pt; }
+  .terms-sig-label { font-size: 10pt; }
 }
 
 </style>
@@ -1430,7 +1576,74 @@ img { display: block; max-width: 100%; }
   </div>
 
   <!-- ======================================================
-       PÁGINA 8 — CONDICIONES
+       PÁGINA 8 — PREGUNTAS FRECUENTES
+       ====================================================== -->
+  <div class="page faq-page">
+    <div class="faq-photo-strip">
+      <img src="assets/images/eventos/evento_20.jpg" alt="Evento Mar Eventos">
+      <div class="faq-strip-overlay"></div>
+      <div class="faq-strip-title">
+        <div class="faq-eyebrow">Todo lo que necesitás saber</div>
+        <div class="faq-headline">Preguntas<br>Frecuentes</div>
+      </div>
+    </div>
+    <div class="faq-body">
+      <div class="faq-grid">
+
+        <div class="faq-item">
+          <div class="faq-q">¿Con cuánta anticipación debo confirmar el evento?</div>
+          <div class="faq-a">Recomendamos confirmar con al menos 90 días de anticipación para garantizar disponibilidad del salón, personal y gastronomía. Fechas de alta demanda (diciembre, marzo) requieren reserva anticipada.</div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q">¿Qué pasa si cambia el número de invitados?</div>
+          <div class="faq-a">El número mínimo garantizado debe informarse 14 días antes del evento. Incrementos posteriores se ajustan según disponibilidad y se facturan proporcionalmente al precio por persona acordado.</div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q">¿Puedo modificar el menú propuesto?</div>
+          <div class="faq-a">Sí. El menú puede personalizarse hasta 15 días antes del evento. Nuestro equipo gastronómico te asesora para adaptar cada opción al estilo y necesidades del evento.</div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q">¿Tienen opciones vegetarianas o sin TACC?</div>
+          <div class="faq-a">Contamos con una isla veggie completa y podemos preparar alternativas sin gluten para invitados con necesidades específicas. Solo indicarlo con anticipación al coordinar el menú.</div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q">¿Qué incluye la producción técnica?</div>
+          <div class="faq-a">Sonido profesional, iluminación de escena y ambiente, pantallas y equipamiento audiovisual. Se cotiza por separado según los requerimientos específicos del evento (presentaciones, video, música en vivo).</div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q">¿El personal de servicio está incluido?</div>
+          <div class="faq-a">Sí. El servicio gastronómico incluye mozos, barmen, coordinador de sala y personal de apoyo, calculado en función del número de invitados para garantizar la mejor atención.</div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q">¿Cómo se maneja la cancelación o reprogramación?</div>
+          <div class="faq-a">Las condiciones de cancelación y reprogramación se establecen en el contrato. La seña del 15% es no reembolsable en caso de cancelación, pero puede aplicarse a la reprogramación dentro del año.</div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q">¿Los precios se ajustan por inflación?</div>
+          <div class="faq-a">Sí. El saldo pendiente se ajusta mensualmente según el IPC publicado por el INDEC, desde la fecha de emisión del presupuesto hasta el momento del pago. La seña no se ajusta.</div>
+        </div>
+
+      </div>
+
+      <div class="faq-footer">
+        <div class="faq-cta-text">¿Más preguntas?</div>
+        <div class="faq-contact">
+          <div class="faq-contact-label">Contacto directo</div>
+          <div class="faq-contact-value">+54 223 633-3330 · info@mareventos.com.ar</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================
+       PÁGINA 9 — CONDICIONES
        ====================================================== -->
   <div class="page terms-page">
     <div class="terms-content">
