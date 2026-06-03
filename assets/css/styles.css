@@ -288,14 +288,17 @@ p {
   gap: 5px;
   cursor: pointer;
   padding: 8px;
-  background: none;
-  border: none;
-  outline: none;
-  -webkit-appearance: none;
-  appearance: none;
-  border-radius: 0;
-  box-shadow: none;
-  -webkit-tap-highlight-color: transparent;
+  background: transparent !important;
+  background-color: transparent !important;
+  border: none !important;
+  outline: none !important;
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  appearance: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  -webkit-tap-highlight-color: transparent !important;
+  color: white;
 }
 
 .nav-toggle span {
