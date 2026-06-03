@@ -576,6 +576,9 @@ p {
   justify-content: center;
   flex-wrap: wrap;
 }
+.hero-actions .btn {
+  min-width: 200px;
+}
 
 .hero-scroll {
   position: absolute;
@@ -1673,12 +1676,28 @@ textarea.form-control {
 }
 
 /* ======== RESPONSIVE TWEAKS ======== */
+@media (max-width: 600px) {
+  .hero-actions {
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    padding: 0 24px;
+    box-sizing: border-box;
+  }
+  .hero-actions .btn {
+    width: 100%;
+    max-width: 320px;
+    min-width: 0;
+    text-align: center;
+    justify-content: center;
+  }
+  .cta-actions { flex-direction: column; align-items: center; }
+}
 @media (max-width: 480px) {
   .btn { padding: 12px 24px; font-size: 0.7rem; }
   .hero p { font-size: 0.9rem; }
-  .hero-actions { gap: 12px; }
   .about-stats { grid-template-columns: 1fr; padding: 20px; gap: 16px; }
-  .cta-actions { flex-direction: column; align-items: center; }
 }
 
 /* ======================================================
