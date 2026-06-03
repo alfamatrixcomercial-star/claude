@@ -1192,15 +1192,20 @@ p {
 }
 
 .service-tag {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  z-index: 3;
   font-size: 0.72rem;
   font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  padding: 8px 18px;
+  padding: 7px 16px;
   background: var(--cream);
   color: var(--navy);
   border-radius: 50px;
-  border: 1px solid var(--cream-dark);
+  border: 1px solid rgba(255,255,255,0.3);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.18);
   transition: var(--transition);
 }
 
