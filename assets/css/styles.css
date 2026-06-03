@@ -625,7 +625,7 @@ p {
 /* Page hero (non-homepage) */
 .page-hero {
   position: relative;
-  height: clamp(320px, 40vw, 500px);
+  height: clamp(480px, 65vh, 720px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -634,7 +634,7 @@ p {
 }
 
 .page-hero .hero-overlay {
-  background: linear-gradient(to bottom, rgba(15,27,18,0.55) 0%, rgba(15,27,18,0.7) 100%);
+  background: linear-gradient(to bottom, rgba(15,27,18,0.30) 0%, rgba(15,27,18,0.52) 100%);
 }
 
 .page-hero-content {
