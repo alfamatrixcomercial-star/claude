@@ -62,7 +62,7 @@ img { display: block; max-width: 100%; }
 
 .cover-photo {
   flex: 1;
-  min-height: 220mm;
+  min-height: 258mm;
   position: relative;
   overflow: hidden;
 }
@@ -177,7 +177,7 @@ img { display: block; max-width: 100%; }
 }
 
 .splash-photo {
-  height: 160mm;
+  height: 190mm;
   position: relative;
   overflow: hidden;
 }
@@ -621,7 +621,7 @@ img { display: block; max-width: 100%; }
 }
 
 .pricing-hero {
-  height: 105mm;
+  height: 128mm;
   position: relative;
   overflow: hidden;
 }
@@ -939,6 +939,36 @@ img { display: block; max-width: 100%; }
 }
 
 /* ============================================================
+   LOGO IMAGE CLASSES
+   ============================================================ */
+.logo-img-doc {
+  height: 38px;
+  width: auto;
+  display: block;
+  object-fit: contain;
+}
+.logo-img-doc-lg {
+  height: 72px;
+  width: auto;
+  display: block;
+  margin: 0 auto;
+  object-fit: contain;
+}
+.logo-img-doc-sm {
+  height: 30px;
+  width: auto;
+  display: block;
+  object-fit: contain;
+}
+.logo-img-doc-xs {
+  height: 22px;
+  width: auto;
+  display: block;
+  object-fit: contain;
+  opacity: 0.45;
+}
+
+/* ============================================================
    PRINT
    ============================================================ */
 @media print {
@@ -979,6 +1009,146 @@ img { display: block; max-width: 100%; }
   .print-btn button:hover { background: #3d6b5a; }
 }
 
+/* ============================================================
+   MOBILE RESPONSIVE
+   ============================================================ */
+@media screen and (max-width: 820px) {
+  body { background: #1a1a1a; }
+
+  .wrapper { padding: 0; max-width: 100%; }
+
+  .print-btn {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 14px 16px;
+    text-align: right;
+    background: #111;
+  }
+  .print-btn button {
+    font-size: 13pt;
+    padding: 10px 22px;
+  }
+
+  .page {
+    width: 100%;
+    min-height: auto;
+    margin: 0 0 6px;
+    border-radius: 0;
+  }
+
+  /* --- COVER --- */
+  .cover { min-height: 100svh; }
+  .cover-photo { min-height: calc(100svh - 80px); }
+  .cover-tag { font-size: 12pt; top: 18px; left: 18px; }
+  .cover-center { bottom: 22px; left: 18px; right: 18px; }
+  .cover-pretitle { font-size: 11pt; margin-bottom: 10px; }
+  .cover-title { font-size: 54pt; }
+  .cover-sub { font-size: 12pt; }
+  .cover-bottom { height: 80px; padding: 0 18px; }
+  .logo-img-doc { height: 42px; }
+  .cover-url { font-size: 11pt; }
+
+  /* --- SPLASH --- */
+  .splash { min-height: auto; }
+  .splash-photo { height: 58vw; }
+  .splash-content { padding: 28px 22px 20px; }
+  .splash-headline { font-size: 40pt; }
+  .splash-divider { margin: 16px auto; }
+  .splash-venue { font-size: 13pt; margin-bottom: 8px; }
+  .splash-location { font-size: 17pt; }
+  .splash-footer { padding: 16px; }
+  .splash-copy { font-size: 10pt; }
+
+  /* --- DETAILS (stack vertically) --- */
+  .details-page {
+    grid-template-columns: 1fr;
+    min-height: auto;
+  }
+  .details-photo-col { height: 68vw; }
+  .details-photo-tint {
+    background: linear-gradient(to bottom, transparent 55%, var(--cream) 100%);
+  }
+  .details-content { padding: 22px 18px 24px; }
+  .details-date { font-size: 11pt; margin-bottom: 20px; }
+  .details-client-label { font-size: 10pt; }
+  .details-client-name { font-size: 34pt; margin-bottom: 18px; padding-bottom: 14px; }
+  .details-intro { font-size: 14pt; line-height: 1.72; margin-bottom: 18px; }
+  .event-card { padding: 16px 18px; margin-bottom: 18px; }
+  .event-card-title { font-size: 10pt; margin-bottom: 10px; }
+  .event-row { padding: 6px 0; }
+  .event-row-label { font-size: 11pt; }
+  .event-row-value { font-size: 14pt; }
+  .details-tagline { font-size: 30pt; }
+  .details-sub { font-size: 13pt; line-height: 1.65; }
+  .logo-img-doc-sm { height: 32px; }
+
+  /* --- GASTRO INTRO --- */
+  .gastro-intro { min-height: auto; }
+  .gastro-hero { height: 72vw; }
+  .gastro-hero-text { bottom: 18px; left: 18px; right: 18px; }
+  .gastro-eyebrow { font-size: 12pt; margin-bottom: 8px; }
+  .gastro-title { font-size: 54pt; }
+  .gastro-footer { height: auto; padding: 20px 16px; gap: 10px; flex-wrap: wrap; justify-content: center; }
+  .gastro-pill { font-size: 12pt; padding: 8px 18px; }
+
+  /* --- MENU (stack vertically) --- */
+  .menu-page {
+    grid-template-columns: 1fr;
+    min-height: auto;
+  }
+  .menu-photo-col { height: 62vw; }
+  .menu-photo-tint {
+    background: linear-gradient(to bottom, transparent 55%, var(--cream) 100%);
+  }
+  .menu-content { padding: 22px 18px 24px; }
+  .menu-section-title { font-size: 42pt; margin-bottom: 18px; }
+  .menu-block { margin-bottom: 14px; }
+  .menu-block-title { font-size: 12pt; padding-bottom: 6px; margin-bottom: 8px; }
+  .menu-block-text { font-size: 13pt; line-height: 1.7; }
+  .menu-item { font-size: 13pt; line-height: 1.6; padding-left: 10px; }
+  .menu-divider { margin: 14px 0; }
+  .menu-page-footer { padding-top: 14px; }
+  .menu-page-num { font-size: 10pt; }
+  .logo-img-doc-xs { height: 24px; }
+
+  /* --- PRICING --- */
+  .pricing-page { min-height: auto; }
+  .pricing-hero { height: 58vw; }
+  .logo-img-doc-lg { height: 60px; }
+  .pricing-body { padding: 24px 18px 20px; }
+  .pricing-pretitle { font-size: 12pt; margin-bottom: 6px; }
+  .pricing-section-title { font-size: 40pt; margin-bottom: 20px; }
+  .pricing-grid { grid-template-columns: 1fr; gap: 14px; margin-bottom: 20px; }
+  .pricing-card-header { padding: 16px; }
+  .pricing-card-subtitle { font-size: 26pt; }
+  .pricing-card-body { padding: 16px; }
+  .pricing-label { font-size: 11pt; margin-bottom: 6px; }
+  .pricing-amount { font-size: 22pt; }
+  .pricing-note { font-size: 11pt; }
+  .pricing-footer-note { font-size: 14pt; line-height: 1.7; padding: 0 4px; margin-bottom: 20px; }
+  .pricing-cta { gap: 10px; flex-wrap: wrap; justify-content: center; }
+  .pricing-cta-btn { font-size: 13pt; padding: 12px 22px; }
+  .pricing-page-footer { padding: 14px 18px; }
+  .pricing-copy { font-size: 11pt; }
+
+  /* --- TERMS --- */
+  .terms-page {
+    grid-template-columns: 1fr;
+    min-height: auto;
+  }
+  .terms-photo-col { display: none; }
+  .terms-content { padding: 22px 18px 28px; }
+  .terms-title { font-size: 36pt; margin-bottom: 20px; }
+  .terms-body { font-size: 14pt; line-height: 1.82; margin-bottom: 20px; }
+  .terms-body p { margin-bottom: 14px; }
+  .terms-highlight { padding: 14px 16px; margin-bottom: 14px; }
+  .terms-highlight p { font-size: 14pt; }
+  .terms-signature { padding-top: 20px; }
+  .terms-sig-row { gap: 20px; flex-direction: column; }
+  .terms-sig-name { font-size: 30pt; }
+  .terms-sig-label { font-size: 12pt; }
+}
+
 </style>
 </head>
 <body>
@@ -1004,10 +1174,7 @@ img { display: block; max-width: 100%; }
       </div>
     </div>
     <div class="cover-bottom">
-      <div class="cover-logo-text">
-        MAR
-        <span>E V E N T O S</span>
-      </div>
+      <img src="assets/images/logo-white.png" alt="Mar Eventos" class="logo-img-doc" style="height:38px;width:auto;">
       <div class="cover-url">www.mareventos.com.ar</div>
     </div>
   </div>
@@ -1075,7 +1242,7 @@ img { display: block; max-width: 100%; }
       </div>
 
       <div class="details-footer">
-        <div class="logo-sm">MAR<span>E V E N T O S</span></div>
+        <img src="assets/images/logo.png" alt="Mar Eventos" class="logo-img-doc-sm" style="height:30px;width:auto;">
       </div>
     </div>
   </div>
@@ -1139,7 +1306,7 @@ img { display: block; max-width: 100%; }
 
       <div class="menu-page-footer">
         <div class="menu-page-num">01 · Gastronomía</div>
-        <div class="menu-page-logo">MAR</div>
+        <img src="assets/images/logo.png" alt="Mar Eventos" class="logo-img-doc-xs" style="height:22px;width:auto;">
       </div>
     </div>
   </div>
@@ -1190,7 +1357,7 @@ img { display: block; max-width: 100%; }
 
       <div class="menu-page-footer">
         <div class="menu-page-num">02 · Gastronomía</div>
-        <div class="menu-page-logo">MAR</div>
+        <img src="assets/images/logo.png" alt="Mar Eventos" class="logo-img-doc-xs" style="height:22px;width:auto;">
       </div>
     </div>
   </div>
@@ -1203,8 +1370,7 @@ img { display: block; max-width: 100%; }
       <img src="assets/images/eventos/evento_03.jpg" alt="Salón">
       <div class="pricing-hero-overlay"></div>
       <div class="pricing-hero-logo">
-        <div class="ph-mar">MAR</div>
-        <div class="ph-eventos">E V E N T O S</div>
+        <img src="assets/images/logo-white.png" alt="Mar Eventos" class="logo-img-doc-lg" style="height:72px;width:auto;">
       </div>
     </div>
 
