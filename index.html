@@ -284,9 +284,9 @@
       max-width: 1400px;
       margin: 0 auto 44px;
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(2, 1fr);
       gap: 14px;
-      height: 640px;
+      grid-auto-rows: 420px;
     }
     .triptych-panel {
       position: relative;
@@ -362,7 +362,7 @@
     .trip-btn:hover svg { transform: translateX(4px); }
     .venues-main-cta { text-align: center; }
     @media (max-width: 900px) {
-      .venues-triptych { grid-template-columns: 1fr; height: auto; }
+      .venues-triptych { grid-template-columns: 1fr; grid-auto-rows: auto; }
       .triptych-panel { height: 360px; }
     }
 
@@ -635,6 +635,19 @@
           <span class="trip-eye">El más grande de Mar del Plata</span>
           <div class="trip-name">Salón Mirador Waikiki</div>
           <div class="trip-cap">300 – 900 invitados</div>
+          <span class="trip-btn">
+            Ver salón
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </span>
+        </div>
+      </a>
+
+      <a href="salon-hula-kai.html" class="triptych-panel scale-in" style="transition-delay:0.3s">
+        <img src="assets/images/event-mesa-larga.jpg" alt="Salón Hula Kai">
+        <div class="triptych-overlay">
+          <span class="trip-eye">Complejo Mirador Waikiki</span>
+          <div class="trip-name">Salón Hula Kai</div>
+          <div class="trip-cap">25 – 50 invitados</div>
           <span class="trip-btn">
             Ver salón
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
