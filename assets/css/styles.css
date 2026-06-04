@@ -641,7 +641,7 @@ p {
 /* Page hero (non-homepage) */
 .page-hero {
   position: relative;
-  height: clamp(480px, 65vh, 720px);
+  height: clamp(600px, 82vh, 920px);
   background-size: cover;
   background-position: center;
   display: flex;
