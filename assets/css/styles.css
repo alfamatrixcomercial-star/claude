@@ -762,6 +762,26 @@ p {
   gap: 10px;
 }
 
+/* Venue detail galleries: fixed 4-col, last solo item fills full row */
+#galeria .gallery-grid {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+#galeria .gallery-grid .gallery-item:last-child:nth-child(4n+1) {
+  grid-column: 1 / -1;
+  aspect-ratio: 21/9;
+}
+
+@media (max-width: 900px) {
+  #galeria .gallery-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  #galeria .gallery-grid .gallery-item:last-child:nth-child(4n+1) {
+    grid-column: auto;
+    aspect-ratio: 4/3;
+  }
+}
+
 .gallery-item {
   position: relative;
   overflow: hidden;
