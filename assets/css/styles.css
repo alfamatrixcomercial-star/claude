@@ -1749,9 +1749,19 @@ textarea.form-control {
 
 .venue-detail-ctas {
   display: flex;
-  gap: 16px;
+  gap: 12px;
   flex-wrap: wrap;
   margin-top: 32px;
+}
+
+.venue-detail-ctas .btn {
+  padding: 10px 22px;
+  font-size: 0.68rem;
+}
+
+.venue-detail-ctas .btn svg {
+  width: 15px;
+  height: 15px;
 }
 
 @media (max-width: 600px) {
