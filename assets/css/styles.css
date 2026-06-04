@@ -133,13 +133,13 @@ p {
 }
 
 .navbar.scrolled {
-  background: rgba(15, 27, 18, 0.97);
+  background: rgba(30, 58, 47, 0.97);
   backdrop-filter: blur(12px);
   box-shadow: 0 2px 20px rgba(0,0,0,0.2);
 }
 
 .navbar.dark-nav {
-  background: rgba(15, 27, 18, 0.97);
+  background: rgba(30, 58, 47, 0.97);
 }
 
 .nav-logo {
@@ -1235,6 +1235,13 @@ p {
   background: var(--teal);
   color: var(--white);
   border-color: var(--teal);
+}
+
+.services-list .service-tag {
+  position: relative;
+  top: auto;
+  left: auto;
+  z-index: auto;
 }
 
 /* ======== CLIENT LOGOS ======== */
