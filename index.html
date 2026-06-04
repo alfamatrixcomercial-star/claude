@@ -466,9 +466,10 @@
 
   <!-- ===================== HERO ===================== -->
   <section class="hero">
-    <video class="hero-video" autoplay muted loop playsinline preload="none">
-      <source src="https://mareventos.com.ar/wp-content/uploads/2025/06/Ceremonia-fiesta.mp4" type="video/mp4">
+    <video class="hero-video" id="hero-video" autoplay muted loop playsinline preload="auto" poster="assets/images/cover-waikiki.jpg">
+      <source src="assets/videos/ceremonia-fiesta.mp4" type="video/mp4">
     </video>
+    <img class="hero-fallback" id="hero-fallback" src="assets/images/cover-waikiki.jpg" alt="" style="display:none;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;">
     <div class="hero-overlay"></div>
     <div class="hero-content">
       <div class="hero-eyebrow">Mar del Plata, Argentina</div>
@@ -797,5 +798,25 @@
   </a>
 
   <script src="assets/js/main.js"></script>
+  <script>
+    (function() {
+      var video = document.getElementById('hero-video');
+      var fallback = document.getElementById('hero-fallback');
+      function showFallback() {
+        video.style.display = 'none';
+        fallback.style.display = 'block';
+      }
+      video.addEventListener('error', showFallback);
+      var playPromise = video.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(function() {
+          if (video.readyState < 2) showFallback();
+        });
+      }
+      setTimeout(function() {
+        if (video.readyState < 2) showFallback();
+      }, 4000);
+    })();
+  </script>
 </body>
 </html>
