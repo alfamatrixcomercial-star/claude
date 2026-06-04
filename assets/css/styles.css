@@ -457,11 +457,11 @@ p {
 
 /* ======== SECTIONS ======== */
 .section {
-  padding: clamp(60px, 8vw, 100px) clamp(20px, 5vw, 60px);
+  padding: clamp(40px, 5vw, 70px) clamp(20px, 5vw, 60px);
 }
 
 .section-sm {
-  padding: clamp(40px, 6vw, 70px) clamp(20px, 5vw, 60px);
+  padding: clamp(28px, 4vw, 52px) clamp(20px, 5vw, 60px);
 }
 
 .container {
