@@ -1764,6 +1764,16 @@ textarea.form-control {
   height: 15px;
 }
 
+.cta-strip-actions .btn {
+  padding: 10px 22px;
+  font-size: 0.68rem;
+}
+
+.cta-strip-actions .btn svg {
+  width: 15px;
+  height: 15px;
+}
+
 @media (max-width: 600px) {
   .venue-detail-ctas { flex-direction: column; }
   .venue-detail-ctas .btn { width: 100%; justify-content: center; }
