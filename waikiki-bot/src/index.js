@@ -7,6 +7,7 @@ const { notificarEnzo } = require('./notify');
 
 const app = express();
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // Previene procesar el mismo mensaje dos veces (WhatsApp puede reenviar)
 const processedMessages = new Set();
