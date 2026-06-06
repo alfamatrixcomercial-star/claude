@@ -90,14 +90,21 @@ app.post('/webhook', async (req, res) => {
 app.post('/manychat', async (req, res) => {
   const { message, user_id, phone } = req.body;
 
-  if (!message || !user_id) {
-    return res.status(400).json({ response: 'Error: faltan datos.' });
+  // Usar phone como clave principal (siempre real en WhatsApp)
+  // Si subscriber_id no está resuelto (llega como literal "{{subscriber_id}}"), cae al phone
+  const sessionKey = (phone && !phone.includes('{{')) ? phone
+    : (user_id && !user_id.includes('{{')) ? user_id
+    : 'unknown';
+
+  console.log(`[ManyChat] raw body:`, JSON.stringify(req.body));
+  console.log(`[ManyChat] sessionKey: ${sessionKey} | msg: ${message}`);
+
+  if (!message) {
+    return res.status(400).json({ response: 'Error: falta el mensaje.' });
   }
 
-  console.log(`[ManyChat] ${phone || user_id}: ${message}`);
-
   try {
-    const rawReply = await chat(user_id, message);
+    const rawReply = await chat(sessionKey, message);
     await new Promise(resolve => setTimeout(resolve, 4500));
 
     const reservation = parseReservation(rawReply);
