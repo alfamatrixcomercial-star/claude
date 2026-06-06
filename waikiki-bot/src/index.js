@@ -88,26 +88,21 @@ app.post('/webhook', async (req, res) => {
 // Endpoint para ManyChat (External Request)
 // ──────────────────────────────────────
 app.post('/manychat', async (req, res) => {
-  const { message, user_id, phone, contexto } = req.body;
+  // ManyChat puede mandar el body como texto plano con saltos de línea
+  let body = req.body;
+  if (typeof body === 'string') {
+    try { body = JSON.parse(body); } catch { body = {}; }
+  }
 
+  const { message, phone, user_id } = body;
   const sessionKey = (phone && !phone.includes('{{')) ? phone
     : (user_id && !user_id.includes('{{')) ? user_id
     : 'unknown';
 
-  console.log(`[ManyChat] sessionKey: ${sessionKey} | msg: ${message} | contexto: ${contexto ? 'sí' : 'no'}`);
+  console.log(`[ManyChat] sessionKey: ${sessionKey} | msg: ${String(message).substring(0, 80)}`);
 
   if (!message) {
     return res.status(400).json({ response: 'Error: falta el mensaje.' });
-  }
-
-  // Si hay contexto previo y el servidor no tiene historial, reconstruirlo
-  if (contexto && !conversations.has(sessionKey)) {
-    try {
-      const previos = JSON.parse(contexto);
-      if (Array.isArray(previos)) {
-        conversations.set(sessionKey, previos);
-      }
-    } catch {}
   }
 
   try {
@@ -147,8 +142,7 @@ app.post('/manychat', async (req, res) => {
     }
 
     // Guardar historial en campo de ManyChat para sobrevivir reinicios
-    const historial = (conversations.get(sessionKey) || []).slice(-10);
-    res.json({ response: replyText, contexto: JSON.stringify(historial) });
+    res.json({ response: replyText });
   } catch (error) {
     console.error('Error en /manychat:', error.message);
     res.json({ response: '¡Hola! En este momento no puedo responder. Intentá de nuevo en unos minutos 🙏' });
