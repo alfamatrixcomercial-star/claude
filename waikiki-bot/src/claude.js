@@ -110,10 +110,16 @@ async function chat(userId, userMessage) {
     history.splice(0, history.length - 20);
   }
 
+  const ahora = new Date().toLocaleString('es-AR', {
+    timeZone: 'America/Argentina/Buenos_Aires',
+    weekday: 'long', day: '2-digit', month: '2-digit', year: 'numeric',
+    hour: '2-digit', minute: '2-digit',
+  });
+
   const response = await client.messages.create({
-    model: 'claude-haiku-4-5-20251001', // Haiku: más rápido y económico para producción
+    model: 'claude-haiku-4-5-20251001',
     max_tokens: 1024,
-    system: SYSTEM_PROMPT,
+    system: SYSTEM_PROMPT + `\n\nFECHA Y HORA ACTUAL (Buenos Aires): ${ahora}. Usá esta información para responder consultas sobre horarios sin pedirle el día al cliente.`,
     messages: history,
   });
 
