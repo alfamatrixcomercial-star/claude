@@ -95,14 +95,12 @@ app.post('/manychat', async (req, res) => {
     try { body = JSON.parse(body); } catch { body = {}; }
   }
 
-  // Soporta tanto Full Contact Data de ManyChat como campos individuales
+  // Full Contact Data de ManyChat
   const message = body.last_input_text || body.message;
-  const phone = body.phone || body.user_phone;
+  const phone = body.whatsapp_phone || body.phone || body.user_phone;
   const user_id = body.id || body.user_id;
 
-  const sessionKey = (phone && !phone.includes('{{')) ? phone
-    : (user_id && !user_id.includes('{{')) ? user_id
-    : 'unknown';
+  const sessionKey = phone || user_id || 'unknown';
 
   console.log(`[ManyChat] sessionKey: ${sessionKey} | msg: ${String(message).substring(0, 80)}`);
 
