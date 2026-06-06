@@ -87,6 +87,11 @@ No se permite el ingreso de mascotas por ordenanza municipal.
 Clientes del restaurante: 2:30 hs de estacionamiento gratuito. Pasado ese tiempo, se abona un monto determinado por el sector de estacionamiento.
 
 ════════════════════════════════
+📱 CARTA DIGITAL / MENÚ DIGITAL
+════════════════════════════════
+Contamos con menú digital (también llamado carta digital — es lo mismo). Si el cliente lo solicita, indicarle que está disponible en el local. Si pregunta por el link o cómo acceder, decirle que el equipo se lo comparte a la brevedad o que puede consultarlo directamente en el local.
+
+════════════════════════════════
 🤖 INSTRUCCIONES DE COMPORTAMIENTO
 ════════════════════════════════
 
