@@ -84,6 +84,38 @@ app.post('/webhook', async (req, res) => {
 });
 
 // ──────────────────────────────────────
+// Endpoint para ManyChat (External Request)
+// ──────────────────────────────────────
+app.post('/manychat', async (req, res) => {
+  const { message, user_id, phone } = req.body;
+
+  if (!message || !user_id) {
+    return res.status(400).json({ response: 'Error: faltan datos.' });
+  }
+
+  console.log(`[ManyChat] ${phone || user_id}: ${message}`);
+
+  try {
+    const rawReply = await chat(user_id, message);
+    const reservation = parseReservation(rawReply);
+    const replyText = cleanReply(rawReply);
+
+    if (reservation) {
+      try {
+        await saveReservation({ ...reservation, telefono: reservation.telefono || phone });
+      } catch (sheetError) {
+        console.error('Error guardando en Sheets:', sheetError.message);
+      }
+    }
+
+    res.json({ response: replyText });
+  } catch (error) {
+    console.error('Error en /manychat:', error.message);
+    res.json({ response: '¡Hola! En este momento no puedo responder. Intentá de nuevo en unos minutos 🙏' });
+  }
+});
+
+// ──────────────────────────────────────
 // Inicio del servidor
 // ──────────────────────────────────────
 app.listen(config.PORT, async () => {
