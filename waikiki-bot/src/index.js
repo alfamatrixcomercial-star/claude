@@ -97,6 +97,7 @@ app.post('/manychat', async (req, res) => {
 
   try {
     const rawReply = await chat(user_id, message);
+    await new Promise(resolve => setTimeout(resolve, 4500));
     const reservation = parseReservation(rawReply);
     const replyText = cleanReply(rawReply);
 
