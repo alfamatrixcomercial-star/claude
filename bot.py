@@ -4,7 +4,7 @@ from datetime import datetime, timezone
 from google_auth import get_google_credentials
 from reviews_client import (
     build_account_service,
-    build_reviews_service,
+    build_reviews_session,
     get_accounts,
     get_locations,
     get_unanswered_reviews,
@@ -43,7 +43,7 @@ def run_bot(dry_run: bool = False, account_index: int = 0, location_index: int =
     cutoff = get_cutoff_date()
 
     account_service = build_account_service(creds)
-    reviews_service = build_reviews_service(creds)
+    reviews_session = build_reviews_session(creds)
 
     accounts = get_accounts(account_service)
     if not accounts:
@@ -63,7 +63,7 @@ def run_bot(dry_run: bool = False, account_index: int = 0, location_index: int =
     print(f"Ubicación: {location.get('title') or location.get('locationName') or location_name}")
 
     print("Buscando reseñas nuevas sin responder...")
-    all_unanswered = get_unanswered_reviews(reviews_service, location_name)
+    all_unanswered = get_unanswered_reviews(reviews_session, location_name)
     unanswered = [r for r in all_unanswered if is_new_review(r, cutoff)]
 
     skipped = len(all_unanswered) - len(unanswered)
@@ -94,5 +94,5 @@ def run_bot(dry_run: bool = False, account_index: int = 0, location_index: int =
         if dry_run:
             print("[DRY RUN] No se publicó la respuesta.\n")
         else:
-            post_reply(reviews_service, review_name, reply)
+            post_reply(reviews_session, review_name, reply)
             print("Respuesta publicada.\n")

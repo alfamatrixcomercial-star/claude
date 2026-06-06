@@ -1,5 +1,8 @@
 from googleapiclient.discovery import build
 from google.oauth2.credentials import Credentials
+from google.auth.transport.requests import AuthorizedSession
+
+REVIEWS_BASE = "https://mybusinessreviews.googleapis.com/v1"
 
 
 def build_account_service(creds: Credentials):
@@ -11,13 +14,8 @@ def build_account_service(creds: Credentials):
     )
 
 
-def build_reviews_service(creds: Credentials):
-    return build(
-        "mybusinessreviews",
-        "v1",
-        credentials=creds,
-        discoveryServiceUrl="https://mybusinessreviews.googleapis.com/$discovery/rest?version=v1",
-    )
+def build_reviews_session(creds: Credentials) -> AuthorizedSession:
+    return AuthorizedSession(creds)
 
 
 def get_accounts(service) -> list[dict]:
@@ -32,31 +30,33 @@ def get_locations(service, account_name: str) -> list[dict]:
     return result.get("locations", [])
 
 
-def get_unanswered_reviews(reviews_service, location_name: str) -> list[dict]:
+def get_unanswered_reviews(session: AuthorizedSession, location_name: str) -> list[dict]:
     unanswered = []
     page_token = None
 
     while True:
-        kwargs = {"parent": location_name, "pageSize": 50}
+        url = f"{REVIEWS_BASE}/{location_name}/reviews"
+        params = {"pageSize": 50}
         if page_token:
-            kwargs["pageToken"] = page_token
+            params["pageToken"] = page_token
 
-        result = reviews_service.locations().reviews().list(**kwargs).execute()
-        reviews = result.get("reviews", [])
+        response = session.get(url, params=params)
+        response.raise_for_status()
+        data = response.json()
 
-        for review in reviews:
+        for review in data.get("reviews", []):
             if not review.get("reviewReply"):
                 unanswered.append(review)
 
-        page_token = result.get("nextPageToken")
+        page_token = data.get("nextPageToken")
         if not page_token:
             break
 
     return unanswered
 
 
-def post_reply(reviews_service, review_name: str, reply_text: str) -> dict:
-    body = {"comment": reply_text}
-    return reviews_service.locations().reviews().updateReply(
-        name=review_name, body=body
-    ).execute()
+def post_reply(session: AuthorizedSession, review_name: str, reply_text: str) -> dict:
+    url = f"{REVIEWS_BASE}/{review_name}/reply"
+    response = session.put(url, json={"comment": reply_text})
+    response.raise_for_status()
+    return response.json()
