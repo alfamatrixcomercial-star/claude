@@ -1,17 +1,25 @@
 const { google } = require('googleapis');
 const config = require('./config');
 
+function sheetsConfigurado() {
+  return !!(config.GOOGLE_SHEET_ID && config.GOOGLE_SERVICE_ACCOUNT_EMAIL && config.GOOGLE_PRIVATE_KEY);
+}
+
 function getAuth() {
   return new google.auth.GoogleAuth({
     credentials: {
       client_email: config.GOOGLE_SERVICE_ACCOUNT_EMAIL,
-      private_key: config.GOOGLE_PRIVATE_KEY.replace(/\\n/g, '\n'),
+      private_key: (config.GOOGLE_PRIVATE_KEY || '').replace(/\\n/g, '\n'),
     },
     scopes: ['https://www.googleapis.com/auth/spreadsheets'],
   });
 }
 
 async function saveReservation(data) {
+  if (!sheetsConfigurado()) {
+    console.log('Google Sheets no configurado, reserva no guardada en planilla.');
+    return;
+  }
   const auth = getAuth();
   const sheets = google.sheets({ version: 'v4', auth });
 
@@ -46,6 +54,10 @@ async function saveReservation(data) {
 }
 
 async function initSheet() {
+  if (!sheetsConfigurado()) {
+    console.log('Google Sheets no configurado, se omite.');
+    return;
+  }
   try {
     const auth = getAuth();
     const sheets = google.sheets({ version: 'v4', auth });
