@@ -160,6 +160,15 @@ app.post('/manychat', async (req, res) => {
   }
 });
 
+// Error handler global — evita que el servidor crashee
+app.use((err, req, res, next) => {
+  console.error('Error global:', err.message);
+  res.status(200).json({ response: '¡Hola! Gracias por comunicarse con Mirador Waikiki. ¿En qué podemos ayudarle? 🌊' });
+});
+
+process.on('uncaughtException', (err) => console.error('uncaughtException:', err.message));
+process.on('unhandledRejection', (reason) => console.error('unhandledRejection:', reason));
+
 // ──────────────────────────────────────
 // Inicio del servidor
 // ──────────────────────────────────────
