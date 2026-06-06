@@ -1,3 +1,6 @@
+import json
+import os
+from datetime import datetime, timezone
 from google_auth import get_google_credentials
 from reviews_client import (
     build_account_service,
@@ -9,10 +12,35 @@ from reviews_client import (
 )
 from ai_responder import generate_reply
 
+STATE_FILE = "state.json"
+
+
+def get_cutoff_date() -> datetime:
+    if os.path.exists(STATE_FILE):
+        with open(STATE_FILE, "r") as f:
+            data = json.load(f)
+        return datetime.fromisoformat(data["ignore_before"])
+    else:
+        cutoff = datetime.now(timezone.utc)
+        with open(STATE_FILE, "w") as f:
+            json.dump({"ignore_before": cutoff.isoformat()}, f)
+        print(f"Primera ejecución. Ignorando reseñas anteriores a: {cutoff.strftime('%d/%m/%Y %H:%M')} UTC")
+        return cutoff
+
+
+def is_new_review(review: dict, cutoff: datetime) -> bool:
+    create_time = review.get("createTime")
+    if not create_time:
+        return False
+    review_date = datetime.fromisoformat(create_time.replace("Z", "+00:00"))
+    return review_date >= cutoff
+
 
 def run_bot(dry_run: bool = False, account_index: int = 0, location_index: int = 0):
     print("Autenticando con Google...")
     creds = get_google_credentials()
+
+    cutoff = get_cutoff_date()
 
     account_service = build_account_service(creds)
     reviews_service = build_reviews_service(creds)
@@ -34,14 +62,19 @@ def run_bot(dry_run: bool = False, account_index: int = 0, location_index: int =
     location_name = location["name"]
     print(f"Ubicación: {location.get('title') or location.get('locationName') or location_name}")
 
-    print("Buscando reseñas sin responder...")
-    unanswered = get_unanswered_reviews(reviews_service, location_name)
+    print("Buscando reseñas nuevas sin responder...")
+    all_unanswered = get_unanswered_reviews(reviews_service, location_name)
+    unanswered = [r for r in all_unanswered if is_new_review(r, cutoff)]
+
+    skipped = len(all_unanswered) - len(unanswered)
+    if skipped > 0:
+        print(f"Reseñas antiguas ignoradas: {skipped}")
 
     if not unanswered:
-        print("No hay reseñas pendientes de respuesta.")
+        print("No hay reseñas nuevas pendientes de respuesta.")
         return
 
-    print(f"Encontradas {len(unanswered)} reseña(s) sin responder.\n")
+    print(f"Encontradas {len(unanswered)} reseña(s) nueva(s) sin responder.\n")
 
     for review in unanswered:
         reviewer = review.get("reviewer", {}).get("displayName", "Cliente")
