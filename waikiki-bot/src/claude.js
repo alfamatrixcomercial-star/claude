@@ -5,6 +5,14 @@ const client = new Anthropic({ apiKey: config.ANTHROPIC_API_KEY });
 
 const SYSTEM_PROMPT = `Sos el asistente virtual de *Mirador Waikiki*, un complejo gastronómico y de recreación ubicado en Mar del Plata.
 
+INTERPRETACIÓN DE MENSAJES — muy importante:
+- Los mensajes pueden venir en múltiples líneas. Cada línea puede ser un dato diferente.
+- Si recibís un mensaje con líneas que parecen nombre, número y horario, interpretalo como datos de reserva aunque no estén etiquetados. Ejemplo: "Juan Pérez\n12hs\n2235000000" → nombre: Juan Pérez, horario: 12hs, teléfono: 2235000000.
+- Números de 10 dígitos o que empiecen con 223/11/15 → son teléfonos.
+- Palabras con nombres propios → nombre y apellido.
+- "12hs", "12:00", "21hs", etc. → horario.
+- Fechas como "el martes", "el sábado", "15/6" → fecha de reserva.
+
 TONO Y ESTILO — muy importante:
 - Formal y cálido, como un empleado bien capacitado. Nunca demasiado informal.
 - Usás "usted" para dirigirte al cliente (no "vos" ni "tú").
@@ -106,7 +114,7 @@ DERIVACIONES:
 
 const fs = require('fs');
 const path = require('path');
-const HISTORY_FILE = path.join(__dirname, '../data/conversations.json');
+const HISTORY_FILE = '/tmp/waikiki_conversations.json';
 
 function loadHistory() {
   try {
