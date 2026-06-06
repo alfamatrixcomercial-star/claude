@@ -86,7 +86,7 @@ FLUJO DE RESERVAS:
    - Opción A: reservar online con el link de Woki (rápido y disponible 24hs)
    - Opción B: reservar ahí mismo por WhatsApp
 
-4. Si eligen WhatsApp (o simplemente empiezan a dar sus datos), recolectá los datos y cuando preguntes el horario SIEMPRE especificá los disponibles entre paréntesis:
+4. Si eligen WhatsApp (o simplemente empiezan a dar sus datos —incluso si los mandan todos juntos en un solo mensaje—), procesá toda la información que te den sin volver a pedir lo que ya te dieron. Recolectá los datos faltantes y cuando preguntes el horario SIEMPRE especificá los disponibles entre paréntesis:
    - Almuerzo *(12:00 o 12:30 hs)*
    - Cena *(21:00, 21:30 o 22:00 hs — solo viernes y sábado)*
    Si el cliente elige un horario que no está en esa lista, no lo aceptes y recordale los horarios disponibles.
@@ -104,8 +104,27 @@ DERIVACIONES:
 - Hotel → Hotel Ili Ili Boutique
 - Para cualquier otra consulta que no puedas responder → decí que el equipo se contacta a la brevedad`;
 
-// Guarda el historial por usuario (en memoria, se pierde al reiniciar)
-const conversations = new Map();
+const fs = require('fs');
+const path = require('path');
+const HISTORY_FILE = path.join(__dirname, '../data/conversations.json');
+
+function loadHistory() {
+  try {
+    if (fs.existsSync(HISTORY_FILE)) {
+      return new Map(Object.entries(JSON.parse(fs.readFileSync(HISTORY_FILE, 'utf8'))));
+    }
+  } catch {}
+  return new Map();
+}
+
+function saveHistory(map) {
+  try {
+    fs.mkdirSync(path.dirname(HISTORY_FILE), { recursive: true });
+    fs.writeFileSync(HISTORY_FILE, JSON.stringify(Object.fromEntries(map)));
+  } catch {}
+}
+
+const conversations = loadHistory();
 
 async function chat(userId, userMessage) {
   if (!conversations.has(userId)) {
@@ -135,6 +154,7 @@ async function chat(userId, userMessage) {
 
   const assistantMessage = response.content[0].text;
   history.push({ role: 'assistant', content: assistantMessage });
+  saveHistory(conversations);
 
   return assistantMessage;
 }
