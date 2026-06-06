@@ -99,13 +99,23 @@ app.post('/manychat', async (req, res) => {
   const message = body.last_input_text || body.message;
   const phone = body.whatsapp_phone || body.phone || body.user_phone;
   const user_id = body.id || body.user_id;
+  const lastBotResponse = body.custom_fields?.ai_response;
 
   const sessionKey = user_id || phone || 'unknown';
 
-  console.log(`[ManyChat] sessionKey: ${sessionKey} | msg: ${String(message).substring(0, 80)}`);
+  console.log(`[ManyChat] sessionKey=${sessionKey} | hasHistory=${conversations.has(sessionKey)} | lastBot=${!!lastBotResponse} | msg=${String(message).substring(0, 60)}`);
 
   if (!message) {
     return res.status(200).json({ response: '¡Hola! Gracias por comunicarse con Mirador Waikiki. ¿En qué podemos ayudarle? 🌊' });
+  }
+
+  // Si el servidor se reinició y no tiene historial, reconstruirlo
+  // usando el último mensaje del bot guardado en ManyChat
+  if (!conversations.has(sessionKey) && lastBotResponse) {
+    console.log(`[ManyChat] Reconstruyendo historial desde last bot response`);
+    conversations.set(sessionKey, [
+      { role: 'assistant', content: lastBotResponse }
+    ]);
   }
 
   try {
