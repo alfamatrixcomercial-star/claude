@@ -11,6 +11,9 @@ app.use(express.json({ limit: '5mb' }));
 // Previene procesar el mismo mensaje dos veces (WhatsApp puede reenviar)
 const processedMessages = new Set();
 
+// Previene duplicados en ManyChat (reintento de timeout o doble trigger)
+const manychatProcessed = new Map(); // dedupKey -> { time, response }
+
 // ──────────────────────────────────────
 // Verificación del webhook (Meta lo llama una vez al configurar)
 // ──────────────────────────────────────
@@ -32,6 +35,9 @@ app.get('/webhook', (req, res) => {
 // ──────────────────────────────────────
 app.post('/webhook', async (req, res) => {
   res.sendStatus(200); // Siempre responder rápido a Meta
+
+  // Si ManyChat está configurado, él maneja los mensajes de WhatsApp — evita doble respuesta
+  if (config.MANYCHAT_API_KEY) return;
 
   try {
     const entry = req.body?.entry?.[0];
@@ -108,6 +114,16 @@ app.post('/manychat', async (req, res) => {
     return res.status(200).json({ response: '¡Hola! Gracias por comunicarse con Mirador Waikiki. ¿En qué podemos ayudarle? 🌊' });
   }
 
+  // Deduplicación: si el mismo usuario manda el mismo mensaje en menos de 15 segundos,
+  // devolver la respuesta cacheada sin volver a llamar a Claude
+  const dedupKey = `${sessionKey}:${String(message).substring(0, 100)}`;
+  const cached = manychatProcessed.get(dedupKey);
+  const nowMs = Date.now();
+  if (cached && (nowMs - cached.time) < 15000) {
+    console.log(`[ManyChat] Duplicado detectado para ${sessionKey}, devolviendo respuesta cacheada`);
+    return res.json({ response: cached.response });
+  }
+
   // Si el servidor se reinició y no tiene historial, reconstruirlo
   // usando el último mensaje del bot guardado en ManyChat
   if (!conversations.has(sessionKey) && lastBotResponse) {
@@ -150,6 +166,15 @@ app.post('/manychat', async (req, res) => {
         tipo: 'humano',
         telefono: phone || user_id,
       }, config.MANYCHAT_API_KEY, config.ENZO_PHONE);
+    }
+
+    // Cachear respuesta para deduplicación
+    manychatProcessed.set(dedupKey, { time: Date.now(), response: replyText });
+    if (manychatProcessed.size > 200) {
+      const cutoff = Date.now() - 60000;
+      for (const [k, v] of manychatProcessed) {
+        if (v.time < cutoff) manychatProcessed.delete(k);
+      }
     }
 
     // Guardar historial en campo de ManyChat para sobrevivir reinicios

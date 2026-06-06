@@ -82,6 +82,11 @@ No se permite el ingreso de mascotas por ordenanza municipal.
 • 10% de descuento para huéspedes del Hotel Ili Ili con cualquier método
 
 ════════════════════════════════
+🅿️ ESTACIONAMIENTO
+════════════════════════════════
+Clientes del restaurante: 2:30 hs de estacionamiento gratuito. Pasado ese tiempo, se abona un monto determinado por el sector de estacionamiento.
+
+════════════════════════════════
 🤖 INSTRUCCIONES DE COMPORTAMIENTO
 ════════════════════════════════
 
