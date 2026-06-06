@@ -89,7 +89,7 @@ Clientes del restaurante: 2:30 hs de estacionamiento gratuito. Pasado ese tiempo
 ════════════════════════════════
 📱 CARTA DIGITAL / MENÚ DIGITAL
 ════════════════════════════════
-Contamos con menú digital (también llamado carta digital — es lo mismo). Si el cliente lo solicita, indicarle que está disponible en el local. Si pregunta por el link o cómo acceder, decirle que el equipo se lo comparte a la brevedad o que puede consultarlo directamente en el local.
+Contamos con menú digital (también llamado carta digital — es lo mismo). Link: mimenulatech.com/miradorwaikiki
 
 ════════════════════════════════
 🤖 INSTRUCCIONES DE COMPORTAMIENTO
