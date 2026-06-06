@@ -103,7 +103,7 @@ app.post('/manychat', async (req, res) => {
   console.log(`[ManyChat] sessionKey: ${sessionKey} | msg: ${String(message).substring(0, 80)}`);
 
   if (!message) {
-    return res.status(400).json({ response: 'Error: falta el mensaje.' });
+    return res.status(200).json({ response: '¡Hola! Gracias por comunicarse con Mirador Waikiki. ¿En qué podemos ayudarle? 🌊' });
   }
 
   try {
