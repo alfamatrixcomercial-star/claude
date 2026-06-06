@@ -6,8 +6,7 @@ const { saveReservation, initSheet } = require('./sheets');
 const { notificarEnzo } = require('./notify');
 
 const app = express();
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.json({ limit: '5mb' }));
 
 // Previene procesar el mismo mensaje dos veces (WhatsApp puede reenviar)
 const processedMessages = new Set();
