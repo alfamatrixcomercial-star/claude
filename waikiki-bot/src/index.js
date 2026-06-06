@@ -100,7 +100,7 @@ app.post('/manychat', async (req, res) => {
   const phone = body.whatsapp_phone || body.phone || body.user_phone;
   const user_id = body.id || body.user_id;
 
-  const sessionKey = phone || user_id || 'unknown';
+  const sessionKey = user_id || phone || 'unknown';
 
   console.log(`[ManyChat] sessionKey: ${sessionKey} | msg: ${String(message).substring(0, 80)}`);
 
