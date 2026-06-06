@@ -181,4 +181,4 @@ function cleanReply(text) {
   return text.replace(/##RESERVA##.*?##FIN##/s, '').trim();
 }
 
-module.exports = { chat, parseReservation, cleanReply };
+module.exports = { chat, parseReservation, cleanReply, conversations };

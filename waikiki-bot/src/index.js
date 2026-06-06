@@ -1,7 +1,7 @@
 const express = require('express');
 const config = require('./config');
 const { sendMessage, markAsRead } = require('./whatsapp');
-const { chat, parseReservation, cleanReply } = require('./claude');
+const { chat, parseReservation, cleanReply, conversations } = require('./claude');
 const { saveReservation, initSheet } = require('./sheets');
 const { notificarEnzo } = require('./notify');
 
