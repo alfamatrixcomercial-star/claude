@@ -1,9 +1,8 @@
 from googleapiclient.discovery import build
 from google.oauth2.credentials import Credentials
-from typing import Optional
 
 
-def build_mybusiness_service(creds: Credentials):
+def build_account_service(creds: Credentials):
     return build(
         "mybusinessaccountmanagement",
         "v1",
@@ -14,10 +13,10 @@ def build_mybusiness_service(creds: Credentials):
 
 def build_reviews_service(creds: Credentials):
     return build(
-        "mybusiness",
-        "v4",
+        "mybusinessreviews",
+        "v1",
         credentials=creds,
-        discoveryServiceUrl="https://mybusiness.googleapis.com/$discovery/rest",
+        discoveryServiceUrl="https://mybusinessreviews.googleapis.com/$discovery/rest?version=v1",
     )
 
 
@@ -26,8 +25,8 @@ def get_accounts(service) -> list[dict]:
     return result.get("accounts", [])
 
 
-def get_locations(reviews_service, account_name: str) -> list[dict]:
-    result = reviews_service.accounts().locations().list(
+def get_locations(service, account_name: str) -> list[dict]:
+    result = service.accounts().locations().list(
         parent=account_name
     ).execute()
     return result.get("locations", [])
@@ -42,7 +41,7 @@ def get_unanswered_reviews(reviews_service, location_name: str) -> list[dict]:
         if page_token:
             kwargs["pageToken"] = page_token
 
-        result = reviews_service.accounts().locations().reviews().list(**kwargs).execute()
+        result = reviews_service.locations().reviews().list(**kwargs).execute()
         reviews = result.get("reviews", [])
 
         for review in reviews:
@@ -58,11 +57,6 @@ def get_unanswered_reviews(reviews_service, location_name: str) -> list[dict]:
 
 def post_reply(reviews_service, review_name: str, reply_text: str) -> dict:
     body = {"comment": reply_text}
-    result = (
-        reviews_service.accounts()
-        .locations()
-        .reviews()
-        .updateReply(name=review_name, body=body)
-        .execute()
-    )
-    return result
+    return reviews_service.locations().reviews().updateReply(
+        name=review_name, body=body
+    ).execute()

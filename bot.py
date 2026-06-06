@@ -1,6 +1,6 @@
 from google_auth import get_google_credentials
 from reviews_client import (
-    build_mybusiness_service,
+    build_account_service,
     build_reviews_service,
     get_accounts,
     get_locations,
@@ -14,7 +14,7 @@ def run_bot(dry_run: bool = False, account_index: int = 0, location_index: int =
     print("Autenticando con Google...")
     creds = get_google_credentials()
 
-    account_service = build_mybusiness_service(creds)
+    account_service = build_account_service(creds)
     reviews_service = build_reviews_service(creds)
 
     accounts = get_accounts(account_service)
@@ -25,16 +25,17 @@ def run_bot(dry_run: bool = False, account_index: int = 0, location_index: int =
     account = accounts[account_index]
     print(f"Cuenta: {account.get('accountName') or account.get('name')}")
 
-    locations = get_locations(reviews_service, account["name"])
+    locations = get_locations(account_service, account["name"])
     if not locations:
         print("No se encontraron ubicaciones en esta cuenta.")
         return
 
     location = locations[location_index]
-    print(f"Ubicación: {location.get('locationName') or location.get('name')}")
+    location_name = location["name"]
+    print(f"Ubicación: {location.get('title') or location.get('locationName') or location_name}")
 
     print("Buscando reseñas sin responder...")
-    unanswered = get_unanswered_reviews(reviews_service, location["name"])
+    unanswered = get_unanswered_reviews(reviews_service, location_name)
 
     if not unanswered:
         print("No hay reseñas pendientes de respuesta.")
