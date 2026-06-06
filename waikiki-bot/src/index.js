@@ -140,7 +140,7 @@ app.post('/manychat', async (req, res) => {
           horario: `${reservation.tipo} ${reservation.horario} hs`,
           fecha: reservation.fecha || '-',
           telefono: tel,
-        }, config.MANYCHAT_API_KEY, config.ENZO_PHONE);
+        }, config.MANYCHAT_API_KEY, config.ENZO_SUBSCRIBER_ID);
       }
     }
 
