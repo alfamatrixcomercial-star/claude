@@ -115,14 +115,18 @@ app.post('/manychat', async (req, res) => {
   }
 
   // Deduplicación: si el mismo usuario manda el mismo mensaje en menos de 15 segundos,
-  // devolver la respuesta cacheada sin volver a llamar a Claude
+  // devolver vacío para que ManyChat no envíe un mensaje duplicado.
+  // El caché se setea ANTES de llamar a Claude para evitar race conditions
+  // cuando ManyChat llama dos veces en paralelo antes de que la primera termine.
   const dedupKey = `${sessionKey}:${String(message).substring(0, 100)}`;
   const cached = manychatProcessed.get(dedupKey);
   const nowMs = Date.now();
   if (cached && (nowMs - cached.time) < 15000) {
-    console.log(`[ManyChat] Duplicado detectado para ${sessionKey}, devolviendo respuesta cacheada`);
-    return res.json({ response: cached.response });
+    console.log(`[ManyChat] Duplicado detectado para ${sessionKey}, descartando`);
+    return res.json({ response: '' });
   }
+  // Registrar inmediatamente antes de awaitar Claude
+  manychatProcessed.set(dedupKey, { time: nowMs, response: '' });
 
   // Si el servidor se reinició y no tiene historial, reconstruirlo
   // usando el último mensaje del bot guardado en ManyChat
