@@ -88,19 +88,26 @@ app.post('/webhook', async (req, res) => {
 // Endpoint para ManyChat (External Request)
 // ──────────────────────────────────────
 app.post('/manychat', async (req, res) => {
-  const { message, user_id, phone } = req.body;
+  const { message, user_id, phone, contexto } = req.body;
 
-  // Usar phone como clave principal (siempre real en WhatsApp)
-  // Si subscriber_id no está resuelto (llega como literal "{{subscriber_id}}"), cae al phone
   const sessionKey = (phone && !phone.includes('{{')) ? phone
     : (user_id && !user_id.includes('{{')) ? user_id
     : 'unknown';
 
-  console.log(`[ManyChat] raw body:`, JSON.stringify(req.body));
-  console.log(`[ManyChat] sessionKey: ${sessionKey} | msg: ${message}`);
+  console.log(`[ManyChat] sessionKey: ${sessionKey} | msg: ${message} | contexto: ${contexto ? 'sí' : 'no'}`);
 
   if (!message) {
     return res.status(400).json({ response: 'Error: falta el mensaje.' });
+  }
+
+  // Si hay contexto previo y el servidor no tiene historial, reconstruirlo
+  if (contexto && !conversations.has(sessionKey)) {
+    try {
+      const previos = JSON.parse(contexto);
+      if (Array.isArray(previos)) {
+        conversations.set(sessionKey, previos);
+      }
+    } catch {}
   }
 
   try {
@@ -139,7 +146,9 @@ app.post('/manychat', async (req, res) => {
       }, config.MANYCHAT_API_KEY, config.ENZO_PHONE);
     }
 
-    res.json({ response: replyText });
+    // Guardar historial en campo de ManyChat para sobrevivir reinicios
+    const historial = (conversations.get(sessionKey) || []).slice(-10);
+    res.json({ response: replyText, contexto: JSON.stringify(historial) });
   } catch (error) {
     console.error('Error en /manychat:', error.message);
     res.json({ response: '¡Hola! En este momento no puedo responder. Intentá de nuevo en unos minutos 🙏' });
