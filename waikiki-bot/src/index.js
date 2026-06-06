@@ -108,9 +108,12 @@ app.post('/manychat', async (req, res) => {
 
   const sessionKey = user_id || phone || 'unknown';
 
+  // LOG DIAGNÓSTICO — ver qué manda ManyChat exactamente
   console.log(`[ManyChat] ──────────────────────────────`);
-  console.log(`[ManyChat] sessionKey=${sessionKey}`);
-  console.log(`[ManyChat] message="${String(message).substring(0, 80)}"`);
+  console.log(`[ManyChat] id=${body.id} | user_id=${body.user_id}`);
+  console.log(`[ManyChat] phone=${phone} | sessionKey=${sessionKey}`);
+  console.log(`[ManyChat] last_input_text="${String(body.last_input_text).substring(0,80)}"`);
+  console.log(`[ManyChat] message (usado)="${String(message).substring(0,80)}"`);
   console.log(`[ManyChat] hasHistory=${conversations.has(sessionKey)} | lastBot=${!!lastBotResponse}`);
 
   if (!message) {
