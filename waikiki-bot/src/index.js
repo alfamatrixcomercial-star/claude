@@ -110,7 +110,6 @@ app.post('/manychat', async (req, res) => {
 
   try {
     const rawReply = await chat(sessionKey, message);
-    await new Promise(resolve => setTimeout(resolve, 4500));
 
     const reservation = parseReservation(rawReply);
     const humano = rawReply.match(/##HUMANO##(\{.*?\})##FIN##/s);
