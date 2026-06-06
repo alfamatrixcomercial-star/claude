@@ -108,22 +108,25 @@ app.post('/manychat', async (req, res) => {
 
   const sessionKey = user_id || phone || 'unknown';
 
-  console.log(`[ManyChat] sessionKey=${sessionKey} | hasHistory=${conversations.has(sessionKey)} | lastBot=${!!lastBotResponse} | msg=${String(message).substring(0, 60)}`);
+  console.log(`[ManyChat] ──────────────────────────────`);
+  console.log(`[ManyChat] sessionKey=${sessionKey}`);
+  console.log(`[ManyChat] message="${String(message).substring(0, 80)}"`);
+  console.log(`[ManyChat] hasHistory=${conversations.has(sessionKey)} | lastBot=${!!lastBotResponse}`);
 
   if (!message) {
     return res.status(200).json({ response: '¡Hola! Gracias por comunicarse con Mirador Waikiki. ¿En qué podemos ayudarle? 🌊' });
   }
 
-  // Deduplicación: si el mismo usuario manda el mismo mensaje en menos de 15 segundos,
-  // devolver vacío para que ManyChat no envíe un mensaje duplicado.
+  // Deduplicación: si el mismo usuario manda el mismo mensaje en menos de 10 segundos,
+  // devolver la respuesta cacheada sin rellamar a Claude.
   // El caché se setea ANTES de llamar a Claude para evitar race conditions
   // cuando ManyChat llama dos veces en paralelo antes de que la primera termine.
   const dedupKey = `${sessionKey}:${String(message).substring(0, 100)}`;
   const cached = manychatProcessed.get(dedupKey);
   const nowMs = Date.now();
-  if (cached && (nowMs - cached.time) < 15000) {
-    console.log(`[ManyChat] Duplicado detectado para ${sessionKey}, descartando`);
-    return res.json({ response: '' });
+  if (cached && (nowMs - cached.time) < 10000) {
+    console.log(`[ManyChat] Duplicado para ${sessionKey} msg="${String(message).substring(0,40)}", cacheado="${String(cached.response).substring(0,40)}"`);
+    return res.json({ response: cached.response || '' });
   }
   // Registrar inmediatamente antes de awaitar Claude
   manychatProcessed.set(dedupKey, { time: nowMs, response: '' });
