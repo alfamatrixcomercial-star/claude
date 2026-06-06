@@ -3,6 +3,7 @@ const config = require('./config');
 const { sendMessage, markAsRead } = require('./whatsapp');
 const { chat, parseReservation, cleanReply } = require('./claude');
 const { saveReservation, initSheet } = require('./sheets');
+const { notificarEnzo } = require('./notify');
 
 const app = express();
 app.use(express.json());
@@ -98,15 +99,37 @@ app.post('/manychat', async (req, res) => {
   try {
     const rawReply = await chat(user_id, message);
     await new Promise(resolve => setTimeout(resolve, 4500));
-    const reservation = parseReservation(rawReply);
-    const replyText = cleanReply(rawReply);
 
+    const reservation = parseReservation(rawReply);
+    const humano = rawReply.match(/##HUMANO##(\{.*?\})##FIN##/s);
+    const replyText = cleanReply(rawReply).replace(/##HUMANO##.*?##FIN##/s, '').trim();
+
+    // Reserva confirmada → guardar en Sheets y notificar a Enzo
     if (reservation) {
+      const tel = reservation.telefono || phone;
       try {
-        await saveReservation({ ...reservation, telefono: reservation.telefono || phone });
+        await saveReservation({ ...reservation, telefono: tel });
       } catch (sheetError) {
         console.error('Error guardando en Sheets:', sheetError.message);
       }
+      if (config.MANYCHAT_API_KEY) {
+        notificarEnzo({
+          tipo: 'reserva',
+          cliente: `${reservation.nombre} ${reservation.apellido}`,
+          personas: reservation.personas,
+          horario: `${reservation.tipo} ${reservation.horario} hs`,
+          fecha: reservation.fecha || '-',
+          telefono: tel,
+        }, config.MANYCHAT_API_KEY, config.ENZO_PHONE);
+      }
+    }
+
+    // Cliente quiere hablar con humano → notificar a Enzo
+    if (humano && config.MANYCHAT_API_KEY) {
+      notificarEnzo({
+        tipo: 'humano',
+        telefono: phone || user_id,
+      }, config.MANYCHAT_API_KEY, config.ENZO_PHONE);
     }
 
     res.json({ response: replyText });
