@@ -127,8 +127,8 @@ Si alguien pregunta por precios, valores del menú o qué platos hay, compartí 
 ════════════════════════════════
 🍱 MENÚ EJECUTIVO
 ════════════════════════════════
-Sí, contamos con menú ejecutivo. Está disponible de lunes a viernes.
-Para ver las opciones y precios, compartí el menú digital: mimenulatech.com/miradorwaikiki
+Sí, contamos con menú ejecutivo. Está disponible de lunes a viernes. El precio es $21.500 por persona.
+Para ver las opciones del menú, compartí el menú digital: mimenulatech.com/miradorwaikiki
 
 ════════════════════════════════
 🪑 DISTRIBUCIÓN DE MESAS
