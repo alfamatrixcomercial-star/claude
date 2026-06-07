@@ -1,21 +1,16 @@
-const fs = require('fs');
-const path = require('path');
-const config = require('./config');
+const db = require('./db');
 
-const FILE = path.join(config.DATA_DIR, 'waikiki_reservations.json');
+const list = [];
 
-function load() {
+async function initReservations() {
   try {
-    if (fs.existsSync(FILE)) return JSON.parse(fs.readFileSync(FILE, 'utf8'));
-  } catch {}
-  return [];
+    const rows = await db.getTable('reservations');
+    list.push(...rows);
+    console.log('[Reservations] Cargadas desde DB:', list.length);
+  } catch (e) {
+    console.error('[Reservations] Error cargando desde DB:', e.message);
+  }
 }
-
-function save(list) {
-  try { fs.writeFileSync(FILE, JSON.stringify(list)); } catch {}
-}
-
-const list = load();
 
 function addReservation(data) {
   const now = new Date().toLocaleString('es-AR', {
@@ -37,13 +32,16 @@ function addReservation(data) {
     mesa: '',
   };
   list.push(res);
-  save(list);
+  db.upsert('reservations', res.id, res).catch(e => console.error('[Reservations] Error guardando:', e.message));
   return res;
 }
 
 function updateReservation(id, fields) {
   const res = list.find(r => r.id === id);
-  if (res) { Object.assign(res, fields); save(list); }
+  if (res) {
+    Object.assign(res, fields);
+    db.upsert('reservations', res.id, res).catch(e => console.error('[Reservations] Error actualizando:', e.message));
+  }
   return res || null;
 }
 
@@ -51,4 +49,4 @@ function getAll() {
   return [...list].reverse();
 }
 
-module.exports = { addReservation, updateReservation, getAll };
+module.exports = { initReservations, addReservation, updateReservation, getAll };

@@ -1,19 +1,16 @@
-const fs = require('fs');
-const path = require('path');
-const config = require('./config');
+const db = require('./db');
 
-const FILE = path.join(config.DATA_DIR, 'waikiki_alerts.json');
+const list = [];
 
-function load() {
-  try { if (fs.existsSync(FILE)) return JSON.parse(fs.readFileSync(FILE, 'utf8')); } catch {}
-  return [];
+async function initAlerts() {
+  try {
+    const rows = await db.getTable('alerts');
+    list.push(...rows);
+    console.log('[Alerts] Cargadas desde DB:', list.length);
+  } catch (e) {
+    console.error('[Alerts] Error cargando desde DB:', e.message);
+  }
 }
-
-function save(list) {
-  try { fs.writeFileSync(FILE, JSON.stringify(list)); } catch {}
-}
-
-const list = load();
 
 function addAlert(data) {
   const now = new Date().toLocaleString('es-AR', {
@@ -23,13 +20,16 @@ function addAlert(data) {
   });
   const alert = { id: Date.now().toString(), timestamp: now, telefono: data.telefono || '-', leida: false };
   list.push(alert);
-  save(list);
+  db.upsert('alerts', alert.id, alert).catch(e => console.error('[Alerts] Error guardando:', e.message));
   return alert;
 }
 
 function markRead(id) {
   const a = list.find(a => a.id === id);
-  if (a) { a.leida = true; save(list); }
+  if (a) {
+    a.leida = true;
+    db.upsert('alerts', a.id, a).catch(e => console.error('[Alerts] Error actualizando:', e.message));
+  }
   return a || null;
 }
 
@@ -37,4 +37,4 @@ function getUnread() {
   return [...list].reverse().filter(a => !a.leida);
 }
 
-module.exports = { addAlert, markRead, getUnread };
+module.exports = { initAlerts, addAlert, markRead, getUnread };

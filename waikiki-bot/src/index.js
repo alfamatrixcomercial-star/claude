@@ -6,8 +6,9 @@ const { sendMessage, markAsRead } = require('./whatsapp');
 const { chat, parseReservation, cleanReply, conversations } = require('./claude');
 const { saveReservation, initSheet } = require('./sheets');
 const { notificarEnzo } = require('./notify');
-const { addReservation, updateReservation, getAll } = require('./reservations');
-const { addAlert, markRead, getUnread } = require('./alerts');
+const db = require('./db');
+const { initReservations, addReservation, updateReservation, getAll } = require('./reservations');
+const { initAlerts, addAlert, markRead, getUnread } = require('./alerts');
 
 const dashboardHTML = fs.readFileSync(path.join(__dirname, 'dashboard.html'), 'utf8');
 
@@ -306,5 +307,12 @@ process.on('unhandledRejection', (reason) => console.error('unhandledRejection:'
 // ──────────────────────────────────────
 app.listen(config.PORT, async () => {
   console.log(`🌊 Waikiki Bot corriendo en puerto ${config.PORT}`);
+  if (process.env.DATABASE_URL) {
+    await db.init();
+    await initReservations();
+    await initAlerts();
+  } else {
+    console.log('[DB] DATABASE_URL no configurado, usando memoria temporal');
+  }
   await initSheet();
 });
