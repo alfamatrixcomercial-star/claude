@@ -32,15 +32,16 @@ function addReservation(data) {
     fechaReserva: data.fecha || '-',
     telefono: data.telefono || '-',
     estado: 'Pendiente',
+    mesa: '',
   };
   list.push(res);
   save(list);
   return res;
 }
 
-function updateStatus(id, estado) {
+function updateReservation(id, fields) {
   const res = list.find(r => r.id === id);
-  if (res) { res.estado = estado; save(list); }
+  if (res) { Object.assign(res, fields); save(list); }
   return res || null;
 }
 
@@ -48,4 +49,4 @@ function getAll() {
   return [...list].reverse();
 }
 
-module.exports = { addReservation, updateStatus, getAll };
+module.exports = { addReservation, updateReservation, getAll };

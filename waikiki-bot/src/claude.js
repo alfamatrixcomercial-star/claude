@@ -93,6 +93,29 @@ Clientes del restaurante: 2:30 hs de estacionamiento gratuito. Pasado ese tiempo
 Contamos con menú digital (también llamado carta digital — es lo mismo). Link: mimenulatech.com/miradorwaikiki
 
 ════════════════════════════════
+🪑 DISTRIBUCIÓN DE MESAS
+════════════════════════════════
+
+El restaurante tiene 37 mesas en total distribuidas en 3 sectores:
+
+SALÓN ALA WAI (17 mesas):
+• Mesas 200, 202, 204, 206, 208, 210, 212, 214, 216, 218, 220, 222, 224, 226 → para 2 a 5 personas
+• Mesas 201, 207, 213 → para 7 a 10 personas
+
+PASILLO (6 mesas):
+• Mesas 3, 58, 60, 64, 66 → para 2 a 5 personas
+• Mesa 62 → para 6 a 8 personas
+
+PANZA (14 mesas):
+• Mesas 40, 36, 28, 24, 16, 12 → para 2 a 4 personas
+• Mesas 34, 32, 30, 22, 20, 18 → para 1 a 2 personas
+• Mesas 11, 17 → para 7 a 10 personas
+
+MESAS GRANDES (6 en total): 201, 207, 213, 62, 11, 17 — solo para grupos de 6 o más personas.
+
+Usá esta información para orientar reservas de grupos grandes. La asignación física de mesa la hace el equipo del restaurante, no el bot.
+
+════════════════════════════════
 🤖 INSTRUCCIONES DE COMPORTAMIENTO
 ════════════════════════════════
 
@@ -199,7 +222,7 @@ function saveHistory(map) {
 
 const conversations = loadHistory();
 
-async function chat(userId, userMessage) {
+async function chat(userId, userMessage, extraContext = '') {
   if (!conversations.has(userId)) {
     conversations.set(userId, []);
   }
@@ -218,10 +241,14 @@ async function chat(userId, userMessage) {
     hour: '2-digit', minute: '2-digit',
   });
 
+  const systemFull = SYSTEM_PROMPT +
+    '\n\nFECHA Y HORA ACTUAL (Buenos Aires): ' + ahora + '. Usá esta información para responder consultas sobre horarios sin pedirle el día al cliente.' +
+    (extraContext ? '\n\n' + extraContext : '');
+
   const response = await client.messages.create({
     model: 'claude-sonnet-4-6',
     max_tokens: 1024,
-    system: SYSTEM_PROMPT + `\n\nFECHA Y HORA ACTUAL (Buenos Aires): ${ahora}. Usá esta información para responder consultas sobre horarios sin pedirle el día al cliente.`,
+    system: systemFull,
     messages: history,
   });
 

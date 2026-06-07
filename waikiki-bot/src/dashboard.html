@@ -13,7 +13,6 @@
       --sand:        #dbd2b5;
       --sand-light:  #e8e1cd;
       --white:       #ffffff;
-      --hover:       #f8f5f0;
       --border:      #cab892;
       --border-light:#ddd3bc;
       --sage:        #6e8f7a;
@@ -35,147 +34,100 @@
     /* ── HEADER ── */
     header {
       position: sticky; top: 0; z-index: 100;
-      background: rgba(219, 210, 181, 0.92);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
+      background: rgba(219,210,181,.94);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
       border-bottom: 1px solid var(--border);
-      padding: 14px 18px 12px;
+      padding: 13px 18px 11px;
     }
     .header-inner { max-width: 640px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
     .header-brand { display: flex; align-items: center; gap: 10px; }
-    .header-logo {
-      width: 36px; height: 36px; border-radius: 10px;
-      background: var(--sage);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 18px;
-    }
-    .header-title { font-size: 17px; font-weight: 800; letter-spacing: -.3px; color: var(--text); }
-    .header-sub { font-size: 11px; color: var(--muted); margin-top: 1px; font-weight: 500; }
-    .header-update {
-      font-size: 11px; color: var(--muted); font-weight: 500;
-      background: var(--white); border: 1px solid var(--border-light);
-      padding: 4px 10px; border-radius: 20px;
-    }
+    .header-logo { width: 36px; height: 36px; border-radius: 10px; background: var(--sage); display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+    .header-title { font-size: 16px; font-weight: 800; letter-spacing: -.3px; }
+    .header-sub { font-size: 11px; color: var(--muted); font-weight: 500; margin-top: 1px; }
+    .header-pill { font-size: 11px; color: var(--muted); font-weight: 500; background: var(--white); border: 1px solid var(--border-light); padding: 4px 10px; border-radius: 20px; white-space: nowrap; }
 
     /* ── STATS ── */
-    .stats-wrap { background: var(--sand); padding: 14px 16px 0; }
-    .stats { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; max-width: 640px; margin: 0 auto; }
-    .stat {
-      background: var(--white); border: 1px solid var(--border-light);
-      border-radius: 16px; padding: 14px 10px 12px; text-align: center;
-      box-shadow: 0 1px 3px rgba(0,0,0,.05);
-    }
+    .stats-wrap { padding: 14px 16px 0; }
+    .stats { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; max-width: 640px; margin: 0 auto; }
+    .stat { background: var(--white); border: 1px solid var(--border-light); border-radius: 16px; padding: 14px 10px 12px; text-align: center; box-shadow: 0 1px 3px rgba(0,0,0,.04); }
     .stat-n { font-size: 28px; font-weight: 800; color: var(--sage); line-height: 1; }
-    .stat-n.red { color: var(--error); }
-    .stat-l { font-size: 10px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .6px; margin-top: 4px; }
+    .stat-n.warn { color: var(--error); }
+    .stat-l { font-size: 10px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .6px; margin-top: 5px; }
 
     /* ── TABS ── */
-    .tabs-wrap { padding: 14px 16px 0; }
-    .tabs { display: flex; gap: 6px; max-width: 640px; margin: 0 auto; background: var(--white); border: 1px solid var(--border-light); border-radius: 14px; padding: 4px; }
-    .tab {
-      flex: 1; padding: 9px 4px; text-align: center; font-size: 13px; font-weight: 600;
-      cursor: pointer; color: var(--muted); border-radius: 10px;
-      transition: all .2s; user-select: none;
-    }
-    .tab.active { background: var(--sage); color: #fff; box-shadow: 0 2px 8px rgba(110,143,122,.35); }
+    .tabs-wrap { padding: 12px 16px 0; }
+    .tabs { display: flex; gap: 5px; max-width: 640px; margin: 0 auto; background: var(--white); border: 1px solid var(--border-light); border-radius: 14px; padding: 4px; }
+    .tab { flex: 1; padding: 9px 4px; text-align: center; font-size: 13px; font-weight: 600; cursor: pointer; color: var(--muted); border-radius: 10px; transition: all .18s; user-select: none; }
+    .tab.active { background: var(--sage); color: #fff; box-shadow: 0 2px 8px rgba(110,143,122,.3); }
 
     /* ── CONTENT ── */
-    .content { padding: 14px 16px 80px; max-width: 640px; margin: 0 auto; }
+    .content { padding: 14px 16px 90px; max-width: 640px; margin: 0 auto; }
 
     /* ── EMPTY ── */
     .empty { text-align: center; padding: 60px 20px; color: var(--muted); }
-    .empty .icon { font-size: 48px; margin-bottom: 12px; }
+    .empty .icon { font-size: 46px; margin-bottom: 12px; }
     .empty p { font-size: 15px; font-weight: 500; }
 
     /* ── GROUP LABEL ── */
-    .group-label {
-      font-size: 10px; font-weight: 700; color: var(--muted);
-      text-transform: uppercase; letter-spacing: .8px;
-      margin: 20px 0 10px; display: flex; align-items: center; gap: 8px;
-    }
-    .group-label:first-child { margin-top: 6px; }
+    .group-label { font-size: 10px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .8px; margin: 20px 0 10px; display: flex; align-items: center; gap: 8px; }
+    .group-label:first-child { margin-top: 4px; }
     .group-label::after { content: ''; flex: 1; height: 1px; background: var(--border-light); }
 
     /* ── CARD ── */
-    .card {
-      background: var(--white);
-      border: 1px solid var(--border-light);
-      border-radius: 18px;
-      padding: 16px;
-      margin-bottom: 10px;
-      box-shadow: 0 1px 4px rgba(0,0,0,.06);
-      position: relative;
-      overflow: hidden;
-      transition: transform .15s, box-shadow .15s;
-    }
-    .card::before {
-      content: '';
-      position: absolute; left: 0; top: 0; bottom: 0;
-      width: 4px;
-      background: var(--pending);
-      border-radius: 18px 0 0 18px;
-    }
+    .card { background: var(--white); border: 1px solid var(--border-light); border-radius: 18px; padding: 16px; margin-bottom: 10px; box-shadow: 0 1px 4px rgba(0,0,0,.06); position: relative; overflow: hidden; animation: fadeUp .2s ease both; }
+    .card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--pending); border-radius: 18px 0 0 18px; }
     .card.Confirmada::before { background: var(--success); }
     .card.Cancelada::before { background: var(--error); }
     .card.Cancelada { opacity: .55; }
 
     /* ── CARD TOP ── */
     .card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
-    .card-name { font-size: 16px; font-weight: 700; line-height: 1.2; color: var(--text); }
-    .card-time-block { text-align: right; }
+    .card-name { font-size: 16px; font-weight: 700; line-height: 1.2; }
+    .card-right { text-align: right; flex-shrink: 0; margin-left: 8px; }
     .card-time { font-size: 22px; font-weight: 800; color: var(--sage); line-height: 1; }
-    .card-time-label { font-size: 10px; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: .5px; margin-top: 2px; }
+    .card-time-lbl { font-size: 10px; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: .4px; margin-top: 2px; }
 
     /* ── BADGE ── */
-    .badge {
-      display: inline-block; padding: 3px 9px;
-      border-radius: 20px; font-size: 10px; font-weight: 700;
-      text-transform: uppercase; letter-spacing: .5px; margin-top: 4px;
-    }
+    .badge { display: inline-block; padding: 3px 9px; border-radius: 20px; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; margin-top: 4px; }
     .badge.Pendiente { background: #fef3c7; color: #92400e; }
     .badge.Confirmada { background: #dcf5da; color: #2d6b28; }
     .badge.Cancelada { background: #fee2e2; color: #991b1b; }
 
     /* ── CARD META ── */
-    .card-meta {
-      display: grid; grid-template-columns: 1fr 1fr;
-      gap: 7px 12px; margin-bottom: 14px;
-    }
+    .card-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 12px; margin-bottom: 14px; }
     .meta-item { display: flex; align-items: center; gap: 5px; font-size: 13px; color: var(--muted); font-weight: 500; }
-    .meta-icon { font-size: 14px; }
     a.phone { color: var(--sage); text-decoration: none; font-weight: 600; }
 
     /* ── DIVIDER ── */
-    .card-divider { height: 1px; background: var(--border-light); margin-bottom: 12px; }
+    .divider { height: 1px; background: var(--border-light); margin-bottom: 12px; }
 
     /* ── ACTIONS ── */
-    .card-actions { display: flex; gap: 8px; }
-    .btn {
-      flex: 1; padding: 10px; border-radius: 12px; border: none;
-      font-size: 13px; font-weight: 700; cursor: pointer;
-      transition: opacity .15s, transform .1s;
-      font-family: inherit;
-    }
+    .card-actions { display: flex; gap: 8px; margin-bottom: 12px; }
+    .btn { flex: 1; padding: 10px; border-radius: 12px; border: none; font-size: 13px; font-weight: 700; cursor: pointer; transition: opacity .15s, transform .1s; font-family: inherit; }
     .btn:active { transform: scale(.97); opacity: .85; }
     .btn:disabled { opacity: .25; cursor: default; transform: none; }
     .btn-ok { background: var(--sage); color: #fff; }
     .btn-ko { background: #fee2e2; color: var(--error); }
 
-    /* ── FOOTER ── */
-    .footer {
-      position: fixed; bottom: 0; left: 0; right: 0;
-      background: rgba(219,210,181,.92); backdrop-filter: blur(10px);
-      border-top: 1px solid var(--border-light);
-      text-align: center; padding: 10px 16px;
-      font-size: 11px; color: var(--muted); font-weight: 500;
-    }
+    /* ── MESA ── */
+    .mesa-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .mesa-chip { display: inline-flex; align-items: center; gap: 5px; padding: 5px 11px 5px 9px; border-radius: 20px; font-size: 12px; font-weight: 600; cursor: pointer; border: 1px solid var(--border-light); background: var(--sand); color: var(--muted); transition: all .15s; user-select: none; }
+    .mesa-chip:hover { background: var(--sand-light); border-color: var(--border); }
+    .mesa-chip.set { background: #e6f4e8; border-color: #9ecfa0; color: var(--success); }
+    .mesa-caret { font-size: 10px; opacity: .6; }
 
-    /* ── ANIMATIONS ── */
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(10px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-    .card { animation: fadeUp .25s ease both; }
+    .mesa-panel { display: none; margin-top: 10px; background: var(--sand); border: 1px solid var(--border-light); border-radius: 14px; padding: 12px; }
+    .mesa-panel.open { display: block; }
+    .mesa-panel-title { font-size: 10px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .6px; margin-bottom: 8px; }
+    .mesa-select { width: 100%; border: 1px solid var(--border); border-radius: 10px; padding: 9px 10px; font-size: 13px; background: var(--white); font-family: inherit; color: var(--text); margin-bottom: 8px; }
+    .mesa-actions { display: flex; gap: 7px; }
+    .mesa-actions .btn { padding: 9px 12px; font-size: 12px; }
+
+    /* ── FOOTER ── */
+    .footer { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(219,210,181,.93); backdrop-filter: blur(10px); border-top: 1px solid var(--border-light); text-align: center; padding: 11px 16px; font-size: 11px; color: var(--muted); font-weight: 500; }
+
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
   </style>
 </head>
 <body>
@@ -189,24 +141,15 @@
         <div class="header-sub">Panel de reservas</div>
       </div>
     </div>
-    <div class="header-update" id="last-update">Cargando...</div>
+    <div class="header-pill" id="last-update">Cargando...</div>
   </div>
 </header>
 
 <div class="stats-wrap">
   <div class="stats">
-    <div class="stat">
-      <div class="stat-n" id="s-hoy">—</div>
-      <div class="stat-l">Hoy</div>
-    </div>
-    <div class="stat">
-      <div class="stat-n" id="s-pend">—</div>
-      <div class="stat-l">Pendientes</div>
-    </div>
-    <div class="stat">
-      <div class="stat-n" id="s-conf">—</div>
-      <div class="stat-l">Confirmadas</div>
-    </div>
+    <div class="stat"><div class="stat-n" id="s-hoy">—</div><div class="stat-l">Hoy</div></div>
+    <div class="stat"><div class="stat-n" id="s-pend">—</div><div class="stat-l">Pendientes</div></div>
+    <div class="stat"><div class="stat-n" id="s-conf">—</div><div class="stat-l">Confirmadas</div></div>
   </div>
 </div>
 
@@ -219,7 +162,7 @@
 </div>
 
 <div class="content" id="content">
-  <div class="empty"><div class="icon">⏳</div><p>Cargando reservas...</p></div>
+  <div class="empty"><div class="icon">⏳</div><p>Cargando...</p></div>
 </div>
 
 <div class="footer">Actualización automática cada 30 seg</div>
@@ -229,17 +172,59 @@
   let tab = 'hoy';
   let data = [];
 
+  // ── TABLA DE MESAS ──────────────────────────────────────
+  const TABLES = [
+    // Salón Ala Wai — estándar (2-5 pax)
+    {n:200,s:'Ala Wai',min:2,max:5},{n:202,s:'Ala Wai',min:2,max:5},{n:204,s:'Ala Wai',min:2,max:5},
+    {n:206,s:'Ala Wai',min:2,max:5},{n:208,s:'Ala Wai',min:2,max:5},{n:210,s:'Ala Wai',min:2,max:5},
+    {n:212,s:'Ala Wai',min:2,max:5},{n:214,s:'Ala Wai',min:2,max:5},{n:216,s:'Ala Wai',min:2,max:5},
+    {n:218,s:'Ala Wai',min:2,max:5},{n:220,s:'Ala Wai',min:2,max:5},{n:222,s:'Ala Wai',min:2,max:5},
+    {n:224,s:'Ala Wai',min:2,max:5},{n:226,s:'Ala Wai',min:2,max:5},
+    // Salón Ala Wai — grandes (7-10 pax)
+    {n:201,s:'Ala Wai',min:7,max:10},{n:207,s:'Ala Wai',min:7,max:10},{n:213,s:'Ala Wai',min:7,max:10},
+    // Pasillo — estándar (2-5 pax)
+    {n:3,s:'Pasillo',min:2,max:5},{n:58,s:'Pasillo',min:2,max:5},{n:60,s:'Pasillo',min:2,max:5},
+    {n:64,s:'Pasillo',min:2,max:5},{n:66,s:'Pasillo',min:2,max:5},
+    // Pasillo — media (6-8 pax)
+    {n:62,s:'Pasillo',min:6,max:8},
+    // Panza — media (2-4 pax)
+    {n:40,s:'Panza',min:2,max:4},{n:36,s:'Panza',min:2,max:4},{n:28,s:'Panza',min:2,max:4},
+    {n:24,s:'Panza',min:2,max:4},{n:16,s:'Panza',min:2,max:4},{n:12,s:'Panza',min:2,max:4},
+    // Panza — pequeña (1-2 pax)
+    {n:34,s:'Panza',min:1,max:2},{n:32,s:'Panza',min:1,max:2},{n:30,s:'Panza',min:1,max:2},
+    {n:22,s:'Panza',min:1,max:2},{n:20,s:'Panza',min:1,max:2},{n:18,s:'Panza',min:1,max:2},
+    // Panza — grandes (7-10 pax)
+    {n:11,s:'Panza',min:7,max:10},{n:17,s:'Panza',min:7,max:10},
+  ];
+
+  function mesaOpts(personas) {
+    const pax = parseInt(personas) || 0;
+    const rec   = TABLES.filter(t => pax >= t.min && pax <= t.max);
+    const other = TABLES.filter(t => !(pax >= t.min && pax <= t.max));
+    let html = '<option value="">Sin asignar</option>';
+    if (rec.length) {
+      html += '<optgroup label="' + (pax ? '★ Recomendadas (' + pax + ' pax)' : '★ Recomendadas') + '">';
+      rec.forEach(t => { html += '<option value="' + t.n + '">' + t.n + ' · ' + t.s + ' (' + t.min + '–' + t.max + ' pax)</option>'; });
+      html += '</optgroup>';
+    }
+    const sectors = [...new Set(other.map(t => t.s))];
+    sectors.forEach(sec => {
+      const ts = other.filter(t => t.s === sec);
+      html += '<optgroup label="' + sec + '">';
+      ts.forEach(t => { html += '<option value="' + t.n + '">' + t.n + ' (' + t.min + '–' + t.max + ' pax)</option>'; });
+      html += '</optgroup>';
+    });
+    return html;
+  }
+
   function arDate(offset) {
-    const d = new Date();
-    d.setDate(d.getDate() + (offset || 0));
+    const d = new Date(); d.setDate(d.getDate() + (offset || 0));
     return d.toLocaleDateString('es-AR', { timeZone: 'America/Argentina/Buenos_Aires', day: '2-digit', month: '2-digit' });
   }
 
   function setTab(el) {
     document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-    el.classList.add('active');
-    tab = el.dataset.tab;
-    render();
+    el.classList.add('active'); tab = el.dataset.tab; render();
   }
 
   function filter() {
@@ -259,10 +244,7 @@
 
   function grouped(list) {
     const g = {};
-    for (const r of list) {
-      const k = r.fechaReserva || 'Sin fecha';
-      (g[k] = g[k] || []).push(r);
-    }
+    for (const r of list) { const k = r.fechaReserva || 'Sin fecha'; (g[k] = g[k] || []).push(r); }
     return g;
   }
 
@@ -272,6 +254,13 @@
     const tel = r.telefono && r.telefono !== '-'
       ? '<a class="phone" href="tel:' + r.telefono + '">' + r.telefono + '</a>'
       : '<span>—</span>';
+
+    const mesaInfo = r.mesa ? TABLES.find(t => t.n == r.mesa) : null;
+    const mesaText = r.mesa
+      ? '🪑 Mesa ' + r.mesa + (mesaInfo ? ' · ' + mesaInfo.s : '')
+      : '🪑 Sin mesa';
+    const mesaClass = 'mesa-chip' + (r.mesa ? ' set' : '');
+
     return (
       '<div class="card ' + r.estado + '" id="c' + r.id + '">' +
         '<div class="card-top">' +
@@ -279,43 +268,70 @@
             '<div class="card-name">' + r.nombre + '</div>' +
             '<span class="badge ' + r.estado + '">' + r.estado + '</span>' +
           '</div>' +
-          '<div class="card-time-block">' +
+          '<div class="card-right">' +
             '<div class="card-time">' + (r.horario || '—') + '</div>' +
-            '<div class="card-time-label">hs</div>' +
+            '<div class="card-time-lbl">hs</div>' +
           '</div>' +
         '</div>' +
         '<div class="card-meta">' +
-          '<div class="meta-item"><span class="meta-icon">👥</span>' + r.personas + ' persona(s)</div>' +
-          '<div class="meta-item"><span class="meta-icon">🍽️</span>' + menuLabel + '</div>' +
-          '<div class="meta-item"><span class="meta-icon">📅</span>' + r.fechaReserva + '</div>' +
-          '<div class="meta-item"><span class="meta-icon">📞</span>' + tel + '</div>' +
+          '<div class="meta-item">👥 ' + r.personas + ' persona(s)</div>' +
+          '<div class="meta-item">🍽️ ' + menuLabel + '</div>' +
+          '<div class="meta-item">📅 ' + r.fechaReserva + '</div>' +
+          '<div class="meta-item">📞 ' + tel + '</div>' +
         '</div>' +
-        '<div class="card-divider"></div>' +
+        '<div class="divider"></div>' +
         '<div class="card-actions">' +
           '<button class="btn btn-ok" onclick="upd(\'' + r.id + '\',\'Confirmada\')" ' + (r.estado !== 'Pendiente' ? 'disabled' : '') + '>✓ Confirmar</button>' +
           '<button class="btn btn-ko" onclick="upd(\'' + r.id + '\',\'Cancelada\')" ' + (r.estado === 'Cancelada' ? 'disabled' : '') + '>✕ Cancelar</button>' +
         '</div>' +
+        '<div class="mesa-row">' +
+          '<span class="' + mesaClass + '" onclick="toggleMesa(\'' + r.id + '\')">' +
+            mesaText + ' <span class="mesa-caret">▾</span>' +
+          '</span>' +
+        '</div>' +
+        '<div class="mesa-panel" id="mp-' + r.id + '">' +
+          '<div class="mesa-panel-title">Asignar mesa</div>' +
+          '<select class="mesa-select" id="ms-' + r.id + '">' + mesaOpts(r.personas) + '</select>' +
+          '<div class="mesa-actions">' +
+            '<button class="btn btn-ok" onclick="saveMesa(\'' + r.id + '\')">✓ Guardar</button>' +
+            '<button class="btn btn-ko" onclick="toggleMesa(\'' + r.id + '\')">✕ Cerrar</button>' +
+          '</div>' +
+        '</div>' +
       '</div>'
     );
+  }
+
+  function toggleMesa(id) {
+    const panel = document.getElementById('mp-' + id);
+    panel.classList.toggle('open');
+    if (panel.classList.contains('open')) {
+      const r = data.find(r => r.id === id);
+      if (r) document.getElementById('ms-' + id).value = r.mesa || '';
+    }
+  }
+
+  async function saveMesa(id) {
+    const mesa = document.getElementById('ms-' + id).value;
+    const res = await fetch('/api/reservas/' + id + '?token=' + TOKEN, {
+      method: 'PATCH', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ mesa })
+    }).then(r => r.json()).catch(() => null);
+    if (res) { const i = data.findIndex(r => r.id === id); if (i >= 0) data[i] = res; render(); }
   }
 
   function stats() {
     const hoy = arDate(0);
     document.getElementById('s-hoy').textContent = data.filter(r => r.fechaReserva === hoy).length;
     const pend = data.filter(r => r.estado === 'Pendiente').length;
-    const pendEl = document.getElementById('s-pend');
-    pendEl.textContent = pend;
-    pendEl.classList.toggle('red', pend > 0);
+    const el = document.getElementById('s-pend');
+    el.textContent = pend; el.classList.toggle('warn', pend > 0);
     document.getElementById('s-conf').textContent = data.filter(r => r.estado === 'Confirmada').length;
   }
 
   function render() {
     const list = sorted(filter());
     const el = document.getElementById('content');
-    if (!list.length) {
-      el.innerHTML = '<div class="empty"><div class="icon">📭</div><p>Sin reservas para mostrar</p></div>';
-      return;
-    }
+    if (!list.length) { el.innerHTML = '<div class="empty"><div class="icon">📭</div><p>Sin reservas para mostrar</p></div>'; return; }
     const g = grouped(list);
     const hoy = arDate(0), man = arDate(1);
     let html = '';
@@ -331,30 +347,18 @@
 
   async function upd(id, estado) {
     const res = await fetch('/api/reservas/' + id + '?token=' + TOKEN, {
-      method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
+      method: 'PATCH', headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ estado })
     }).then(r => r.json()).catch(() => null);
-    if (res) {
-      const i = data.findIndex(r => r.id === id);
-      if (i >= 0) data[i] = res;
-      stats(); render();
-    }
+    if (res) { const i = data.findIndex(r => r.id === id); if (i >= 0) data[i] = res; stats(); render(); }
   }
 
   async function load() {
     const res = await fetch('/api/reservas?token=' + TOKEN).catch(() => null);
-    if (!res || !res.ok) {
-      document.getElementById('content').innerHTML = '<div class="empty"><div class="icon">🔒</div><p>Token inválido</p></div>';
-      return;
-    }
+    if (!res || !res.ok) { document.getElementById('content').innerHTML = '<div class="empty"><div class="icon">🔒</div><p>Token inválido</p></div>'; return; }
     data = await res.json();
-    stats();
-    render();
-    const t = new Date().toLocaleTimeString('es-AR', {
-      timeZone: 'America/Argentina/Buenos_Aires',
-      hour: '2-digit', minute: '2-digit'
-    });
+    stats(); render();
+    const t = new Date().toLocaleTimeString('es-AR', { timeZone: 'America/Argentina/Buenos_Aires', hour: '2-digit', minute: '2-digit' });
     document.getElementById('last-update').textContent = t;
   }
 

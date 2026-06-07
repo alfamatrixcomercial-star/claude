@@ -6,7 +6,7 @@ const { sendMessage, markAsRead } = require('./whatsapp');
 const { chat, parseReservation, cleanReply, conversations } = require('./claude');
 const { saveReservation, initSheet } = require('./sheets');
 const { notificarEnzo } = require('./notify');
-const { addReservation, updateStatus, getAll } = require('./reservations');
+const { addReservation, updateReservation, getAll } = require('./reservations');
 
 const dashboardHTML = fs.readFileSync(path.join(__dirname, 'dashboard.html'), 'utf8');
 
@@ -149,7 +149,7 @@ app.post('/manychat', async (req, res) => {
   }
 
   try {
-    const rawReply = await chat(sessionKey, message);
+    const rawReply = await chat(sessionKey, message, buildOccupancyContext());
 
     const reservation = parseReservation(rawReply);
     const humano = rawReply.match(/##HUMANO##(\{.*?\})##FIN##/s);
@@ -200,6 +200,48 @@ app.post('/manychat', async (req, res) => {
 });
 
 // ──────────────────────────────────────
+// Contexto de ocupación para el bot
+// ──────────────────────────────────────
+const TOTAL_MESAS = 37;
+const MESAS_GRANDES = 6; // 201,207,213,62,11,17
+
+function buildOccupancyContext() {
+  const all = getAll();
+  const todayAR = new Date().toLocaleDateString('es-AR', {
+    timeZone: 'America/Argentina/Buenos_Aires', day: '2-digit', month: '2-digit',
+  });
+
+  const slots = {};
+  for (const r of all) {
+    if (r.estado === 'Cancelada' || !r.fechaReserva || r.fechaReserva === '-') continue;
+    const shift = r.horario && r.horario >= '18:00' ? 'noche' : 'mediodia';
+    const key = r.fechaReserva + '|' + shift;
+    if (!slots[key]) slots[key] = { total: 0, grandes: 0 };
+    slots[key].total++;
+    if (parseInt(r.personas) >= 6) slots[key].grandes++;
+  }
+
+  const future = Object.entries(slots)
+    .filter(([k]) => k.split('|')[0] >= todayAR)
+    .sort((a, b) => a[0].localeCompare(b[0]));
+
+  if (!future.length) return 'OCUPACION: Sin reservas futuras. Disponibilidad completa en todas las fechas.';
+
+  const lines = ['OCUPACION EN TIEMPO REAL (no mostrar al cliente — solo para tomar decisiones):'];
+  for (const [key, { total, grandes }] of future) {
+    const [date, shift] = key.split('|');
+    const pct = Math.round(total / TOTAL_MESAS * 100);
+    const turno = shift === 'noche' ? 'cena' : 'almuerzo';
+    let alert = '';
+    if (pct >= 90) alert = ' LLENO — no aceptar mas reservas salvo cancelaciones';
+    else if (pct >= 70) alert = ' CASI LLENO — mencionar que los cupos son limitados';
+    let grandesAlert = grandes >= MESAS_GRANDES ? ' | MESAS GRANDES: todas ocupadas (grupos 6+ solo por orden de llegada)' : '';
+    lines.push('  ' + date + ' ' + turno + ': ' + total + '/' + TOTAL_MESAS + ' mesas (' + pct + '%)' + alert + grandesAlert);
+  }
+  return lines.join('\n');
+}
+
+// ──────────────────────────────────────
 // Dashboard de reservas
 // ──────────────────────────────────────
 function checkToken(req, res) {
@@ -221,11 +263,17 @@ app.get('/api/reservas', (req, res) => {
 
 app.patch('/api/reservas/:id', (req, res) => {
   if (!checkToken(req, res)) return;
-  const { estado } = req.body;
-  if (!['Confirmada', 'Cancelada', 'Pendiente'].includes(estado)) {
-    return res.status(400).json({ error: 'Estado inválido' });
+  const { estado, mesa } = req.body;
+  const fields = {};
+  if (estado !== undefined) {
+    if (!['Confirmada', 'Cancelada', 'Pendiente'].includes(estado)) {
+      return res.status(400).json({ error: 'Estado inválido' });
+    }
+    fields.estado = estado;
   }
-  const updated = updateStatus(req.params.id, estado);
+  if (mesa !== undefined) fields.mesa = mesa;
+  if (!Object.keys(fields).length) return res.status(400).json({ error: 'Nada que actualizar' });
+  const updated = updateReservation(req.params.id, fields);
   if (!updated) return res.status(404).json({ error: 'Reserva no encontrada' });
   res.json(updated);
 });
