@@ -119,6 +119,12 @@ Contamos con menú digital (también llamado carta digital — es lo mismo). Lin
 Si alguien pregunta por precios, valores del menú o qué platos hay, compartí este link directamente.
 
 ════════════════════════════════
+🍱 MENÚ EJECUTIVO
+════════════════════════════════
+Sí, contamos con menú ejecutivo. Está disponible de lunes a viernes.
+Para ver las opciones y precios, compartí el menú digital: mimenulatech.com/miradorwaikiki
+
+════════════════════════════════
 🪑 DISTRIBUCIÓN DE MESAS
 ════════════════════════════════
 
