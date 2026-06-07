@@ -1,9 +1,14 @@
 const express = require('express');
+const fs = require('fs');
+const path = require('path');
 const config = require('./config');
 const { sendMessage, markAsRead } = require('./whatsapp');
 const { chat, parseReservation, cleanReply, conversations } = require('./claude');
 const { saveReservation, initSheet } = require('./sheets');
 const { notificarEnzo } = require('./notify');
+const { addReservation, updateStatus, getAll } = require('./reservations');
+
+const dashboardHTML = fs.readFileSync(path.join(__dirname, 'dashboard.html'), 'utf8');
 
 const app = express();
 app.use(express.json({ limit: '5mb' }));
@@ -158,6 +163,7 @@ app.post('/manychat', async (req, res) => {
       } catch (sheetError) {
         console.error('Error guardando en Sheets:', sheetError.message);
       }
+      addReservation({ ...reservation, telefono: tel });
       await notificarEnzo({
         tipo: 'reserva',
         cliente: `${reservation.nombre} ${reservation.apellido}`,
@@ -191,6 +197,37 @@ app.post('/manychat', async (req, res) => {
     console.error('Error en /manychat:', error.message);
     res.json({ response: '¡Hola! En este momento no puedo responder. Intentá de nuevo en unos minutos 🙏' });
   }
+});
+
+// ──────────────────────────────────────
+// Dashboard de reservas
+// ──────────────────────────────────────
+function checkToken(req, res) {
+  const token = req.query.token || req.headers['x-admin-token'];
+  if (token !== config.ADMIN_TOKEN) { res.status(401).json({ error: 'Token inválido' }); return false; }
+  return true;
+}
+
+app.get('/reservas', (req, res) => {
+  if (!checkToken(req, res)) return;
+  res.setHeader('Content-Type', 'text/html');
+  res.send(dashboardHTML);
+});
+
+app.get('/api/reservas', (req, res) => {
+  if (!checkToken(req, res)) return;
+  res.json(getAll());
+});
+
+app.patch('/api/reservas/:id', (req, res) => {
+  if (!checkToken(req, res)) return;
+  const { estado } = req.body;
+  if (!['Confirmada', 'Cancelada', 'Pendiente'].includes(estado)) {
+    return res.status(400).json({ error: 'Estado inválido' });
+  }
+  const updated = updateStatus(req.params.id, estado);
+  if (!updated) return res.status(404).json({ error: 'Reserva no encontrada' });
+  res.json(updated);
 });
 
 // Error handler global — evita que el servidor crashee
