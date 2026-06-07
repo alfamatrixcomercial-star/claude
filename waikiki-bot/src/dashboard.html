@@ -139,11 +139,12 @@
 
   function card(r) {
     const tipo = r.tipo ? r.tipo[0].toUpperCase() + r.tipo.slice(1) : '—';
+    const menuLabel = r.menu === 'sushi' ? ' 🍣 Sushi' : r.menu === 'carta' ? ' 📋 Carta' : '';
     const tel = r.telefono !== '-' ? '<a class="phone" href="tel:' + r.telefono + '">' + r.telefono + '</a>' : '—';
     return '<div class="card ' + r.estado + '" id="c' + r.id + '">' +
       '<div class="card-top"><div><div class="card-name">' + r.nombre + '</div><span class="badge ' + r.estado + '">' + r.estado + '</span></div>' +
       '<div class="card-time">' + (r.horario || '—') + ' hs</div></div>' +
-      '<div class="card-meta"><span>👥 ' + r.personas + ' persona(s)</span><span>🍽️ ' + tipo + '</span>' +
+      '<div class="card-meta"><span>👥 ' + r.personas + ' persona(s)</span><span>🍽️ ' + tipo + menuLabel + '</span>' +
       '<span>📅 ' + r.fechaReserva + '</span><span>📞 ' + tel + '</span></div>' +
       '<div class="card-actions">' +
       '<button class="btn btn-ok" onclick="upd(\'' + r.id + '\',\'Confirmada\')" ' + (r.estado !== 'Pendiente' ? 'disabled' : '') + '>✓ Confirmar</button>' +

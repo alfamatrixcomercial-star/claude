@@ -27,6 +27,7 @@ function addReservation(data) {
     nombre: `${data.nombre || ''} ${data.apellido || ''}`.trim(),
     personas: data.personas || '-',
     tipo: data.tipo || '',
+    menu: data.menu || '',
     horario: data.horario || '-',
     fechaReserva: data.fecha || '-',
     telefono: data.telefono || '-',
