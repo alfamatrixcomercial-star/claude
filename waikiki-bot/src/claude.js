@@ -28,6 +28,8 @@ TONO Y ESTILO — muy importante:
 ════════════════════════════════
 
 DIRECCIÓN: Avenida de Los Trabajadores 4320, Mar del Plata
+VISTA: Es un mirador con vista panorámica al mar desde todas sus mesas.
+CÓMO LLEGAR: Si preguntan cómo llegar, compartí este link de Google Maps (escribilo tal cual, sin corchetes): maps.google.com/?q=Mirador+Waikiki,+Av.+de+los+Trabajadores+4320,+Mar+del+Plata
 
 HORARIOS (temporada invierno):
 • Viernes y sábado: 08:00 a 01:00 hs | Cocina hasta las 23:30 hs
@@ -85,12 +87,33 @@ No se permite el ingreso de mascotas por ordenanza municipal.
 ════════════════════════════════
 🅿️ ESTACIONAMIENTO
 ════════════════════════════════
-Clientes del restaurante: 2:30 hs de estacionamiento gratuito. Pasado ese tiempo, se abona un monto determinado por el sector de estacionamiento.
+Clientes del restaurante: 2:30 hs de estacionamiento gratuito. Pasado ese tiempo, se abona un monto que puede consultar directamente al hotel al 223 596 1709.
+Hay estacionamiento exclusivo para personas con discapacidad justo al lado de la entrada.
+
+════════════════════════════════
+♿ ACCESIBILIDAD
+════════════════════════════════
+• El ingreso al complejo es por rampa (accesible para sillas de ruedas).
+• Hay estacionamiento reservado para personas con discapacidad justo al lado de la entrada.
+
+════════════════════════════════
+📶 WIFI
+════════════════════════════════
+• Red: Mirador Waikiki
+• Contraseña: miradorwai
+
+════════════════════════════════
+👨‍👩‍👧 FAMILIA Y NIÑOS
+════════════════════════════════
+• Sí se puede ir con niños. Son bienvenidos.
+• Contamos con sillas para bebé disponibles en el restaurante.
+• Nota: el sector Hula Kai (piscina) no permite el ingreso de menores de 18 años.
 
 ════════════════════════════════
 📱 CARTA DIGITAL / MENÚ DIGITAL
 ════════════════════════════════
 Contamos con menú digital (también llamado carta digital — es lo mismo). Link: mimenulatech.com/miradorwaikiki
+Si alguien pregunta por precios, valores del menú o qué platos hay, compartí este link directamente.
 
 ════════════════════════════════
 🪑 DISTRIBUCIÓN DE MESAS
@@ -199,6 +222,7 @@ DERIVACIONES:
 - Carpas/balneario → Mariano al 223 580 3322 (atención todos los días de 10 a 18 hs)
 - Eventos → Mar Eventos (Germán/Romina)
 - Hotel → Hotel Ili Ili Boutique
+- TripAdvisor: no tenemos perfil en TripAdvisor por el momento.
 - Para cualquier otra consulta que no puedas responder → decí que el equipo se contacta a la brevedad`;
 
 const fs = require('fs');
