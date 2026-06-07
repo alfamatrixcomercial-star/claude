@@ -159,7 +159,7 @@ app.post('/manychat', async (req, res) => {
         console.error('Error guardando en Sheets:', sheetError.message);
       }
       if (config.MANYCHAT_API_KEY) {
-        notificarEnzo({
+        await notificarEnzo({
           tipo: 'reserva',
           cliente: `${reservation.nombre} ${reservation.apellido}`,
           personas: reservation.personas,
@@ -172,10 +172,10 @@ app.post('/manychat', async (req, res) => {
 
     // Cliente quiere hablar con humano → notificar a Enzo
     if (humano && config.MANYCHAT_API_KEY) {
-      notificarEnzo({
+      await notificarEnzo({
         tipo: 'humano',
         telefono: phone || user_id,
-      }, config.MANYCHAT_API_KEY, config.ENZO_PHONE);
+      }, config.MANYCHAT_API_KEY, config.ENZO_SUBSCRIBER_ID);
     }
 
     // Cachear respuesta para deduplicación

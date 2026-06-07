@@ -17,6 +17,9 @@ async function notificarEnzo({ tipo, cliente, personas, horario, fecha, telefono
         `📞 ${telefono}`;
     }
 
+    console.log(`[Notify] Enviando a subscriber_id=${enzoSubscriberId} | apiKey=${apiKey ? apiKey.substring(0,10)+'...' : 'NO KEY'}`);
+    console.log(`[Notify] Mensaje: ${texto.substring(0, 80)}`);
+
     const res = await axios.post(
       `${MANYCHAT_API}/fb/sending/sendContent`,
       {
@@ -31,9 +34,9 @@ async function notificarEnzo({ tipo, cliente, personas, horario, fecha, telefono
       { headers: { Authorization: `Bearer ${apiKey}` } }
     );
 
-    console.log(`Notificación enviada a Enzo:`, res.data?.status);
+    console.log(`[Notify] Respuesta ManyChat:`, JSON.stringify(res.data));
   } catch (err) {
-    console.error('Error notificando a Enzo:', err.response?.data || err.message);
+    console.error(`[Notify] ERROR HTTP ${err.response?.status}:`, JSON.stringify(err.response?.data) || err.message);
   }
 }
 
