@@ -128,6 +128,23 @@
     .footer { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(219,210,181,.93); backdrop-filter: blur(10px); border-top: 1px solid var(--border-light); text-align: center; padding: 11px 16px; font-size: 11px; color: var(--muted); font-weight: 500; }
 
     @keyframes fadeUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* ── ALERTAS ── */
+    .alerts-wrap { padding: 12px 16px 0; }
+    .alert-card {
+      max-width: 640px; margin: 0 auto 8px;
+      background: #fff3f3; border: 1.5px solid var(--error);
+      border-radius: 16px; padding: 14px 16px;
+      display: flex; align-items: center; gap: 12px;
+      animation: fadeUp .2s ease both, pulse 2.5s ease-in-out infinite;
+    }
+    .alert-icon { font-size: 26px; flex-shrink: 0; }
+    .alert-body { flex: 1; min-width: 0; }
+    .alert-title { font-size: 14px; font-weight: 700; color: var(--error); }
+    .alert-sub { font-size: 12px; color: var(--muted); margin-top: 3px; }
+    .btn-dismiss { padding: 9px 14px; border-radius: 10px; border: none; background: var(--error); color: #fff; font-size: 12px; font-weight: 700; cursor: pointer; font-family: inherit; flex-shrink: 0; transition: opacity .15s; }
+    .btn-dismiss:active { opacity: .8; }
+    @keyframes pulse { 0%,100% { box-shadow: 0 0 0 0 rgba(200,56,48,.25); } 50% { box-shadow: 0 0 0 7px rgba(200,56,48,0); } }
   </style>
 </head>
 <body>
@@ -144,6 +161,10 @@
     <div class="header-pill" id="last-update">Cargando...</div>
   </div>
 </header>
+
+<div id="alerts-section" style="display:none">
+  <div class="alerts-wrap" id="alerts-list"></div>
+</div>
 
 <div class="stats-wrap">
   <div class="stats">
@@ -171,6 +192,56 @@
   const TOKEN = new URLSearchParams(location.search).get('token') || '';
   let tab = 'hoy';
   let data = [];
+  let alerts = [];
+  let prevAlertCount = null;
+
+  // Pedir permiso para notificaciones del navegador
+  if ('Notification' in window && Notification.permission === 'default') {
+    Notification.requestPermission();
+  }
+
+  async function loadAlerts() {
+    const res = await fetch('/api/alertas?token=' + TOKEN).catch(() => null);
+    if (!res || !res.ok) return;
+    alerts = await res.json();
+
+    // Notificación del navegador si hay alertas nuevas (no en la primera carga)
+    if (prevAlertCount !== null && alerts.length > prevAlertCount) {
+      const nuevas = alerts.slice(0, alerts.length - prevAlertCount);
+      nuevas.forEach(a => {
+        if ('Notification' in window && Notification.permission === 'granted') {
+          new Notification('⚠️ Waikiki — Cliente solicita atención', { body: '📞 ' + a.telefono + '  ·  ' + a.timestamp });
+        }
+      });
+    }
+    prevAlertCount = alerts.length;
+    renderAlerts();
+  }
+
+  function renderAlerts() {
+    const section = document.getElementById('alerts-section');
+    const list = document.getElementById('alerts-list');
+    if (!alerts.length) { section.style.display = 'none'; return; }
+    section.style.display = 'block';
+    list.innerHTML = alerts.map(a =>
+      '<div class="alert-card" id="al-' + a.id + '">' +
+        '<div class="alert-icon">🚨</div>' +
+        '<div class="alert-body">' +
+          '<div class="alert-title">Cliente solicita hablar con una persona</div>' +
+          '<div class="alert-sub">📞 ' + a.telefono + ' &nbsp;·&nbsp; ' + a.timestamp + '</div>' +
+        '</div>' +
+        '<button class="btn-dismiss" onclick="dismissAlert(\'' + a.id + '\')">✓ Atendido</button>' +
+      '</div>'
+    ).join('');
+  }
+
+  async function dismissAlert(id) {
+    const res = await fetch('/api/alertas/' + id + '?token=' + TOKEN, {
+      method: 'PATCH', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ leida: true })
+    }).then(r => r.json()).catch(() => null);
+    if (res) { alerts = alerts.filter(a => a.id !== id); renderAlerts(); }
+  }
 
   // ── TABLA DE MESAS ──────────────────────────────────────
   const TABLES = [
@@ -358,6 +429,7 @@
     if (!res || !res.ok) { document.getElementById('content').innerHTML = '<div class="empty"><div class="icon">🔒</div><p>Token inválido</p></div>'; return; }
     data = await res.json();
     stats(); render();
+    await loadAlerts();
     const t = new Date().toLocaleTimeString('es-AR', { timeZone: 'America/Argentina/Buenos_Aires', hour: '2-digit', minute: '2-digit' });
     document.getElementById('last-update').textContent = t;
   }

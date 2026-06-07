@@ -7,6 +7,7 @@ const { chat, parseReservation, cleanReply, conversations } = require('./claude'
 const { saveReservation, initSheet } = require('./sheets');
 const { notificarEnzo } = require('./notify');
 const { addReservation, updateReservation, getAll } = require('./reservations');
+const { addAlert, markRead, getUnread } = require('./alerts');
 
 const dashboardHTML = fs.readFileSync(path.join(__dirname, 'dashboard.html'), 'utf8');
 
@@ -174,8 +175,9 @@ app.post('/manychat', async (req, res) => {
       });
     }
 
-    // Cliente quiere hablar con humano → notificar a Enzo
+    // Cliente quiere hablar con humano → guardar alerta + notificar a Enzo
     if (humano) {
+      addAlert({ telefono: phone || user_id });
       await notificarEnzo({
         tipo: 'humano',
         telefono: phone || user_id,
@@ -259,6 +261,18 @@ app.get('/reservas', (req, res) => {
 app.get('/api/reservas', (req, res) => {
   if (!checkToken(req, res)) return;
   res.json(getAll());
+});
+
+app.get('/api/alertas', (req, res) => {
+  if (!checkToken(req, res)) return;
+  res.json(getUnread());
+});
+
+app.patch('/api/alertas/:id', (req, res) => {
+  if (!checkToken(req, res)) return;
+  const updated = markRead(req.params.id);
+  if (!updated) return res.status(404).json({ error: 'Alerta no encontrada' });
+  res.json(updated);
 });
 
 app.patch('/api/reservas/:id', (req, res) => {
