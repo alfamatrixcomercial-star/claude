@@ -1,5 +1,8 @@
 const fs = require('fs');
-const FILE = '/tmp/waikiki_alerts.json';
+const path = require('path');
+const config = require('./config');
+
+const FILE = path.join(config.DATA_DIR, 'waikiki_alerts.json');
 
 function load() {
   try { if (fs.existsSync(FILE)) return JSON.parse(fs.readFileSync(FILE, 'utf8')); } catch {}

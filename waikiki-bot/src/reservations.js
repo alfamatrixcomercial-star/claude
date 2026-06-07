@@ -1,6 +1,8 @@
 const fs = require('fs');
+const path = require('path');
+const config = require('./config');
 
-const FILE = '/tmp/waikiki_reservations.json';
+const FILE = path.join(config.DATA_DIR, 'waikiki_reservations.json');
 
 function load() {
   try {

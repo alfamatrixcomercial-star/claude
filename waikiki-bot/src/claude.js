@@ -202,7 +202,9 @@ DERIVACIONES:
 
 const fs = require('fs');
 const path = require('path');
-const HISTORY_FILE = '/tmp/waikiki_conversations.json';
+const config = require('./config');
+
+const HISTORY_FILE = path.join(config.DATA_DIR, 'waikiki_conversations.json');
 
 function loadHistory() {
   try {

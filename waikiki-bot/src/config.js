@@ -14,4 +14,5 @@ module.exports = {
   TELEGRAM_TOKEN: process.env.TELEGRAM_TOKEN,
   ENZO_TELEGRAM_CHAT_ID: process.env.ENZO_TELEGRAM_CHAT_ID,
   ADMIN_TOKEN: process.env.ADMIN_TOKEN || 'waikiki2025',
+  DATA_DIR: process.env.DATA_DIR || '/tmp',
 };
