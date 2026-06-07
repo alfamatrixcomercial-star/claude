@@ -78,6 +78,12 @@ Excepción: perros de acompañamiento (guía/asistencia) son bienvenidos siempre
 • Desayuno/merienda: productos Karel (alfajores de maicena, brownies, alfajores de almendras)
 
 ════════════════════════════════
+🎂 TORTA Y VINO PROPIO
+════════════════════════════════
+• Torta propia: sí se puede traer.
+• Vino propio: sí se puede traer, pero se cobra un descorche equivalente al valor del vino más económico de la carta.
+
+════════════════════════════════
 💳 MÉTODOS DE PAGO
 ════════════════════════════════
 • Tarjeta de crédito (en un pago)
