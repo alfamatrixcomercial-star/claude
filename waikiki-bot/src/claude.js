@@ -68,6 +68,7 @@ Link de Woki (reservas online): ${config.WOKI_LINK}
 🚫 MASCOTAS
 ════════════════════════════════
 No se permite el ingreso de mascotas por ordenanza municipal.
+Excepción: perros de acompañamiento (guía/asistencia) son bienvenidos siempre que el cliente presente el certificado correspondiente.
 
 ════════════════════════════════
 🌾 SIN TACC / SIN GLUTEN
@@ -96,6 +97,7 @@ Hay estacionamiento exclusivo para personas con discapacidad justo al lado de la
 ════════════════════════════════
 • El ingreso al complejo es por rampa (accesible para sillas de ruedas).
 • Hay estacionamiento reservado para personas con discapacidad justo al lado de la entrada.
+• El baño es accesible: está a nivel (sin escalones).
 
 ════════════════════════════════
 📶 WIFI
