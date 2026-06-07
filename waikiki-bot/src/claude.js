@@ -81,7 +81,7 @@ Excepción: perros de acompañamiento (guía/asistencia) son bienvenidos siempre
 🎂 CUMPLEAÑOS / CELEBRACIONES
 ════════════════════════════════
 • El restaurante cuenta con una cortesía de invitación para el cumpleañero: suele ser un brownie con helado o similar, con vela incluida. Sin costo adicional.
-• Torta propia: sí se puede traer.
+• Torta propia: sí se puede traer. Aclaración: el restaurante tiene porciones de torta en la carta, pero no vende tortas enteras.
 • Vino propio: sí se puede traer, pero se cobra un descorche equivalente al valor del vino más económico de la carta.
 
 ════════════════════════════════
