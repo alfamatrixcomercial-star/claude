@@ -1,42 +1,34 @@
-const axios = require('axios');
+const { sendMessage } = require('./whatsapp');
+const config = require('./config');
 
-const MANYCHAT_API = 'https://api.manychat.com';
+async function notificarEnzo({ tipo, cliente, personas, horario, fecha, telefono }) {
+  if (!config.WHATSAPP_TOKEN || !config.WHATSAPP_PHONE_NUMBER_ID || !config.ENZO_PHONE) {
+    console.log('[Notify] Faltan WHATSAPP_TOKEN, WHATSAPP_PHONE_NUMBER_ID o ENZO_PHONE — omitiendo notificación a Enzo');
+    return;
+  }
 
-async function notificarEnzo({ tipo, cliente, personas, horario, fecha, telefono }, apiKey, enzoSubscriberId) {
+  let texto;
+  if (tipo === 'humano') {
+    texto = `⚠️ Atención requerida\n\nUn cliente solicita hablar con una persona.\nNúmero: ${telefono}`;
+  } else {
+    texto =
+      `🗓️ Nueva reserva confirmada\n\n` +
+      `👤 ${cliente}\n` +
+      `👥 ${personas} persona(s)\n` +
+      `🍽️ ${horario}\n` +
+      `📅 ${fecha}\n` +
+      `📞 ${telefono}`;
+  }
+
   try {
-    let texto;
-    if (tipo === 'humano') {
-      texto = `⚠️ *Atención requerida*\n\nUn cliente solicita hablar con una persona.\n📞 Número: ${telefono}`;
-    } else {
-      texto =
-        `🗓️ *Nueva reserva confirmada*\n\n` +
-        `👤 ${cliente}\n` +
-        `👥 ${personas} persona(s)\n` +
-        `🍽️ ${horario}\n` +
-        `📅 ${fecha}\n` +
-        `📞 ${telefono}`;
-    }
-
-    console.log(`[Notify] Enviando a subscriber_id=${enzoSubscriberId} | apiKey=${apiKey ? apiKey.substring(0,10)+'...' : 'NO KEY'}`);
-    console.log(`[Notify] Mensaje: ${texto.substring(0, 80)}`);
-
-    const res = await axios.post(
-      `${MANYCHAT_API}/fb/sending/sendContent`,
-      {
-        subscriber_id: enzoSubscriberId,
-        data: {
-          version: 'v2',
-          content: {
-            messages: [{ type: 'text', text: texto }],
-          },
-        },
-      },
-      { headers: { Authorization: `Bearer ${apiKey}` } }
-    );
-
-    console.log(`[Notify] Respuesta ManyChat:`, JSON.stringify(res.data));
+    // Número de Enzo en formato internacional sin + (Argentina: 549XXXXXXXXXX)
+    const raw = config.ENZO_PHONE.replace(/\D/g, '');
+    const fullNumber = raw.startsWith('54') ? raw : `549${raw}`;
+    console.log(`[Notify] Enviando WhatsApp directo a ${fullNumber}`);
+    await sendMessage(fullNumber, texto);
+    console.log(`[Notify] ✓ Notificación enviada a Enzo`);
   } catch (err) {
-    console.error(`[Notify] ERROR HTTP ${err.response?.status}:`, JSON.stringify(err.response?.data) || err.message);
+    console.error('[Notify] Error enviando a Enzo:', err.response?.data || err.message);
   }
 }
 

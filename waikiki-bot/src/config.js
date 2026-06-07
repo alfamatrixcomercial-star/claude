@@ -11,5 +11,5 @@ module.exports = {
   GOOGLE_PRIVATE_KEY: process.env.GOOGLE_PRIVATE_KEY,
   WOKI_LINK: process.env.WOKI_LINK,
   MANYCHAT_API_KEY: process.env.MANYCHAT_API_KEY,
-  ENZO_SUBSCRIBER_ID: process.env.ENZO_SUBSCRIBER_ID || '121361589',
+  ENZO_PHONE: process.env.ENZO_PHONE,
 };
