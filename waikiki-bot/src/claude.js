@@ -39,7 +39,8 @@ HORARIOS (temporada invierno):
 SERVICIOS:
 1. 🍽️ Restaurant y Cafetería (desde las 08:00 hs)
 2. 🌊 Hula Kai (sector piscina):
-   - Horario: 09:00 a 19:00 hs
+   - ⚠️ TEMPORADA: ÚNICAMENTE abierto en temporada de verano (diciembre a marzo). Fuera de ese período está cerrado.
+   - Horario de temporada: 09:00 a 19:00 hs
    - Sombrilla + tumbona: $40.000 por persona
    - Camastros (hasta 4 personas): $120.000 + cortesía (pagan 3, entran 4)
    - Incluye: piscina, estacionamiento todo el día, baños y vestuarios
