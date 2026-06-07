@@ -5,94 +5,223 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
   <title>Waikiki — Reservas</title>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
     * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
     :root {
-      --ocean: #0077b6;
-      --ocean-dark: #005f8e;
-      --bg: #f0f7ff;
-      --card: #fff;
-      --text: #1a2332;
-      --muted: #6b7d8f;
-      --border: #dde8f0;
-      --yellow: #f59e0b;
-      --green: #10b981;
-      --red: #ef4444;
+      --sand:        #dbd2b5;
+      --sand-light:  #e8e1cd;
+      --white:       #ffffff;
+      --hover:       #f8f5f0;
+      --border:      #cab892;
+      --border-light:#ddd3bc;
+      --sage:        #6e8f7a;
+      --sage-dark:   #5d7d6a;
+      --text:        #1f2d27;
+      --muted:       #6a7d72;
+      --success:     #4E8A48;
+      --error:       #C83830;
+      --pending:     #b07a2a;
     }
-    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
 
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--sand);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    /* ── HEADER ── */
     header {
-      background: linear-gradient(135deg, var(--ocean), var(--ocean-dark));
-      color: #fff;
-      padding: 14px 18px 10px;
       position: sticky; top: 0; z-index: 100;
-      box-shadow: 0 2px 8px rgba(0,119,182,.3);
+      background: rgba(219, 210, 181, 0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 18px 12px;
     }
-    header h1 { font-size: 19px; font-weight: 700; }
-    #last-update { font-size: 11px; opacity: .75; margin-top: 2px; }
+    .header-inner { max-width: 640px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
+    .header-brand { display: flex; align-items: center; gap: 10px; }
+    .header-logo {
+      width: 36px; height: 36px; border-radius: 10px;
+      background: var(--sage);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px;
+    }
+    .header-title { font-size: 17px; font-weight: 800; letter-spacing: -.3px; color: var(--text); }
+    .header-sub { font-size: 11px; color: var(--muted); margin-top: 1px; font-weight: 500; }
+    .header-update {
+      font-size: 11px; color: var(--muted); font-weight: 500;
+      background: var(--white); border: 1px solid var(--border-light);
+      padding: 4px 10px; border-radius: 20px;
+    }
 
-    .stats { display: grid; grid-template-columns: 1fr 1fr 1fr; background: var(--border); gap: 1px; border-bottom: 1px solid var(--border); }
-    .stat { background: #fff; padding: 10px 6px; text-align: center; }
-    .stat-n { font-size: 22px; font-weight: 800; color: var(--ocean); }
-    .stat-l { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: .4px; }
+    /* ── STATS ── */
+    .stats-wrap { background: var(--sand); padding: 14px 16px 0; }
+    .stats { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; max-width: 640px; margin: 0 auto; }
+    .stat {
+      background: var(--white); border: 1px solid var(--border-light);
+      border-radius: 16px; padding: 14px 10px 12px; text-align: center;
+      box-shadow: 0 1px 3px rgba(0,0,0,.05);
+    }
+    .stat-n { font-size: 28px; font-weight: 800; color: var(--sage); line-height: 1; }
+    .stat-n.red { color: var(--error); }
+    .stat-l { font-size: 10px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .6px; margin-top: 4px; }
 
-    .tabs { display: flex; background: #fff; border-bottom: 2px solid var(--border); }
-    .tab { flex: 1; padding: 12px 4px; text-align: center; font-size: 13px; font-weight: 600; cursor: pointer; color: var(--muted); border-bottom: 2px solid transparent; margin-bottom: -2px; user-select: none; }
-    .tab.active { color: var(--ocean); border-bottom-color: var(--ocean); }
+    /* ── TABS ── */
+    .tabs-wrap { padding: 14px 16px 0; }
+    .tabs { display: flex; gap: 6px; max-width: 640px; margin: 0 auto; background: var(--white); border: 1px solid var(--border-light); border-radius: 14px; padding: 4px; }
+    .tab {
+      flex: 1; padding: 9px 4px; text-align: center; font-size: 13px; font-weight: 600;
+      cursor: pointer; color: var(--muted); border-radius: 10px;
+      transition: all .2s; user-select: none;
+    }
+    .tab.active { background: var(--sage); color: #fff; box-shadow: 0 2px 8px rgba(110,143,122,.35); }
 
-    .content { padding: 12px 14px; max-width: 600px; margin: 0 auto; }
+    /* ── CONTENT ── */
+    .content { padding: 14px 16px 80px; max-width: 640px; margin: 0 auto; }
 
-    .empty { text-align: center; padding: 50px 20px; color: var(--muted); }
-    .empty .icon { font-size: 44px; margin-bottom: 10px; }
+    /* ── EMPTY ── */
+    .empty { text-align: center; padding: 60px 20px; color: var(--muted); }
+    .empty .icon { font-size: 48px; margin-bottom: 12px; }
+    .empty p { font-size: 15px; font-weight: 500; }
 
-    .group-label { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .7px; margin: 14px 0 7px; }
-    .group-label:first-child { margin-top: 4px; }
+    /* ── GROUP LABEL ── */
+    .group-label {
+      font-size: 10px; font-weight: 700; color: var(--muted);
+      text-transform: uppercase; letter-spacing: .8px;
+      margin: 20px 0 10px; display: flex; align-items: center; gap: 8px;
+    }
+    .group-label:first-child { margin-top: 6px; }
+    .group-label::after { content: ''; flex: 1; height: 1px; background: var(--border-light); }
 
-    .card { background: var(--card); border-radius: 14px; padding: 14px 15px; margin-bottom: 10px; box-shadow: 0 1px 4px rgba(0,0,0,.07); border-left: 4px solid var(--yellow); }
-    .card.Confirmada { border-left-color: var(--green); }
-    .card.Cancelada { border-left-color: var(--red); opacity: .6; }
+    /* ── CARD ── */
+    .card {
+      background: var(--white);
+      border: 1px solid var(--border-light);
+      border-radius: 18px;
+      padding: 16px;
+      margin-bottom: 10px;
+      box-shadow: 0 1px 4px rgba(0,0,0,.06);
+      position: relative;
+      overflow: hidden;
+      transition: transform .15s, box-shadow .15s;
+    }
+    .card::before {
+      content: '';
+      position: absolute; left: 0; top: 0; bottom: 0;
+      width: 4px;
+      background: var(--pending);
+      border-radius: 18px 0 0 18px;
+    }
+    .card.Confirmada::before { background: var(--success); }
+    .card.Cancelada::before { background: var(--error); }
+    .card.Cancelada { opacity: .55; }
 
-    .card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 9px; }
-    .card-name { font-size: 15px; font-weight: 700; line-height: 1.2; }
-    .card-time { font-size: 20px; font-weight: 800; color: var(--ocean); white-space: nowrap; margin-left: 8px; }
+    /* ── CARD TOP ── */
+    .card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
+    .card-name { font-size: 16px; font-weight: 700; line-height: 1.2; color: var(--text); }
+    .card-time-block { text-align: right; }
+    .card-time { font-size: 22px; font-weight: 800; color: var(--sage); line-height: 1; }
+    .card-time-label { font-size: 10px; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: .5px; margin-top: 2px; }
 
-    .badge { display: inline-block; padding: 2px 8px; border-radius: 20px; font-size: 11px; font-weight: 600; margin-top: 3px; }
+    /* ── BADGE ── */
+    .badge {
+      display: inline-block; padding: 3px 9px;
+      border-radius: 20px; font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: .5px; margin-top: 4px;
+    }
     .badge.Pendiente { background: #fef3c7; color: #92400e; }
-    .badge.Confirmada { background: #d1fae5; color: #065f46; }
+    .badge.Confirmada { background: #dcf5da; color: #2d6b28; }
     .badge.Cancelada { background: #fee2e2; color: #991b1b; }
 
-    .card-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 5px 10px; font-size: 13px; color: var(--muted); margin-bottom: 11px; }
-    a.phone { color: var(--ocean); text-decoration: none; }
+    /* ── CARD META ── */
+    .card-meta {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 7px 12px; margin-bottom: 14px;
+    }
+    .meta-item { display: flex; align-items: center; gap: 5px; font-size: 13px; color: var(--muted); font-weight: 500; }
+    .meta-icon { font-size: 14px; }
+    a.phone { color: var(--sage); text-decoration: none; font-weight: 600; }
 
+    /* ── DIVIDER ── */
+    .card-divider { height: 1px; background: var(--border-light); margin-bottom: 12px; }
+
+    /* ── ACTIONS ── */
     .card-actions { display: flex; gap: 8px; }
-    .btn { flex: 1; padding: 9px; border-radius: 10px; border: none; font-size: 13px; font-weight: 600; cursor: pointer; }
-    .btn:active { opacity: .8; }
-    .btn:disabled { opacity: .3; cursor: default; }
-    .btn-ok { background: #d1fae5; color: #065f46; }
-    .btn-ko { background: #fee2e2; color: #991b1b; }
+    .btn {
+      flex: 1; padding: 10px; border-radius: 12px; border: none;
+      font-size: 13px; font-weight: 700; cursor: pointer;
+      transition: opacity .15s, transform .1s;
+      font-family: inherit;
+    }
+    .btn:active { transform: scale(.97); opacity: .85; }
+    .btn:disabled { opacity: .25; cursor: default; transform: none; }
+    .btn-ok { background: var(--sage); color: #fff; }
+    .btn-ko { background: #fee2e2; color: var(--error); }
 
-    .footer { text-align: center; padding: 14px; font-size: 11px; color: var(--muted); }
+    /* ── FOOTER ── */
+    .footer {
+      position: fixed; bottom: 0; left: 0; right: 0;
+      background: rgba(219,210,181,.92); backdrop-filter: blur(10px);
+      border-top: 1px solid var(--border-light);
+      text-align: center; padding: 10px 16px;
+      font-size: 11px; color: var(--muted); font-weight: 500;
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .card { animation: fadeUp .25s ease both; }
   </style>
 </head>
 <body>
 
 <header>
-  <h1>🌊 Waikiki — Reservas</h1>
-  <div id="last-update">Cargando...</div>
+  <div class="header-inner">
+    <div class="header-brand">
+      <div class="header-logo">🌊</div>
+      <div>
+        <div class="header-title">Mirador Waikiki</div>
+        <div class="header-sub">Panel de reservas</div>
+      </div>
+    </div>
+    <div class="header-update" id="last-update">Cargando...</div>
+  </div>
 </header>
 
-<div class="stats">
-  <div class="stat"><div class="stat-n" id="s-hoy">—</div><div class="stat-l">Hoy</div></div>
-  <div class="stat"><div class="stat-n" id="s-pend">—</div><div class="stat-l">Pendientes</div></div>
-  <div class="stat"><div class="stat-n" id="s-conf">—</div><div class="stat-l">Confirmadas</div></div>
+<div class="stats-wrap">
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-n" id="s-hoy">—</div>
+      <div class="stat-l">Hoy</div>
+    </div>
+    <div class="stat">
+      <div class="stat-n" id="s-pend">—</div>
+      <div class="stat-l">Pendientes</div>
+    </div>
+    <div class="stat">
+      <div class="stat-n" id="s-conf">—</div>
+      <div class="stat-l">Confirmadas</div>
+    </div>
+  </div>
 </div>
 
-<div class="tabs">
-  <div class="tab active" data-tab="hoy" onclick="setTab(this)">Hoy</div>
-  <div class="tab" data-tab="proximas" onclick="setTab(this)">Próximas</div>
-  <div class="tab" data-tab="todas" onclick="setTab(this)">Todas</div>
+<div class="tabs-wrap">
+  <div class="tabs">
+    <div class="tab active" data-tab="hoy" onclick="setTab(this)">Hoy</div>
+    <div class="tab" data-tab="proximas" onclick="setTab(this)">Próximas</div>
+    <div class="tab" data-tab="todas" onclick="setTab(this)">Todas</div>
+  </div>
 </div>
 
-<div class="content" id="content"><div class="empty"><div class="icon">⏳</div><p>Cargando reservas...</p></div></div>
+<div class="content" id="content">
+  <div class="empty"><div class="icon">⏳</div><p>Cargando reservas...</p></div>
+</div>
+
 <div class="footer">Actualización automática cada 30 seg</div>
 
 <script>
@@ -114,7 +243,7 @@
   }
 
   function filter() {
-    const hoy = arDate(0), man = arDate(1);
+    const hoy = arDate(0);
     if (tab === 'hoy') return data.filter(r => r.fechaReserva === hoy || r.fechaReserva === '-');
     if (tab === 'proximas') return data.filter(r => r.estado !== 'Cancelada');
     return data;
@@ -122,7 +251,7 @@
 
   function sorted(list) {
     return [...list].sort((a, b) => {
-      const fd = (x) => x.fechaReserva === '-' ? 'zz' : x.fechaReserva;
+      const fd = x => x.fechaReserva === '-' ? 'zz' : x.fechaReserva;
       if (fd(a) !== fd(b)) return fd(a).localeCompare(fd(b));
       return (a.horario || '').localeCompare(b.horario || '');
     });
@@ -139,35 +268,62 @@
 
   function card(r) {
     const tipo = r.tipo ? r.tipo[0].toUpperCase() + r.tipo.slice(1) : '—';
-    const menuLabel = r.menu === 'sushi' ? ' 🍣 Sushi' : r.menu === 'carta' ? ' 📋 Carta' : '';
-    const tel = r.telefono !== '-' ? '<a class="phone" href="tel:' + r.telefono + '">' + r.telefono + '</a>' : '—';
-    return '<div class="card ' + r.estado + '" id="c' + r.id + '">' +
-      '<div class="card-top"><div><div class="card-name">' + r.nombre + '</div><span class="badge ' + r.estado + '">' + r.estado + '</span></div>' +
-      '<div class="card-time">' + (r.horario || '—') + ' hs</div></div>' +
-      '<div class="card-meta"><span>👥 ' + r.personas + ' persona(s)</span><span>🍽️ ' + tipo + menuLabel + '</span>' +
-      '<span>📅 ' + r.fechaReserva + '</span><span>📞 ' + tel + '</span></div>' +
-      '<div class="card-actions">' +
-      '<button class="btn btn-ok" onclick="upd(\'' + r.id + '\',\'Confirmada\')" ' + (r.estado !== 'Pendiente' ? 'disabled' : '') + '>✓ Confirmar</button>' +
-      '<button class="btn btn-ko" onclick="upd(\'' + r.id + '\',\'Cancelada\')" ' + (r.estado === 'Cancelada' ? 'disabled' : '') + '>✕ Cancelar</button>' +
-      '</div></div>';
+    const menuLabel = r.menu === 'sushi' ? '🍣 Sushi' : r.menu === 'carta' ? '📋 Carta' : tipo;
+    const tel = r.telefono && r.telefono !== '-'
+      ? '<a class="phone" href="tel:' + r.telefono + '">' + r.telefono + '</a>'
+      : '<span>—</span>';
+    return (
+      '<div class="card ' + r.estado + '" id="c' + r.id + '">' +
+        '<div class="card-top">' +
+          '<div>' +
+            '<div class="card-name">' + r.nombre + '</div>' +
+            '<span class="badge ' + r.estado + '">' + r.estado + '</span>' +
+          '</div>' +
+          '<div class="card-time-block">' +
+            '<div class="card-time">' + (r.horario || '—') + '</div>' +
+            '<div class="card-time-label">hs</div>' +
+          '</div>' +
+        '</div>' +
+        '<div class="card-meta">' +
+          '<div class="meta-item"><span class="meta-icon">👥</span>' + r.personas + ' persona(s)</div>' +
+          '<div class="meta-item"><span class="meta-icon">🍽️</span>' + menuLabel + '</div>' +
+          '<div class="meta-item"><span class="meta-icon">📅</span>' + r.fechaReserva + '</div>' +
+          '<div class="meta-item"><span class="meta-icon">📞</span>' + tel + '</div>' +
+        '</div>' +
+        '<div class="card-divider"></div>' +
+        '<div class="card-actions">' +
+          '<button class="btn btn-ok" onclick="upd(\'' + r.id + '\',\'Confirmada\')" ' + (r.estado !== 'Pendiente' ? 'disabled' : '') + '>✓ Confirmar</button>' +
+          '<button class="btn btn-ko" onclick="upd(\'' + r.id + '\',\'Cancelada\')" ' + (r.estado === 'Cancelada' ? 'disabled' : '') + '>✕ Cancelar</button>' +
+        '</div>' +
+      '</div>'
+    );
   }
 
   function stats() {
     const hoy = arDate(0);
     document.getElementById('s-hoy').textContent = data.filter(r => r.fechaReserva === hoy).length;
-    document.getElementById('s-pend').textContent = data.filter(r => r.estado === 'Pendiente').length;
+    const pend = data.filter(r => r.estado === 'Pendiente').length;
+    const pendEl = document.getElementById('s-pend');
+    pendEl.textContent = pend;
+    pendEl.classList.toggle('red', pend > 0);
     document.getElementById('s-conf').textContent = data.filter(r => r.estado === 'Confirmada').length;
   }
 
   function render() {
     const list = sorted(filter());
     const el = document.getElementById('content');
-    if (!list.length) { el.innerHTML = '<div class="empty"><div class="icon">📭</div><p>Sin reservas para mostrar</p></div>'; return; }
+    if (!list.length) {
+      el.innerHTML = '<div class="empty"><div class="icon">📭</div><p>Sin reservas para mostrar</p></div>';
+      return;
+    }
     const g = grouped(list);
     const hoy = arDate(0), man = arDate(1);
     let html = '';
     for (const [date, items] of Object.entries(g)) {
-      const lbl = date === hoy ? '📅 Hoy — ' + date : date === man ? '📅 Mañana — ' + date : date === '-' ? 'Sin fecha' : '📅 ' + date;
+      const lbl = date === hoy ? '📅 Hoy · ' + date
+                : date === man ? '📅 Mañana · ' + date
+                : date === '-' ? 'Sin fecha'
+                : '📅 ' + date;
       html += '<div class="group-label">' + lbl + '</div>' + items.map(card).join('');
     }
     el.innerHTML = html;
@@ -175,20 +331,31 @@
 
   async function upd(id, estado) {
     const res = await fetch('/api/reservas/' + id + '?token=' + TOKEN, {
-      method: 'PATCH', headers: { 'Content-Type': 'application/json' },
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ estado })
     }).then(r => r.json()).catch(() => null);
-    if (res) { const i = data.findIndex(r => r.id === id); if (i >= 0) data[i] = res; stats(); render(); }
+    if (res) {
+      const i = data.findIndex(r => r.id === id);
+      if (i >= 0) data[i] = res;
+      stats(); render();
+    }
   }
 
   async function load() {
     const res = await fetch('/api/reservas?token=' + TOKEN).catch(() => null);
-    if (!res || !res.ok) { document.getElementById('content').innerHTML = '<div class="empty"><div class="icon">🔒</div><p>Token inválido</p></div>'; return; }
+    if (!res || !res.ok) {
+      document.getElementById('content').innerHTML = '<div class="empty"><div class="icon">🔒</div><p>Token inválido</p></div>';
+      return;
+    }
     data = await res.json();
     stats();
     render();
-    const t = new Date().toLocaleTimeString('es-AR', { timeZone: 'America/Argentina/Buenos_Aires', hour: '2-digit', minute: '2-digit' });
-    document.getElementById('last-update').textContent = 'Actualizado a las ' + t;
+    const t = new Date().toLocaleTimeString('es-AR', {
+      timeZone: 'America/Argentina/Buenos_Aires',
+      hour: '2-digit', minute: '2-digit'
+    });
+    document.getElementById('last-update').textContent = t;
   }
 
   load();
