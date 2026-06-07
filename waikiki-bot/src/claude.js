@@ -78,8 +78,9 @@ Excepción: perros de acompañamiento (guía/asistencia) son bienvenidos siempre
 • Desayuno/merienda: productos Karel (alfajores de maicena, brownies, alfajores de almendras)
 
 ════════════════════════════════
-🎂 TORTA Y VINO PROPIO
+🎂 CUMPLEAÑOS / CELEBRACIONES
 ════════════════════════════════
+• El restaurante cuenta con una cortesía de invitación para el cumpleañero: suele ser un brownie con helado o similar, con vela incluida. Sin costo adicional.
 • Torta propia: sí se puede traer.
 • Vino propio: sí se puede traer, pero se cobra un descorche equivalente al valor del vino más económico de la carta.
 
