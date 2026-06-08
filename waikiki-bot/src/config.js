@@ -15,4 +15,9 @@ module.exports = {
   ENZO_TELEGRAM_CHAT_ID: process.env.ENZO_TELEGRAM_CHAT_ID,
   ADMIN_TOKEN: process.env.ADMIN_TOKEN || 'waikiki2025',
   DATA_DIR: process.env.DATA_DIR || '/tmp',
+  // Números bloqueados: no activan el bot. Separados por coma en la variable de entorno.
+  // Ejemplo: BLOCKED_PHONES=5492235551234,5492236667890
+  BLOCKED_PHONES: new Set(
+    (process.env.BLOCKED_PHONES || '').split(',').map(n => n.trim()).filter(Boolean)
+  ),
 };

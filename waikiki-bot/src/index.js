@@ -123,6 +123,12 @@ app.post('/manychat', async (req, res) => {
   console.log(`[ManyChat] message (usado)="${String(message).substring(0,80)}"`);
   console.log(`[ManyChat] hasHistory=${conversations.has(sessionKey)} | lastBot=${!!lastBotResponse}`);
 
+  // Números bloqueados (proveedores, internos, etc.) — no responder
+  if (phone && config.BLOCKED_PHONES.has(phone)) {
+    console.log(`[ManyChat] Número bloqueado: ${phone} — ignorando`);
+    return res.status(200).json({ response: '' });
+  }
+
   if (!message) {
     return res.status(200).json({ response: '¡Hola! Gracias por comunicarse con Mirador Waikiki. ¿En qué podemos ayudarle? 🌊' });
   }
