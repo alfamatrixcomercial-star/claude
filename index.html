@@ -578,70 +578,145 @@
     </div>
   </section>
 
-  <!-- ===================== SERVICES EDITORIAL ===================== -->
-  <section class="services-editorial">
-    <div class="services-editorial-inner">
+  <!-- ===================== SERVICES TABS ===================== -->
+  <section class="services-tabs-section">
+    <div class="services-tabs-inner">
 
-      <div class="services-ed-left fade-up">
+      <div class="services-tabs-header fade-up">
         <span class="services-big-num">02</span>
         <span class="script-title">Lo que hacemos</span>
-        <h2>Servicios</h2>
-        <p>Producción integral para todo tipo de evento. Desde la idea hasta el último detalle, nosotros lo hacemos realidad.</p>
-        <a href="servicios" class="btn btn-primary">Ver todos los servicios
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-        </a>
+        <h2>Nuestros Eventos</h2>
+        <p>Cada evento es único. Elegí el tipo de celebración y te mostramos los espacios y todo lo que incluye nuestra propuesta integral.</p>
       </div>
 
-      <div class="service-list-ed" data-stagger>
-        <div class="service-list-item stagger-item">
-          <div class="sli-left">
-            <span class="sli-num">01</span>
-            <span class="sli-name">Bodas y Casamientos</span>
+      <div class="ev-tabs fade-up">
+        <button class="ev-tab active" data-tab="corporativos">Corporativos</button>
+        <button class="ev-tab" data-tab="bodas">Bodas</button>
+        <button class="ev-tab" data-tab="quince">XV Años</button>
+        <button class="ev-tab" data-tab="sociales">Sociales</button>
+      </div>
+
+      <!-- CORPORATIVOS -->
+      <div class="ev-panel active" id="tab-corporativos">
+        <div class="ev-panel-left">
+          <h3>Eventos Corporativos</h3>
+          <p>Lanzamientos, cenas de fin de año, reuniones de directorio, team buildings y más. Adaptamos cada espacio a la identidad de tu empresa con propuestas a medida.</p>
+          <div class="ev-salones-label">Disponible en</div>
+          <div class="ev-salones">
+            <a href="salon-ala-wai" class="ev-salon-chip">Salón Ala Wai</a>
+            <a href="salon-mirador-waikiki" class="ev-salon-chip">Mirador Waikiki</a>
+            <a href="salon-mirador-9" class="ev-salon-chip">Mirador 9</a>
+            <a href="salon-hula-kai" class="ev-salon-chip">Hula Kai</a>
           </div>
-          <div class="sli-right">
-            <span class="sli-tag">Social</span>
-            <svg class="sli-arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          <div class="ev-integral">
+            <div class="ev-integral-title">Servicio integral incluido</div>
+            <ul class="ev-integral-list">
+              <li>Gastronomía</li>
+              <li>Técnica audiovisual</li>
+              <li>Seguridad</li>
+              <li>Estacionamiento</li>
+              <li>Iluminación</li>
+              <li>Barra de tragos</li>
+            </ul>
           </div>
+          <a href="contacto" class="btn btn-primary" style="margin-top:2rem;">Consultar disponibilidad
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a>
         </div>
-        <div class="service-list-item stagger-item">
-          <div class="sli-left">
-            <span class="sli-num">02</span>
-            <span class="sli-name">Fiestas de XV Años</span>
-          </div>
-          <div class="sli-right">
-            <span class="sli-tag">Social</span>
-            <svg class="sli-arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-          </div>
+        <div class="ev-panel-right">
+          <img src="assets/images/servicios-tab-4.jpg" alt="Evento corporativo">
         </div>
-        <div class="service-list-item stagger-item">
-          <div class="sli-left">
-            <span class="sli-num">03</span>
-            <span class="sli-name">Eventos Corporativos</span>
+      </div>
+
+      <!-- BODAS -->
+      <div class="ev-panel" id="tab-bodas">
+        <div class="ev-panel-left">
+          <h3>Bodas y Casamientos</h3>
+          <p>El día más especial merece el marco perfecto. Dos salones únicos frente al mar para que tu boda sea exactamente como la soñaste, desde el primer baile hasta el último brindis.</p>
+          <div class="ev-salones-label">Disponible en</div>
+          <div class="ev-salones">
+            <a href="salon-ala-wai" class="ev-salon-chip">Salón Ala Wai</a>
+            <a href="salon-mirador-9" class="ev-salon-chip">Mirador 9</a>
           </div>
-          <div class="sli-right">
-            <span class="sli-tag">Corporativo</span>
-            <svg class="sli-arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          <div class="ev-integral">
+            <div class="ev-integral-title">Servicio integral incluido</div>
+            <ul class="ev-integral-list">
+              <li>Gastronomía</li>
+              <li>Técnica audiovisual</li>
+              <li>Seguridad</li>
+              <li>Estacionamiento</li>
+              <li>Iluminación</li>
+              <li>Barra de tragos</li>
+            </ul>
           </div>
+          <a href="contacto" class="btn btn-primary" style="margin-top:2rem;">Consultar disponibilidad
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a>
         </div>
-        <div class="service-list-item stagger-item">
-          <div class="sli-left">
-            <span class="sli-num">04</span>
-            <span class="sli-name">Eventos Sociales</span>
-          </div>
-          <div class="sli-right">
-            <span class="sli-tag">Social</span>
-            <svg class="sli-arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-          </div>
+        <div class="ev-panel-right">
+          <img src="assets/images/servicios-tab-3.jpg" alt="Boda en salón">
         </div>
-        <div class="service-list-item stagger-item">
-          <div class="sli-left">
-            <span class="sli-num">05</span>
-            <span class="sli-name">Fiestas de Fin de Año</span>
+      </div>
+
+      <!-- XV AÑOS -->
+      <div class="ev-panel" id="tab-quince">
+        <div class="ev-panel-left">
+          <h3>Fiestas de XV Años</h3>
+          <p>Un momento único que merece un escenario extraordinario. Con vista al mar y producción integral, hacemos que esa noche sea inolvidable para ella y para todos los invitados.</p>
+          <div class="ev-salones-label">Disponible en</div>
+          <div class="ev-salones">
+            <a href="salon-ala-wai" class="ev-salon-chip">Salón Ala Wai</a>
+            <a href="salon-mirador-9" class="ev-salon-chip">Mirador 9</a>
           </div>
-          <div class="sli-right">
-            <span class="sli-tag">Corporativo</span>
-            <svg class="sli-arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          <div class="ev-integral">
+            <div class="ev-integral-title">Servicio integral incluido</div>
+            <ul class="ev-integral-list">
+              <li>Gastronomía</li>
+              <li>Técnica audiovisual</li>
+              <li>Seguridad</li>
+              <li>Estacionamiento</li>
+              <li>Iluminación</li>
+              <li>Barra de tragos</li>
+            </ul>
           </div>
+          <a href="contacto" class="btn btn-primary" style="margin-top:2rem;">Consultar disponibilidad
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a>
+        </div>
+        <div class="ev-panel-right">
+          <img src="assets/images/servicios-tab-1.jpg" alt="Fiesta de XV años">
+        </div>
+      </div>
+
+      <!-- SOCIALES -->
+      <div class="ev-panel" id="tab-sociales">
+        <div class="ev-panel-left">
+          <h3>Eventos Sociales</h3>
+          <p>Cumpleaños, aniversarios, reuniones familiares, graduaciones y cualquier celebración que merece un lugar especial. Tenemos el espacio ideal para cada escala y estilo.</p>
+          <div class="ev-salones-label">Disponible en</div>
+          <div class="ev-salones">
+            <a href="salon-ala-wai" class="ev-salon-chip">Salón Ala Wai</a>
+            <a href="salon-mirador-waikiki" class="ev-salon-chip">Mirador Waikiki</a>
+            <a href="salon-mirador-9" class="ev-salon-chip">Mirador 9</a>
+            <a href="salon-hula-kai" class="ev-salon-chip">Hula Kai</a>
+          </div>
+          <div class="ev-integral">
+            <div class="ev-integral-title">Servicio integral incluido</div>
+            <ul class="ev-integral-list">
+              <li>Gastronomía</li>
+              <li>Técnica audiovisual</li>
+              <li>Seguridad</li>
+              <li>Estacionamiento</li>
+              <li>Iluminación</li>
+              <li>Barra de tragos</li>
+            </ul>
+          </div>
+          <a href="contacto" class="btn btn-primary" style="margin-top:2rem;">Consultar disponibilidad
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a>
+        </div>
+        <div class="ev-panel-right">
+          <img src="assets/images/servicios-tab-2.jpg" alt="Evento social">
         </div>
       </div>
 
@@ -870,6 +945,16 @@
         if (video.readyState < 2) showFallback();
       }, 4000);
     })();
+  </script>
+  <script>
+    document.querySelectorAll('.ev-tab').forEach(function(tab) {
+      tab.addEventListener('click', function() {
+        document.querySelectorAll('.ev-tab').forEach(function(t) { t.classList.remove('active'); });
+        document.querySelectorAll('.ev-panel').forEach(function(p) { p.classList.remove('active'); });
+        tab.classList.add('active');
+        document.getElementById('tab-' + tab.dataset.tab).classList.add('active');
+      });
+    });
   </script>
 </body>
 </html>
