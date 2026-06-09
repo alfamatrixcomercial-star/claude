@@ -10,6 +10,7 @@ const { notificarEnzo } = require('./notify');
 const db = require('./db');
 const { initReservations, addReservation, updateReservation, getAll } = require('./reservations');
 const { initAlerts, addAlert, markRead, getUnread } = require('./alerts');
+const { initLeads, addLead, getAllLeads } = require('./leads');
 
 const dashboardHTML = fs.readFileSync(path.join(__dirname, 'dashboard.html'), 'utf8');
 
@@ -187,10 +188,14 @@ app.post('/manychat', async (req, res) => {
     const rawReply = await chat(sessionKey, message, buildOccupancyContext());
 
     const reservation = parseReservation(rawReply);
-    const humano = rawReply.match(/##HUMANO##(\{.*?\})##FIN##/s);
+    const humano    = rawReply.match(/##HUMANO##(\{.*?\})##FIN##/s);
+    const cvMatch   = rawReply.match(/##CV##(\{.*?\})##FIN##/s);
+    const showMatch = rawReply.match(/##SHOW##(\{.*?\})##FIN##/s);
     const sendFlyer = rawReply.includes('##FLYER_SUSHI##');
     const replyText = cleanReply(rawReply)
       .replace(/##HUMANO##.*?##FIN##/s, '')
+      .replace(/##CV##.*?##FIN##/s, '')
+      .replace(/##SHOW##.*?##FIN##/s, '')
       .replace(/##FLYER_SUSHI##/g, '')
       .trim();
 
@@ -216,10 +221,23 @@ app.post('/manychat', async (req, res) => {
     // Cliente quiere hablar con humano → guardar alerta + notificar a Enzo
     if (humano) {
       addAlert({ telefono: phone || user_id });
-      await notificarEnzo({
-        tipo: 'humano',
-        telefono: phone || user_id,
-      });
+      await notificarEnzo({ tipo: 'humano', telefono: phone || user_id });
+    }
+
+    // CV → guardar lead
+    if (cvMatch) {
+      try {
+        const d = JSON.parse(cvMatch[1]);
+        addLead({ tipo: 'cv', telefono: d.telefono || phone || user_id, detalle: d.detalle || '-' });
+      } catch {}
+    }
+
+    // Show → guardar lead
+    if (showMatch) {
+      try {
+        const d = JSON.parse(showMatch[1]);
+        addLead({ tipo: 'show', telefono: d.telefono || phone || user_id, detalle: d.detalle || '-' });
+      } catch {}
     }
 
     // Flyer de sushi → enviar imagen via ManyChat API antes del texto
@@ -318,6 +336,11 @@ app.patch('/api/alertas/:id', (req, res) => {
   res.json(updated);
 });
 
+app.get('/api/leads', (req, res) => {
+  if (!checkToken(req, res)) return;
+  res.json(getAllLeads());
+});
+
 app.patch('/api/reservas/:id', (req, res) => {
   if (!checkToken(req, res)) return;
   const { estado, mesa } = req.body;
@@ -353,6 +376,7 @@ app.listen(config.PORT, async () => {
     await db.init();
     await initReservations();
     await initAlerts();
+    await initLeads();
   } else {
     console.log('[DB] DATABASE_URL no configurado, usando memoria temporal');
   }

@@ -242,7 +242,15 @@ DERIVACIONES:
 - Eventos → Mar Eventos (Germán/Romina)
 - Hotel → Hotel Ili Ili Boutique
 - TripAdvisor: no tenemos perfil en TripAdvisor por el momento.
-- Para cualquier otra consulta que no puedas responder → decí que el equipo se contacta a la brevedad`;
+- Para cualquier otra consulta que no puedas responder → decí que el equipo se contacta a la brevedad
+
+CV / BÚSQUEDA LABORAL:
+- Si alguien manda su CV, pregunta por trabajo, ofrece sus servicios laborales o consulta si hay puestos disponibles, respondé amablemente que se lo vamos a hacer llegar al equipo y que se van a comunicar a la brevedad. Agragá al final (invisible para el usuario):
+  ##CV##{"telefono":"numero","detalle":"descripcion breve del puesto o perfil mencionado"}##FIN##
+
+SHOWS / ENTRETENIMIENTO EN VIVO:
+- Si alguien ofrece un show, actuación, música en vivo, entretenimiento o similar, respondé amablemente que le vamos a trasladar la propuesta al equipo y que se van a comunicar a la brevedad. Agregá al final (invisible para el usuario):
+  ##SHOW##{"telefono":"numero","detalle":"descripcion breve del show ofrecido"}##FIN##`;
 
 const fs = require('fs');
 const path = require('path');

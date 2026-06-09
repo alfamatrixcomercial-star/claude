@@ -9,6 +9,7 @@ async function init() {
   await pool.query(`
     CREATE TABLE IF NOT EXISTS reservations (id TEXT PRIMARY KEY, data JSONB NOT NULL);
     CREATE TABLE IF NOT EXISTS alerts (id TEXT PRIMARY KEY, data JSONB NOT NULL);
+    CREATE TABLE IF NOT EXISTS leads (id TEXT PRIMARY KEY, data JSONB NOT NULL);
   `);
 }
 
