@@ -1,6 +1,7 @@
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
+const axios = require('axios');
 const config = require('./config');
 const { sendMessage, markAsRead } = require('./whatsapp');
 const { chat, parseReservation, cleanReply, conversations } = require('./claude');
@@ -14,6 +15,9 @@ const dashboardHTML = fs.readFileSync(path.join(__dirname, 'dashboard.html'), 'u
 
 const app = express();
 app.use(express.json({ limit: '5mb' }));
+
+// Imagen estática del flyer de sushi
+app.use('/static', express.static(path.join(__dirname, 'static')));
 
 // Previene procesar el mismo mensaje dos veces (WhatsApp puede reenviar)
 const processedMessages = new Set();
@@ -98,6 +102,29 @@ app.post('/webhook', async (req, res) => {
 });
 
 // ──────────────────────────────────────
+// Flyer de sushi — envía imagen via ManyChat API al suscriptor
+// ──────────────────────────────────────
+async function sendSushiFlyer(subscriberId) {
+  const baseUrl = process.env.APP_URL || '';
+  const imageUrl = baseUrl + '/static/flyer-sushi.jpg';
+  await axios.post(
+    'https://api.manychat.com/fb/sending/sendContent',
+    {
+      subscriber_id: subscriberId,
+      data: {
+        version: 'v2',
+        content: {
+          messages: [{ type: 'image', url: imageUrl }],
+        },
+      },
+      message_tag: 'ACCOUNT_UPDATE',
+    },
+    { headers: { Authorization: 'Bearer ' + config.MANYCHAT_API_KEY } }
+  );
+  console.log('[Flyer] Imagen sushi enviada a subscriber', subscriberId);
+}
+
+// ──────────────────────────────────────
 // Endpoint para ManyChat (External Request)
 // ──────────────────────────────────────
 app.post('/manychat', async (req, res) => {
@@ -161,7 +188,11 @@ app.post('/manychat', async (req, res) => {
 
     const reservation = parseReservation(rawReply);
     const humano = rawReply.match(/##HUMANO##(\{.*?\})##FIN##/s);
-    const replyText = cleanReply(rawReply).replace(/##HUMANO##.*?##FIN##/s, '').trim();
+    const sendFlyer = rawReply.includes('##FLYER_SUSHI##');
+    const replyText = cleanReply(rawReply)
+      .replace(/##HUMANO##.*?##FIN##/s, '')
+      .replace(/##FLYER_SUSHI##/g, '')
+      .trim();
 
     // Reserva confirmada → guardar en Sheets y notificar a Enzo
     if (reservation) {
@@ -189,6 +220,11 @@ app.post('/manychat', async (req, res) => {
         tipo: 'humano',
         telefono: phone || user_id,
       });
+    }
+
+    // Flyer de sushi → enviar imagen via ManyChat API antes del texto
+    if (sendFlyer && user_id && config.MANYCHAT_API_KEY) {
+      sendSushiFlyer(user_id).catch(e => console.error('[Flyer] Error enviando imagen:', e.message));
     }
 
     // Cachear respuesta para deduplicación
