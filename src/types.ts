@@ -8,6 +8,7 @@ export interface Ingrediente {
   unidad: Unidad
   precio: number | null
   updatedAt: string | null
+  mermaPorDefecto: number
 }
 
 export interface Proveedor {

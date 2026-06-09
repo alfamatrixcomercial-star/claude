@@ -56,6 +56,7 @@ export default function PlatosModule({ platos, ingredientes, onUpdatePlato }: Pr
       nombre: ing.nombre,
       ingredienteId: ing.id,
       precioBase: ing.precio !== null ? String(Math.round(ing.precio)) : '',
+      merma: String(ing.mermaPorDefecto ?? 0),
     }))
     setShowAutocomplete(false)
   }

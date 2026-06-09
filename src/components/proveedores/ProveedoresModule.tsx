@@ -21,7 +21,7 @@ export default function ProveedoresModule({
   const [showAddProv, setShowAddProv] = useState(false)
   const [newProvNombre, setNewProvNombre] = useState('')
   const [showAddIng, setShowAddIng] = useState(false)
-  const [newIng, setNewIng] = useState({ nombre: '', categoria: '', unidad: 'kg' as Unidad })
+  const [newIng, setNewIng] = useState({ nombre: '', categoria: '', unidad: 'kg' as Unidad, mermaPorDefecto: 0 })
   const [editPrices, setEditPrices] = useState<Record<string, string>>({})
   const [confirmDelete, setConfirmDelete] = useState<string | null>(null)
 
@@ -183,7 +183,7 @@ export default function ProveedoresModule({
                 onClick={() => {
                   if (newIng.nombre.trim() && newIng.categoria.trim()) {
                     onAddIngrediente({ ...newIng, proveedorId: selectedId })
-                    setNewIng({ nombre: '', categoria: '', unidad: 'kg' })
+                    setNewIng({ nombre: '', categoria: '', unidad: 'kg', mermaPorDefecto: 0 })
                     setShowAddIng(false)
                   }
                 }}
