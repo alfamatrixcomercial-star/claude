@@ -342,6 +342,22 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
   });
 });
 
+// ===== GALLERY FILTER =====
+const galleryFilters = document.querySelectorAll('.gallery-filter');
+if (galleryFilters.length) {
+  galleryFilters.forEach(btn => {
+    btn.addEventListener('click', () => {
+      galleryFilters.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const filter = btn.dataset.filter;
+      document.querySelectorAll('.gallery-grid .gallery-item').forEach(item => {
+        const cat = item.dataset.category;
+        item.style.display = (filter === 'todos' || cat === filter) ? '' : 'none';
+      });
+    });
+  });
+}
+
 // ===== IMAGE FALLBACK =====
 document.querySelectorAll('img[src*="mareventos.com.ar"]').forEach(img => {
   img.addEventListener('error', function() {
