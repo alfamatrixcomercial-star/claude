@@ -1614,6 +1614,17 @@ textarea.form-control {
 
 .footer-bottom a:hover { color: var(--teal-light); }
 
+.footer-credit {
+  font-size: 0.75rem;
+  color: rgba(255,255,255,0.3);
+}
+.footer-credit-link {
+  color: rgba(255,255,255,0.4);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.footer-credit-link:hover { color: var(--teal-light); }
+
 /* ======== WHATSAPP FLOAT ======== */
 .whatsapp-float {
   position: fixed;
