@@ -5,9 +5,9 @@ const loader = document.querySelector('.page-loader');
 if (loader) {
   const bar = loader.querySelector('.loader-bar');
   if (bar) {
-    bar.style.width = '0%';
-    setTimeout(() => { bar.style.width = '70%'; }, 100);
-    setTimeout(() => { bar.style.width = '100%'; }, 500);
+    bar.style.transform = 'scaleX(0)';
+    setTimeout(() => { bar.style.transform = 'scaleX(0.7)'; }, 100);
+    setTimeout(() => { bar.style.transform = 'scaleX(1)'; }, 500);
   }
   window.addEventListener('load', () => {
     setTimeout(() => {
