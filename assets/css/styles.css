@@ -936,6 +936,9 @@ p {
   object-fit: contain;
   border-radius: var(--radius);
   box-shadow: var(--shadow-lg);
+  cursor: zoom-in;
+  user-select: none;
+  -webkit-user-drag: none;
 }
 
 .lightbox-close {

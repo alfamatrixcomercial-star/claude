@@ -213,32 +213,103 @@ const lightbox = document.querySelector('.lightbox');
 if (lightbox) {
   const lbImg = lightbox.querySelector('.lightbox-img');
   let images = [], idx = 0;
+  let scale = 1, tx = 0, ty = 0, dragging = false, lx = 0, ly = 0;
+
+  function applyTransform(animated) {
+    if (animated) lbImg.style.transition = 'transform 0.2s ease';
+    lbImg.style.transform = 'scale(' + scale + ') translate(' + tx + 'px,' + ty + 'px)';
+    lbImg.style.cursor = scale > 1 ? (dragging ? 'grabbing' : 'grab') : 'zoom-in';
+    if (animated) setTimeout(function() { lbImg.style.transition = ''; }, 220);
+  }
+
+  function resetZoom(animated) {
+    scale = 1; tx = 0; ty = 0;
+    applyTransform(animated);
+  }
 
   function open(imgs, i) {
     images = imgs; idx = i;
     lbImg.src = imgs[i];
+    resetZoom(false);
     lightbox.classList.add('active');
     document.body.style.overflow = 'hidden';
   }
-  function close() { lightbox.classList.remove('active'); document.body.style.overflow = ''; }
-  function nav(d) {
-    idx = (idx + d + images.length) % images.length;
-    lbImg.style.opacity = '0';
-    setTimeout(() => { lbImg.src = images[idx]; lbImg.style.opacity = '1'; }, 180);
+
+  function close() {
+    lightbox.classList.remove('active');
+    document.body.style.overflow = '';
+    resetZoom(false);
   }
 
+  function nav(d) {
+    resetZoom(false);
+    idx = (idx + d + images.length) % images.length;
+    lbImg.style.opacity = '0';
+    setTimeout(function() { lbImg.src = images[idx]; lbImg.style.opacity = '1'; }, 180);
+  }
+
+  // Wheel zoom
+  lbImg.addEventListener('wheel', function(e) {
+    e.preventDefault();
+    scale = Math.min(Math.max(scale * (e.deltaY > 0 ? 0.85 : 1.18), 1), 5);
+    if (scale === 1) { tx = 0; ty = 0; }
+    applyTransform(false);
+  }, { passive: false });
+
+  // Double-click to toggle zoom
+  lbImg.addEventListener('dblclick', function() {
+    if (scale > 1) { resetZoom(true); } else { scale = 2.5; applyTransform(true); }
+  });
+
+  // Drag to pan when zoomed
+  lbImg.addEventListener('mousedown', function(e) {
+    if (scale <= 1) return;
+    dragging = true; lx = e.clientX; ly = e.clientY;
+    applyTransform(false);
+    e.preventDefault();
+  });
+  document.addEventListener('mousemove', function(e) {
+    if (!dragging) return;
+    tx += (e.clientX - lx) / scale;
+    ty += (e.clientY - ly) / scale;
+    lx = e.clientX; ly = e.clientY;
+    applyTransform(false);
+  });
+  document.addEventListener('mouseup', function() {
+    dragging = false;
+    applyTransform(false);
+  });
+
+  // Pinch to zoom (touch)
+  var pinchDist0 = 0, scale0 = 1;
+  lbImg.addEventListener('touchstart', function(e) {
+    if (e.touches.length === 2) {
+      pinchDist0 = Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY);
+      scale0 = scale;
+    }
+  }, { passive: true });
+  lbImg.addEventListener('touchmove', function(e) {
+    if (e.touches.length === 2) {
+      var d = Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY);
+      scale = Math.min(Math.max(scale0 * (d / pinchDist0), 1), 5);
+      if (scale === 1) { tx = 0; ty = 0; }
+      applyTransform(false);
+      e.preventDefault();
+    }
+  }, { passive: false });
+
   lightbox.querySelector('.lightbox-close')?.addEventListener('click', close);
-  lightbox.querySelector('.lightbox-prev')?.addEventListener('click', () => nav(-1));
-  lightbox.querySelector('.lightbox-next')?.addEventListener('click', () => nav(1));
-  lightbox.addEventListener('click', e => { if (e.target === lightbox) close(); });
-  document.addEventListener('keydown', e => {
+  lightbox.querySelector('.lightbox-prev')?.addEventListener('click', function() { nav(-1); });
+  lightbox.querySelector('.lightbox-next')?.addEventListener('click', function() { nav(1); });
+  lightbox.addEventListener('click', function(e) { if (e.target === lightbox) close(); });
+  document.addEventListener('keydown', function(e) {
     if (!lightbox.classList.contains('active')) return;
     if (e.key === 'Escape') close();
     if (e.key === 'ArrowLeft') nav(-1);
     if (e.key === 'ArrowRight') nav(1);
   });
-  document.querySelectorAll('[data-lightbox]').forEach((item, i, all) => {
-    item.addEventListener('click', () => open(Array.from(all).map(el => el.dataset.lightbox), i));
+  document.querySelectorAll('[data-lightbox]').forEach(function(item, i, all) {
+    item.addEventListener('click', function() { open(Array.from(all).map(function(el) { return el.dataset.lightbox; }), i); });
   });
 }
 
