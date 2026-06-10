@@ -1101,6 +1101,8 @@ p {
   box-shadow: var(--shadow-sm);
   transition: var(--transition);
   position: relative;
+  display: flex;
+  flex-direction: column;
 }
 
 .service-card:hover {
@@ -1131,6 +1133,7 @@ p {
 
 .service-card-body {
   padding: 24px 24px 28px;
+  flex: 1;
 }
 
 .service-card-icon {
