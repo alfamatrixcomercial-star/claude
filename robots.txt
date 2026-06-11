@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
+Disallow: /presupuesto
 
 Sitemap: https://mareventos.com.ar/sitemap.xml

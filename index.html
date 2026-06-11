@@ -7,50 +7,81 @@
   <link rel="icon" type="image/png" href="/favicon.png">
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
   <link rel="shortcut icon" href="/favicon.png">
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+  <meta name="geo.region" content="AR-B">
+  <meta name="geo.placename" content="Mar del Plata, Buenos Aires, Argentina">
+  <meta name="geo.position" content="-38.0539;-57.5278">
+  <meta name="ICBM" content="-38.0539, -57.5278">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Salones de eventos en Mar del Plata frente al mar. Bodas, XV años, eventos corporativos y privados. Mirador Waikiki, Mirador 9 y Ala Wai. Boda frente al mar con servicio integral.">
+  <meta name="description" content="Mar Eventos: los mejores salones de eventos en Mar del Plata frente al mar. Bodas, XV años, corporativos y fiestas. Hasta 900 personas · +1000 eventos realizados · Servicio integral.">
   <title>Salones de Eventos en Mar del Plata | Bodas frente al Mar | Mar Eventos</title>
   <link rel="canonical" href="https://mareventos.com.ar/">
+  <link rel="alternate" hreflang="es-AR" href="https://mareventos.com.ar/">
   <!-- Open Graph -->
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Mar Eventos">
   <meta property="og:url" content="https://mareventos.com.ar/">
-  <meta property="og:title" content="Salones de Eventos en Mar del Plata | Bodas frente al Mar | Mar Eventos">
-  <meta property="og:description" content="Bodas, XV años, corporativos y eventos privados en Mar del Plata. Salones frente al mar hasta 900 personas. Más de 1000 eventos realizados.">
+  <meta property="og:title" content="Mar Eventos — Salones de Eventos frente al Mar en Mar del Plata">
+  <meta property="og:description" content="Bodas, XV años, corporativos y fiestas en Mar del Plata. 4 salones exclusivos frente al mar, hasta 900 personas, más de 1000 eventos realizados.">
   <meta property="og:image" content="https://mareventos.com.ar/assets/images/cover-waikiki.jpg">
   <meta property="og:locale" content="es_AR">
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Salones de Eventos en Mar del Plata | Bodas frente al Mar">
-  <meta name="twitter:description" content="Bodas y eventos privados frente al mar en Mar del Plata. Salones para 25 a 900 personas. Servicio integral.">
+  <meta name="twitter:title" content="Mar Eventos — Salones de Eventos frente al Mar en Mar del Plata">
+  <meta name="twitter:description" content="Bodas, XV años, corporativos y fiestas en Mar del Plata. 4 salones exclusivos frente al mar, hasta 900 personas, más de 1000 eventos realizados.">
   <meta name="twitter:image" content="https://mareventos.com.ar/assets/images/cover-waikiki.jpg">
   <!-- Schema.org LocalBusiness -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "EventVenue",
-    "name": "Mar Eventos",
-    "description": "Producción integral de eventos en Mar del Plata. Bodas, XV años, corporativos y fiestas sociales en salones frente al mar.",
-    "url": "https://mareventos.com.ar",
-    "telephone": "+54-9-223-600-1777",
-    "email": "info@mareventos.com.ar",
-    "image": "https://mareventos.com.ar/assets/images/cover-waikiki.jpg",
-    "priceRange": "$$$$",
-    "address": {
-      "@type": "PostalAddress",
-      "streetAddress": "Av. de los Trabajadores 4320",
-      "addressLocality": "Mar del Plata",
-      "addressRegion": "Buenos Aires",
-      "postalCode": "7600",
-      "addressCountry": "AR"
-    },
-    "openingHoursSpecification": {
-      "@type": "OpeningHoursSpecification",
-      "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"],
-      "opens": "08:00",
-      "closes": "18:00"
-    },
-    "sameAs": ["https://mareventos.com.ar"]
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://mareventos.com.ar/#organization",
+        "name": "Mar Eventos",
+        "url": "https://mareventos.com.ar",
+        "logo": { "@type": "ImageObject", "url": "https://mareventos.com.ar/assets/images/logo.png" },
+        "telephone": "+542236333330",
+        "email": "info@mareventos.com.ar",
+        "sameAs": ["https://www.instagram.com/mar.eventos"]
+      },
+      {
+        "@type": "LocalBusiness",
+        "@id": "https://mareventos.com.ar/#localbusiness",
+        "name": "Mar Eventos — Salones de Eventos en Mar del Plata",
+        "alternateName": "Mar Eventos",
+        "description": "Los mejores salones de eventos en Mar del Plata frente al mar. Bodas, XV años, corporativos y fiestas sociales. Tres salones exclusivos hasta 900 personas, más de 1000 eventos realizados.",
+        "url": "https://mareventos.com.ar",
+        "telephone": "+542236333330",
+        "email": "info@mareventos.com.ar",
+        "image": "https://mareventos.com.ar/assets/images/cover-waikiki.jpg",
+        "priceRange": "$$$$",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "Av. de los Trabajadores 4320",
+          "addressLocality": "Mar del Plata",
+          "addressRegion": "Buenos Aires",
+          "postalCode": "7600",
+          "addressCountry": "AR"
+        },
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": -38.0539,
+          "longitude": -57.5278
+        },
+        "openingHoursSpecification": [
+          { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"], "opens": "09:00", "closes": "18:00" },
+          { "@type": "OpeningHoursSpecification", "dayOfWeek": "Saturday", "opens": "10:00", "closes": "16:00" }
+        ],
+        "hasMap": "https://maps.google.com/maps?q=Av.+de+los+Trabajadores+4320,+Mar+del+Plata",
+        "servesCuisine": "Gastronomía para eventos",
+        "keywords": "salón de eventos Mar del Plata, bodas Mar del Plata, XV años Mar del Plata, eventos corporativos Mar del Plata, fiestas privadas Mar del Plata, salón frente al mar",
+        "areaServed": {
+          "@type": "City",
+          "name": "Mar del Plata"
+        }
+      }
+    ]
   }
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -481,6 +512,46 @@
     gtag('js', new Date());
     gtag('config', 'G-84M4Z688FN');
   </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "¿Cuántas personas entran en los salones de Mar Eventos?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Mar Eventos cuenta con cuatro salones en Mar del Plata con distintas capacidades: Salón Ala Wai (120–300 personas), Mirador Waikiki (300–900 personas), Mirador 9 (80–200 personas) y Hula Kai (25–55 personas)."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "¿Dónde están ubicados los salones de eventos?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Todos los salones de Mar Eventos están ubicados en el Complejo Waikiki, Av. de los Trabajadores 4320, zona sur de Mar del Plata, frente al mar."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "¿Qué tipos de eventos organiza Mar Eventos?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Mar Eventos organiza bodas, casamientos, fiestas de XV años, eventos corporativos, lanzamientos de productos, cenas de gala, cumpleaños y cualquier tipo de celebración privada, con servicio integral de catering, barra de tragos, ambientación, iluminación y música."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "¿El servicio incluye catering y decoración?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Sí. Mar Eventos ofrece un servicio 100% integral que incluye gastronomía (catering y barra de tragos), ambientación, iluminación, sonido, DJ o banda en vivo, estacionamiento y coordinación del evento."
+        }
+      }
+    ]
+  }
+  </script>
 </head>
 <body>
 
@@ -571,6 +642,7 @@
         <img src="assets/images/about-detail2.jpg" alt="Mesa de evento" data-lightbox="assets/images/about-detail2.jpg" style="cursor:pointer">
       </div>
       <div class="about-minimal-text fade-right">
+        <span class="services-big-num" style="color:rgba(15,27,18,0.06);font-family:"Montserrat",sans-serif;font-size:clamp(4rem,8vw,7rem);font-weight:700;line-height:1;display:block;margin-bottom:-0.8rem;letter-spacing:-0.02em;">01</span>
         <span class="script-title">Quiénes somos</span>
         <h2>El equipo detrás de tus mejores momentos</h2>
         <div class="divider"></div>
@@ -730,6 +802,7 @@
   <!-- ===================== VENUES TRIPTYCH ===================== -->
   <section class="venues-section" id="salones">
     <div class="venues-header fade-up">
+      <span class="services-big-num" style="color:rgba(15,27,18,0.06);font-family:"Montserrat",sans-serif;font-size:clamp(4rem,8vw,7rem);font-weight:700;line-height:1;display:block;margin-bottom:-0.8rem;letter-spacing:-0.02em;">03</span>
       <span class="script-title">Nuestros espacios</span>
       <h2>Los Salones</h2>
     </div>
