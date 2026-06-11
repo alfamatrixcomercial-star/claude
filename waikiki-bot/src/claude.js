@@ -36,6 +36,10 @@ HORARIOS (temporada invierno):
 • Lunes a jueves y domingo: 08:00 a 21:00 hs | Cocina hasta las 20:00 hs
 • Desayuno y merienda: por orden de llegada, sin reserva
 
+⚠️ IMPORTANTE — diferencia entre RESERVA y ASISTENCIA:
+- Se puede comer en cualquier horario dentro del horario de cocina (lunes a jueves y domingo: hasta 20:00 hs; viernes y sábado: hasta 23:30 hs), por orden de llegada y sin reserva.
+- Las RESERVAS son solo para los turnos de almuerzo y cena (ver sección RESERVAS). Si alguien pregunta si puede venir a las 16:30, la respuesta es SÍ, puede venir sin reserva por orden de llegada siempre que la cocina esté abierta ese día.
+
 SERVICIOS:
 1. 🍽️ Restaurant y Cafetería (desde las 08:00 hs)
 2. 🌊 Hula Kai (sector piscina):
