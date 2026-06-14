@@ -302,7 +302,12 @@
 
   function arDate(offset) {
     const d = new Date(); d.setDate(d.getDate() + (offset || 0));
-    return d.toLocaleDateString('es-AR', { timeZone: 'America/Argentina/Buenos_Aires', day: '2-digit', month: '2-digit' });
+    const parts = new Intl.DateTimeFormat('es-AR', {
+      timeZone: 'America/Argentina/Buenos_Aires', day: '2-digit', month: '2-digit',
+    }).formatToParts(d);
+    const day   = parts.find(p => p.type === 'day').value.padStart(2, '0');
+    const month = parts.find(p => p.type === 'month').value.padStart(2, '0');
+    return day + '/' + month;
   }
 
   function setTab(el) {
