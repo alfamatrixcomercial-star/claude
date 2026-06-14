@@ -199,6 +199,25 @@ app.post('/manychat', async (req, res) => {
       .replace(/##FLYER_SUSHI##/g, '')
       .trim();
 
+    // Bloqueo forzado: grupos grandes en fechas bloqueadas
+    // Array de {fecha, minPersonas} — fecha en formato DD/MM
+    const BLOCKED_LARGE_GROUPS = [
+      { fecha: '14/06', minPersonas: 6 },
+    ];
+
+    if (reservation) {
+      const bloqueada = BLOCKED_LARGE_GROUPS.find(
+        b => b.fecha === reservation.fecha && parseInt(reservation.personas) >= b.minPersonas
+      );
+      if (bloqueada) {
+        console.log(`[Reserva bloqueada] ${reservation.fecha} — ${reservation.personas} personas`);
+        manychatProcessed.set(dedupKey, { time: Date.now(), response: '' });
+        return res.json({
+          response: `Disculpe, para el ${reservation.fecha} no contamos con disponibilidad para grupos de ${bloqueada.minPersonas} o más personas. Pueden venir por orden de llegada sujeto a disponibilidad. ¡Los esperamos! 🌊`
+        });
+      }
+    }
+
     // Reserva confirmada → guardar en Sheets y notificar a Enzo
     if (reservation) {
       const tel = reservation.telefono || phone;
