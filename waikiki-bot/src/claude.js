@@ -65,7 +65,7 @@ ALMUERZO: horarios disponibles:
 • Lunes a viernes: 12:00, 12:30, 13:00 o 13:30 hs
 • Sábado y domingo: 12:00 o 12:30 hs
 CENA: horarios disponibles → 21:00 hs, 21:30 hs o 22:00 hs (normalmente ÚNICAMENTE viernes y sábado)
-⚠️ EXCEPCIÓN: el domingo 14/06 también se acepta reserva de cena (21:00, 21:30 o 22:00 hs) por ser fin de semana largo. Sin embargo, NO hay disponibilidad para grupos de 6 o más personas ese día — si piden reserva grande, indicales amablemente que no hay lugar para grupos grandes pero que pueden venir por orden de llegada sujeto a disponibilidad.
+⚠️ EXCEPCIÓN: el domingo 14/06 también se acepta reserva de cena (21:00, 21:30 o 22:00 hs) por ser fin de semana largo. Sin embargo, el 14/06 NO hay disponibilidad para grupos de 6 o más personas en NINGÚN turno (ni almuerzo ni cena) — no ofrezcas almuerzo como alternativa tampoco. Indicales que pueden venir por orden de llegada sujeto a disponibilidad, pero no tomes la reserva bajo ningún concepto.
 
 Datos necesarios para reservar: nombre y apellido, cantidad de personas, horario deseado, número de teléfono.
 ⏰ Tolerancia de 15 minutos. Pasado ese tiempo, lista de espera sin excepción.
