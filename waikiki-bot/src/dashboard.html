@@ -124,6 +124,19 @@
     .mesa-actions { display: flex; gap: 7px; }
     .mesa-actions .btn { padding: 9px 12px; font-size: 12px; }
 
+    /* ── STAT CLICKEABLE ── */
+    .stat.clickable { cursor: pointer; transition: transform .15s, box-shadow .15s; }
+    .stat.clickable:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,.1); }
+    .stat.clickable:active { transform: scale(.97); }
+
+    /* ── BTN SACAR ── */
+    .btn-sacar { position: absolute; top: 10px; right: 10px; width: 28px; height: 28px; border-radius: 50%; border: none; background: var(--sand); color: var(--muted); font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background .15s, color .15s; line-height: 1; }
+    .btn-sacar:hover { background: #fee2e2; color: var(--error); }
+
+    /* ── CARD FADE OUT ── */
+    .card.removing { animation: fadeOut .3s ease forwards; }
+    @keyframes fadeOut { to { opacity: 0; transform: translateX(40px); max-height: 0; margin: 0; padding: 0; overflow: hidden; } }
+
     /* ── FOOTER ── */
     .footer { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(219,210,181,.93); backdrop-filter: blur(10px); border-top: 1px solid var(--border-light); text-align: center; padding: 11px 16px; font-size: 11px; color: var(--muted); font-weight: 500; }
 
@@ -179,7 +192,7 @@
 <div class="stats-wrap">
   <div class="stats">
     <div class="stat"><div class="stat-n" id="s-hoy">—</div><div class="stat-l">Hoy</div></div>
-    <div class="stat"><div class="stat-n" id="s-pend">—</div><div class="stat-l">Pendientes</div></div>
+    <div class="stat clickable" onclick="goToPendientes()" title="Ver todas las pendientes"><div class="stat-n" id="s-pend">—</div><div class="stat-l">Pendientes ›</div></div>
     <div class="stat"><div class="stat-n" id="s-conf">—</div><div class="stat-l">Confirmadas</div></div>
   </div>
 </div>
@@ -187,6 +200,7 @@
 <div class="tabs-wrap">
   <div class="tabs">
     <div class="tab active" data-tab="hoy" onclick="setTab(this)">Hoy</div>
+    <div class="tab" data-tab="pendientes" onclick="setTab(this)" id="tab-pendientes">Pendientes</div>
     <div class="tab" data-tab="proximas" onclick="setTab(this)">Próximas</div>
     <div class="tab" data-tab="todas" onclick="setTab(this)">Todas</div>
     <div class="tab" data-tab="contactos" onclick="setTab(this)">Contactos</div>
@@ -310,6 +324,33 @@
     return day + '/' + month;
   }
 
+  // IDs sacados manualmente en esta sesión (no persisten al recargar)
+  const dismissed = new Set();
+
+  function isExpired(r) {
+    if (!r.horario || r.horario === '-') return false;
+    const [h, m] = r.horario.split(':').map(Number);
+    const now = new Date();
+    const arStr = now.toLocaleString('en-US', { timeZone: 'America/Argentina/Buenos_Aires' });
+    const ar = new Date(arStr);
+    const cut = new Date(ar); cut.setHours(h, m + 15, 0, 0);
+    // solo aplica si la reserva es de hoy
+    const rDate = r.fechaReserva;
+    const hoy = arDate(0);
+    if (rDate !== hoy && rDate !== '-') return false;
+    return ar > cut;
+  }
+
+  function dismissCard(id) {
+    const el = document.getElementById('c' + id);
+    if (el) { el.classList.add('removing'); setTimeout(() => { dismissed.add(id); render(); }, 300); }
+  }
+
+  function goToPendientes() {
+    const tabEl = document.getElementById('tab-pendientes');
+    if (tabEl) setTab(tabEl);
+  }
+
   function setTab(el) {
     document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
     el.classList.add('active'); tab = el.dataset.tab;
@@ -318,7 +359,13 @@
 
   function filter() {
     const hoy = arDate(0);
-    if (tab === 'hoy') return data.filter(r => r.fechaReserva === hoy || r.fechaReserva === '-');
+    if (tab === 'hoy') return data.filter(r =>
+      (r.fechaReserva === hoy || r.fechaReserva === '-') &&
+      r.estado === 'Pendiente' &&
+      !isExpired(r) &&
+      !dismissed.has(r.id)
+    );
+    if (tab === 'pendientes') return data.filter(r => r.estado === 'Pendiente' && !dismissed.has(r.id));
     if (tab === 'proximas') return data.filter(r => r.estado !== 'Cancelada');
     return data;
   }
@@ -350,8 +397,13 @@
       : '🪑 Sin mesa';
     const mesaClass = 'mesa-chip' + (r.mesa ? ' set' : '');
 
+    const sacarBtn = (tab === 'hoy' || tab === 'pendientes')
+      ? '<button class="btn-sacar" onclick="dismissCard(\'' + r.id + '\')" title="Sacar de la vista">×</button>'
+      : '';
+
     return (
       '<div class="card ' + r.estado + '" id="c' + r.id + '">' +
+        sacarBtn +
         '<div class="card-top">' +
           '<div>' +
             '<div class="card-name">' + r.nombre + '</div>' +
@@ -420,7 +472,11 @@
   function render() {
     const list = sorted(filter());
     const el = document.getElementById('content');
-    if (!list.length) { el.innerHTML = '<div class="empty"><div class="icon">📭</div><p>Sin reservas para mostrar</p></div>'; return; }
+    if (!list.length) {
+      const msg = tab === 'hoy' ? '✅ Todo atendido por ahora' : 'Sin reservas para mostrar';
+      el.innerHTML = '<div class="empty"><div class="icon">' + (tab === 'hoy' ? '✅' : '📭') + '</div><p>' + msg + '</p></div>';
+      return;
+    }
     const g = grouped(list);
     const hoy = arDate(0), man = arDate(1);
     let html = '';
