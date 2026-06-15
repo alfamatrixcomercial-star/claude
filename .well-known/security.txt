@@ -1,0 +1,4 @@
+Contact: mailto:info@mareventos.com.ar
+Expires: 2027-06-01T00:00:00.000Z
+Preferred-Languages: es, en
+Canonical: https://mareventos.com.ar/.well-known/security.txt
