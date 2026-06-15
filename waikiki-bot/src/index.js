@@ -205,6 +205,17 @@ app.post('/manychat', async (req, res) => {
       { fecha: '14/06', minPersonas: 6 },
     ];
 
+    // Fechas completamente cerradas para reservas
+    const BLOCKED_DATES = ['15/06'];
+
+    if (reservation && BLOCKED_DATES.includes(reservation.fecha)) {
+      console.log(`[Reserva bloqueada] Fecha cerrada: ${reservation.fecha}`);
+      manychatProcessed.set(dedupKey, { time: Date.now(), response: '' });
+      return res.json({
+        response: `Disculpe, para el ${reservation.fecha} ya no contamos con disponibilidad. ¡Los esperamos en otra ocasión! 🌊`
+      });
+    }
+
     if (reservation) {
       const bloqueada = BLOCKED_LARGE_GROUPS.find(
         b => b.fecha === reservation.fecha && parseInt(reservation.personas) >= b.minPersonas
