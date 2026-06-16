@@ -10,7 +10,7 @@ type Tab = 'proveedores' | 'platos' | 'resumen'
 
 export default function App() {
   const [tab, setTab] = useState<Tab>('proveedores')
-  const { proveedores, setProveedores, ingredientes, setIngredientes, platos, setPlatos, actualizarPrecioIngrediente } = useStore()
+  const { loading, proveedores, setProveedores, ingredientes, setIngredientes, platos, setPlatos, actualizarPrecioIngrediente } = useStore()
 
   function handleAddProveedor(nombre: string) {
     const id = nombre.toLowerCase().replace(/\s+/g, '-') + '-' + Date.now()
@@ -37,6 +37,10 @@ export default function App() {
 
   function handleUpdatePlato(plato: Plato) {
     setPlatos(platos.map(p => p.id === plato.id ? plato : p))
+  }
+
+  if (loading) {
+    return <div className="flex items-center justify-center h-screen text-gray-400">Cargando...</div>
   }
 
   return (
