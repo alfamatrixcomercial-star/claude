@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Generador de Presupuestos · Mar Eventos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sacramento&family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#F2EDE4; --cream-2:#E7E0D2; --line:#D9CFBE;
+    --teal:#6B9B9B; --teal-d:#4f7d7d; --green:#2C4A3E; --green-d:#22382f;
+    --ink:#2A3A33; --muted:#7C8A82;
+    --sans:'Montserrat',Helvetica,Arial,sans-serif;
+    --serif:'Lora',Georgia,serif;
+    --script:'Sacramento',cursive;
+  }
+  *{ margin:0; padding:0; box-sizing:border-box; }
+  html,body{ height:100%; }
+  body{ font-family:var(--sans); color:var(--ink); background:var(--cream); overflow:hidden; }
+
+  /* ---------- Top bar ---------- */
+  .topbar{
+    height:60px; background:var(--green); color:var(--cream);
+    display:flex; align-items:center; justify-content:space-between;
+    padding:0 22px; position:relative; z-index:20;
+    box-shadow:0 2px 14px rgba(15,27,18,.18);
+  }
+  .brand{ display:flex; align-items:baseline; gap:12px; }
+  .brand .logo{ font-family:var(--sans); font-weight:500; letter-spacing:.36em; text-transform:uppercase; font-size:14px; }
+  .brand .tag{ font-family:var(--sans); font-weight:300; font-size:10.5px; letter-spacing:.28em; text-transform:uppercase; color:var(--teal); }
+  .actions{ display:flex; align-items:center; gap:10px; }
+  .btn{
+    font-family:var(--sans); font-weight:500; font-size:11px; letter-spacing:.14em; text-transform:uppercase;
+    border:0; padding:11px 18px; border-radius:40px; cursor:pointer; transition:transform .15s, background .2s, color .2s;
+    white-space:nowrap;
+  }
+  .btn:hover{ transform:translateY(-1px); }
+  .btn-pdf{ background:var(--cream); color:var(--green); }
+  .btn-pdf:hover{ background:#fff; }
+  .btn-ghost{ background:transparent; color:var(--cream); border:1px solid rgba(242,237,228,.4); }
+  .btn-ghost:hover{ background:rgba(242,237,228,.12); }
+
+  /* ---------- Layout ---------- */
+  .stage-wrap{ display:flex; height:calc(100% - 60px); }
+  .panel{
+    width:430px; flex:0 0 430px; height:100%; overflow-y:auto;
+    background:var(--cream); border-right:1px solid var(--line);
+  }
+  .preview{
+    flex:1; height:100%; overflow:auto; background:#cbc4b8;
+    display:flex; justify-content:center;
+  }
+  #frameHolder{ margin:0 auto; }
+  #preview-frame{ border:0; display:block; background:#cbc4b8; }
+
+  /* ---------- Form ---------- */
+  .intro{ padding:18px 22px 8px; }
+  .intro p{ font-size:12px; line-height:1.6; color:var(--muted); }
+  .intro b{ color:var(--green); font-weight:600; }
+
+  details.sec{ border-bottom:1px solid var(--line); }
+  details.sec > summary{
+    list-style:none; cursor:pointer; padding:15px 22px;
+    display:flex; align-items:center; gap:10px; user-select:none;
+    font-weight:600; font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:var(--green);
+  }
+  details.sec > summary::-webkit-details-marker{ display:none; }
+  summary .chev{ margin-left:auto; transition:transform .2s; color:var(--teal); font-size:13px; }
+  details[open] > summary .chev{ transform:rotate(90deg); }
+  summary .ic{ width:22px; height:22px; flex:0 0 22px; border-radius:6px; background:var(--cream-2); display:grid; place-items:center; font-size:12px; color:var(--teal-d); }
+  .sec-body{ padding:4px 22px 20px; }
+
+  .field{ margin-bottom:13px; }
+  .field > label{ display:block; font-size:10.5px; font-weight:500; letter-spacing:.06em; text-transform:uppercase; color:var(--muted); margin-bottom:5px; }
+  .field input[type=text], .field textarea, .field select{
+    width:100%; font-family:var(--sans); font-size:13px; color:var(--ink);
+    background:#fff; border:1px solid var(--line); border-radius:8px; padding:9px 11px;
+    transition:border-color .15s, box-shadow .15s;
+  }
+  .field textarea{ resize:vertical; min-height:64px; line-height:1.5; font-size:12.5px; }
+  .field input:focus, .field textarea:focus, .field select:focus{
+    outline:none; border-color:var(--teal); box-shadow:0 0 0 3px rgba(107,155,155,.18);
+  }
+  .row2{ display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+  .hint{ font-size:10.5px; color:var(--muted); margin-top:4px; line-height:1.45; }
+
+  /* chips / checkbox group */
+  .chips{ display:flex; flex-wrap:wrap; gap:8px; }
+  .chip{
+    position:relative; font-size:12px; padding:8px 14px; border-radius:40px;
+    border:1px solid var(--line); background:#fff; cursor:pointer; user-select:none; transition:all .15s;
+  }
+  .chip input{ position:absolute; opacity:0; pointer-events:none; }
+  .chip.on{ background:var(--green); color:var(--cream); border-color:var(--green); }
+
+  /* slider */
+  .slider-row{ display:flex; align-items:center; gap:14px; }
+  .slider-row input[type=range]{ flex:1; accent-color:var(--teal); }
+  .slider-val{ font-family:var(--script); font-size:30px; color:var(--green); line-height:1; min-width:84px; text-align:right; }
+
+  /* repeatable cards */
+  .card{ background:#fff; border:1px solid var(--line); border-radius:10px; padding:12px; margin-bottom:11px; position:relative; }
+  .card .card-h{ display:flex; align-items:center; justify-content:space-between; margin-bottom:9px; }
+  .card .card-h .n{ font-family:var(--script); font-size:24px; color:var(--teal); line-height:1; }
+  .icon-btn{ border:0; background:transparent; cursor:pointer; color:var(--muted); font-size:15px; padding:4px; border-radius:6px; line-height:1; }
+  .icon-btn:hover{ background:var(--cream-2); color:#b4463c; }
+  .add-btn{
+    width:100%; border:1px dashed var(--teal); background:rgba(107,155,155,.07); color:var(--teal-d);
+    font-family:var(--sans); font-weight:500; font-size:12px; letter-spacing:.06em; padding:11px; border-radius:9px; cursor:pointer; transition:background .15s;
+  }
+  .add-btn:hover{ background:rgba(107,155,155,.14); }
+  .toggle-line{ display:flex; gap:16px; margin-top:3px; }
+  .toggle-line label{ display:flex; align-items:center; gap:6px; font-size:11.5px; color:var(--ink); cursor:pointer; }
+  .toggle-line input{ accent-color:var(--teal); }
+
+  /* mobile tabs */
+  .tabs{ display:none; }
+  @media (max-width:880px){
+    .stage-wrap{ position:relative; }
+    .panel{ width:100%; flex:1 1 auto; }
+    .preview{ display:none; }
+    body.show-preview .panel{ display:none; }
+    body.show-preview .preview{ display:flex; }
+    .tabs{ display:flex; gap:8px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="brand">
+    <span class="logo">Mar&nbsp;Eventos</span>
+    <span class="tag">Generador de presupuestos</span>
+  </div>
+  <div class="actions">
+    <div class="tabs">
+      <button class="btn btn-ghost" id="tabEdit">Editar</button>
+      <button class="btn btn-ghost" id="tabView">Vista</button>
+    </div>
+    <button class="btn btn-ghost" id="resetBtn" title="Volver a los valores de ejemplo">Reiniciar</button>
+    <button class="btn btn-pdf" id="pdfBtn">⤓ Descargar PDF</button>
+  </div>
+</div>
+
+<div class="stage-wrap">
+  <div class="panel">
+    <div class="intro">
+      <p>Completá los campos y mirá el presupuesto armarse <b>en vivo</b> a la derecha. Cuando esté listo, tocá <b>Descargar PDF</b>. Todo se guarda solo en este navegador.</p>
+    </div>
+    <div id="form"></div>
+    <div style="padding:18px 22px 40px;">
+      <p class="hint">Las fotos, la página de Técnica y las Condiciones se editan en el archivo de plantilla (cambian poco). Este generador maneja el contenido de cada presupuesto.</p>
+    </div>
+  </div>
+
+  <div class="preview" id="stage">
+    <div id="frameHolder">
+      <iframe id="preview-frame" src="Plantilla - Mar Eventos.html"></iframe>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ============ Valores de ejemplo (mismos que la plantilla) ============ */
+const DEFAULTS = {
+  evento: {
+    cliente:"Laboratorios Gador", fecha:"11 Dic, 2025", horario:"20:00 – 02:00",
+    salon:"Mirador Waikiki", invitados:"250 – 300", gastronomia:"Finger Food",
+    fechaEmision:"19 de Junio, 2025", firmante:"Romina Marquez"
+  },
+  portada:{ tagline:"Eventos frente al mar" },
+  presentacion:{
+    p1:'Queremos agradecer su interés en realizar su celebración con <span class="hl">Mar Eventos</span>. Nuestro personal los ayudará a coordinar cada detalle para garantizar que su evento sea tan increíble como lo imaginan.',
+    p2:'Queremos acompañarlos en este emocionante camino… <span class="hl">¡Comencemos!</span>'
+  },
+  gastronomia:{ eyebrow:"Gastronomía de autor", titulo:"Nuestra Propuesta Gastronómica" },
+  fingerFood:{
+    friosTitulo:"Bocaditos Fríos",
+    frios:'<b>Bruschettas en pan de campo:</b> Mousse de palta, tomatitos confitados y cebollita morada · Salmón ahumado, queso Finlandia y ciboulette · Jamón serrano, rúcula y gruyere · <b>Pinchos caprese</b> · Minibollo semillado de lomo y cheddar · Mini croissant de jamón y queso · Bocaditos de hojaldre rellenos · Bollito dulce con jamón y queso tybo · <b>Shots:</b> Cocktail de camarones · Guacamole.',
+    calientesTitulo:"Bocaditos Calientes",
+    calientes:'Satays de langostinos rebozados y alioli · Mini empanaditas de carne cortada a cuchillo · Bollitos de jamón, mozzarella y orégano · <b>Cazuelas:</b> Pechuguitas a la mostaza y miel · <b>Pinchos:</b> Lomo con morroncitos y cebolla caramelizada · Mini pechuguitas con zanahorias y morroncitos · Boconcinos con tomatitos cherry y albahaca · <b>Canastitas:</b> Cebollitas con queso y orégano · Zucchinis caramelizados y queso · Mini tortillas españolas con queso.',
+    campoTitulo:"Estación de Campo",
+    campo:'Jamón crudo serrano · Jamón natural · Quesos saborizados · Pategras · Fontina · Gouda · Azul · Leberwust · Lomo ahumado · Bondiola serrana · Salames criollo y español · Longaniza · Matambre casero · Olivas verdes y negras · Panes de campo.'
+  },
+  estaciones:{
+    carnesTitulo:"Estación de Carnes",
+    carnes:'Cuadril en cocción lenta · Bondiolas aderezadas en salsas agridulces (a la naranja, a la ciruela) · Carré de cerdo mechado con panceta y vegetales · Pernil de cerdo o vacuno con variedad de salsas y panificados de elaboración propia.',
+    medTitulo:"Isla Mediterránea",
+    med:'<b>Variedad de paellas Valencianas:</b> de mariscos · de vegetales · de pollo y ternera · Risotto de hongos.',
+    veggieTitulo:"Isla Veggie",
+    veggie:'Bruschetta con base de Mousse de Palta · Bruschetta con tomates confitados y echalote · Gazpacho con dips de pepino, albahaca y apio · Pinchos de vegetales asados · Crudités de vegetales con dips de hummus · Mini-burgers de calabaza, choclo, arvejas y brócoli con hummus de remolacha · Mini-salads · Snacks veggies con variedad de salsas.'
+  },
+  bebidas:{
+    col1Titulo:"Bebidas",
+    sinAlcohol:["Aguas saborizadas y minerales","Gaseosas línea Coca-Cola"],
+    cervezas:["Tirada"], vinos:["Alamos"],
+    brindis:"Brindis con espumante — Bodega Catena Zapata",
+    col2Titulo:"Postre & Cafetería",
+    col2:["Variedad de shots","Variedad de petit fours","Variedad de infusiones calientes"],
+    barraTipo:"exclusive", barraTiempo:6
+  },
+  inversion:{
+    rows:[
+      { cat:"Gastronomía", nombre:"Menú Finger Food Completo", sub:"por persona adulta", precio:"AR$ 120.000", iva:"+ IVA", subprecio:"precio por persona", grande:false, destacado:false },
+      { cat:"Locación", nombre:"Uso de Salón", sub:"Complejo Mirador Waikiki", precio:"AR$ 4.900.000", iva:"+ IVA", subprecio:"valor total del espacio", grande:true, destacado:true },
+      { cat:"Producción", nombre:"Producción Técnica Integral", sub:"sonido, iluminación & audiovisual", precio:"AR$ 5.600.000", iva:"+ IVA", subprecio:"valor de técnica total", grande:true, destacado:false }
+    ],
+    nota:"Los precios no incluyen IVA. Validez de la propuesta: 10 días corridos desde su emisión. La reserva se confirma con una seña del 15%."
+  },
+  faq:[
+    { q:"¿Puedo hacer mi evento de día o de noche?", a:"Durante los meses de abril a noviembre es posible realizar eventos tanto de día como de noche. Sin embargo, en diciembre, enero y febrero solo se realizan eventos nocturnos." },
+    { q:"¿Cuál es la duración de un evento? ¿Se puede agregar más tiempo?", a:"El tiempo estipulado es de 6 hs, que comienza a transcurrir a partir de la llegada de los invitados. El mismo puede extenderse en caso de que lo soliciten." },
+    { q:"¿Cuántos invitados puede recibir el salón Mirador Waikiki?", a:"El salón Mirador Waikiki tiene capacidad desde 300 hasta 900 invitados según el formato del evento (emplatado o Finger Food), pudiendo utilizar todo el complejo para las celebraciones de mayor escala." },
+    { q:"¿Hay suficiente estacionamiento para mis invitados?", a:"Sí. Disponemos de un amplio estacionamiento, gratuito y dentro del complejo." },
+    { q:"¿Puedo traer mi propia comida, bebida u otros artículos de alquiler?", a:"Mar Eventos es un proveedor de catering de servicio completo y provee exclusivamente todos los alimentos y bebidas, salvo casos particulares como la torta de boda, carrito de helado, kiosco de golosinas, etc." },
+    { q:"¿Cuentan con menú vegano, vegetariano o celíaco?", a:"Para garantizar que cada invitado cuente con el menú de su preferencia, ofrecemos diversas opciones en cada paso del servicio, incluyendo menús veganos, vegetarianos y sin gluten." },
+    { q:"¿Cómo recibo el salón?", a:"El salón se entrega con el armado de livings correspondiente al formato seleccionado, contando con un total de 100 posiciones." },
+    { q:"¿Puedo traer una banda o show?", a:"Sí, es posible sumar una banda o un show. Contamos con diferentes alternativas: bandas de diversos estilos, shows circenses y de fuegos, saxofonistas para la recepción de invitados, entre otros." },
+    { q:"¿Qué sucede en caso de corte de energía eléctrica?", a:"Todo el complejo está conectado a un grupo generador que, en caso de corte de suministro, se enciende automáticamente pasados 30 segundos, recuperando la energía para que el evento continúe con normalidad." }
+  ],
+  cierre:{ eyebrow:"Mar Eventos · Mar del Plata", titulo:"¡Vamos a empezar!" }
+};
+
+const BAR_OPTIONS = [
+  { id:"exclusive", label:"Exclusive" },
+  { id:"premium", label:"Premium" },
+  { id:"corporativa", label:"Premium Corporativa" }
+];
+const VINO_OPTIONS = ["Alamos","Nicasia","DV Catena"];
+const CERVEZA_OPTIONS = ["Tirada","Corona"];
+
+const STORE_KEY = "mareventos_generador_v1";
+const clone = (o)=>JSON.parse(JSON.stringify(o));
+let state = load() || clone(DEFAULTS);
+
+function load(){ try{ const s=localStorage.getItem(STORE_KEY); return s?JSON.parse(s):null; }catch(e){ return null; } }
+function save(){ try{ localStorage.setItem(STORE_KEY, JSON.stringify(state)); }catch(e){} }
+
+function getPath(o,p){ return p.split('.').reduce((a,k)=> (a==null?a:a[k]), o); }
+function setPath(o,p,v){ const ks=p.split('.'); let a=o; for(let i=0;i<ks.length-1;i++){ if(a[ks[i]]==null)a[ks[i]]={}; a=a[ks[i]]; } a[ks[ks.length-1]]=v; }
+const esc = (s)=>(s==null?'':String(s)).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+
+/* ---------- field builders ---------- */
+function fText(path,label,full){ return `<div class="field"><label>${label}</label><input type="text" data-path="${path}" value="${esc(getPath(state,path))}"></div>`; }
+function fArea(path,label,hint){ return `<div class="field"><label>${label}</label><textarea data-path="${path}">${esc(getPath(state,path))}</textarea>${hint?`<p class="hint">${hint}</p>`:''}</div>`; }
+function fLines(path,label,hint){ const arr=getPath(state,path)||[]; return `<div class="field"><label>${label}</label><textarea data-lines="${path}">${esc(arr.join('\n'))}</textarea>${hint?`<p class="hint">${hint}</p>`:''}</div>`; }
+
+function sectionsHTML(){
+  return [
+    sec('Datos del evento','📋', `
+      ${fText('evento.cliente','Cliente (empresa o pareja)')}
+      <div class="row2">${fText('evento.fecha','Fecha')}${fText('evento.horario','Horario')}</div>
+      <div class="row2">${fText('evento.salon','Salón')}${fText('evento.invitados','Invitados (pax)')}</div>
+      <div class="row2">${fText('evento.gastronomia','Tipo de gastronomía')}${fText('evento.fechaEmision','Fecha de emisión')}</div>
+      ${fText('evento.firmante','Firma (responsable comercial)')}
+      ${fText('portada.tagline','Frase de portada')}
+    `, true),
+
+    sec('Carta de presentación','✍️', `
+      <p class="hint" style="margin-bottom:10px;">El saludo usa el nombre del cliente automáticamente. Para resaltar una palabra en verde, envolvela en &lt;span class="hl"&gt;palabra&lt;/span&gt;.</p>
+      ${fArea('presentacion.p1','Párrafo 1')}
+      ${fArea('presentacion.p2','Párrafo 2')}
+    `),
+
+    sec('Gastronomía · portada','🍽️', `
+      ${fText('gastronomia.eyebrow','Bajada (arriba del título)')}
+      ${fText('gastronomia.titulo','Título')}
+    `),
+
+    sec('Menú · Finger Food','🥂', `
+      ${fText('fingerFood.friosTitulo','Título — Bocaditos Fríos')}
+      ${fArea('fingerFood.frios','Bocaditos Fríos','Separá los ítems con  ·  — usá &lt;b&gt;texto&lt;/b&gt; para negrita.')}
+      ${fText('fingerFood.calientesTitulo','Título — Bocaditos Calientes')}
+      ${fArea('fingerFood.calientes','Bocaditos Calientes')}
+      ${fText('fingerFood.campoTitulo','Título — Estación de Campo')}
+      ${fArea('fingerFood.campo','Estación de Campo')}
+    `),
+
+    sec('Menú · Estaciones e Islas','🥘', `
+      ${fText('estaciones.carnesTitulo','Título — Carnes')}
+      ${fArea('estaciones.carnes','Estación de Carnes')}
+      ${fText('estaciones.medTitulo','Título — Isla Mediterránea')}
+      ${fArea('estaciones.med','Isla Mediterránea')}
+      ${fText('estaciones.veggieTitulo','Título — Isla Veggie')}
+      ${fArea('estaciones.veggie','Isla Veggie')}
+    `),
+
+    sec('Bebidas & Barra','🍸', `
+      ${fLines('bebidas.sinAlcohol','Bebidas sin alcohol','Una por línea.')}
+      <div class="field"><label>Cerveza</label><div class="chips" data-group="bebidas.cervezas">${CERVEZA_OPTIONS.map(o=>chip('bebidas.cervezas',o)).join('')}</div></div>
+      <div class="field"><label>Vinos (Bodega Catena Zapata)</label><div class="chips" data-group="bebidas.vinos">${VINO_OPTIONS.map(o=>chip('bebidas.vinos',o)).join('')}</div></div>
+      ${fText('bebidas.brindis','Brindis (vacío = ocultar)')}
+      ${fText('bebidas.col2Titulo','Título columna 2')}
+      ${fLines('bebidas.col2','Postre & Cafetería','Una por línea.')}
+      <div class="field"><label>Tipo de barra</label><select data-path="bebidas.barraTipo">${BAR_OPTIONS.map(o=>`<option value="${o.id}">${o.label}</option>`).join('')}</select><p class="hint">Los tragos de cada barra se cargan solos.</p></div>
+      <div class="field"><label>Tiempo de barra</label><div class="slider-row"><input type="range" min="1" max="8" step="1" data-path="bebidas.barraTiempo" value="${getPath(state,'bebidas.barraTiempo')}"><span class="slider-val" id="barTimeVal"></span></div></div>
+    `),
+
+    sec('Inversión / Precios','💲', `
+      <div id="invRows"></div>
+      <button class="add-btn" id="addRow">+ Agregar fila de precio</button>
+      <div style="height:12px;"></div>
+      ${fArea('inversion.nota','Nota al pie')}
+    `),
+
+    sec('Preguntas Frecuentes','❓', `
+      <div id="faqRows"></div>
+      <button class="add-btn" id="addFaq">+ Agregar pregunta</button>
+    `),
+
+    sec('Cierre','🌊', `
+      ${fText('cierre.eyebrow','Bajada')}
+      ${fText('cierre.titulo','Título grande')}
+    `)
+  ].join('');
+}
+function sec(title,ic,body,open){ return `<details class="sec"${open?' open':''}><summary><span class="ic">${ic}</span>${title}<span class="chev">▸</span></summary><div class="sec-body">${body}</div></details>`; }
+function chip(group,val){ const on=(getPath(state,group)||[]).includes(val); return `<label class="chip${on?' on':''}"><input type="checkbox" data-chip="${group}" value="${esc(val)}"${on?' checked':''}>${esc(val)}</label>`; }
+
+/* ---------- repeatable: inversión ---------- */
+function renderInvRows(){
+  const wrap=document.getElementById('invRows'); if(!wrap) return;
+  wrap.innerHTML = state.inversion.rows.map((r,i)=>`
+    <div class="card" data-arr="inversion.rows" data-idx="${i}">
+      <div class="card-h"><span class="n">${String(i+1).padStart(2,'0')}</span>
+        <button class="icon-btn" data-del-inv="${i}" title="Eliminar">✕</button></div>
+      <div class="row2"><div class="field" style="margin-bottom:8px;"><label>Categoría</label><input type="text" data-rf="cat" value="${esc(r.cat)}"></div>
+        <div class="field" style="margin-bottom:8px;"><label>Precio</label><input type="text" data-rf="precio" value="${esc(r.precio)}"></div></div>
+      <div class="field" style="margin-bottom:8px;"><label>Nombre</label><input type="text" data-rf="nombre" value="${esc(r.nombre)}"></div>
+      <div class="row2"><div class="field" style="margin-bottom:8px;"><label>Subtítulo</label><input type="text" data-rf="sub" value="${esc(r.sub)}"></div>
+        <div class="field" style="margin-bottom:8px;"><label>Detalle del precio</label><input type="text" data-rf="subprecio" value="${esc(r.subprecio)}"></div></div>
+      <div class="toggle-line">
+        <label><input type="checkbox" data-rf="destacado"${r.destacado?' checked':''}> Resaltar fila</label>
+        <label><input type="checkbox" data-rf="grande"${r.grande?' checked':''}> Precio grande</label>
+        <label><input type="checkbox" data-rfiva${r.iva?' checked':''}> + IVA</label>
+      </div>
+    </div>`).join('');
+}
+/* ---------- repeatable: faq ---------- */
+function renderFaqRows(){
+  const wrap=document.getElementById('faqRows'); if(!wrap) return;
+  wrap.innerHTML = state.faq.map((f,i)=>`
+    <div class="card" data-arr="faq" data-idx="${i}">
+      <div class="card-h"><span class="n">${String(i+1).padStart(2,'0')}</span>
+        <button class="icon-btn" data-del-faq="${i}" title="Eliminar">✕</button></div>
+      <div class="field" style="margin-bottom:8px;"><label>Pregunta</label><input type="text" data-ff="q" value="${esc(f.q)}"></div>
+      <div class="field" style="margin-bottom:0;"><label>Respuesta</label><textarea data-ff="a">${esc(f.a)}</textarea></div>
+    </div>`).join('');
+}
+
+/* ---------- build ---------- */
+function buildForm(){
+  document.getElementById('form').innerHTML = sectionsHTML();
+  // set select + slider initial
+  const sel=document.querySelector('[data-path="bebidas.barraTipo"]'); if(sel) sel.value=state.bebidas.barraTipo;
+  updateBarTimeLabel();
+  renderInvRows(); renderFaqRows();
+}
+function updateBarTimeLabel(){ const v=getPath(state,'bebidas.barraTiempo'); const el=document.getElementById('barTimeVal'); if(el) el.textContent = v+(v==1?' hora':' horas'); }
+
+/* ---------- preview bridge ---------- */
+let pushTimer=null;
+function pushToPreview(){
+  const f=document.getElementById('preview-frame');
+  if(!f || !f.contentWindow || !f.contentWindow.applyDatos) return;
+  const d=clone(state);
+  d.inversion.rows.forEach((r,i)=>{ r.num=String(i+1).padStart(2,'0'); });
+  f.contentWindow.applyDatos(d);
+  clearTimeout(pushTimer); pushTimer=setTimeout(fitPreview,80);
+}
+function commit(){ save(); pushToPreview(); }
+
+/* ---------- preview scaling ---------- */
+function fitPreview(){
+  const stage=document.getElementById('stage');
+  const holder=document.getElementById('frameHolder');
+  const f=document.getElementById('preview-frame');
+  const doc=f.contentDocument; if(!doc||!doc.body) return;
+  const LW=1123;
+  f.style.width=LW+'px';
+  const LH=Math.max(doc.body.scrollHeight, 794);
+  f.style.height=LH+'px';
+  const s=Math.min(1, (stage.clientWidth-0)/LW);
+  f.style.transform='scale('+s+')';
+  f.style.transformOrigin='top left';
+  holder.style.width=(LW*s)+'px';
+  holder.style.height=(LH*s)+'px';
+}
+
+/* ---------- events ---------- */
+document.getElementById('form').addEventListener('input', (e)=>{
+  const t=e.target;
+  if(t.dataset.path!==undefined){
+    let v=t.value; if(t.type==='range') v=parseInt(v,10);
+    setPath(state,t.dataset.path,v);
+    if(t.type==='range') updateBarTimeLabel();
+    commit(); return;
+  }
+  if(t.dataset.lines!==undefined){
+    setPath(state,t.dataset.lines, t.value.split('\n').map(x=>x.trim()).filter(Boolean)); commit(); return;
+  }
+  if(t.dataset.rf!==undefined){
+    const card=t.closest('[data-arr]'); const i=+card.dataset.idx; const row=state.inversion.rows[i];
+    if(t.type==='checkbox'){ if(t.hasAttribute('data-rfiva')){ row.iva=t.checked?'+ IVA':''; } else { row[t.dataset.rf]=t.checked; } }
+    else row[t.dataset.rf]=t.value;
+    commit(); return;
+  }
+  if(t.dataset.ff!==undefined){
+    const card=t.closest('[data-arr]'); const i=+card.dataset.idx;
+    state.faq[i][t.dataset.ff]=t.value; commit(); return;
+  }
+});
+document.getElementById('form').addEventListener('change', (e)=>{
+  const t=e.target;
+  if(t.dataset.chip!==undefined){
+    const grp=t.dataset.chip; let arr=getPath(state,grp)||[];
+    if(t.checked){ if(!arr.includes(t.value)) arr=arr.concat(t.value); }
+    else arr=arr.filter(x=>x!==t.value);
+    setPath(state,grp,arr);
+    t.closest('.chip').classList.toggle('on',t.checked);
+    commit(); return;
+  }
+});
+document.getElementById('form').addEventListener('click',(e)=>{
+  const t=e.target;
+  if(t.id==='addRow'){ state.inversion.rows.push({cat:"Nuevo ítem",nombre:"Descripción",sub:"",precio:"AR$ 0",iva:"+ IVA",subprecio:"",grande:false,destacado:false}); renderInvRows(); commit(); }
+  else if(t.id==='addFaq'){ state.faq.push({q:"Nueva pregunta",a:"Respuesta"}); renderFaqRows(); commit(); }
+  else if(t.dataset.delInv!==undefined){ state.inversion.rows.splice(+t.dataset.delInv,1); renderInvRows(); commit(); }
+  else if(t.dataset.delFaq!==undefined){ state.faq.splice(+t.dataset.delFaq,1); renderFaqRows(); commit(); }
+});
+
+document.getElementById('pdfBtn').addEventListener('click',()=>{
+  const f=document.getElementById('preview-frame');
+  if(f.contentWindow && f.contentWindow.generatePDF){ f.contentWindow.generatePDF(); }
+});
+document.getElementById('resetBtn').addEventListener('click',()=>{
+  if(confirm('¿Volver a los valores de ejemplo? Se perderán los cambios de este presupuesto.')){
+    state=clone(DEFAULTS); save(); buildForm(); pushToPreview();
+  }
+});
+document.getElementById('tabEdit').addEventListener('click',()=>document.body.classList.remove('show-preview'));
+document.getElementById('tabView').addEventListener('click',()=>{document.body.classList.add('show-preview'); setTimeout(fitPreview,60);});
+
+window.addEventListener('resize',fitPreview);
+
+const frame=document.getElementById('preview-frame');
+frame.addEventListener('load',()=>{ setTimeout(()=>{ pushToPreview(); fitPreview(); },120); });
+
+buildForm();
+</script>
+
+<!-- Password gate -->
+<style>
+#pw-gate{
+  position:fixed;inset:0;z-index:9999;
+  background:#0F1B12;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Montserrat',Helvetica,Arial,sans-serif;
+}
+#pw-gate.hidden{display:none;}
+.pw-box{
+  background:#F2EDE4;border-radius:12px;padding:44px 40px;
+  width:340px;text-align:center;
+  box-shadow:0 24px 60px rgba(0,0,0,.45);
+}
+.pw-logo{
+  font-size:11px;letter-spacing:.32em;text-transform:uppercase;
+  color:#2C4A3E;font-weight:600;margin-bottom:6px;
+}
+.pw-sub{
+  font-size:10px;letter-spacing:.22em;text-transform:uppercase;
+  color:#6B9B9B;font-weight:400;margin-bottom:28px;
+}
+.pw-label{
+  font-size:11px;letter-spacing:.12em;text-transform:uppercase;
+  color:#7C8A82;margin-bottom:10px;display:block;
+}
+#pw-input{
+  width:100%;padding:13px 16px;border:1px solid #D9CFBE;
+  border-radius:8px;font-size:18px;letter-spacing:.3em;
+  text-align:center;font-family:'Montserrat',sans-serif;
+  background:#fff;color:#2A3A33;outline:none;
+  transition:border-color .2s;
+}
+#pw-input:focus{border-color:#6B9B9B;}
+#pw-input.shake{animation:shake .35s;}
+#pw-btn{
+  margin-top:14px;width:100%;padding:13px;
+  background:#2C4A3E;color:#F2EDE4;border:0;border-radius:8px;
+  font-family:'Montserrat',sans-serif;font-size:11px;
+  letter-spacing:.18em;text-transform:uppercase;font-weight:500;
+  cursor:pointer;transition:background .2s;
+}
+#pw-btn:hover{background:#3a6050;}
+.pw-error{color:#c0392b;font-size:11px;margin-top:10px;min-height:16px;}
+@keyframes shake{
+  0%,100%{transform:translateX(0)}
+  25%{transform:translateX(-7px)}
+  75%{transform:translateX(7px)}
+}
+</style>
+<div id="pw-gate">
+  <div class="pw-box">
+    <div class="pw-logo">Mar Eventos</div>
+    <div class="pw-sub">Herramienta interna</div>
+    <label class="pw-label" for="pw-input">Contraseña</label>
+    <input id="pw-input" type="password" inputmode="numeric" maxlength="10" autocomplete="off" placeholder="····">
+    <button id="pw-btn" onclick="checkPw()">Ingresar</button>
+    <div class="pw-error" id="pw-error"></div>
+  </div>
+</div>
+<script>
+(function(){
+  if(sessionStorage.getItem('mev-auth')==='1'){
+    document.getElementById('pw-gate').classList.add('hidden');
+  }
+  document.getElementById('pw-input').addEventListener('keydown',function(e){
+    if(e.key==='Enter') checkPw();
+  });
+})();
+function checkPw(){
+  var v=document.getElementById('pw-input').value;
+  if(v==='4275'){
+    sessionStorage.setItem('mev-auth','1');
+    document.getElementById('pw-gate').classList.add('hidden');
+  } else {
+    var inp=document.getElementById('pw-input');
+    inp.classList.remove('shake');
+    void inp.offsetWidth;
+    inp.classList.add('shake');
+    inp.value='';
+    document.getElementById('pw-error').textContent='Contraseña incorrecta';
+  }
+}
+</script>
+</body>
+</html>
