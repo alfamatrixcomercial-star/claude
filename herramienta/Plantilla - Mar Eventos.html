@@ -374,23 +374,12 @@
   </div>
 
   <div style="position:absolute; left:0; right:0; top:105mm; bottom:0; padding:0 18mm; display:flex; flex-direction:column; justify-content:center;">
-    <div style="display:grid; grid-template-columns:1fr 1fr; gap:0 22mm; align-items:start;">
-      <div>
-        <p class="menu-cat" style="margin-bottom:6px;" id="t-est-carnes-t">Estación de Carnes</p>
-        <hr class="rule soft" style="margin-bottom:14px;">
-        <p class="menu-body" style="font-size:16px; line-height:1.72;" id="t-est-carnes">
-          Cuadril en cocción lenta · Bondiolas aderezadas en salsas agridulces (a la naranja, a la ciruela) · Carré de cerdo mechado con panceta y vegetales · Pernil de cerdo o vacuno con variedad de salsas y panificados de elaboración propia.
-        </p>
-        <p class="menu-cat" style="margin:11mm 0 6px;" id="t-est-med-t">Isla Mediterránea</p>
-        <hr class="rule soft" style="margin-bottom:14px;">
-        <p class="menu-body" style="font-size:16px; line-height:1.72;" id="t-est-med"><b style="font-weight:600;">Variedad de paellas Valencianas:</b> de mariscos · de vegetales · de pollo y ternera · Risotto de hongos.</p>
-      </div>
-      <div>
-        <p class="menu-cat" style="margin-bottom:6px;" id="t-est-veggie-t">Isla Veggie</p>
-        <hr class="rule soft" style="margin-bottom:14px;">
-        <p class="menu-body" style="font-size:16px; line-height:1.72;" id="t-est-veggie">Bruschetta con base de Mousse de Palta · Bruschetta con tomates confitados y echalote · Gazpacho con dips de pepino, albahaca y apio · Pinchos de vegetales asados · Crudités de vegetales con dips de hummus · Mini-burgers de calabaza, choclo, arvejas y brócoli con hummus de remolacha · Mini-salads · Snacks veggies con variedad de salsas.</p>
-      </div>
-    </div>
+    <div id="t-est-blocks" class="est-cols"></div>
+    <style>
+      section[data-screen-label="06 Menú · Estaciones e Islas"] .est-cols{ column-count:2; column-gap:22mm; }
+      section[data-screen-label="06 Menú · Estaciones e Islas"] .est-block{ -webkit-column-break-inside:avoid; break-inside:avoid; margin-bottom:9mm; }
+      section[data-screen-label="06 Menú · Estaciones e Islas"] .est-block:last-child{ margin-bottom:0; }
+    </style>
   </div>
 
   <img src="assets/logo.png" alt="Mar Eventos" style="position:absolute; right:18mm; bottom:11mm; height:26px; width:auto; opacity:.5;">
@@ -467,6 +456,23 @@
 </section>
 
 <!-- ============================================================= -->
+<!-- PÁGINA — NOCHE DE BODAS (solo bodas) -->
+<!-- ============================================================= -->
+<section class="page dark" data-screen-label="Noche de Bodas" id="sec-noche-bodas" style="display:none;">
+  <div class="photo" style="position:absolute; inset:0; background-color:#1a2e22; background-position:center 50%; background-image:linear-gradient(108deg, rgba(8,18,12,.82) 0%, rgba(8,18,12,.46) 52%, rgba(8,18,12,.30) 100%), url('assets/cierre-terraza.jpg'); background-size:cover;"></div>
+  <div class="folio" style="top:-26mm; right:-4mm; font-size:300px;">♡</div>
+  <div style="position:absolute; inset:0; padding:24mm 22mm; display:flex; flex-direction:column; justify-content:center;">
+    <div style="max-width:60%;">
+      <p class="eyebrow teal-light" style="margin-bottom:16px; text-shadow:0 1px 14px rgba(5,9,14,.8);" id="t-noche-eyebrow">Un cierre de ensueño</p>
+      <h2 class="script" style="font-size:92px; color:var(--cream); line-height:.92; text-shadow:0 2px 22px rgba(5,9,14,.7);" id="t-noche-titulo">Noche de Bodas</h2>
+      <hr class="rule" style="width:72px; margin:26px 0;">
+      <p style="font-size:18px; line-height:1.72; font-weight:400; color:var(--cream); max-width:44ch; text-shadow:0 1px 12px rgba(5,9,14,.75);" id="t-noche-texto">Nuestra propuesta incluye noche de bodas en Ili Ili Hotel Boutique.</p>
+    </div>
+  </div>
+  <img src="assets/logo-white.png" alt="Mar Eventos" style="position:absolute; right:18mm; bottom:14mm; height:28px; width:auto; opacity:.85;">
+</section>
+
+<!-- ============================================================= -->
 <!-- PÁGINA 8 — TÉCNICA -->
 <!-- ============================================================= -->
 <section class="page dark" data-screen-label="08 Técnica">
@@ -523,16 +529,16 @@
       </div>
     </div>
 
-    <div class="tech-row" style="display:grid; grid-template-columns:1fr 1fr; gap:8mm;">
+    <div class="tech-row" id="t-tech-row2" style="display:grid; grid-template-columns:1fr 1fr; gap:8mm;">
       <div>
         <p class="tech-cat">Personal &amp; Logística</p>
         <hr class="rule dark" style="margin:9px 0 13px;">
-        <ul class="tech-list">
+        <ul class="tech-list" id="t-tech-personal">
           <li>DJ + VJ + 1 técnico especializado en operación.</li>
           <li>Seguros RC, Terceros y AP.</li>
         </ul>
       </div>
-      <div>
+      <div id="t-tech-req">
         <p class="tech-cat">Requerimientos</p>
         <hr class="rule dark" style="margin:9px 0 13px;">
         <ul class="tech-list">
@@ -728,7 +734,7 @@
 <!-- PÁGINA 11 — CIERRE -->
 <!-- ============================================================= -->
 <section class="page dark" data-screen-label="11 Cierre">
-  <div class="photo" style="position:absolute; inset:0; background-color:#15303f; background-position:center 42%; background-image:linear-gradient(102deg, rgba(9,17,13,.86) 0%, rgba(9,17,13,.60) 46%, rgba(9,17,14,.46) 100%), url('assets/cover-waikiki.jpg'); filter:saturate(1.12) brightness(1.05) contrast(1.03);"></div>
+  <div class="photo" style="position:absolute; inset:0; background-color:#1a2a1e; background-position:center 40%; background-image:linear-gradient(102deg, rgba(9,17,13,.82) 0%, rgba(9,17,13,.56) 46%, rgba(9,17,14,.40) 100%), url('assets/noche-bodas-mesa.jpg'); background-size:cover; filter:saturate(1.08) brightness(1.02);"></div>
 
   <div style="position:absolute; inset:0; padding:20mm 18mm; display:grid; grid-template-columns:1.1fr .9fr; gap:20mm; align-items:center;">
     <!-- left -->
@@ -764,6 +770,9 @@
 <script>
 window.DATOS = {
 
+  // —— Tipo de evento: "corporativo" | "boda" | "xv" ——
+  tipoEvento: "corporativo",
+
   // —— Datos del evento (se usan en varias páginas) ——
   evento: {
     cliente:      "Laboratorios Gador",
@@ -798,14 +807,13 @@ window.DATOS = {
     campo:           'Jamón crudo serrano · Jamón natural · Quesos saborizados · Pategras · Fontina · Gouda · Azul · Leberwust · Lomo ahumado · Bondiola serrana · Salames criollo y español · Longaniza · Matambre casero · Olivas verdes y negras · Panes de campo.'
   },
 
-  // —— Menú · Estaciones e Islas ——
+  // —— Menú · Estaciones e Islas (bloques: agregá o quitá { titulo, texto }) ——
   estaciones: {
-    carnesTitulo: "Estación de Carnes",
-    carnes:       'Cuadril en cocción lenta · Bondiolas aderezadas en salsas agridulces (a la naranja, a la ciruela) · Carré de cerdo mechado con panceta y vegetales · Pernil de cerdo o vacuno con variedad de salsas y panificados de elaboración propia.',
-    medTitulo:    "Isla Mediterránea",
-    med:          '<b>Variedad de paellas Valencianas:</b> de mariscos · de vegetales · de pollo y ternera · Risotto de hongos.',
-    veggieTitulo: "Isla Veggie",
-    veggie:       'Bruschetta con base de Mousse de Palta · Bruschetta con tomates confitados y echalote · Gazpacho con dips de pepino, albahaca y apio · Pinchos de vegetales asados · Crudités de vegetales con dips de hummus · Mini-burgers de calabaza, choclo, arvejas y brócoli con hummus de remolacha · Mini-salads · Snacks veggies con variedad de salsas.'
+    bloques: [
+      { titulo:"Estación de Carnes", texto:'Cuadril en cocción lenta · Bondiolas aderezadas en salsas agridulces (a la naranja, a la ciruela) · Carré de cerdo mechado con panceta y vegetales · Pernil de cerdo o vacuno con variedad de salsas y panificados de elaboración propia.' },
+      { titulo:"Isla Mediterránea", texto:'<b>Variedad de paellas Valencianas:</b> de mariscos · de vegetales · de pollo y ternera · Risotto de hongos.' },
+      { titulo:"Isla Veggie", texto:'Bruschetta con base de Mousse de Palta · Bruschetta con tomates confitados y echalote · Gazpacho con dips de pepino, albahaca y apio · Pinchos de vegetales asados · Crudités de vegetales con dips de hummus · Mini-burgers de calabaza, choclo, arvejas y brócoli con hummus de remolacha · Mini-salads · Snacks veggies con variedad de salsas.' }
+    ]
   },
 
   // —— Menú · Bebidas & Barra (cada "..." es una línea de la lista) ——
@@ -862,7 +870,14 @@ window.DATOS = {
   ],
 
   // —— Cierre ——
-  cierre: { eyebrow: "Mar Eventos · Mar del Plata", titulo: "¡Vamos a empezar!" }
+  cierre: { eyebrow: "Mar Eventos · Mar del Plata", titulo: "¡Vamos a empezar!" },
+
+  // —— Noche de Bodas (solo se muestra si tipoEvento es "boda") ——
+  nocheBodas: {
+    eyebrow: "Un cierre de ensueño",
+    titulo: "Noche de Bodas",
+    texto: "Nuestra propuesta incluye noche de bodas en Ili Ili Hotel Boutique, a metros del salón Ala Wai, dentro del complejo Mirador Waikiki. Una estadía para dos personas, con ingreso a las 17:00 hs del día del evento y late check-out a las 17:00 hs del día siguiente."
+  }
 
 };
 
@@ -930,9 +945,14 @@ function renderDatos(){
   set('t-ff-cal-t', ff.calientesTitulo); set('t-ff-cal', ff.calientes);
   set('t-ff-campo-t', ff.campoTitulo); set('t-ff-campo', ff.campo);
   var es=D.estaciones||{};
-  set('t-est-carnes-t', es.carnesTitulo); set('t-est-carnes', es.carnes);
-  set('t-est-med-t', es.medTitulo); set('t-est-med', es.med);
-  set('t-est-veggie-t', es.veggieTitulo); set('t-est-veggie', es.veggie);
+  var estBlocks = es.bloques;
+  if(!estBlocks && (es.carnes||es.med||es.veggie)){
+    estBlocks = [{titulo:es.carnesTitulo,texto:es.carnes},{titulo:es.medTitulo,texto:es.med},{titulo:es.veggieTitulo,texto:es.veggie}];
+  }
+  var ec=document.getElementById('t-est-blocks');
+  if(ec && estBlocks){ ec.innerHTML = estBlocks.map(function(bl){
+    return '<div class="est-block"><p class="menu-cat" style="margin-bottom:6px;">'+(bl.titulo||'')+'</p><hr class="rule soft" style="margin-bottom:14px;"><p class="menu-body" style="font-size:16px; line-height:1.72;">'+(bl.texto||'')+'</p></div>';
+  }).join(''); }
   // Bebidas — columna 1 armada desde selecciones (sin alcohol + cerveza + vino + brindis)
   var col1 = (b.sinAlcohol||[]).slice();
   if(b.cervezas && b.cervezas.length){
@@ -970,6 +990,22 @@ function renderDatos(){
   set('t-firma', e.firmante);
   set('t-cierre-eyebrow', (D.cierre||{}).eyebrow);
   set('t-cierre-titulo', (D.cierre||{}).titulo);
+  // ----- Tipo de evento: Noche de Bodas + variante de Técnica -----
+  var esBoda = (D.tipoEvento==='boda');
+  var nb=document.getElementById('sec-noche-bodas');
+  if(nb) nb.style.display = esBoda ? '' : 'none';
+  if(esBoda){
+    var n=D.nocheBodas||{};
+    set('t-noche-eyebrow', n.eyebrow); set('t-noche-titulo', n.titulo); set('t-noche-texto', n.texto);
+  }
+  var tp=document.getElementById('t-tech-personal');
+  var tr=document.getElementById('t-tech-req');
+  var trow=document.getElementById('t-tech-row2');
+  if(tp) tp.innerHTML = esBoda
+    ? '<li>DJ + 1 técnico especializado en operación.</li><li>Seguros RC, Terceros y AP.</li>'
+    : '<li>DJ + VJ + 1 técnico especializado en operación.</li><li>Seguros RC, Terceros y AP.</li>';
+  if(tr) tr.style.display = esBoda ? 'none' : '';
+  if(trow) trow.style.gridTemplateColumns = esBoda ? '1fr' : '1fr 1fr';
 }
 // API para el Generador: recibe un objeto DATOS y redibuja
 window.applyDatos = function(d){ if(d) window.DATOS = d; renderDatos(); };
