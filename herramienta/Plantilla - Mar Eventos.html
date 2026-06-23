@@ -263,7 +263,7 @@
 <section class="page" data-screen-label="01 Presentación">
   <div style="position:absolute; inset:0; display:grid; grid-template-columns:120mm 1fr;">
     <!-- left photo -->
-    <div class="photo" style="position:relative; background-color:#22332b; background-position:center; background-image:linear-gradient(180deg, rgba(15,27,18,.06) 55%, rgba(15,27,18,.55)), url('assets/lounge-warm.jpg');">
+    <div class="photo" id="t-pres-photo" style="position:relative; background-color:#22332b; background-position:center; background-image:linear-gradient(180deg, rgba(15,27,18,.06) 55%, rgba(15,27,18,.55)), url('assets/lounge-warm.jpg');">
       <img src="assets/logo-white.png" alt="Mar Eventos" style="position:absolute; left:18mm; bottom:14mm; width:54px; height:auto; opacity:.9;">
     </div>
 
@@ -453,6 +453,50 @@
     .bar-grid li{ position:relative; padding-left:16px; font-family:var(--serif); font-weight:500; font-size:15px; color:var(--cream); line-height:1.2; }
     .bar-grid li::before{ content:""; position:absolute; left:0; top:7px; width:5px; height:5px; background:var(--teal-light); border-radius:50%; }
   </style>
+</section>
+
+<!-- ============================================================= -->
+<!-- PÁGINA — MESA DULCE & CAFETERÍA (solo bodas) -->
+<!-- ============================================================= -->
+<section class="page" data-screen-label="Mesa Dulce &amp; Cafetería" id="sec-mesa-dulce" style="display:none;">
+
+  <!-- franja foto superior -->
+  <div class="photo" style="position:relative; height:56mm; background-color:#1e2e24; background-position:center 38%; background-size:cover; background-image:linear-gradient(120deg, rgba(15,25,18,.72) 0%, rgba(15,25,18,.36) 55%, rgba(15,25,18,.22) 100%), url('assets/mesa-dulce-b.jpg');">
+    <div style="position:absolute; left:18mm; bottom:12mm;">
+      <p class="eyebrow teal-light" style="margin-bottom:6px;">Un final de ensueño</p>
+      <h2 class="script" style="font-size:46px; color:var(--cream); line-height:1;">Mesa Dulce &amp; Cafetería</h2>
+    </div>
+    <img src="assets/logo-white.png" alt="Mar Eventos" style="position:absolute; right:18mm; bottom:12mm; height:26px; width:auto; opacity:.82;">
+  </div>
+
+  <!-- contenido 2 columnas + foto central -->
+  <div style="position:absolute; left:0; right:0; top:56mm; bottom:0; padding:8mm 18mm 8mm; display:grid; grid-template-columns:1fr 42mm 1fr; gap:9mm; align-items:start;">
+
+    <!-- columna izquierda: Shots + Mini Tarteletas -->
+    <div>
+      <p class="menu-cat" style="margin-bottom:5px;" id="t-mesa-shots-t">Shots</p>
+      <hr class="rule soft" style="margin-bottom:9px;">
+      <p class="menu-body" style="font-size:13px; line-height:1.68;" id="t-mesa-shots"></p>
+      <p class="menu-cat" style="margin:9mm 0 5px;" id="t-mesa-tart-t">Mini Tarteletas</p>
+      <hr class="rule soft" style="margin-bottom:9px;">
+      <p class="menu-body" style="font-size:13px; line-height:1.68;" id="t-mesa-tart"></p>
+    </div>
+
+    <!-- foto central vertical -->
+    <div style="background:url('assets/mesa-dulce-a.jpg') center/cover no-repeat; border-radius:3px; height:100%; min-height:90mm;"></div>
+
+    <!-- columna derecha: Bocados + Cafetería -->
+    <div>
+      <p class="menu-cat" style="margin-bottom:5px;" id="t-mesa-boc-t">Bocados</p>
+      <hr class="rule soft" style="margin-bottom:9px;">
+      <p class="menu-body" style="font-size:13px; line-height:1.68;" id="t-mesa-boc"></p>
+      <div style="background:var(--green); padding:10px 14px; margin-top:9mm;">
+        <p class="eyebrow" style="font-size:8.5px; letter-spacing:.18em; color:var(--teal-light); margin-bottom:5px;" id="t-mesa-cafe-t">Cafetería &amp; Fin de Fiesta</p>
+        <p class="menu-body" style="font-size:13px; line-height:1.7; color:var(--cream);" id="t-mesa-cafe"></p>
+      </div>
+    </div>
+
+  </div>
 </section>
 
 <!-- ============================================================= -->
@@ -1024,9 +1068,22 @@ function renderDatos(){
   var esBoda = (D.tipoEvento==='boda');
   var nb=document.getElementById('sec-noche-bodas');
   if(nb) nb.style.display = esBoda ? '' : 'none';
+  var secMesa=document.getElementById('sec-mesa-dulce');
+  if(secMesa) secMesa.style.display=esBoda?'':'none';
   if(esBoda){
     var n=D.nocheBodas||{};
     set('t-noche-eyebrow', n.eyebrow); set('t-noche-titulo', n.titulo); set('t-noche-texto', n.texto);
+    var md=D.mesaDulce||{};
+    set('t-mesa-shots-t', md.shotsTitulo||'Shots'); set('t-mesa-shots', md.shots);
+    set('t-mesa-tart-t', md.tarteletasTitulo||'Mini Tarteletas'); set('t-mesa-tart', md.tarteletas);
+    set('t-mesa-boc-t', md.bocadosTitulo||'Bocados'); set('t-mesa-boc', md.bocados);
+    set('t-mesa-cafe-t', md.cafeTitulo||'Cafetería & Fin de Fiesta'); set('t-mesa-cafe', md.cafe);
+  }
+  // foto izquierda de presentación
+  var pp=document.getElementById('t-pres-photo');
+  if(pp){
+    var fotoUrl=esBoda?"url('assets/ceremonia-playa.jpg')":"url('assets/lounge-warm.jpg')";
+    pp.style.backgroundImage="linear-gradient(180deg, rgba(15,27,18,.06) 55%, rgba(15,27,18,.55)), "+fotoUrl;
   }
   var tp=document.getElementById('t-tech-personal');
   var tr=document.getElementById('t-tech-req');

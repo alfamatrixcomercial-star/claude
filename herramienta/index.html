@@ -257,16 +257,25 @@ const PRESET_BODA = {
   estaciones:{ bloques:[
     {titulo:"Estación de Carnes", texto:'Cuadril en cocción lenta · Bondiolas aderezadas en salsas agridulces (a la naranja, a la ciruela) · Carré de cerdo mechado con panceta y vegetales · Bife de chorizo braseado con variedad de salsas y panificados de elaboración propia.'},
     {titulo:"Isla Mediterránea", texto:'<b>Variedad de paellas Valencianas:</b> de mariscos · de vegetales · de pollo y ternera · Risotto de hongos.'},
-    {titulo:"Isla Mex", texto:'Fajitas de ternera con pimientos · Burritos de pollo con cebollas moradas y hongos · Nachos · Dips de guacamole · Dips de cheddar fundido.'},
-    {titulo:"Mesa Dulce", texto:'<b>Shots:</b> Chocotorta · Oreotorta · Tiramisú · Mousse · Tarta de frutillas · Cabsha · Carrot · Crumble · Brownie con ddl y merengue · Cheese Cake · <b>Mini tarteletas:</b> Pavlovitas de frutillas · Lemon Pie · Cabsha · Rogelito · Chocotorta bañada en chocolate · <b>Bocados:</b> Mini Alfajorcitos MdP · Mini Maicenitas · Trufas · Cake pop · Cookie chip.'}
+    {titulo:"Isla Mex", texto:'Fajitas de ternera con pimientos · Burritos de pollo con cebollas moradas y hongos · Nachos · Dips de guacamole · Dips de cheddar fundido.'}
   ]},
+  mesaDulce:{
+    shotsTitulo:"Shots",
+    shots:'Chocotorta · Oreotorta · Tiramisú · Mousse de chocolate · Tarta de frutillas · Cabsha · Carrot cake · Crumble · Brownie con dulce de leche y merengue · Cheese Cake.',
+    tarteletasTitulo:"Mini Tarteletas",
+    tarteletas:'Pavlovitas de frutillas · Lemon Pie · Cabsha · Rogelito · Chocotorta bañada en chocolate.',
+    bocadosTitulo:"Bocados",
+    bocados:'Mini Alfajorcitos Mar del Plata · Mini Maicenitas · Trufas · Cake pop · Cookie chip.',
+    cafeTitulo:"Cafetería &amp; Fin de Fiesta",
+    cafe:'Variedad de infusiones calientes. Fin de Fiesta: piadinas varias (pequeñas pizzas).'
+  },
   bebidas:{
     col1Titulo:"Bebidas",
     sinAlcohol:["Gaseosas y aguas línea Coca-Cola"],
     cervezas:["Tirada"], vinos:["Alamos"],
     brindis:"Brindis · Alamos Extra Brut — Bodega Catena Zapata",
-    col2Titulo:"Cafetería & Fin de Fiesta",
-    col2:["Variedad de infusiones calientes","Fin de Fiesta: piadinas varias (pequeñas pizzas)"],
+    col2Titulo:"Cafetería",
+    col2:["Variedad de infusiones calientes"],
     barraTipo:"exclusive", barraTiempo:6
   },
   inversion:{
@@ -317,6 +326,7 @@ function migrate(s){
     ]};
   }
   if(!s.estaciones||!s.estaciones.bloques) s.estaciones={bloques:JSON.parse(JSON.stringify(DEFAULTS.estaciones.bloques))};
+  if(!s.mesaDulce) s.mesaDulce={shotsTitulo:'Shots',shots:'',tarteletasTitulo:'Mini Tarteletas',tarteletas:'',bocadosTitulo:'Bocados',bocados:'',cafeTitulo:'Cafetería & Fin de Fiesta',cafe:''};
   if(!s.nocheBodas) s.nocheBodas=JSON.parse(JSON.stringify(DEFAULTS.nocheBodas));
   return s;
 }
@@ -379,6 +389,13 @@ function sectionsHTML(){
       <div class="field"><label>Tipo de barra</label><select data-path="bebidas.barraTipo">${BAR_OPTIONS.map(o=>`<option value="${o.id}">${o.label}</option>`).join('')}</select><p class="hint">Los tragos de cada barra se cargan solos.</p></div>
       <div class="field"><label>Tiempo de barra</label><div class="slider-row"><input type="range" min="1" max="8" step="1" data-path="bebidas.barraTiempo" value="${getPath(state,'bebidas.barraTiempo')}"><span class="slider-val" id="barTimeVal"></span></div></div>
     `),
+
+    (state.tipoEvento==='boda' ? sec('Mesa Dulce & Cafetería','🍰', `
+      ${fArea('mesaDulce.shots','Shots','Separá los ítems con  · ')}
+      ${fArea('mesaDulce.tarteletas','Mini Tarteletas')}
+      ${fArea('mesaDulce.bocados','Bocados')}
+      ${fArea('mesaDulce.cafe','Cafetería & Fin de Fiesta')}
+    `) : ''),
 
     (state.tipoEvento==='boda' ? sec('Noche de Bodas','💍', `
       ${fText('nocheBodas.eyebrow','Bajada')}
@@ -569,36 +586,16 @@ buildForm();
 
 <!-- Password gate -->
 <style>
-#pw-gate{
-  position:fixed;inset:0;z-index:9999;
-  background:#0F1B12;
-  display:flex;align-items:center;justify-content:center;
-  font-family:'Montserrat',Helvetica,Arial,sans-serif;
-}
+#pw-gate{position:fixed;inset:0;z-index:9999;background:#0F1B12;display:flex;align-items:center;justify-content:center;font-family:'Montserrat',Helvetica,Arial,sans-serif;}
 #pw-gate.hidden{display:none;}
-.pw-box{
-  background:#F2EDE4;border-radius:12px;padding:44px 40px;
-  width:340px;text-align:center;
-  box-shadow:0 24px 60px rgba(0,0,0,.45);
-}
+.pw-box{background:#F2EDE4;border-radius:12px;padding:44px 40px;width:340px;text-align:center;box-shadow:0 24px 60px rgba(0,0,0,.45);}
 .pw-logo{font-size:11px;letter-spacing:.32em;text-transform:uppercase;color:#2C4A3E;font-weight:600;margin-bottom:6px;}
 .pw-sub{font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:#6B9B9B;font-weight:400;margin-bottom:28px;}
 .pw-label{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#7C8A82;margin-bottom:10px;display:block;}
-#pw-input{
-  width:100%;padding:13px 16px;border:1px solid #D9CFBE;
-  border-radius:8px;font-size:18px;letter-spacing:.3em;
-  text-align:center;font-family:'Montserrat',sans-serif;
-  background:#fff;color:#2A3A33;outline:none;transition:border-color .2s;
-}
+#pw-input{width:100%;padding:13px 16px;border:1px solid #D9CFBE;border-radius:8px;font-size:18px;letter-spacing:.3em;text-align:center;font-family:'Montserrat',sans-serif;background:#fff;color:#2A3A33;outline:none;transition:border-color .2s;}
 #pw-input:focus{border-color:#6B9B9B;}
 #pw-input.shake{animation:shake .35s;}
-#pw-btn{
-  margin-top:14px;width:100%;padding:13px;
-  background:#2C4A3E;color:#F2EDE4;border:0;border-radius:8px;
-  font-family:'Montserrat',sans-serif;font-size:11px;
-  letter-spacing:.18em;text-transform:uppercase;font-weight:500;
-  cursor:pointer;transition:background .2s;
-}
+#pw-btn{margin-top:14px;width:100%;padding:13px;background:#2C4A3E;color:#F2EDE4;border:0;border-radius:8px;font-family:'Montserrat',sans-serif;font-size:11px;letter-spacing:.18em;text-transform:uppercase;font-weight:500;cursor:pointer;transition:background .2s;}
 #pw-btn:hover{background:#3a6050;}
 .pw-error{color:#c0392b;font-size:11px;margin-top:10px;min-height:16px;}
 @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-7px)}75%{transform:translateX(7px)}}
@@ -615,26 +612,13 @@ buildForm();
 </div>
 <script>
 (function(){
-  if(sessionStorage.getItem('mev-auth')==='1'){
-    document.getElementById('pw-gate').classList.add('hidden');
-  }
-  document.getElementById('pw-input').addEventListener('keydown',function(e){
-    if(e.key==='Enter') checkPw();
-  });
+  if(sessionStorage.getItem('mev-auth')==='1'){document.getElementById('pw-gate').classList.add('hidden');}
+  document.getElementById('pw-input').addEventListener('keydown',function(e){if(e.key==='Enter')checkPw();});
 })();
 function checkPw(){
   var v=document.getElementById('pw-input').value;
-  if(v==='4275'){
-    sessionStorage.setItem('mev-auth','1');
-    document.getElementById('pw-gate').classList.add('hidden');
-  } else {
-    var inp=document.getElementById('pw-input');
-    inp.classList.remove('shake');
-    void inp.offsetWidth;
-    inp.classList.add('shake');
-    inp.value='';
-    document.getElementById('pw-error').textContent='Contraseña incorrecta';
-  }
+  if(v==='4275'){sessionStorage.setItem('mev-auth','1');document.getElementById('pw-gate').classList.add('hidden');}
+  else{var i=document.getElementById('pw-input');i.classList.remove('shake');void i.offsetWidth;i.classList.add('shake');i.value='';document.getElementById('pw-error').textContent='Contraseña incorrecta';}
 }
 </script>
 </body>
