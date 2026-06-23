@@ -674,7 +674,30 @@
 </section>
 
 <!-- ============================================================= -->
-<!-- PÁGINA 10 — CONDICIONES GENERALES -->
+<!-- PÁGINA — PREGUNTAS FRECUENTES (pág 2, solo si hay más de 8) -->
+<!-- ============================================================= -->
+<section class="page" data-screen-label="Preguntas Frecuentes (cont.)" id="sec-faq-2" style="display:none;">
+  <div class="photo" style="position:relative; height:38mm; background-color:#2c4a3e; background-image:linear-gradient(180deg, rgba(15,27,18,.25), rgba(15,27,18,.62)), url('assets/event-mesa-larga.jpg');">
+    <div style="position:absolute; left:18mm; bottom:9mm;">
+      <p class="eyebrow teal-light" style="margin-bottom:7px;">Todo claro, sin letra chica</p>
+      <h2 class="script" style="font-size:44px; color:var(--cream);">Preguntas Frecuentes</h2>
+    </div>
+  </div>
+
+  <div style="padding:7mm 18mm 6mm;">
+    <div class="faq-cols" id="t-faq-2"></div>
+    <hr class="rule soft" style="margin:5mm 0 4mm;">
+    <div style="display:flex; justify-content:space-between; align-items:center;">
+      <p style="font-style:italic; font-size:18px; color:var(--teal);">¿Más preguntas? Estamos para ayudarte.</p>
+      <div style="display:flex; align-items:center; gap:18px;">
+        <p style="font-family:var(--sans); font-size:11px; letter-spacing:.18em; color:var(--green);">+54 223 633 3330 · info@mareventos.com.ar</p>
+        <img src="assets/logo.png" alt="Mar Eventos" style="width:50px; height:auto; opacity:.7;">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================= -->
 <!-- ============================================================= -->
 <section class="page" data-screen-label="10 Condiciones">
   <div style="position:absolute; inset:0; padding:20mm 18mm 14mm; display:flex; flex-direction:column;">
@@ -979,12 +1002,19 @@ function renderDatos(){
     }).join('');
   }
   set('t-inv-note', inv.nota);
+  var MAX_FAQ=8;
   var fc=document.getElementById('t-faq');
+  var fc2=document.getElementById('t-faq-2');
+  var sec2=document.getElementById('sec-faq-2');
   if(fc && D.faq){
-    fc.innerHTML=D.faq.map(function(f,i){
-      var n=(i+1)<10?('0'+(i+1)):(''+(i+1));
+    var faqHtml=function(arr,offset){ return arr.map(function(f,i){
+      var n=(offset+i+1)<10?('0'+(offset+i+1)):(''+(offset+i+1));
       return '<div class="faq"><span class="faq-n">'+n+'</span><h4>'+f.q+'</h4><p>'+f.a+'</p></div>';
-    }).join('');
+    }).join(''); };
+    var pg1=D.faq.slice(0,MAX_FAQ), pg2=D.faq.slice(MAX_FAQ);
+    fc.innerHTML=faqHtml(pg1,0);
+    if(fc2) fc2.innerHTML=faqHtml(pg2,MAX_FAQ);
+    if(sec2) sec2.style.display=pg2.length>0?'':'none';
   }
   set('t-cond-fecha', e.fechaEmision);
   set('t-firma', e.firmante);
