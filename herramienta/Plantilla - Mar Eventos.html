@@ -409,7 +409,7 @@
           <li>Brindis con espumante Alamos — Bodega Catena Zapata</li>
         </ul>
       </div>
-      <div>
+      <div id="t-beb-2-wrap">
         <p class="menu-cat" style="margin-bottom:6px;" id="t-beb-2-t">Postre &amp; Cafetería</p>
         <hr class="rule soft" style="margin-bottom:16px;">
         <ul class="drink-list" id="t-beb-2">
@@ -461,7 +461,7 @@
 <section class="page" data-screen-label="Mesa Dulce &amp; Cafetería" id="sec-mesa-dulce" style="display:none;">
 
   <!-- franja foto superior -->
-  <div class="photo" style="position:relative; height:56mm; background-color:#1e2e24; background-position:center 38%; background-size:cover; background-image:linear-gradient(120deg, rgba(15,25,18,.72) 0%, rgba(15,25,18,.36) 55%, rgba(15,25,18,.22) 100%), url('assets/mesa-dulce-b.jpg');">
+  <div class="photo" style="position:relative; height:76mm; background-color:#1e2e24; background-position:center 38%; background-size:cover; background-image:linear-gradient(120deg, rgba(15,25,18,.72) 0%, rgba(15,25,18,.36) 55%, rgba(15,25,18,.22) 100%), url('assets/mesa-dulce-b.jpg');">
     <div style="position:absolute; left:18mm; bottom:12mm;">
       <p class="eyebrow teal-light" style="margin-bottom:6px;">Un final de ensueño</p>
       <h2 class="script" style="font-size:46px; color:var(--cream); line-height:1;">Mesa Dulce &amp; Cafetería</h2>
@@ -469,8 +469,8 @@
     <img src="assets/logo-white.png" alt="Mar Eventos" style="position:absolute; right:18mm; bottom:12mm; height:26px; width:auto; opacity:.82;">
   </div>
 
-  <!-- contenido 2 columnas + foto central -->
-  <div style="position:absolute; left:0; right:0; top:56mm; bottom:0; padding:8mm 18mm 8mm; display:grid; grid-template-columns:1fr 42mm 1fr; gap:9mm; align-items:start;">
+  <!-- contenido 2 columnas -->
+  <div style="position:absolute; left:0; right:0; top:76mm; bottom:30mm; padding:8mm 18mm 6mm; display:grid; grid-template-columns:1fr 1fr; gap:14mm; align-items:start;">
 
     <!-- columna izquierda: Shots + Mini Tarteletas -->
     <div>
@@ -482,20 +482,23 @@
       <p class="menu-body" style="font-size:13px; line-height:1.68;" id="t-mesa-tart"></p>
     </div>
 
-    <!-- foto central vertical -->
-    <div style="background:url('assets/mesa-dulce-a.jpg') center/cover no-repeat; border-radius:3px; height:100%; min-height:90mm;"></div>
-
     <!-- columna derecha: Bocados + Cafetería -->
     <div>
       <p class="menu-cat" style="margin-bottom:5px;" id="t-mesa-boc-t">Bocados</p>
       <hr class="rule soft" style="margin-bottom:9px;">
       <p class="menu-body" style="font-size:13px; line-height:1.68;" id="t-mesa-boc"></p>
-      <div style="background:var(--green); padding:10px 14px; margin-top:9mm;">
-        <p class="eyebrow" style="font-size:8.5px; letter-spacing:.18em; color:var(--teal-light); margin-bottom:5px;" id="t-mesa-cafe-t">Cafetería &amp; Fin de Fiesta</p>
-        <p class="menu-body" style="font-size:13px; line-height:1.7; color:var(--cream);" id="t-mesa-cafe"></p>
-      </div>
+      <p class="menu-cat" style="margin:9mm 0 5px;" id="t-mesa-cafe-t">Cafetería</p>
+      <hr class="rule soft" style="margin-bottom:9px;">
+      <p class="menu-body" style="font-size:13px; line-height:1.68;" id="t-mesa-cafe"></p>
     </div>
 
+  </div>
+
+  <!-- banda Fin de Fiesta -->
+  <div style="position:absolute; left:0; right:0; bottom:0; height:30mm; background:var(--green); display:flex; align-items:center; padding:0 18mm; gap:18mm;">
+    <p class="script" style="font-size:38px; color:var(--cream); line-height:1; white-space:nowrap;">Fin de Fiesta</p>
+    <div style="width:1px; height:22px; background:rgba(155,189,189,.35);"></div>
+    <p class="menu-body" style="font-size:14px; line-height:1.6; color:var(--cream);" id="t-mesa-fin"></p>
   </div>
 </section>
 
@@ -1032,6 +1035,8 @@ function renderDatos(){
   if(b.brindis) col1.push(b.brindis);
   set('t-beb-1-t', b.col1Titulo); ul('t-beb-1', col1);
   set('t-beb-2-t', b.col2Titulo); ul('t-beb-2', b.col2);
+  var w2=document.getElementById('t-beb-2-wrap');
+  if(w2) w2.style.display = (b.col2&&b.col2.length>0)?'':'none';
   set('t-barra-t', barCfg.nombre); set('t-barra-dur', barraDur); ul('t-barra-grid', barCfg.tragos);
   set('t-inv-sub', (e.cliente||'')+'<br>'+(e.fecha||'')+' · '+(e.invitados||'')+' personas');
   var inv=D.inversion||{}, rc=document.getElementById('t-inv-rows');
@@ -1046,7 +1051,7 @@ function renderDatos(){
     }).join('');
   }
   set('t-inv-note', inv.nota);
-  var MAX_FAQ=8;
+  var MAX_FAQ=9;
   var fc=document.getElementById('t-faq');
   var fc2=document.getElementById('t-faq-2');
   var sec2=document.getElementById('sec-faq-2');
@@ -1077,7 +1082,8 @@ function renderDatos(){
     set('t-mesa-shots-t', md.shotsTitulo||'Shots'); set('t-mesa-shots', md.shots);
     set('t-mesa-tart-t', md.tarteletasTitulo||'Mini Tarteletas'); set('t-mesa-tart', md.tarteletas);
     set('t-mesa-boc-t', md.bocadosTitulo||'Bocados'); set('t-mesa-boc', md.bocados);
-    set('t-mesa-cafe-t', md.cafeTitulo||'Cafetería & Fin de Fiesta'); set('t-mesa-cafe', md.cafe);
+    set('t-mesa-cafe-t', md.cafeTitulo||'Cafetería'); set('t-mesa-cafe', md.cafe);
+    set('t-mesa-fin', md.finFiesta);
   }
   // foto izquierda de presentación
   var pp=document.getElementById('t-pres-photo');
