@@ -313,7 +313,7 @@ const PRESET_BODA = {
 const PRESET_COFFEE = {
   tipoEvento:"coffee",
   salonId:"waikiki",
-  evento:{ cliente:"A definir", fecha:"A definir", horario:"A definir", salon:"Hula Kai", invitados:"30 – 55", gastronomia:"Coffee + Finger Food", fechaEmision:"", firmante:"Romina Marquez" },
+  evento:{ cliente:"A definir", fecha:"A definir", horario:"A definir", salon:"Ala Wai", invitados:"Hasta 300", gastronomia:"Coffee Ejecutivo", fechaEmision:"", firmante:"Romina Marquez" },
   portada:{ tagline:"Tu evento ideal, frente al mar." },
   presentacion:{
     p1:'Queremos agradecer su interés en realizar su celebración con <span class="hl">Mar Eventos</span>. Nuestro personal los ayudará a coordinar cada detalle para garantizar que su evento sea tan increíble como lo imaginan.',
@@ -322,23 +322,18 @@ const PRESET_COFFEE = {
   gastronomia:{ eyebrow:"Gastronomía de autor", titulo:"Nuestra Propuesta Gastronómica" },
   coffee:{
     infusionesTitulo:"Infusiones",
-    infusiones:'Café espresso · Cortado · Lágrima · Café con Leche · Latte · Doble Cortado · Té Twinings.',
+    infusiones:'Café · Té.',
     jugosTitulo:"Jugos &amp; Aguas",
-    jugos:'Limonada con Menta y Jengibre · Jarras de Agua.',
+    jugos:'Limonada con Menta y Jengibre · Jarras de agua.',
     pasteleraTitulo:"Pastelería",
-    pasteleria:'<b>Mono-Porciones:</b> Cheese Cake New York · Lemon Pie · Chocotorta · Frutales · <b>Budines:</b> Limón · Vainilla · Chocolate · Medialunas dulces · Scon\'s de queso.'
+    pasteleria:'<b>Mono-Porciones:</b> Cheese Cake New York · Lemon Pie · Chocotorta · <b>Budines:</b> Limón · Vainilla · Chocolate · Scon\'s de queso · Medialunas dulces.'
   },
   fingerFood:{
-    friosTitulo:"Bocaditos Fríos",
-    frios:'<b>Bruschettas en pan de campo:</b> Mousse de palta, tomatitos confitados y cebollita morada · Salmón ahumado, queso Finlandia y ciboulette · Jamón serrano, rúcula y gruyere · Pinchos caprese · <b>Minis elaborados con panificados artesanales:</b> Jamón serrano y rúcula · Primavera · Palmitos, zanahoria y salsa golf · Pollo y tomate · <b>Shots:</b> Cocktail de camarones · Guacamole.',
-    calientesTitulo:"Bocaditos Calientes",
-    calientes:'Satays de langostinos rebozados y alioli · Mini empanaditas de carne cortada a cuchillo · <b>Cazuelas:</b> Pechuguitas a la mostaza y miel · <b>Pinchos:</b> Lomo con morroncitos y cebolla caramelizada · Mini pechuguitas con zanahorias y morroncitos · Mini tortillas españolas con queso · Mini tortillas de vegetales.',
-    campoTitulo:"Estación de Campo",
-    campo:'Jamón crudo serrano · Jamón natural · Quesos saborizados · Pategras · Fontina · Gouda · Azul · Leberwust · Lomo ahumado · Bondiola serrana · Salames criollo y español · Longaniza · Matambre casero · Olivas verdes y negras · Panes de campo.'
+    friosTitulo:"Bocaditos Fríos", frios:'',
+    calientesTitulo:"Bocaditos Calientes", calientes:'',
+    campoTitulo:"Estación de Campo", campo:''
   },
-  estaciones:{ bloques:[
-    { titulo:"Estación de Carnes", texto:'Cuadril en cocción lenta · Bondiolas aderezadas en salsas agridulces (a la naranja, a la ciruela) · Carré de cerdo mechado con panceta y vegetales · Pernil de cerdo o vacuno con variedad de salsas y panificados de elaboración propia.' }
-  ]},
+  estaciones:{ bloques:[] },
   bebidas:{
     col1Titulo:"Bebidas",
     sinAlcohol:["Gaseosas y aguas línea Coca-Cola"],
@@ -348,17 +343,16 @@ const PRESET_COFFEE = {
   },
   inversion:{
     rows:[
-      { cat:"Gastronomía", nombre:"Menú Finger Food Completo", sub:"por persona adulta", precio:"AR$ 105.000", iva:"+ IVA", subprecio:"precio por persona", grande:false, destacado:false },
-      { cat:"Coffee", nombre:"Servicio de Coffee", sub:"por persona", precio:"AR$ 28.000", iva:"+ IVA", subprecio:"precio por persona", grande:false, destacado:true },
-      { cat:"Locación", nombre:"Uso de Salón Hula Kai", sub:"Complejo Mirador Waikiki", precio:"AR$ 750.000", iva:"+ IVA", subprecio:"valor total del espacio", grande:true, destacado:false },
-      { cat:"Día de Armado", nombre:"Día de Armado", sub:"50% del valor de uso de salón", precio:"AR$ 375.000", iva:"+ IVA", subprecio:"valor día de armado", grande:false, destacado:false }
+      { cat:"Coffee", nombre:"Servicio de Coffee Ejecutivo", sub:"por persona", precio:"AR$ 25.000", iva:"+ IVA", subprecio:"precio por persona", grande:false, destacado:true },
+      { cat:"Locación", nombre:"Uso de Salón Ala Wai", sub:"Complejo Mirador Waikiki", precio:"AR$ 1.500.000", iva:"+ IVA", subprecio:"valor total del espacio", grande:true, destacado:false },
+      { cat:"Técnica", nombre:"Sonido, Pantalla LED &amp; Operadores", sub:"Pantalla LED P3 de 3×2 m · sonido · 2 micrófonos inalámbricos · operadores de video y sonido · valores a definir según requerimientos", precio:"AR$ 3.500.000", iva:"+ IVA", subprecio:"valor estimado del servicio", grande:false, destacado:false }
     ],
-    nota:"Los precios no incluyen IVA. Validez de la propuesta: 10 días corridos desde su emisión. La reserva se confirma con una seña del 15%."
+    nota:"Los precios no incluyen IVA. Validez de la propuesta: 10 días corridos desde su emisión. Seña: 30% a la aceptación del presupuesto; el 70% restante se completa 72 hs antes del evento. Quedan a cargo del cliente los derechos de autor (SADAIC) y de intérpretes (AADI-CAPIF)."
   },
   faq:[
     { q:"¿Puedo hacer mi evento de día o de noche?", a:"Durante los meses de abril a noviembre es posible realizar eventos tanto de día como de noche. Sin embargo, en diciembre, enero y febrero solo se realizan eventos nocturnos." },
     { q:"¿Cuál es la duración de un evento? ¿Se puede agregar más tiempo?", a:"El tiempo estipulado es de 6 hs, que comienza a transcurrir a partir de la llegada de los invitados. El mismo puede extenderse en caso de que lo soliciten." },
-    { q:"¿Cuántos invitados puede recibir el salón Hula Kai?", a:"El salón Hula Kai tiene capacidad para entre 30 y 55 invitados, ideal para reuniones corporativas, desayunos y eventos de menor escala." },
+    { q:"¿Cuántos invitados puede recibir el salón Ala Wai?", a:"El salón Ala Wai tiene capacidad para hasta 300 invitados en formato auditorio / coffee ejecutivo." },
     { q:"¿Hay suficiente estacionamiento para mis invitados?", a:"Sí. Disponemos de un amplio estacionamiento, gratuito y dentro del complejo." },
     { q:"¿Puedo traer mi propia comida, bebida u otros artículos de alquiler?", a:"Mar Eventos es un proveedor de catering de servicio completo y provee exclusivamente todos los alimentos y bebidas, salvo casos particulares como tortas, kioscos de golosinas, etc." },
     { q:"¿Cuentan con menú vegano, vegetariano o celíaco?", a:"Para garantizar que cada invitado cuente con el menú de su preferencia, ofrecemos diversas opciones en cada paso del servicio, incluyendo menús veganos, vegetarianos y sin gluten." },
