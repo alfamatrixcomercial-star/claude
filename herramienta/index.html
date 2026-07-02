@@ -177,7 +177,7 @@
 
   <div class="preview" id="stage">
     <div id="frameHolder">
-      <iframe id="preview-frame" src="Plantilla - Mar Eventos.html"></iframe>
+      <iframe id="preview-frame" src="plantilla.html"></iframe>
     </div>
   </div>
 </div>
@@ -779,8 +779,8 @@ document.getElementById('tabView').addEventListener('click',()=>{document.body.c
 window.addEventListener('resize',fitPreview);
 
 const TEMPLATES = {
-  default: 'Plantilla - Mar Eventos.html',
-  coffee:  'Presupuesto Hula Kai.html'
+  default: 'plantilla.html',
+  coffee:  'coffee.html'
 };
 function currentTemplate(){ return (state.tipoEvento==='coffee' && (state.salonId||'waikiki')==='waikiki') ? TEMPLATES.coffee : TEMPLATES.default; }
 function switchTemplate(tipo){
