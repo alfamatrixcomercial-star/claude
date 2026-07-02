@@ -149,6 +149,7 @@
       <button class="btn btn-ghost" id="tabView">Vista</button>
     </div>
     <button class="btn btn-ghost" id="resetBtn" title="Volver a los valores de ejemplo">Reiniciar</button>
+    <button class="btn btn-ghost" id="canvaBtn" title="Abrir este presupuesto como diseño editable en Canva">✏️ Editar en Canva</button>
     <button class="btn btn-pdf" id="pdfBtn">⤓ Descargar PDF</button>
   </div>
 </div>
@@ -157,9 +158,14 @@
   <div class="panel">
     <div class="intro">
       <p>Elegí el <b>tipo de evento</b>, completá los campos y mirá el presupuesto armarse <b>en vivo</b>. Cuando esté listo, tocá <b>Descargar PDF</b>. Todo se guarda solo en este navegador.</p>
-      <div class="type-switch" id="typeSwitch">
+      <div class="type-switch" id="salonSwitch">
+        <button data-salon="waikiki">Mirador Waikiki</button>
+        <button data-salon="m9">Mirador 9</button>
+      </div>
+      <div class="type-switch" id="typeSwitch" style="margin-top:8px;">
         <button data-type="corporativo">Corporativo</button>
         <button data-type="boda">Boda</button>
+        <button data-type="coffee">Coffee + FF</button>
         <button data-type="xv">XV</button>
       </div>
     </div>
@@ -180,6 +186,7 @@
 /* ============ Valores de ejemplo (mismos que la plantilla) ============ */
 const DEFAULTS = {
   tipoEvento:"corporativo",
+  salonId:"waikiki",
   evento: {
     cliente:"Laboratorios Gador", fecha:"11 Dic, 2025", horario:"20:00 – 02:00",
     salon:"Mirador Waikiki", invitados:"250 – 300", gastronomia:"Finger Food",
@@ -193,9 +200,9 @@ const DEFAULTS = {
   gastronomia:{ eyebrow:"Gastronomía de autor", titulo:"Nuestra Propuesta Gastronómica" },
   fingerFood:{
     friosTitulo:"Bocaditos Fríos",
-    frios:'<b>Bruschettas en pan de campo:</b> Mousse de palta, tomatitos confitados y cebollita morada · Salmón ahumado, queso Finlandia y ciboulette · Jamón serrano, rúcula y gruyere · <b>Pinchos caprese</b> · Minibollo semillado de lomo y cheddar · Mini croissant de jamón y queso · Bocaditos de hojaldre rellenos · Bollito dulce con jamón y queso tybo · <b>Shots:</b> Cocktail de camarones · Guacamole.',
+    frios:'<b>Bruschettas en pan de campo:</b> Mousse de palta, tomatitos confitados y cebollita morada · Salmón ahumado, queso Finlandia y ciboulette · Jamón serrano, rúcula y gruyere · Pinchos caprese · <b>Minis elaborados con panificados artesanales:</b> Jamón serrano y rúcula · Primavera · Palmitos, zanahoria y salsa golf · Pollo y tomate · <b>Shots:</b> Cocktail de camarones · Guacamole.',
     calientesTitulo:"Bocaditos Calientes",
-    calientes:'Satays de langostinos rebozados y alioli · Mini empanaditas de carne cortada a cuchillo · Bollitos de jamón, mozzarella y orégano · <b>Cazuelas:</b> Pechuguitas a la mostaza y miel · <b>Pinchos:</b> Lomo con morroncitos y cebolla caramelizada · Mini pechuguitas con zanahorias y morroncitos · Boconcinos con tomatitos cherry y albahaca · <b>Canastitas:</b> Cebollitas con queso y orégano · Zucchinis caramelizados y queso · Mini tortillas españolas con queso.',
+    calientes:'Satays de langostinos rebozados y alioli · Mini empanaditas de carne cortada a cuchillo · <b>Cazuelas:</b> Pechuguitas a la mostaza y miel · <b>Pinchos:</b> Lomo con morroncitos y cebolla caramelizada · Mini pechuguitas con zanahorias y morroncitos · Mini tortillas españolas con queso · Mini tortillas de vegetales.',
     campoTitulo:"Estación de Campo",
     campo:'Jamón crudo serrano · Jamón natural · Quesos saborizados · Pategras · Fontina · Gouda · Azul · Leberwust · Lomo ahumado · Bondiola serrana · Salames criollo y español · Longaniza · Matambre casero · Olivas verdes y negras · Panes de campo.'
   },
@@ -239,6 +246,7 @@ const DEFAULTS = {
 /* ============ Preset de BODA (contenido del presupuesto de bodas) ============ */
 const PRESET_BODA = {
   tipoEvento:"boda",
+  salonId:"waikiki",
   evento:{ cliente:"A definir", fecha:"A definir", horario:"A definir", salon:"Ala Wai", invitados:"100 – 300", gastronomia:"All Inclusive", fechaEmision:"", firmante:"Romina Marquez" },
   portada:{ tagline:"Tu evento ideal, frente al mar." },
   presentacion:{
@@ -248,9 +256,9 @@ const PRESET_BODA = {
   gastronomia:{ eyebrow:"Gastronomía de autor", titulo:"Nuestra Propuesta Gastronómica" },
   fingerFood:{
     friosTitulo:"Bocaditos Fríos",
-    frios:'<b>Bruschettas en pan de campo:</b> Mousse de palta, tomatitos confitados y cebollita morada · Salmón ahumado, queso Finlandia y ciboulette · Jamón serrano, rúcula y gruyere · <b>Pinchos caprese</b> · Minibollo semillado de lomo y cheddar · Mini croissant de jamón y queso · Bollito dulce con jamón y queso · <b>Shots:</b> Cocktail de camarones · Guacamole.',
+    frios:'<b>Bruschettas en pan de campo:</b> Mousse de palta, tomatitos confitados y cebollita morada · Salmón ahumado, queso Finlandia y ciboulette · Jamón serrano, rúcula y gruyere · Pinchos caprese · <b>Minis elaborados con panificados artesanales:</b> Jamón serrano y rúcula · Primavera · Palmitos, zanahoria y salsa golf · Pollo y tomate · <b>Shots:</b> Cocktail de camarones · Guacamole.',
     calientesTitulo:"Bocaditos Calientes",
-    calientes:'Satays de langostinos rebozados y alioli · Bollitos de jamón, mozzarella y orégano · <b>Cazuelas:</b> Pechuguitas a la mostaza y miel · <b>Pinchos:</b> Lomo con morroncitos y cebolla caramelizada · Mini pechuguitas con zanahorias y morroncitos · Boconcinos con tomatitos cherry y albahaca · <b>Canastitas:</b> Cebollitas con queso y orégano · Zucchinis caramelizados y queso · Mini empanaditas de carne cortada a cuchillo · Mini tortillas españolas con queso.',
+    calientes:'Satays de langostinos rebozados y alioli · Mini empanaditas de carne cortada a cuchillo · <b>Cazuelas:</b> Pechuguitas a la mostaza y miel · <b>Pinchos:</b> Lomo con morroncitos y cebolla caramelizada · Mini pechuguitas con zanahorias y morroncitos · Mini tortillas españolas con queso · Mini tortillas de vegetales.',
     campoTitulo:"Estación de Campo",
     campo:'Jamón crudo serrano · Jamón natural · Quesos saborizados · Pategras · Fontina · Gouda · Azul · Leberwust · Lomo ahumado · Bondiola serrana · Salames criollo y español · Longaniza · Matambre casero · Olivas verdes y negras · Panes de campo.'
   },
@@ -302,7 +310,161 @@ const PRESET_BODA = {
   cierre:{ eyebrow:"Mar Eventos · Mar del Plata", titulo:"¡Vamos a empezar!" },
   nocheBodas:{ eyebrow:"Un cierre de ensueño", titulo:"Noche de Bodas", texto:"Nuestra propuesta incluye noche de bodas en Ili Ili Hotel Boutique, a metros del salón Ala Wai, dentro del complejo Mirador Waikiki. Una estadía para dos personas, con ingreso a las 17:00 hs del día del evento y late check-out a las 17:00 hs del día siguiente." }
 };
-const PRESETS = { corporativo:DEFAULTS, boda:PRESET_BODA, xv:Object.assign(clone_(DEFAULTS),{tipoEvento:"xv"}) };
+const PRESET_COFFEE = {
+  tipoEvento:"coffee",
+  salonId:"waikiki",
+  evento:{ cliente:"A definir", fecha:"A definir", horario:"A definir", salon:"Hula Kai", invitados:"30 – 55", gastronomia:"Coffee + Finger Food", fechaEmision:"", firmante:"Romina Marquez" },
+  portada:{ tagline:"Tu evento ideal, frente al mar." },
+  presentacion:{
+    p1:'Queremos agradecer su interés en realizar su celebración con <span class="hl">Mar Eventos</span>. Nuestro personal los ayudará a coordinar cada detalle para garantizar que su evento sea tan increíble como lo imaginan.',
+    p2:'No hay dos eventos iguales. Queremos acompañarlos en este emocionante camino… <span class="hl">¡Comencemos!</span>'
+  },
+  gastronomia:{ eyebrow:"Gastronomía de autor", titulo:"Nuestra Propuesta Gastronómica" },
+  coffee:{
+    infusionesTitulo:"Infusiones",
+    infusiones:'Café espresso · Cortado · Lágrima · Café con Leche · Latte · Doble Cortado · Té Twinings.',
+    jugosTitulo:"Jugos &amp; Aguas",
+    jugos:'Limonada con Menta y Jengibre · Jarras de Agua.',
+    pasteleraTitulo:"Pastelería",
+    pasteleria:'<b>Mono-Porciones:</b> Cheese Cake New York · Lemon Pie · Chocotorta · Frutales · <b>Budines:</b> Limón · Vainilla · Chocolate · Medialunas dulces · Scon\'s de queso.'
+  },
+  fingerFood:{
+    friosTitulo:"Bocaditos Fríos",
+    frios:'<b>Bruschettas en pan de campo:</b> Mousse de palta, tomatitos confitados y cebollita morada · Salmón ahumado, queso Finlandia y ciboulette · Jamón serrano, rúcula y gruyere · Pinchos caprese · <b>Minis elaborados con panificados artesanales:</b> Jamón serrano y rúcula · Primavera · Palmitos, zanahoria y salsa golf · Pollo y tomate · <b>Shots:</b> Cocktail de camarones · Guacamole.',
+    calientesTitulo:"Bocaditos Calientes",
+    calientes:'Satays de langostinos rebozados y alioli · Mini empanaditas de carne cortada a cuchillo · <b>Cazuelas:</b> Pechuguitas a la mostaza y miel · <b>Pinchos:</b> Lomo con morroncitos y cebolla caramelizada · Mini pechuguitas con zanahorias y morroncitos · Mini tortillas españolas con queso · Mini tortillas de vegetales.',
+    campoTitulo:"Estación de Campo",
+    campo:'Jamón crudo serrano · Jamón natural · Quesos saborizados · Pategras · Fontina · Gouda · Azul · Leberwust · Lomo ahumado · Bondiola serrana · Salames criollo y español · Longaniza · Matambre casero · Olivas verdes y negras · Panes de campo.'
+  },
+  estaciones:{ bloques:[
+    { titulo:"Estación de Carnes", texto:'Cuadril en cocción lenta · Bondiolas aderezadas en salsas agridulces (a la naranja, a la ciruela) · Carré de cerdo mechado con panceta y vegetales · Pernil de cerdo o vacuno con variedad de salsas y panificados de elaboración propia.' }
+  ]},
+  bebidas:{
+    col1Titulo:"Bebidas",
+    sinAlcohol:["Gaseosas y aguas línea Coca-Cola"],
+    cervezas:[], vinos:[], brindis:"",
+    col2Titulo:"Cafetería", col2:["Variedad de infusiones calientes"],
+    barraTipo:"", barraTiempo:0
+  },
+  inversion:{
+    rows:[
+      { cat:"Gastronomía", nombre:"Menú Finger Food Completo", sub:"por persona adulta", precio:"AR$ 105.000", iva:"+ IVA", subprecio:"precio por persona", grande:false, destacado:false },
+      { cat:"Coffee", nombre:"Servicio de Coffee", sub:"por persona", precio:"AR$ 28.000", iva:"+ IVA", subprecio:"precio por persona", grande:false, destacado:true },
+      { cat:"Locación", nombre:"Uso de Salón Hula Kai", sub:"Complejo Mirador Waikiki", precio:"AR$ 750.000", iva:"+ IVA", subprecio:"valor total del espacio", grande:true, destacado:false },
+      { cat:"Día de Armado", nombre:"Día de Armado", sub:"50% del valor de uso de salón", precio:"AR$ 375.000", iva:"+ IVA", subprecio:"valor día de armado", grande:false, destacado:false }
+    ],
+    nota:"Los precios no incluyen IVA. Validez de la propuesta: 10 días corridos desde su emisión. La reserva se confirma con una seña del 15%."
+  },
+  faq:[
+    { q:"¿Puedo hacer mi evento de día o de noche?", a:"Durante los meses de abril a noviembre es posible realizar eventos tanto de día como de noche. Sin embargo, en diciembre, enero y febrero solo se realizan eventos nocturnos." },
+    { q:"¿Cuál es la duración de un evento? ¿Se puede agregar más tiempo?", a:"El tiempo estipulado es de 6 hs, que comienza a transcurrir a partir de la llegada de los invitados. El mismo puede extenderse en caso de que lo soliciten." },
+    { q:"¿Cuántos invitados puede recibir el salón Hula Kai?", a:"El salón Hula Kai tiene capacidad para entre 30 y 55 invitados, ideal para reuniones corporativas, desayunos y eventos de menor escala." },
+    { q:"¿Hay suficiente estacionamiento para mis invitados?", a:"Sí. Disponemos de un amplio estacionamiento, gratuito y dentro del complejo." },
+    { q:"¿Puedo traer mi propia comida, bebida u otros artículos de alquiler?", a:"Mar Eventos es un proveedor de catering de servicio completo y provee exclusivamente todos los alimentos y bebidas, salvo casos particulares como tortas, kioscos de golosinas, etc." },
+    { q:"¿Cuentan con menú vegano, vegetariano o celíaco?", a:"Para garantizar que cada invitado cuente con el menú de su preferencia, ofrecemos diversas opciones en cada paso del servicio, incluyendo menús veganos, vegetarianos y sin gluten." },
+    { q:"¿Cómo recibo el salón?", a:"El salón se entrega limpio y en condiciones óptimas, con el armado correspondiente al formato seleccionado." },
+    { q:"¿Puedo traer una banda o show?", a:"Sí, es posible sumar una banda o un show. Contamos con diferentes alternativas según el tipo de evento." },
+    { q:"¿Qué sucede en caso de corte de energía eléctrica?", a:"Todo el complejo está conectado a un grupo generador que, en caso de corte de suministro, se enciende automáticamente pasados 30 segundos." }
+  ],
+  cierre:{ eyebrow:"Mar Eventos · Mar del Plata", titulo:"¡Vamos a empezar!" }
+};
+/* ============ Preset de BODA · MIRADOR 9 (All Inclusive Campo) ============ */
+const PRESET_BODA_M9 = {
+  tipoEvento:"boda",
+  salonId:"m9",
+  evento:{ cliente:"A definir", fecha:"A definir", horario:"A definir", salon:"Mirador 9", invitados:"100 – 180", gastronomia:"All Inclusive · Menú de Campo", fechaEmision:"", firmante:"Romina Marquez" },
+  portada:{ tagline:"Tu evento ideal, frente al mar." },
+  presentacion:{
+    p1:'Queremos agradecer su interés en realizar su celebración con <span class="hl">Mar Eventos</span>. Nuestro personal los ayudará a coordinar cada detalle para garantizar que su evento sea tan increíble como lo imaginan.',
+    p2:'No hay dos eventos iguales. Queremos acompañarlos en este emocionante camino… <span class="hl">¡Comencemos!</span>'
+  },
+  gastronomia:{ eyebrow:"Gastronomía de autor", titulo:"Nuestra Propuesta Gastronómica" },
+  fingerFood:{
+    titulo:"Recepción Finger Food", pill:"Recepción",
+    friosTitulo:"Bocaditos Fríos",
+    frios:'<b>Bruschettas en pan de campo:</b> Mousse de palta, tomatitos confitados y cebollita morada · Salmón ahumado, queso Finlandia y ciboulette · Jamón serrano, rúcula y gruyere · Pinchos caprese · <b>Minis elaborados con panificados artesanales:</b> Jamón serrano y rúcula · Primavera · Palmitos, zanahoria y salsa golf · Pollo y tomate · <b>Shots:</b> Cocktail de camarones · Guacamole.',
+    calientesTitulo:"Bocaditos Calientes",
+    calientes:'Satays de langostinos rebozados y alioli · Mini empanaditas de carne cortada a cuchillo · <b>Cazuelas:</b> Pechuguitas a la mostaza y miel · <b>Pinchos:</b> Lomo con morroncitos y cebolla caramelizada · Mini pechuguitas con zanahorias y morroncitos · Mini tortillas españolas con queso · Mini tortillas de vegetales.',
+    campoTitulo:"Estación de Campo",
+    campo:'Jamón crudo serrano · Jamón natural · Quesos saborizados · Pategras · Fontina · Gouda · Azul · Leberwust · Lomo ahumado · Bondiola serrana · Salames criollo y español · Longaniza · Matambre casero · Olivas verdes y negras · Panes de campo.'
+  },
+  menuCampo:{
+    pill:"Plato Principal",
+    titulo:"Menú de Campo frente al mar",
+    eyebrow:"El corazón de la propuesta · servido en mesa",
+    items:[
+      "Empanadas de carne cortada a cuchillo",
+      "Asado al asador",
+      "Vacío",
+      "Pechito de cerdo",
+      "Variedad de ensaladas",
+      "Papas fritas"
+    ],
+    nota:"Cocción al asador a la vista, con el mar de fondo."
+  },
+  estaciones:{ titulo:"Isla Mediterránea", pill:"Islas", bloques:[
+    {titulo:"Paellas Valencianas", texto:'De mariscos · De vegetales · De pollo y ternera.'},
+    {titulo:"Risotto", texto:'Risotto de hongos.'}
+  ]},
+  mesaDulce:{
+    shotsTitulo:"Shots",
+    shots:'Chocotorta · Oreotorta · Tiramisú · Mousse · Tarta de frutillas · Cabsha · Carrot cake · Crumble · Brownie con dulce de leche y merengue · Cheese Cake.',
+    tarteletasTitulo:"Mini Tarteletas",
+    tarteletas:'Pavlovitas de frutillas · Tarta de frutilla · Lemon Pie · Cabsha · Rogelito · Chocotorta bañada en chocolate.',
+    bocadosTitulo:"Bocados",
+    bocados:'Mini Alfajorcitos Mar del Plata · Mini Alfajorcitos sablée · Mini Maicenitas · Trufas · Cake pop · Brownie con merengue y dulce de leche · Cookie chip.',
+    cafeTitulo:"Cafetería",
+    cafe:'Variedad de infusiones calientes.',
+    finFiesta:'Piadinas varias (pequeñas pizzas) para el cierre de la noche.'
+  },
+  bebidas:{
+    col1Titulo:"Bebidas",
+    sinAlcohol:["Gaseosas y aguas línea Coca-Cola"],
+    cervezas:["Tirada"], vinos:["Alamos"],
+    brindis:"Brindis · Alamos Extra Brut — Bodega Catena Zapata",
+    col2Titulo:"Cafetería",
+    col2:[],
+    barraTipo:"exclusive", barraTiempo:5
+  },
+  inversion:{
+    rows:[
+      { cat:"Gastronomía", nombre:"Menú All Inclusive · Adulto", sub:"por persona adulta", precio:"AR$ 169.500", iva:"+ IVA", subprecio:"precio por persona", grande:false, destacado:true },
+      { cat:"Gastronomía", nombre:"Menú All Inclusive · Menor", sub:"por persona menor", precio:"AR$ 115.000", iva:"+ IVA", subprecio:"precio por persona", grande:false, destacado:false }
+    ],
+    nota:"Nuestra propuesta incluye: valor de locación, técnica y todos los servicios mencionados. Los precios no incluyen IVA. Validez de la propuesta: 10 días corridos desde su emisión. La reserva se confirma con una seña del 15%."
+  },
+  faq:[
+    { q:"¿Puedo hacer mi boda de día o de noche?", a:"Durante los meses de marzo a noviembre es posible realizar eventos tanto de día como de noche. Sin embargo, en diciembre, enero y febrero solo se realizan eventos nocturnos." },
+    { q:"¿Cuál es la duración de una boda? ¿Se puede agregar más tiempo?", a:"El tiempo estipulado es de 8 hs, que comienza a transcurrir a partir de la llegada de los invitados. El mismo puede extenderse en caso de que lo soliciten." },
+    { q:"¿Cuántos invitados puede recibir el salón principal de Mirador 9?", a:"El salón principal de Mirador 9 tiene capacidad para 200 invitados en formato emplatado y 240 en Finger Food." },
+    { q:"¿Hay suficiente estacionamiento para mis invitados?", a:"Sí. Disponemos de un amplio estacionamiento, gratuito y a metros del salón." },
+    { q:"¿Puedo traer mi propia comida, bebida u otros artículos de alquiler?", a:"Mar Eventos es un proveedor de catering de servicio completo y provee exclusivamente todos los alimentos y bebidas, salvo casos particulares como la torta de boda, carrito de helado, kiosco de golosinas, etc." },
+    { q:"¿Cómo se decora el salón?", a:"Nuestros espacios se mantienen en perfectas condiciones y cuentan con los servicios necesarios para que su boda se realice sin inconvenientes. La decoración resulta importante para añadir el toque especial que deseen integrar a la propuesta contratada." },
+    { q:"¿Puedo hacer la ceremonia en el complejo? ¿Qué sucede si llueve?", a:"Sí, es posible realizar la ceremonia en el parque o en el interior, en un espacio cuidadosamente preparado. La ambientadora que contraten se encarga del montaje y la decoración. Si el clima no es favorable, se evalúa trasladarla al interior modificando lo menos posible la ambientación del salón." },
+    { q:"¿Cuentan con menú vegano, vegetariano o celíaco?", a:"Sí. Ofrecemos diversas opciones en cada paso del servicio, incluyendo menús veganos, vegetarianos y sin gluten." },
+    { q:"¿Puedo traer una banda o show?", a:"Sí, es posible sumar una banda o un show. Contamos con bandas de diversos estilos, shows circenses y de fuegos, saxofonistas para la recepción de invitados, entre otros." },
+    { q:"¿Qué sucede en caso de corte de energía eléctrica?", a:"El salón se encuentra conectado a un grupo generador que, en caso de corte de suministro, se enciende automáticamente, recuperando la energía para que el evento continúe con normalidad." }
+  ],
+  cierre:{ eyebrow:"Mar Eventos · Mar del Plata", titulo:"¡Vamos a empezar!" },
+  nocheBodas:{ eyebrow:"", titulo:"", texto:"" }
+};
+/* Adaptación provisoria a Mirador 9 (hasta cargar los PDF definitivos) */
+function m9ify(base){
+  let s=JSON.stringify(base);
+  s=s.split('Mirador Waikiki').join('Mirador 9').split('Ala Wai').join('Mirador 9').split('Hula Kai').join('Mirador 9');
+  const p=JSON.parse(s);
+  p.salonId='m9';
+  p.evento.salon='Mirador 9';
+  p.evento.invitados='100 – 180';
+  p.faq=(p.faq||[]).map(f=>/Cuántos invitados/.test(f.q)
+    ? { q:"¿Cuántos invitados puede recibir el salón principal de Mirador 9?", a:"El salón principal de Mirador 9 tiene capacidad para 200 invitados en formato emplatado y 240 en Finger Food." }
+    : f);
+  return p;
+}
+const PRESETS = {
+  waikiki:{ corporativo:DEFAULTS, boda:PRESET_BODA, coffee:PRESET_COFFEE, xv:Object.assign(clone_(DEFAULTS),{tipoEvento:"xv"}) },
+  m9:{ corporativo:m9ify(DEFAULTS), boda:PRESET_BODA_M9, coffee:m9ify(PRESET_COFFEE), xv:Object.assign(m9ify(DEFAULTS),{tipoEvento:"xv"}) }
+};
 function clone_(o){ return JSON.parse(JSON.stringify(o)); }
 
 const BAR_OPTIONS = [
@@ -319,6 +481,7 @@ let state = migrate(load()) || clone(DEFAULTS);
 function migrate(s){
   if(!s) return s;
   if(!s.tipoEvento) s.tipoEvento='corporativo';
+  if(!s.salonId) s.salonId='waikiki';
   if(s.estaciones && !s.estaciones.bloques && (s.estaciones.carnes||s.estaciones.med||s.estaciones.veggie)){
     s.estaciones={bloques:[
       {titulo:s.estaciones.carnesTitulo||'Estación de Carnes',texto:s.estaciones.carnes||''},
@@ -327,6 +490,8 @@ function migrate(s){
     ]};
   }
   if(!s.estaciones||!s.estaciones.bloques) s.estaciones={bloques:JSON.parse(JSON.stringify(DEFAULTS.estaciones.bloques))};
+  if(!s.menuCampo) s.menuCampo={titulo:'',eyebrow:'',items:[],nota:''};
+  if(!s.coffee) s.coffee={infusionesTitulo:'Infusiones',infusiones:'',jugosTitulo:'Jugos & Aguas',jugos:'',pasteleraTitulo:'Pastelería',pasteleria:''};
   if(!s.mesaDulce) s.mesaDulce={shotsTitulo:'Shots',shots:'',tarteletasTitulo:'Mini Tarteletas',tarteletas:'',bocadosTitulo:'Bocados',bocados:'',cafeTitulo:'Cafetería',cafe:'',finFiesta:''};
   if(s.mesaDulce && s.mesaDulce.finFiesta===undefined) s.mesaDulce.finFiesta='Piadinas varias (pequeñas pizzas) para el cierre de la noche.';
   if(!s.nocheBodas) s.nocheBodas=JSON.parse(JSON.stringify(DEFAULTS.nocheBodas));
@@ -368,6 +533,7 @@ function sectionsHTML(){
     `),
 
     sec('Menú · Finger Food','🥂', `
+      ${fText('fingerFood.titulo','Título de la página (vacío = "Finger Food")')}
       ${fText('fingerFood.friosTitulo','Título — Bocaditos Fríos')}
       ${fArea('fingerFood.frios','Bocaditos Fríos','Separá los ítems con  ·  — usá &lt;b&gt;texto&lt;/b&gt; para negrita.')}
       ${fText('fingerFood.calientesTitulo','Título — Bocaditos Calientes')}
@@ -376,7 +542,16 @@ function sectionsHTML(){
       ${fArea('fingerFood.campo','Estación de Campo')}
     `),
 
+    sec('Menú de Campo (plato principal)','🔥', `
+      <p class="hint" style="margin-bottom:10px;">Página destacada del menú emplatado (Mirador 9). Dejá la lista de platos vacía para ocultarla.</p>
+      ${fText('menuCampo.titulo','Título de la página')}
+      ${fText('menuCampo.eyebrow','Bajada (arriba de la lista)')}
+      ${fLines('menuCampo.items','Platos','Uno por línea.')}
+      ${fText('menuCampo.nota','Nota al pie (opcional)')}
+    `),
+
     sec('Menú · Estaciones e Islas','🥘', `
+      ${fText('estaciones.titulo','Título de la página (vacío = "Estaciones e Islas")')}
       <div id="estRows"></div>
       <button class="add-btn" id="addEst">+ Agregar estación / isla</button>
     `),
@@ -392,6 +567,12 @@ function sectionsHTML(){
       <div class="field"><label>Tiempo de barra</label><div class="slider-row"><input type="range" min="1" max="8" step="1" data-path="bebidas.barraTiempo" value="${getPath(state,'bebidas.barraTiempo')}"><span class="slider-val" id="barTimeVal"></span></div></div>
     `),
 
+    (state.tipoEvento==='coffee' ? sec('Servicio de Coffee','☕', `
+      ${fArea('coffee.infusiones','Infusiones','Separá con  · ')}
+      ${fArea('coffee.jugos','Jugos & Aguas')}
+      ${fArea('coffee.pasteleria','Pastelería')}
+    `) : ''),
+
     (state.tipoEvento==='boda' ? sec('Mesa Dulce & Cafetería','🍰', `
       ${fArea('mesaDulce.shots','Shots')}
       ${fArea('mesaDulce.tarteletas','Mini Tarteletas')}
@@ -401,6 +582,7 @@ function sectionsHTML(){
     `) : ''),
 
     (state.tipoEvento==='boda' ? sec('Noche de Bodas','💍', `
+      <p class="hint" style="margin-bottom:10px;">Dejá el texto vacío para ocultar esta página (ej.: Mirador 9 no incluye noche de bodas).</p>
       ${fText('nocheBodas.eyebrow','Bajada')}
       ${fText('nocheBodas.titulo','Título')}
       ${fArea('nocheBodas.texto','Texto')}
@@ -478,7 +660,10 @@ function buildForm(){
   updateBarTimeLabel();
   renderEstRows(); renderInvRows(); renderFaqRows(); updateTypeSwitch();
 }
-function updateTypeSwitch(){ document.querySelectorAll('#typeSwitch button').forEach(b=>b.classList.toggle('active', b.dataset.type===state.tipoEvento)); }
+function updateTypeSwitch(){
+  document.querySelectorAll('#typeSwitch button').forEach(b=>b.classList.toggle('active', b.dataset.type===state.tipoEvento));
+  document.querySelectorAll('#salonSwitch button').forEach(b=>b.classList.toggle('active', b.dataset.salon===(state.salonId||'waikiki')));
+}
 function updateBarTimeLabel(){ const v=getPath(state,'bebidas.barraTiempo'); const el=document.getElementById('barTimeVal'); if(el) el.textContent = v+(v==1?' hora':' horas'); }
 
 /* ---------- preview bridge ---------- */
@@ -565,15 +750,33 @@ document.getElementById('pdfBtn').addEventListener('click',()=>{
 document.getElementById('typeSwitch').addEventListener('click',(e)=>{
   const b=e.target.closest('button[data-type]'); if(!b) return;
   const t=b.dataset.type; if(t===state.tipoEvento) return;
-  const labels={corporativo:'Corporativo',boda:'Boda',xv:'XV'};
-  const cargar = confirm('¿Cargar el contenido de ejemplo de "'+labels[t]+'"?\n\nAceptar = carga ese contenido (lo podés editar).\nCancelar = solo cambia el tipo y mantiene tu contenido actual.');
-  if(cargar){ state=clone(PRESETS[t]||PRESETS.corporativo); }
-  state.tipoEvento=t;
-  save(); buildForm(); pushToPreview();
+  const sal=state.salonId||'waikiki';
+  const labels={corporativo:'Corporativo',boda:'Boda',coffee:'Coffee + FF',xv:'XV'};
+  const salLabels={waikiki:'Mirador Waikiki',m9:'Mirador 9'};
+  const cargar=confirm('¿Cargar el contenido de ejemplo de "'+labels[t]+' · '+salLabels[sal]+'"?\n\nAceptar = carga ese contenido (lo podés editar).\nCancelar = solo cambia el tipo y mantiene tu contenido actual.');
+  if(cargar){ state=clone((PRESETS[sal]&&PRESETS[sal][t])||PRESETS.waikiki.corporativo); }
+  state.tipoEvento=t; state.salonId=sal;
+  save(); buildForm(); switchTemplate(t);
+});
+document.getElementById('salonSwitch').addEventListener('click',(e)=>{
+  const b=e.target.closest('button[data-salon]'); if(!b) return;
+  const sId=b.dataset.salon; if(sId===(state.salonId||'waikiki')) return;
+  const t=state.tipoEvento;
+  const labels={corporativo:'Corporativo',boda:'Boda',coffee:'Coffee + FF',xv:'XV'};
+  const salLabels={waikiki:'Mirador Waikiki',m9:'Mirador 9'};
+  const cargar=confirm('¿Cargar el contenido de ejemplo de "'+labels[t]+' · '+salLabels[sId]+'"?\n\nAceptar = carga ese contenido (lo podés editar).\nCancelar = solo cambia el salón y mantiene tu contenido actual.');
+  if(cargar){ state=clone((PRESETS[sId]&&PRESETS[sId][t])||PRESETS.waikiki.corporativo); }
+  state.salonId=sId; state.tipoEvento=t;
+  save(); buildForm(); switchTemplate(t);
+});
+document.getElementById('canvaBtn').addEventListener('click',()=>{
+  alert('Para editar este presupuesto en Canva:\n\n1. Escribile a Claude en el chat: “Envia este presupuesto a Canva”.\n2. En segundos te devuelve el link de Canva con el diseño editable (textos, fotos y colores).\n\nTip: terminá de cargar los datos del cliente antes de enviarlo, así el diseño llega completo.');
 });
 document.getElementById('resetBtn').addEventListener('click',()=>{
   if(confirm('¿Volver a los valores de ejemplo? Se perderán los cambios de este presupuesto.')){
-    state=clone(DEFAULTS); save(); buildForm(); pushToPreview();
+    const sal=state.salonId||'waikiki';
+    state=clone((PRESETS[sal]&&PRESETS[sal][state.tipoEvento])||DEFAULTS);
+    save(); buildForm(); pushToPreview();
   }
 });
 document.getElementById('tabEdit').addEventListener('click',()=>document.body.classList.remove('show-preview'));
@@ -581,10 +784,23 @@ document.getElementById('tabView').addEventListener('click',()=>{document.body.c
 
 window.addEventListener('resize',fitPreview);
 
+const TEMPLATES = {
+  default: 'Plantilla - Mar Eventos.html',
+  coffee:  'Presupuesto Hula Kai.html'
+};
+function currentTemplate(){ return (state.tipoEvento==='coffee' && (state.salonId||'waikiki')==='waikiki') ? TEMPLATES.coffee : TEMPLATES.default; }
+function switchTemplate(tipo){
+  const f=document.getElementById('preview-frame');
+  const target=currentTemplate();
+  const current=decodeURIComponent(f.src.split('/').pop());
+  if(current!==target){ f.src=target; } else { pushToPreview(); }
+}
+
 const frame=document.getElementById('preview-frame');
-frame.addEventListener('load',()=>{ setTimeout(()=>{ pushToPreview(); fitPreview(); },120); });
+frame.addEventListener('load',()=>{ setTimeout(()=>{ pushToPreview(); fitPreview(); },180); });
 
 buildForm();
+switchTemplate(state.tipoEvento);
 </script>
 
 <!-- Password gate -->
