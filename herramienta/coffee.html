@@ -86,7 +86,7 @@ body{background:#cbc4b8;font-family:var(--sans);color:var(--ink);}
     <span class="tb-sub">· Hula Kai</span>
   </div>
   <div class="tb-actions">
-    <button class="tb-btn tb-ghost" onclick="window.print()">Exportar PDF</button>
+    <button class="tb-btn tb-ghost" onclick="generatePDF()">Exportar PDF</button>
   </div>
 </div>
 
@@ -365,9 +365,61 @@ window.applyDatos=function(d){
   };
   renderHK();
 };
-window.generatePDF=function(){window.print();};
 if(window.parent&&window.parent!==window){var _tb=document.querySelector('.toolbar');if(_tb)_tb.style.display='none';}
 renderHK();
+</script>
+
+<div id="pdfStatus" style="display:none; position:fixed; inset:0; z-index:99999; background:rgba(9,17,13,.86); flex-direction:column; align-items:center; justify-content:center; gap:18px; font-family:'Montserrat',sans-serif; color:#F2EDE4;">
+  <div style="font-size:14px; letter-spacing:.18em; text-transform:uppercase;" id="pdfStatusText">Generando PDF…</div>
+  <div style="width:280px; height:4px; background:rgba(242,237,228,.2); border-radius:2px; overflow:hidden;">
+    <div id="pdfBar" style="width:0%; height:100%; background:#6B9B9B; transition:width .2s ease;"></div>
+  </div>
+  <div style="font-size:11px; opacity:.6;">No cierres esta pestaña</div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+  window.generatePDF = async function(){
+    const status = document.getElementById('pdfStatus');
+    const text = document.getElementById('pdfStatusText');
+    const bar = document.getElementById('pdfBar');
+    if(status) status.style.display = 'flex';
+    try{
+      if (document.fonts && document.fonts.ready) { await document.fonts.ready; }
+      await new Promise(r => setTimeout(r, 300));
+      const { jsPDF } = window.jspdf;
+      const pdf = new jsPDF({ orientation:'landscape', unit:'mm', format:'a4' });
+      const W = 297, H = 210;
+      const pages = Array.from(document.querySelectorAll('section.page')).filter(p => p.offsetParent !== null || getComputedStyle(p).display !== 'none');
+      for (let i = 0; i < pages.length; i++){
+        if(text) text.textContent = 'Generando PDF… página ' + (i+1) + ' de ' + pages.length;
+        if(bar) bar.style.width = Math.round(((i)/pages.length)*100) + '%';
+        const el = pages[i];
+        const canvas = await html2canvas(el, {
+          scale: 2.4,
+          useCORS: true,
+          backgroundColor: '#ffffff',
+          width: el.offsetWidth,
+          height: el.offsetHeight,
+          windowWidth: el.offsetWidth,
+          windowHeight: el.offsetHeight
+        });
+        const img = canvas.toDataURL('image/jpeg', 0.92);
+        if (i > 0) pdf.addPage('a4', 'landscape');
+        pdf.addImage(img, 'JPEG', 0, 0, W, H);
+      }
+      if(bar) bar.style.width = '100%';
+      if(text) text.textContent = 'Descargando…';
+      pdf.save('Presupuesto Coffee - Mar Eventos.pdf');
+      await new Promise(r => setTimeout(r, 600));
+    } catch(err){
+      if(text) text.textContent = 'Error: ' + err.message;
+      await new Promise(r => setTimeout(r, 2500));
+    } finally {
+      if(status) status.style.display = 'none';
+    }
+  };
 </script>
 
 <!-- Botón Editar en Canva -->
