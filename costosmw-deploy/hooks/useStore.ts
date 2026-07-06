@@ -15,15 +15,24 @@ import {
   deletePlato as dbDeletePlato,
 } from '../lib/db'
 
+export type SaveStatus = 'idle' | 'saving' | 'saved' | 'error'
+
+function changed(a: unknown, b: unknown): boolean {
+  return JSON.stringify(a) !== JSON.stringify(b)
+}
+
 export function useStore() {
   const [proveedores, setProveedoresState] = useState<Proveedor[]>([])
   const [ingredientes, setIngredientesState] = useState<Ingrediente[]>([])
   const [platos, setPlatosState] = useState<Plato[]>([])
   const [loading, setLoading] = useState(true)
+  const [saveStatus, setSaveStatus] = useState<SaveStatus>('idle')
 
   const ingredientesRef = useRef<Ingrediente[]>([])
   const platosRef = useRef<Plato[]>([])
   const proveedoresRef = useRef<Proveedor[]>([])
+  const pendingRef = useRef(0)
+  const savedTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   useEffect(() => {
     async function init() {
@@ -47,83 +56,117 @@ export function useStore() {
     init()
   }, [])
 
-  const setProveedores = useCallback(async (v: Proveedor[]) => {
+  const track = useCallback((ops: Promise<unknown>[]) => {
+    if (ops.length === 0) return
+    pendingRef.current += 1
+    if (savedTimerRef.current) clearTimeout(savedTimerRef.current)
+    setSaveStatus('saving')
+    Promise.all(ops)
+      .then(() => {
+        pendingRef.current -= 1
+        if (pendingRef.current === 0) {
+          setSaveStatus('saved')
+          savedTimerRef.current = setTimeout(() => {
+            setSaveStatus(s => (s === 'saved' ? 'idle' : s))
+          }, 2500)
+        }
+      })
+      .catch(err => {
+        pendingRef.current -= 1
+        console.error('Error guardando en Supabase:', err)
+        setSaveStatus('error')
+      })
+  }, [])
+
+  const setProveedores = useCallback((v: Proveedor[]) => {
+    const prev = proveedoresRef.current
     setProveedoresState(v)
     proveedoresRef.current = v
-    for (const p of v) {
-      await upsertProveedor(p)
-    }
-  }, [])
+    const prevById = new Map(prev.map(p => [p.id, p]))
+    track(v.filter(p => changed(prevById.get(p.id), p)).map(p => upsertProveedor(p)))
+  }, [track])
 
-  const setIngredientes = useCallback(async (v: Ingrediente[]) => {
-    setIngredientesState(v)
+  const setIngredientes = useCallback((v: Ingrediente[]) => {
     const prev = ingredientesRef.current
+    setIngredientesState(v)
     ingredientesRef.current = v
-    const prevIds = new Set(prev.map(i => i.id))
+    const prevById = new Map(prev.map(i => [i.id, i]))
     const newIds = new Set(v.map(i => i.id))
+    const ops: Promise<unknown>[] = []
     for (const i of prev) {
-      if (!newIds.has(i.id)) await dbDeleteIngrediente(i.id)
+      if (!newIds.has(i.id)) ops.push(dbDeleteIngrediente(i.id))
     }
     for (const i of v) {
-      if (!prevIds.has(i.id)) await upsertIngrediente(i)
+      if (changed(prevById.get(i.id), i)) ops.push(upsertIngrediente(i))
     }
-  }, [])
+    track(ops)
+  }, [track])
 
-  const setPlatos = useCallback(async (v: Plato[]) => {
-    setPlatosState(v)
+  const setPlatos = useCallback((v: Plato[]) => {
     const prev = platosRef.current
+    setPlatosState(v)
     platosRef.current = v
-    const prevIds = new Set(prev.map(p => p.id))
+    const prevById = new Map(prev.map(p => [p.id, p]))
     const newIds = new Set(v.map(p => p.id))
+    const ops: Promise<unknown>[] = []
     for (const p of prev) {
-      if (!newIds.has(p.id)) await dbDeletePlato(p.id)
+      if (!newIds.has(p.id)) ops.push(dbDeletePlato(p.id))
     }
     for (const p of v) {
-      if (!prevIds.has(p.id) || true) await upsertPlato(p)
+      if (changed(prevById.get(p.id), p)) ops.push(upsertPlato(p))
     }
-  }, [])
+    track(ops)
+  }, [track])
 
-  const actualizarPrecioIngrediente = useCallback(async (ingredienteId: string, nuevoPrecio: number) => {
-    let updatedIng: Ingrediente | undefined
+  const updatePlato = useCallback((plato: Plato) => {
+    const updated = platosRef.current.map(p => (p.id === plato.id ? plato : p))
+    setPlatosState(updated)
+    platosRef.current = updated
+    track([upsertPlato(plato)])
+  }, [track])
 
-    setIngredientesState(prev => {
-      const updated = prev.map(ing =>
-        ing.id === ingredienteId
-          ? { ...ing, precio: nuevoPrecio, updatedAt: new Date().toISOString() }
-          : ing
-      )
-      updatedIng = updated.find(i => i.id === ingredienteId)
-      ingredientesRef.current = updated
-      return updated
-    })
+  const actualizarPrecioIngrediente = useCallback((ingredienteId: string, nuevoPrecio: number) => {
+    const ings = ingredientesRef.current.map(ing =>
+      ing.id === ingredienteId
+        ? { ...ing, precio: nuevoPrecio, updatedAt: new Date().toISOString() }
+        : ing
+    )
+    setIngredientesState(ings)
+    ingredientesRef.current = ings
+    const updatedIng = ings.find(i => i.id === ingredienteId)
 
-    setPlatosState(prev => {
-      const updated = prev.map(plato => ({
+    const afectados: Plato[] = []
+    const platosNuevos = platosRef.current.map(plato => {
+      if (!plato.items.some(i => i.ingredienteId === ingredienteId)) return plato
+      const nuevo = {
         ...plato,
-        items: plato.items.map(item => {
-          if (item.ingredienteId !== ingredienteId) return item
-          return {
-            ...item,
-            precioBase: nuevoPrecio,
-            costoCalculado: calcularCosto(nuevoPrecio, item.cantidad, item.unidad, item.merma),
-          }
-        }),
-      }))
-      platosRef.current = updated
-      Promise.all(updated.map(p => upsertPlato(p))).catch(console.error)
-      return updated
+        items: plato.items.map(item =>
+          item.ingredienteId !== ingredienteId
+            ? item
+            : {
+                ...item,
+                precioBase: nuevoPrecio,
+                costoCalculado: calcularCosto(nuevoPrecio, item.cantidad, item.unidad, item.merma),
+              }
+        ),
+      }
+      afectados.push(nuevo)
+      return nuevo
     })
+    setPlatosState(platosNuevos)
+    platosRef.current = platosNuevos
 
-    if (updatedIng) {
-      await upsertIngrediente(updatedIng)
-    }
-  }, [])
+    const ops: Promise<unknown>[] = afectados.map(p => upsertPlato(p))
+    if (updatedIng) ops.push(upsertIngrediente(updatedIng))
+    track(ops)
+  }, [track])
 
   return {
     loading,
+    saveStatus,
     proveedores, setProveedores,
     ingredientes, setIngredientes,
-    platos, setPlatos,
+    platos, setPlatos, updatePlato,
     actualizarPrecioIngrediente,
   }
 }
