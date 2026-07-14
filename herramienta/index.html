@@ -161,6 +161,7 @@
       <div class="type-switch" id="salonSwitch">
         <button data-salon="waikiki">Mirador Waikiki</button>
         <button data-salon="m9">Mirador 9</button>
+        <button data-salon="hulakai">Hula Kai</button>
       </div>
       <div class="type-switch" id="typeSwitch" style="margin-top:8px;">
         <button data-type="corporativo">Corporativo</button>
@@ -177,7 +178,7 @@
 
   <div class="preview" id="stage">
     <div id="frameHolder">
-      <iframe id="preview-frame" src="plantilla.html"></iframe>
+      <iframe id="preview-frame" src="Plantilla - Mar Eventos.html"></iframe>
     </div>
   </div>
 </div>
@@ -455,9 +456,89 @@ function m9ify(base){
     : f);
   return p;
 }
+/* ============ Preset FINGER FOOD · HULA KAI (salón íntimo, 30–50 pax) ============ */
+const PRESET_FINGER_HK = {
+  tipoEvento:"corporativo",
+  salonId:"hulakai",
+  evento:{ cliente:"A definir", fecha:"A definir", horario:"A definir", salon:"Hula Kai", invitados:"30 \u2013 50", gastronomia:"Finger Food", fechaEmision:"", firmante:"Romina Marquez" },
+  portada:{ tagline:"Sal\u00f3n Hula Kai \u00b7 Mirador Waikiki" },
+  presentacion:{
+    p1:'Queremos agradecer su inter\u00e9s en realizar su celebraci\u00f3n con <span class="hl">Mar Eventos</span>. Nuestro personal los ayudar\u00e1 a coordinar cada detalle para garantizar que su evento sea tan incre\u00edble como lo imaginan.',
+    p2:'No hay dos eventos iguales. Queremos acompa\u00f1arlos en este emocionante camino\u2026 <span class="hl">\u00a1Comencemos!</span>'
+  },
+  gastronomia:{ eyebrow:"Gastronom\u00eda de autor", titulo:"Nuestra Propuesta Gastron\u00f3mica" },
+  fingerFood:{
+    titulo:"Finger Food", pill:"Finger Food",
+    friosTitulo:"Bocaditos Fr\u00edos",
+    frios:'<b>Bruschettas en pan de campo:</b> Mousse de palta, tomatitos confitados y cebollita morada \u00b7 Salm\u00f3n ahumado, queso Finlandia y ciboulette \u00b7 Jam\u00f3n serrano, r\u00facula y gruyere \u00b7 Pinchos caprese \u00b7 <b>Shots:</b> Cocktail de camarones \u00b7 Guacamole.',
+    calientesTitulo:"Bocaditos Calientes",
+    calientes:'Mini empanaditas de carne cortada a cuchillo \u00b7 Bollitos de jam\u00f3n, mozzarella y or\u00e9gano \u00b7 <b>Pinchos:</b> Lomo con morroncitos y cebolla caramelizada \u00b7 Mini pechuguitas con zanahorias y morroncitos \u00b7 Papas a la crema y verdeo \u00b7 <b>Canastitas:</b> Cebollitas con queso y or\u00e9gano \u00b7 Zucchinis caramelizados y queso \u00b7 Mini tortillas espa\u00f1olas con queso.',
+    campoTitulo:"Estaci\u00f3n de Campo",
+    campo:'Jam\u00f3n crudo serrano \u00b7 Jam\u00f3n natural \u00b7 Quesos saborizados \u00b7 Pategras \u00b7 Fontina \u00b7 Gouda \u00b7 Azul \u00b7 Leberwust \u00b7 Lomo ahumado \u00b7 Bondiola serrana \u00b7 Salames criollo y espa\u00f1ol \u00b7 Longaniza \u00b7 Matambre casero \u00b7 Olivas verdes y negras \u00b7 Panes de campo.'
+  },
+  estaciones:{ titulo:"Estaciones e Islas", pill:"Estaciones e Islas", bloques:[
+    {titulo:"Estaci\u00f3n de Carnes", texto:'Cuadril en cocci\u00f3n lenta \u00b7 Bondiolas aderezadas en salsas agridulces (a la naranja, a la ciruela) \u00b7 Carr\u00e9 de cerdo mechado con panceta y vegetales \u00b7 Bife de chorizo braseado con variedad de salsas y panificados de elaboraci\u00f3n propia.'},
+    {titulo:"Isla Mediterr\u00e1nea <span style=\"font-weight:400;font-style:italic;color:var(--teal);\">(opcional)</span>", texto:'<b>Variedad de paellas Valencianas:</b> de mariscos \u00b7 de vegetales \u00b7 de pollo y ternera \u00b7 Risotto de hongos.'},
+    {titulo:"Isla Mex <span style=\"font-weight:400;font-style:italic;color:var(--teal);\">(opcional)</span>", texto:'Fajitas de ternera con pimientos \u00b7 Burritos de pollo con cebollas moradas y hongos \u00b7 Nachos \u00b7 Dips de guacamole \u00b7 Dips de cheddar fundido.'},
+    {titulo:"Isla Veggie <span style=\"font-weight:400;font-style:italic;color:var(--teal);\">(opcional)</span>", texto:'Bruschetta con base de Mousse de Palta \u00b7 Bruschetta con tomates confitados y echalote \u00b7 Gazpacho con dips de pepino, albahaca y apio \u00b7 Pinchos de vegetales asados \u00b7 Crudit\u00e9s de vegetales con dips de hummus \u00b7 Mini-burgers de calabaza, choclo, arvejas y br\u00f3coli con hummus de remolacha \u00b7 Mini-salads \u00b7 Snacks veggies con variedad de salsas.'}
+  ]},
+  mesaDulce:{
+    shotsTitulo:"Shots",
+    shots:'Chocotorta \u00b7 Oreotorta \u00b7 Tiramis\u00fa \u00b7 Mousse \u00b7 Tarta de frutillas \u00b7 Cabsha \u00b7 Carrot cake \u00b7 Crumble \u00b7 Brownie con dulce de leche y merengue \u00b7 Cheese Cake.',
+    tarteletasTitulo:"Mini Tarteletas",
+    tarteletas:'Pavlovitas de frutillas \u00b7 Tarta de Frutilla \u00b7 Lemon Pie \u00b7 Cabsha \u00b7 Rogelito \u00b7 Chocotorta ba\u00f1ada en chocolate.',
+    bocadosTitulo:"Bocados",
+    bocados:'Mini Alfajorcitos Mar del Plata \u00b7 Mini Alfajorcitos sabl\u00e9e \u00b7 Mini Maicenitas \u00b7 Trufas \u00b7 Cake pop \u00b7 Brownie con merengue y dulce de leche \u00b7 Cookie chip.',
+    cafeTitulo:"Cafeter\u00eda",
+    cafe:'Variedad de infusiones calientes.',
+    finFiesta:'Piadinas varias (peque\u00f1as pizzas) \u00b7 Mini hamburguesas caseras con variedad de aderezos y salsas.'
+  },
+  bebidas:{
+    col1Titulo:"Bebidas",
+    sinAlcohol:["Gaseosas y aguas l\u00ednea Coca-Cola"],
+    cervezas:["Corona"], vinos:["Alamos"],
+    brindis:"Brindis \u00b7 Alamos Extra Brut \u2014 Bodega Catena Zapata",
+    col2Titulo:"Postre & Cafeter\u00eda",
+    col2:["Variedad de shots + petit fours","Variedad de infusiones calientes"],
+    barraTipo:"exclusive", barraTiempo:3
+  },
+  inversion:{
+    rows:[
+      { cat:"Gastronom\u00eda", nombre:"Men\u00fa Finger Food Completo", sub:"por persona adulta", precio:"AR$ 89.000", iva:"+ IVA", subprecio:"precio por persona", grande:false, destacado:true },
+      { cat:"Producci\u00f3n", nombre:"T\u00e9cnica \u00b7 Sonido, Iluminaci\u00f3n & DJ", sub:"DJ 4 hs \u00b7 no incluye ceremonia ni sonido exterior", precio:"AR$ 850.000", iva:"+ IVA", subprecio:"valor de t\u00e9cnica total", grande:true, destacado:false },
+      { cat:"Barra", nombre:"Barra Exclusive <span style='font-weight:300;font-style:italic;'>(opcional)</span>", sub:"libre 3 hs", precio:"AR$ 26.000", iva:"+ IVA", subprecio:"por persona", grande:false, destacado:false }
+    ],
+    nota:"Los precios no incluyen IVA. Validez de la propuesta: 10 d\u00edas corridos desde su emisi\u00f3n. Se\u00f1a: 15% a la aceptaci\u00f3n del presupuesto; el 85% restante 72 hs antes del evento. Adicionales opcionales por persona: Barra Premium AR$ 20.500 \u00b7 Islas (Mediterr\u00e1nea AR$ 16.000 \u00b7 Mex/Veggie AR$ 15.500) \u00b7 Mesa Dulce AR$ 15.500 \u00b7 Fin de Fiesta AR$ 7.000 \u00b7 Upgrades de vino (Nicasia AR$ 7.800 \u00b7 D.V. Catena AR$ 19.800)."
+  },
+  faq:[
+    { q:"\u00bfPuedo realizar mi celebraci\u00f3n de d\u00eda o de noche?", a:"Durante los meses de marzo a noviembre es posible realizar eventos tanto de d\u00eda como de noche. Sin embargo, en diciembre, enero y febrero solo se realizan eventos nocturnos. El uso de la piscina no se encuentra incluido y queda estrictamente prohibido durante el evento; los menores de edad deber\u00e1n permanecer bajo la responsabilidad y supervisi\u00f3n de los adultos a cargo, ya que el establecimiento no dispone de servicio de guardavidas." },
+    { q:"\u00bfCu\u00e1l es la duraci\u00f3n del evento en Hula Kai? \u00bfSe puede agregar m\u00e1s tiempo?", a:"El tiempo estipulado es de 3 hs, que comienza a transcurrir a partir de la llegada de los invitados. El mismo puede extenderse en caso de que lo soliciten, con un valor adicional." },
+    { q:"\u00bfCu\u00e1ntos invitados puede recibir el sal\u00f3n Hula Kai?", a:"El sal\u00f3n Hula Kai tiene una capacidad m\u00ednima de 30 invitados y una capacidad m\u00e1xima de 50 invitados." },
+    { q:"\u00bfHay suficiente estacionamiento para mis invitados?", a:"S\u00ed. Disponemos de un amplio estacionamiento, gratuito y a metros del sal\u00f3n." },
+    { q:"\u00bfPuedo traer mi propia comida u otros art\u00edculos de alquiler?", a:"Mar Eventos es un proveedor de catering de servicio completo y provee exclusivamente todos los alimentos, salvo casos particulares como la torta de cumplea\u00f1os, etc." },
+    { q:"\u00bfCuentan con men\u00fa vegano, vegetariano o cel\u00edaco?", a:"Para garantizar que cada invitado cuente con el men\u00fa de su preferencia, ofrecemos diversas opciones en cada paso del servicio, incluyendo men\u00fas veganos, vegetarianos y sin gluten." },
+    { q:"\u00bfC\u00f3mo se decora el sal\u00f3n?", a:"Aunque la decoraci\u00f3n es importante, en nuestros salones no es estrictamente necesaria, ya que todos los espacios se mantienen en perfectas condiciones. La decoraci\u00f3n se enfoca en a\u00f1adir el toque especial que deseen integrar a la propuesta contratada." },
+    { q:"\u00bfPuedo hacer la ceremonia? \u00bfQu\u00e9 sucede si llueve?", a:"S\u00ed, es posible realizar la ceremonia en el sector del parque, en un espacio cuidadosamente preparado. La ambientadora que contraten se encargar\u00e1 del montaje y la decoraci\u00f3n. En caso de que el clima no sea favorable, no existe otro espacio cubierto para su realizaci\u00f3n." },
+    { q:"\u00bfQu\u00e9 sucede en caso de corte de energ\u00eda el\u00e9ctrica?", a:"El sal\u00f3n se encuentra conectado a un grupo generador que, en caso de corte de suministro, se enciende recuperando la energ\u00eda para que el evento contin\u00fae con normalidad." }
+  ],
+  cierre:{ eyebrow:"Mar Eventos \u00b7 Mar del Plata", titulo:"\u00a1Vamos a empezar!" },
+  nocheBodas:{ eyebrow:"", titulo:"", texto:"" }
+};
+function hkify(base){
+  const p=JSON.parse(JSON.stringify(base));
+  p.salonId='hulakai';
+  p.evento.salon='Hula Kai';
+  p.evento.invitados='30 \u2013 50';
+  if(p.portada) p.portada.tagline='Sal\u00f3n Hula Kai \u00b7 Mirador Waikiki';
+  p.faq=(p.faq||[]).map(f=>/Cu\u00e1ntos invitados/.test(f.q)
+    ? { q:"\u00bfCu\u00e1ntos invitados puede recibir el sal\u00f3n Hula Kai?", a:"El sal\u00f3n Hula Kai tiene una capacidad m\u00ednima de 30 invitados y una capacidad m\u00e1xima de 50 invitados." }
+    : f);
+  return p;
+}
 const PRESETS = {
   waikiki:{ corporativo:DEFAULTS, boda:PRESET_BODA, coffee:PRESET_COFFEE, xv:Object.assign(clone_(DEFAULTS),{tipoEvento:"xv"}) },
-  m9:{ corporativo:m9ify(DEFAULTS), boda:PRESET_BODA_M9, coffee:m9ify(PRESET_COFFEE), xv:Object.assign(m9ify(DEFAULTS),{tipoEvento:"xv"}) }
+  m9:{ corporativo:m9ify(DEFAULTS), boda:PRESET_BODA_M9, coffee:m9ify(PRESET_COFFEE), xv:Object.assign(m9ify(DEFAULTS),{tipoEvento:"xv"}) },
+  hulakai:{ corporativo:PRESET_FINGER_HK, boda:hkify(PRESET_BODA), coffee:hkify(PRESET_COFFEE), xv:Object.assign(clone_(PRESET_FINGER_HK),{tipoEvento:"xv"}) }
 };
 function clone_(o){ return JSON.parse(JSON.stringify(o)); }
 
@@ -597,7 +678,9 @@ function sectionsHTML(){
     sec('Cierre','🌊', `
       ${fText('cierre.eyebrow','Bajada')}
       ${fText('cierre.titulo','Título grande')}
-    `)
+    `),
+
+    `<a href="Contrato - Mar Eventos.html" style="display:block; text-align:center; margin:26px auto 8px; font-size:11px; letter-spacing:.22em; text-transform:uppercase; color:#c3cdc4; text-decoration:none; opacity:.55;" onmouseover="this.style.opacity='1';this.style.color='#254236';" onmouseout="this.style.opacity='.55';this.style.color='#c3cdc4';">Romi</a>`
   ].join('');
 }
 function sec(title,ic,body,open){ return `<details class="sec"${open?' open':''}><summary><span class="ic">${ic}</span>${title}<span class="chev">▸</span></summary><div class="sec-body">${body}</div></details>`; }
@@ -746,7 +829,7 @@ document.getElementById('typeSwitch').addEventListener('click',(e)=>{
   const t=b.dataset.type; if(t===state.tipoEvento) return;
   const sal=state.salonId||'waikiki';
   const labels={corporativo:'Corporativo',boda:'Boda',coffee:'Coffee + FF',xv:'XV'};
-  const salLabels={waikiki:'Mirador Waikiki',m9:'Mirador 9'};
+  const salLabels={waikiki:'Mirador Waikiki',m9:'Mirador 9',hulakai:'Hula Kai'};
   const cargar=confirm('¿Cargar el contenido de ejemplo de "'+labels[t]+' · '+salLabels[sal]+'"?\n\nAceptar = carga ese contenido (lo podés editar).\nCancelar = solo cambia el tipo y mantiene tu contenido actual.');
   if(cargar){ state=clone((PRESETS[sal]&&PRESETS[sal][t])||PRESETS.waikiki.corporativo); }
   state.tipoEvento=t; state.salonId=sal;
@@ -757,7 +840,7 @@ document.getElementById('salonSwitch').addEventListener('click',(e)=>{
   const sId=b.dataset.salon; if(sId===(state.salonId||'waikiki')) return;
   const t=state.tipoEvento;
   const labels={corporativo:'Corporativo',boda:'Boda',coffee:'Coffee + FF',xv:'XV'};
-  const salLabels={waikiki:'Mirador Waikiki',m9:'Mirador 9'};
+  const salLabels={waikiki:'Mirador Waikiki',m9:'Mirador 9',hulakai:'Hula Kai'};
   const cargar=confirm('¿Cargar el contenido de ejemplo de "'+labels[t]+' · '+salLabels[sId]+'"?\n\nAceptar = carga ese contenido (lo podés editar).\nCancelar = solo cambia el salón y mantiene tu contenido actual.');
   if(cargar){ state=clone((PRESETS[sId]&&PRESETS[sId][t])||PRESETS.waikiki.corporativo); }
   state.salonId=sId; state.tipoEvento=t;
@@ -779,8 +862,8 @@ document.getElementById('tabView').addEventListener('click',()=>{document.body.c
 window.addEventListener('resize',fitPreview);
 
 const TEMPLATES = {
-  default: 'plantilla.html',
-  coffee:  'coffee.html'
+  default: 'Plantilla - Mar Eventos.html',
+  coffee:  'Presupuesto Hula Kai.html'
 };
 function currentTemplate(){ return (state.tipoEvento==='coffee' && (state.salonId||'waikiki')==='waikiki') ? TEMPLATES.coffee : TEMPLATES.default; }
 function switchTemplate(tipo){

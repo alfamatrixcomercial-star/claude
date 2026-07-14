@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contrato de Eventos — Mar Eventos</title>
+<link href="https://fonts.googleapis.com/css2?family=Alex+Brush&display=swap" rel="stylesheet">
+<style>doc-page:not(:defined){visibility:hidden}</style>
+<style>
+:root{ --ink:#111; --green:#254236; --teal:#5e7f78; --cream:#f4efe6; }
+html{ scroll-behavior:smooth; }
+body{ margin:0; }
+a{ color:var(--green); } a:hover{ color:#0e2a1e; }
+doc-page{ font-family:Verdana, Geneva, sans-serif; font-size:10.2pt; color:var(--ink); line-height:1.62; }
+doc-page p{ text-align:justify; margin:0 0 10px; }
+.hdr{ display:flex; align-items:center; justify-content:space-between; padding:2mm 6mm 4mm; }
+.hdr img{ height:58px; width:auto; display:block; }
+.side-logo{ text-align:center; color:#333; width:120px; }
+.side-logo svg{ display:block; margin:0 auto 2px; }
+.sl-a{ font-size:8px; letter-spacing:.28em; text-transform:lowercase; color:#555; }
+.sl-b{ font-size:13px; letter-spacing:.34em; font-weight:600; text-transform:lowercase; }
+.sl-c{ font-family:Georgia, serif; font-size:15px; letter-spacing:.06em; }
+.ftr{ padding:2mm 0 1mm; }
+h1.ct{ text-align:center; font-size:12.5pt; letter-spacing:.04em; margin:4mm 0 6mm; }
+.imp{ border:1.4px solid #111; padding:8px 14px; margin:0 4mm 7mm; }
+.imp b{ display:block; text-align:center; margin-bottom:2px; }
+.imp p{ margin:0; font-size:9.6pt; }
+.datos{ display:grid; grid-template-columns:150px 1fr; gap:4px 30px; margin:6mm 0 6mm 8mm; font-weight:700; }
+.datos .v{ text-transform:uppercase; }
+table.tc{ border-collapse:collapse; width:92%; margin:4mm auto; font-size:9.6pt; }
+table.tc th, table.tc td{ border:1px solid #111; padding:5px 9px; }
+table.tc th{ background:#e3e3e3; font-size:9.8pt; }
+table.tc td.n{ text-align:center; } table.tc td.p{ text-align:right; white-space:nowrap; }
+table.tc tr.tot td{ font-weight:700; }
+h3.cl{ font-size:10.5pt; margin:0 0 8px; letter-spacing:.02em; }
+.brk{ break-before:page; }
+.f{ transition:background .18s; border-radius:2px; }
+body.editing .f{ background:#fdf3d0; box-shadow:0 0 0 2px #fdf3d0; }
+.firmas{ display:grid; grid-template-columns:1fr 1fr; gap:14mm; margin-top:26mm; text-align:center; }
+.firmas .lin{ border-bottom:1px dotted #333; height:34px; margin:0 18mm 3px; }
+.firmas .sig{ font-family:'Alex Brush', cursive; font-size:34px; line-height:38px; height:34px; margin-bottom:3px; }
+.firmas .rol{ font-size:8.6pt; border-bottom:1px solid #333; display:inline-block; padding:0 14px 1px; margin-bottom:3px; }
+.firmas i{ font-size:9.4pt; }
+/* ===== panel ===== */
+.panel{ position:fixed; top:0; right:0; bottom:0; width:340px; background:#fbfaf7; border-left:1px solid #e2ddd2; box-shadow:-6px 0 24px rgba(30,40,35,.08); z-index:50; display:flex; flex-direction:column; font-family:system-ui,sans-serif; }
+.panel-h{ padding:16px 18px 12px; border-bottom:1px solid #e8e3d8; background:var(--green); color:var(--cream); }
+.panel-h h2{ margin:0; font-size:15px; font-weight:600; letter-spacing:.06em; }
+.panel-h p{ margin:3px 0 0; font-size:11px; opacity:.75; }
+.panel-b{ flex:1; overflow-y:auto; padding:14px 16px 20px; }
+.pf{ margin-bottom:10px; }
+.pf label{ display:block; font-size:10px; letter-spacing:.08em; text-transform:uppercase; color:#7a8177; margin-bottom:3px; }
+.pf input, .pf textarea{ width:100%; box-sizing:border-box; border:1px solid #d9d4c8; border-radius:6px; padding:7px 9px; font-size:12.5px; font-family:inherit; background:#fff; color:#22302a; }
+.pf input:focus, .pf textarea:focus{ outline:none; border-color:var(--teal); }
+.p2{ display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+.p3{ display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; }
+.pgrp{ border:1px solid #e6e1d5; border-radius:10px; padding:10px 12px; margin-bottom:12px; background:#fff; }
+.pgrp > b{ display:block; font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--green); margin-bottom:8px; }
+.item-card{ border:1px solid #e3ded2; border-radius:8px; padding:8px 9px; margin-bottom:8px; background:#faf9f5; }
+.item-card .ih{ display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; font-size:10px; color:#98a096; }
+.item-card .del{ border:none; background:none; cursor:pointer; color:#b0836f; font-size:13px; padding:0 4px; }
+.addb{ width:100%; border:1px dashed #c8c2b2; background:none; border-radius:8px; padding:7px; font-size:12px; color:#68705f; cursor:pointer; }
+.addb:hover{ border-color:var(--teal); color:var(--green); }
+.hint{ font-size:10.5px; color:#9aa295; margin:4px 0 0; }
+.panel-f{ padding:12px 16px; border-top:1px solid #e8e3d8; display:grid; gap:8px; }
+.pbtn{ border:none; border-radius:8px; padding:10px; font-size:13px; font-weight:600; cursor:pointer; letter-spacing:.04em; }
+.pbtn.pri{ background:var(--green); color:var(--cream); } .pbtn.pri:hover{ background:#1a3226; }
+.pbtn.sec{ background:#ece8dd; color:#3c463f; } .pbtn.sec:hover{ background:#e2ddcd; }
+@media screen{ doc-page{ margin-right:340px; } }
+@media print{ .panel{ display:none !important; } doc-page{ margin-right:0; } body.editing .f{ background:none; box-shadow:none; } }
+</style>
+</head>
+<body>
+
+<doc-page size="letter" margin="0.62in">
+
+  <div slot="header" class="hdr">
+    <img src="assets/logo-waikiki.jpg" alt="Mirador Waikiki" style="height:52px;">
+    <img src="assets/logo-mar-contrato.png" alt="Mar Eventos" style="height:56px;">
+    <img src="assets/logo-mirador9.png" alt="Mirador 9" style="height:52px;">
+  </div>
+
+  <div slot="footer" class="ftr"><img src="assets/footer-contacto.jpg" alt="Contacto Mar Eventos" style="width:100%; height:auto; display:block;"></div>
+
+  <h1 class="ct">CONTRATO DE EVENTOS</h1>
+  <div class="imp"><b>IMPORTANTE:</b><p>Con el objeto de poder cumplir con cada uno de sus requerimientos, garantizar nuestros procesos de calidad y lograr vuestro éxito, le solicitamos que lea atentamente todo el documento y nos lo envíe firmado de conformidad lo más rápidamente que le sea posible.</p></div>
+
+  <p style="text-indent:8mm;">En la Ciudad de Mar del Plata, a los <span class="f" data-f="ciudadDia">2</span> días del mes de <span class="f" data-f="mes">Julio</span> de <span class="f" data-f="anio">2026</span>, entre <b>MAR EVENTOS – PERGAMINO DEL MAR</b>, con CUIT <b>30-7183155-3</b> con domicilio en Mirador Waikiki, Av. De los Trabajadores 4320 (7600) Mar del Plata, por una parte, y por la otra <span class="f" data-f="empresa">EMPRESA DISTRIBUIDORA DE ENERGIA ATLANTICA</span> <span class="f" data-f="docTipo">DNI</span> <span class="f" data-f="docNum">30689977517</span> con domicilio en <span class="f" data-f="domicilio">Av. Pedro Luro 5867, Provincia de Buenos Aires</span>, celebran el presente Contrato de Eventos, el que se regirá por las siguientes cláusulas y condiciones:</p>
+
+  <div class="datos">
+    <span>Nombre del Evento:</span><span class="v f" data-f="evento">FIN DE AÑO – EDEA</span>
+    <span>Fecha:</span><span class="v f" data-f="fecha">VIERNES 04 – 12 - 2026</span>
+    <span>Horario:</span><span class="v f" data-f="horario">NOCTURNO 20:00hs – 02:00hs</span>
+    <span>Cantidad de personas:</span><span class="v f" data-f="pax">300 PAX.</span>
+    <span>Salón:</span><span class="v f" data-f="salon">MIRADOR WAIKIKI – ALA WAI</span>
+  </div>
+
+  <table class="tc">
+    <thead><tr><th style="width:14%;">Cantidad</th><th>Salón / Servicio /Equipo</th><th style="width:17%;">Precio</th><th style="width:19%;">Total</th></tr></thead>
+    <tbody id="t-items"></tbody>
+  </table>
+
+  <section class="brk">
+    <h3 class="cl">PRIMERA: CONDICIONES GENERALES.</h3>
+    <p>El presente contrato tiene por objeto la organización y prestación de <span class="f" data-f="tipoEvento">una fiesta de cumpleaños</span>, en la cual el locador se compromete a organizar de manera integral el evento, proporcionando un lugar físico en el que se llevará a cabo, así como gestionar el servicio de catering y la atención a los invitados y comensales. A cambio de estos servicios, el contratante acuerda abonar una contraprestación monetaria.</p>
+    <p>El presente contrato se realiza tomando en cuenta servicios y valores ofrecidos en el presupuesto entregado, el cual se adjuntará a modo de constancia.</p>
+    <p>La selección del menú y la confirmación del número de asistentes para los distintos servicios gastronómicos deberán ser comunicadas a la ejecutiva de cuentas al menos siete (7) días antes del inicio del evento. Dichas cantidades deberán respetar como mínimo las indicadas en el presente contrato o el saldo total acordado en el mismo.</p>
+    <p>El menú contratado por el cliente se detalla en el presupuesto adjunto al final del presente contrato el cual se aprueba y firma como parte integrante.</p>
+    <p>La duración del evento será de <b><span class="f" data-f="duracion">SEIS (6)</span> horas</b>, contadas desde la hora de llegada de los invitados. Cualquier extensión del horario deberá ser acordada entre las partes con antelación al evento.</p>
+    <h3 class="cl" style="margin-top:16px;">SEGUNDA: FACTURACION Y CONDICIONES DE PAGO.</h3>
+    <p>Los depósitos realizados serán tomados en cuenta para la cancelación de los servicios individuales a prestar al valor del momento de la concreción de los mismos. Los siguientes pagos son los requeridos para la confirmación de su evento:</p>
+    <p style="margin-left:8mm;">I - Pago del Adelanto al <b><span class="f" data-f="pagoAdelanto">02 de Julio del 2026</span></b>.<br>II - Pago del Saldo al <b><span class="f" data-f="pagoSaldo">30 de Noviembre del 2026</span></b>.</p>
+    <p>Los valores mencionados no incluyen el IVA (21%). Deberá remitir la Constancia de Inscripción en la AFIP para una correcta facturación. El pago del evento podrá efectuarse en efectivo ó mediante la emisión del cheque a la orden, de terceros ó mediante depósito Bancario.</p>
+  </section>
+
+  <section class="brk">
+    <h3 class="cl">TERCERA: POLITICAS DE AJUSTES.</h3>
+    <p>Los ajustes se realizarán mensualmente sobre el saldo adeudado el día posterior al anuncio del IPC (Índice de Precios al Consumidor del I.N.D.E.C) basándose en éste mismo.</p>
+    <h3 class="cl" style="margin-top:16px;">CUARTA: POLITICA DE CANCELACIONES.</h3>
+    <p>Si la cancelación se realiza antes de los 90 días de la fecha del evento se reintegrará el 70% del costo total del evento (en caso de ya haberse abonado). Entre los 60 y 89 días anteriores a la fecha del evento, se reintegrará el 70% del costo total del evento (en caso de ya haberse abonado). Entre los 30 y 59 días anteriores a la fecha del evento, se reintegrará el 40% del costo total del evento (en caso de ya haberse abonado). Entre los 29 días y las 72 hs días anteriores a la fecha del evento, se reintegrará el 20% del costo total del evento (en caso de ya haberse abonado). Si la cancelación se realizara durante las 72 hs anteriores al evento, no se reintegrará nada. En caso que lo abonado hasta la cancelación no cubra las sumas que debieron pagarse en relación a la mencionada escalada, el contratante deberá abonar el saldo que corresponda. En ningún caso se devolverá la seña, salvo que la cancelación sea por decisión de MAR EVENTOS, en cuyo caso reintegrará la totalidad de las sumas abonadas.</p>
+    <p>Si el pago del / los depósito/s mencionado arriba no se realizaran en la fecha indicada, la empresa se liberará de toda responsabilidad por la reserva efectuada, quedando las sumas abonadas para MAR EVENTOS.</p>
+    <p>La falta de pago de las facturas presentadas al cobro dentro de los plazos previstos, hará incurrir a la Contratante en mora de pleno derecho, sin necesidad de intimación previa.</p>
+    <h3 class="cl" style="margin-top:16px;">QUINTA: INSTALACIONES.</h3>
+    <p>Los espacios se entregarán en perfectas condiciones para desarrollar el evento. Queda prohibido el empleo de materiales de albañilería como así también provocar cualquier tipo de deterioro en las instalaciones fijas del salón (pintados, perforados, clavados, uso de pegamentos, etc., sobre pisos, paredes, ventanales y techos). Cualquier inobservancia sobre esta cláusula facultará a MAR EVENTOS a solicitar la correspondiente indemnización por daños y perjuicios.</p>
+  </section>
+
+  <section class="brk">
+    <h3 class="cl">SEXTA: SERVICIOS GASTRONOMICOS.</h3>
+    <p>Todos los servicios gastronómicos deben ser contratados directamente con el Salón quedando la provisión externa de alimentos y bebidas, totalmente prohibida.</p>
+    <h3 class="cl" style="margin-top:16px;">SEPTIMA: INGRESO PROVEEDORES.</h3>
+    <p>El ingreso y egreso de materiales para el salón deberá realizarse por nuestra entrada presentando la debida documentación (Remito, Nro. de documento, evento al cual pertenece, etc.). Los horarios de ingreso y egreso serán coordinados previamente con el coordinador de Eventos quien se reserva el derecho de negar la entrada de los mismos fuera de los horarios que él aprobará.</p>
+    <h3 class="cl" style="margin-top:16px;">OCTAVA: RESPONSABILIDADES. SEGUROS. PROVEEDORES.</h3>
+    <p>El ingreso de cualquier proveedor deberá ser aprobado por la empresa. Es responsabilidad del contratante demostrar el cumplimiento de todas las obligaciones Fiscales o de seguridad social que Mar Eventos requiera sobre los proveedores y/o el personal que pudiera contratar para el evento. En este acto se incluyen por ejemplo (la lista es meramente enunciativa, Mar Eventos se reserva el derecho a solicitar documentación respaldatoria): Comprobante de inscripción en la ART de todas las personas que ingresen a trabajar con motivo de su evento con cláusula de no repetición a favor de MAR EVENTOS.</p>
+    <p style="margin-left:8mm;">• &nbsp;Formulario 931 del SUSS</p>
+    <p>El contratante libera a MAR EVENTOS de cualquier responsabilidad solidaria que pudiera corresponderle en relación a los proveedores y personal que el contratante aporte. Mar eventos deslinda totalmente su responsabilidad por cualquier hecho o evento que pueda producir daños y/o deterioro de cualquier índole a personas, útiles y/o equipos contratados por El CONTRATANTE para prestar servicio durante el evento, y preparación y/o desarmado. Dicha responsabilidad es asumida expresa y totalmente por el contratante. como así también los daños y/o deterioro que personas, útiles y/o equipos contratados por ésta, produzca a personas y/o instalaciones de Mar Eventos.</p>
+  </section>
+
+  <section class="brk">
+    <h3 class="cl">NOVEMA: CARÁCTER PRIVADO DEL EVENTO Y EXENCIÓN DE DERECHOS</h3>
+    <p>El evento a desarrollarse tendrá un carácter estrictamente privado, por lo que el acceso al público general estará prohibido y se limitará exclusivamente a los invitados identificados y proporcionados por el cliente. En consecuencia, y de acuerdo con el Decreto Ley 765/2024, la actividad estará exenta del pago de derechos a SADAIC y AADICAPIF.</p>
+    <h3 class="cl" style="margin-top:16px;">DECIMA: JURISDICCIÓN.</h3>
+    <p>A todos los efectos legales del presente contrato, las partes constituyen sus domicilios legales en <a href="#" onclick="return false;"><span class="f" data-f="emailCliente">Imarinich@edeaweb.com.ar</span></a> e <a href="#" onclick="return false;">info@mareventos.com.ar</a>, donde se tendrán por válidas y eficaces todas las notificaciones, y se someten a la jurisdicción y competencia de la Justicia Ordinaria de Mar del Plata, con expresa renuncia a cualquier otro fuero y/o jurisdicción que pudiera corresponderles.</p>
+    <p>Prueba de conformidad, se firma 1 ejemplar que será remitido a la casilla de correo electrónico arriba mencionada, a los <span class="f" data-f="firmaDia">02</span> días del mes de <span class="f" data-f="firmaMes">Julio</span> del <span class="f" data-f="firmaAnio">2026</span>.</p>
+    <div class="firmas">
+      <div>
+        <div class="lin"></div><i>Firma</i>
+        <div class="lin" style="margin-top:16mm;"></div><i>Aclaración</i>
+      </div>
+      <div>
+        <div class="lin"></div><i>Firma</i>
+        <div class="lin" style="margin-top:16mm;"></div><i>Aclaración</i>
+      </div>
+    </div>
+  </section>
+
+</doc-page>
+
+<aside class="panel">
+  <div class="panel-h"><h2>Contrato · Romi</h2><p>Completá los datos y el contrato se actualiza solo. Nada de esto sale en el PDF.</p></div>
+  <div class="panel-b">
+    <div class="pgrp"><b>Archivo</b>
+      <div class="pf"><label>Nombre del PDF al descargar</label><input data-k="archivo"></div>
+      <p class="hint">Es el nombre que aparece al guardar el PDF. <button class="addb" id="p-auto-nombre" style="width:auto; display:inline-block; padding:2px 10px;">usar nombre del evento</button></p>
+    </div>
+    <div class="pgrp"><b>Encabezado</b>
+      <div class="p3">
+        <div class="pf"><label>Día</label><input data-k="ciudadDia"></div>
+        <div class="pf"><label>Mes</label><input data-k="mes"></div>
+        <div class="pf"><label>Año</label><input data-k="anio"></div>
+      </div>
+      <div class="pf"><label>Cliente / Empresa</label><input data-k="empresa"></div>
+      <div class="p2">
+        <div class="pf"><label>Tipo doc</label><input data-k="docTipo"></div>
+        <div class="pf"><label>CUIT / DNI</label><input data-k="docNum"></div>
+      </div>
+      <div class="pf"><label>Domicilio del cliente</label><input data-k="domicilio"></div>
+    </div>
+    <div class="pgrp"><b>Evento</b>
+      <div class="pf"><label>Nombre del evento</label><input data-k="evento"></div>
+      <div class="pf"><label>Fecha</label><input data-k="fecha"></div>
+      <div class="pf"><label>Horario</label><input data-k="horario"></div>
+      <div class="p2">
+        <div class="pf"><label>Cantidad de personas</label><input data-k="pax"></div>
+        <div class="pf"><label>Duración (horas)</label><input data-k="duracion"></div>
+      </div>
+      <div class="pf"><label>Salón</label><input data-k="salon"></div>
+      <div class="pf"><label>Tipo de evento (cláusula primera)</label><input data-k="tipoEvento"></div>
+    </div>
+    <div class="pgrp"><b>Precios</b>
+      <div id="p-items"></div>
+      <button class="addb" id="p-add">+ Agregar fila</button>
+      <div class="p2" style="margin-top:10px;">
+        <div class="pf"><label>Etiqueta fila final</label><input data-k="totalLabel"></div>
+        <div class="pf"><label>Total final ($)</label><input data-k="total" inputmode="numeric"></div>
+      </div>
+      <p class="hint">Suma de las filas: <b id="p-suma">—</b> <button class="addb" id="p-usar" style="width:auto; display:inline-block; padding:2px 10px; margin-left:6px;">usar</button></p>
+    </div>
+    <div class="pgrp"><b>Pagos</b>
+      <div class="pf"><label>Pago del adelanto al…</label><input data-k="pagoAdelanto"></div>
+      <div class="pf"><label>Pago del saldo al…</label><input data-k="pagoSaldo"></div>
+    </div>
+    <div class="pgrp"><b>Cierre y firma</b>
+      <div class="pf"><label>Email del cliente</label><input data-k="emailCliente"></div>
+      <div class="p3">
+        <div class="pf"><label>Día firma</label><input data-k="firmaDia"></div>
+        <div class="pf"><label>Mes</label><input data-k="firmaMes"></div>
+        <div class="pf"><label>Año</label><input data-k="firmaAnio"></div>
+      </div>
+    </div>
+  </div>
+  <div class="panel-f">
+    <button class="pbtn pri" onclick="window.print()">Imprimir / Guardar PDF</button>
+    <button class="pbtn sec" onclick="location.href='Generador - Mar Eventos.html'">← Volver al generador</button>
+  </div>
+</aside>
+
+<script src="doc-page.js"></script>
+<script>
+(function(){
+var KEY='mareventos_contrato_v2';
+var DEF={
+  archivo:'Contrato HK - Cumpleaños de Maximiliano',
+  ciudadDia:'3', mes:'Noviembre', anio:'2025',
+  empresa:'Picco Maximiliano', docTipo:'DNI', docNum:'31385379',
+  domicilio:'Lamadrid 2188 8A, Mar del Plata, Provincia de Buenos Aires',
+  evento:'Cumpleaños de Maximiliano', fecha:'SABADO 28 – 2 - 2026', horario:'NOCTURNO 21:00hs – 01:00hs',
+  pax:'40 PAX.', salon:'MIRADOR WAIKIKI – HULA KAI', duracion:'CUATRO (4)', tipoEvento:'una fiesta de cumpleaños',
+  items:[
+    {cant:'40', desc:'MENU FINGER ADULTO', precio:85500},
+    {cant:'40', desc:'BARRA DE TRAGOS PREMIUM', precio:20500},
+    {cant:'1', desc:'TECNICA', precio:700000}
+  ],
+  totalLabel:'Ajuste de saldo por IPC', total:4940000,
+  pagoAdelanto:'3 de Noviembre del 2025', pagoSaldo:'25 de Febrero del 2026',
+  emailCliente:'Maximiliano_picco@hotmail.com', firmaDia:'3', firmaMes:'Noviembre', firmaAnio:'2025'
+};
+var C; try{ C=Object.assign(JSON.parse(JSON.stringify(DEF)), JSON.parse(localStorage.getItem(KEY)||'{}')); }catch(e){ C=JSON.parse(JSON.stringify(DEF)); }
+if(!Array.isArray(C.items)||!C.items.length) C.items=JSON.parse(JSON.stringify(DEF.items));
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify(C)); }catch(e){} }
+function fmt(n){ if(n===''||n===null||isNaN(n)) return ''; var neg=n<0, a=Math.abs(n); return (neg?'-$ ':'$ ')+a.toLocaleString('es-AR'); }
+function rowTotal(it){ var q=parseFloat(String(it.cant).replace(/[^\d.]/g,''))||1; return q*(parseFloat(it.precio)||0); }
+function esc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;'); }
+function render(){
+  if(C.archivo) document.title=C.archivo;
+  document.querySelectorAll('[data-f]').forEach(function(el){ var v=C[el.getAttribute('data-f')]; if(v!==undefined) el.textContent=v; });
+  var tb=document.getElementById('t-items');
+  tb.innerHTML = C.items.map(function(it){
+    return '<tr><td class="n">'+esc(it.cant)+'</td><td>'+esc(it.desc)+'</td><td class="p">'+fmt(parseFloat(it.precio))+'</td><td class="p">'+fmt(rowTotal(it))+'</td></tr>';
+  }).join('') + '<tr class="tot"><td></td><td>'+esc(C.totalLabel)+'</td><td></td><td class="p">'+fmt(parseFloat(C.total))+'</td></tr>';
+  var suma=C.items.reduce(function(a,it){ return a+rowTotal(it); },0);
+  var se=document.getElementById('p-suma'); if(se) se.textContent=fmt(suma);
+}
+function renderItems(){
+  var w=document.getElementById('p-items');
+  w.innerHTML = C.items.map(function(it,i){
+    return '<div class="item-card" data-i="'+i+'"><div class="ih"><span>Fila '+(i+1)+'</span><button class="del" data-del="'+i+'" title="Eliminar">✕</button></div>'+
+    '<div class="pf"><label>Servicio</label><input data-if="desc" value="'+esc(it.desc)+'"></div>'+
+    '<div class="p2"><div class="pf" style="margin-bottom:0;"><label>Cantidad</label><input data-if="cant" value="'+esc(it.cant)+'"></div>'+
+    '<div class="pf" style="margin-bottom:0;"><label>Precio unit. ($)</label><input data-if="precio" inputmode="numeric" value="'+esc(it.precio)+'"></div></div></div>';
+  }).join('');
+}
+function fillPanel(){ document.querySelectorAll('.panel [data-k]').forEach(function(inp){ inp.value=C[inp.getAttribute('data-k')]!==undefined?C[inp.getAttribute('data-k')]:''; }); renderItems(); }
+document.querySelector('.panel').addEventListener('input', function(e){
+  var t=e.target;
+  if(t.hasAttribute('data-k')){ var k=t.getAttribute('data-k'); C[k]=(k==='total')?(parseFloat(String(t.value).replace(/[^\d.-]/g,''))||0):t.value; }
+  else if(t.hasAttribute('data-if')){
+    var card=t.closest('.item-card'); if(!card) return;
+    var i=+card.getAttribute('data-i'), f=t.getAttribute('data-if');
+    C.items[i][f]=(f==='precio')?(parseFloat(String(t.value).replace(/[^\d.-]/g,''))||0):t.value;
+  } else return;
+  save(); render();
+});
+document.querySelector('.panel').addEventListener('click', function(e){
+  var d=e.target.closest('[data-del]');
+  if(d){ C.items.splice(+d.getAttribute('data-del'),1); save(); renderItems(); render(); return; }
+  if(e.target.id==='p-add'){ C.items.push({cant:'1',desc:'NUEVO SERVICIO',precio:0}); save(); renderItems(); render(); return; }
+  if(e.target.id==='p-usar'){ C.total=C.items.reduce(function(a,it){ return a+rowTotal(it); },0); save(); fillPanel(); render(); return; }
+  if(e.target.id==='p-auto-nombre'){ C.archivo='Contrato - '+(C.evento||''); save(); fillPanel(); render(); return; }
+});
+document.body.classList.add('editing');
+document.querySelectorAll('.panel input').forEach(function(inp){
+  inp.addEventListener('focus', function(){ var k=inp.getAttribute('data-k'); if(!k) return; var el=document.querySelector('[data-f="'+k+'"]'); if(el){ var r=el.getBoundingClientRect(); if(r.top<0||r.bottom>innerHeight) window.scrollBy({top:r.top-160, behavior:'smooth'}); } });
+});
+fillPanel(); render();
+})();
+</script>
+</body>
+</html>

@@ -196,6 +196,18 @@
 
   @media print{ .twk-panel{ display:none !important; } }
 </style>
+
+<!-- ===================== HULA KAI · fotos del salón ===================== -->
+<style id="salon-hulakai">
+  html[data-salon="hulakai"] section[data-screen-label="01 Portada"] > .photo{
+    background-image:radial-gradient(ellipse 82% 78% at 50% 47%, rgba(6,16,22,.40) 0%, rgba(6,16,22,.20) 46%, rgba(6,14,18,.58) 100%), url('assets/hk-pool.jpg') !important;
+    background-position:center 52% !important;
+  }
+  html[data-salon="hulakai"] section[data-screen-label="11 Cierre"] > .photo{
+    background-image:linear-gradient(102deg, rgba(9,17,13,.84) 0%, rgba(9,17,13,.58) 46%, rgba(9,17,14,.42) 100%), url('assets/hk-salon.jpg') !important;
+    background-position:center 55% !important;
+  }
+</style>
 </head>
 <body>
 
@@ -1041,6 +1053,7 @@ window.CATALOGO_BARRAS = {
 <script>
 function renderDatos(){
   var D = window.DATOS || {};
+  document.documentElement.setAttribute('data-salon', D.salonId||'waikiki');
   function set(id, html){ var el=document.getElementById(id); if(el && html!=null) el.innerHTML=html; }
   function ul(id, arr){ var el=document.getElementById(id); if(el && arr) el.innerHTML=arr.map(function(i){return '<li>'+i+'</li>';}).join(''); }
   function unirY(arr){ if(!arr||!arr.length) return ''; if(arr.length===1) return arr[0]; return arr.slice(0,-1).join(', ')+' y '+arr[arr.length-1]; }
@@ -1181,7 +1194,7 @@ function renderDatos(){
   // foto izquierda de presentación
   var pp=document.getElementById('t-pres-photo');
   if(pp){
-    var fotoUrl=esBoda?"url('assets/ceremonia-playa.jpg')":"url('assets/lounge-warm.jpg')";
+    var fotoUrl = (D.salonId==='hulakai') ? "url('assets/hk-lounge.jpg')" : (esBoda?"url('assets/ceremonia-playa.jpg')":"url('assets/lounge-warm.jpg')");
     pp.style.backgroundImage="linear-gradient(180deg, rgba(15,27,18,.06) 55%, rgba(15,27,18,.55)), "+fotoUrl;
   }
   // Técnica: equipamiento según salón (Mirador Waikiki vs Mirador 9)
@@ -1196,17 +1209,24 @@ function renderDatos(){
     son:'<li>Sistema biamplificado: 2 puntos activos volados + subgraves.</li><li>2 puntos activos volados como demorados.</li><li>Monitoreo para DJ.</li><li>Consola de audio analógica de primera línea.</li><li>Procesadores de audio.</li><li>Microfonía alámbrica e inalámbrica profesional.</li><li>Equipamiento de backup · Musicalización.</li>'
   };
   var tSet = esM9 ? TECH_M9 : TECH_WK;
+  var TECH_HK={
+    estr:'<li>Cabina de DJ y control técnico.</li><li>Pies y soportes para audio e iluminación.</li><li>Iluminación perimetral del salón.</li>',
+    ilum:'<li>10 Protones LED 90w.</li><li>2 Cabezales móviles 9R.</li><li>1 Máquina de humo 900w.</li><li>Iluminación perimetral ambiental.</li>',
+    son:'<li>2 Bafles de 15" Alto Profesional TS 415.</li><li>2 Micrófonos inalámbricos.</li><li>Musicalización profesional.</li>'
+  };
+  if(D.salonId==='hulakai') tSet = TECH_HK;
   var te=document.getElementById('t-tech-estr'); if(te) te.innerHTML=tSet.estr;
   var ti=document.getElementById('t-tech-ilum'); if(ti) ti.innerHTML=tSet.ilum;
   var ts=document.getElementById('t-tech-son'); if(ts) ts.innerHTML=tSet.son;
   var tp=document.getElementById('t-tech-personal');
   var tr=document.getElementById('t-tech-req');
   var trow=document.getElementById('t-tech-row2');
-  if(tp) tp.innerHTML = (esBoda||esM9)
+  if(tp) tp.innerHTML = (D.salonId==='hulakai')
+    ? '<li>DJ · 4 horas de música.</li><li>No incluye ceremonias y/o sonido exterior.</li>'
+    : (esBoda||esM9)
     ? '<li>DJ + 1 técnico especializado en operación.</li><li>Seguros RC, Terceros y AP.</li>'
     : '<li>DJ + VJ + 1 técnico especializado en operación.</li><li>Seguros RC, Terceros y AP.</li>';
-  var hideReq = esBoda || esM9;
-  if(tr) tr.style.display = hideReq ? 'none' : '';
+  var hideReq = esBoda || esM9 || (D.salonId==='hulakai');  if(tr) tr.style.display = hideReq ? 'none' : '';
   if(trow) trow.style.gridTemplateColumns = hideReq ? '1fr' : '1fr 1fr';
 }
 // API para el Generador: recibe un objeto DATOS y redibuja
