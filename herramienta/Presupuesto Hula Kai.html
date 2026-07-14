@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Presupuesto · Hula Kai · Mar Eventos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sacramento&family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cream:#F2EDE4; --cream-2:#E7E0D2; --line:#D9CFBE;
+  --teal:#6B9B9B; --teal-light:#9BBDBD; --green:#2C4A3E; --green-d:#22382f;
+  --navy:#0F1B12; --white:#FFFFFF;
+  --ink:#2A3A33; --muted:#7C8A82;
+  --sans:'Montserrat',Helvetica,Arial,sans-serif;
+  --serif:'Lora',Georgia,serif;
+  --script:'Sacramento',cursive;
+  --page-w:297mm; --page-h:210mm;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{font-size:16px;}
+body{background:#cbc4b8;font-family:var(--sans);color:var(--ink);}
+
+/* toolbar */
+.toolbar{position:fixed;top:0;left:0;right:0;height:48px;background:var(--green);display:flex;align-items:center;justify-content:space-between;padding:0 18px;z-index:100;box-shadow:0 2px 14px rgba(0,0,0,.18);}
+.tb-brand{font-family:var(--sans);font-weight:500;letter-spacing:.32em;text-transform:uppercase;font-size:12px;color:var(--cream);}
+.tb-sub{font-family:var(--sans);font-weight:300;font-size:9.5px;letter-spacing:.28em;text-transform:uppercase;color:var(--teal-light);margin-left:12px;}
+.tb-actions{display:flex;gap:8px;}
+.tb-btn{border:0;padding:9px 16px;border-radius:40px;font-family:var(--sans);font-weight:500;font-size:10px;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;transition:transform .15s;}
+.tb-btn:hover{transform:translateY(-1px);}
+.tb-pdf{background:var(--cream);color:var(--green);}
+.tb-ghost{background:transparent;color:var(--cream);border:1px solid rgba(242,237,228,.4);}
+
+/* pages */
+.doc{padding:60px 0 40px;display:flex;flex-direction:column;align-items:center;gap:18px;}
+.page{width:var(--page-w);height:var(--page-h);position:relative;overflow:hidden;background:var(--cream);box-shadow:0 4px 28px rgba(0,0,0,.22);}
+.page.dark{background:var(--navy);}
+
+/* photo background helper */
+.photo{width:100%;height:100%;background-size:cover;background-position:center;background-repeat:no-repeat;}
+
+/* type */
+.script{font-family:var(--script);font-weight:400;line-height:1.1;}
+.eyebrow{font-family:var(--sans);font-weight:500;font-size:9.5px;letter-spacing:.26em;text-transform:uppercase;color:var(--teal);}
+.teal-light{color:var(--teal-light);}
+.menu-cat{font-family:var(--sans);font-weight:600;font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--green);}
+.menu-body{font-family:var(--serif);font-weight:400;font-size:14px;line-height:1.72;color:var(--ink);}
+.rule{border:none;border-top:1px solid var(--teal-light);width:100%;}
+.rule.soft{opacity:.45;}
+
+/* detalle grid */
+.detalle-h{display:grid;grid-template-columns:repeat(6,1fr);gap:0;}
+.detalle-h div{padding:8px 12px;border-left:1px solid rgba(155,189,189,.3);}
+.detalle-h div:first-child{border-left:none;}
+.detalle-h div span{display:block;font-family:var(--sans);font-size:7px;letter-spacing:.2em;text-transform:uppercase;color:var(--teal-light);margin-bottom:3px;}
+.detalle-h div b{font-family:var(--serif);font-style:italic;font-size:13px;font-weight:400;color:var(--cream);}
+
+/* inversión */
+.inv-row{display:grid;grid-template-columns:32px 80px 1fr auto;gap:0 14px;align-items:center;padding:10px 0;border-bottom:1px solid rgba(44,74,62,.12);}
+.inv-row.hl{background:rgba(44,74,62,.05);padding:10px 10px;margin:0 -10px;border-bottom:1px solid rgba(44,74,62,.18);}
+.inv-num{font-family:var(--script);font-size:26px;color:var(--teal);line-height:1;}
+.inv-cat{font-family:var(--sans);font-size:8.5px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);}
+.inv-name{font-family:var(--serif);font-size:15px;font-weight:500;color:var(--ink);}
+.inv-name span{display:block;font-size:11px;font-style:italic;font-weight:400;color:var(--muted);margin-top:1px;}
+.inv-price{text-align:right;font-family:var(--sans);font-size:14px;font-weight:600;color:var(--green);}
+.inv-price.big{font-size:19px;}
+.inv-price i{font-style:normal;font-size:10px;color:var(--teal-light);}
+.inv-price span{display:block;font-size:10px;font-weight:400;color:var(--muted);font-family:var(--serif);font-style:italic;}
+
+@media print{
+  body{background:white;}
+  .toolbar,.doc-gap{display:none!important;}
+  .doc{padding:0;gap:0;}
+  .page{box-shadow:none;page-break-after:always;page-break-inside:avoid;}
+  @page{size:297mm 210mm landscape;margin:0;}
+}
+</style>
+</head>
+<body>
+
+<div class="toolbar">
+  <div style="display:flex;align-items:baseline;">
+    <span class="tb-brand">Mar Eventos</span>
+    <span class="tb-sub">· Hula Kai</span>
+  </div>
+  <div class="tb-actions">
+    <button class="tb-btn tb-ghost" onclick="generatePDF()">Exportar PDF</button>
+  </div>
+</div>
+
+<div class="doc">
+
+<!-- ===================================================== -->
+<!-- PÁG 1 — PORTADA -->
+<!-- ===================================================== -->
+<section class="page dark" data-screen-label="01 Portada">
+  <div class="photo" style="position:absolute; inset:0; background-color:#1c2a30; background-position:center 46%; background-image:radial-gradient(ellipse 82% 78% at 50% 47%, rgba(6,16,22,.52) 0%, rgba(6,16,22,.32) 48%, rgba(6,14,18,.66) 100%), url('assets/cover-aerial.jpg'); filter:saturate(1.1) brightness(1.03) contrast(1.02);"></div>
+
+  <div style="position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center;">
+    <img src="assets/logo-white.png" alt="Mar Eventos" style="width:340px; max-width:54%; height:auto; display:block;">
+    <p id="t-portada-sub" style="font-family:var(--sans); font-weight:300; font-size:13px; letter-spacing:.42em; text-transform:uppercase; color:var(--cream); opacity:.92; margin-top:26px; text-shadow:0 1px 14px rgba(6,16,14,.7);">Salón Ala Wai · Complejo Mirador Waikiki</p>
+  </div>
+
+  <!-- side web -->
+  <div style="position:absolute; left:13mm; top:50%; transform:translateY(-50%) rotate(-90deg); transform-origin:left center; font-family:var(--sans); font-weight:400; font-size:11px; letter-spacing:.36em; text-transform:uppercase; color:var(--cream); opacity:.82; white-space:nowrap; text-shadow:0 1px 12px rgba(6,16,14,.7);">www.mareventos.com.ar</div>
+
+  <!-- bottom contact -->
+  <div style="position:absolute; left:18mm; right:18mm; bottom:14mm; display:flex; justify-content:center; align-items:center; gap:24px; font-family:var(--sans); font-weight:400; font-size:11.5px; letter-spacing:.22em; text-transform:uppercase; color:var(--cream); opacity:.86; text-shadow:0 1px 12px rgba(6,16,14,.75);">
+    <span>@mar.eventos</span><span style="opacity:.5;">·</span><span>+54 223 633 3330</span><span style="opacity:.5;">·</span><span>Mar del Plata</span>
+  </div>
+</section>
+
+<!-- ===================================================== -->
+<!-- PÁG 2 — PRESENTACIÓN + DATOS -->
+<!-- ===================================================== -->
+<section class="page" data-screen-label="02 Presentación">
+  <div style="position:absolute;inset:0;display:grid;grid-template-columns:42% 58%;">
+    <!-- foto izquierda -->
+    <div style="position:relative;overflow:hidden;">
+      <div class="photo" style="height:100%;background-image:linear-gradient(180deg,rgba(15,27,18,.04) 60%,rgba(15,27,18,.45)),url('assets/coffee-seaside.jpg');background-position:28% 55%;"></div>
+    </div>
+    <!-- carta derecha -->
+    <div style="padding:16mm 16mm 14mm 14mm;display:flex;flex-direction:column;justify-content:center;">
+      <p class="eyebrow" style="margin-bottom:12px;color:var(--teal);">Propuesta para tu evento</p>
+      <h2 class="script" style="font-size:58px;color:var(--green);line-height:1.02;margin-bottom:18px;" id="t-saludo">Estimados,<br>A definir.</h2>
+      <hr class="rule soft" style="margin-bottom:18px;">
+      <p style="font-size:16.5px;line-height:1.85;font-weight:400;max-width:48ch;" id="t-pres-p1">Queremos agradecer su interés en realizar su celebración con <span style="color:var(--teal);font-style:italic;">Mar Eventos</span>. Nuestro personal los ayudará a coordinar cada detalle para garantizar que su evento sea tan increíble como lo imaginan.</p>
+      <p style="font-size:16.5px;line-height:1.85;font-weight:400;max-width:48ch;margin-top:12px;" id="t-pres-p2">Queremos acompañarlos en este emocionante camino… <span style="color:var(--teal);font-style:italic;">¡Comencemos!</span></p>
+      <div id="t-detalle" class="detalle-grid"></div>
+    </div>
+  </div>
+  <style>
+    .detalle-grid{ margin-top:22px; padding-top:18px; border-top:1px solid rgba(44,74,62,.18); display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px 18px; }
+    .detalle-grid > div{ display:flex; flex-direction:column; gap:3px; }
+    .detalle-grid span{ font-family:var(--sans); font-weight:500; font-size:9.5px; letter-spacing:.22em; text-transform:uppercase; color:var(--teal); }
+    .detalle-grid b{ font-family:var(--serif); font-weight:600; font-size:15.5px; color:var(--green); line-height:1.25; }
+  </style>
+</section>
+
+<!-- ===================================================== -->
+<!-- PÁG 3 — SERVICIO DE COFFEE -->
+<!-- ===================================================== -->
+<section class="page" data-screen-label="03 Coffee">
+  <!-- franja foto -->
+  <div style="height:74mm;position:relative;overflow:hidden;">
+    <div class="photo" style="height:100%;background-image:linear-gradient(115deg,rgba(15,25,18,.72) 0%,rgba(15,25,18,.36) 55%,rgba(15,25,18,.16) 100%),url('assets/coffee-granola.jpg');background-position:center 32%;"></div>
+    <div style="position:absolute;left:18mm;bottom:14mm;">
+      <p class="eyebrow teal-light" style="margin-bottom:8px;">Un comienzo especial</p>
+      <h2 class="script" style="font-size:62px;color:var(--cream);line-height:1;">Servicio de Coffee</h2>
+    </div>
+    <img src="assets/logo-white.png" alt="Mar Eventos" style="position:absolute;right:18mm;bottom:14mm;height:22px;width:auto;opacity:.8;">
+  </div>
+  <!-- carta vertical -->
+  <div style="position:absolute;left:0;right:0;top:74mm;bottom:0;padding:12mm 30mm;display:flex;flex-direction:column;justify-content:space-evenly;">
+    <div class="coffee-block">
+      <p class="menu-cat coffee-cat" id="t-coffee-inf-t">Infusiones</p>
+      <p class="menu-body coffee-body" id="t-coffee-inf">Café · Té.</p>
+    </div>
+    <hr class="rule soft">
+    <div class="coffee-block">
+      <p class="menu-cat coffee-cat" id="t-coffee-jug-t">Jugos &amp; Aguas</p>
+      <p class="menu-body coffee-body" id="t-coffee-jug">Limonada con Menta y Jengibre · Jarras de agua.</p>
+    </div>
+    <hr class="rule soft">
+    <div class="coffee-block">
+      <p class="menu-cat coffee-cat" id="t-coffee-past-t">Pastelería</p>
+      <p class="menu-body coffee-body" id="t-coffee-past"><b>Mono-Porciones:</b> Cheese Cake New York · Lemon Pie · Chocotorta · <b>Budines:</b> Limón · Vainilla · Chocolate · Tostados de jamón y queso · Scon's de queso · Medialunas dulces.</p>
+    </div>
+  </div>
+  <style>
+    .coffee-block{ display:grid; grid-template-columns:52mm 1fr; gap:10mm; align-items:baseline; }
+    .coffee-cat{ font-size:15px !important; }
+    .coffee-body{ font-size:18px; line-height:1.8; }
+  </style>
+</section>
+
+<!-- ===================================================== -->
+<!-- PÁG 4 — INVERSIÓN (estética verde oscuro) -->
+<!-- ===================================================== -->
+<section class="page dark" data-screen-label="04 Inversión" id="sec-inv">
+  <div style="position:absolute; inset:0; padding:26mm 20mm 16mm; display:flex; flex-direction:column;">
+    <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:9mm;">
+      <div>
+        <p class="eyebrow teal-light" style="margin-bottom:10px;">Propuesta económica</p>
+        <h2 class="script" style="font-size:60px; color:var(--cream); line-height:.95;">Nuestra Propuesta</h2>
+      </div>
+      <p style="font-family:var(--sans); font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:var(--teal-light); text-align:right; line-height:1.9;" id="t-inv-sub">A definir</p>
+    </div>
+    <div style="border-top:1px solid rgba(155,189,189,.3);" id="t-inv-rows"></div>
+    <div style="margin-top:auto; padding-top:10mm; display:flex; justify-content:space-between; align-items:flex-end; gap:30px;">
+      <p style="font-size:12.5px; font-weight:400; line-height:1.6; color:var(--teal-light); max-width:58ch;" id="t-inv-note">Los precios no incluyen IVA. Validez de la propuesta: 10 días corridos desde su emisión.</p>
+      <span style="font-family:var(--sans); font-weight:500; font-size:11px; letter-spacing:.16em; padding:13px 22px; border:1px solid var(--teal-light); color:var(--cream); border-radius:40px; white-space:nowrap; flex:0 0 auto;">+54 223 633 3330</span>
+    </div>
+  </div>
+  <img src="assets/logo-white.png" alt="Mar Eventos" style="position:absolute; right:20mm; top:20mm; height:22px; width:auto; opacity:.6;">
+  <style>
+    #sec-inv .inv-row{ display:grid; grid-template-columns:70px 160px 1fr auto; align-items:center; gap:26px; padding:22px 0; border-bottom:1px solid rgba(155,189,189,.22); }
+    #sec-inv .inv-row.hl{ background:rgba(107,155,155,.12); padding-left:18px; padding-right:18px; margin:0 -18px; }
+    #sec-inv .inv-num{ font-family:var(--script); font-size:44px; color:var(--teal); line-height:1; }
+    #sec-inv .inv-cat{ font-family:var(--sans); font-weight:400; font-size:10px; letter-spacing:.26em; text-transform:uppercase; color:var(--teal-light); }
+    #sec-inv .inv-name{ font-family:var(--serif); font-size:20px; font-weight:500; color:var(--cream); line-height:1.25; }
+    #sec-inv .inv-name span{ display:block; font-family:var(--sans); font-weight:300; font-size:10px; letter-spacing:.1em; text-transform:uppercase; color:var(--teal-light); font-style:normal; margin-top:3px; }
+    #sec-inv .inv-price{ font-family:var(--sans); font-weight:500; font-size:19px; color:var(--cream); text-align:right; line-height:1.3; }
+    #sec-inv .inv-price i{ font-style:normal; font-size:11px; color:var(--teal-light); }
+    #sec-inv .inv-price span{ display:block; font-family:var(--sans); font-weight:300; font-size:9px; letter-spacing:.1em; text-transform:uppercase; color:var(--teal-light); font-style:normal; margin-top:2px; }
+    #sec-inv .inv-price.big{ font-size:30px; color:var(--teal-light); }
+  </style>
+</section>
+
+<!-- ===================================================== -->
+<!-- PÁG 5 — CONDICIONES GENERALES -->
+<!-- ===================================================== -->
+<section class="page" data-screen-label="05 Condiciones">
+  <div style="position:absolute; inset:0; padding:20mm 18mm 14mm; display:flex; flex-direction:column;">
+    <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:8mm;">
+      <div>
+        <p class="eyebrow" style="margin-bottom:8px;color:var(--teal);">Condiciones del servicio</p>
+        <h2 class="script" style="font-size:46px; line-height:1.04; color:var(--green);">Condiciones generales del servicio</h2>
+      </div>
+      <div style="display:flex; align-items:flex-end; gap:22px;">
+        <p style="font-family:var(--sans); font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:var(--teal); text-align:right;">Fecha de emisión<br><span style="color:var(--green); font-size:12px;" id="t-cond-fecha">A definir</span></p>
+        <img src="assets/logo.png" alt="Mar Eventos" style="height:42px; width:auto; opacity:.85;">
+      </div>
+    </div>
+    <hr class="rule soft" style="margin-bottom:7mm;">
+
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:16mm; flex:1;">
+      <div style="font-size:12.5px; line-height:1.62; color:#3f5249;">
+        <p>El presente presupuesto tiene una validez de diez días a partir del día de su emisión, y está calculado sobre la base de todos los servicios solicitados. En caso de suprimir alguno de ellos, el precio será cotizado nuevamente. Los precios informados no incluyen el IVA.</p>
+        <p style="margin-top:10px;">La emisión del presente presupuesto no implica la reserva de los servicios expresados en el mismo. Para la confirmación de una reserva sobre estos, se realizará un contrato y se deberán dar cumplimiento a las formalidades de pago indicadas en dicho instrumento.</p>
+        <div style="border-left:3px solid var(--teal); padding:4px 0 4px 16px; margin:14px 0;">
+          <p>En caso de que necesite desglosarse el IVA en la facturación, es imprescindible que al abonar el primer anticipo del evento se presente el formulario Nro. 576, con su condición de IVA y firma del responsable en original. Si la organización es exenta, deberá presentar la documentación que certifique su condición como tal.</p>
+        </div>
+        <p>Quedan a cargo del cliente: derechos de autor (SADAIC) y derechos de intérpretes y fonogramas (AADI-CAPIF).</p>
+      </div>
+
+      <div style="font-size:12.5px; line-height:1.62; color:#3f5249;">
+        <p class="menu-cat" style="margin-bottom:8px;">Formas de pago</p>
+        <div style="background:var(--cream-2); padding:14px 18px; margin-bottom:14px;">
+          <p style="font-weight:600; color:var(--green);">Seña: 30% (treinta por ciento) a la aceptación del presupuesto; dicho monto será tomado como cancelación de servicios a prestar. El 70% restante deberá completarse 72 hs antes del comienzo del evento.</p>
+        </div>
+        <p style="margin-bottom:18px;">La seña responde a un compromiso de ambas partes a realizar el evento y se devolverá de acuerdo con el esquema de cancelaciones, en caso de que usted decida cancelar por cualquier motivo.</p>
+        <p class="menu-cat" style="margin-bottom:8px;">Definiciones previas</p>
+        <p>Para la contratación de los servicios gastronómicos, Mar Eventos deberá contar con el mínimo de personas garantizadas al menos 14 días previos al evento; si el número de asistentes no alcanzara el informado, se cobrará el número garantizado o cotizado. El menú deberá definirse 15 días previos al evento.</p>
+      </div>
+    </div>
+
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:50px; margin:8mm auto 0; padding-top:6mm; border-top:1px solid var(--cream-2); max-width:560px;">
+      <div style="text-align:center;">
+        <div class="script" style="font-size:32px; color:var(--green); height:46px; line-height:1; white-space:nowrap; display:flex; align-items:flex-end; justify-content:center;" id="t-firma">Romina Marquez</div>
+        <hr class="rule soft" style="margin-bottom:8px;">
+        <p class="eyebrow" style="color:var(--teal);">Firma · Responsable Comercial</p>
+      </div>
+      <div style="text-align:center;">
+        <div style="font-family:var(--serif); font-weight:500; font-size:19px; color:var(--green); height:46px; display:flex; align-items:flex-end; justify-content:center;">&nbsp;</div>
+        <hr class="rule soft" style="margin-bottom:8px;">
+        <p class="eyebrow" style="color:var(--teal);">Firma y aclaración del cliente</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================== -->
+<!-- PÁG 6 — CIERRE -->
+<!-- ===================================================== -->
+<section class="page dark" data-screen-label="06 Cierre">
+  <div class="photo" style="position:absolute;inset:0;background-image:linear-gradient(180deg,rgba(8,18,12,.42) 0%,rgba(8,18,12,.66) 100%),url('assets/coffee-cup.jpg');background-position:center 62%;"></div>
+  <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;text-align:center;gap:16px;padding-top:26mm;">
+    <p class="eyebrow teal-light" id="t-cierre-eyebrow">Mar Eventos · Mar del Plata</p>
+    <h2 class="script" style="font-size:96px;color:var(--cream);line-height:.9;" id="t-cierre-titulo">¡Vamos a empezar!</h2>
+    <div style="width:56px;height:1px;background:var(--teal-light);opacity:.6;margin-top:4px;"></div>
+  </div>
+  <div style="position:absolute;left:0;right:0;bottom:16mm;display:flex;flex-direction:column;align-items:center;gap:12px;">
+    <img src="assets/logo-white.png" alt="Mar Eventos" style="height:30px;width:auto;opacity:.9;">
+    <p style="font-family:var(--sans);font-weight:300;font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--cream);opacity:.8;">+54 223 633 3330 · info@mareventos.com.ar</p>
+  </div>
+</section>
+
+</div><!-- /doc -->
+
+<!--
+  ===================================================================
+  ►► DATOS ◄◄ — EDITÁ ACÁ EL CONTENIDO DE CADA PRESUPUESTO
+  ===================================================================
+-->
+<script>
+window.DATOS_HK = {
+  evento: {
+    cliente:    "A definir",
+    fecha:      "A definir",
+    horario:    "A definir",
+    salon:      "Ala Wai",
+    invitados:  "A definir",
+    coffee:     "Coffee Ejecutivo",
+    fingerfood: "",
+    fechaEmision: "",
+    firmante:   "Romina Marquez"
+  },
+  presentacion:{
+    p1:'Queremos agradecer su interés en realizar su celebración con <span style="color:var(--teal);font-style:italic;">Mar Eventos</span>. Nuestro personal los ayudará a coordinar cada detalle para garantizar que su evento sea tan increíble como lo imaginan.',
+    p2:'No hay dos eventos iguales. Queremos acompañarlos en este emocionante camino… <span style="color:var(--teal);font-style:italic;">¡Comencemos!</span>'
+  },
+  coffee:{
+    infusiones:'Café · Té.',
+    jugos:'Limonada con Menta y Jengibre · Jarras de agua.',
+    pasteleria:'<b>Mono-Porciones:</b> Cheese Cake New York · Lemon Pie · Chocotorta · <b>Budines:</b> Limón · Vainilla · Chocolate · Scon\'s de queso · Medialunas dulces.'
+  },
+  fingerFood:{ frios:'', calientes:'', campo:'' },
+  inversion:{
+    rows:[
+      { cat:"Coffee",      nombre:"Servicio de Coffee Ejecutivo", sub:"por persona",              precio:"AR$ 25.000",    iva:"+ IVA", subprecio:"precio por persona",      grande:false, destacado:true  },
+      { cat:"Locación",    nombre:"Uso de Salón Ala Wai",         sub:"Complejo Mirador Waikiki", precio:"AR$ 1.500.000", iva:"+ IVA", subprecio:"valor total del espacio", grande:true,  destacado:false },
+      { cat:"Técnica",     nombre:"Sonido, Pantalla LED &amp; Operadores", sub:"valores a definir según requerimientos", precio:"AR$ 3.500.000", iva:"+ IVA", subprecio:"valor estimado del servicio", grande:false, destacado:false }
+    ],
+    nota:"Los precios no incluyen IVA. Validez de la propuesta: 10 días corridos desde su emisión. Seña: 30% a la aceptación del presupuesto; el 70% restante se completa 72 hs antes del evento."
+  }
+};
+</script>
+
+<script>
+function renderHK(){
+  var D=window.DATOS_HK||{};
+  function set(id,html){var el=document.getElementById(id);if(el&&html!=null)el.innerHTML=html;}
+  var e=D.evento||{};
+  set('t-saludo','Estimados,<br>'+(e.cliente||'')+'.');
+  set('t-pres-p1',(D.presentacion||{}).p1);
+  set('t-pres-p2',(D.presentacion||{}).p2);
+  var det=document.getElementById('t-detalle');
+  if(det){
+    var cells=[['Fecha',e.fecha],['Horario',e.horario],['Salón',e.salon],['Invitados',e.invitados],['Servicio',e.coffee]];
+    if(e.fingerfood) cells.push(['Gastronomía',e.fingerfood]);
+    det.innerHTML=cells.filter(function(c){return c[1];}).map(function(c){return '<div><span>'+c[0]+'</span><b>'+c[1]+'</b></div>';}).join('');
+  }
+  var cf=D.coffee||{};
+  set('t-coffee-inf-t',cf.infusionesTitulo);set('t-coffee-jug-t',cf.jugosTitulo);set('t-coffee-past-t',cf.pasteleraTitulo);
+  set('t-coffee-inf',cf.infusiones);set('t-coffee-jug',cf.jugos);set('t-coffee-past',cf.pasteleria);
+  var inv=D.inversion||{},rc=document.getElementById('t-inv-rows');
+  if(rc&&inv.rows){
+    rc.innerHTML=inv.rows.map(function(r,i){
+      return '<div class="inv-row'+(r.destacado?' hl':'')+'"><span class="inv-num script">'+(i+1<10?'0'+(i+1):i+1)+'</span><div class="inv-cat">'+r.cat+'</div><div class="inv-name">'+r.nombre+'<br><span>'+r.sub+'</span></div><div class="inv-price'+(r.grande?' big':'')+'">'+r.precio+' <i>'+(r.iva||'')+'</i><br><span>'+r.subprecio+'</span></div></div>';
+    }).join('');
+  }
+  set('t-inv-note',inv.nota);
+  set('t-inv-sub',[(e.cliente||''),(e.fecha||''),((e.invitados||'')+' personas')].filter(function(x){return x&&x!==' personas';}).join('<br>'));
+  // Condiciones
+  set('t-cond-fecha', e.fechaEmision || 'A definir');
+  set('t-firma', e.firmante || 'Romina Marquez');
+  // Branding dinámico según salón (Hula Kai vs Ala Wai u otros)
+  var salon=e.salon||'Hula Kai';
+  var esHK=/hula/i.test(salon);
+  set('t-portada-sub','Salón '+salon+' · Complejo Mirador Waikiki');
+  set('t-cierre-eyebrow','Mar Eventos · '+salon+' · Mar del Plata');
+  var l1=document.getElementById('t-hk-logo');
+  if(l1) l1.style.display=esHK?'':'none';
+}
+window.applyDatos=function(d){
+  if(!d)return;
+  var e=d.evento||{};
+  window.DATOS_HK={
+    evento:{cliente:e.cliente,fecha:e.fecha,horario:e.horario,salon:e.salon||'Hula Kai',invitados:e.invitados,coffee:e.gastronomia||'Servicio de Coffee',fingerfood:(d.fingerFood&&((d.fingerFood.frios||'').trim()||(d.fingerFood.calientes||'').trim()))?'Finger Food':'',fechaEmision:e.fechaEmision,firmante:e.firmante},
+    presentacion:d.presentacion,coffee:d.coffee,fingerFood:d.fingerFood,inversion:d.inversion,
+    faq:d.faq,cierre:d.cierre
+  };
+  renderHK();
+};
+if(window.parent&&window.parent!==window){var _tb=document.querySelector('.toolbar');if(_tb)_tb.style.display='none';}
+renderHK();
+</script>
+
+<div id="pdfStatus" style="display:none; position:fixed; inset:0; z-index:99999; background:rgba(9,17,13,.86); flex-direction:column; align-items:center; justify-content:center; gap:18px; font-family:'Montserrat',sans-serif; color:#F2EDE4;">
+  <div style="font-size:14px; letter-spacing:.18em; text-transform:uppercase;" id="pdfStatusText">Generando PDF…</div>
+  <div style="width:280px; height:4px; background:rgba(242,237,228,.2); border-radius:2px; overflow:hidden;">
+    <div id="pdfBar" style="width:0%; height:100%; background:#6B9B9B; transition:width .2s ease;"></div>
+  </div>
+  <div style="font-size:11px; opacity:.6;">No cierres esta pestaña</div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+  window.generatePDF = async function(){
+    const status = document.getElementById('pdfStatus');
+    const text = document.getElementById('pdfStatusText');
+    const bar = document.getElementById('pdfBar');
+    if(status) status.style.display = 'flex';
+    try{
+      if (document.fonts && document.fonts.ready) { await document.fonts.ready; }
+      await new Promise(r => setTimeout(r, 300));
+      const { jsPDF } = window.jspdf;
+      const pdf = new jsPDF({ orientation:'landscape', unit:'mm', format:'a4' });
+      const W = 297, H = 210;
+      const pages = Array.from(document.querySelectorAll('section.page')).filter(p => p.offsetParent !== null || getComputedStyle(p).display !== 'none');
+      for (let i = 0; i < pages.length; i++){
+        if(text) text.textContent = 'Generando PDF… página ' + (i+1) + ' de ' + pages.length;
+        if(bar) bar.style.width = Math.round(((i)/pages.length)*100) + '%';
+        const el = pages[i];
+        const canvas = await html2canvas(el, {
+          scale: 2.4,
+          useCORS: true,
+          backgroundColor: '#ffffff',
+          width: el.offsetWidth,
+          height: el.offsetHeight,
+          windowWidth: el.offsetWidth,
+          windowHeight: el.offsetHeight
+        });
+        const img = canvas.toDataURL('image/jpeg', 0.92);
+        if (i > 0) pdf.addPage('a4', 'landscape');
+        pdf.addImage(img, 'JPEG', 0, 0, W, H);
+      }
+      if(bar) bar.style.width = '100%';
+      if(text) text.textContent = 'Descargando…';
+      pdf.save('Presupuesto Coffee - Mar Eventos.pdf');
+      await new Promise(r => setTimeout(r, 600));
+    } catch(err){
+      if(text) text.textContent = 'Error: ' + err.message;
+      await new Promise(r => setTimeout(r, 2500));
+    } finally {
+      if(status) status.style.display = 'none';
+    }
+  };
+</script>
+
+<!-- Botón Editar en Canva -->
+<div id="canvaFab" style="position:fixed; right:16px; bottom:16px; z-index:9999;">
+  <button id="canvaFabBtn" style="display:flex; align-items:center; gap:8px; padding:11px 18px; border:none; border-radius:999px; background:#0f271b; color:#f2ede4; font-family:inherit; font-size:13.5px; font-weight:600; letter-spacing:.02em; cursor:pointer; box-shadow:0 6px 20px rgba(0,0,0,.28);">✏️ Editar en Canva</button>
+</div>
+<script>
+(function(){
+  var f=document.getElementById('canvaFab');
+  if(window.parent!==window){ if(f) f.style.display='none'; return; }
+  document.getElementById('canvaFabBtn').addEventListener('click',function(){
+    alert('Para editar este presupuesto en Canva:\n\n1. Escribile a Claude en el chat: “Envia este presupuesto a Canva”.\n2. En segundos te devuelve el link de Canva con el diseño editable (textos, fotos y colores).\n\nTip: terminá de cargar los datos del cliente antes de enviarlo, así el diseño llega completo.');
+  });
+})();
+</script>
+<style>@media print{ #canvaFab{ display:none !important; } }</style>
+
+<template id="__bundler_thumbnail">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+    <rect width="100" height="100" fill="#1e2f2a"/>
+    <text x="50" y="46" font-family="Georgia,serif" font-size="15" fill="#F2EDE4" text-anchor="middle" font-style="italic">Mar</text>
+    <text x="50" y="64" font-family="Georgia,serif" font-size="15" fill="#6B9B9B" text-anchor="middle" font-style="italic">Eventos</text>
+  </svg>
+</template>
+
+</body>
+</html>
