@@ -105,6 +105,7 @@ export default function Home() {
             </button>
           ))}
         </nav>
+        <span className="text-brand-sage text-sm font-semibold">Enzo</span>
         <div className="ml-auto flex items-center gap-2 sm:gap-4 text-xs">
           {editMode && saveStatus === 'saving' && <span className="text-brand-muted animate-pulse">Guardando…</span>}
           {editMode && saveStatus === 'saved' && <span className="text-brand-success">✓ Guardado</span>}
