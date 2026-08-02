@@ -22,7 +22,7 @@ export default function Home() {
     loading, loadError, saveStatus,
     proveedores, setProveedores,
     ingredientes, setIngredientes,
-    platos, setPlatos, updatePlato,
+    platos, setPlatos, updatePlato, toggleVerificado,
     actualizarPrecioIngrediente,
     salsaComponentes,
   } = useStore()
@@ -143,6 +143,7 @@ export default function Home() {
           platos={platos}
           ingredientes={ingredientes}
           onUpdatePlato={updatePlato}
+          onToggleVerificado={toggleVerificado}
           readOnly={!editMode}
           salsaComponentes={salsaComponentes}
         />
