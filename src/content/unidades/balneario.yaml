@@ -16,7 +16,13 @@ intro:
   - >-
     Los huéspedes de Ili Ili tienen acceso durante su estadía.
 
-hero: null # TODO: foto de las carpas desde arriba, en enero, a la mañana
+# Provisoria: recorte de la foto aérea del predio, para que el sitio no
+# muestre bloques vacíos. Reemplazar por una foto propia de la unidad.
+hero:
+  src: ../../assets/fotos/balneario/predio-balneario.jpg
+  alt: >-
+    La pileta del balneario con las sombrillas blancas alineadas sobre el césped, junto al mar
+  foco: centro
 galeria: []
 
 temporada:

@@ -18,7 +18,13 @@ intro:
     cargo y arranque a las 22. Los fines de semana al mediodía la cocina pasa a
     brunch.
 
-hero: null # TODO: foto del salón con el mar detrás, apaisada
+# Provisoria: recorte de la foto aérea del predio, para que el sitio no
+# muestre bloques vacíos. Reemplazar por una foto propia de la unidad.
+hero:
+  src: ../../assets/fotos/restaurante/predio-restaurante.jpg
+  alt: >-
+    El edificio del restaurante sobre las rocas, con las terrazas y la pileta, visto desde el aire
+  foco: centro
 galeria: []
 
 horarios:

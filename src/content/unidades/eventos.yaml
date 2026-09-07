@@ -16,7 +16,13 @@ intro:
     La producción integral de casamientos y eventos sociales la hace Mar
     Eventos, que trabaja acá hace años y conoce el lugar de memoria.
 
-hero: null # TODO: foto de un montaje real al atardecer
+# Provisoria: recorte de la foto aérea del predio, para que el sitio no
+# muestre bloques vacíos. Reemplazar por una foto propia de la unidad.
+hero:
+  src: ../../assets/fotos/eventos/predio-eventos.jpg
+  alt: >-
+    La terraza del complejo sobre el mar, con las sombrillas y la costa de fondo
+  foco: centro
 galeria: []
 
 estadoFijo: Agenda 2026 abierta
