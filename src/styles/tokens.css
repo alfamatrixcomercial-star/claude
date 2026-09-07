@@ -38,18 +38,20 @@
   --linea: #17402f;
   --linea-fuerte: #8a9a92;
 
-  /* Acento único, en filete y en texto. 6.96 sobre el fondo. */
-  --acento: var(--arena);
+  /* Acento: la arena del brandboard aclarada hacia el dorado pálido de la
+     referencia. 11.04 sobre el fondo, contra 6.96 de la arena plena: se lee
+     como un detalle fino y no como un bloque de color. */
+  --acento: #e8cfa8;
   --acento-tenue: #6d7d6f;
 
   /* La acción es un contorno, no un bloque de color. Cuando se rellena,
      va arena con tinta verde profundo: 6.96, holgado. */
   --accion-fondo: transparent;
-  --accion-tinta: var(--arena);
-  --accion-borde: var(--arena);
-  --accion-hover-fondo: var(--arena);
+  --accion-tinta: var(--acento);
+  --accion-borde: #4a5c4e;
+  --accion-hover-fondo: var(--acento);
   --accion-hover-tinta: var(--verde-profundo);
-  --foco: var(--arena);
+  --foco: var(--acento);
 
   --sobre-oscuro: #efede4;
   --sobre-oscuro-suave: #a8bcb0;
@@ -73,7 +75,7 @@
   --t-h1: clamp(1.75rem, 2.4vw + 1.05rem, 3.125rem);
   --t-display: clamp(2rem, 3.1vw + 1.05rem, 4rem);
 
-  --paso: clamp(4rem, 8vw, 7.5rem);
+  --paso: clamp(4rem, 9vw, 9.375rem);
   --paso-corto: clamp(2.25rem, 4.5vw, 3.5rem);
   --medida: 64ch;
   --ancho: 1140px;

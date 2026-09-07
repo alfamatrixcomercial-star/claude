@@ -16,6 +16,13 @@ const woki = await wokiLink();
 const unidades = (await getCollection("unidades")).sort((a, b) => a.data.orden - b.data.orden);
 const agenda = agendaVigente((await getCollection("agenda")).map((a) => a.data));
 
+/* El horario del restaurante también manda en el home: es lo primero que
+   pregunta quien busca dónde comer hoy. */
+const restaurante = unidades.find((u) => u.id === "restaurante");
+const horarios = restaurante?.data.horarios ?? [];
+const rango = (f: { desde: string; hasta: string }) =>
+  `${f.desde} a ${f.hasta === "23:59" ? "00:00" : f.hasta}`;
+
 /** Cada puerta lleva su propio CTA al canal que corresponde. */
 const puertas = await Promise.all(
   unidades.map(async (u) => {
@@ -144,6 +151,37 @@ const datosEstructurados = {
     </div>
   </section>
 
+  <!-- Horarios: imagen y las dos líneas, nada más -->
+  {
+    horarios.length > 0 && restaurante && (
+      <section class="horarios">
+        <figure>
+          <Foto
+            foto={restaurante.data.hero}
+            unidad="restaurante"
+            anchos={[420, 700, 1000]}
+            sizes="(max-width: 900px) 100vw, 46vw"
+          />
+        </figure>
+        <div class="texto-horarios">
+          <div class="encabezado">
+            <p class="rotulo">Restaurante</p>
+            <h2>Abierto desde las ocho</h2>
+          </div>
+          <dl>
+            {horarios.map((h) => (
+              <div>
+                <dt>{h.etiqueta}</dt>
+                <dd>{h.franjas.map(rango).join(" · ")}</dd>
+              </div>
+            ))}
+          </dl>
+          <Boton href="/restaurante" jerarquia="secundaria">Ver el restaurante</Boton>
+        </div>
+      </section>
+    )
+  }
+
   <!-- La temporada ahora: el sitio sabe en qué mes está -->
   {
     agenda.length > 0 && (
@@ -171,7 +209,7 @@ const datosEstructurados = {
   <section class="llegar">
     <div class="interior">
       <div>
-        <h2>Dónde estamos</h2>
+        <div class="encabezado"><p class="rotulo">Cómo llegar</p><h2>Dónde estamos</h2></div>
         <address>
           {sitio.direccion.calle}<br />
           {sitio.direccion.localidad}, {sitio.direccion.provincia}
@@ -274,7 +312,39 @@ const datosEstructurados = {
   .cuerpo { max-width: var(--medida); color: var(--tinta-suave); }
   figure { margin: 0; aspect-ratio: 4 / 3; }
 
-  .agenda { border-bottom: 1px solid var(--linea); padding: var(--paso-corto) var(--margen); }
+  .horarios {
+    display: grid;
+    align-items: center;
+    gap: clamp(2rem, 5vw, 4.5rem);
+    max-width: var(--ancho);
+    margin-inline: auto;
+    padding: var(--paso) var(--margen);
+  }
+  @media (min-width: 900px) {
+    .horarios { grid-template-columns: 1fr 1fr; }
+  }
+  .horarios figure { margin: 0; aspect-ratio: 4 / 3; overflow: hidden; }
+  .texto-horarios { display: flex; flex-direction: column; align-items: flex-start; }
+  .texto-horarios dl { width: 100%; margin: 0 0 2.25rem; }
+  .texto-horarios dl > div {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.2rem 1.5rem;
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--linea);
+  }
+  .texto-horarios dl > div:first-child { border-top: 1px solid var(--linea); }
+  .texto-horarios dt { font-size: 0.95rem; }
+  .texto-horarios dd {
+    margin: 0;
+    font-size: 0.95rem;
+    color: var(--acento);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.04em;
+  }
+
+  .agenda { border-block: 1px solid var(--linea); padding: var(--paso-corto) var(--margen); }
   .agenda .interior { max-width: var(--ancho); margin-inline: auto; }
   .agenda h2 {
     font-family: var(--f-texto);
@@ -312,7 +382,7 @@ const datosEstructurados = {
   @media (min-width: 780px) {
     .llegar .interior { grid-template-columns: 1.4fr 1fr; align-items: start; }
   }
-  .llegar h2 { margin-bottom: 1.25rem; }
+
   address { font-style: normal; font-size: var(--t-guia); line-height: 1.5; }
   .indicaciones {
     list-style: none;

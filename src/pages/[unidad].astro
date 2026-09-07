@@ -142,7 +142,7 @@ const datosEstructurados = {
         <section class="bloque">
           <div class="interior-simple salida">
             <div>
-              <h2>La carta</h2>
+              <div class="encabezado"><p class="rotulo">Para comer</p><h2>La carta</h2></div>
               <p class="nota">
                 Cambia con la temporada y con lo que llega del puerto. Se abre en el
                 celular, sin descargar nada.
@@ -175,7 +175,7 @@ const datosEstructurados = {
       d.derivacion && (
         <section class="derivacion">
           <div class="interior-simple">
-            <h2>{d.derivacion.titulo}</h2>
+            <div class="encabezado"><p class="rotulo">Alojamiento</p><h2>{d.derivacion.titulo}</h2></div>
             <p class="parrafo">{d.derivacion.texto}</p>
             <Boton href={d.derivacion.url} externo>{d.derivacion.texto_cta}</Boton>
           </div>
@@ -187,7 +187,7 @@ const datosEstructurados = {
       d.video && (
         <section class="bloque alt">
           <div class="interior-simple">
-            <h2>{d.video.titulo}</h2>
+            <div class="encabezado"><p class="rotulo">El lugar</p><h2>{d.video.titulo}</h2></div>
             <Video
               src={d.video.src}
               poster={d.video.poster}
@@ -305,7 +305,7 @@ const datosEstructurados = {
   .bloque { padding: var(--paso) var(--margen); }
   .bloque.alt { background: var(--fondo-alt); }
   .interior-simple { max-width: var(--ancho); margin-inline: auto; }
-  .bloque h2 { margin-bottom: 1rem; }
+
   .nota { color: var(--tinta-suave); max-width: var(--medida); }
 
   /* Bloque que manda a otro lado: título a la izquierda, salida a la derecha. */
