@@ -4,31 +4,42 @@ nombreLargo: Hotel Ili Ili Boutique
 color: arena
 ornamento: caracol
 
-titular: Ili Ili Boutique, dormir sobre la costa.
-bajada: Hotel boutique dentro del predio, abierto todo el año
-firma: Se duerme donde se veranea.
+# Copy propio de la marca, del video del hotel.
+titular: Amanecé frente al mar.
+bajada: El primer hotel sobre la primera línea de playa
+firma: Amanecé frente al mar.
 intro:
   - >-
-    Ili Ili es la parte que se queda a dormir: un hotel chico dentro del mismo
-    predio, con acceso al balneario en temporada y al restaurante todo el año.
+    Ili Ili es el primer hotel de Mar del Plata sobre la primera línea de playa.
+    Está dentro del complejo, con bajada directa a la arena: entre la cama y el
+    agua no hay una avenida, hay una escalera.
   - >-
-    Quien se casa acá puede alojar a sus invitados a metros del salón, y quien
-    viene a veranear no tiene que salir del predio para cenar.
+    En verano la estadía incluye los servicios del balneario en la playa
+    Waikiki, y el restaurante está a metros, abierto desde las ocho de la mañana.
 
-# Provisoria: recorte de la foto aérea del predio, para que el sitio no
-# muestre bloques vacíos. Reemplazar por una foto propia de la unidad.
+# Provisoria: recorte de la foto aérea del predio.
 hero:
   src: ../../assets/fotos/hotel/predio-hotel.jpg
   alt: >-
-    El edificio del Hotel Ili Ili Boutique dentro del predio, con techo blanco y el parque alrededor
+    El edificio del Hotel Ili Ili Boutique dentro del predio, con techo blanco y
+    el parque alrededor
   foco: centro
-galeria: []
+galeria:
+  - src: ../../assets/fotos/hotel/amanecer-orilla.jpg
+    alt: >-
+      El amanecer reflejado en la arena mojada de la playa Waikiki, con la
+      espuma de la última ola
+  - src: ../../assets/fotos/hotel/amanecer-cielo.jpg
+    alt: >-
+      El cielo del amanecer sobre el horizonte del mar, en tonos naranjas y
+      violetas
 
 estadoFijo: Abierto todo el año
 
 ficha:
-  - { clave: Dentro del predio, valor: A metros del restaurante }
-  - { clave: Balneario, valor: Acceso en temporada }
+  - { clave: Playa, valor: Bajada directa desde el predio }
+  - { clave: Balneario, valor: Servicios incluidos en verano }
+  - { clave: Restaurante, valor: "A metros, desde las 8" }
   - { clave: Cochera, valor: "Sí, dentro del predio" }
 
 ctas:
@@ -53,8 +64,8 @@ derivacion:
   url: "https://iliilihotelboutique.com.ar"
 
 seo:
-  titulo: Hotel Ili Ili Boutique, Mar del Plata
+  titulo: Ili Ili Hotel Boutique, primera línea de playa
   descripcion: >-
-    Hotel boutique frente al mar dentro del complejo Mirador Waikiki, con acceso
-    al balneario y al restaurante. Abierto todo el año.
+    El primer hotel de Mar del Plata sobre la primera línea de playa, dentro del
+    complejo Mirador Waikiki, con bajada directa a la arena y balneario en verano.
 schema: LodgingBusiness
