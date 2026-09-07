@@ -50,6 +50,8 @@ const horario = z.object({
 
 const cta = z.object({
   texto: z.string().min(4),
+  /** Versión corta para la puerta del home, donde la columna es angosta. */
+  textoCorto: z.string().max(22).optional(),
   /** `whatsapp` arma el link desde datos/contacto.yaml. Nunca se hardcodea. */
   tipo: z.enum(["whatsapp", "woki", "externo", "interno"]),
   href: z.string().optional(),

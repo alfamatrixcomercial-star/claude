@@ -66,6 +66,15 @@
   --margen: clamp(1.25rem, 5vw, 3rem);
   --barra: 4rem;
 
+  /* Área táctil mínima: 44 px. Aplica a todo lo que se toca. */
+  --toque: 44px;
+
+  /* Escala de z-index declarada, para no improvisar números sueltos. */
+  --z-base: 1;
+  --z-flotante: 10;
+  --z-fijo: 20;
+  --z-visor: 50;
+
   color-scheme: light;
 }
 

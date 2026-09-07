@@ -28,7 +28,12 @@ ficha:
   - { clave: Producción, valor: Mar Eventos }
 
 ctas:
-  - { texto: Ver el espacio en Mar Eventos, tipo: externo, href: "https://mareventos.com.ar" }
+  - {
+      texto: Ver el espacio en Mar Eventos,
+      textoCorto: Ver el espacio,
+      tipo: externo,
+      href: "https://mareventos.com.ar",
+    }
   - { texto: Consultar por WhatsApp, tipo: whatsapp, contexto: eventos }
 
 listas:

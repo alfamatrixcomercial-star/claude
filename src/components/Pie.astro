@@ -120,15 +120,21 @@ const canales = await Promise.all(
     letter-spacing: 0.2em;
   }
 
-  ul { list-style: none; display: flex; flex-direction: column; gap: 0.55rem; }
-  .sueltos { margin-top: 1rem; }
+  ul { list-style: none; display: flex; flex-direction: column; }
+  .sueltos { margin-top: 0.5rem; }
 
-  a { font-size: 0.925rem; text-decoration: none; }
-  a:hover { text-decoration: underline; }
+  ul a {
+    display: flex;
+    align-items: center;
+    min-height: var(--toque);
+    font-size: 0.9375rem;
+    text-decoration: none;
+  }
+  ul a:hover { text-decoration: underline; }
 
   .tel {
     display: block;
-    font-size: 0.8rem;
+    font-size: 0.8125rem;
     color: var(--tinta-suave);
     font-variant-numeric: tabular-nums;
   }

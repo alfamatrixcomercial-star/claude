@@ -26,7 +26,12 @@ ficha:
   - { clave: Cochera, valor: "Sí, dentro del predio" }
 
 ctas:
-  - { texto: Ver habitaciones y reservar, tipo: externo, href: "https://iliilihotelboutique.com.ar" }
+  - {
+      texto: Ver habitaciones y reservar,
+      textoCorto: Ver habitaciones,
+      tipo: externo,
+      href: "https://iliilihotelboutique.com.ar",
+    }
   - { texto: Consultar por WhatsApp, tipo: whatsapp, contexto: hotel }
 
 listas: []

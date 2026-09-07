@@ -33,7 +33,7 @@ const puertas = await Promise.all(
         temporada: u.data.temporada,
         estadoFijo: u.data.estadoFijo,
       }),
-      cta: primera.texto,
+      cta: primera.textoCorto ?? primera.texto,
       ctaHref: href,
     };
   }),

@@ -78,32 +78,42 @@ const {
     height: 100%;
     min-height: 8rem;
     overflow: hidden;
-    background: color-mix(in srgb, var(--u) 26%, var(--crudo));
-    color: var(--verde-profundo);
+    background: color-mix(in srgb, var(--u) 58%, var(--verde-profundo));
+    color: var(--sobre-oscuro);
+    place-items: end start;
   }
   .pendiente > span {
     position: relative;
-    font-size: 0.7rem;
+    padding: 0.85rem 0.95rem;
+    font-size: 0.6875rem;
     font-weight: 600;
-    letter-spacing: 0.18em;
+    letter-spacing: 0.16em;
     text-transform: uppercase;
-    opacity: 0.72;
-    padding: 0 1rem;
-    text-align: center;
+    opacity: 0.6;
   }
+  /* La pieza del Kit Mar centrada y grande: el bloque se lee como un panel
+     de marca y no como una imagen que no cargó. */
   .pendiente :global(.marca) {
     position: absolute;
-    width: 42%;
-    min-width: 90px;
-    inset: auto auto 8% -6%;
-    opacity: 0.16;
+    width: 46%;
+    min-width: 84px;
+    max-width: 190px;
+    inset: 50% auto auto 50%;
+    translate: -50% -50%;
+    opacity: 0.22;
   }
 
   /* En el hero el bloque es sólo fondo: la etiqueta se corre a una esquina
      y el ornamento baja de intensidad para no pelear con el titular. */
-  .v-hero { place-items: start end; background: color-mix(in srgb, var(--u) 34%, var(--verde-profundo)); }
-  .v-hero > span { padding: 0.9rem 1.1rem; opacity: 0.5; color: var(--sobre-oscuro); text-align: right; }
-  .v-hero :global(.marca) { opacity: 0.09; width: 34%; inset: auto auto -4% 2%; }
+  .v-hero { place-items: start end; background: color-mix(in srgb, var(--u) 30%, var(--verde-profundo)); }
+  .v-hero > span { padding: 0.9rem 1.1rem; opacity: 0.45; text-align: right; }
+  .v-hero :global(.marca) {
+    opacity: 0.1;
+    width: 30%;
+    max-width: 260px;
+    inset: auto auto -6% 2%;
+    translate: none;
+  }
 
   .u-restaurante { --u: var(--verde); }
   .u-hotel { --u: var(--arena); }

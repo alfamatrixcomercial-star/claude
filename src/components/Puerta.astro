@@ -71,7 +71,7 @@ const { id, nombre, bajada, href, estado, cta, ctaHref, foto, ornamento, orden }
 
   .nombre {
     font-family: var(--f-texto);
-    font-size: 0.78rem;
+    font-size: 0.8125rem;
     font-weight: 700;
     letter-spacing: 0.18em;
     text-transform: uppercase;
@@ -94,19 +94,22 @@ const { id, nombre, bajada, href, estado, cta, ctaHref, foto, ornamento, orden }
 
   .cta {
     position: relative;
-    z-index: 1;
-    display: inline-flex;
+    z-index: var(--z-base);
+    display: flex;
     align-items: center;
     justify-content: center;
     gap: 0.5em;
+    min-height: var(--toque);
     margin-top: auto;
-    padding: 0.7em 1em;
+    padding: 0.6em 1em;
     background: var(--accion-fondo);
     color: var(--accion-tinta);
-    font-size: 0.82rem;
+    font-size: 0.9375rem;
     font-weight: 600;
+    line-height: 1.25;
     text-decoration: none;
     text-align: center;
+    transition: background-color 0.2s;
   }
   .cta:hover { background: #a96c22; }
 
@@ -131,8 +134,8 @@ const { id, nombre, bajada, href, estado, cta, ctaHref, foto, ornamento, orden }
   }
 
   @media (max-width: 520px) {
-    .cuerpo { padding: 0.9rem 1rem 1.1rem; }
-    .bajada { font-size: 0.95rem; }
-    .cta { font-size: 0.76rem; padding: 0.65em 0.7em; }
+    .cuerpo { padding: 0.9rem 0.9rem 1rem; gap: 0.5rem; }
+    .bajada { font-size: 1rem; }
+    .cta { font-size: 0.875rem; padding: 0.6em 0.5em; }
   }
 </style>

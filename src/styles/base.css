@@ -47,6 +47,25 @@ img { height: auto; }
 
 a { color: inherit; text-underline-offset: 0.22em; }
 
+/* Sin el retardo de 300 ms del tap en móvil. */
+a, button, summary, [role="button"] { touch-action: manipulation; }
+button, summary, [role="button"] { cursor: pointer; }
+
+/* Todo lo que se toca llega a 44 px de alto sin que cambie el diseño:
+   el área crece por fuera de la caja visible. */
+.toque {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+.toque::before {
+  content: "";
+  position: absolute;
+  inset: 50% 0 auto;
+  translate: 0 -50%;
+  height: max(100%, var(--toque));
+}
+
 :focus-visible {
   outline: 3px solid var(--foco);
   outline-offset: 3px;
@@ -69,7 +88,7 @@ a { color: inherit; text-underline-offset: 0.22em; }
   position: absolute;
   left: var(--margen);
   top: -100px;
-  z-index: 100;
+  z-index: var(--z-visor);
   background: var(--ambar);
   color: var(--verde-profundo);
   font-weight: 600;
