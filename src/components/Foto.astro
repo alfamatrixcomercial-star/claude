@@ -78,7 +78,7 @@ const {
     height: 100%;
     min-height: 8rem;
     overflow: hidden;
-    background: color-mix(in srgb, var(--u) 88%, var(--ink));
+    background: color-mix(in srgb, var(--u) 58%, var(--verde-profundo));
     color: var(--sobre-oscuro);
     place-items: end start;
   }
@@ -89,7 +89,7 @@ const {
     font-weight: 600;
     letter-spacing: 0.16em;
     text-transform: uppercase;
-    opacity: 0.72;
+    opacity: 0.6;
   }
   /* La pieza del Kit Mar centrada y grande: el bloque se lee como un panel
      de marca y no como una imagen que no cargó. */
@@ -105,7 +105,7 @@ const {
 
   /* En el hero el bloque es sólo fondo: la etiqueta se corre a una esquina
      y el ornamento baja de intensidad para no pelear con el titular. */
-  .v-hero { place-items: start end; background: color-mix(in srgb, var(--u) 55%, var(--ink)); }
+  .v-hero { place-items: start end; background: color-mix(in srgb, var(--u) 30%, var(--verde-profundo)); }
   .v-hero > span { padding: 0.9rem 1.1rem; opacity: 0.45; text-align: right; }
   .v-hero :global(.marca) {
     opacity: 0.1;
@@ -115,9 +115,9 @@ const {
     translate: none;
   }
 
-  .u-restaurante { --u: var(--u-restaurante); }
-  .u-hotel { --u: var(--u-hotel); }
-  .u-balneario { --u: var(--u-balneario); }
-  .u-eventos { --u: var(--u-eventos); }
-  .u-complejo { --u: var(--primary); }
+  .u-restaurante { --u: var(--verde); }
+  .u-hotel { --u: var(--arena); }
+  .u-balneario { --u: var(--teal); }
+  .u-eventos { --u: var(--terracota); }
+  .u-complejo { --u: var(--teal); }
 </style>
