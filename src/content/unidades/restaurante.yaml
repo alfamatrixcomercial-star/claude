@@ -1,0 +1,73 @@
+orden: 1
+nombre: Restaurante
+nombreLargo: Restaurante Mirador Waikiki
+color: verde
+ornamento: vieira
+
+titular: Cocina de mar y fuego, sobre las rocas.
+bajada: Almuerzo, cena y cena show frente al mar
+firma: Una propuesta diferente, frente al mar.
+intro:
+  - >-
+    El salón mira al agua por tres lados. Se come mirando la rompiente, con la
+    misma vista con la que abrimos en 1999 y con una carta que cambia cuando
+    cambia lo que llega del puerto.
+  - >-
+    Los viernes y sábados el salón se arma para la cena show, con entrada sin
+    cargo y arranque a las 22. Los fines de semana al mediodía la cocina pasa a
+    brunch. # TODO: confirmar propuesta gastronómica y estilo de cocina
+
+hero: null # TODO: foto del salón con el mar detrás, apaisada
+galeria: []
+
+horarios:
+  - dias: [1, 2, 3, 4]
+    etiqueta: Lunes a jueves
+    franjas: [{ desde: "20:00", hasta: "23:59" }]
+  - dias: [5, 6]
+    etiqueta: Viernes y sábados
+    franjas: [{ desde: "12:00", hasta: "16:00" }, { desde: "20:00", hasta: "23:59" }]
+    nota: Cena show desde las 22, entrada sin cargo.
+  - dias: [0]
+    etiqueta: Domingos
+    franjas: [{ desde: "10:00", hasta: "15:00" }]
+    nota: Brunch a la carta.
+# TODO: confirmar días y horarios reales, y si cambian en temporada
+
+ficha:
+  - { clave: Vista, valor: Al mar por tres lados }
+  - { clave: Terraza, valor: Sí, con reserva previa } # TODO: confirmar
+  - { clave: Grupos, valor: Hasta 40 personas } # TODO: confirmar capacidad
+  - { clave: Cena show, valor: Viernes y sábados desde las 22 }
+
+ctas:
+  - { texto: Reservar mesa, tipo: woki, contexto: restaurante }
+  - { texto: Reservar por WhatsApp, tipo: whatsapp, contexto: restaurante }
+
+# Sin precios por decisión del cliente: el esquema directamente no los admite.
+carta:
+  - seccion: Entradas
+    items:
+      - { nombre: Rabas de la casa, descripcion: con alioli de limón y pimentón ahumado }
+      - { nombre: Empanadas de camarón } # TODO: carta real
+  - seccion: Del mar
+    items:
+      - { nombre: Pesca del día, descripcion: según lo que llegue del puerto }
+      - { nombre: Cazuela de mariscos }
+  - seccion: De la parrilla
+    items:
+      - { nombre: Bife de chorizo }
+      - { nombre: Provoleta al romero }
+  - seccion: Postres
+    items:
+      - { nombre: Flan casero con dulce de leche }
+# TODO: reemplazar por la carta real. Un plato sin descripción es válido.
+
+listas: []
+
+seo:
+  titulo: Restaurante frente al mar en Mar del Plata
+  descripcion: >-
+    Cocina de mar y fuego sobre las rocas, con vista al océano por tres lados.
+    Cena show los viernes y sábados. Reservas por Woki o WhatsApp.
+schema: Restaurant

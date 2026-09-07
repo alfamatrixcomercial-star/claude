@@ -398,3 +398,34 @@ hace el compilador en vez de un panel.
 
 Del brandboard ya tomé el WhatsApp **223 546 6065** (aparece en la pieza de Cena Show).
 Lo asumo como el del restaurante hasta que me digas lo contrario.
+
+---
+
+## Apéndice — Decisiones tomadas durante la implementación
+
+El sitio está construido. Tres cosas cambiaron respecto de este plan, y
+conviene que queden escritas:
+
+1. **Tailwind quedó afuera.** Astro alcanza los estilos por componente y les
+   pone un hash, así que el problema que el brief marcaba —selectores que se
+   cancelan entre sí en los espaciados entre secciones— ya está resuelto de
+   fábrica. Agregar Tailwind sumaba una dependencia y un paso de build sin
+   comprar nada a cambio. Quedó CSS propio con `src/styles/tokens.css` como
+   única fuente de verdad.
+
+2. **En móvil las cuatro puertas van en grilla de 2×2, no en franjas
+   apiladas.** Apiladas, la cuarta unidad quedaba fuera de la primera
+   pantalla. En 2×2 entran las cuatro juntas, que es el principio que había
+   que defender.
+
+3. **El logo y los recursos gráficos salieron del PDF del brandboard.** El
+   isologo, la onda del Kit Pincel que separa las secciones y las cuatro
+   piezas del Kit Mar están extraídos como vectores limpios y se pintan con
+   `currentColor`. Son los archivos reales de la marca, no aproximaciones.
+   Igual conviene reemplazarlos por los originales del estudio.
+
+Además: **Eventos quedó en Opción B**, como decidiste. La página muestra el
+espacio y deriva la producción a mareventos.com.ar. Mantengo mi recomendación
+de que la Opción A capturaría mejor la búsqueda de «salón para casamientos
+frente al mar Mar del Plata», pero el sitio está armado de manera que pasar de
+B a A es agregar contenido en `eventos.yaml`, no rehacer nada.

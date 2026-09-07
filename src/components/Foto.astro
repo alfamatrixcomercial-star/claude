@@ -1,0 +1,113 @@
+---
+/**
+ * Una foto con dimensiones explícitas, formatos modernos y lazy salvo en el
+ * hero. Cuando todavía no hay foto cargada, en vez de romper o de poner un
+ * stock genérico, el sitio muestra un marcador honesto con el color de la
+ * unidad. El día que llega la foto, se carga en el YAML y nada más cambia.
+ */
+import { Picture } from "astro:assets";
+import Ornamento from "./Ornamento.astro";
+
+interface Props {
+  foto: { src: ImageMetadata; alt: string; foco?: "centro" | "arriba" | "abajo" } | null;
+  unidad?: "restaurante" | "hotel" | "balneario" | "eventos" | "complejo";
+  ornamento?: "caracol" | "vieira" | "ammonite" | "coral";
+  pendiente?: string;
+  /** En el hero la etiqueta va al margen: si no, choca con el titular. */
+  variante?: "normal" | "hero";
+  prioridad?: boolean;
+  anchos?: number[];
+  sizes?: string;
+  class?: string;
+}
+const {
+  foto,
+  unidad = "complejo",
+  ornamento = "vieira",
+  pendiente = "Foto pendiente",
+  variante = "normal",
+  prioridad = false,
+  anchos = [480, 800, 1200, 1800],
+  sizes = "100vw",
+  class: clase,
+} = Astro.props;
+---
+
+{
+  foto ? (
+    <Picture
+      src={foto.src}
+      alt={foto.alt}
+      formats={["avif", "webp"]}
+      fallbackFormat="jpeg"
+      widths={anchos}
+      sizes={sizes}
+      loading={prioridad ? "eager" : "lazy"}
+      fetchpriority={prioridad ? "high" : "auto"}
+      decoding={prioridad ? "sync" : "async"}
+      pictureAttributes={{ class: "envase" }}
+      class:list={["foto", `foco-${foto.foco ?? "centro"}`, clase]}
+    />
+  ) : (
+    <div
+      class:list={["pendiente", `u-${unidad}`, `v-${variante}`, clase]}
+      role="img"
+      aria-label={pendiente}
+    >
+      <Ornamento pieza={ornamento} class="marca" />
+      <span>{pendiente}</span>
+    </div>
+  )
+}
+
+<style>
+  .envase { display: contents; }
+  .foto {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .foco-arriba { object-position: 50% 22%; }
+  .foco-abajo { object-position: 50% 78%; }
+
+  .pendiente {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: 100%;
+    height: 100%;
+    min-height: 8rem;
+    overflow: hidden;
+    background: color-mix(in srgb, var(--u) 26%, var(--crudo));
+    color: var(--verde-profundo);
+  }
+  .pendiente > span {
+    position: relative;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    opacity: 0.72;
+    padding: 0 1rem;
+    text-align: center;
+  }
+  .pendiente :global(.marca) {
+    position: absolute;
+    width: 42%;
+    min-width: 90px;
+    inset: auto auto 8% -6%;
+    opacity: 0.16;
+  }
+
+  /* En el hero el bloque es sólo fondo: la etiqueta se corre a una esquina
+     y el ornamento baja de intensidad para no pelear con el titular. */
+  .v-hero { place-items: start end; background: color-mix(in srgb, var(--u) 34%, var(--verde-profundo)); }
+  .v-hero > span { padding: 0.9rem 1.1rem; opacity: 0.5; color: var(--sobre-oscuro); text-align: right; }
+  .v-hero :global(.marca) { opacity: 0.09; width: 34%; inset: auto auto -4% 2%; }
+
+  .u-restaurante { --u: var(--verde); }
+  .u-hotel { --u: var(--arena); }
+  .u-balneario { --u: var(--teal); }
+  .u-eventos { --u: var(--terracota); }
+  .u-complejo { --u: var(--teal); }
+</style>

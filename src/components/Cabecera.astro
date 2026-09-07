@@ -1,0 +1,108 @@
+---
+import isologo from "~/assets/marca/isologo.svg?raw";
+import { waLink } from "~/lib/contacto";
+
+interface Props { unidadActiva?: string; sobreFoto?: boolean }
+const { unidadActiva, sobreFoto = false } = Astro.props;
+
+const enlaces = [
+  { id: "restaurante", texto: "Restaurante", href: "/restaurante" },
+  { id: "hotel", texto: "Hotel", href: "/hotel" },
+  { id: "balneario", texto: "Balneario", href: "/balneario" },
+  { id: "eventos", texto: "Eventos", href: "/eventos" },
+  { id: "galeria", texto: "Galería", href: "/galeria" },
+  { id: "contacto", texto: "Contacto", href: "/contacto" },
+];
+const wa = await waLink("general");
+---
+
+<header class:list={["cabecera", { "sobre-foto": sobreFoto }]}>
+  <a href="/" class="logo" aria-label="Mirador Waikiki, inicio">
+    <span set:html={isologo} />
+  </a>
+
+  <nav aria-label="Secciones del complejo">
+    <ul>
+      {
+        enlaces.map((e) => (
+          <li>
+            <a
+              href={e.href}
+              class:list={[`u-${e.id}`, { activo: unidadActiva === e.id }]}
+              aria-current={unidadActiva === e.id ? "page" : undefined}
+            >
+              {e.texto}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </nav>
+
+  <a class="reservar" href={wa} target="_blank" rel="noopener">Reservar</a>
+</header>
+
+<style>
+  .cabecera {
+    display: flex;
+    align-items: center;
+    gap: clamp(0.75rem, 2vw, 2rem);
+    padding: 0.7rem var(--margen);
+    background: var(--fondo);
+    border-bottom: 1px solid var(--linea);
+  }
+
+  .logo {
+    flex: none;
+    display: block;
+    color: var(--tinta);
+    width: clamp(88px, 11vw, 124px);
+  }
+  .logo :global(svg) { width: 100%; height: auto; }
+
+  nav { flex: 1 1 auto; min-width: 0; overflow-x: auto; scrollbar-width: none; }
+  nav::-webkit-scrollbar { display: none; }
+
+  ul {
+    display: flex;
+    gap: clamp(0.75rem, 1.8vw, 1.6rem);
+    list-style: none;
+    justify-content: flex-end;
+  }
+  li { flex: none; }
+
+  nav a {
+    display: block;
+    padding: 0.35rem 0;
+    font-size: 0.875rem;
+    font-weight: 500;
+    text-decoration: none;
+    white-space: nowrap;
+    border-bottom: 2px solid transparent;
+  }
+  nav a:hover { border-bottom-color: var(--linea); }
+  /* La unidad activa se marca con su propio color: la señalética del sitio. */
+  nav a.activo { font-weight: 600; border-bottom-color: var(--u, var(--tinta)); }
+  .u-restaurante { --u: var(--u-restaurante); }
+  .u-hotel { --u: var(--u-hotel); }
+  .u-balneario { --u: var(--u-balneario); }
+  .u-eventos { --u: var(--u-eventos); }
+
+  .reservar {
+    flex: none;
+    background: var(--accion-fondo);
+    color: var(--accion-tinta);
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-decoration: none;
+    padding: 0.6rem 1.1rem;
+  }
+  .reservar:hover { background: #a96c22; }
+
+  @media (max-width: 860px) {
+    .cabecera { flex-wrap: wrap; }
+    nav { order: 3; flex-basis: 100%; margin: 0 calc(var(--margen) * -1); padding: 0 var(--margen); }
+    ul { justify-content: flex-start; }
+    .reservar { margin-left: auto; }
+  }
+</style>

@@ -1,0 +1,377 @@
+---
+import type { GetStaticPaths } from "astro";
+import { getCollection } from "astro:content";
+import type { CollectionEntry } from "astro:content";
+import Base from "~/layouts/Base.astro";
+import Onda from "~/components/Onda.astro";
+import Foto from "~/components/Foto.astro";
+import Boton from "~/components/Boton.astro";
+import Estado from "~/components/Estado.astro";
+import Ficha from "~/components/Ficha.astro";
+import Carta from "~/components/Carta.astro";
+import Galeria from "~/components/Galeria.astro";
+import Cruce from "~/components/Cruce.astro";
+import BarraFija from "~/components/BarraFija.astro";
+import Ornamento from "~/components/Ornamento.astro";
+import { estadoDeUnidad } from "~/lib/estado";
+import { datosSitio, waLink, wokiLink } from "~/lib/contacto";
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const unidades = await getCollection("unidades");
+  return unidades.map((u) => ({ params: { unidad: u.id }, props: { u } }));
+};
+
+type Props = { u: CollectionEntry<"unidades"> };
+const { u } = Astro.props as Props;
+const d = u.data;
+const id = u.id as "restaurante" | "hotel" | "balneario" | "eventos";
+
+const sitio = await datosSitio();
+const woki = await wokiLink();
+
+/** Resuelve cada CTA a su destino real. Ningún wa.me escrito a mano. */
+const ctas = (
+  await Promise.all(
+    d.ctas.map(async (c) => {
+      if (c.tipo === "woki") return woki ? { texto: c.texto, href: woki } : null;
+      if (c.tipo === "externo") return c.href ? { texto: c.texto, href: c.href } : null;
+      if (c.tipo === "whatsapp") return { texto: c.texto, href: await waLink(id) };
+      return { texto: c.texto, href: c.href ?? "/contacto" };
+    }),
+  )
+).filter((c): c is { texto: string; href: string } => c !== null);
+
+const estado = estadoDeUnidad({
+  horarios: d.horarios,
+  temporada: d.temporada,
+  estadoFijo: d.estadoFijo,
+});
+
+const url = new URL(`/${u.id}`, Astro.site).href;
+const datosEstructurados = {
+  "@context": "https://schema.org",
+  "@type": d.schema === "BeachResort" ? "LocalBusiness" : d.schema,
+  name: d.nombreLargo,
+  description: d.seo.descripcion,
+  url,
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: sitio.direccion.calle,
+    addressLocality: sitio.direccion.localidad,
+    addressRegion: sitio.direccion.provincia,
+    postalCode: sitio.direccion.codigoPostal,
+    addressCountry: sitio.direccion.pais,
+  },
+  geo: {
+    "@type": "GeoCoordinates",
+    latitude: sitio.coordenadas.lat,
+    longitude: sitio.coordenadas.lng,
+  },
+  telephone: `+${sitio.contacto[id].whatsapp}`,
+  parentOrganization: { "@type": "LocalBusiness", name: sitio.nombre, url: Astro.site?.href },
+  ...(d.schema === "Restaurant" && d.carta.length
+    ? {
+        servesCuisine: "Cocina de mar",
+        hasMenu: {
+          "@type": "Menu",
+          hasMenuSection: d.carta.map((s) => ({
+            "@type": "MenuSection",
+            name: s.seccion,
+            hasMenuItem: s.items.map((i) => ({
+              "@type": "MenuItem",
+              name: i.nombre,
+              ...(i.descripcion ? { description: i.descripcion } : {}),
+            })),
+          })),
+        },
+        openingHoursSpecification: d.horarios.flatMap((h) =>
+          h.franjas.map((f) => ({
+            "@type": "OpeningHoursSpecification",
+            dayOfWeek: h.dias.map(
+              (n) =>
+                ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"][n],
+            ),
+            opens: f.desde,
+            closes: f.hasta,
+          })),
+        ),
+      }
+    : {}),
+};
+---
+
+<Base
+  titulo={d.seo.titulo}
+  descripcion={d.seo.descripcion}
+  unidadActiva={u.id}
+  datosEstructurados={datosEstructurados}
+>
+  <div class={`unidad u-${id}`}>
+    <section class="hero" data-hero>
+      <div class="fondo">
+        <Foto
+          foto={d.hero}
+          unidad={id}
+          ornamento={d.ornamento}
+          pendiente={`Foto principal de ${d.nombre.toLowerCase()} pendiente`}
+          variante="hero"
+          prioridad
+          sizes="100vw"
+        />
+      </div>
+      <div class="texto">
+        <p class="etiqueta">{d.nombre}</p>
+        <h1>{d.titular}</h1>
+        <Estado estado={estado} unidad={id} class="estado-hero" />
+        <div class="acciones">
+          {
+            ctas.map((c, i) => (
+              <Boton href={c.href} jerarquia={i === 0 ? "primaria" : "secundaria"}>
+                {c.texto}
+              </Boton>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <Onda />
+
+    <section class="cuerpo">
+      <div class="interior">
+        <div class="relato">
+          <Ornamento pieza={d.ornamento} class="fondo-orn" />
+          {d.firma && <p class="firma">{d.firma}</p>}
+          {d.intro.map((p) => <p class="parrafo">{p}</p>)}
+        </div>
+        <Ficha horarios={d.horarios} ficha={d.ficha} />
+      </div>
+    </section>
+
+    {
+      d.carta.length > 0 && (
+        <section class="bloque">
+          <div class="interior-simple">
+            <h2>La carta</h2>
+            <p class="nota">
+              Cambia con la temporada y con lo que llega del puerto. Los precios se
+              consultan en el salón o por WhatsApp.
+            </p>
+            <Carta carta={d.carta} />
+          </div>
+        </section>
+      )
+    }
+
+    {
+      d.habitaciones.length > 0 && (
+        <section class="bloque alt">
+          <div class="interior-simple">
+            <h2>Las habitaciones</h2>
+            <ul class="habitaciones">
+              {d.habitaciones.map((h) => (
+                <li>
+                  <h3>{h.nombre}</h3>
+                  <p class="capacidad">{h.capacidad}</p>
+                  <p class="desc">{h.descripcion}</p>
+                  {h.servicios.length > 0 && (
+                    <ul class="servicios">
+                      {h.servicios.map((s) => <li>{s}</li>)}
+                    </ul>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+      )
+    }
+
+    {
+      d.listas.length > 0 && (
+        <section class="bloque">
+          <div class="interior-simple listas">
+            {d.listas.map((l) => (
+              <div>
+                <h2>{l.titulo}</h2>
+                <ul class="lista">
+                  {l.items.map((i) => <li>{i}</li>)}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </section>
+      )
+    }
+
+    {
+      d.derivacion && (
+        <section class="derivacion oscuro">
+          <div class="interior-simple">
+            <h2>{d.derivacion.titulo}</h2>
+            <p class="parrafo">{d.derivacion.texto}</p>
+            <Boton href={d.derivacion.url} externo>{d.derivacion.texto_cta}</Boton>
+          </div>
+        </section>
+      )
+    }
+
+    {
+      d.galeria.length > 0 && (
+        <section class="bloque">
+          <div class="interior-simple">
+            <Galeria fotos={d.galeria} unidad={id} titulo="El lugar" />
+          </div>
+        </section>
+      )
+    }
+
+    <Cruce excepto={u.id} />
+  </div>
+
+  {ctas[0] && <BarraFija texto={ctas[0].texto} href={ctas[0].href} />}
+</Base>
+
+<style>
+  .u-restaurante { --u: var(--u-restaurante); --u-txt: var(--u-restaurante-txt); }
+  .u-hotel { --u: var(--u-hotel); --u-txt: var(--u-hotel-txt); }
+  .u-balneario { --u: var(--u-balneario); --u-txt: var(--u-balneario-txt); }
+  .u-eventos { --u: var(--u-eventos); --u-txt: var(--u-eventos-txt); }
+
+  .hero { position: relative; isolation: isolate; border-left: 5px solid var(--u); }
+  .fondo { position: absolute; inset: 0; z-index: -1; background: var(--verde-profundo); }
+  .fondo::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to top,
+      rgb(5 35 25 / 0.9) 0%,
+      rgb(5 35 25 / 0.72) 45%,
+      rgb(5 35 25 / 0.45) 100%
+    );
+  }
+  .fondo :global(img) { width: 100%; height: 100%; object-fit: cover; }
+  .fondo :global(.pendiente) { height: 100%; }
+
+  .texto {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-end;
+    gap: 1rem;
+    max-width: var(--ancho);
+    min-height: clamp(19rem, 44vh, 27rem);
+    margin-inline: auto;
+    padding: var(--paso) var(--margen) var(--paso-corto);
+    color: var(--sobre-oscuro);
+  }
+  .etiqueta {
+    font-size: var(--t-eyebrow);
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--arena);
+  }
+  h1 { max-width: 18ch; }
+  /* El texto sobre foto se lee siempre: gana el color claro, no el de
+     cuerpo, que sobre el velo quedaba invisible. */
+  .texto :global(.estado),
+  .texto :global(.estado .detalle) { color: var(--sobre-oscuro); }
+  .acciones { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 0.5rem; }
+  .acciones :global(.secundaria) { color: var(--sobre-oscuro); border-color: var(--sobre-oscuro); }
+  .acciones :global(.secundaria:hover) { background: var(--sobre-oscuro); color: var(--verde-profundo); }
+
+  .cuerpo { padding: var(--paso) var(--margen); }
+  .interior {
+    display: grid;
+    gap: clamp(2rem, 5vw, 4rem);
+    max-width: var(--ancho);
+    margin-inline: auto;
+  }
+  @media (min-width: 860px) {
+    .interior { grid-template-columns: 1.55fr 1fr; }
+  }
+
+  .relato { position: relative; display: flex; flex-direction: column; gap: 1.25rem; }
+  .relato :global(.fondo-orn) {
+    position: absolute;
+    right: -2%;
+    bottom: -8%;
+    width: 34%;
+    max-width: 180px;
+    color: var(--u-txt);
+    z-index: -1;
+  }
+  .firma {
+    font-family: var(--f-firma);
+    font-style: italic;
+    font-size: var(--t-h2);
+    line-height: 1.2;
+    max-width: 18ch;
+    margin-bottom: 0.5rem;
+  }
+  .parrafo { max-width: var(--medida); }
+
+  .bloque { padding: var(--paso) var(--margen); }
+  .bloque.alt { background: var(--fondo-alt); }
+  .interior-simple { max-width: var(--ancho); margin-inline: auto; }
+  .bloque h2 { margin-bottom: 1rem; }
+  .nota { color: var(--tinta-suave); max-width: var(--medida); margin-bottom: 2rem; }
+
+  .habitaciones {
+    display: grid;
+    gap: 1px;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    background: var(--linea);
+    list-style: none;
+    margin-top: 2rem;
+  }
+  .habitaciones > li {
+    background: var(--fondo-alt);
+    border-top: 3px solid var(--u);
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+  .capacidad {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--u-txt);
+  }
+  .desc { font-size: 0.95rem; }
+  .servicios {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    list-style: none;
+    margin-top: auto;
+    padding-top: 0.75rem;
+  }
+  .servicios li {
+    font-size: 0.78rem;
+    padding: 0.25rem 0.6rem;
+    border: 1px solid var(--linea);
+    color: var(--tinta-suave);
+  }
+
+  .listas {
+    display: grid;
+    gap: clamp(2rem, 5vw, 4rem);
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  }
+  .lista { list-style: none; display: flex; flex-direction: column; }
+  .lista li { padding: 0.7rem 0; border-bottom: 1px solid var(--linea); }
+
+  .derivacion { background: var(--fondo); color: var(--tinta); padding: var(--paso) var(--margen); }
+  .derivacion .interior-simple {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.25rem;
+  }
+  .derivacion .parrafo { color: var(--tinta-suave); }
+</style>

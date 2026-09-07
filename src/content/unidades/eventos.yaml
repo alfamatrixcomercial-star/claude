@@ -1,0 +1,57 @@
+orden: 4
+nombre: Eventos
+nombreLargo: Eventos en Mirador Waikiki
+color: terracota
+ornamento: ammonite
+
+titular: Casarse con el mar de fondo.
+bajada: Casamientos y eventos privados frente al mar
+firma: Se celebra donde se veranea.
+intro:
+  - >-
+    El complejo entero se puede reservar para un evento: el salón con vista a la
+    rompiente, las terrazas y el parque sobre la costa. Los invitados de afuera
+    pueden alojarse en el hotel del mismo predio.
+  - >-
+    La producción integral de casamientos y eventos sociales la hace Mar
+    Eventos, que trabaja acá hace años y conoce el lugar de memoria.
+
+hero: null # TODO: foto de un montaje real al atardecer
+galeria: []
+
+estadoFijo: Agenda 2026 abierta
+
+ficha:
+  - { clave: Tipos de evento, valor: Casamientos, corporativos y sociales }
+  - { clave: Capacidad, valor: A confirmar según montaje } # TODO
+  - { clave: Alojamiento, valor: Hotel Ili Ili en el mismo predio }
+  - { clave: Producción, valor: Mar Eventos }
+
+ctas:
+  - { texto: Ver el espacio en Mar Eventos, tipo: externo, href: "https://mareventos.com.ar" }
+  - { texto: Consultar por WhatsApp, tipo: whatsapp, contexto: eventos }
+
+listas:
+  - titulo: Espacios del predio
+    items:
+      - Salón principal con vista al mar
+      - Terraza sobre la costa
+      - Parque frente a la rompiente
+      - Hotel Ili Ili para los invitados
+# TODO: confirmar espacios, capacidades por montaje y qué incluye el servicio
+
+derivacion:
+  titulo: La producción la hace Mar Eventos
+  texto: >-
+    Acá mostramos el lugar. La propuesta completa (producción, montaje, catering
+    y coordinación del día) se arma con Mar Eventos, que conoce el predio y
+    trabaja en él hace años.
+  texto_cta: Ver casamientos en mareventos.com.ar
+  url: "https://mareventos.com.ar"
+
+seo:
+  titulo: Casamientos frente al mar en Mar del Plata
+  descripcion: >-
+    Salón, terraza y parque sobre la costa para casamientos y eventos privados,
+    con hotel en el mismo predio. Producción a cargo de Mar Eventos.
+schema: EventVenue

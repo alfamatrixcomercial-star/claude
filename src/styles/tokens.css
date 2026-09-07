@@ -1,0 +1,85 @@
+/* ─────────────────────────────────────────────────────────────────────────
+   Tokens de Mirador Waikiki. Todos los colores salen del brandboard; lo
+   que se define acá es el ROL de cada uno.
+
+   Reglas duras del sistema, que no se rompen en ningún componente:
+   · El ámbar es sólo acción. Si algo es ámbar, se puede tocar.
+   · Nunca texto blanco sobre ámbar (3.26). El botón es ámbar con tinta
+     verde profundo (5.11).
+   · No hay una sola sombra en el sitio. Las secciones se separan por
+     cambio de material y por la onda de pincel.
+   ───────────────────────────────────────────────────────────────────────── */
+
+:root {
+  /* Paleta del manual */
+  --verde-profundo: #052319;
+  --hueso: #f1f1f1;
+  --crudo: #eeebdb;
+  --verde: #4c6f39;
+  --teal: #5d878a;
+  --arena: #bda38c;
+  --terracota: #a2745e;
+  --ambar: #c3802f;
+  /* Derivados, sólo por contraste sobre fondo claro */
+  --teal-700: #53797c;
+  --terracota-700: #916854;
+  --arena-700: #847262;
+
+  /* Roles */
+  --fondo: var(--hueso);
+  --fondo-alt: var(--crudo);
+  --tinta: var(--verde-profundo);
+  --tinta-suave: #3d4a44;
+  --linea: #d5d2c6;
+  --linea-fuerte: var(--verde-profundo);
+  --sobre-oscuro: #efede4;
+  --sobre-oscuro-suave: #a8bcb0;
+  --accion-fondo: var(--ambar);
+  --accion-tinta: var(--verde-profundo);
+  --foco: var(--ambar);
+
+  /* Color por unidad: la señalética del sitio */
+  --u-restaurante: var(--verde);
+  --u-hotel: var(--arena);
+  --u-balneario: var(--teal);
+  --u-eventos: var(--terracota);
+  /* Variante legible como texto sobre fondo claro */
+  --u-restaurante-txt: var(--verde);
+  --u-hotel-txt: var(--arena-700);
+  --u-balneario-txt: var(--teal-700);
+  --u-eventos-txt: var(--terracota-700);
+
+  /* Escala tipográfica fluida */
+  --t-eyebrow: 0.72rem;
+  --t-cuerpo: clamp(1.0625rem, 0.4vw + 0.98rem, 1.125rem);
+  --t-guia: clamp(1.125rem, 0.9vw + 0.95rem, 1.375rem);
+  --t-h3: clamp(1.25rem, 1vw + 1rem, 1.5rem);
+  --t-h2: clamp(1.75rem, 3vw + 1rem, 2.75rem);
+  --t-h1: clamp(2.125rem, 5.2vw + 0.8rem, 4.25rem);
+  --t-display: clamp(2.5rem, 7vw + 0.6rem, 5.25rem);
+
+  /* Ritmo vertical y medidas */
+  --paso: clamp(3.5rem, 7vw, 6.5rem);
+  --paso-corto: clamp(2rem, 4vw, 3rem);
+  --medida: 66ch;
+  --ancho: 1140px;
+  --margen: clamp(1.25rem, 5vw, 3rem);
+  --barra: 4rem;
+
+  color-scheme: light;
+}
+
+/* Superficie oscura: el mismo sistema, invertido. No es un modo oscuro
+   del navegador, es un material del sitio. */
+.oscuro {
+  --fondo: var(--verde-profundo);
+  --fondo-alt: #0a3226;
+  --tinta: var(--sobre-oscuro);
+  --tinta-suave: var(--sobre-oscuro-suave);
+  --linea: #1b4034;
+  --linea-fuerte: #7fa08f;
+  --u-restaurante-txt: #7ba05f;
+  --u-hotel-txt: #cfb79f;
+  --u-balneario-txt: #7fa9ac;
+  --u-eventos-txt: #c2907a;
+}

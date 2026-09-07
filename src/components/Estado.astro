@@ -1,0 +1,60 @@
+---
+/**
+ * El estado real de la unidad hoy: abierto, cerrado, temporada. Se calcula
+ * desde los horarios del YAML, no se escribe a mano en ningún lado.
+ */
+import type { Estado } from "~/lib/estado";
+
+interface Props {
+  estado: Estado;
+  unidad: "restaurante" | "hotel" | "balneario" | "eventos";
+  class?: string;
+}
+const { estado, unidad, class: clase } = Astro.props;
+---
+
+{
+  estado.texto && (
+    <p class:list={["estado", `u-${unidad}`, { off: !estado.activo }, clase]}>
+      <span class="punto" aria-hidden="true" />
+      <span>
+        {estado.texto}
+        {estado.detalle && <span class="detalle">{estado.detalle}</span>}
+      </span>
+    </p>
+  )
+}
+
+<style>
+  .estado {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.55em;
+    font-size: 0.875rem;
+    font-weight: 500;
+    line-height: 1.4;
+    color: var(--tinta-suave);
+  }
+  .punto {
+    flex: none;
+    width: 0.5rem;
+    height: 0.5rem;
+    margin-top: 0.42em;
+    border-radius: 50%;
+    background: var(--u);
+  }
+  .off .punto {
+    background: transparent;
+    border: 1.5px solid var(--u);
+  }
+  .detalle {
+    display: block;
+    font-weight: 400;
+    opacity: 0.85;
+  }
+
+  .u-restaurante { --u: var(--u-restaurante); }
+  .u-hotel { --u: var(--u-hotel); }
+  .u-balneario { --u: var(--u-balneario); }
+  .u-eventos { --u: var(--u-eventos); }
+</style>

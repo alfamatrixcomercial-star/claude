@@ -1,0 +1,141 @@
+---
+import isologo from "~/assets/marca/isologo.svg?raw";
+import { datosSitio, waLink, telefonoLegible } from "~/lib/contacto";
+
+const sitio = await datosSitio();
+const unidades = [
+  { id: "restaurante", texto: "Restaurante", href: "/restaurante" },
+  { id: "hotel", texto: "Hotel Ili Ili Boutique", href: "/hotel" },
+  { id: "balneario", texto: "Balneario", href: "/balneario" },
+  { id: "eventos", texto: "Eventos", href: "/eventos" },
+] as const;
+
+const canales = await Promise.all(
+  unidades.map(async (u) => ({
+    ...u,
+    wa: await waLink(u.id),
+    tel: telefonoLegible(sitio.contacto[u.id].whatsapp),
+  })),
+);
+---
+
+<footer class="pie oscuro">
+  <div class="interior">
+    <div class="marca">
+      <span class="iso" set:html={isologo} />
+      <p class="lema">{sitio.firma}</p>
+      <p class="desde">Mar del Plata · desde {sitio.desde}</p>
+    </div>
+
+    <nav aria-label="Unidades del complejo">
+      <h2>El complejo</h2>
+      <ul>
+        {canales.map((u) => <li><a href={u.href}>{u.texto}</a></li>)}
+      </ul>
+    </nav>
+
+    <div>
+      <h2>WhatsApp por unidad</h2>
+      <ul>
+        {
+          canales.map((u) => (
+            <li>
+              <a href={u.wa} target="_blank" rel="noopener">
+                {u.texto} <span class="tel">{u.tel}</span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    <div>
+      <h2>Dónde estamos</h2>
+      <address>
+        {sitio.direccion.calle}<br />
+        {sitio.direccion.localidad}, {sitio.direccion.provincia}
+      </address>
+      <ul class="sueltos">
+        <li><a href="/contacto">Cómo llegar</a></li>
+        <li><a href="/galeria">Galería</a></li>
+        <li><a href="/legales">Legales</a></li>
+      </ul>
+      {
+        sitio.redes.length > 0 && (
+          <ul class="sueltos">
+            {sitio.redes.map((r) => (
+              <li><a href={r.url} target="_blank" rel="noopener">{r.nombre}</a></li>
+            ))}
+          </ul>
+        )
+      }
+    </div>
+  </div>
+</footer>
+
+<style>
+  .pie {
+    background: var(--fondo);
+    color: var(--tinta);
+    padding: var(--paso) var(--margen) calc(var(--paso) / 1.6);
+  }
+  .interior {
+    max-width: var(--ancho);
+    margin-inline: auto;
+    display: grid;
+    gap: clamp(1.75rem, 4vw, 3rem);
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  }
+  .marca { grid-column: 1 / -1; }
+  @media (min-width: 900px) {
+    .marca { grid-column: auto; }
+  }
+
+  .iso { display: block; width: 128px; color: var(--tinta); }
+  .iso :global(svg) { width: 100%; height: auto; }
+
+  .lema {
+    font-family: var(--f-firma);
+    font-style: italic;
+    font-size: 1.2rem;
+    margin-top: 1rem;
+    max-width: 20ch;
+  }
+  .desde {
+    font-size: 0.75rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--tinta-suave);
+    margin-top: 0.75rem;
+  }
+
+  h2 {
+    font-family: var(--f-texto);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--tinta-suave);
+    margin-bottom: 0.9rem;
+    letter-spacing: 0.2em;
+  }
+
+  ul { list-style: none; display: flex; flex-direction: column; gap: 0.55rem; }
+  .sueltos { margin-top: 1rem; }
+
+  a { font-size: 0.925rem; text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  .tel {
+    display: block;
+    font-size: 0.8rem;
+    color: var(--tinta-suave);
+    font-variant-numeric: tabular-nums;
+  }
+
+  address {
+    font-style: normal;
+    font-size: 0.925rem;
+    line-height: 1.55;
+  }
+</style>

@@ -1,0 +1,62 @@
+orden: 2
+nombre: Hotel
+nombreLargo: Hotel Ili Ili Boutique
+color: arena
+ornamento: caracol
+
+titular: Ili Ili Boutique, dormir sobre la costa.
+bajada: Hotel boutique dentro del predio, abierto todo el año
+firma: Se duerme donde se veranea.
+intro:
+  - >-
+    Ili Ili es la parte que se queda a dormir. Un hotel chico dentro del mismo
+    predio, con acceso directo al balneario en temporada y al restaurante todo
+    el año. # TODO: concepto y posicionamiento reales
+  - >-
+    Quien se casa en el complejo puede alojar a sus invitados acá, y quien
+    viene a veranear no tiene que salir del predio para cenar.
+
+hero: null # TODO: foto de fachada o de una habitación con luz de tarde
+galeria: []
+
+estadoFijo: Abierto todo el año
+
+ficha:
+  - { clave: Check-in, valor: "desde las 14:00" } # TODO: confirmar
+  - { clave: Check-out, valor: "hasta las 10:00" } # TODO: confirmar
+  - { clave: Desayuno, valor: Incluido } # TODO: confirmar
+  - { clave: Cochera, valor: Dentro del predio }
+
+ctas:
+  - { texto: Consultar disponibilidad, tipo: whatsapp, contexto: hotel }
+
+habitaciones: # TODO: tipos, cantidad y servicios reales
+  - nombre: Habitación doble
+    capacidad: 2 personas
+    descripcion: Cama matrimonial o dos camas, baño privado y vista al parque.
+    servicios: [Baño privado, Aire acondicionado, Wi-Fi, TV]
+  - nombre: Habitación con vista al mar
+    capacidad: 2 personas
+    descripcion: Igual que la doble, sobre el frente, mirando la rompiente.
+    servicios: [Vista al mar, Baño privado, Aire acondicionado, Wi-Fi]
+  - nombre: Familiar
+    capacidad: Hasta 4 personas
+    descripcion: Ambiente amplio con cama matrimonial y dos camas individuales.
+    servicios: [Baño privado, Aire acondicionado, Wi-Fi, Frigobar]
+
+listas:
+  - titulo: Servicios del hotel
+    items:
+      - Desayuno incluido
+      - Cochera dentro del predio
+      - Acceso al balneario en temporada
+      - Wi-Fi en todo el hotel
+      - Restaurante del complejo a metros
+# TODO: confirmar servicios y agregar piscina si corresponde
+
+seo:
+  titulo: Hotel Ili Ili Boutique, Mar del Plata
+  descripcion: >-
+    Hotel boutique frente al mar dentro del complejo Mirador Waikiki, con acceso
+    al balneario y al restaurante. Abierto todo el año. Consultas por WhatsApp.
+schema: LodgingBusiness

@@ -1,0 +1,43 @@
+---
+/**
+ * La onda del Kit Pincel del manual. Es el divisor estructural del sitio:
+ * las secciones se separan por cambio de material y por esta línea, no por
+ * sombras ni por cajas.
+ */
+import onda from "~/assets/marca/onda.svg?raw";
+
+interface Props {
+  /** Se dibuja una sola vez, en el home. En el resto aparece ya trazada. */
+  animada?: boolean;
+  class?: string;
+}
+const { animada = false, class: clase } = Astro.props;
+const limpio = onda.replace("<svg", '<svg preserveAspectRatio="none"');
+---
+
+<div class:list={["onda", { animada }, clase]} aria-hidden="true" set:html={limpio} />
+
+<style>
+  .onda {
+    display: block;
+    width: 100%;
+    color: var(--linea-fuerte);
+  }
+  .onda :global(svg) {
+    display: block;
+    width: 100%;
+    height: clamp(9px, 1.2vw, 15px);
+  }
+
+  /* El único momento orquestado del sitio: el horizonte se traza una vez. */
+  .animada :global(svg) {
+    clip-path: inset(0 100% 0 0);
+    animation: trazar 1.1s cubic-bezier(0.4, 0, 0.2, 1) 0.15s forwards;
+  }
+  @keyframes trazar {
+    to { clip-path: inset(0 0 0 0); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .animada :global(svg) { clip-path: none; animation: none; }
+  }
+</style>

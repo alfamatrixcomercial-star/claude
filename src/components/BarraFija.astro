@@ -1,0 +1,62 @@
+---
+/**
+ * En móvil, reservar tiene que estar siempre a mano sin tapar contenido.
+ * Aparece pasado el hero y se esconde al llegar al pie; el <main> reserva
+ * el espacio, así que nunca se come el último párrafo.
+ */
+interface Props { texto: string; href: string }
+const { texto, href } = Astro.props;
+---
+
+<a class="barra" href={href} {...href.startsWith("http") ? { target: "_blank", rel: "noopener" } : {}}>
+  {texto}
+</a>
+
+<style>
+  .barra {
+    position: fixed;
+    inset: auto 0 0 0;
+    z-index: 20;
+    display: none;
+    padding: 1rem;
+    background: var(--ambar);
+    color: var(--verde-profundo);
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-align: center;
+    text-decoration: none;
+    transform: translateY(100%);
+    transition: transform 0.25s ease-out;
+  }
+  .barra.visible { transform: translateY(0); }
+
+  @media (max-width: 860px) {
+    .barra { display: block; }
+    :global(body) { padding-bottom: 3.5rem; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .barra { transition: none; }
+  }
+</style>
+
+<script>
+  const barra = document.querySelector<HTMLElement>(".barra");
+  const hero = document.querySelector<HTMLElement>("[data-hero]");
+  const pie = document.querySelector<HTMLElement>("footer");
+  if (barra && hero) {
+    let pasoElHero = false;
+    let llegoAlPie = false;
+    const refrescar = () => barra.classList.toggle("visible", pasoElHero && !llegoAlPie);
+
+    new IntersectionObserver(
+      ([e]) => { pasoElHero = !e.isIntersecting; refrescar(); },
+      { rootMargin: "-60px 0px 0px 0px" },
+    ).observe(hero);
+
+    if (pie) {
+      new IntersectionObserver(
+        ([e]) => { llegoAlPie = e.isIntersecting; refrescar(); },
+      ).observe(pie);
+    }
+  }
+</script>

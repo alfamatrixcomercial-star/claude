@@ -1,0 +1,40 @@
+---
+import Base from "~/layouts/Base.astro";
+import Onda from "~/components/Onda.astro";
+import Boton from "~/components/Boton.astro";
+---
+
+<Base titulo="Página no encontrada" descripcion="Esa página no existe en el sitio de Mirador Waikiki.">
+  <section class="cuatro">
+    <div class="interior">
+      <p class="eyebrow">Error 404</p>
+      <h1>Esa página no existe.</h1>
+      <p class="parrafo">
+        Puede que el link esté viejo. Estas son las cuatro unidades del complejo:
+      </p>
+      <ul>
+        <li><a href="/restaurante">Restaurante</a></li>
+        <li><a href="/hotel">Hotel Ili Ili Boutique</a></li>
+        <li><a href="/balneario">Balneario</a></li>
+        <li><a href="/eventos">Eventos</a></li>
+      </ul>
+      <Boton href="/">Volver al inicio</Boton>
+    </div>
+  </section>
+  <Onda />
+</Base>
+
+<style>
+  .cuatro { padding: var(--paso) var(--margen); }
+  .interior { max-width: var(--ancho); margin-inline: auto; }
+  .eyebrow {
+    font-size: var(--t-eyebrow);
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--tinta-suave);
+    margin-bottom: 0.9rem;
+  }
+  .parrafo { max-width: var(--medida); margin-top: 1.25rem; color: var(--tinta-suave); }
+  ul { list-style: none; display: flex; flex-wrap: wrap; gap: 1.5rem; margin: 1.75rem 0 2.25rem; }
+</style>

@@ -1,0 +1,138 @@
+---
+/**
+ * Una de las cuatro puertas del home. Bloque a sangre con borde del color de
+ * la unidad, foto, estado real de hoy y un CTA que dice qué hace. Sin sombra,
+ * sin radio, sin card.
+ */
+import Foto from "./Foto.astro";
+import Estado from "./Estado.astro";
+import type { Estado as EstadoTipo } from "~/lib/estado";
+
+interface Props {
+  id: "restaurante" | "hotel" | "balneario" | "eventos";
+  nombre: string;
+  bajada: string;
+  href: string;
+  estado: EstadoTipo;
+  cta: string;
+  ctaHref: string;
+  foto: { src: ImageMetadata; alt: string; foco?: "centro" | "arriba" | "abajo" } | null;
+  ornamento: "caracol" | "vieira" | "ammonite" | "coral";
+  orden: number;
+}
+const { id, nombre, bajada, href, estado, cta, ctaHref, foto, ornamento, orden } = Astro.props;
+---
+
+<article class:list={["puerta", `u-${id}`]} style={`--retardo:${orden * 120}ms`}>
+  <div class="visual">
+    <Foto
+      foto={foto}
+      unidad={id}
+      ornamento={ornamento}
+      pendiente={`Foto de ${nombre.toLowerCase()} pendiente`}
+      anchos={[320, 480, 720]}
+      sizes="(max-width: 700px) 40vw, 25vw"
+    />
+  </div>
+
+  <div class="cuerpo">
+    <h3 class="nombre">
+      <a href={href}>{nombre}</a>
+    </h3>
+    <p class="bajada">{bajada}</p>
+    <Estado estado={estado} unidad={id} class="est" />
+    <a class="cta" href={ctaHref} {...ctaHref.startsWith("http") ? { target: "_blank", rel: "noopener" } : {}}>
+      {cta}
+      <svg viewBox="0 0 16 12" width="14" height="10" aria-hidden="true" focusable="false">
+        <path d="M0 6h13M9 1l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.8" />
+      </svg>
+    </a>
+  </div>
+</article>
+
+<style>
+  .puerta {
+    display: flex;
+    flex-direction: column;
+    border-left: 5px solid var(--u);
+    border-bottom: 1px solid var(--linea);
+    background: var(--fondo);
+  }
+
+  .visual { aspect-ratio: 4 / 3; overflow: hidden; }
+
+  .cuerpo {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    flex: 1;
+    padding: 1.1rem 1.25rem 1.4rem;
+  }
+
+  .nombre {
+    font-family: var(--f-texto);
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--u-txt);
+  }
+  .nombre a { text-decoration: none; }
+  /* El bloque entero es clickeable, pero el foco de teclado va al título. */
+  .nombre a::after { content: ""; position: absolute; inset: 0; }
+  .puerta { position: relative; }
+
+  .bajada {
+    font-family: var(--f-display);
+    font-size: 1.0625rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+  }
+
+  .est { margin-top: -0.1rem; }
+
+  .cta {
+    position: relative;
+    z-index: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5em;
+    margin-top: auto;
+    padding: 0.7em 1em;
+    background: var(--accion-fondo);
+    color: var(--accion-tinta);
+    font-size: 0.82rem;
+    font-weight: 600;
+    text-decoration: none;
+    text-align: center;
+  }
+  .cta:hover { background: #a96c22; }
+
+  .u-restaurante { --u: var(--u-restaurante); --u-txt: var(--u-restaurante-txt); }
+  .u-hotel { --u: var(--u-hotel); --u-txt: var(--u-hotel-txt); }
+  .u-balneario { --u: var(--u-balneario); --u-txt: var(--u-balneario-txt); }
+  .u-eventos { --u: var(--u-eventos); --u-txt: var(--u-eventos-txt); }
+
+  /* Entra sólo el borde de color, escalonado. Es la mitad del único
+     momento orquestado del sitio; el resto no se anima. */
+  @media (prefers-reduced-motion: no-preference) {
+    .puerta {
+      animation: borde 0.5s ease-out var(--retardo) backwards;
+    }
+    @keyframes borde {
+      from { border-left-color: transparent; }
+    }
+  }
+
+  @media (min-width: 700px) {
+    .visual { aspect-ratio: 3 / 2; }
+  }
+
+  @media (max-width: 520px) {
+    .cuerpo { padding: 0.9rem 1rem 1.1rem; }
+    .bajada { font-size: 0.95rem; }
+    .cta { font-size: 0.76rem; padding: 0.65em 0.7em; }
+  }
+</style>

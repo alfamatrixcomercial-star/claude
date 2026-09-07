@@ -1,0 +1,80 @@
+---
+import "~/styles/base.css";
+import Cabecera from "~/components/Cabecera.astro";
+import Pie from "~/components/Pie.astro";
+import { getImage } from "astro:assets";
+import portada from "~/assets/fotos/complejo/predio-aereo.jpg";
+import { datosSitio } from "~/lib/contacto";
+
+interface Props {
+  titulo: string;
+  descripcion: string;
+  unidadActiva?: string;
+  /** JSON-LD ya armado por la página. Uno por página, sin plantillas. */
+  datosEstructurados?: Record<string, unknown>;
+}
+const { titulo, descripcion, unidadActiva, datosEstructurados } = Astro.props;
+
+const sitio = await datosSitio();
+const url = new URL(Astro.url.pathname, Astro.site).href;
+const og = await getImage({ src: portada, width: 1200, height: 630, format: "jpeg" });
+const ogUrl = new URL(og.src, Astro.site).href;
+
+const tituloCompleto =
+  titulo === sitio.nombre ? `${sitio.nombre} · Mar del Plata` : `${titulo} · ${sitio.nombre}`;
+---
+
+<!doctype html>
+<html lang="es-AR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{tituloCompleto}</title>
+    <meta name="description" content={descripcion} />
+    <link rel="canonical" href={url} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={sitio.nombre} />
+    <meta property="og:locale" content="es_AR" />
+    <meta property="og:title" content={tituloCompleto} />
+    <meta property="og:description" content={descripcion} />
+    <meta property="og:url" content={url} />
+    <meta property="og:image" content={ogUrl} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta
+      property="og:image:alt"
+      content="Vista aérea del complejo Mirador Waikiki sobre las rocas de la costa de Mar del Plata"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <meta name="theme-color" content="#052319" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz@1,6..96&family=Poppins:wght@300;400;500;600;700&display=swap"
+    />
+
+    {
+      datosEstructurados && (
+        <script
+          type="application/ld+json"
+          is:inline
+          set:html={JSON.stringify(datosEstructurados)}
+        />
+      )
+    }
+  </head>
+
+  <body>
+    <a class="saltar" href="#contenido">Saltar al contenido</a>
+    <Cabecera unidadActiva={unidadActiva} />
+    <main id="contenido">
+      <slot />
+    </main>
+    <Pie />
+  </body>
+</html>

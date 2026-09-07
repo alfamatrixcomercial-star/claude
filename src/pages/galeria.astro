@@ -1,0 +1,110 @@
+---
+/**
+ * La galería no tiene contenido propio: es una vista filtrada de las fotos
+ * que cada unidad ya declara en su YAML. Cargar una foto en el hotel la hace
+ * aparecer acá sola, sin duplicar nada.
+ */
+import { getCollection } from "astro:content";
+import Base from "~/layouts/Base.astro";
+import Galeria from "~/components/Galeria.astro";
+import Onda from "~/components/Onda.astro";
+import { datosSitio } from "~/lib/contacto";
+
+const sitio = await datosSitio();
+const unidades = (await getCollection("unidades")).sort((a, b) => a.data.orden - b.data.orden);
+const conFotos = unidades.filter((u) => u.data.galeria.length > 0);
+const total = conFotos.reduce((n, u) => n + u.data.galeria.length, 0);
+---
+
+<Base
+  titulo="Galería"
+  descripcion={`Fotos del restaurante, el hotel, el balneario y los eventos de ${sitio.nombre}, en la costa de Mar del Plata.`}
+  unidadActiva="galeria"
+>
+  <section class="portada">
+    <div class="interior">
+      <p class="eyebrow">{total > 0 ? `${total} fotos del complejo` : "Galería"}</p>
+      <h1>El predio, de cerca.</h1>
+    </div>
+  </section>
+
+  <Onda />
+
+  {
+    conFotos.length > 0 ? (
+      conFotos.map((u) => (
+        <section class={`grupo u-${u.id}`}>
+          <div class="interior">
+            <div class="titulo">
+              <h2>{u.data.nombre}</h2>
+              <a href={`/${u.id}`}>Ver {u.data.nombre.toLowerCase()}</a>
+            </div>
+            <Galeria fotos={u.data.galeria} unidad={u.id as any} />
+          </div>
+        </section>
+      ))
+    ) : (
+      <section class="vacia">
+        <div class="interior">
+          <p class="parrafo">
+            Todavía no hay fotos cargadas. En cuanto se sumen a cada unidad aparecen acá
+            solas, agrupadas por unidad.
+          </p>
+          <ul class="atajos">
+            {unidades.map((u) => (
+              <li class={`u-${u.id}`}>
+                <a href={`/${u.id}`}>{u.data.nombre}</a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+    )
+  }
+</Base>
+
+<style>
+  .portada { padding: var(--paso) var(--margen) var(--paso-corto); }
+  .interior { max-width: var(--ancho); margin-inline: auto; }
+  .eyebrow {
+    font-size: var(--t-eyebrow);
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--tinta-suave);
+    margin-bottom: 0.9rem;
+  }
+
+  .grupo { padding: var(--paso) var(--margen); }
+  .grupo + .grupo { padding-top: 0; }
+  .titulo {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    border-top: 3px solid var(--u);
+    padding-top: 1rem;
+    margin-bottom: 1.75rem;
+  }
+  .titulo a { font-size: 0.9rem; color: var(--tinta-suave); }
+
+  .vacia { padding: var(--paso) var(--margen) calc(var(--paso) * 1.5); }
+  .parrafo { max-width: var(--medida); color: var(--tinta-suave); }
+  .atajos {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1px;
+    list-style: none;
+    margin-top: 2rem;
+    background: var(--linea);
+  }
+  .atajos li { flex: 1 1 160px; background: var(--fondo); border-top: 3px solid var(--u); }
+  .atajos a { display: block; padding: 1rem 1.25rem; font-weight: 600; text-decoration: none; }
+  .atajos a:hover { background: var(--fondo-alt); }
+
+  .u-restaurante { --u: var(--u-restaurante); }
+  .u-hotel { --u: var(--u-hotel); }
+  .u-balneario { --u: var(--u-balneario); }
+  .u-eventos { --u: var(--u-eventos); }
+</style>

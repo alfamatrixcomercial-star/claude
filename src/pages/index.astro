@@ -1,0 +1,336 @@
+---
+import { getCollection } from "astro:content";
+import Base from "~/layouts/Base.astro";
+import Onda from "~/components/Onda.astro";
+import Puerta from "~/components/Puerta.astro";
+import Foto from "~/components/Foto.astro";
+import Boton from "~/components/Boton.astro";
+import { estadoDeUnidad, agendaVigente } from "~/lib/estado";
+import { datosSitio, waLink, wokiLink } from "~/lib/contacto";
+import portada from "~/assets/fotos/complejo/predio-aereo.jpg";
+import mar from "~/assets/fotos/complejo/mar-surfistas.jpg";
+
+const sitio = await datosSitio();
+const woki = await wokiLink();
+
+const unidades = (await getCollection("unidades")).sort((a, b) => a.data.orden - b.data.orden);
+const agenda = agendaVigente((await getCollection("agenda")).map((a) => a.data));
+
+/** Cada puerta lleva su propio CTA al canal que corresponde. */
+const puertas = await Promise.all(
+  unidades.map(async (u) => {
+    const primera = u.data.ctas[0];
+    const href =
+      primera.tipo === "woki" && woki
+        ? woki
+        : primera.tipo === "externo" && primera.href
+          ? primera.href
+          : await waLink(u.id as any);
+    return {
+      unidad: u,
+      estado: estadoDeUnidad({
+        horarios: u.data.horarios,
+        temporada: u.data.temporada,
+        estadoFijo: u.data.estadoFijo,
+      }),
+      cta: primera.texto,
+      ctaHref: href,
+    };
+  }),
+);
+
+const datosEstructurados = {
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  name: sitio.nombre,
+  description: sitio.descripcion,
+  url: Astro.site?.href,
+  foundingDate: String(sitio.desde),
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: sitio.direccion.calle,
+    addressLocality: sitio.direccion.localidad,
+    addressRegion: sitio.direccion.provincia,
+    postalCode: sitio.direccion.codigoPostal,
+    addressCountry: sitio.direccion.pais,
+  },
+  geo: {
+    "@type": "GeoCoordinates",
+    latitude: sitio.coordenadas.lat,
+    longitude: sitio.coordenadas.lng,
+  },
+  telephone: `+${sitio.contacto.general.whatsapp}`,
+  department: unidades.map((u) => ({
+    "@type": u.data.schema === "BeachResort" ? "LocalBusiness" : u.data.schema,
+    name: u.data.nombreLargo,
+    url: new URL(`/${u.id}`, Astro.site).href,
+  })),
+};
+---
+
+<Base
+  titulo={sitio.nombre}
+  descripcion={sitio.descripcion}
+  datosEstructurados={datosEstructurados}
+>
+  <!-- Hero: foto fija, titular a la izquierda. Ni video a pantalla completa
+       ni flecha hacia abajo: las cuatro puertas ya asoman. -->
+  <section class="hero" data-hero>
+    <div class="fondo">
+      <Foto
+        foto={{
+          src: portada,
+          alt: "Vista aérea del complejo Mirador Waikiki sobre las rocas de la costa de Mar del Plata, con el restaurante, las piscinas y las carpas del balneario",
+          foco: "centro",
+        }}
+        prioridad
+        sizes="100vw"
+      />
+    </div>
+    <div class="texto">
+      <p class="eyebrow">
+        {sitio.direccion.localidad} · desde {sitio.desde}
+      </p>
+      <h1>{sitio.lema}</h1>
+    </div>
+  </section>
+
+  <Onda animada />
+
+  <!-- Las cuatro puertas, en el primer scroll. Nadie atraviesa tres
+       secciones de casamientos para reservar una mesa. -->
+  <h2 class="vo">Las cuatro unidades del complejo</h2>
+  <div class="puertas">
+    {
+      puertas.map((p, i) => (
+        <Puerta
+          id={p.unidad.id as any}
+          nombre={p.unidad.data.nombre}
+          bajada={p.unidad.data.bajada}
+          href={`/${p.unidad.id}`}
+          estado={p.estado}
+          cta={p.cta}
+          ctaHref={p.ctaHref}
+          foto={p.unidad.data.hero}
+          ornamento={p.unidad.data.ornamento}
+          orden={i}
+        />
+      ))
+    }
+  </div>
+
+  <!-- Un solo lugar -->
+  <section class="relato oscuro">
+    <div class="interior">
+      <div class="palabra">
+        <p class="firma">{sitio.firma}</p>
+        <p class="cuerpo">
+          Un mismo predio sobre las rocas: se almuerza donde se veranea, se duerme donde
+          se casa. Veintiséis años en el mismo lugar, con el mar siempre del mismo lado.
+        </p>
+        <Boton href="/contacto" jerarquia="secundaria">Cómo llegar</Boton>
+      </div>
+      <figure>
+        <Foto
+          foto={{
+            src: mar,
+            alt: "El mar de Mar del Plata desde el aire, con surfistas esperando la ola en agua verde oscuro",
+            foco: "centro",
+          }}
+          anchos={[500, 900, 1300]}
+          sizes="(max-width: 900px) 100vw, 46vw"
+        />
+      </figure>
+    </div>
+  </section>
+
+  <!-- La temporada ahora: el sitio sabe en qué mes está -->
+  {
+    agenda.length > 0 && (
+      <section class="agenda">
+        <div class="interior">
+          <h2>Estos días en el complejo</h2>
+          <ul>
+            {agenda.map((a) => (
+              <li class={`u-${a.unidad}`}>
+                <a href={`/${a.unidad}`}>
+                  <b>{a.titulo}</b>
+                  <span>{a.detalle}</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+    )
+  }
+
+  <Onda />
+
+  <!-- Cómo llegar -->
+  <section class="llegar">
+    <div class="interior">
+      <div>
+        <h2>Dónde estamos</h2>
+        <address>
+          {sitio.direccion.calle}<br />
+          {sitio.direccion.localidad}, {sitio.direccion.provincia}
+        </address>
+        <ul class="indicaciones">
+          {sitio.comoLlegar.map((i) => <li>{i}</li>)}
+        </ul>
+        <p class="estacionamiento">{sitio.estacionamiento}</p>
+      </div>
+      <div class="acciones">
+        <Boton
+          href={`https://www.google.com/maps/search/?api=1&query=${sitio.coordenadas.lat},${sitio.coordenadas.lng}`}
+          externo
+        >
+          Abrir en Google Maps
+        </Boton>
+        <Boton href="/contacto" jerarquia="secundaria">Teléfonos y contacto</Boton>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .hero { position: relative; isolation: isolate; }
+  .fondo {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: var(--verde-profundo);
+  }
+  .fondo::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    /* Velo sólido y medido: el texto sobre foto tiene que leerse siempre,
+       también sobre la foto más clara del set. */
+    background: linear-gradient(
+      to top,
+      rgb(5 35 25 / 0.88) 0%,
+      rgb(5 35 25 / 0.66) 45%,
+      rgb(5 35 25 / 0.38) 100%
+    );
+  }
+  .fondo :global(img) { width: 100%; height: 100%; object-fit: cover; }
+
+  .texto {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    max-width: var(--ancho);
+    min-height: clamp(19rem, 46vh, 27rem);
+    margin-inline: auto;
+    padding: var(--paso) var(--margen) var(--paso-corto);
+    color: var(--sobre-oscuro);
+  }
+  .eyebrow {
+    font-size: var(--t-eyebrow);
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--arena);
+    margin-bottom: 0.9rem;
+  }
+  h1 { font-size: var(--t-display); max-width: 14ch; }
+
+  .puertas {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    background: var(--linea);
+    gap: 1px;
+  }
+  @media (min-width: 900px) {
+    .puertas { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  }
+
+  .relato {
+    background: var(--fondo);
+    color: var(--tinta);
+    padding: var(--paso) var(--margen);
+  }
+  .relato .interior {
+    display: grid;
+    gap: clamp(2rem, 5vw, 4rem);
+    max-width: var(--ancho);
+    margin-inline: auto;
+    align-items: center;
+  }
+  @media (min-width: 900px) {
+    .relato .interior { grid-template-columns: 1fr 1fr; }
+  }
+  .palabra { display: flex; flex-direction: column; align-items: flex-start; gap: 1.5rem; }
+  .firma {
+    font-family: var(--f-firma);
+    font-style: italic;
+    font-size: var(--t-h2);
+    line-height: 1.2;
+    max-width: 16ch;
+  }
+  .cuerpo { max-width: var(--medida); color: var(--tinta-suave); }
+  figure { margin: 0; aspect-ratio: 4 / 3; }
+
+  .agenda { background: var(--fondo-alt); padding: var(--paso-corto) var(--margen); }
+  .agenda .interior { max-width: var(--ancho); margin-inline: auto; }
+  .agenda h2 {
+    font-family: var(--f-texto);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--tinta-suave);
+    margin-bottom: 1.25rem;
+  }
+  .agenda ul {
+    display: grid;
+    gap: 1.5rem 2.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    list-style: none;
+  }
+  .agenda li { border-left: 3px solid var(--u); padding-left: 1rem; }
+  .agenda a { text-decoration: none; }
+  .agenda b { display: block; font-weight: 600; }
+  .agenda span { display: block; font-size: 0.925rem; color: var(--tinta-suave); }
+  .agenda a:hover b { text-decoration: underline; }
+
+  .u-restaurante { --u: var(--u-restaurante); }
+  .u-hotel { --u: var(--u-hotel); }
+  .u-balneario { --u: var(--u-balneario); }
+  .u-eventos { --u: var(--u-eventos); }
+
+  .llegar { padding: var(--paso) var(--margen); }
+  .llegar .interior {
+    display: grid;
+    gap: clamp(1.75rem, 4vw, 3rem);
+    max-width: var(--ancho);
+    margin-inline: auto;
+  }
+  @media (min-width: 780px) {
+    .llegar .interior { grid-template-columns: 1.4fr 1fr; align-items: start; }
+  }
+  .llegar h2 { margin-bottom: 1.25rem; }
+  address { font-style: normal; font-size: var(--t-guia); line-height: 1.5; }
+  .indicaciones {
+    list-style: none;
+    margin-top: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    color: var(--tinta-suave);
+  }
+  .indicaciones li { padding-left: 1.1rem; position: relative; }
+  .indicaciones li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.72em;
+    width: 0.45rem;
+    height: 1px;
+    background: var(--tinta-suave);
+  }
+  .estacionamiento { margin-top: 1.25rem; color: var(--tinta-suave); }
+  .acciones { display: flex; flex-direction: column; align-items: flex-start; gap: 0.85rem; }
+</style>

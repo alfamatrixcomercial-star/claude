@@ -1,0 +1,99 @@
+---
+/**
+ * La ficha lateral de cada unidad: horarios y datos duros, sobre crudo.
+ * Es lo que la gente vino a buscar, así que va arriba y no al final.
+ */
+import type { Estado } from "~/lib/estado";
+
+interface Props {
+  horarios?: { etiqueta: string; franjas: { desde: string; hasta: string }[]; nota?: string }[];
+  ficha: { clave: string; valor: string }[];
+  estado?: Estado;
+}
+const { horarios = [], ficha } = Astro.props;
+const rango = (f: { desde: string; hasta: string }) =>
+  `${f.desde}–${f.hasta === "23:59" ? "00:00" : f.hasta}`;
+---
+
+<aside class="ficha">
+  {
+    horarios.length > 0 && (
+      <>
+        <h2>Horarios</h2>
+        <dl>
+          {horarios.map((h) => (
+            <div>
+              <dt>{h.etiqueta}</dt>
+              <dd>
+                {h.franjas.map(rango).join(" · ")}
+                {h.nota && <span class="nota">{h.nota}</span>}
+              </dd>
+            </div>
+          ))}
+        </dl>
+      </>
+    )
+  }
+
+  {
+    ficha.length > 0 && (
+      <>
+        <h2 class:list={{ segunda: horarios.length > 0 }}>De un vistazo</h2>
+        <dl>
+          {ficha.map((d) => (
+            <div>
+              <dt>{d.clave}</dt>
+              <dd>{d.valor}</dd>
+            </div>
+          ))}
+        </dl>
+      </>
+    )
+  }
+</aside>
+
+<style>
+  .ficha {
+    background: var(--fondo-alt);
+    padding: clamp(1.5rem, 3vw, 2.25rem);
+    align-self: start;
+  }
+
+  h2 {
+    font-family: var(--f-texto);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--tinta-suave);
+    margin-bottom: 1rem;
+  }
+  .segunda { margin-top: 2rem; }
+
+  dl { display: flex; flex-direction: column; }
+  dl > div {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.25rem 1.25rem;
+    padding: 0.7rem 0;
+    border-bottom: 1px solid color-mix(in srgb, var(--tinta) 14%, transparent);
+  }
+  dl > div:last-child { border-bottom: 0; }
+
+  dt { font-size: 0.925rem; font-weight: 500; }
+  dd {
+    margin: 0;
+    font-size: 0.925rem;
+    text-align: right;
+    color: var(--tinta-suave);
+    font-variant-numeric: tabular-nums;
+  }
+  .nota {
+    display: block;
+    font-size: 0.82rem;
+    margin-top: 0.2rem;
+    max-width: 26ch;
+    margin-left: auto;
+  }
+</style>

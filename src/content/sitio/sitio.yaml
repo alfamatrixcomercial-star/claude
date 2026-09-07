@@ -1,0 +1,57 @@
+# ─────────────────────────────────────────────────────────────────────────
+#  Datos transversales del complejo. Todo lo que se repite en varias
+#  páginas vive acá y en ningún otro lado.
+#
+#  PENDIENTE DE CONFIRMAR: dirección exacta, coordenadas, teléfonos e
+#  Instagram por unidad, y la URL pública de Woki. Lo marcado con TODO
+#  está tomado del brandboard o es provisorio.
+# ─────────────────────────────────────────────────────────────────────────
+
+nombre: Mirador Waikiki
+desde: 1999
+lema: Cuatro maneras de estar frente al mar.
+firma: Una propuesta diferente, frente al mar.
+descripcion: >-
+  Restaurante, hotel boutique, balneario y salón de eventos sobre las rocas de
+  Mar del Plata. Un mismo predio frente al mar desde 1999.
+
+direccion:
+  calle: Paseo Costanero Sur Presidente Illia # TODO: dirección exacta con altura
+  localidad: Mar del Plata
+  provincia: Buenos Aires
+  codigoPostal: B7600
+  pais: AR
+
+coordenadas: # TODO: coordenadas exactas del acceso al predio
+  lat: -38.0553
+  lng: -57.5426
+
+comoLlegar:
+  - Sobre el Paseo Costanero Sur, entre Playa Grande y Punta Mogotes.
+  - Desde el centro, por la costa, unos quince minutos en auto.
+  - Líneas de colectivo que paran en la puerta. # TODO: números de línea
+
+estacionamiento: Estacionamiento propio dentro del predio, sin cargo para clientes.
+
+# Un canal por unidad: número y mensaje prellenado. Cambiar un número es
+# cambiar una línea acá, y todos los botones del sitio se actualizan.
+contacto:
+  general:
+    whatsapp: "5492235466065" # TODO: confirmar cuál es el número general
+    mensaje: "Hola! Escribo desde miradorwaikiki.com. Quería hacer una consulta."
+  restaurante:
+    whatsapp: "5492235466065" # del brandboard, pieza de Cena Show
+    mensaje: "Hola! Quiero reservar una mesa en el restaurante de Mirador Waikiki."
+  hotel:
+    whatsapp: "5492235466065" # TODO: número propio del hotel
+    mensaje: "Hola! Quiero consultar disponibilidad en el Hotel Ili Ili Boutique."
+  balneario:
+    whatsapp: "5492235466065" # TODO: número propio del balneario
+    mensaje: "Hola! Quiero consultar por una carpa en el balneario de Mirador Waikiki."
+  eventos:
+    whatsapp: "5492235466065" # TODO: número comercial de eventos
+    mensaje: "Hola! Quiero consultar por un evento en Mirador Waikiki."
+
+woki: null # TODO: pegar acá el link público de Woki y los botones cambian solos
+
+redes: [] # TODO: Instagram por unidad

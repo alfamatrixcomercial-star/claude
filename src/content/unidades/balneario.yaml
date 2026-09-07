@@ -1,0 +1,57 @@
+orden: 3
+nombre: Balneario
+nombreLargo: Balneario Mirador Waikiki
+color: teal
+ornamento: coral
+
+titular: Carpas y sombrillas sobre la arena.
+bajada: Temporada de verano, por día o por temporada completa
+firma: El mismo predio, con los pies en la arena.
+intro:
+  - >-
+    El balneario abre en diciembre y cierra a fines de marzo. Se contrata por
+    día, por quincena o por temporada completa, y el acceso al restaurante y al
+    hotel es el mismo predio. # TODO: confirmar modalidades reales
+  - >-
+    Los huéspedes de Ili Ili tienen acceso durante su estadía.
+
+hero: null # TODO: foto de las carpas desde arriba, en enero, a la mañana
+galeria: []
+
+temporada:
+  desde: "12-01"
+  hasta: "03-31"
+  abierta: Temporada abierta
+  cerrada: Temporada desde el 1 de diciembre
+# TODO: confirmar fechas exactas de apertura y cierre
+
+ficha:
+  - { clave: Temporada, valor: Diciembre a marzo }
+  - { clave: Contratación, valor: Día, quincena o temporada }
+  - { clave: Huéspedes del hotel, valor: Acceso incluido } # TODO: confirmar
+  - { clave: Estacionamiento, valor: Dentro del predio }
+
+ctas:
+  - { texto: Reservar carpa, tipo: whatsapp, contexto: balneario }
+
+listas:
+  - titulo: Servicios
+    items:
+      - Carpas y sombrillas
+      - Baños y duchas
+      - Servicio de playa
+      - Gastronomía del complejo
+  - titulo: Modalidades
+    items:
+      - Por día
+      - Por quincena
+      - Temporada completa
+# TODO: confirmar servicios y unidades. Las tarifas no van en el sitio: se
+# consultan por WhatsApp, según lo decidido.
+
+seo:
+  titulo: Balneario en Mar del Plata, carpas y sombrillas
+  descripcion: >-
+    Balneario del complejo Mirador Waikiki, con carpas y sombrillas frente al
+    mar. Por día, quincena o temporada completa. Consultas por WhatsApp.
+schema: BeachResort

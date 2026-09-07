@@ -1,0 +1,189 @@
+---
+import { getCollection } from "astro:content";
+import Base from "~/layouts/Base.astro";
+import Onda from "~/components/Onda.astro";
+import Boton from "~/components/Boton.astro";
+import Estado from "~/components/Estado.astro";
+import { estadoDeUnidad } from "~/lib/estado";
+import { datosSitio, waLink, telefonoLegible } from "~/lib/contacto";
+
+const sitio = await datosSitio();
+const unidades = (await getCollection("unidades")).sort((a, b) => a.data.orden - b.data.orden);
+
+const canales = await Promise.all(
+  unidades.map(async (u) => ({
+    id: u.id as "restaurante" | "hotel" | "balneario" | "eventos",
+    nombre: u.data.nombreLargo,
+    bajada: u.data.bajada,
+    wa: await waLink(u.id as any),
+    tel: telefonoLegible(sitio.contacto[u.id as "restaurante"].whatsapp),
+    estado: estadoDeUnidad({
+      horarios: u.data.horarios,
+      temporada: u.data.temporada,
+      estadoFijo: u.data.estadoFijo,
+    }),
+  })),
+);
+
+const mapa = `https://www.google.com/maps/search/?api=1&query=${sitio.coordenadas.lat},${sitio.coordenadas.lng}`;
+
+const datosEstructurados = {
+  "@context": "https://schema.org",
+  "@type": "ContactPage",
+  name: `Contacto · ${sitio.nombre}`,
+  mainEntity: {
+    "@type": "LocalBusiness",
+    name: sitio.nombre,
+    telephone: `+${sitio.contacto.general.whatsapp}`,
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: sitio.direccion.calle,
+      addressLocality: sitio.direccion.localidad,
+      addressRegion: sitio.direccion.provincia,
+      postalCode: sitio.direccion.codigoPostal,
+      addressCountry: sitio.direccion.pais,
+    },
+  },
+};
+---
+
+<Base
+  titulo="Contacto y cómo llegar"
+  descripcion={`Teléfonos, WhatsApp por unidad y cómo llegar a ${sitio.nombre}, sobre la costa de Mar del Plata.`}
+  unidadActiva="contacto"
+  datosEstructurados={datosEstructurados}
+>
+  <section class="portada">
+    <div class="interior">
+      <p class="eyebrow">Contacto</p>
+      <h1>Escribinos a la unidad que te interesa.</h1>
+      <p class="bajada">
+        Cada unidad atiende su propio WhatsApp. El mensaje se abre ya escrito para que
+        quien atiende sepa de qué se trata sin preguntar.
+      </p>
+    </div>
+  </section>
+
+  <Onda />
+
+  <section class="canales">
+    <div class="interior">
+      <h2 class="vo">Canales por unidad</h2>
+      <ul>
+        {
+          canales.map((c) => (
+            <li class={`u-${c.id}`}>
+              <div class="cabeza">
+                <h3>{c.nombre}</h3>
+                <p class="bajadita">{c.bajada}</p>
+                <Estado estado={c.estado} unidad={c.id} />
+              </div>
+              <div class="pie-canal">
+                <p class="tel">{c.tel}</p>
+                <Boton href={c.wa} externo>Escribir por WhatsApp</Boton>
+              </div>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="llegar alt">
+    <div class="interior dos">
+      <div>
+        <h2>Cómo llegar</h2>
+        <address>
+          {sitio.direccion.calle}<br />
+          {sitio.direccion.localidad}, {sitio.direccion.provincia} ({sitio.direccion.codigoPostal})
+        </address>
+        <ul class="indicaciones">
+          {sitio.comoLlegar.map((i) => <li>{i}</li>)}
+        </ul>
+        <p class="estacionamiento">{sitio.estacionamiento}</p>
+      </div>
+      <div class="acciones">
+        <Boton href={mapa} externo>Abrir en Google Maps</Boton>
+        <Boton href={await waLink("general")} jerarquia="secundaria" externo>
+          Consulta general por WhatsApp
+        </Boton>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .portada { padding: var(--paso) var(--margen) var(--paso-corto); }
+  .interior { max-width: var(--ancho); margin-inline: auto; }
+  .eyebrow {
+    font-size: var(--t-eyebrow);
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--tinta-suave);
+    margin-bottom: 0.9rem;
+  }
+  h1 { max-width: 18ch; }
+  .bajada { max-width: var(--medida); margin-top: 1.25rem; color: var(--tinta-suave); }
+
+  .canales { padding: var(--paso) var(--margen); }
+  .canales ul {
+    display: grid;
+    gap: 1px;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    background: var(--linea);
+    list-style: none;
+  }
+  .canales > .interior > ul > li {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 1.5rem;
+    background: var(--fondo);
+    border-top: 4px solid var(--u);
+    padding: 1.6rem 1.5rem 1.75rem;
+  }
+  .cabeza { display: flex; flex-direction: column; gap: 0.55rem; }
+  .bajadita { font-size: 0.925rem; color: var(--tinta-suave); }
+  .pie-canal { display: flex; flex-direction: column; align-items: flex-start; gap: 0.9rem; }
+  .tel {
+    font-size: 1.05rem;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.02em;
+  }
+
+  .llegar { padding: var(--paso) var(--margen); }
+  .alt { background: var(--fondo-alt); }
+  .dos { display: grid; gap: clamp(1.75rem, 4vw, 3rem); }
+  @media (min-width: 780px) {
+    .dos { grid-template-columns: 1.4fr 1fr; align-items: start; }
+  }
+  .llegar h2 { margin-bottom: 1.25rem; }
+  address { font-style: normal; font-size: var(--t-guia); line-height: 1.5; }
+  .indicaciones {
+    list-style: none;
+    margin-top: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    color: var(--tinta-suave);
+  }
+  .indicaciones li { position: relative; padding-left: 1.1rem; }
+  .indicaciones li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.72em;
+    width: 0.45rem;
+    height: 1px;
+    background: var(--tinta-suave);
+  }
+  .estacionamiento { margin-top: 1.25rem; color: var(--tinta-suave); }
+  .acciones { display: flex; flex-direction: column; align-items: flex-start; gap: 0.85rem; }
+
+  .u-restaurante { --u: var(--u-restaurante); }
+  .u-hotel { --u: var(--u-hotel); }
+  .u-balneario { --u: var(--u-balneario); }
+  .u-eventos { --u: var(--u-eventos); }
+</style>

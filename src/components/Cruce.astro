@@ -1,0 +1,99 @@
+---
+/**
+ * «También en el complejo». El complejo es uno solo y esa es su ventaja:
+ * quien se casa acá aloja invitados en el hotel, quien veranea cena en el
+ * restaurante. Este bloque cierra cada página de unidad.
+ */
+import { getCollection } from "astro:content";
+import Estado from "./Estado.astro";
+import { estadoDeUnidad } from "~/lib/estado";
+
+interface Props { excepto: string }
+const { excepto } = Astro.props;
+
+const otras = (await getCollection("unidades"))
+  .filter((u) => u.id !== excepto)
+  .sort((a, b) => a.data.orden - b.data.orden);
+---
+
+<section class="cruce oscuro">
+  <div class="interior">
+    <h2>También en el complejo</h2>
+    <ul>
+      {
+        otras.map((u) => (
+          <li class={`u-${u.id}`}>
+            <a href={`/${u.id}`}>
+              <span class="nombre">{u.data.nombre}</span>
+              <span class="bajada">{u.data.bajada}</span>
+            </a>
+            <Estado
+              estado={estadoDeUnidad({
+                horarios: u.data.horarios,
+                temporada: u.data.temporada,
+                estadoFijo: u.data.estadoFijo,
+              })}
+              unidad={u.id as any}
+            />
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .cruce {
+    background: var(--fondo);
+    color: var(--tinta);
+    padding: var(--paso) var(--margen);
+  }
+  .interior { max-width: var(--ancho); margin-inline: auto; }
+
+  h2 {
+    font-family: var(--f-texto);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--tinta-suave);
+    margin-bottom: 1.75rem;
+  }
+
+  ul {
+    display: grid;
+    gap: 1px;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    list-style: none;
+    background: var(--linea);
+  }
+  li {
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+    padding: 1.4rem 1.5rem 1.6rem;
+    background: var(--fondo);
+    border-top: 3px solid var(--u);
+  }
+
+  a { text-decoration: none; display: block; }
+  .nombre {
+    display: block;
+    font-family: var(--f-display);
+    font-size: var(--t-h3);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+  a:hover .nombre { text-decoration: underline; text-decoration-thickness: 2px; }
+  .bajada {
+    display: block;
+    margin-top: 0.3rem;
+    font-size: 0.925rem;
+    color: var(--tinta-suave);
+  }
+
+  .u-restaurante { --u: var(--u-restaurante-txt); }
+  .u-hotel { --u: var(--u-hotel-txt); }
+  .u-balneario { --u: var(--u-balneario-txt); }
+  .u-eventos { --u: var(--u-eventos-txt); }
+</style>

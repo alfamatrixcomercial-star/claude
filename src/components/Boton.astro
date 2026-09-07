@@ -1,0 +1,64 @@
+---
+/**
+ * El botón dice exactamente qué pasa al tocarlo. «Reservar mesa», no
+ * «Contactanos». El primario es ámbar con tinta verde profundo: blanco
+ * sobre ámbar da 3.26 y no se usa nunca.
+ */
+interface Props {
+  href: string;
+  jerarquia?: "primaria" | "secundaria";
+  externo?: boolean;
+  class?: string;
+}
+const { href, jerarquia = "primaria", externo = false, class: clase } = Astro.props;
+const fuera = externo || href.startsWith("http");
+---
+
+<a
+  href={href}
+  class:list={["boton", jerarquia, clase]}
+  {...fuera ? { target: "_blank", rel: "noopener" } : {}}
+>
+  <span><slot /></span>
+  <svg viewBox="0 0 16 12" width="15" height="11" aria-hidden="true" focusable="false">
+    <path d="M0 6h13M9 1l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.8" />
+  </svg>
+</a>
+
+<style>
+  .boton {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.65em;
+    padding: 0.85em 1.35em;
+    font-family: var(--f-texto);
+    font-size: 0.95rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    text-decoration: none;
+    border: 2px solid transparent;
+    transition: background-color 0.15s, color 0.15s, border-color 0.15s;
+  }
+  .boton svg { flex: none; transition: transform 0.18s; }
+  .boton:hover svg { transform: translateX(3px); }
+
+  .primaria {
+    background: var(--accion-fondo);
+    color: var(--accion-tinta);
+  }
+  .primaria:hover { background: #a96c22; }
+
+  .secundaria {
+    background: transparent;
+    color: var(--tinta);
+    border-color: var(--tinta);
+  }
+  .secundaria:hover {
+    background: var(--tinta);
+    color: var(--fondo);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .boton:hover svg { transform: none; }
+  }
+</style>

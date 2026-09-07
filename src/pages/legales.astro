@@ -1,0 +1,73 @@
+---
+import { getCollection, render } from "astro:content";
+import Base from "~/layouts/Base.astro";
+import Onda from "~/components/Onda.astro";
+
+const docs = (await getCollection("legales")).sort((a, b) => a.data.orden - b.data.orden);
+const render_ = await Promise.all(
+  docs.map(async (d) => ({ data: d.data, id: d.id, Contenido: (await render(d)).Content })),
+);
+---
+
+<Base
+  titulo="Legales"
+  descripcion="Términos y condiciones y política de privacidad del sitio de Mirador Waikiki, Mar del Plata."
+>
+  <section class="portada">
+    <div class="interior">
+      <p class="eyebrow">Legales</p>
+      <h1>Términos y privacidad.</h1>
+      <nav aria-label="Documentos legales">
+        <ul>
+          {render_.map((d) => <li><a href={`#${d.id}`}>{d.data.titulo}</a></li>)}
+        </ul>
+      </nav>
+    </div>
+  </section>
+
+  <Onda />
+
+  {
+    render_.map(({ data, id, Contenido }) => (
+      <section class="doc" id={id}>
+        <div class="interior">
+          <h2>{data.titulo}</h2>
+          <p class="fecha">Última actualización: {data.actualizado}</p>
+          <div class="prosa">
+            <Contenido />
+          </div>
+        </div>
+      </section>
+    ))
+  }
+</Base>
+
+<style>
+  .portada { padding: var(--paso) var(--margen) var(--paso-corto); }
+  .interior { max-width: var(--ancho); margin-inline: auto; }
+  .eyebrow {
+    font-size: var(--t-eyebrow);
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--tinta-suave);
+    margin-bottom: 0.9rem;
+  }
+  nav ul { display: flex; flex-wrap: wrap; gap: 1.5rem; list-style: none; margin-top: 1.75rem; }
+  nav a { font-size: 0.925rem; }
+
+  .doc { padding: var(--paso-corto) var(--margen); scroll-margin-top: 1rem; }
+  .doc:last-of-type { padding-bottom: var(--paso); }
+  .fecha { font-size: 0.85rem; color: var(--tinta-suave); margin-top: 0.6rem; }
+
+  .prosa { max-width: var(--medida); margin-top: 2rem; }
+  .prosa :global(h2) {
+    font-size: var(--t-h3);
+    margin-top: 2.25rem;
+    margin-bottom: 0.75rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--linea);
+  }
+  .prosa :global(p) { margin-bottom: 1.1rem; }
+  .prosa :global(strong) { font-weight: 600; }
+</style>

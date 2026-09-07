@@ -1,0 +1,116 @@
+---
+/**
+ * Grilla asimétrica: la primera foto ocupa dos columnas para que no sea otra
+ * grilla de cards iguales. Sin librería de lightbox: <dialog> nativo.
+ */
+import Foto from "./Foto.astro";
+
+interface Props {
+  fotos: { src: ImageMetadata; alt: string; foco?: "centro" | "arriba" | "abajo" }[];
+  unidad?: "restaurante" | "hotel" | "balneario" | "eventos" | "complejo";
+  titulo?: string;
+}
+const { fotos, unidad = "complejo", titulo } = Astro.props;
+---
+
+{
+  fotos.length > 0 && (
+    <div class="galeria">
+      {titulo && <h2>{titulo}</h2>}
+      <ul>
+        {fotos.map((f, i) => (
+          <li class:list={{ ancha: i === 0 }}>
+            <button type="button" data-abrir={i} aria-label={`Ampliar: ${f.alt}`}>
+              <Foto
+                foto={f}
+                unidad={unidad}
+                anchos={[400, 700, 1100]}
+                sizes="(max-width: 640px) 50vw, 33vw"
+              />
+            </button>
+          </li>
+        ))}
+      </ul>
+
+      <dialog class="visor">
+        <button class="cerrar" type="button" aria-label="Cerrar la foto ampliada">✕</button>
+        <img alt="" />
+        <p class="pie-visor" />
+      </dialog>
+    </div>
+  )
+}
+
+<style>
+  .galeria h2 { margin-bottom: 1.5rem; }
+
+  ul {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 2px;
+    list-style: none;
+  }
+  @media (min-width: 720px) {
+    ul { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .ancha { grid-column: span 2; grid-row: span 2; }
+  }
+
+  li { aspect-ratio: 1; }
+  .ancha { aspect-ratio: 1; }
+
+  button[data-abrir] {
+    display: block;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: zoom-in;
+  }
+
+  .visor {
+    width: min(94vw, 1100px);
+    padding: 0;
+    border: 0;
+    background: var(--verde-profundo);
+    color: var(--sobre-oscuro);
+  }
+  .visor::backdrop { background: rgb(5 35 25 / 0.9); }
+  .visor img { width: 100%; height: auto; }
+  .pie-visor { padding: 0.9rem 1.1rem; font-size: 0.9rem; }
+  .cerrar {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    width: 2.5rem;
+    height: 2.5rem;
+    border: 0;
+    background: var(--ambar);
+    color: var(--verde-profundo);
+    font-size: 1rem;
+    cursor: pointer;
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>(".galeria").forEach((galeria) => {
+    const visor = galeria.querySelector<HTMLDialogElement>(".visor");
+    const img = visor?.querySelector("img");
+    const pie = visor?.querySelector<HTMLElement>(".pie-visor");
+    if (!visor || !img || !pie) return;
+
+    galeria.querySelectorAll<HTMLButtonElement>("[data-abrir]").forEach((boton) => {
+      boton.addEventListener("click", () => {
+        const original = boton.querySelector("img");
+        if (!original) return;
+        img.src = original.currentSrc || original.src;
+        img.alt = original.alt;
+        pie.textContent = original.alt;
+        visor.showModal();
+      });
+    });
+
+    visor.querySelector(".cerrar")?.addEventListener("click", () => visor.close());
+    visor.addEventListener("click", (e) => { if (e.target === visor) visor.close(); });
+  });
+</script>
