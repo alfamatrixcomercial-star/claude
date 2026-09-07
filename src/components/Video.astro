@@ -1,0 +1,93 @@
+---
+/**
+ * Video del lugar. Sin audio, con poster para la primera pintura y con
+ * preload="none" para que no se descargue si el visitante no lo mira.
+ * Con prefers-reduced-motion no arranca solo: queda el poster y un botón.
+ */
+interface Props {
+  src: string;
+  poster: string;
+  titulo: string;
+  descripcion: string;
+}
+const { src, poster, titulo, descripcion } = Astro.props;
+---
+
+<figure class="video">
+  <div class="marco">
+  <video
+    src={src}
+    poster={poster}
+    muted
+    loop
+    playsinline
+    preload="none"
+    disablepictureinpicture
+    aria-label={descripcion}
+  ></video>
+  <button type="button" class="reproducir" aria-label={`Reproducir: ${titulo}`}>
+    <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+      <path d="M8 5v14l11-7z" fill="currentColor" />
+    </svg>
+  </button>
+  </div>
+  <figcaption>{descripcion}</figcaption>
+</figure>
+
+<style>
+  .video { margin: 0; }
+  /* El botón se ancla al video, no a la figura: si no, tapa el epígrafe. */
+  .marco { position: relative; }
+  video {
+    display: block;
+    width: 100%;
+    height: auto;
+    background: var(--verde-profundo);
+  }
+  figcaption {
+    margin-top: 0.85rem;
+    font-size: 0.9rem;
+    color: var(--tinta-suave);
+    max-width: var(--medida);
+  }
+  .reproducir {
+    position: absolute;
+    left: 1rem;
+    bottom: 1rem;
+    display: grid;
+    place-items: center;
+    width: var(--toque);
+    height: var(--toque);
+    border: 0;
+    background: var(--ambar);
+    color: var(--verde-profundo);
+    cursor: pointer;
+  }
+  .reproducir[hidden] { display: none !important; }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>(".video").forEach((bloque) => {
+    const video = bloque.querySelector("video");
+    const boton = bloque.querySelector<HTMLButtonElement>(".reproducir");
+    if (!video || !boton) return;
+
+    const quietud = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const ahorro = (navigator as any).connection?.saveData === true;
+
+    const arrancar = () => {
+      video.play().then(() => { boton.hidden = true; }).catch(() => { boton.hidden = false; });
+    };
+    boton.addEventListener("click", arrancar);
+
+    /* Arranca solo cuando entra en pantalla, salvo que el visitante pida
+       menos movimiento o tenga el ahorro de datos activado. */
+    if (quietud.matches || ahorro) return;
+    new IntersectionObserver((entradas) => {
+      for (const e of entradas) {
+        if (e.isIntersecting) arrancar();
+        else video.pause();
+      }
+    }, { threshold: 0.4 }).observe(video);
+  });
+</script>

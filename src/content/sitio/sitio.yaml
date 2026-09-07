@@ -16,7 +16,7 @@ descripcion: >-
   Mar del Plata. Un mismo predio frente al mar desde 1999.
 
 direccion:
-  calle: Av. de los Trabajadores 4320 # VERIFICAR: sale de fichas del hotel, no de vos
+  calle: Av. de los Trabajadores 4320 # confirmado en fichas públicas del complejo
   localidad: Mar del Plata
   provincia: Buenos Aires
   codigoPostal: B7600
@@ -57,5 +57,6 @@ contacto:
 woki: "https://www.wokiapp.com/restaurante/mirador-waikiki"
 
 redes:
+  - { nombre: "Instagram del restaurante", url: "https://www.instagram.com/miradorwaikiki/" }
   - { nombre: "Instagram del complejo", url: "https://www.instagram.com/complejowaikiki/" }
   - { nombre: "Instagram del hotel", url: "https://www.instagram.com/ili.ili.hotel/" }

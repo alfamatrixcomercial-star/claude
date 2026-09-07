@@ -23,7 +23,13 @@ hero:
   alt: >-
     La pileta del balneario con las sombrillas blancas alineadas sobre el césped, junto al mar
   foco: centro
-galeria: []
+galeria:
+  - src: ../../assets/fotos/balneario/terraza.jpg
+    alt: >-
+      La terraza sobre la playa, con sombrillas y reposeras mirando la rompiente
+  - src: ../../assets/fotos/balneario/mar-baranda.jpg
+    alt: >-
+      El mar y la orilla vistos desde la baranda del complejo, con cielo despejado
 
 temporada:
   desde: "12-01"

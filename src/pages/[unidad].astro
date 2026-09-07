@@ -9,6 +9,7 @@ import Boton from "~/components/Boton.astro";
 import Estado from "~/components/Estado.astro";
 import Ficha from "~/components/Ficha.astro";
 import Galeria from "~/components/Galeria.astro";
+import Video from "~/components/Video.astro";
 import Cruce from "~/components/Cruce.astro";
 import BarraFija from "~/components/BarraFija.astro";
 import Ornamento from "~/components/Ornamento.astro";
@@ -177,6 +178,22 @@ const datosEstructurados = {
             <h2>{d.derivacion.titulo}</h2>
             <p class="parrafo">{d.derivacion.texto}</p>
             <Boton href={d.derivacion.url} externo>{d.derivacion.texto_cta}</Boton>
+          </div>
+        </section>
+      )
+    }
+
+    {
+      d.video && (
+        <section class="bloque alt">
+          <div class="interior-simple">
+            <h2>{d.video.titulo}</h2>
+            <Video
+              src={d.video.src}
+              poster={d.video.poster}
+              titulo={d.video.titulo}
+              descripcion={d.video.descripcion}
+            />
           </div>
         </section>
       )

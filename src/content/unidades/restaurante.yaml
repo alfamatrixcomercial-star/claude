@@ -5,46 +5,88 @@ color: verde
 ornamento: vieira
 
 titular: Cocina de mar y fuego, sobre las rocas.
-bajada: Almuerzo, cena y cena show frente al mar
+bajada: Abierto desde las 8, con el mar de frente
 firma: Una propuesta diferente, frente al mar.
 intro:
-  - >-
-    El salón mira al agua por tres lados. Se come mirando la rompiente, con la
-    misma vista con la que abrimos en 1999 y con una carta que cambia cuando
-    cambia lo que llega del puerto.
   # TODO: confirmar propuesta gastronómica y estilo de cocina
   - >-
+    Abre a las ocho de la mañana y no cierra hasta la tarde: desayuno con el mar
+    de frente, almuerzo, café de la tarde y, los viernes y sábados, también la
+    noche. El salón mira al agua por tres lados, con la misma vista con la que
+    abrimos en 1999.
+  - >-
     Los viernes y sábados el salón se arma para la cena show, con entrada sin
-    cargo y arranque a las 22. Los fines de semana al mediodía la cocina pasa a
-    brunch.
+    cargo y arranque a las 22.
 
-# Provisoria: recorte de la foto aérea del predio, para que el sitio no
-# muestre bloques vacíos. Reemplazar por una foto propia de la unidad.
 hero:
-  src: ../../assets/fotos/restaurante/predio-restaurante.jpg
+  src: ../../assets/fotos/restaurante/fachada.jpg
   alt: >-
-    El edificio del restaurante sobre las rocas, con las terrazas y la pileta, visto desde el aire
+    La entrada del restaurante Mirador Waikiki, con el cartel sobre el frente
+    blanco y la galería de madera, en un día de sol
   foco: centro
-galeria: []
 
+# Del video del salón: panel central recortado, sin audio y comprimido.
+video:
+  src: /video/waikiki-salon.mp4
+  poster: /video/waikiki-salon-poster.jpg
+  titulo: El lugar en diez segundos
+  descripcion: >-
+    Diez segundos por el salón, la barra, la cava y la terraza, un mediodía de
+    sol. Sin audio.
+
+galeria:
+  - src: ../../assets/fotos/restaurante/salon-vista.jpg
+    alt: >-
+      El salón del restaurante con plantas y ventanales, y el mar al fondo
+  - src: ../../assets/fotos/restaurante/barra-lamparas.jpg
+    alt: >-
+      La barra iluminada bajo las lámparas de mimbre colgadas del techo alto
+  - src: ../../assets/fotos/restaurante/mesa-puesta.jpg
+    alt: >-
+      Una mesa puesta junto al ventanal, con copas y platos y la playa detrás
+  - src: ../../assets/fotos/restaurante/ensalada.jpg
+    alt: >-
+      Ensalada verde con langostinos y croutones, servida en plato hondo blanco
+  - src: ../../assets/fotos/restaurante/burrata.jpg
+    alt: >-
+      Burrata entera sobre hojas verdes con nueces y tomates, servida en fuente
+  - src: ../../assets/fotos/restaurante/calamares.jpg
+    alt: >-
+      Plato de rabas doradas con gajos de limón sobre la mesa de madera
+  - src: ../../assets/fotos/restaurante/milanesa.jpg
+    alt: >-
+      Milanesa con papas fritas y limón, servida en plato blanco sobre la mesa
+  - src: ../../assets/fotos/restaurante/cava.jpg
+    alt: >-
+      La cava del restaurante, con las botellas iluminadas en estantes claros
+  - src: ../../assets/fotos/restaurante/aperoles.jpg
+    alt: >-
+      Dos aperitivos naranjas recién servidos sobre la barra, a contraluz
+  - src: ../../assets/fotos/restaurante/dj.jpg
+    alt: >-
+      La consola del DJ encendida durante la noche de viernes en el salón
+  - src: ../../assets/fotos/restaurante/costa-noche.jpg
+    alt: >-
+      Una copa en la baranda de noche, con las luces de la costa a lo lejos
+  - src: ../../assets/fotos/restaurante/lounge.jpg
+    alt: >-
+      El sector de sillones del salón, con plantas y la costa por el ventanal
+
+# Horarios reales confirmados por el cliente.
 horarios:
-  - dias: [1, 2, 3, 4]
-    etiqueta: Lunes a jueves
-    franjas: [{ desde: "20:00", hasta: "23:59" }]
+  - dias: [0, 1, 2, 3, 4]
+    etiqueta: Domingo a jueves
+    franjas: [{ desde: "08:00", hasta: "20:00" }]
   - dias: [5, 6]
     etiqueta: Viernes y sábados
-    franjas: [{ desde: "12:00", hasta: "16:00" }, { desde: "20:00", hasta: "23:59" }]
+    franjas: [{ desde: "08:00", hasta: "23:59" }]
     nota: Cena show desde las 22, entrada sin cargo.
-  - dias: [0]
-    etiqueta: Domingos
-    franjas: [{ desde: "10:00", hasta: "15:00" }]
-    nota: Brunch a la carta.
-# TODO: confirmar días y horarios reales, y si cambian en temporada
 
 ficha:
   - { clave: Vista, valor: Al mar por tres lados }
   - { clave: Terraza, valor: "Sí, con reserva previa" } # TODO: confirmar
   - { clave: Grupos, valor: Hasta 40 personas } # TODO: confirmar capacidad
+  - { clave: Desde las 8, valor: Desayunos y café de la tarde }
   - { clave: Cena show, valor: Viernes y sábados desde las 22 }
 
 ctas:

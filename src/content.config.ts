@@ -98,6 +98,16 @@ const unidades = defineCollection({
       /* Bloques propios de cada unidad. */
       /** La carta vive fuera del sitio: acá va el link, no los platos. */
       cartaUrl: z.string().url().optional(),
+
+      /** Video corto del lugar. Va mudo, con poster y sin descargarse solo. */
+      video: z
+        .object({
+          src: z.string().startsWith("/video/"),
+          poster: z.string().startsWith("/video/"),
+          titulo: z.string(),
+          descripcion: z.string().min(20),
+        })
+        .optional(),
       listas: z
         .array(z.object({ titulo: z.string(), items: z.array(z.string()).nonempty() }))
         .default([]),
