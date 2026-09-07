@@ -60,3 +60,19 @@ redes:
   - { nombre: "Instagram del restaurante", url: "https://www.instagram.com/miradorwaikiki/" }
   - { nombre: "Instagram del complejo", url: "https://www.instagram.com/complejowaikiki/" }
   - { nombre: "Instagram del hotel", url: "https://www.instagram.com/ili.ili.hotel/" }
+
+# ─────────────────────────────────────────────────────────────────────────
+#  Prueba social. NO INVENTES TESTIMONIOS: una reseña escrita por nosotros
+#  es una reseña falsa, y si alguien la busca no la encuentra.
+#
+#  Copiá reseñas reales de Google, Tripadvisor o Instagram. Con tres
+#  cargadas la sección aparece sola en el home; vacío, no se renderiza.
+#
+#  testimonios:
+#    - texto: >-
+#        El texto tal cual lo escribió la persona, sin retocar.
+#      nombre: Nombre y apellido, o como figure en la reseña
+#      origen: Google        # Google | Tripadvisor | Instagram | Booking | Facebook
+#      fecha: "2026-01"      # opcional
+# ─────────────────────────────────────────────────────────────────────────
+testimonios: []

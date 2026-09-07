@@ -161,6 +161,24 @@ const sitio = defineCollection({
       eventos: canal,
     }),
     woki: z.string().url().nullable(),
+    /**
+     * Prueba social. El patrón que recomienda el plugin para hotelería pide
+     * de 3 a 5 testimonios con nombre.
+     *
+     * Arranca VACÍO a propósito: un testimonio inventado es una reseña falsa.
+     * Cargá reseñas reales, con el nombre de quien las escribió y de dónde
+     * salieron, y la sección aparece sola en el home.
+     */
+    testimonios: z
+      .array(
+        z.object({
+          texto: z.string().min(40).max(320, "Un testimonio largo no se lee."),
+          nombre: z.string().min(3),
+          origen: z.enum(["Google", "Tripadvisor", "Instagram", "Booking", "Facebook"]),
+          fecha: z.string().optional(),
+        }),
+      )
+      .default([]),
     redes: z.array(z.object({ nombre: z.string(), url: z.string().url() })).default([]),
   }),
 });

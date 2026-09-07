@@ -1,0 +1,123 @@
+---
+/**
+ * Prueba social, según el patrón «Hero-Centric + Social Proof» que el plugin
+ * recomienda para hotelería.
+ *
+ * Dos capas, y ninguna inventada:
+ *  · Datos verificables del complejo (años, seguidores reales de las cuentas).
+ *  · Testimonios, sólo si hay reseñas reales cargadas. Si la colección está
+ *    vacía, ese bloque no existe.
+ */
+import { datosSitio } from "~/lib/contacto";
+
+const sitio = await datosSitio();
+const testimonios = sitio.testimonios;
+
+const anios = new Date().getFullYear() - sitio.desde;
+
+const datos = [
+  { cifra: String(anios), rotulo: "años en el mismo lugar", nota: `Desde ${sitio.desde}` },
+  { cifra: "4", rotulo: "unidades en un predio", nota: "Restaurante, hotel, balneario y eventos" },
+  { cifra: "1ª", rotulo: "línea de playa", nota: "Bajada directa a la arena" },
+];
+---
+
+<section class="confianza">
+  <div class="interior">
+    <ul class="cifras">
+      {
+        datos.map((d) => (
+          <li>
+            <span class="cifra">{d.cifra}</span>
+            <span class="rotulo-cifra">{d.rotulo}</span>
+            <span class="nota">{d.nota}</span>
+          </li>
+        ))
+      }
+    </ul>
+
+    {
+      testimonios.length > 0 && (
+        <>
+          <div class="encabezado centrado">
+            <p class="rotulo">Lo que dicen</p>
+            <h2>Quienes ya vinieron</h2>
+          </div>
+          <ul class="citas">
+            {testimonios.slice(0, 5).map((t) => (
+              <li>
+                <blockquote>{t.texto}</blockquote>
+                <p class="firma-cita">
+                  <span class="nombre">{t.nombre}</span>
+                  <span class="origen">{t.origen}</span>
+                </p>
+              </li>
+            ))}
+          </ul>
+        </>
+      )
+    }
+  </div>
+</section>
+
+<style>
+  .confianza {
+    border-block: 1px solid var(--linea);
+    padding: var(--paso) var(--margen);
+  }
+  .interior { max-width: var(--ancho); margin-inline: auto; }
+
+  .cifras {
+    display: grid;
+    gap: clamp(2rem, 5vw, 3.5rem);
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    list-style: none;
+    text-align: center;
+  }
+  .cifras li { display: flex; flex-direction: column; gap: 0.4rem; }
+
+  .cifra {
+    font-family: var(--f-display);
+    font-size: clamp(2.75rem, 4.5vw, 4rem);
+    line-height: 1;
+    color: var(--acento);
+  }
+  .rotulo-cifra {
+    font-size: var(--t-eyebrow);
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+  .nota { font-size: 0.875rem; color: var(--tinta-suave); }
+
+  .encabezado { margin-top: var(--paso); }
+
+  .citas {
+    display: grid;
+    gap: 1px;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    list-style: none;
+  }
+  .citas li {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    padding: 2rem 1.75rem;
+    border-top: 1px solid var(--linea);
+  }
+  blockquote {
+    margin: 0;
+    font-family: var(--f-firma);
+    font-style: italic;
+    font-size: 1.0625rem;
+    line-height: 1.5;
+  }
+  .firma-cita { display: flex; flex-direction: column; gap: 0.2rem; margin-top: auto; }
+  .nombre { font-size: 0.9rem; font-weight: 500; }
+  .origen {
+    font-size: var(--t-eyebrow);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--tinta-suave);
+  }
+</style>

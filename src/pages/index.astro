@@ -5,6 +5,8 @@ import Onda from "~/components/Onda.astro";
 import Puerta from "~/components/Puerta.astro";
 import Foto from "~/components/Foto.astro";
 import Boton from "~/components/Boton.astro";
+import Confianza from "~/components/Confianza.astro";
+import CierreCta from "~/components/CierreCta.astro";
 import { estadoDeUnidad, agendaVigente } from "~/lib/estado";
 import { datosSitio, waLink, wokiLink } from "~/lib/contacto";
 import portada from "~/assets/fotos/complejo/predio-aereo.jpg";
@@ -99,6 +101,10 @@ const datosEstructurados = {
         {sitio.direccion.localidad} · desde {sitio.desde}
       </p>
       <h1>{sitio.lema}</h1>
+      <p class="valor">
+        Restaurante, hotel, balneario y salón de eventos en un mismo predio
+        sobre las rocas, con bajada directa a la playa.
+      </p>
     </div>
   </section>
 
@@ -205,6 +211,9 @@ const datosEstructurados = {
 
   <Onda />
 
+  <!-- Prueba social: lo que el patrón del plugin marcaba como faltante -->
+  <Confianza />
+
   <!-- Cómo llegar -->
   <section class="llegar">
     <div class="interior">
@@ -230,6 +239,9 @@ const datosEstructurados = {
       </div>
     </div>
   </section>
+
+  <!-- CTA de cierre: el patrón lo pide después de la prueba social -->
+  <CierreCta />
 </Base>
 
 <style>
@@ -275,6 +287,12 @@ const datosEstructurados = {
     margin-bottom: 0.9rem;
   }
   h1 { font-size: var(--t-display); max-width: 14ch; }
+  .valor {
+    max-width: 44ch;
+    margin-top: 1.25rem;
+    color: var(--sobre-oscuro);
+    opacity: 0.88;
+  }
 
   .puertas {
     display: grid;

@@ -1,0 +1,49 @@
+---
+/**
+ * Bloque de cierre. El patrón del plugin pide repetir el CTA principal
+ * después de la prueba social: quien llegó hasta acá ya decidió, y no
+ * tiene que volver a subir a buscar el botón.
+ */
+import Boton from "./Boton.astro";
+import { waLink, wokiLink } from "~/lib/contacto";
+
+const woki = await wokiLink();
+const wa = await waLink("general");
+---
+
+<section class="cierre">
+  <div class="interior">
+    <div class="encabezado centrado">
+      <p class="rotulo">Reservas</p>
+      <h2>Se reserva por WhatsApp o por Woki.</h2>
+    </div>
+    <p class="aclaracion">
+      No hay formulario ni pasarela de pago: escribís y te contesta alguien del
+      complejo. El mensaje se abre ya escrito con la unidad que te interesa.
+    </p>
+    <div class="acciones">
+      {woki && <Boton href={woki} externo>Reservar mesa en Woki</Boton>}
+      <Boton href={wa} jerarquia={woki ? "secundaria" : "primaria"} externo>
+        Escribir por WhatsApp
+      </Boton>
+    </div>
+  </div>
+</section>
+
+<style>
+  .cierre { padding: var(--paso) var(--margen); }
+  .interior {
+    max-width: 46rem;
+    margin-inline: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  .aclaracion {
+    max-width: 46ch;
+    color: var(--tinta-suave);
+    margin-bottom: 2.25rem;
+  }
+  .acciones { display: flex; flex-wrap: wrap; gap: 0.9rem; justify-content: center; }
+</style>
