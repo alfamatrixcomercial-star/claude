@@ -22,7 +22,7 @@ galeria: []
 estadoFijo: Agenda 2026 abierta
 
 ficha:
-  - { clave: Tipos de evento, valor: Casamientos, corporativos y sociales }
+  - { clave: Tipos de evento, valor: "Casamientos, corporativos y sociales" }
   - { clave: Capacidad, valor: A confirmar según montaje } # TODO
   - { clave: Alojamiento, valor: Hotel Ili Ili en el mismo predio }
   - { clave: Producción, valor: Mar Eventos }

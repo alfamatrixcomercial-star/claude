@@ -16,7 +16,7 @@ descripcion: >-
   Mar del Plata. Un mismo predio frente al mar desde 1999.
 
 direccion:
-  calle: Paseo Costanero Sur Presidente Illia # TODO: dirección exacta con altura
+  calle: Av. de los Trabajadores 4320 # VERIFICAR: sale de fichas del hotel, no de vos
   localidad: Mar del Plata
   provincia: Buenos Aires
   codigoPostal: B7600
@@ -27,8 +27,8 @@ coordenadas: # TODO: coordenadas exactas del acceso al predio
   lng: -57.5426
 
 comoLlegar:
-  - Sobre el Paseo Costanero Sur, entre Playa Grande y Punta Mogotes.
-  - Desde el centro, por la costa, unos quince minutos en auto.
+  - Sobre la costa, a la altura de Punta Mogotes.
+  - Desde el centro, por la avenida costanera, unos quince minutos en auto.
   - Líneas de colectivo que paran en la puerta. # TODO: números de línea
 
 estacionamiento: Estacionamiento propio dentro del predio, sin cargo para clientes.
@@ -52,6 +52,10 @@ contacto:
     whatsapp: "5492235466065" # TODO: número comercial de eventos
     mensaje: "Hola! Quiero consultar por un evento en Mirador Waikiki."
 
-woki: null # TODO: pegar acá el link público de Woki y los botones cambian solos
+# VERIFICAR con un click: no pude abrir wokiapp.com desde el entorno de
+# desarrollo. Si redirige a otra dirección, cambiá esta línea y listo.
+woki: "https://www.wokiapp.com/restaurante/mirador-waikiki"
 
-redes: [] # TODO: Instagram por unidad
+redes:
+  - { nombre: "Instagram del complejo", url: "https://www.instagram.com/complejowaikiki/" }
+  - { nombre: "Instagram del hotel", url: "https://www.instagram.com/ili.ili.hotel/" }

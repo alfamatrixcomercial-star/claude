@@ -8,10 +8,11 @@ titular: Carpas y sombrillas sobre la arena.
 bajada: Temporada de verano, por día o por temporada completa
 firma: El mismo predio, con los pies en la arena.
 intro:
+  # TODO: confirmar modalidades reales
   - >-
     El balneario abre en diciembre y cierra a fines de marzo. Se contrata por
     día, por quincena o por temporada completa, y el acceso al restaurante y al
-    hotel es el mismo predio. # TODO: confirmar modalidades reales
+    hotel es el mismo predio.
   - >-
     Los huéspedes de Ili Ili tienen acceso durante su estadía.
 
@@ -27,7 +28,7 @@ temporada:
 
 ficha:
   - { clave: Temporada, valor: Diciembre a marzo }
-  - { clave: Contratación, valor: Día, quincena o temporada }
+  - { clave: Contratación, valor: "Día, quincena o temporada" }
   - { clave: Huéspedes del hotel, valor: Acceso incluido } # TODO: confirmar
   - { clave: Estacionamiento, valor: Dentro del predio }
 

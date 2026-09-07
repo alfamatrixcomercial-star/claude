@@ -8,7 +8,6 @@ import Foto from "~/components/Foto.astro";
 import Boton from "~/components/Boton.astro";
 import Estado from "~/components/Estado.astro";
 import Ficha from "~/components/Ficha.astro";
-import Carta from "~/components/Carta.astro";
 import Galeria from "~/components/Galeria.astro";
 import Cruce from "~/components/Cruce.astro";
 import BarraFija from "~/components/BarraFija.astro";
@@ -69,21 +68,10 @@ const datosEstructurados = {
   },
   telephone: `+${sitio.contacto[id].whatsapp}`,
   parentOrganization: { "@type": "LocalBusiness", name: sitio.nombre, url: Astro.site?.href },
-  ...(d.schema === "Restaurant" && d.carta.length
+  ...(d.schema === "Restaurant"
     ? {
         servesCuisine: "Cocina de mar",
-        hasMenu: {
-          "@type": "Menu",
-          hasMenuSection: d.carta.map((s) => ({
-            "@type": "MenuSection",
-            name: s.seccion,
-            hasMenuItem: s.items.map((i) => ({
-              "@type": "MenuItem",
-              name: i.nombre,
-              ...(i.descripcion ? { description: i.descripcion } : {}),
-            })),
-          })),
-        },
+        ...(d.cartaUrl ? { hasMenu: d.cartaUrl } : {}),
         openingHoursSpecification: d.horarios.flatMap((h) =>
           h.franjas.map((f) => ({
             "@type": "OpeningHoursSpecification",
@@ -149,39 +137,17 @@ const datosEstructurados = {
     </section>
 
     {
-      d.carta.length > 0 && (
+      d.cartaUrl && (
         <section class="bloque">
-          <div class="interior-simple">
-            <h2>La carta</h2>
-            <p class="nota">
-              Cambia con la temporada y con lo que llega del puerto. Los precios se
-              consultan en el salón o por WhatsApp.
-            </p>
-            <Carta carta={d.carta} />
-          </div>
-        </section>
-      )
-    }
-
-    {
-      d.habitaciones.length > 0 && (
-        <section class="bloque alt">
-          <div class="interior-simple">
-            <h2>Las habitaciones</h2>
-            <ul class="habitaciones">
-              {d.habitaciones.map((h) => (
-                <li>
-                  <h3>{h.nombre}</h3>
-                  <p class="capacidad">{h.capacidad}</p>
-                  <p class="desc">{h.descripcion}</p>
-                  {h.servicios.length > 0 && (
-                    <ul class="servicios">
-                      {h.servicios.map((s) => <li>{s}</li>)}
-                    </ul>
-                  )}
-                </li>
-              ))}
-            </ul>
+          <div class="interior-simple salida">
+            <div>
+              <h2>La carta</h2>
+              <p class="nota">
+                Cambia con la temporada y con lo que llega del puerto. Se abre en el
+                celular, sin descargar nada.
+              </p>
+            </div>
+            <Boton href={d.cartaUrl} externo>Ver la carta</Boton>
           </div>
         </section>
       )
@@ -293,7 +259,13 @@ const datosEstructurados = {
     .interior { grid-template-columns: 1.55fr 1fr; }
   }
 
-  .relato { position: relative; display: flex; flex-direction: column; gap: 1.25rem; }
+  .relato {
+    position: relative;
+    align-self: start;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
   .relato :global(.fondo-orn) {
     position: absolute;
     right: -2%;
@@ -317,45 +289,17 @@ const datosEstructurados = {
   .bloque.alt { background: var(--fondo-alt); }
   .interior-simple { max-width: var(--ancho); margin-inline: auto; }
   .bloque h2 { margin-bottom: 1rem; }
-  .nota { color: var(--tinta-suave); max-width: var(--medida); margin-bottom: 2rem; }
+  .nota { color: var(--tinta-suave); max-width: var(--medida); }
 
-  .habitaciones {
-    display: grid;
-    gap: 1px;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    background: var(--linea);
-    list-style: none;
-    margin-top: 2rem;
-  }
-  .habitaciones > li {
-    background: var(--fondo-alt);
-    border-top: 3px solid var(--u);
-    padding: 1.5rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.6rem;
-  }
-  .capacidad {
-    font-size: 0.75rem;
-    font-weight: 600;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: var(--u-txt);
-  }
-  .desc { font-size: 0.95rem; }
-  .servicios {
+  /* Bloque que manda a otro lado: título a la izquierda, salida a la derecha. */
+  .salida {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.4rem;
-    list-style: none;
-    margin-top: auto;
-    padding-top: 0.75rem;
-  }
-  .servicios li {
-    font-size: 0.78rem;
-    padding: 0.25rem 0.6rem;
-    border: 1px solid var(--linea);
-    color: var(--tinta-suave);
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1.75rem;
+    border-top: 2px solid var(--linea-fuerte);
+    padding-top: 1.75rem;
   }
 
   .listas {
@@ -367,6 +311,11 @@ const datosEstructurados = {
   .lista li { padding: 0.7rem 0; border-bottom: 1px solid var(--linea); }
 
   .derivacion { background: var(--fondo); color: var(--tinta); padding: var(--paso) var(--margen); }
+  /* Derivación y «también en el complejo» comparten material: pegadas,
+     sus pasos verticales se sumaban. El corte lo marca el cambio de bloque,
+     no el doble de aire. */
+  .derivacion:has(+ :global(.cruce)) { padding-bottom: var(--paso-corto); }
+  .derivacion + :global(.cruce) { padding-top: var(--paso-corto); }
   .derivacion .interior-simple {
     display: flex;
     flex-direction: column;

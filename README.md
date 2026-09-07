@@ -30,21 +30,31 @@ textos, horarios, platos o números de teléfono.**
 
 Los esquemas están en `src/content.config.ts`. **Si un dato está mal, el build
 falla y te dice qué corregir** — esa validación es lo que reemplaza al panel de
-administración de un CMS.
+administración de un CMS. Entre otras cosas caza dos errores fáciles de cometer
+en YAML y difíciles de ver:
 
-### Cambiar un plato de la carta
+- Una coma sin comillas dentro de `{ }` parte el valor en dos y se publica sólo
+  la mitad. Escribí `valor: "Sí, con reserva previa"`.
+- Un `# TODO` dentro de un bloque de texto `>-` **no es un comentario**: es
+  texto y sale publicado. Poné la nota en su propia línea.
+
+### La carta y las habitaciones viven fuera del sitio
+
+La carta es un link a la plataforma de menú digital, y las habitaciones se ven
+y se reservan en el sitio propio del hotel. El sitio muestra el lugar y deriva,
+igual que hace con eventos:
 
 ```yaml
 # src/content/unidades/restaurante.yaml
-carta:
-  - seccion: Del mar
-    items:
-      - nombre: Pesca del día
-        descripcion: según lo que llegue del puerto   # la descripción es opcional
-```
+cartaUrl: "https://mimenulatech.com/miradorwaikiki"
 
-La carta va sin precios, por decisión del cliente: el esquema directamente no
-admite el campo, así que no se puede colar uno por error.
+# src/content/unidades/hotel.yaml
+ctas:
+  - { texto: Ver habitaciones y reservar, tipo: externo, href: "https://iliilihotelboutique.com.ar" }
+derivacion:
+  titulo: Las habitaciones se ven en el sitio del hotel
+  url: "https://iliilihotelboutique.com.ar"
+```
 
 ### Cambiar a dónde va un botón
 
@@ -59,9 +69,12 @@ contacto:
 Ningún componente arma un `wa.me` a mano: todos pasan por `waLink()` en
 `src/lib/contacto.ts`. Cambiar un número es cambiar esa línea.
 
-**Woki:** mientras `woki: null`, los botones que apuntan a Woki simplemente no
-se muestran y queda el de WhatsApp. En cuanto pegues la URL aparecen solos en
-el home y en la página del restaurante.
+**Woki:** el link cargado es
+`https://www.wokiapp.com/restaurante/mirador-waikiki`. **Abrilo una vez para
+confirmarlo:** el entorno de desarrollo tiene bloqueado wokiapp.com, así que
+no lo pude verificar. Si redirige a otra dirección, cambiá esa línea. Si
+alguna vez lo ponés en `null`, los botones de Woki desaparecen solos y queda
+el de WhatsApp.
 
 ### Horarios y temporada
 
@@ -173,12 +186,14 @@ cambiá `site` en `astro.config.mjs` si el dominio final no es
 
 Marcados con `# TODO` en los YAML:
 
-- Dirección exacta con altura y coordenadas reales.
+- **Confirmar la dirección.** `Av. de los Trabajadores 4320` la saqué de
+  fichas del hotel en directorios, no de vos. Faltan las coordenadas exactas.
+- **Confirmar el link de Woki** con un click (ver arriba).
 - WhatsApp, teléfono e Instagram propios de cada unidad (hoy todos usan el
   número del brandboard, `223 546 6065`).
 - URL pública de Woki.
-- Carta real del restaurante, habitaciones y servicios reales del hotel,
-  servicios y modalidades del balneario, capacidades por montaje en eventos.
+- Servicios y modalidades del balneario, capacidades por montaje en eventos,
+  y confirmar horarios y datos del restaurante.
 - Fotos de cada unidad y los `woff2` de Ramona y Apparel.
 - Logo en vectorial original. El que usa el sitio
   (`src/assets/marca/isologo.svg`) está extraído del PDF del brandboard: se ve

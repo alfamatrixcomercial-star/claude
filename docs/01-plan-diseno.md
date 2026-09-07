@@ -429,3 +429,19 @@ espacio y deriva la producción a mareventos.com.ar. Mantengo mi recomendación
 de que la Opción A capturaría mejor la búsqueda de «salón para casamientos
 frente al mar Mar del Plata», pero el sitio está armado de manera que pasar de
 B a A es agregar contenido en `eventos.yaml`, no rehacer nada.
+
+### Cambios pedidos después de la primera entrega
+
+- **La carta salió del sitio.** Vive en `mimenulatech.com/miradorwaikiki`; la
+  página del restaurante muestra un bloque corto con el botón «Ver la carta».
+  Se fue el acordeón y el campo de platos del esquema: ya no se puede cargar
+  una carta a mano por error.
+- **El hotel deriva a su propio sitio,** igual que eventos con Mar Eventos. La
+  página muestra el lugar en dos párrafos y manda a
+  `iliilihotelboutique.com.ar` para habitaciones y disponibilidad. Se fue el
+  bloque de habitaciones.
+- **Woki cargado:** `wokiapp.com/restaurante/mirador-waikiki`. Falta un click
+  de confirmación.
+
+Con esto el sitio quedó más chico y más honesto sobre lo que sabe: muestra el
+predio y las cuatro puertas, y el detalle lo atiende quien lo tiene al día.

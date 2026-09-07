@@ -9,6 +9,16 @@ import { glob } from "astro/loaders";
    ──────────────────────────────────────────────────────────────────────── */
 
 const HORA = /^([01]\d|2[0-3]):[0-5]\d$/;
+
+/**
+ * Dentro de un bloque de texto de YAML (`>-`), un `#` NO abre un comentario:
+ * queda como texto y se publica. Esta validación lo caza en el build.
+ */
+const publicable = <T extends z.ZodString>(base: T) =>
+  base.refine((t) => !/\b(TODO|VERIFICAR|FIXME)\b/.test(t), {
+    message:
+      "Hay un TODO metido en texto que se publica. Dentro de un bloque >- el # no comenta: sacá la nota a su propia línea.",
+  });
 const DIA_MES = /^(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/;
 
 /** Una foto siempre viaja con su alt. El alt es contenido, no relleno. */
@@ -56,10 +66,12 @@ const unidades = defineCollection({
       color: z.enum(["verde", "arena", "teal", "terracota"]),
       ornamento: z.enum(["caracol", "vieira", "ammonite", "coral"]),
 
-      titular: z.string().min(10),
-      bajada: z.string().min(10).max(90, "En la puerta del home no entra más que un renglón."),
+      titular: publicable(z.string().min(10)),
+      bajada: publicable(
+        z.string().min(10).max(90, "En la puerta del home no entra más que un renglón."),
+      ),
       firma: z.string().optional(),
-      intro: z.array(z.string()).min(1),
+      intro: z.array(publicable(z.string())).min(1),
 
       hero: fotoOpcional(image),
       galeria: z.array(foto(image)).default([]),
@@ -75,28 +87,15 @@ const unidades = defineCollection({
         .optional(),
       estadoFijo: z.string().optional(),
 
-      ficha: z.array(z.object({ clave: z.string(), valor: z.string() })).default([]),
+      /* strict(): una coma sin comillas dentro de { } parte el valor y crea
+         una clave fantasma. Con strict el build lo denuncia en vez de
+         quedarse con medio texto. */
+      ficha: z.array(z.object({ clave: z.string(), valor: z.string() }).strict()).default([]),
       ctas: z.array(cta).min(1).max(2),
 
       /* Bloques propios de cada unidad. */
-      carta: z
-        .array(
-          z.object({
-            seccion: z.string(),
-            items: z.array(z.object({ nombre: z.string(), descripcion: z.string().optional() })),
-          }),
-        )
-        .default([]),
-      habitaciones: z
-        .array(
-          z.object({
-            nombre: z.string(),
-            capacidad: z.string(),
-            descripcion: z.string(),
-            servicios: z.array(z.string()).default([]),
-          }),
-        )
-        .default([]),
+      /** La carta vive fuera del sitio: acá va el link, no los platos. */
+      cartaUrl: z.string().url().optional(),
       listas: z
         .array(z.object({ titulo: z.string(), items: z.array(z.string()).nonempty() }))
         .default([]),
