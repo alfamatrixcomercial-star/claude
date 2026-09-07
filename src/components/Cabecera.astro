@@ -76,15 +76,22 @@ const wa = await waLink("general");
     display: inline-flex;
     align-items: center;
     min-height: var(--toque);
-    padding: 0 1.05rem;
-    background: var(--accion-fondo);
+    padding: 0 1.25rem;
+    background: transparent;
     color: var(--accion-tinta);
-    font-size: 0.9375rem;
-    font-weight: 600;
+    border: 1px solid var(--accion-borde);
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
     text-decoration: none;
-    transition: background-color 0.2s;
+    transition: background-color 0.25s, color 0.25s, border-color 0.25s;
   }
-  .reservar:hover { background: #a96c22; }
+  .reservar:hover {
+    background: var(--accion-hover-fondo);
+    color: var(--accion-hover-tinta);
+    border-color: var(--accion-hover-fondo);
+  }
 
   .menu { grid-area: 1 / 4; }
 

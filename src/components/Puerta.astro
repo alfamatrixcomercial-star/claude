@@ -54,8 +54,8 @@ const { id, nombre, bajada, href, estado, cta, ctaHref, foto, ornamento, orden }
   .puerta {
     display: flex;
     flex-direction: column;
-    border-left: 5px solid var(--u);
-    border-bottom: 1px solid var(--linea);
+    border-top: 1px solid var(--u);
+    border-right: 1px solid var(--linea);
     background: var(--fondo);
   }
 
@@ -71,9 +71,9 @@ const { id, nombre, bajada, href, estado, cta, ctaHref, foto, ornamento, orden }
 
   .nombre {
     font-family: var(--f-texto);
-    font-size: 0.8125rem;
-    font-weight: 700;
-    letter-spacing: 0.18em;
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.24em;
     text-transform: uppercase;
     color: var(--u-txt);
   }
@@ -85,9 +85,9 @@ const { id, nombre, bajada, href, estado, cta, ctaHref, foto, ornamento, orden }
   .bajada {
     font-family: var(--f-display);
     font-size: 1.0625rem;
-    font-weight: 700;
-    letter-spacing: -0.02em;
-    line-height: 1.2;
+    font-weight: 400;
+    letter-spacing: 0;
+    line-height: 1.3;
   }
 
   .est { margin-top: -0.1rem; }
@@ -102,16 +102,23 @@ const { id, nombre, bajada, href, estado, cta, ctaHref, foto, ornamento, orden }
     min-height: var(--toque);
     margin-top: auto;
     padding: 0.6em 1em;
-    background: var(--accion-fondo);
+    background: transparent;
     color: var(--accion-tinta);
-    font-size: 0.9375rem;
-    font-weight: 600;
-    line-height: 1.25;
+    border: 1px solid var(--accion-borde);
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    line-height: 1.3;
     text-decoration: none;
     text-align: center;
-    transition: background-color 0.2s;
+    transition: background-color 0.25s, color 0.25s, border-color 0.25s;
   }
-  .cta:hover { background: #a96c22; }
+  .cta:hover {
+    background: var(--accion-hover-fondo);
+    color: var(--accion-hover-tinta);
+    border-color: var(--accion-hover-fondo);
+  }
 
   .u-restaurante { --u: var(--u-restaurante); --u-txt: var(--u-restaurante-txt); }
   .u-hotel { --u: var(--u-hotel); --u-txt: var(--u-hotel-txt); }
@@ -136,6 +143,6 @@ const { id, nombre, bajada, href, estado, cta, ctaHref, foto, ornamento, orden }
   @media (max-width: 520px) {
     .cuerpo { padding: 0.9rem 0.9rem 1rem; gap: 0.5rem; }
     .bajada { font-size: 1rem; }
-    .cta { font-size: 0.875rem; padding: 0.6em 0.5em; }
+    .cta { font-size: 0.68rem; padding: 0.6em 0.4em; letter-spacing: 0.12em; }
   }
 </style>

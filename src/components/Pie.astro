@@ -19,7 +19,7 @@ const canales = await Promise.all(
 );
 ---
 
-<footer class="pie oscuro">
+<footer class="pie">
   <div class="interior">
     <div class="marca">
       <span class="iso" set:html={isologo} />
@@ -75,8 +75,7 @@ const canales = await Promise.all(
 
 <style>
   .pie {
-    background: var(--fondo);
-    color: var(--tinta);
+    border-top: 1px solid var(--linea);
     padding: var(--paso) var(--margen) calc(var(--paso) / 1.6);
   }
   .interior {

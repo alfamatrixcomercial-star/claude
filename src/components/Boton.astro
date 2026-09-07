@@ -29,33 +29,37 @@ const fuera = externo || href.startsWith("http");
   .boton {
     display: inline-flex;
     align-items: center;
-    gap: 0.65em;
-    padding: 0.85em 1.35em;
+    gap: 0.9em;
+    min-height: var(--toque);
+    padding: 0.7em 1.5em;
     font-family: var(--f-texto);
-    font-size: 0.95rem;
-    font-weight: 600;
-    letter-spacing: 0.01em;
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
     text-decoration: none;
-    border: 2px solid transparent;
-    transition: background-color 0.15s, color 0.15s, border-color 0.15s;
-  }
-  .boton svg { flex: none; transition: transform 0.18s; }
-  .boton:hover svg { transform: translateX(3px); }
-
-  .primaria {
     background: var(--accion-fondo);
     color: var(--accion-tinta);
+    border: 1px solid var(--accion-borde);
+    transition: background-color 0.25s, color 0.25s, border-color 0.25s;
   }
-  .primaria:hover { background: #a96c22; }
+  .boton svg { flex: none; transition: transform 0.25s; }
+  .boton:hover {
+    background: var(--accion-hover-fondo);
+    color: var(--accion-hover-tinta);
+    border-color: var(--accion-hover-fondo);
+  }
+  .boton:hover svg { transform: translateX(3px); }
 
+  /* La secundaria es aún más tenue: el filete apenas se insinúa. */
   .secundaria {
-    background: transparent;
-    color: var(--tinta);
-    border-color: var(--tinta);
+    color: var(--tinta-suave);
+    border-color: var(--linea);
   }
   .secundaria:hover {
-    background: var(--tinta);
-    color: var(--fondo);
+    background: transparent;
+    color: var(--tinta);
+    border-color: var(--tinta-suave);
   }
 
   @media (prefers-reduced-motion: reduce) {

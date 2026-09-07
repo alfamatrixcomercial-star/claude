@@ -120,7 +120,7 @@ const datosEstructurados = {
   </div>
 
   <!-- Un solo lugar -->
-  <section class="relato oscuro">
+  <section class="relato">
     <div class="interior">
       <div class="palabra">
         <p class="firma">{sitio.firma}</p>
@@ -249,8 +249,8 @@ const datosEstructurados = {
   }
 
   .relato {
-    background: var(--fondo);
-    color: var(--tinta);
+    background: var(--fondo-alt);
+    border-block: 1px solid var(--linea);
     padding: var(--paso) var(--margen);
   }
   .relato .interior {
@@ -274,7 +274,7 @@ const datosEstructurados = {
   .cuerpo { max-width: var(--medida); color: var(--tinta-suave); }
   figure { margin: 0; aspect-ratio: 4 / 3; }
 
-  .agenda { background: var(--fondo-alt); padding: var(--paso-corto) var(--margen); }
+  .agenda { border-bottom: 1px solid var(--linea); padding: var(--paso-corto) var(--margen); }
   .agenda .interior { max-width: var(--ancho); margin-inline: auto; }
   .agenda h2 {
     font-family: var(--f-texto);
@@ -291,7 +291,7 @@ const datosEstructurados = {
     grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
     list-style: none;
   }
-  .agenda li { border-left: 3px solid var(--u); padding-left: 1rem; }
+  .agenda li { border-left: 1px solid var(--u); padding-left: 1.1rem; }
   .agenda a { text-decoration: none; }
   .agenda b { display: block; font-weight: 600; }
   .agenda span { display: block; font-size: 0.925rem; color: var(--tinta-suave); }

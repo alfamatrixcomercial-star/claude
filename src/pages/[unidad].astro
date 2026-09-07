@@ -173,7 +173,7 @@ const datosEstructurados = {
 
     {
       d.derivacion && (
-        <section class="derivacion oscuro">
+        <section class="derivacion">
           <div class="interior-simple">
             <h2>{d.derivacion.titulo}</h2>
             <p class="parrafo">{d.derivacion.texto}</p>
@@ -221,7 +221,7 @@ const datosEstructurados = {
   .u-balneario { --u: var(--u-balneario); --u-txt: var(--u-balneario-txt); }
   .u-eventos { --u: var(--u-eventos); --u-txt: var(--u-eventos-txt); }
 
-  .hero { position: relative; isolation: isolate; border-left: 5px solid var(--u); }
+  .hero { position: relative; isolation: isolate; border-bottom: 1px solid var(--u); }
   .fondo { position: absolute; inset: 0; z-index: -1; background: var(--verde-profundo); }
   .fondo::after {
     content: "";
@@ -327,7 +327,11 @@ const datosEstructurados = {
   .lista { list-style: none; display: flex; flex-direction: column; }
   .lista li { padding: 0.7rem 0; border-bottom: 1px solid var(--linea); }
 
-  .derivacion { background: var(--fondo); color: var(--tinta); padding: var(--paso) var(--margen); }
+  .derivacion {
+    background: var(--fondo-alt);
+    border-top: 1px solid var(--linea);
+    padding: var(--paso) var(--margen);
+  }
   /* Derivación y «también en el complejo» comparten material: pegadas,
      sus pasos verticales se sumaban. El corte lo marca el cambio de bloque,
      no el doble de aire. */

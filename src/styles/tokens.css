@@ -1,17 +1,20 @@
 /* ─────────────────────────────────────────────────────────────────────────
-   Tokens de Mirador Waikiki. Todos los colores salen del brandboard; lo
-   que se define acá es el ROL de cada uno.
+   Mirador Waikiki · sistema oscuro
 
-   Reglas duras del sistema, que no se rompen en ningún componente:
-   · El ámbar es sólo acción. Si algo es ámbar, se puede tocar.
-   · Nunca texto blanco sobre ámbar (3.26). El botón es ámbar con tinta
-     verde profundo (5.11).
-   · No hay una sola sombra en el sitio. Las secciones se separan por
-     cambio de material y por la onda de pincel.
+   Los colores siguen siendo los del brandboard. Lo que cambió es el peso
+   con que se usan: el sitio va sobre el verde profundo del manual y el
+   acento es la arena, en filete fino y en versalitas espaciadas, no en
+   bloques rellenos.
+
+   Reglas del sistema:
+   · Nada de rellenos saturados. El acento se usa en línea de 1 px,
+     en texto y en el hover. Un botón relleno es la excepción, no la regla.
+   · Sin sombras y sin radio: la separación es por filete y por material.
+   · Los títulos van en peso liviano y con la letra abierta, no en negrita.
    ───────────────────────────────────────────────────────────────────────── */
 
 :root {
-  /* Paleta del manual */
+  /* Paleta del brandboard */
   --verde-profundo: #052319;
   --hueso: #f1f1f1;
   --crudo: #eeebdb;
@@ -19,79 +22,93 @@
   --teal: #5d878a;
   --arena: #bda38c;
   --terracota: #a2745e;
-  --ambar: #c3802f;
-  /* Derivados, sólo por contraste sobre fondo claro */
-  --teal-700: #53797c;
-  --terracota-700: #916854;
-  --arena-700: #847262;
+
+  /* Claros derivados, para que todo se lea sobre el verde profundo */
+  --verde-claro: #7ba05f;
+  --arena-clara: #cfb79f;
+  --teal-claro: #7fa9ac;
+  --terracota-clara: #c2907a;
 
   /* Roles */
-  --fondo: var(--hueso);
-  --fondo-alt: var(--crudo);
-  --tinta: var(--verde-profundo);
-  --tinta-suave: #3d4a44;
-  --linea: #d5d2c6;
-  --linea-fuerte: var(--verde-profundo);
+  --fondo: var(--verde-profundo);
+  --fondo-alt: #0a2c20;
+  --fondo-claro: var(--crudo);
+  --tinta: #efede4;
+  --tinta-suave: #a8bcb0;
+  --linea: #17402f;
+  --linea-fuerte: #8a9a92;
+
+  /* Acento único, en filete y en texto. 6.96 sobre el fondo. */
+  --acento: var(--arena);
+  --acento-tenue: #6d7d6f;
+
+  /* La acción es un contorno, no un bloque de color. Cuando se rellena,
+     va arena con tinta verde profundo: 6.96, holgado. */
+  --accion-fondo: transparent;
+  --accion-tinta: var(--arena);
+  --accion-borde: var(--arena);
+  --accion-hover-fondo: var(--arena);
+  --accion-hover-tinta: var(--verde-profundo);
+  --foco: var(--arena);
+
   --sobre-oscuro: #efede4;
   --sobre-oscuro-suave: #a8bcb0;
-  --accion-fondo: var(--ambar);
-  --accion-tinta: var(--verde-profundo);
-  --foco: var(--ambar);
 
-  /* Color por unidad: la señalética del sitio */
-  --u-restaurante: var(--verde);
-  --u-hotel: var(--arena);
-  --u-balneario: var(--teal);
-  --u-eventos: var(--terracota);
-  /* Variante legible como texto sobre fondo claro */
-  --u-restaurante-txt: var(--verde);
-  --u-hotel-txt: var(--arena-700);
-  --u-balneario-txt: var(--teal-700);
-  --u-eventos-txt: var(--terracota-700);
+  /* Color por unidad, en las versiones que se leen sobre oscuro */
+  --u-restaurante: var(--verde-claro);
+  --u-hotel: var(--arena-clara);
+  --u-balneario: var(--teal-claro);
+  --u-eventos: var(--terracota-clara);
+  --u-restaurante-txt: var(--verde-claro);
+  --u-hotel-txt: var(--arena-clara);
+  --u-balneario-txt: var(--teal-claro);
+  --u-eventos-txt: var(--terracota-clara);
 
-  /* Escala tipográfica fluida */
-  --t-eyebrow: 0.72rem;
-  --t-cuerpo: clamp(1.0625rem, 0.4vw + 0.98rem, 1.125rem);
-  --t-guia: clamp(1.125rem, 0.9vw + 0.95rem, 1.375rem);
-  --t-h3: clamp(1.25rem, 1vw + 1rem, 1.5rem);
-  --t-h2: clamp(1.625rem, 1.9vw + 1.05rem, 2.5rem);
-  /* El coeficiente por viewport era demasiado agresivo: en una ventana de
-     600-900 px el titular saltaba a 53-73 px y se comía la pantalla. Base
-     más alta y crecimiento más lento: grande en desktop, sensato en el medio. */
-  --t-h1: clamp(1.875rem, 2.6vw + 1.05rem, 3.5rem);
-  --t-display: clamp(2.125rem, 3.4vw + 1.05rem, 4.5rem);
+  /* Escala tipográfica: más chica y más aireada que antes */
+  --t-eyebrow: 0.7rem;
+  --t-cuerpo: clamp(1rem, 0.32vw + 0.94rem, 1.0625rem);
+  --t-guia: clamp(1.125rem, 0.7vw + 0.98rem, 1.3125rem);
+  --t-h3: clamp(1.1875rem, 0.8vw + 1rem, 1.4375rem);
+  --t-h2: clamp(1.5rem, 1.7vw + 1.05rem, 2.25rem);
+  --t-h1: clamp(1.75rem, 2.4vw + 1.05rem, 3.125rem);
+  --t-display: clamp(2rem, 3.1vw + 1.05rem, 4rem);
 
-  /* Ritmo vertical y medidas */
-  --paso: clamp(3.5rem, 7vw, 6.5rem);
-  --paso-corto: clamp(2rem, 4vw, 3rem);
-  --medida: 66ch;
+  --paso: clamp(4rem, 8vw, 7.5rem);
+  --paso-corto: clamp(2.25rem, 4.5vw, 3.5rem);
+  --medida: 64ch;
   --ancho: 1140px;
-  --margen: clamp(1.25rem, 5vw, 3rem);
+  --margen: clamp(1.5rem, 5vw, 3.5rem);
   --barra: 4rem;
 
-  /* Área táctil mínima: 44 px. Aplica a todo lo que se toca. */
   --toque: 44px;
-
-  /* Escala de z-index declarada, para no improvisar números sueltos. */
   --z-base: 1;
   --z-flotante: 10;
   --z-fijo: 20;
   --z-visor: 50;
 
-  color-scheme: light;
+  --velo: 5 35 25;
+
+  color-scheme: dark;
 }
 
-/* Superficie oscura: el mismo sistema, invertido. No es un modo oscuro
-   del navegador, es un material del sitio. */
-.oscuro {
-  --fondo: var(--verde-profundo);
-  --fondo-alt: #0a3226;
-  --tinta: var(--sobre-oscuro);
-  --tinta-suave: var(--sobre-oscuro-suave);
-  --linea: #1b4034;
-  --linea-fuerte: #7fa08f;
-  --u-restaurante-txt: #7ba05f;
-  --u-hotel-txt: #cfb79f;
-  --u-balneario-txt: #7fa9ac;
-  --u-eventos-txt: #c2907a;
+/* Bloque en material claro, para cortar el oscuro cuando hace falta aire. */
+.claro {
+  --fondo: var(--fondo-claro);
+  --fondo-alt: #e6e2ce;
+  --tinta: var(--verde-profundo);
+  --tinta-suave: #4a5a4f;
+  --linea: #d5d0bb;
+  --linea-fuerte: #9a9481;
+  --acento: #8a6f52;
+  --accion-tinta: #6f5940;
+  --accion-borde: #a8927a;
+  --accion-hover-fondo: var(--verde-profundo);
+  --accion-hover-tinta: var(--crudo);
+  --u-restaurante-txt: var(--verde);
+  --u-hotel-txt: #7d6a58;
+  --u-balneario-txt: #46686b;
+  --u-eventos-txt: #8a6250;
 }
+
+/* `.oscuro` queda como alias: el sitio ya es oscuro por defecto. */
+.oscuro { --fondo: var(--fondo-alt); }

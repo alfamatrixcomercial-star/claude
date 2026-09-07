@@ -16,7 +16,7 @@ const otras = (await getCollection("unidades"))
   .sort((a, b) => a.data.orden - b.data.orden);
 ---
 
-<section class="cruce oscuro">
+<section class="cruce">
   <div class="interior">
     <h2>También en el complejo</h2>
     <ul>
@@ -44,8 +44,8 @@ const otras = (await getCollection("unidades"))
 
 <style>
   .cruce {
-    background: var(--fondo);
-    color: var(--tinta);
+    background: var(--fondo-alt);
+    border-top: 1px solid var(--linea);
     padding: var(--paso) var(--margen);
   }
   .interior { max-width: var(--ancho); margin-inline: auto; }
@@ -62,18 +62,16 @@ const otras = (await getCollection("unidades"))
 
   ul {
     display: grid;
-    gap: 1px;
+    gap: 0;
     grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
     list-style: none;
-    background: var(--linea);
   }
   li {
     display: flex;
     flex-direction: column;
     gap: 0.7rem;
     padding: 1.4rem 1.5rem 1.6rem;
-    background: var(--fondo);
-    border-top: 3px solid var(--u);
+    border-top: 1px solid var(--u);
   }
 
   a { text-decoration: none; display: block; padding-block: 0.35rem; }
