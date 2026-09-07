@@ -23,7 +23,7 @@ const canales = await Promise.all(
   <div class="interior">
     <div class="marca">
       <span class="iso" set:html={isologo} />
-      <p class="lema">{sitio.firma}</p>
+      <p class="cita lema">{sitio.firma}</p>
       <p class="desde">Mar del Plata · desde {sitio.desde}</p>
     </div>
 
@@ -94,13 +94,7 @@ const canales = await Promise.all(
   .iso { display: block; width: 128px; color: var(--tinta); }
   .iso :global(svg) { width: 100%; height: auto; }
 
-  .lema {
-    font-family: var(--f-firma);
-    font-style: italic;
-    font-size: 1.2rem;
-    margin-top: 1rem;
-    max-width: 20ch;
-  }
+  .lema { font-size: 1.25rem; margin-top: 1rem; }
   .desde {
     font-size: 0.75rem;
     letter-spacing: 0.18em;
@@ -111,13 +105,12 @@ const canales = await Promise.all(
 
   h2 {
     font-family: var(--f-texto);
-    font-size: 0.72rem;
-    font-weight: 600;
-    letter-spacing: 0.2em;
+    font-size: var(--t-eyebrow);
+    font-weight: 700;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
     color: var(--tinta-suave);
-    margin-bottom: 0.9rem;
-    letter-spacing: 0.2em;
+    margin-bottom: 1.1rem;
   }
 
   ul { list-style: none; display: flex; flex-direction: column; }

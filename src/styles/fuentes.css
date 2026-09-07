@@ -1,41 +1,11 @@
 /* ─────────────────────────────────────────────────────────────────────────
-   Ramona y Apparel son fuentes con licencia. Dejá los .woff2 en
-   /public/fonts con estos nombres y el sitio las toma automáticamente;
-   hasta entonces cae en la pila de reserva sin romper nada.
-
-   Poppins se sirve desde Google Fonts (licencia OFL). Cuando tengas los
-   woff2 de Poppins, self-hosteala acá y sacá el <link> del Layout.
+   Par tipográfico recomendado por UI/UX Pro Max para restaurantes y
+   hospitalidad: Playfair Display SC para títulos, Karla para texto.
+   Ambas de Google Fonts, cargadas desde el Layout.
    ───────────────────────────────────────────────────────────────────────── */
 
-/*  ↓↓↓  DESCOMENTAR cuando dejes los .woff2 en /public/fonts  ↓↓↓
-    Mientras los archivos no estén, pedirlos da 404 en la consola,
-    así que el bloque va comentado y el sitio usa la pila de reserva.
-
-@font-face {
-  font-family: "Ramona";
-  src: url("/fonts/ramona-bold.woff2") format("woff2");
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: "Ramona";
-  src: url("/fonts/ramona-light.woff2") format("woff2");
-  font-weight: 300;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: "Apparel";
-  src: url("/fonts/apparel-italic.woff2") format("woff2");
-  font-weight: 400;
-  font-style: italic;
-  font-display: swap;
-}
-*/
-
 :root {
-  --f-display: "Ramona", "Poppins", "Segoe UI", system-ui, sans-serif;
-  --f-texto: "Poppins", "Segoe UI", system-ui, -apple-system, sans-serif;
-  --f-firma: "Apparel", "Bodoni Moda", Georgia, "Times New Roman", serif;
+  --f-display: "Playfair Display SC", "Playfair Display", Georgia, serif;
+  --f-texto: Karla, "Segoe UI", system-ui, -apple-system, sans-serif;
+  --f-firma: "Playfair Display", Georgia, "Times New Roman", serif;
 }

@@ -129,8 +129,8 @@ const datosEstructurados = {
       <div class="interior">
         <div class="relato">
           <Ornamento pieza={d.ornamento} class="fondo-orn" />
-          {d.firma && <p class="firma">{d.firma}</p>}
-          {d.intro.map((p) => <p class="parrafo">{p}</p>)}
+          {d.firma && <p class="cita">{d.firma}</p>}
+          {d.intro.map((p, i) => <p class:list={["parrafo", { capitular: i === 0 }]}>{p}</p>)}
         </div>
         <Ficha horarios={d.horarios} ficha={d.ficha} />
       </div>
@@ -205,16 +205,16 @@ const datosEstructurados = {
   .u-eventos { --u: var(--u-eventos); --u-txt: var(--u-eventos-txt); }
 
   .hero { position: relative; isolation: isolate; border-left: 5px solid var(--u); }
-  .fondo { position: absolute; inset: 0; z-index: -1; background: var(--verde-profundo); }
+  .fondo { position: absolute; inset: 0; z-index: -1; background: var(--ink); }
   .fondo::after {
     content: "";
     position: absolute;
     inset: 0;
     background: linear-gradient(
       to top,
-      rgb(5 35 25 / 0.9) 0%,
-      rgb(5 35 25 / 0.72) 45%,
-      rgb(5 35 25 / 0.45) 100%
+      rgb(var(--velo) / 0.9) 0%,
+      rgb(var(--velo) / 0.72) 45%,
+      rgb(var(--velo) / 0.45) 100%
     );
   }
   .fondo :global(img) { width: 100%; height: 100%; object-fit: cover; }
@@ -237,7 +237,7 @@ const datosEstructurados = {
     font-weight: 700;
     letter-spacing: 0.2em;
     text-transform: uppercase;
-    color: var(--arena);
+    color: var(--sobre-oscuro-suave);
   }
   h1 { max-width: 18ch; }
   /* El texto sobre foto se lee siempre: gana el color claro, no el de
@@ -246,7 +246,7 @@ const datosEstructurados = {
   .texto :global(.estado .detalle) { color: var(--sobre-oscuro); }
   .acciones { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 0.5rem; }
   .acciones :global(.secundaria) { color: var(--sobre-oscuro); border-color: var(--sobre-oscuro); }
-  .acciones :global(.secundaria:hover) { background: var(--sobre-oscuro); color: var(--verde-profundo); }
+  .acciones :global(.secundaria:hover) { background: var(--sobre-oscuro); color: var(--ink); }
 
   .cuerpo { padding: var(--paso) var(--margen); }
   .interior {
@@ -256,7 +256,7 @@ const datosEstructurados = {
     margin-inline: auto;
   }
   @media (min-width: 860px) {
-    .interior { grid-template-columns: 1.55fr 1fr; }
+    .interior { grid-template-columns: 7fr 4fr; }
   }
 
   .relato {
@@ -275,14 +275,7 @@ const datosEstructurados = {
     color: var(--u-txt);
     z-index: -1;
   }
-  .firma {
-    font-family: var(--f-firma);
-    font-style: italic;
-    font-size: var(--t-h2);
-    line-height: 1.2;
-    max-width: 18ch;
-    margin-bottom: 0.5rem;
-  }
+  .cita { margin-bottom: 0.5rem; }
   .parrafo { max-width: var(--medida); }
 
   .bloque { padding: var(--paso) var(--margen); }

@@ -31,8 +31,9 @@ h1, h2, h3, h4 {
   margin: 0;
   font-family: var(--f-display);
   font-weight: 700;
-  line-height: 1.05;
-  letter-spacing: -0.03em;
+  line-height: 1.1;
+  /* Playfair Display SC ya viene en versalitas: no se aprieta el tracking */
+  letter-spacing: 0;
   text-wrap: balance;
 }
 h1 { font-size: var(--t-h1); }
@@ -71,7 +72,7 @@ button, summary, [role="button"] { cursor: pointer; }
   outline-offset: 3px;
 }
 
-::selection { background: var(--ambar); color: var(--verde-profundo); }
+::selection { background: var(--cta); color: var(--ink); }
 
 /* Sólo para lectores de pantalla */
 .vo {
@@ -89,10 +90,62 @@ button, summary, [role="button"] { cursor: pointer; }
   left: var(--margen);
   top: -100px;
   z-index: var(--z-visor);
-  background: var(--ambar);
-  color: var(--verde-profundo);
+  background: var(--cta);
+  color: var(--ink);
   font-weight: 600;
   padding: 0.75rem 1.25rem;
   transition: top 0.15s;
 }
 .saltar:focus { top: 0.75rem; }
+
+
+/* ── Editorial Magazine ──────────────────────────────────────────────────
+   Rasgos que el plugin pide para este estilo: capitular, cita destacada,
+   divisores de sección y jerarquía de artículo.
+   ─────────────────────────────────────────────────────────────────────── */
+
+/* Capitular en el primer párrafo de un relato */
+.capitular::first-letter {
+  float: left;
+  font-family: var(--f-display);
+  font-size: 3.4em;
+  line-height: 0.82;
+  font-weight: 700;
+  padding: 0.06em 0.1em 0 0;
+  color: var(--linea-fuerte);
+}
+
+/* Cita destacada */
+.cita {
+  font-family: var(--f-firma);
+  font-style: italic;
+  font-size: var(--t-h2);
+  line-height: 1.24;
+  max-width: 18ch;
+}
+
+/* Antetítulo de sección, con filete */
+.antetitulo {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  font-family: var(--f-texto);
+  font-size: var(--t-eyebrow);
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--tinta-suave);
+}
+.antetitulo::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--linea);
+}
+
+/* Divisor de sección */
+.filete {
+  border: 0;
+  border-top: 1px solid var(--linea);
+  margin: 0;
+}
