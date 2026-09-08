@@ -78,9 +78,12 @@ const { src, poster, alt } = Astro.props;
     if (!quietud.matches && !angosto.matches && !ahorro) {
       /* Se carga recién cuando el navegador terminó con lo importante. */
       const arrancar = () => {
+        /* El mp4 va primero: en este material pesa menos que el webm y lo
+           lee todo el mundo. El webm queda de reserva para los navegadores
+           compilados sin H.264. */
         for (const [tipo, ext] of [
-          ["video/webm", "webm"],
           ["video/mp4", "mp4"],
+          ["video/webm", "webm"],
         ]) {
           const fuente = document.createElement("source");
           fuente.src = `${src}.${ext}`;

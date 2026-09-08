@@ -24,7 +24,17 @@ hero:
     en primer plano
   foco: centro
 
-# TODO: faltan fotos de las habitaciones.
+# Video vertical del hotel, tal como llegó: 720x1280 de teléfono. Va en un
+# panel dentro del hero, en su proporción, para no ampliarlo ni recortarlo.
+heroVideo:
+  src: /video/ili-ili-hero
+  poster: /video/ili-ili-hero-poster.jpg
+  alt: >-
+    Amanecer desde la terraza del hotel: el deck de madera, una silla mirando
+    al mar y el sol saliendo sobre el agua
+
+# Faltan fotos propias de las habitaciones. Los cuadros del video no cuentan:
+# son de 720 px y salen del mismo material que ya está arriba.
 galeria: []
 
 estadoFijo: Abierto todo el año

@@ -81,6 +81,26 @@ const unidades = defineCollection({
       intro: z.array(publicable(z.string())).min(1),
 
       hero: fotoOpcional(image),
+      /**
+       * Video vertical para el hero, opcional. Se muestra en su proporción,
+       * en un panel, no a pantalla completa: el material es de teléfono y
+       * a full-bleed habría que ampliarlo y recortarle casi todo el alto.
+       */
+      heroVideo: z
+        .object({
+          /** Base sin extensión: el sitio sirve .mp4 y .webm. */
+          src: z
+            .string()
+            .startsWith("/video/")
+            .refine((v) => !/\.(mp4|webm)$/.test(v), {
+              message: "Poné la base sin extensión, por ejemplo /video/ili-ili-hero",
+            }),
+          poster: z.string().startsWith("/video/"),
+          alt: z
+            .string()
+            .min(15, "El alt del video también es contenido: contá qué se ve."),
+        })
+        .optional(),
       galeria: z.array(foto(image)).default([]),
 
       horarios: z.array(horario).default([]),

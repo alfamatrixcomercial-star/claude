@@ -1,0 +1,87 @@
+---
+/**
+ * Video vertical dentro del hero.
+ *
+ * El material del hotel es 720x1280 de teléfono. A pantalla completa habría
+ * que ampliarlo al doble y recortarle cuatro quintos del alto: se vería
+ * blando y no se entendería ni un plano. Acá se muestra en su proporción,
+ * en un panel de unos 420 px, donde entra a más de 1,5x y no se le recorta
+ * un solo cuadro.
+ *
+ * Las mismas reglas que el hero del home: mudo, en bucle, sin controles,
+ * con poster para la primera pintura y sin descargarse solo en móvil, con
+ * ahorro de datos o con `prefers-reduced-motion`.
+ */
+interface Props {
+  /** Sin extensión: se sirven .mp4 y .webm desde la misma base. */
+  src: string;
+  poster: string;
+  alt: string;
+}
+const { src, poster, alt } = Astro.props;
+---
+
+<div class="retrato" data-video={src}>
+  <img src={poster} alt={alt} width="720" height="1280" loading="eager" fetchpriority="high" />
+  <video muted loop playsinline preload="none" aria-hidden="true"></video>
+</div>
+
+<style>
+  .retrato {
+    position: relative;
+    width: 100%;
+    max-width: 25rem;
+    aspect-ratio: 9 / 16;
+    border-radius: var(--radio-grande);
+    overflow: hidden;
+    border: 1px solid rgb(255 255 255 / 0.16);
+    box-shadow: var(--elev-3);
+    background: var(--verde-profundo);
+  }
+  img,
+  video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  video { opacity: 0; transition: opacity 700ms ease; }
+  video.visible { opacity: 1; }
+
+  @media (prefers-reduced-motion: reduce) {
+    video { display: none; }
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>(".retrato").forEach((bloque) => {
+    const video = bloque.querySelector("video");
+    const src = bloque.dataset.video;
+    if (!video || !src) return;
+
+    const quietud = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const angosto = window.matchMedia("(max-width: 700px)");
+    const ahorro = (navigator as any).connection?.saveData === true;
+    if (quietud.matches || angosto.matches || ahorro) return;
+
+    const arrancar = () => {
+      /* El mp4 va primero a propósito: pesa menos que el webm en este
+         material y lo lee todo el mundo. El webm queda de reserva para los
+         navegadores compilados sin H.264. */
+      for (const [tipo, ext] of [
+        ["video/mp4", "mp4"],
+        ["video/webm", "webm"],
+      ]) {
+        const fuente = document.createElement("source");
+        fuente.src = `${src}.${ext}`;
+        fuente.type = tipo;
+        video.appendChild(fuente);
+      }
+      video.load();
+      video.play().then(() => video.classList.add("visible")).catch(() => {});
+    };
+    if (document.readyState === "complete") arrancar();
+    else window.addEventListener("load", arrancar, { once: true });
+  });
+</script>

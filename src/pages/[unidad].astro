@@ -10,6 +10,7 @@ import Estado from "~/components/Estado.astro";
 import Ficha from "~/components/Ficha.astro";
 import Galeria from "~/components/Galeria.astro";
 import Video from "~/components/Video.astro";
+import HeroRetrato from "~/components/HeroRetrato.astro";
 import Cruce from "~/components/Cruce.astro";
 import BarraFija from "~/components/BarraFija.astro";
 import Ornamento from "~/components/Ornamento.astro";
@@ -96,7 +97,7 @@ const datosEstructurados = {
   datosEstructurados={datosEstructurados}
 >
   <div class={`unidad u-${id}`}>
-    <section class="hero" data-hero>
+    <section class:list={["hero", d.heroVideo && "con-retrato"]} data-hero>
       <div class="fondo">
         <Foto
           foto={d.hero}
@@ -108,19 +109,30 @@ const datosEstructurados = {
           sizes="100vw"
         />
       </div>
-      <div class="texto">
-        <p class="etiqueta">{d.nombre}</p>
-        <h1>{d.titular}</h1>
-        <Estado estado={estado} unidad={id} class="estado-hero" />
-        <div class="acciones">
-          {
-            ctas.map((c, i) => (
-              <Boton href={c.href} jerarquia={i === 0 ? "primaria" : "secundaria"}>
-                {c.texto}
-              </Boton>
-            ))
-          }
+      <div class="marco-hero">
+        <div class="texto">
+          <p class="etiqueta">{d.nombre}</p>
+          <h1>{d.titular}</h1>
+          <Estado estado={estado} unidad={id} class="estado-hero" />
+          <div class="acciones">
+            {
+              ctas.map((c, i) => (
+                <Boton href={c.href} jerarquia={i === 0 ? "primaria" : "secundaria"}>
+                  {c.texto}
+                </Boton>
+              ))
+            }
+          </div>
         </div>
+        {
+          d.heroVideo && (
+            <HeroRetrato
+              src={d.heroVideo.src}
+              poster={d.heroVideo.poster}
+              alt={d.heroVideo.alt}
+            />
+          )
+        }
       </div>
     </section>
 
@@ -244,17 +256,53 @@ const datosEstructurados = {
   .fondo :global(img) { width: 100%; height: 100%; object-fit: cover; }
   .fondo :global(.pendiente) { height: 100%; }
 
+  /* Contenedor del hero. Sin video es una sola columna y el hero queda
+     igual que siempre; con video se parte en dos. */
+  .marco-hero {
+    max-width: var(--ancho);
+    margin-inline: auto;
+    padding: var(--paso) var(--margen) var(--paso-corto);
+  }
   .texto {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     justify-content: flex-end;
     gap: 1rem;
-    max-width: var(--ancho);
     min-height: clamp(19rem, 44vh, 27rem);
-    margin-inline: auto;
-    padding: var(--paso) var(--margen) var(--paso-corto);
     color: var(--sobre-oscuro);
+  }
+
+  /* El video vertical no se estira a pantalla completa: convive con el
+     texto. Debajo de 860 px se apila y queda arriba, que es donde manda. */
+  .con-retrato .marco-hero {
+    display: grid;
+    gap: clamp(1.75rem, 4vw, 3.5rem);
+    align-items: center;
+  }
+  .con-retrato .texto { min-height: 0; }
+  .con-retrato :global(.retrato) { justify-self: center; }
+  /* Apilado, el panel se mide por alto: a 9/16 sobre el ancho de un
+     teléfono empujaría el resto de la página media pantalla más abajo. */
+  @media (max-width: 859px) {
+    /* El tope va en el ancho, no en el alto: con `width: auto` dentro de la
+       grilla el panel se encoge a cero, porque no tiene de dónde medir. */
+    .con-retrato :global(.retrato) { max-width: min(25rem, calc(54vh * 9 / 16)); }
+  }
+  @media (min-width: 860px) {
+    .con-retrato .marco-hero { grid-template-columns: 1fr auto; }
+    .con-retrato .texto { min-height: clamp(19rem, 44vh, 27rem); }
+    .con-retrato :global(.retrato) { width: clamp(16rem, 28vw, 22rem); }
+  }
+  /* Sobre el panel, la foto de fondo es textura: se oscurece más para que
+     el video sea lo único que se mira. */
+  .con-retrato .fondo::after {
+    background: linear-gradient(
+      to top,
+      rgb(5 35 25 / 0.94) 0%,
+      rgb(5 35 25 / 0.86) 50%,
+      rgb(5 35 25 / 0.7) 100%
+    );
   }
   .etiqueta {
     font-size: var(--t-eyebrow);
