@@ -43,10 +43,10 @@ contacto:
     whatsapp: "5492235466065" # del brandboard, pieza de Cena Show
     mensaje: "Hola! Quiero reservar una mesa en el restaurante de Mirador Waikiki."
   hotel:
-    whatsapp: "5492235466065" # TODO: número propio del hotel
+    whatsapp: "5492235961709" # el que pasó el cliente
     mensaje: "Hola! Quiero consultar disponibilidad en el Hotel Ili Ili Boutique."
   balneario:
-    whatsapp: "5492235466065" # TODO: número propio del balneario
+    whatsapp: "5492235803322" # el que pasó el cliente
     mensaje: "Hola! Quiero consultar por una carpa en el balneario de Mirador Waikiki."
   eventos:
     whatsapp: "5492235466065" # TODO: número comercial de eventos

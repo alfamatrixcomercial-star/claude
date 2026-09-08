@@ -59,6 +59,7 @@ listas: []
 # Las habitaciones, tarifas y disponibilidad se manejan en el sitio propio del
 # hotel. Acá se muestra el lugar y se deriva, igual que con eventos.
 derivacion:
+  rotulo: Alojamiento
   titulo: Las habitaciones se ven en el sitio del hotel
   texto: >-
     Ili Ili tiene su propio sitio, con las habitaciones, los servicios y la

@@ -72,6 +72,7 @@ listas:
 # TODO: confirmar espacios, capacidades por montaje y qué incluye el servicio
 
 derivacion:
+  rotulo: Producción
   titulo: La producción la hace Mar Eventos
   texto: >-
     Acá mostramos el lugar. La propuesta completa (producción, montaje, catering

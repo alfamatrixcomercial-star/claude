@@ -141,7 +141,26 @@ const unidades = defineCollection({
         .default([]),
       /* Eventos deriva a Mar Eventos: la producción se vende allá. */
       derivacion: z
-        .object({ titulo: z.string(), texto: z.string(), texto_cta: z.string(), url: z.string().url() })
+        .object({
+          /** Ojo: el rótulo también es contenido. Estaba fijo en el
+              componente y eventos mostraba «Alojamiento». */
+          rotulo: z.string().min(4),
+          titulo: z.string(),
+          texto: z.string(),
+          texto_cta: z.string(),
+          url: z.string().url(),
+          /**
+           * Logo de la marca a la que se deriva (Ili Ili, Mar Eventos).
+           * Opcional: mientras no esté el archivo, el bloque se ve igual,
+           * sin un hueco ni una imagen rota.
+           */
+          logo: z
+            .object({
+              src: image(),
+              alt: z.string().min(10, "El alt del logo dice de quién es la marca."),
+            })
+            .optional(),
+        })
         .optional(),
 
       seo: z.object({

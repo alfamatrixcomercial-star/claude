@@ -1,5 +1,6 @@
 ---
 import type { GetStaticPaths } from "astro";
+import { Image } from "astro:assets";
 import { getCollection } from "astro:content";
 import type { CollectionEntry } from "astro:content";
 import Base from "~/layouts/Base.astro";
@@ -187,8 +188,21 @@ const datosEstructurados = {
       d.derivacion && (
         <section class="derivacion">
           <div class="interior-simple">
-            <div class="encabezado"><p class="rotulo">Alojamiento</p><h2>{d.derivacion.titulo}</h2></div>
+            <div class="encabezado">
+              <p class="rotulo">{d.derivacion.rotulo}</p>
+              <h2>{d.derivacion.titulo}</h2>
+            </div>
             <p class="parrafo">{d.derivacion.texto}</p>
+            {d.derivacion.logo && (
+              <Image
+                src={d.derivacion.logo.src}
+                alt={d.derivacion.logo.alt}
+                widths={[240, 480]}
+                sizes="240px"
+                class="logo-marca"
+                loading="lazy"
+              />
+            )}
             <Boton href={d.derivacion.url} externo>{d.derivacion.texto_cta}</Boton>
           </div>
         </section>
@@ -404,4 +418,13 @@ const datosEstructurados = {
     gap: 1.25rem;
   }
   .derivacion .parrafo { color: var(--tinta-suave); }
+  /* El logo de la marca a la que se deriva: chico, sin caja y sin
+     competir con el botón, que es lo que hay que tocar. */
+  .derivacion :global(.logo-marca) {
+    width: auto;
+    max-width: 15rem;
+    max-height: 4.5rem;
+    object-fit: contain;
+    margin-block: 0.25rem;
+  }
 </style>
