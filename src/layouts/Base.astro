@@ -3,6 +3,7 @@ import "~/styles/base.css";
 import Cabecera from "~/components/Cabecera.astro";
 import Pie from "~/components/Pie.astro";
 import { getImage } from "astro:assets";
+import { ClientRouter } from "astro:transitions";
 import portada from "~/assets/fotos/complejo/predio-aereo.jpg";
 import { datosSitio } from "~/lib/contacto";
 
@@ -51,6 +52,8 @@ const tituloCompleto =
     <meta name="theme-color" content="#052319" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
 
+    <ClientRouter />
+
 
     {
       datosEstructurados && (
@@ -64,11 +67,30 @@ const tituloCompleto =
   </head>
 
   <body>
+    <div class="cargando" aria-hidden="true"></div>
     <a class="saltar" href="#contenido">Saltar al contenido</a>
     <Cabecera unidadActiva={unidadActiva} />
     <main id="contenido">
       <slot />
     </main>
     <Pie />
+
+    <script>
+      /* La barra sólo se muestra si la navegación tarda: si la página ya
+         está en caché, aparecer y desaparecer sería un parpadeo molesto. */
+      const barra = document.querySelector<HTMLElement>(".cargando");
+      let reloj: number | undefined;
+
+      document.addEventListener("astro:before-preparation", () => {
+        reloj = window.setTimeout(() => barra?.classList.add("activa"), 180);
+      });
+      document.addEventListener("astro:after-swap", () => {
+        window.clearTimeout(reloj);
+        if (!barra?.classList.contains("activa")) return;
+        barra.classList.remove("activa");
+        barra.classList.add("lista");
+        window.setTimeout(() => barra.classList.remove("lista"), 460);
+      });
+    </script>
   </body>
 </html>

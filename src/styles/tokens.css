@@ -14,17 +14,22 @@
    ───────────────────────────────────────────────────────────────────────── */
 
 :root {
-  /* Paleta del brandboard */
+  /* ── Paleta ──────────────────────────────────────────────────────────
+     La que pasó el cliente. Terracota, arena y teal coinciden con el
+     brandboard; el verde es más brillante que el olivo que figuraba ahí.
+     El ámbar no está en esta paleta, así que no se usa en ningún lado. */
+  --verde: #4a9e52;
+  --terracota: #a2745e;
+  --arena: #bda38c;
+  --teal: #5d878a;
+
+  /* Neutros de estructura, del manual */
   --verde-profundo: #052319;
   --hueso: #f1f1f1;
   --crudo: #eeebdb;
-  --verde: #4c6f39;
-  --teal: #5d878a;
-  --arena: #bda38c;
-  --terracota: #a2745e;
 
   /* Claros derivados, para que todo se lea sobre el verde profundo */
-  --verde-claro: #7ba05f;
+  --verde-claro: #5fb268;
   --arena-clara: #cfb79f;
   --teal-claro: #7fa9ac;
   --terracota-clara: #c2907a;

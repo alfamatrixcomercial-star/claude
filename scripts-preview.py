@@ -190,7 +190,12 @@ for (const el of document.querySelectorAll("[data-vid]:not(source)")) {
 }
 
 const paginas = [...document.querySelectorAll(".pv-pagina")];
-function mostrar(ruta) {
+const quietud = window.matchMedia("(prefers-reduced-motion: reduce)");
+const barra = document.createElement("div");
+barra.className = "cargando";
+document.body.appendChild(barra);
+
+function pintar(ruta) {
   let encontrada = false;
   for (const p of paginas) {
     const coincide = p.dataset.ruta === ruta;
@@ -199,6 +204,20 @@ function mostrar(ruta) {
   }
   if (!encontrada) paginas[0].hidden = false;
   window.scrollTo(0, 0);
+}
+
+/* Mismo fundido que el sitio real, para que la vista previa no engañe. */
+function mostrar(ruta) {
+  if (quietud.matches || !document.startViewTransition) {
+    pintar(ruta);
+    return;
+  }
+  barra.classList.add("activa");
+  document.startViewTransition(() => pintar(ruta)).finished.finally(() => {
+    barra.classList.remove("activa");
+    barra.classList.add("lista");
+    setTimeout(() => barra.classList.remove("lista"), 460);
+  });
 }
 function desdeHash() {
   const h = location.hash.replace(/^#/, "") || "/";
