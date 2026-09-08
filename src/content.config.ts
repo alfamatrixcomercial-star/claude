@@ -102,7 +102,10 @@ const unidades = defineCollection({
       /** Video corto del lugar. Va mudo, con poster y sin descargarse solo. */
       video: z
         .object({
-          src: z.string().startsWith("/video/"),
+          /** Base sin extensión: el sitio sirve .webm y .mp4. */
+          src: z.string().startsWith("/video/").refine((v) => !/\.(mp4|webm)$/.test(v), {
+            message: "Poné la base sin extensión, por ejemplo /video/waikiki-salon",
+          }),
           poster: z.string().startsWith("/video/"),
           titulo: z.string(),
           descripcion: z.string().min(20),

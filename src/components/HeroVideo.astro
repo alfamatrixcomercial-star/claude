@@ -1,0 +1,97 @@
+---
+/**
+ * Primera impresión del sitio: video.
+ *
+ * Reglas que se respetan, del brief y del plugin:
+ *  · Mudo y en bucle, sin controles: es ambiente, no un reproductor.
+ *  · `poster` para la primera pintura, así nunca hay un rectángulo negro.
+ *  · No arranca si el visitante pide menos movimiento o tiene ahorro de
+ *    datos: en ese caso queda el poster, que es una foto del lugar.
+ *  · En pantallas chicas tampoco arranca solo: 770 KB no se le imponen a
+ *    una conexión móvil de enero.
+ */
+import { Image } from "astro:assets";
+
+interface Props {
+  /** Sin extensión: se sirven .webm y .mp4 desde la misma base. */
+  src: string;
+  poster: ImageMetadata;
+  alt: string;
+}
+const { src, poster, alt } = Astro.props;
+---
+
+<div class="fondo-video" data-video={src}>
+  <Image
+    src={poster}
+    alt={alt}
+    widths={[720, 1200, 1800]}
+    sizes="100vw"
+    loading="eager"
+    fetchpriority="high"
+    class="poster"
+  />
+  <video muted loop playsinline preload="none" aria-hidden="true"></video>
+  <div class="velo"></div>
+</div>
+
+<style>
+  .fondo-video { position: absolute; inset: 0; z-index: -1; background: var(--verde-profundo); }
+
+  .poster,
+  video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  video { opacity: 0; transition: opacity 700ms ease; }
+  video.visible { opacity: 1; }
+
+  .velo {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to top,
+      rgb(var(--velo) / 0.92) 0%,
+      rgb(var(--velo) / 0.7) 45%,
+      rgb(var(--velo) / 0.42) 100%
+    );
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    video { display: none; }
+  }
+</style>
+
+<script>
+  const bloque = document.querySelector<HTMLElement>(".fondo-video");
+  const video = bloque?.querySelector("video");
+  const src = bloque?.dataset.video;
+
+  if (bloque && video && src) {
+    const quietud = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const angosto = window.matchMedia("(max-width: 700px)");
+    const ahorro = (navigator as any).connection?.saveData === true;
+
+    if (!quietud.matches && !angosto.matches && !ahorro) {
+      /* Se carga recién cuando el navegador terminó con lo importante. */
+      const arrancar = () => {
+        for (const [tipo, ext] of [
+          ["video/webm", "webm"],
+          ["video/mp4", "mp4"],
+        ]) {
+          const fuente = document.createElement("source");
+          fuente.src = `${src}.${ext}`;
+          fuente.type = tipo;
+          video.appendChild(fuente);
+        }
+        video.load();
+        video.play().then(() => video.classList.add("visible")).catch(() => {});
+      };
+      if (document.readyState === "complete") arrancar();
+      else window.addEventListener("load", arrancar, { once: true });
+    }
+  }
+</script>

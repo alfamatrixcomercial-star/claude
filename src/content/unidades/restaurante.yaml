@@ -27,7 +27,7 @@ hero:
 
 # Del video del salón: panel central recortado, sin audio y comprimido.
 video:
-  src: /video/waikiki-salon.mp4
+  src: /video/waikiki-salon
   poster: /video/waikiki-salon-poster.jpg
   titulo: El lugar en diez segundos
   descripcion: >-

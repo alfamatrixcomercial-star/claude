@@ -30,6 +30,10 @@ galeria:
   - src: ../../assets/fotos/balneario/mar-baranda.jpg
     alt: >-
       El mar y la orilla vistos desde la baranda del complejo, con cielo despejado
+  - src: ../../assets/fotos/balneario/predio-balneario.jpg
+    alt: >-
+      La pileta del balneario con las sombrillas blancas alineadas sobre el
+      césped, vista desde el aire
 
 temporada:
   desde: "12-01"

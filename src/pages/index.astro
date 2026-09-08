@@ -4,6 +4,7 @@ import Base from "~/layouts/Base.astro";
 import Onda from "~/components/Onda.astro";
 import Puerta from "~/components/Puerta.astro";
 import Foto from "~/components/Foto.astro";
+import HeroVideo from "~/components/HeroVideo.astro";
 import Boton from "~/components/Boton.astro";
 import Confianza from "~/components/Confianza.astro";
 import CierreCta from "~/components/CierreCta.astro";
@@ -85,17 +86,11 @@ const datosEstructurados = {
   <!-- Hero: foto fija, titular a la izquierda. Ni video a pantalla completa
        ni flecha hacia abajo: las cuatro puertas ya asoman. -->
   <section class="hero" data-hero>
-    <div class="fondo">
-      <Foto
-        foto={{
-          src: portada,
-          alt: "Vista aérea del complejo Mirador Waikiki sobre las rocas de la costa de Mar del Plata, con el restaurante, las piscinas y las carpas del balneario",
-          foco: "centro",
-        }}
-        prioridad
-        sizes="100vw"
-      />
-    </div>
+    <HeroVideo
+      src="/video/waikiki-hero"
+      poster={portada}
+      alt="Vista aérea del complejo Mirador Waikiki sobre las rocas de la costa de Mar del Plata, con el restaurante, las piscinas y las carpas del balneario"
+    />
     <div class="texto">
       <p class="eyebrow">
         {sitio.direccion.localidad} · desde {sitio.desde}
@@ -246,27 +241,6 @@ const datosEstructurados = {
 
 <style>
   .hero { position: relative; isolation: isolate; }
-  .fondo {
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    background: var(--verde-profundo);
-  }
-  .fondo::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    /* Velo sólido y medido: el texto sobre foto tiene que leerse siempre,
-       también sobre la foto más clara del set. */
-    background: linear-gradient(
-      to top,
-      rgb(5 35 25 / 0.88) 0%,
-      rgb(5 35 25 / 0.66) 45%,
-      rgb(5 35 25 / 0.38) 100%
-    );
-  }
-  .fondo :global(img) { width: 100%; height: 100%; object-fit: cover; }
-
   .texto {
     display: flex;
     flex-direction: column;
