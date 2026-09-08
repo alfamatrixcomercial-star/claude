@@ -19,7 +19,7 @@ intro:
 # Provisoria: recorte de la foto aérea del predio, para que el sitio no
 # muestre bloques vacíos. Reemplazar por una foto propia de la unidad.
 hero:
-  src: ../../assets/fotos/balneario/predio-balneario.jpg
+  src: ../../assets/fotos/balneario/terraza.jpg
   alt: >-
     La pileta del balneario con las sombrillas blancas alineadas sobre el césped, junto al mar
   foco: centro
@@ -30,10 +30,6 @@ galeria:
   - src: ../../assets/fotos/balneario/mar-baranda.jpg
     alt: >-
       El mar y la orilla vistos desde la baranda del complejo, con cielo despejado
-  - src: ../../assets/fotos/balneario/predio-balneario.jpg
-    alt: >-
-      La pileta del balneario con las sombrillas blancas alineadas sobre el
-      césped, vista desde el aire
 
 temporada:
   desde: "12-01"

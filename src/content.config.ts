@@ -21,7 +21,12 @@ const publicable = <T extends z.ZodString>(base: T) =>
   });
 const DIA_MES = /^(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/;
 
-/** Una foto siempre viaja con su alt. El alt es contenido, no relleno. */
+/**
+ * Una foto siempre viaja con su alt. El alt es contenido, no relleno.
+ *
+ * La resolución mínima NO se valida acá: dentro del esquema, image() todavía
+ * no expone el ancho. La revisa scripts/fotos.mjs antes de cada build.
+ */
 const foto = (image: SchemaContext["image"]) =>
   z.object({
     src: image(),

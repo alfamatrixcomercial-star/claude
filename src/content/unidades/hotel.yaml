@@ -17,22 +17,10 @@ intro:
     En verano la estadía incluye los servicios del balneario en la playa
     Waikiki, y el restaurante está a metros, abierto desde las ocho de la mañana.
 
-# Provisoria: recorte de la foto aérea del predio.
-hero:
-  src: ../../assets/fotos/hotel/predio-hotel.jpg
-  alt: >-
-    El edificio del Hotel Ili Ili Boutique dentro del predio, con techo blanco y
-    el parque alrededor
-  foco: centro
-galeria:
-  - src: ../../assets/fotos/hotel/amanecer-orilla.jpg
-    alt: >-
-      El amanecer reflejado en la arena mojada de la playa Waikiki, con la
-      espuma de la última ola
-  - src: ../../assets/fotos/hotel/amanecer-cielo.jpg
-    alt: >-
-      El cielo del amanecer sobre el horizonte del mar, en tonos naranjas y
-      violetas
+# Sin foto propia todavía. Las que había eran recortes de video de 360 a
+# 420 px: se veían mal estiradas y se sacaron. Cargá acá la foto real.
+hero: null
+galeria: []
 
 estadoFijo: Abierto todo el año
 

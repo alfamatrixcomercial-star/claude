@@ -22,7 +22,7 @@ intro:
 # Provisoria: recorte de la foto aérea del predio, para que el sitio no
 # muestre bloques vacíos. Reemplazar por una foto propia de la unidad.
 hero:
-  src: ../../assets/fotos/eventos/predio-eventos.jpg
+  src: ../../assets/fotos/eventos/dj.jpg
   alt: >-
     La terraza del complejo sobre el mar, con las sombrillas y la costa de fondo
   foco: centro
