@@ -72,7 +72,7 @@ const datosEstructurados = {
       <ul>
         {
           canales.map((c) => (
-            <li class={`u-${c.id}`}>
+            <li class:list={["caja", `u-${c.id}`]}>
               <div class="cabeza">
                 <h3>{c.nombre}</h3>
                 <p class="bajadita">{c.bajada}</p>
@@ -129,9 +129,8 @@ const datosEstructurados = {
   .canales { padding: var(--paso) var(--margen); }
   .canales ul {
     display: grid;
-    gap: 1px;
+    gap: clamp(0.85rem, 1.8vw, 1.35rem);
     grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    background: var(--linea);
     list-style: none;
   }
   .canales > .interior > ul > li {
@@ -139,9 +138,14 @@ const datosEstructurados = {
     flex-direction: column;
     justify-content: space-between;
     gap: 1.5rem;
-    background: var(--fondo);
-    border-top: 4px solid var(--u);
-    padding: 1.6rem 1.5rem 1.75rem;
+    padding: 1.75rem 1.6rem 1.85rem;
+  }
+  .canales > .interior > ul > li::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto;
+    height: 3px;
+    background: var(--u);
   }
   .cabeza { display: flex; flex-direction: column; gap: 0.55rem; }
   .bajadita { font-size: 0.925rem; color: var(--tinta-suave); }

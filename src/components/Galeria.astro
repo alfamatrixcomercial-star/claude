@@ -47,7 +47,7 @@ const { fotos, unidad = "complejo", titulo } = Astro.props;
   ul {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 2px;
+    gap: clamp(0.6rem, 1.2vw, 1rem);
     list-style: none;
   }
   @media (min-width: 720px) {
@@ -73,6 +73,8 @@ const { fotos, unidad = "complejo", titulo } = Astro.props;
     width: min(94vw, 1100px);
     padding: 0;
     border: 0;
+    border-radius: var(--radio);
+    overflow: hidden;
     background: var(--verde-profundo);
     color: var(--sobre-oscuro);
   }

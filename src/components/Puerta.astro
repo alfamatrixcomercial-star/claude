@@ -23,7 +23,7 @@ interface Props {
 const { id, nombre, bajada, href, estado, cta, ctaHref, foto, ornamento, orden } = Astro.props;
 ---
 
-<article class:list={["puerta", `u-${id}`]} style={`--retardo:${orden * 120}ms`}>
+<article class:list={["puerta", "caja", `u-${id}`]} style={`--retardo:${orden * 120}ms`}>
   <div class="visual">
     <Foto
       foto={foto}
@@ -54,19 +54,27 @@ const { id, nombre, bajada, href, estado, cta, ctaHref, foto, ornamento, orden }
   .puerta {
     display: flex;
     flex-direction: column;
-    border-top: 1px solid var(--u);
-    border-right: 1px solid var(--linea);
-    background: var(--fondo);
   }
+  /* Filete de color de la unidad arriba de la caja, dentro del radio. */
+  .puerta::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto;
+    height: 3px;
+    background: var(--u);
+    z-index: 2;
+    transition: height var(--transicion);
+  }
+  .puerta:hover::before { height: 5px; }
 
   .visual { aspect-ratio: 4 / 3; overflow: hidden; }
 
   .cuerpo {
     display: flex;
     flex-direction: column;
-    gap: 0.6rem;
+    gap: 0.7rem;
     flex: 1;
-    padding: 1.1rem 1.25rem 1.4rem;
+    padding: 1.35rem 1.4rem 1.5rem;
   }
 
   .nombre {
@@ -105,6 +113,7 @@ const { id, nombre, bajada, href, estado, cta, ctaHref, foto, ornamento, orden }
     background: transparent;
     color: var(--accion-tinta);
     border: 1px solid var(--accion-borde);
+    border-radius: 999px;
     font-size: 0.72rem;
     font-weight: 500;
     letter-spacing: 0.16em;
@@ -128,11 +137,9 @@ const { id, nombre, bajada, href, estado, cta, ctaHref, foto, ornamento, orden }
   /* Entra sólo el borde de color, escalonado. Es la mitad del único
      momento orquestado del sitio; el resto no se anima. */
   @media (prefers-reduced-motion: no-preference) {
-    .puerta {
-      animation: borde 0.5s ease-out var(--retardo) backwards;
-    }
-    @keyframes borde {
-      from { border-left-color: transparent; }
+    .puerta { animation: aparece 0.55s ease-out var(--retardo) backwards; }
+    @keyframes aparece {
+      from { opacity: 0; transform: translateY(14px); }
     }
   }
 
@@ -141,7 +148,7 @@ const { id, nombre, bajada, href, estado, cta, ctaHref, foto, ornamento, orden }
   }
 
   @media (max-width: 520px) {
-    .cuerpo { padding: 0.9rem 0.9rem 1rem; gap: 0.5rem; }
+    .cuerpo { padding: 1rem 1rem 1.15rem; gap: 0.55rem; }
     .bajada { font-size: 1rem; }
     .cta { font-size: 0.68rem; padding: 0.6em 0.4em; letter-spacing: 0.12em; }
   }

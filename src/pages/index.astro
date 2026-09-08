@@ -196,7 +196,7 @@ const datosEstructurados = {
           <h2>Estos días en el complejo</h2>
           <ul>
             {agenda.map((a) => (
-              <li class={`u-${a.unidad}`}>
+              <li class:list={["caja", `u-${a.unidad}`]}>
                 <a href={`/${a.unidad}`}>
                   <b>{a.titulo}</b>
                   <span>{a.detalle}</span>
@@ -297,8 +297,10 @@ const datosEstructurados = {
   .puertas {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    background: var(--linea);
-    gap: 1px;
+    gap: clamp(0.85rem, 1.6vw, 1.5rem);
+    max-width: var(--ancho);
+    margin-inline: auto;
+    padding: clamp(2rem, 4vw, 3.25rem) var(--margen);
   }
   @media (min-width: 900px) {
     .puertas { grid-template-columns: repeat(4, minmax(0, 1fr)); }
@@ -328,7 +330,7 @@ const datosEstructurados = {
     max-width: 16ch;
   }
   .cuerpo { max-width: var(--medida); color: var(--tinta-suave); }
-  figure { margin: 0; aspect-ratio: 4 / 3; }
+  .relato figure { margin: 0; aspect-ratio: 4 / 3; overflow: hidden; border-radius: var(--radio-grande); box-shadow: var(--elev-2); }
 
   .horarios {
     display: grid;
@@ -341,7 +343,13 @@ const datosEstructurados = {
   @media (min-width: 900px) {
     .horarios { grid-template-columns: 1fr 1fr; }
   }
-  .horarios figure { margin: 0; aspect-ratio: 4 / 3; overflow: hidden; }
+  .horarios figure {
+    margin: 0;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    border-radius: var(--radio-grande);
+    box-shadow: var(--elev-2);
+  }
   .texto-horarios { display: flex; flex-direction: column; align-items: flex-start; }
   .texto-horarios dl { width: 100%; margin: 0 0 2.25rem; }
   .texto-horarios dl > div {
@@ -375,11 +383,18 @@ const datosEstructurados = {
   }
   .agenda ul {
     display: grid;
-    gap: 1.5rem 2.5rem;
-    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: clamp(0.85rem, 1.6vw, 1.25rem);
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
     list-style: none;
   }
-  .agenda li { border-left: 1px solid var(--u); padding-left: 1.1rem; }
+  .agenda li { padding: 1.25rem 1.4rem; }
+  .agenda li::before {
+    content: "";
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 3px;
+    background: var(--u);
+  }
   .agenda a { text-decoration: none; }
   .agenda b { display: block; font-weight: 600; }
   .agenda span { display: block; font-size: 0.925rem; color: var(--tinta-suave); }

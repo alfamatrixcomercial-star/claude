@@ -22,7 +22,7 @@ const otras = (await getCollection("unidades"))
     <ul>
       {
         otras.map((u) => (
-          <li class={`u-${u.id}`}>
+          <li class:list={["caja", `u-${u.id}`]}>
             <a href={`/${u.id}`}>
               <span class="nombre">{u.data.nombre}</span>
               <span class="bajada">{u.data.bajada}</span>
@@ -62,16 +62,22 @@ const otras = (await getCollection("unidades"))
 
   ul {
     display: grid;
-    gap: 0;
-    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: clamp(0.85rem, 1.6vw, 1.25rem);
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     list-style: none;
   }
   li {
     display: flex;
     flex-direction: column;
     gap: 0.7rem;
-    padding: 1.4rem 1.5rem 1.6rem;
-    border-top: 1px solid var(--u);
+    padding: 1.5rem 1.6rem 1.7rem;
+  }
+  li::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto;
+    height: 3px;
+    background: var(--u);
   }
 
   a { text-decoration: none; display: block; padding-block: 0.35rem; }

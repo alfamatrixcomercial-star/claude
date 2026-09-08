@@ -221,7 +221,14 @@ const datosEstructurados = {
   .u-balneario { --u: var(--u-balneario); --u-txt: var(--u-balneario-txt); }
   .u-eventos { --u: var(--u-eventos); --u-txt: var(--u-eventos-txt); }
 
-  .hero { position: relative; isolation: isolate; border-bottom: 1px solid var(--u); }
+  .hero { position: relative; isolation: isolate; }
+  .hero::after {
+    content: "";
+    position: absolute;
+    inset: auto 0 0;
+    height: 3px;
+    background: var(--u);
+  }
   .fondo { position: absolute; inset: 0; z-index: -1; background: var(--verde-profundo); }
   .fondo::after {
     content: "";
@@ -324,8 +331,13 @@ const datosEstructurados = {
     gap: clamp(2rem, 5vw, 4rem);
     grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   }
-  .lista { list-style: none; display: flex; flex-direction: column; }
-  .lista li { padding: 0.7rem 0; border-bottom: 1px solid var(--linea); }
+  .lista { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
+  .lista li {
+    padding: 0.85rem 1.1rem;
+    background: var(--superficie);
+    border: 1px solid var(--borde-caja);
+    border-radius: var(--radio-chico);
+  }
 
   .derivacion {
     background: var(--fondo-alt);

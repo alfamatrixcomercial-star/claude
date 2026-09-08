@@ -37,7 +37,12 @@ const { src, poster, titulo, descripcion } = Astro.props;
 <style>
   .video { margin: 0; }
   /* El botón se ancla al video, no a la figura: si no, tapa el epígrafe. */
-  .marco { position: relative; }
+  .marco {
+    position: relative;
+    border-radius: var(--radio-grande);
+    overflow: hidden;
+    box-shadow: var(--elev-2);
+  }
   video {
     display: block;
     width: 100%;
@@ -59,6 +64,7 @@ const { src, poster, titulo, descripcion } = Astro.props;
     width: var(--toque);
     height: var(--toque);
     border: 0;
+    border-radius: 999px;
     background: var(--acento);
     color: var(--verde-profundo);
     cursor: pointer;
