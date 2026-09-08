@@ -189,6 +189,15 @@ for (const el of document.querySelectorAll("[data-vid]:not(source)")) {
   v.play().catch(() => {});
 }
 
+/* Un video en una página oculta no arranca: hay que volver a pedírselo
+   cuando la página se muestra. */
+function arrancarVideos(pagina) {
+  for (const v of pagina.querySelectorAll("video")) {
+    v.muted = true;
+    if (v.paused) v.play().catch(() => {});
+  }
+}
+
 const paginas = [...document.querySelectorAll(".pv-pagina")];
 const quietud = window.matchMedia("(prefers-reduced-motion: reduce)");
 const barra = document.createElement("div");
@@ -203,6 +212,8 @@ function pintar(ruta) {
     encontrada = encontrada || coincide;
   }
   if (!encontrada) paginas[0].hidden = false;
+  const visible = paginas.find((p) => !p.hidden);
+  if (visible) arrancarVideos(visible);
   window.scrollTo(0, 0);
 }
 

@@ -176,14 +176,13 @@ const wa = await waLink("general");
 <script>
   /* En desktop el <details> tiene que estar siempre abierto; en angosto,
      cerrado al cargar y al navegar. */
-  const menu = document.querySelector<HTMLDetailsElement>(".cabecera .menu");
-  if (menu) {
-    const ancho = window.matchMedia("(min-width: 880px)");
+  const ancho = window.matchMedia("(min-width: 880px)");
+  document.querySelectorAll<HTMLDetailsElement>(".cabecera .menu").forEach((menu) => {
     const sincronizar = () => { menu.open = ancho.matches; };
     sincronizar();
     ancho.addEventListener("change", sincronizar);
     document.addEventListener("click", (e) => {
       if (!ancho.matches && menu.open && !menu.contains(e.target as Node)) menu.open = false;
     });
-  }
+  });
 </script>
