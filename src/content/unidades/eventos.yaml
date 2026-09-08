@@ -22,26 +22,28 @@ intro:
 # Provisoria: recorte de la foto aérea del predio, para que el sitio no
 # muestre bloques vacíos. Reemplazar por una foto propia de la unidad.
 hero:
-  src: ../../assets/fotos/eventos/dj.jpg
+  src: ../../assets/fotos/eventos/salon-atardecer.jpg
   alt: >-
-    La terraza del complejo sobre el mar, con las sombrillas y la costa de fondo
+    El salón principal al atardecer, con el techo de madera a dos aguas, los
+    sillones blancos y el mar por los ventanales
   foco: centro
+
 galeria:
-  - src: ../../assets/fotos/eventos/botellas.jpg
+  - src: ../../assets/fotos/eventos/lounge-tablas.jpg
     alt: >-
-      Las botellas de la barra iluminadas de noche, bajo las lámparas de mimbre
-  - src: ../../assets/fotos/eventos/dj.jpg
+      El sector lounge con las tablas de surf en la pared, mesas redondas de madera y flores
+  - src: ../../assets/fotos/eventos/trago-barra.jpg
     alt: >-
-      La DJ con auriculares en la cabina del salón, con un trago sobre la mesa
-  - src: ../../assets/fotos/eventos/consola.jpg
+      Un trago servido sobre la barra de noche, con las botellas iluminadas de fondo
+  - src: ../../assets/fotos/restaurante/salon-lamparas.jpg
     alt: >-
-      Las manos de la DJ sobre la consola encendida durante una noche de fiesta
-  - src: ../../assets/fotos/eventos/tragos.jpg
+      El salón bajo las lámparas de mimbre, montado para una noche
+  - src: ../../assets/fotos/restaurante/atardecer-ventanal.jpg
     alt: >-
-      Tragos servidos sobre la mesa de madera del salón, ya de noche
-  - src: ../../assets/fotos/eventos/brindis.jpg
+      El atardecer sobre la costa, visto desde el ventanal del salón
+  - src: ../../assets/fotos/restaurante/coctel-servido.jpg
     alt: >-
-      Una invitada brindando con una copa en el salón, de noche
+      El bartender terminando un cóctel en la barra del salón
 
 estadoFijo: Agenda 2026 abierta
 

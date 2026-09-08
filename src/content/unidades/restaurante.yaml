@@ -19,10 +19,10 @@ intro:
     cargo y arranque a las 22.
 
 hero:
-  src: ../../assets/fotos/restaurante/fachada.jpg
+  src: ../../assets/fotos/restaurante/terraza-almuerzo.jpg
   alt: >-
-    La entrada del restaurante Mirador Waikiki, con el cartel sobre el frente
-    blanco y la galería de madera, en un día de sol
+    La terraza del restaurante llena a la hora del almuerzo, bajo los tejidos de
+    macramé, con las sombrillas y el mar al fondo
   foco: centro
 
 # Del video del salón: panel central recortado, sin audio y comprimido.
@@ -35,42 +35,57 @@ video:
     sol. Sin audio.
 
 galeria:
-  - src: ../../assets/fotos/restaurante/salon-vista.jpg
+  - src: ../../assets/fotos/restaurante/salon-lamparas.jpg
     alt: >-
-      El salón del restaurante con plantas y ventanales, y el mar al fondo
-  - src: ../../assets/fotos/restaurante/barra-lamparas.jpg
+      El salón bajo las lámparas de mimbre colgadas del techo alto, con la barra y las tablas de surf al fondo
+  - src: ../../assets/fotos/restaurante/servicio-desayuno.jpg
     alt: >-
-      La barra iluminada bajo las lámparas de mimbre colgadas del techo alto
-  - src: ../../assets/fotos/restaurante/mesa-puesta.jpg
+      Una moza sirviendo el desayuno en la terraza, con la bandeja de cafés y jugos
+  - src: ../../assets/fotos/restaurante/desayuno-arriba.jpg
     alt: >-
-      Una mesa puesta junto al ventanal, con copas y platos y la playa detrás
-  - src: ../../assets/fotos/restaurante/ensalada.jpg
+      Desayuno visto desde arriba: huevos revueltos con palta y tostadas, bowl de frutas con granola, café y jugo de naranja
+  - src: ../../assets/fotos/restaurante/desayuno-terraza.jpg
     alt: >-
-      Ensalada verde con langostinos y croutones, servida en plato hondo blanco
-  - src: ../../assets/fotos/restaurante/burrata.jpg
+      La mesa del desayuno servida en la terraza de madera, con el mar detrás de la baranda blanca
+  - src: ../../assets/fotos/restaurante/mesa-vista.jpg
     alt: >-
-      Burrata entera sobre hojas verdes con nueces y tomates, servida en fuente
-  - src: ../../assets/fotos/restaurante/calamares.jpg
+      Una mesa puesta junto a la baranda, con la costa de Mar del Plata al fondo
+  - src: ../../assets/fotos/restaurante/barra-mozo.jpg
     alt: >-
-      Plato de rabas doradas con gajos de limón sobre la mesa de madera
-  - src: ../../assets/fotos/restaurante/milanesa.jpg
+      Un mozo detrás de la barra de madera, con la luz cálida del salón
+  - src: ../../assets/fotos/restaurante/atardecer-ventanal.jpg
     alt: >-
-      Milanesa con papas fritas y limón, servida en plato blanco sobre la mesa
-  - src: ../../assets/fotos/restaurante/cava.jpg
+      El atardecer visto desde el ventanal del salón, con el cielo naranja sobre la costa
+  - src: ../../assets/fotos/restaurante/taza-logo.jpg
     alt: >-
-      La cava del restaurante, con las botellas iluminadas en estantes claros
-  - src: ../../assets/fotos/restaurante/aperoles.jpg
+      Una taza de café con leche con el logo de Mirador Waikiki, servida por el barista
+  - src: ../../assets/fotos/restaurante/coctel-chispas.jpg
     alt: >-
-      Dos aperitivos naranjas recién servidos sobre la barra, a contraluz
-  - src: ../../assets/fotos/restaurante/dj.jpg
+      El bartender flameando un cóctel en la barra, con las chispas cayendo sobre el vaso
+  - src: ../../assets/fotos/restaurante/coctel-flameado.jpg
     alt: >-
-      La consola del DJ encendida durante la noche de viernes en el salón
-  - src: ../../assets/fotos/restaurante/costa-noche.jpg
+      Un cóctel flameado sobre la barra, con la llama azul todavía encendida
+  - src: ../../assets/fotos/restaurante/coctel-colado.jpg
     alt: >-
-      Una copa en la baranda de noche, con las luces de la costa a lo lejos
-  - src: ../../assets/fotos/restaurante/lounge.jpg
+      El bartender colando un trago en la copa, detrás de la barra
+  - src: ../../assets/fotos/restaurante/langostinos-burrata.jpg
     alt: >-
-      El sector de sillones del salón, con plantas y la costa por el ventanal
+      Ensalada de langostinos con burrata y tomates, servida en plato hondo blanco
+  - src: ../../assets/fotos/restaurante/cazuela-mariscos.jpg
+    alt: >-
+      Cazuela de mariscos con langostinos, mejillones y vieiras, con una copa de vino tinto al lado
+  - src: ../../assets/fotos/restaurante/ravioles.jpg
+    alt: >-
+      Ravioles negros en salsa de crema con queso rallado y pimentón
+  - src: ../../assets/fotos/restaurante/sorrentinos.jpg
+    alt: >-
+      Sorrentinos en salsa de tomate con albahaca, sobre el mantel rayado
+  - src: ../../assets/fotos/restaurante/bife-papas.jpg
+    alt: >-
+      Bife con papas y hongos, con una copa de vino tinto y la botella detrás
+  - src: ../../assets/fotos/restaurante/spritz-rabas.jpg
+    alt: >-
+      Un spritz y un plato de rabas con limón, sobre la mesa de la terraza frente al mar
 
 # Horarios reales confirmados por el cliente.
 horarios:

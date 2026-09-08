@@ -17,9 +17,14 @@ intro:
     En verano la estadía incluye los servicios del balneario en la playa
     Waikiki, y el restaurante está a metros, abierto desde las ocho de la mañana.
 
-# Sin foto propia todavía. Las que había eran recortes de video de 360 a
-# 420 px: se veían mal estiradas y se sacaron. Cargá acá la foto real.
-hero: null
+hero:
+  src: ../../assets/fotos/hotel/edificio-parque.jpg
+  alt: >-
+    El edificio del complejo visto desde el parque, con los árboles del predio
+    en primer plano
+  foco: centro
+
+# TODO: faltan fotos de las habitaciones.
 galeria: []
 
 estadoFijo: Abierto todo el año

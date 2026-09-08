@@ -19,17 +19,21 @@ intro:
 # Provisoria: recorte de la foto aérea del predio, para que el sitio no
 # muestre bloques vacíos. Reemplazar por una foto propia de la unidad.
 hero:
-  src: ../../assets/fotos/balneario/terraza.jpg
+  src: ../../assets/fotos/balneario/baranda-mar.jpg
   alt: >-
-    La pileta del balneario con las sombrillas blancas alineadas sobre el césped, junto al mar
-  foco: centro
+    La baranda blanca del complejo sobre la playa, con el mar y la rompiente
+  foco: abajo
+
 galeria:
-  - src: ../../assets/fotos/balneario/terraza.jpg
+  - src: ../../assets/fotos/balneario/mar-plantas.jpg
     alt: >-
-      La terraza sobre la playa, con sombrillas y reposeras mirando la rompiente
-  - src: ../../assets/fotos/balneario/mar-baranda.jpg
+      El mar visto entre las plantas del predio, con la ciudad de Mar del Plata a lo lejos
+  - src: ../../assets/fotos/balneario/desayuno-baranda.jpg
     alt: >-
-      El mar y la orilla vistos desde la baranda del complejo, con cielo despejado
+      Una mesa servida junto a la baranda, con la playa abajo
+  - src: ../../assets/fotos/complejo/predio-dron.jpg
+    alt: >-
+      El complejo entero visto desde el mar con un dron: las piletas, el parque y la playa
 
 temporada:
   desde: "12-01"
