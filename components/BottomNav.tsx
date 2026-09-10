@@ -2,12 +2,13 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { Home, BookOpen, Trophy, MessageSquarePlus, User } from 'lucide-react'
+import { Home, BookOpen, Trophy, MessageSquarePlus, User, Utensils } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 const navItems = [
   { href: '/dashboard', icon: Home, label: 'Inicio' },
   { href: '/dashboard/guides', icon: BookOpen, label: 'Guías' },
+  { href: '/dashboard/comida', icon: Utensils, label: 'Comida' },
   { href: '/dashboard/resultados', icon: Trophy, label: 'Resultados' },
   { href: '/dashboard/sugerencias', icon: MessageSquarePlus, label: 'Sugerencias' },
   { href: '/dashboard/profile', icon: User, label: 'Perfil' },
@@ -30,8 +31,8 @@ export default function BottomNav() {
               key={href}
               href={href}
               className={cn(
-                'flex flex-col items-center justify-center gap-0.5 px-2 py-2 rounded-lg',
-                'transition-colors duration-200 min-w-[56px] cursor-pointer',
+                'flex flex-col items-center justify-center gap-0.5 px-1 py-2 rounded-lg',
+                'transition-colors duration-200 min-w-[44px] cursor-pointer',
                 isActive
                   ? 'text-brand-accent'
                   : 'text-brand-muted hover:text-brand-text'
@@ -42,7 +43,7 @@ export default function BottomNav() {
                 className={cn('w-5 h-5', isActive && 'drop-shadow-[0_0_6px_rgba(110,143,122,0.7)]')}
                 strokeWidth={isActive ? 2.5 : 2}
               />
-              <span className="text-[9px] font-medium leading-tight text-center">{label}</span>
+              <span className="text-[8px] font-medium leading-tight text-center">{label}</span>
             </Link>
           )
         })}
