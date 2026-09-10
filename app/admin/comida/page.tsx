@@ -1,7 +1,7 @@
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { Utensils, Leaf, Sprout, Wheat, Users } from 'lucide-react'
-import { getNextWeekStart } from '@/app/actions/meals'
+import { getNextWeekStart, formatWeekLabel } from '@/lib/meals-utils'
 import { cn } from '@/lib/utils'
 
 const PREFERENCES = [
@@ -10,14 +10,6 @@ const PREFERENCES = [
   { key: 'vegano', label: 'Vegano', icon: Sprout, color: 'text-emerald-600', bg: 'bg-emerald-50' },
   { key: 'celiaco', label: 'Celíaco', icon: Wheat, color: 'text-amber-600', bg: 'bg-amber-50' },
 ] as const
-
-function formatWeekLabel(dateStr: string): string {
-  const date = new Date(dateStr + 'T00:00:00')
-  const end = new Date(date)
-  end.setDate(date.getDate() + 6)
-  const opts: Intl.DateTimeFormatOptions = { day: 'numeric', month: 'long' }
-  return `${date.toLocaleDateString('es-AR', opts)} al ${end.toLocaleDateString('es-AR', opts)}`
-}
 
 export default async function AdminComidaPage() {
   const supabase = await createClient()

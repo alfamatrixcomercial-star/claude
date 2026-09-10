@@ -2,15 +2,7 @@
 
 import { createClient } from '@/lib/supabase/server'
 import { revalidatePath } from 'next/cache'
-
-export function getNextWeekStart(): string {
-  const today = new Date()
-  const day = today.getDay() // 0=domingo, 1=lunes...
-  const daysUntilNextMonday = day === 0 ? 1 : 8 - day
-  const nextMonday = new Date(today)
-  nextMonday.setDate(today.getDate() + daysUntilNextMonday)
-  return nextMonday.toISOString().split('T')[0]
-}
+import { getNextWeekStart } from '@/lib/meals-utils'
 
 export async function signupForMealAction(preference: string) {
   const supabase = await createClient()

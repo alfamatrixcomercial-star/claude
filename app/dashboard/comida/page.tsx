@@ -2,15 +2,7 @@ import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { Utensils } from 'lucide-react'
 import MealSignupForm from '@/components/MealSignupForm'
-import { getNextWeekStart } from '@/app/actions/meals'
-
-function formatWeekLabel(dateStr: string): string {
-  const date = new Date(dateStr + 'T00:00:00')
-  const end = new Date(date)
-  end.setDate(date.getDate() + 6)
-  const opts: Intl.DateTimeFormatOptions = { day: 'numeric', month: 'long' }
-  return `${date.toLocaleDateString('es-AR', opts)} al ${end.toLocaleDateString('es-AR', opts)}`
-}
+import { getNextWeekStart, formatWeekLabel } from '@/lib/meals-utils'
 
 export default async function ComidaPage() {
   const supabase = await createClient()
