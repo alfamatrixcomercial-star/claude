@@ -107,14 +107,63 @@ ErrorDocument 404 /404.html
 
 await writeFile(join(DIST, ".htaccess"), HTACCESS, "utf8");
 
-/* ── 3. Zip ───────────────────────────────────────────────────────────── */
+/* ── 3. Zips ──────────────────────────────────────────────────────────────
+   Uno solo daría más de 50 MB y muchos administradores de archivos no lo
+   aceptan. Se parte en piezas INDEPENDIENTES —no en un zip multivolumen,
+   que los descompresores web no saben abrir—: cada una se descomprime sola
+   dentro de public_html y los archivos se van sumando. El orden no importa.
 
-await ejecutar("rm", ["-f", ZIP]);
-/* -r recursivo, y el punto final entra .htaccess, que empieza con punto. */
-await ejecutar("zip", ["-r", "-q", "-9", `../${ZIP}`, ".", "-x", ".DS_Store"], { cwd: DIST });
+   La primera lleva la estructura del sitio (páginas, tipografías, videos);
+   las siguientes, las imágenes de /_astro/ repartidas por peso. */
 
-const zip = (await stat(ZIP)).size;
+const TOPE = 27 * 1024 * 1024;
 const mb = (n) => (n / 1024 / 1024).toFixed(1);
+
+async function pesar(dir, base = dir) {
+  const salida = [];
+  for (const e of await readdir(dir, { withFileTypes: true })) {
+    const ruta = join(dir, e.name);
+    if (e.isDirectory()) salida.push(...(await pesar(ruta, base)));
+    else salida.push({ rel: ruta.slice(base.length + 1), bytes: (await stat(ruta)).size });
+  }
+  return salida;
+}
+
+const todos = await pesar(DIST);
+const esImagen = (f) => f.rel.startsWith("_astro/") && /\.(avif|webp|jpe?g|png)$/i.test(f.rel);
+
+/* La estructura va entera en la primera pieza. */
+const grupos = [todos.filter((f) => !esImagen(f))];
+
+/* Las imágenes, de mayor a menor, en piezas que no pasen el tope. */
+let actual = [];
+let peso = 0;
+for (const f of todos.filter(esImagen).sort((a, b) => b.bytes - a.bytes)) {
+  if (peso + f.bytes > TOPE && actual.length) {
+    grupos.push(actual);
+    actual = [];
+    peso = 0;
+  }
+  actual.push(f);
+  peso += f.bytes;
+}
+if (actual.length) grupos.push(actual);
+
+await ejecutar("sh", ["-c", "rm -f miradorwaikiki-sitio*.zip"]);
+
 console.log(`Originales huérfanos borrados: ${borrados} (${mb(liberado)} MB)`);
 console.log(`.htaccess escrito en ${DIST}/`);
-console.log(`${ZIP}: ${mb(zip)} MB`);
+
+const nombres = [];
+for (const [i, grupo] of grupos.entries()) {
+  const nombre = `miradorwaikiki-sitio-${i + 1}de${grupos.length}.zip`;
+  /* La lista va por stdin: son cientos de rutas y no entran en un argumento. */
+  await ejecutar("sh", [
+    "-c",
+    `cd ${DIST} && printf '%s\\n' ${grupo.map((f) => `'${f.rel}'`).join(" ")} | zip -q -9 "../${nombre}" -@`,
+  ]);
+  const bytes = (await stat(nombre)).size;
+  nombres.push(nombre);
+  console.log(`  ${nombre}: ${mb(bytes)} MB · ${grupo.length} archivos`);
+}
+console.log(`Total: ${grupos.length} piezas, ${todos.length} archivos.`);

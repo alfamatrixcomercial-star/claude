@@ -8,4 +8,4 @@ dist/
 preview-home.html
 
 # Paquete de deploy: se regenera con `npm run paquete`.
-miradorwaikiki-sitio.zip
+miradorwaikiki-sitio*.zip
