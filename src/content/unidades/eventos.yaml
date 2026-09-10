@@ -80,6 +80,9 @@ derivacion:
     trabaja en él hace años.
   texto_cta: Ver casamientos en mareventos.com.ar
   url: "https://mareventos.com.ar"
+  logo:
+    src: ../../assets/logos/mar-eventos.png
+    alt: Logo de Mar Eventos
 
 seo:
   titulo: Casamientos frente al mar en Mar del Plata

@@ -25,6 +25,10 @@ hero:
   foco: abajo
 
 galeria:
+  - src: ../../assets/fotos/balneario/carpas-arena.jpg
+    alt: >-
+      Las carpas blancas del balneario alineadas sobre la arena, con las
+      reposeras y el mar detrás
   - src: ../../assets/fotos/balneario/mar-plantas.jpg
     alt: >-
       El mar visto entre las plantas del predio, con la ciudad de Mar del Plata a lo lejos

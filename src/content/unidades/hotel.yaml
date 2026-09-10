@@ -33,9 +33,19 @@ heroVideo:
     Amanecer desde la terraza del hotel: el deck de madera, una silla mirando
     al mar y el sol saliendo sobre el agua
 
-# Faltan fotos propias de las habitaciones. Los cuadros del video no cuentan:
-# son de 720 px y salen del mismo material que ya está arriba.
-galeria: []
+galeria:
+  - src: ../../assets/fotos/hotel/habitacion-balcon.jpg
+    alt: >-
+      Una habitación con la cama tendida y el ventanal abierto al balcón, con
+      el mar de fondo
+  - src: ../../assets/fotos/hotel/habitacion-mar.jpg
+    alt: >-
+      La misma habitación desde la puerta: el respaldo de madera, la cama y la
+      salida al balcón sobre la playa
+  - src: ../../assets/fotos/hotel/balcones-costa.jpg
+    alt: >-
+      La galería de los balcones sobre el techo verde del complejo, con la
+      costa de Mar del Plata a lo lejos
 
 estadoFijo: Abierto todo el año
 
@@ -66,6 +76,9 @@ derivacion:
     disponibilidad al día. Desde acá vas directo.
   texto_cta: Ir a iliilihotelboutique.com.ar
   url: "https://iliilihotelboutique.com.ar"
+  logo:
+    src: ../../assets/logos/ili-ili.png
+    alt: Logo de Ili Ili Hotel Boutique
 
 seo:
   titulo: Ili Ili Hotel Boutique, primera línea de playa

@@ -422,9 +422,12 @@ const datosEstructurados = {
      competir con el botón, que es lo que hay que tocar. */
   .derivacion :global(.logo-marca) {
     width: auto;
-    max-width: 15rem;
-    max-height: 4.5rem;
+    max-width: 14rem;
+    max-height: 8rem;
     object-fit: contain;
-    margin-block: 0.25rem;
+    /* Ili Ili viene con fondo transparente y no se nota; Mar Eventos trae su
+       cuadro crema, y ahí el radio lo pone en el mismo idioma que el resto. */
+    border-radius: var(--radio-chico);
+    margin-block: 0.5rem;
   }
 </style>
