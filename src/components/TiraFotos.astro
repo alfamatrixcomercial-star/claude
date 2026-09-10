@@ -1,0 +1,130 @@
+---
+/**
+ * Banda de fotos del home.
+ *
+ * No tiene contenido propio: toma las primeras fotos de la galería de cada
+ * unidad, así cargar una foto en un YAML la trae acá sola. Cada foto lleva
+ * a su unidad, que es lo que alguien quiere después de ver la foto.
+ */
+import Foto from "~/components/Foto.astro";
+import Boton from "~/components/Boton.astro";
+
+type Unidad = "restaurante" | "hotel" | "balneario" | "eventos";
+interface Item {
+  foto: { src: ImageMetadata; alt: string; foco: "centro" | "arriba" | "abajo" };
+  unidad: Unidad;
+  nombre: string;
+}
+interface Props {
+  items: Item[];
+  titulo: string;
+  rotulo: string;
+}
+const { items, titulo, rotulo } = Astro.props;
+---
+
+{
+  items.length > 0 && (
+    <section class="tira">
+      <div class="interior">
+        <div class="cabeza">
+          <div class="encabezado">
+            <p class="rotulo">{rotulo}</p>
+            <h2>{titulo}</h2>
+          </div>
+          <Boton href="/galeria" jerarquia="secundaria">Ver todas las fotos</Boton>
+        </div>
+
+        <ul>
+          {items.map((i, n) => (
+            <li class:list={[`u-${i.unidad}`, { grande: n === 0 }]}>
+              <a href={`/${i.unidad}`}>
+                <Foto
+                  foto={i.foto}
+                  unidad={i.unidad}
+                  anchos={[400, 700, 1100]}
+                  sizes="(max-width: 640px) 50vw, (max-width: 1000px) 33vw, 25vw"
+                />
+                <span class="pie">{i.nombre}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  )
+}
+
+<style>
+  .tira { padding: var(--paso) var(--margen); background: var(--fondo-alt); }
+  .interior { max-width: var(--ancho); margin-inline: auto; }
+
+  .cabeza {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1.5rem;
+    margin-bottom: clamp(1.5rem, 3vw, 2.25rem);
+  }
+
+  ul {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(0.65rem, 1.3vw, 1rem);
+    list-style: none;
+  }
+  @media (min-width: 700px) {
+    ul { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    /* Una pieza grande rompe la grilla pareja, que era la queja del brief:
+       cuatro columnas iguales se leen como un catálogo. */
+    .grande { grid-column: span 2; grid-row: span 2; }
+  }
+
+  li { aspect-ratio: 1; }
+
+  a {
+    position: relative;
+    display: block;
+    height: 100%;
+    border-radius: var(--radio);
+    overflow: hidden;
+    box-shadow: var(--elev-1);
+    text-decoration: none;
+  }
+  a::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgb(5 35 25 / 0.75) 0%, rgb(5 35 25 / 0) 55%);
+  }
+
+  a :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--transicion);
+  }
+
+  .pie {
+    position: absolute;
+    left: 0.9rem;
+    bottom: 0.75rem;
+    z-index: 1;
+    font-size: var(--t-eyebrow);
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--sobre-oscuro);
+  }
+
+  @media (hover: hover) {
+    a:hover :global(img) { transform: scale(1.06); }
+  }
+  a:focus-visible { outline: 3px solid var(--acento); outline-offset: 3px; }
+
+  @media (prefers-reduced-motion: reduce) {
+    a :global(img) { transition: none; }
+    a:hover :global(img) { transform: none; }
+  }
+</style>

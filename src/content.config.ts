@@ -80,6 +80,18 @@ const unidades = defineCollection({
       firma: z.string().optional(),
       intro: z.array(publicable(z.string())).min(1),
 
+      /**
+       * Logo propio de la unidad, cuando tiene marca aparte del complejo
+       * (Ili Ili). Va en el hero, en lugar del rótulo con el nombre: si la
+       * unidad tiene marca, la marca manda.
+       */
+      marca: z
+        .object({
+          src: image(),
+          alt: z.string().min(10, "El alt del logo dice de quién es la marca."),
+        })
+        .optional(),
+
       hero: fotoOpcional(image),
       /**
        * Video vertical para el hero, opcional. Se muestra en su proporción,
@@ -196,6 +208,8 @@ const sitio = defineCollection({
       codigoPostal: z.string(),
       pais: z.string().default("AR"),
     }),
+    /** Ficha del lugar en Google Maps. Los botones de mapa salen de acá. */
+    mapaUrl: z.string().url(),
     coordenadas: z.object({ lat: z.number(), lng: z.number() }),
     comoLlegar: z.array(z.string()).min(1),
     estacionamiento: z.string(),

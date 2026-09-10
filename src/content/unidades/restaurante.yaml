@@ -15,8 +15,8 @@ intro:
     noche. El salón mira al agua por tres lados, con la misma vista con la que
     abrimos en 1999.
   - >-
-    Los viernes y sábados el salón se arma para la cena show, con entrada sin
-    cargo y arranque a las 22.
+    Los viernes y sábados el salón sigue abierto de noche: se cena con el mar
+    oscuro del otro lado del ventanal y la costa iluminada a lo lejos.
 
 hero:
   src: ../../assets/fotos/restaurante/terraza-almuerzo.jpg
@@ -95,14 +95,14 @@ horarios:
   - dias: [5, 6]
     etiqueta: Viernes y sábados
     franjas: [{ desde: "08:00", hasta: "23:59" }]
-    nota: Cena show desde las 22, entrada sin cargo.
+    nota: Servicio de cena por la noche.
 
 ficha:
   - { clave: Vista, valor: Al mar por tres lados }
   - { clave: Terraza, valor: "Sí, con reserva previa" } # TODO: confirmar
   - { clave: Grupos, valor: Hasta 40 personas } # TODO: confirmar capacidad
   - { clave: Desde las 8, valor: Desayunos y café de la tarde }
-  - { clave: Cena show, valor: Viernes y sábados desde las 22 }
+  - { clave: Cena, valor: Viernes y sábados por la noche }
 
 ctas:
   - { texto: Reservar mesa, tipo: woki, contexto: restaurante }
@@ -117,5 +117,5 @@ seo:
   titulo: Restaurante frente al mar en Mar del Plata
   descripcion: >-
     Cocina de mar y fuego sobre las rocas, con vista al océano por tres lados.
-    Cena show los viernes y sábados. Reservas por Woki o WhatsApp.
+    Desayuno, almuerzo y cena los viernes y sábados. Reservas por Woki o WhatsApp.
 schema: Restaurant

@@ -22,6 +22,10 @@ direccion:
   codigoPostal: B7600
   pais: AR
 
+# Búsqueda por nombre y dirección, no por coordenadas: cae en la ficha real
+# del lugar en Google Maps, con las reseñas y el «Cómo llegar» de Google.
+mapaUrl: "https://www.google.com/maps/search/?api=1&query=Mirador+Waikiki%2C+Av.+de+los+Trabajadores+4320%2C+Mar+del+Plata"
+
 coordenadas: # TODO: coordenadas exactas del acceso al predio
   lat: -38.0553
   lng: -57.5426
@@ -40,7 +44,7 @@ contacto:
     whatsapp: "5492235466065" # TODO: confirmar cuál es el número general
     mensaje: "Hola! Escribo desde miradorwaikiki.com. Quería hacer una consulta."
   restaurante:
-    whatsapp: "5492235466065" # del brandboard, pieza de Cena Show
+    whatsapp: "5492235466065" # del brandboard
     mensaje: "Hola! Quiero reservar una mesa en el restaurante de Mirador Waikiki."
   hotel:
     whatsapp: "5492235961709" # el que pasó el cliente
@@ -49,7 +53,7 @@ contacto:
     whatsapp: "5492235803322" # el que pasó el cliente
     mensaje: "Hola! Quiero consultar por una carpa en el balneario de Mirador Waikiki."
   eventos:
-    whatsapp: "5492235466065" # TODO: número comercial de eventos
+    whatsapp: "5492236333330" # el que pasó el cliente
     mensaje: "Hola! Quiero consultar por un evento en Mirador Waikiki."
 
 # VERIFICAR con un click: no pude abrir wokiapp.com desde el entorno de

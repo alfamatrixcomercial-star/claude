@@ -17,11 +17,15 @@ intro:
     En verano la estadía incluye los servicios del balneario en la playa
     Waikiki, y el restaurante está a metros, abierto desde las ocho de la mañana.
 
+marca:
+  src: ../../assets/logos/ili-ili.png
+  alt: Ili Ili Hotel Boutique
+
 hero:
-  src: ../../assets/fotos/hotel/edificio-parque.jpg
+  src: ../../assets/fotos/hotel/habitacion-balcon.jpg
   alt: >-
-    El edificio del complejo visto desde el parque, con los árboles del predio
-    en primer plano
+    Una habitación del hotel con la cama tendida y el ventanal abierto al
+    balcón, con el mar de fondo
   foco: centro
 
 # Video vertical del hotel, tal como llegó: 720x1280 de teléfono. Va en un
@@ -34,10 +38,6 @@ heroVideo:
     al mar y el sol saliendo sobre el agua
 
 galeria:
-  - src: ../../assets/fotos/hotel/habitacion-balcon.jpg
-    alt: >-
-      Una habitación con la cama tendida y el ventanal abierto al balcón, con
-      el mar de fondo
   - src: ../../assets/fotos/hotel/habitacion-mar.jpg
     alt: >-
       La misma habitación desde la puerta: el respaldo de madera, la cama y la
@@ -46,6 +46,10 @@ galeria:
     alt: >-
       La galería de los balcones sobre el techo verde del complejo, con la
       costa de Mar del Plata a lo lejos
+  - src: ../../assets/fotos/hotel/edificio-parque.jpg
+    alt: >-
+      El edificio del hotel visto desde el parque del predio, con los árboles
+      en primer plano
 
 estadoFijo: Abierto todo el año
 

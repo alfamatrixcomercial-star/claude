@@ -112,7 +112,20 @@ const datosEstructurados = {
       </div>
       <div class="marco-hero">
         <div class="texto">
-          <p class="etiqueta">{d.nombre}</p>
+          {
+            d.marca ? (
+              <Image
+                src={d.marca.src}
+                alt={d.marca.alt}
+                widths={[220, 440]}
+                sizes="220px"
+                class="marca"
+                loading="eager"
+              />
+            ) : (
+              <p class="etiqueta">{d.nombre}</p>
+            )
+          }
           <h1>{d.titular}</h1>
           <Estado estado={estado} unidad={id} class="estado-hero" />
           <div class="acciones">
@@ -318,6 +331,14 @@ const datosEstructurados = {
       rgb(5 35 25 / 0.7) 100%
     );
   }
+  /* Cuando la unidad tiene marca propia, el logo ocupa el lugar del rótulo
+     y con bastante más presencia: es el nombre de la casa, no una etiqueta. */
+  .texto :global(.marca) {
+    width: auto;
+    height: clamp(4.5rem, 9vw, 7rem);
+    object-fit: contain;
+    margin-bottom: 0.5rem;
+  }
   .etiqueta {
     font-size: var(--t-eyebrow);
     font-weight: 700;
@@ -388,17 +409,36 @@ const datosEstructurados = {
     padding-top: 1.75rem;
   }
 
+  /* Un grupo de listas por fila; cada grupo, su título y sus fichas. */
   .listas {
     display: grid;
-    gap: clamp(2rem, 5vw, 4rem);
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: clamp(2.5rem, 5vw, 4rem);
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr));
   }
-  .lista { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
+  .listas h2 { margin-bottom: 1.25rem; }
+
+  /* Los ítems son fichas, no renglones: en una columna de 1140 px una
+     ficha por fila queda como una barra vacía. Se acomodan en varias. */
+  .lista {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 15rem), 1fr));
+    gap: 0.85rem;
+  }
   .lista li {
-    padding: 0.85rem 1.1rem;
+    padding: 1.1rem 1.25rem;
     background: var(--superficie);
     border: 1px solid var(--borde-caja);
-    border-radius: var(--radio-chico);
+    border-radius: var(--radio);
+    box-shadow: var(--elev-1);
+    transition: transform var(--transicion), border-color var(--transicion);
+  }
+  @media (hover: hover) {
+    .lista li:hover { transform: translateY(-3px); border-color: var(--u); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .lista li { transition: none; }
+    .lista li:hover { transform: none; }
   }
 
   .derivacion {

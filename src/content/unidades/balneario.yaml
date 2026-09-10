@@ -16,28 +16,28 @@ intro:
   - >-
     Los huéspedes de Ili Ili tienen acceso durante su estadía.
 
-# Provisoria: recorte de la foto aérea del predio, para que el sitio no
-# muestre bloques vacíos. Reemplazar por una foto propia de la unidad.
 hero:
-  src: ../../assets/fotos/balneario/baranda-mar.jpg
+  src: ../../assets/fotos/balneario/carpas-arena.jpg
   alt: >-
-    La baranda blanca del complejo sobre la playa, con el mar y la rompiente
-  foco: abajo
+    Las carpas blancas del balneario alineadas sobre la arena, con las
+    reposeras, las sombrillas y el mar detrás
+  foco: centro
 
+# El orden importa: las dos primeras de cada unidad son las que salen en la
+# banda de fotos del home.
 galeria:
-  - src: ../../assets/fotos/balneario/carpas-arena.jpg
-    alt: >-
-      Las carpas blancas del balneario alineadas sobre la arena, con las
-      reposeras y el mar detrás
-  - src: ../../assets/fotos/balneario/mar-plantas.jpg
-    alt: >-
-      El mar visto entre las plantas del predio, con la ciudad de Mar del Plata a lo lejos
-  - src: ../../assets/fotos/balneario/desayuno-baranda.jpg
-    alt: >-
-      Una mesa servida junto a la baranda, con la playa abajo
   - src: ../../assets/fotos/complejo/predio-dron.jpg
     alt: >-
       El complejo entero visto desde el mar con un dron: las piletas, el parque y la playa
+  - src: ../../assets/fotos/balneario/desayuno-baranda.jpg
+    alt: >-
+      Una mesa servida junto a la baranda, con la playa abajo
+  - src: ../../assets/fotos/balneario/baranda-mar.jpg
+    alt: >-
+      La baranda blanca del complejo sobre la playa, con el mar y la rompiente
+  - src: ../../assets/fotos/balneario/mar-plantas.jpg
+    alt: >-
+      El mar visto entre las plantas del predio, con la ciudad de Mar del Plata a lo lejos
 
 temporada:
   desde: "12-01"

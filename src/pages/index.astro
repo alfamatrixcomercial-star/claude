@@ -7,6 +7,7 @@ import Foto from "~/components/Foto.astro";
 import HeroVideo from "~/components/HeroVideo.astro";
 import Boton from "~/components/Boton.astro";
 import Confianza from "~/components/Confianza.astro";
+import TiraFotos from "~/components/TiraFotos.astro";
 import CierreCta from "~/components/CierreCta.astro";
 import { estadoDeUnidad, agendaVigente } from "~/lib/estado";
 import { datosSitio, waLink, wokiLink } from "~/lib/contacto";
@@ -47,6 +48,18 @@ const puertas = await Promise.all(
       ctaHref: href,
     };
   }),
+);
+
+/* La banda de fotos del home se arma sola: las dos primeras de la galería de
+   cada unidad. Cargar una foto en un YAML la trae acá sin tocar esta página. */
+const tira = unidades.flatMap((u, i) =>
+  /* Tres de la primera y dos del resto: nueve fotos son una pieza grande
+     más dos filas completas de cuatro, sin un hueco al final. */
+  u.data.galeria.slice(0, i === 0 ? 3 : 2).map((foto) => ({
+    foto,
+    unidad: u.id as "restaurante" | "hotel" | "balneario" | "eventos",
+    nombre: u.data.nombre,
+  })),
 );
 
 const datosEstructurados = {
@@ -136,7 +149,7 @@ const datosEstructurados = {
           Un mismo predio sobre las rocas: se almuerza donde se veranea, se duerme donde
           se casa. Veintiséis años en el mismo lugar, con el mar siempre del mismo lado.
         </p>
-        <Boton href="/contacto" jerarquia="secundaria">Cómo llegar</Boton>
+        <Boton href={sitio.mapaUrl} jerarquia="secundaria" externo>Cómo llegar</Boton>
       </div>
       <figure>
         <Foto
@@ -204,6 +217,8 @@ const datosEstructurados = {
     )
   }
 
+  <TiraFotos items={tira} rotulo="El predio" titulo="Cuatro lugares, un mismo mar" />
+
   <Onda />
 
   <!-- Prueba social: lo que el patrón del plugin marcaba como faltante -->
@@ -224,10 +239,7 @@ const datosEstructurados = {
         <p class="estacionamiento">{sitio.estacionamiento}</p>
       </div>
       <div class="acciones">
-        <Boton
-          href={`https://www.google.com/maps/search/?api=1&query=${sitio.coordenadas.lat},${sitio.coordenadas.lng}`}
-          externo
-        >
+        <Boton href={sitio.mapaUrl} externo>
           Abrir en Google Maps
         </Boton>
         <Boton href="/contacto" jerarquia="secundaria">Teléfonos y contacto</Boton>

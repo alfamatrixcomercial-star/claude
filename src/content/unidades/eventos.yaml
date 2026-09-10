@@ -10,8 +10,8 @@ firma: Se celebra donde se veranea.
 intro:
   - >-
     El complejo entero se puede reservar para un evento: el salón con vista a la
-    rompiente, las terrazas y el parque sobre la costa. Los invitados de afuera
-    se alojan en el hotel del mismo predio, a metros del salón.
+    rompiente, las terrazas y el parque sobre la costa, todo sobre la misma
+    barranca y con el mar de fondo.
   - >-
     De día es el mar por los tres ventanales; de noche, la barra bajo las
     lámparas y las luces de la costa de fondo.
@@ -50,7 +50,6 @@ estadoFijo: Agenda 2026 abierta
 ficha:
   - { clave: Tipos de evento, valor: "Casamientos, corporativos y sociales" }
   - { clave: Capacidad, valor: A confirmar según montaje } # TODO
-  - { clave: Alojamiento, valor: Hotel Ili Ili en el mismo predio }
   - { clave: Producción, valor: Mar Eventos }
 
 ctas:
@@ -68,7 +67,7 @@ listas:
       - Salón principal con vista al mar
       - Terraza sobre la costa
       - Parque frente a la rompiente
-      - Hotel Ili Ili para los invitados
+      - Barra bajo las lámparas del salón
 # TODO: confirmar espacios, capacidades por montaje y qué incluye el servicio
 
 derivacion:
@@ -87,6 +86,6 @@ derivacion:
 seo:
   titulo: Casamientos frente al mar en Mar del Plata
   descripcion: >-
-    Salón, terraza y parque sobre la costa para casamientos y eventos privados,
-    con hotel en el mismo predio. Producción a cargo de Mar Eventos.
+    Salón, terraza y parque sobre la costa para casamientos y eventos privados
+    en Mar del Plata. Producción integral a cargo de Mar Eventos.
 schema: EventVenue
