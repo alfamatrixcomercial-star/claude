@@ -66,6 +66,13 @@ AddType video/webm            .webm
 AddType font/woff2            .woff2
 AddType application/xml       .xml
 
+# ── Cuál es la home ───────────────────────────────────────────────────────
+# Casi todos los hostings compartidos vienen con DirectoryIndex probando
+# index.php ANTES que index.html, y traen un index.php de bienvenida en
+# public_html. Sin esta línea, el visitante ve la página del hosting y no
+# el sitio, aunque index.html esté ahí al lado.
+DirectoryIndex index.html index.htm
+
 # ── Página de error propia ────────────────────────────────────────────────
 ErrorDocument 404 /404.html
 
