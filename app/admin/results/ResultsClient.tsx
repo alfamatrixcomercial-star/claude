@@ -27,12 +27,12 @@ function timeAgo(iso: string) {
   const diff = Date.now() - new Date(iso).getTime()
   const min = Math.floor(diff / 60000)
   if (min < 1) return 'recién'
-  if (min < 60) return `hace ${min} min`
+  if (min < 60) return 'hace ' + min + ' min'
   const hours = Math.floor(min / 60)
-  if (hours < 24) return `hace ${hours} h`
+  if (hours < 24) return 'hace ' + hours + ' h'
   const days = Math.floor(hours / 24)
   if (days === 1) return 'ayer'
-  if (days < 30) return `hace ${days} días`
+  if (days < 30) return 'hace ' + days + ' días'
   return formatDateTime(iso)
 }
 
@@ -294,7 +294,7 @@ export default function ResultsClient({ results, guideOptions }: ResultsClientPr
             <div className="bg-white rounded-lg p-2 flex items-center justify-center min-h-[160px]">
               <img
                 src={signatureModal.signature_data!}
-                alt={`Firma de ${signatureModal.user_name}`}
+                alt={'Firma de ' + signatureModal.user_name}
                 className="max-w-full max-h-48 object-contain"
               />
             </div>
