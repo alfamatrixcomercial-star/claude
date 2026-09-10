@@ -49,15 +49,28 @@ const { src, poster, alt } = Astro.props;
   video { opacity: 0; transition: opacity 700ms ease; }
   video.visible { opacity: 1; }
 
+  /* Dos velos cruzados en lugar de uno parejo.
+     El de abajo oscurece la esquina donde está el texto; el vertical apenas
+     asienta el resto. Con un velo único al 0,42 arriba, el rótulo chico
+     quedaba en 3,77 de contraste, por debajo del mínimo; y para taparlo
+     había que oscurecer todo el cuadro y perder el video. */
   .velo {
     position: absolute;
     inset: 0;
-    background: linear-gradient(
-      to top,
-      rgb(var(--velo) / 0.92) 0%,
-      rgb(var(--velo) / 0.7) 45%,
-      rgb(var(--velo) / 0.42) 100%
-    );
+    background:
+      linear-gradient(
+        to right,
+        rgb(var(--velo) / 0.9) 0%,
+        rgb(var(--velo) / 0.72) 30%,
+        rgb(var(--velo) / 0.3) 62%,
+        rgb(var(--velo) / 0.12) 100%
+      ),
+      linear-gradient(
+        to top,
+        rgb(var(--velo) / 0.75) 0%,
+        rgb(var(--velo) / 0.4) 50%,
+        rgb(var(--velo) / 0.28) 100%
+      );
   }
 
   @media (prefers-reduced-motion: reduce) {

@@ -252,8 +252,9 @@ const datosEstructurados = {
 </Base>
 
 <style>
-  .hero { position: relative; isolation: isolate; }
+  .hero { position: relative; isolation: isolate; overflow: hidden; }
   .texto {
+    position: relative;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
@@ -263,6 +264,25 @@ const datosEstructurados = {
     padding: var(--paso) var(--margen) var(--paso-corto);
     color: var(--sobre-oscuro);
   }
+  /* Sombra propia del texto, además del velo general.
+     El rótulo es de 11 px: con el velo solo daba 3,46 y necesita 4,5, y
+     subir el velo hasta taparlo apagaba el video entero. Esta mancha va
+     detrás del texto nada más, y se desvanece antes del borde, así que no
+     se ve como un recuadro. */
+  .texto::before {
+    content: "";
+    position: absolute;
+    inset: -3rem -10rem -2rem -5rem;
+    z-index: -1;
+    background: radial-gradient(
+      115% 105% at 22% 62%,
+      rgb(var(--velo) / 0.78) 0%,
+      rgb(var(--velo) / 0.55) 42%,
+      rgb(var(--velo) / 0) 76%
+    );
+    pointer-events: none;
+  }
+
   .eyebrow {
     font-size: var(--t-eyebrow);
     font-weight: 600;
