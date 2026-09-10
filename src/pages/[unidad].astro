@@ -43,6 +43,16 @@ const ctas = (
   )
 ).filter((c): c is { texto: string; href: string } => c !== null);
 
+/* Cada unidad tiñe sus bandas hacia su propio color. Así el sitio deja de
+   ser un verde único de punta a punta y cada sección cambia de temperatura
+   sin salirse de la paleta. */
+const banda = {
+  restaurante: "banda-arena",
+  hotel: "banda-arena",
+  balneario: "banda-teal",
+  eventos: "banda-terracota",
+}[id];
+
 const estado = estadoDeUnidad({
   horarios: d.horarios,
   temporada: d.temporada,
@@ -152,7 +162,7 @@ const datosEstructurados = {
 
     <Onda />
 
-    <section class="cuerpo">
+    <section class="cuerpo claro">
       <div class="interior">
         <div class="relato">
           <Ornamento pieza={d.ornamento} class="fondo-orn" />
@@ -165,7 +175,7 @@ const datosEstructurados = {
 
     {
       d.cartaUrl && (
-        <section class="bloque">
+        <section class={`bloque ${banda}`}>
           <div class="interior-simple salida">
             <div>
               <div class="encabezado"><p class="rotulo">Para comer</p><h2>La carta</h2></div>
@@ -182,7 +192,7 @@ const datosEstructurados = {
 
     {
       d.listas.length > 0 && (
-        <section class="bloque">
+        <section class={`bloque ${banda}`}>
           <div class="interior-simple listas">
             {d.listas.map((l) => (
               <div>
@@ -199,7 +209,7 @@ const datosEstructurados = {
 
     {
       d.derivacion && (
-        <section class="derivacion">
+        <section class={`derivacion ${banda}`}>
           <div class="interior-simple">
             <div class="encabezado">
               <p class="rotulo">{d.derivacion.rotulo}</p>
@@ -224,7 +234,7 @@ const datosEstructurados = {
 
     {
       d.video && (
-        <section class="bloque alt">
+        <section class="bloque banda-noche">
           <div class="interior-simple">
             <div class="encabezado"><p class="rotulo">El lugar</p><h2>{d.video.titulo}</h2></div>
             <Video
@@ -393,7 +403,6 @@ const datosEstructurados = {
   .parrafo { max-width: var(--medida); }
 
   .bloque { padding: var(--paso) var(--margen); }
-  .bloque.alt { background: var(--fondo-alt); }
   .interior-simple { max-width: var(--ancho); margin-inline: auto; }
 
   .nota { color: var(--tinta-suave); max-width: var(--medida); }
@@ -442,7 +451,6 @@ const datosEstructurados = {
   }
 
   .derivacion {
-    background: var(--fondo-alt);
     border-top: 1px solid var(--linea);
     padding: var(--paso) var(--margen);
   }

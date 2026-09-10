@@ -80,8 +80,10 @@
   --t-h1: clamp(1.75rem, 2.4vw + 1.05rem, 3.125rem);
   --t-display: clamp(2rem, 3.1vw + 1.05rem, 4rem);
 
-  --paso: clamp(4rem, 9vw, 9.375rem);
-  --paso-corto: clamp(2.25rem, 4.5vw, 3.5rem);
+  /* El paso venía de 150 px en desktop. Con el fondo plano eso era un
+     hueco; con las bandas alcanza bastante menos para separar. */
+  --paso: clamp(3.5rem, 7vw, 7rem);
+  --paso-corto: clamp(2rem, 3.6vw, 3rem);
   --medida: 64ch;
   --ancho: 1140px;
   --margen: clamp(1.5rem, 5vw, 3.5rem);
@@ -114,28 +116,110 @@
   --z-fijo: 20;
   --z-visor: 50;
 
+  /* ── Bandas ──────────────────────────────────────────────────────────
+     El sitio era un solo verde de arriba abajo y el aire entre secciones
+     se leía como vacío, no como respiro. Estos tonos son el mismo verde
+     profundo empujado hacia los otros colores de la paleta: cambian de
+     temperatura sin cambiar de marca. Todos miden 12,4 o más contra la
+     tinta, así que ninguno compromete la lectura.
+
+     Se aplican con las clases de más abajo, una por sección. */
+  --banda-noche: #02150f;    /* más hondo que el fondo: cierra */
+  --banda-teal: #073539;     /* hacia el teal del brandboard */
+  --banda-arena: #1d3021;    /* hacia la arena: verde tibio */
+  --banda-terracota: #32241c;   /* hacia la terracota: tierra, no caqui */
+
   --velo: 5 35 25;
 
   color-scheme: dark;
 }
 
-/* Bloque en material claro, para cortar el oscuro cuando hace falta aire. */
+/* ── Bandas de sección ──────────────────────────────────────────────────
+   Cada una redefine los roles de color, así que todo lo que hay adentro
+   —texto, botones, cajas, filetes— se acomoda solo. Se ponen en la
+   <section>, nunca en un elemento suelto. */
+
+.banda-teal,
+.banda-arena,
+.banda-terracota,
+.banda-noche,
+.claro {
+  background: var(--fondo);
+  color: var(--tinta);
+}
+
+.banda-teal {
+  --fondo: var(--banda-teal);
+  --fondo-alt: #0a4045;
+  --superficie: #0b3f44;
+  --superficie-alta: #114f55;
+  --borde-caja: #1e5a60;
+  --borde-caja-activo: #3f7d83;
+  --linea: #1a4d51;
+}
+.banda-arena {
+  --fondo: var(--banda-arena);
+  --fondo-alt: #24392a;
+  --superficie: #24392a;
+  --superficie-alta: #2e4634;
+  --borde-caja: #385444;
+  --borde-caja-activo: #56755f;
+  --linea: #324c3a;
+}
+.banda-terracota {
+  --fondo: var(--banda-terracota);
+  --fondo-alt: #3d2c22;
+  --superficie: #3d2c22;
+  --superficie-alta: #4a362a;
+  --borde-caja: #573f31;
+  --borde-caja-activo: #7d5c48;
+  --linea: #4d3829;
+}
+/* Cierre: más honda que el fondo, para que el pie no flote. */
+.banda-noche {
+  --fondo: var(--banda-noche);
+  --fondo-alt: #041d15;
+  --superficie: #062219;
+  --borde-caja: #123a2c;
+}
+
+/* Material claro. Corta el oscuro de verdad: es la única sección del sitio
+   donde el fondo es crema y la tinta, verde profundo.
+   Los colores de acá están medidos sobre #eeebdb: el acento daba 3,92 y los
+   colores por unidad hasta 2,78, por debajo del mínimo. Ahora ninguno baja
+   de 4,8. */
 .claro {
   --fondo: var(--fondo-claro);
   --fondo-alt: #e6e2ce;
   --tinta: var(--verde-profundo);
   --tinta-suave: #4a5a4f;
-  --linea: #d5d0bb;
-  --linea-fuerte: #9a9481;
-  --acento: #8a6f52;
-  --accion-tinta: #6f5940;
-  --accion-borde: #a8927a;
+  --linea: #ddd8c4;
+  --linea-fuerte: #8f8874;
+  --superficie: #e8e4d2;
+  --superficie-alta: #f5f3e8;
+  --borde-caja: #dcd7c2;
+  --borde-caja-activo: #b9b19a;
+  --acento: #6b5334;
+  --acento-tenue: #8f8874;
+  --accion-tinta: #6b5334;
+  --accion-borde: #b9a88e;
   --accion-hover-fondo: var(--verde-profundo);
   --accion-hover-tinta: var(--crudo);
-  --u-restaurante-txt: var(--verde);
-  --u-hotel-txt: #7d6a58;
-  --u-balneario-txt: #46686b;
-  --u-eventos-txt: #8a6250;
+  --sobre-oscuro: var(--verde-profundo);
+  --sobre-oscuro-suave: #4a5a4f;
+  --foco: #6b5334;
+  --u-restaurante-txt: #2f6b36;
+  --u-hotel-txt: #6b5642;
+  --u-balneario-txt: #3a5d60;
+  --u-eventos-txt: #7d5343;
+  --u-restaurante: #2f6b36;
+  --u-hotel: #6b5642;
+  --u-balneario: #3a5d60;
+  --u-eventos: #7d5343;
+  --elev-1: 0 1px 2px rgb(31 40 27 / 0.08);
+  --elev-2: 0 4px 12px rgb(31 40 27 / 0.1);
+  --elev-3: 0 10px 28px rgb(31 40 27 / 0.12);
+  color-scheme: light;
 }
 
 /* `.oscuro` queda como alias: el sitio ya es oscuro por defecto. */
