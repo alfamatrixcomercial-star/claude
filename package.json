@@ -9,7 +9,8 @@
     "preview": "astro preview",
     "check": "astro check",
     "fotos": "node scripts/fotos.mjs",
-    "prebuild": "node scripts/fotos.mjs"
+    "prebuild": "node scripts/fotos.mjs",
+    "paquete": "npm run build && node scripts/paquete.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.6.0",
