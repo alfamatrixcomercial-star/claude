@@ -13,47 +13,50 @@ const PODIUM = [
   { icon: Award, color: 'text-amber-600', bg: 'bg-amber-50 border-amber-200' },
 ]
 
-export default async function ResultadosPage() {
+export default async function AdminRankingPage() {
   const supabase = await createClient()
   const {
     data: { session },
   } = await supabase.auth.getSession()
   if (!session) redirect('/login')
 
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('role')
+    .eq('id', session.user.id)
+    .single()
+  if (profile?.role !== 'admin') redirect('/dashboard')
+
   const { totalPassed, overall, byGuide, recent } = await buildRanking(supabase)
 
   return (
-    <div className="space-y-6 animate-slide-up">
+    <div className="max-w-3xl mx-auto space-y-6 animate-fade-in">
       <div>
-        <h1 className="text-2xl font-bold text-brand-text">Resultados</h1>
-        <p className="text-brand-muted text-sm mt-0.5">
+        <h1 className="text-2xl font-display font-bold text-brand-text">Ranking del equipo</h1>
+        <p className="text-sm text-brand-muted mt-1">
           {totalPassed} examen{totalPassed !== 1 ? 'es' : ''} aprobado{totalPassed !== 1 ? 's' : ''} en total
         </p>
       </div>
 
       <div>
         <h2 className="text-xs font-semibold text-brand-muted uppercase tracking-wider mb-3">
-          Ranking por guía
+          Por guía
         </h2>
-        <RankingByGuide guides={byGuide} currentUserId={session.user.id} />
+        <RankingByGuide guides={byGuide} />
       </div>
 
       {overall.length > 0 && (
         <div>
           <h2 className="text-xs font-semibold text-brand-muted uppercase tracking-wider mb-3">
-            Ranking general
+            General
           </h2>
           <div className="space-y-2">
             {overall.map((user, index) => {
               const podium = PODIUM[index]
-              const isMe = user.user_id === session.user.id
               return (
                 <div
                   key={user.user_id}
-                  className={cn(
-                    'bg-brand-card border rounded-2xl p-4 flex items-center gap-4',
-                    isMe ? 'border-brand-accent/40 ring-1 ring-brand-accent/20' : 'border-brand-border'
-                  )}
+                  className="bg-brand-card border border-brand-border rounded-2xl p-4 flex items-center gap-4"
                 >
                   <div className="flex-shrink-0 w-9 flex items-center justify-center">
                     {podium ? (
@@ -65,14 +68,7 @@ export default async function ResultadosPage() {
                     )}
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="font-semibold text-brand-text text-sm truncate">
-                      {user.full_name}
-                      {isMe && (
-                        <span className="ml-2 text-[10px] font-medium text-brand-accent bg-brand-accent/10 px-1.5 py-0.5 rounded-full">
-                          Vos
-                        </span>
-                      )}
-                    </p>
+                    <p className="font-semibold text-brand-text text-sm truncate">{user.full_name}</p>
                     <p className="text-xs text-brand-muted">{user.puesto}</p>
                   </div>
                   <div className="text-right flex-shrink-0">
