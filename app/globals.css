@@ -125,6 +125,15 @@ body {
   color: #6e8f7a;
   text-decoration: underline;
 }
+.prose img {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  border-radius: 0.75rem;
+  border: 1px solid #cab892;
+  margin: 1rem 0;
+}
 
 /* Input focus ring */
 input:focus,
