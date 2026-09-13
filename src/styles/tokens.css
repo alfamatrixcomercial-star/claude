@@ -1,23 +1,22 @@
 /* ─────────────────────────────────────────────────────────────────────────
-   Mirador Waikiki · sistema oscuro
+   Mirador Waikiki · sistema claro
 
-   Los colores siguen siendo los del brandboard. Lo que cambió es el peso
-   con que se usan: el sitio va sobre el verde profundo del manual y el
-   acento es la arena, en filete fino y en versalitas espaciadas, no en
-   bloques rellenos.
+   El sitio va sobre papel, no sobre verde. El verde profundo del manual
+   queda como tinta —a 12 px lee como un negro con temperatura, no como un
+   bloque de color— y los demás colores de la paleta tiñen las bandas.
 
    Reglas del sistema:
-   · Nada de rellenos saturados. El acento se usa en línea de 1 px,
-     en texto y en el hover. Un botón relleno es la excepción, no la regla.
-   · Sin sombras y sin radio: la separación es por filete y por material.
-   · Los títulos van en peso liviano y con la letra abierta, no en negrita.
+   · Ningún fondo verde oscuro. Lo que separa las secciones es el cambio de
+     tono del papel, no un cambio de oscuridad.
+   · Sobre las fotos el texto sigue yendo en claro, con una mancha detrás.
+     Esa mancha es gris cálido, no verde: un velo verde teñía la foto.
+   · El acento se usa en línea fina, en texto y en el hover.
    ───────────────────────────────────────────────────────────────────────── */
 
 :root {
   /* ── Paleta ──────────────────────────────────────────────────────────
      La que pasó el cliente. Terracota, arena y teal coinciden con el
-     brandboard; el verde es más brillante que el olivo que figuraba ahí.
-     El ámbar no está en esta paleta, así que no se usa en ningún lado. */
+     brandboard; el verde es más brillante que el olivo que figuraba ahí. */
   --verde: #4a9e52;
   --terracota: #a2745e;
   --arena: #bda38c;
@@ -28,50 +27,56 @@
   --hueso: #f1f1f1;
   --crudo: #eeebdb;
 
-  /* Claros derivados, para que todo se lea sobre el verde profundo */
-  --verde-claro: #5fb268;
-  --arena-clara: #cfb79f;
-  --teal-claro: #7fa9ac;
-  --terracota-clara: #c2907a;
+  /* Oscuros derivados: sólo para tinta y para los detalles sobre papel.
+     Ninguno se usa como fondo de sección. */
+  --verde-tinta: #14342a;
+  --arena-oscura: #6b5642;
+  --teal-oscuro: #3a5d60;
+  --terracota-oscura: #7d5343;
+  --verde-oscuro: #2f6b36;
 
-  /* Roles */
-  --fondo: var(--verde-profundo);
-  --fondo-alt: #0a2c20;
+  /* ── Roles ───────────────────────────────────────────────────────────
+     Medido todo contra los seis fondos del sitio: lo más bajo del sistema
+     es 4,79, sobre el más oscuro de los papeles. */
+  --fondo: #f6f4ea;          /* papel */
+  --fondo-alt: var(--crudo);
   --fondo-claro: var(--crudo);
-  --tinta: #efede4;
-  --tinta-suave: #a8bcb0;
-  --linea: #17402f;
-  --linea-fuerte: #8a9a92;
+  --tinta: #1c2a22;          /* 12,5 o más en todos los fondos */
+  --tinta-suave: #4f5c53;    /* 5,3 o más */
+  --linea: #ddd8c6;
+  --linea-fuerte: #9c9686;
 
-  /* Acento: la arena del brandboard aclarada hacia el dorado pálido de la
-     referencia. 11.04 sobre el fondo, contra 6.96 de la arena plena: se lee
-     como un detalle fino y no como un bloque de color. */
-  --acento: #e8cfa8;
-  --acento-tenue: #6d7d6f;
+  --acento: #6b5334;
+  --acento-tenue: #a89e88;
+  /* Qué va ENCIMA del acento cuando se rellena. En el sistema oscuro el
+     acento era arena clara y encima iba tinta; acá es marrón oscuro y va
+     papel. Sin este rol quedaba texto oscuro sobre fondo oscuro. */
+  --sobre-acento: #f6f4ea;
 
-  /* La acción es un contorno, no un bloque de color. Cuando se rellena,
-     va arena con tinta verde profundo: 6.96, holgado. */
+  /* La acción es un contorno. Cuando se rellena, va tinta con papel. */
   --accion-fondo: transparent;
-  --accion-tinta: var(--acento);
-  --accion-borde: #4a5c4e;
-  --accion-hover-fondo: var(--acento);
-  --accion-hover-tinta: var(--verde-profundo);
-  --foco: var(--acento);
+  --accion-tinta: #6b5334;
+  --accion-borde: #c3b69c;
+  --accion-hover-fondo: var(--verde-tinta);
+  --accion-hover-tinta: #f6f4ea;
+  --foco: #6b5334;
 
-  --sobre-oscuro: #efede4;
-  --sobre-oscuro-suave: #a8bcb0;
+  /* Sobre foto el texto sigue siendo claro: la foto es el fondo, no el
+     papel. Estos dos no cambian con la banda. */
+  --sobre-oscuro: #f4f2e8;
+  --sobre-oscuro-suave: #d8d3c2;
 
-  /* Color por unidad, en las versiones que se leen sobre oscuro */
-  --u-restaurante: var(--verde-claro);
-  --u-hotel: var(--arena-clara);
-  --u-balneario: var(--teal-claro);
-  --u-eventos: var(--terracota-clara);
-  --u-restaurante-txt: var(--verde-claro);
-  --u-hotel-txt: var(--arena-clara);
-  --u-balneario-txt: var(--teal-claro);
-  --u-eventos-txt: var(--terracota-clara);
+  /* Color por unidad, en las versiones que se leen sobre papel */
+  --u-restaurante: var(--verde-oscuro);
+  --u-hotel: var(--arena-oscura);
+  --u-balneario: var(--teal-oscuro);
+  --u-eventos: var(--terracota-oscura);
+  --u-restaurante-txt: var(--verde-oscuro);
+  --u-hotel-txt: var(--arena-oscura);
+  --u-balneario-txt: var(--teal-oscuro);
+  --u-eventos-txt: var(--terracota-oscura);
 
-  /* Escala tipográfica: más chica y más aireada que antes */
+  /* Escala tipográfica */
   --t-eyebrow: 0.7rem;
   --t-cuerpo: clamp(1rem, 0.32vw + 0.94rem, 1.0625rem);
   --t-guia: clamp(1.125rem, 0.7vw + 0.98rem, 1.3125rem);
@@ -80,8 +85,6 @@
   --t-h1: clamp(1.75rem, 2.4vw + 1.05rem, 3.125rem);
   --t-display: clamp(2rem, 3.1vw + 1.05rem, 4rem);
 
-  /* El paso venía de 150 px en desktop. Con el fondo plano eso era un
-     hueco; con las bandas alcanza bastante menos para separar. */
   --paso: clamp(3.5rem, 7vw, 7rem);
   --paso-corto: clamp(2rem, 3.6vw, 3rem);
   --medida: 64ch;
@@ -90,23 +93,21 @@
   --barra: 4rem;
 
   /* ── Cajas ───────────────────────────────────────────────────────────
-     Radio, elevación y transición según UI/UX Pro Max: radio de 12 a 16 px,
-     escala de elevación de cuatro niveles y micro-interacciones de 150 a
-     300 ms. Sobre fondo oscuro la elevación se construye con una superficie
-     más clara y un borde, no sólo con sombra, que casi no se ve. */
+     Sobre papel la elevación sí se construye con sombra: una superficie
+     apenas más clara que el fondo y una sombra corta y baja. */
   --radio: 14px;
   --radio-chico: 10px;
   --radio-grande: 20px;
 
-  --superficie: #0b3025;
-  --superficie-alta: #10402f;
-  --borde-caja: #1d4c39;
-  --borde-caja-activo: #3f6b52;
+  --superficie: #fbf9f1;
+  --superficie-alta: #ffffff;
+  --borde-caja: #e2dcc9;
+  --borde-caja-activo: #bfb49a;
 
-  --elev-1: 0 1px 2px rgb(0 0 0 / 0.24);
-  --elev-2: 0 4px 12px rgb(0 0 0 / 0.28);
-  --elev-3: 0 10px 28px rgb(0 0 0 / 0.34);
-  --elev-4: 0 20px 48px rgb(0 0 0 / 0.4);
+  --elev-1: 0 1px 2px rgb(28 42 34 / 0.06);
+  --elev-2: 0 4px 12px rgb(28 42 34 / 0.08);
+  --elev-3: 0 10px 28px rgb(28 42 34 / 0.1);
+  --elev-4: 0 20px 48px rgb(28 42 34 / 0.13);
 
   --transicion: 220ms cubic-bezier(0.25, 0.6, 0.3, 1);
 
@@ -117,110 +118,92 @@
   --z-visor: 50;
 
   /* ── Bandas ──────────────────────────────────────────────────────────
-     El sitio era un solo verde de arriba abajo y el aire entre secciones
-     se leía como vacío, no como respiro. Estos tonos son el mismo verde
-     profundo empujado hacia los otros colores de la paleta: cambian de
-     temperatura sin cambiar de marca. Todos miden 12,4 o más contra la
-     tinta, así que ninguno compromete la lectura.
+     Papeles con distinta temperatura, uno por sección. Cambian el tono, no
+     la oscuridad: ninguna baja del 88 % de luminancia. */
+  --banda-papel: #f6f4ea;
+  --banda-crudo: #eeebdb;
+  --banda-arena: #f1e8d8;
+  --banda-teal: #e3ecea;
+  --banda-terracota: #f3e7e0;
+  --banda-piedra: #e4dfcd;
 
-     Se aplican con las clases de más abajo, una por sección. */
-  --banda-noche: #02150f;    /* más hondo que el fondo: cierra */
-  --banda-teal: #073539;     /* hacia el teal del brandboard */
-  --banda-arena: #1d3021;    /* hacia la arena: verde tibio */
-  --banda-terracota: #32241c;   /* hacia la terracota: tierra, no caqui */
+  /* La mancha detrás del texto sobre foto. Gris cálido, NO verde: con el
+     verde profundo acá, cada foto del sitio salía teñida. */
+  --velo: 26 28 24;
 
-  --velo: 5 35 25;
-
-  color-scheme: dark;
+  color-scheme: light;
 }
 
 /* ── Bandas de sección ──────────────────────────────────────────────────
-   Cada una redefine los roles de color, así que todo lo que hay adentro
-   —texto, botones, cajas, filetes— se acomoda solo. Se ponen en la
-   <section>, nunca en un elemento suelto. */
+   Cada una redefine los roles que cambian, así que todo lo que hay adentro
+   —texto, botones, cajas, filetes— se acomoda solo. Van en la <section>. */
 
-.banda-teal,
+.banda-crudo,
 .banda-arena,
+.banda-teal,
 .banda-terracota,
-.banda-noche,
+.banda-piedra,
 .claro {
   background: var(--fondo);
   color: var(--tinta);
 }
 
-.banda-teal {
-  --fondo: var(--banda-teal);
-  --fondo-alt: #0a4045;
-  --superficie: #0b3f44;
-  --superficie-alta: #114f55;
-  --borde-caja: #1e5a60;
-  --borde-caja-activo: #3f7d83;
-  --linea: #1a4d51;
+.banda-crudo {
+  --fondo: var(--banda-crudo);
+  --fondo-alt: #e7e3d0;
+  --superficie: #f6f4ea;
+  --borde-caja: #ddd7c2;
+  --linea: #ddd7c2;
 }
 .banda-arena {
   --fondo: var(--banda-arena);
-  --fondo-alt: #24392a;
-  --superficie: #24392a;
-  --superficie-alta: #2e4634;
-  --borde-caja: #385444;
-  --borde-caja-activo: #56755f;
-  --linea: #324c3a;
+  --fondo-alt: #e9dfcc;
+  --superficie: #f8f2e7;
+  --borde-caja: #e0d3ba;
+  --borde-caja-activo: #c3b094;
+  --linea: #e0d3ba;
+}
+.banda-teal {
+  --fondo: var(--banda-teal);
+  --fondo-alt: #d8e5e2;
+  --superficie: #eff5f4;
+  --borde-caja: #cfe0dd;
+  --borde-caja-activo: #a5c2be;
+  --linea: #cfe0dd;
 }
 .banda-terracota {
   --fondo: var(--banda-terracota);
-  --fondo-alt: #3d2c22;
-  --superficie: #3d2c22;
-  --superficie-alta: #4a362a;
-  --borde-caja: #573f31;
-  --borde-caja-activo: #7d5c48;
-  --linea: #4d3829;
+  --fondo-alt: #ecdbd1;
+  --superficie: #f9f0eb;
+  --borde-caja: #e5d2c7;
+  --borde-caja-activo: #c9a892;
+  --linea: #e5d2c7;
 }
-/* Cierre: más honda que el fondo, para que el pie no flote. */
-.banda-noche {
-  --fondo: var(--banda-noche);
-  --fondo-alt: #041d15;
-  --superficie: #062219;
-  --borde-caja: #123a2c;
-}
-
-/* Material claro. Corta el oscuro de verdad: es la única sección del sitio
-   donde el fondo es crema y la tinta, verde profundo.
-   Los colores de acá están medidos sobre #eeebdb: el acento daba 3,92 y los
-   colores por unidad hasta 2,78, por debajo del mínimo. Ahora ninguno baja
-   de 4,8. */
-.claro {
-  --fondo: var(--fondo-claro);
-  --fondo-alt: #e6e2ce;
-  --tinta: var(--verde-profundo);
-  --tinta-suave: #4a5a4f;
-  --linea: #ddd8c4;
-  --linea-fuerte: #8f8874;
-  --superficie: #e8e4d2;
-  --superficie-alta: #f5f3e8;
-  --borde-caja: #dcd7c2;
-  --borde-caja-activo: #b9b19a;
-  --acento: #6b5334;
-  --acento-tenue: #8f8874;
-  --accion-tinta: #6b5334;
-  --accion-borde: #b9a88e;
-  --accion-hover-fondo: var(--verde-profundo);
-  --accion-hover-tinta: var(--crudo);
-  --sobre-oscuro: var(--verde-profundo);
-  --sobre-oscuro-suave: #4a5a4f;
-  --foco: #6b5334;
-  --u-restaurante-txt: #2f6b36;
-  --u-hotel-txt: #6b5642;
-  --u-balneario-txt: #3a5d60;
-  --u-eventos-txt: #7d5343;
-  --u-restaurante: #2f6b36;
-  --u-hotel: #6b5642;
-  --u-balneario: #3a5d60;
-  --u-eventos: #7d5343;
-  --elev-1: 0 1px 2px rgb(31 40 27 / 0.08);
-  --elev-2: 0 4px 12px rgb(31 40 27 / 0.1);
-  --elev-3: 0 10px 28px rgb(31 40 27 / 0.12);
-  color-scheme: light;
+/* La más honda del sistema, para cerrar la página. Sigue siendo papel. */
+.banda-piedra {
+  --fondo: var(--banda-piedra);
+  --fondo-alt: #d9d3bd;
+  --superficie: #eeebdb;
+  --borde-caja: #cec7ae;
+  --linea: #cec7ae;
 }
 
-/* `.oscuro` queda como alias: el sitio ya es oscuro por defecto. */
-.oscuro { --fondo: var(--fondo-alt); }
+/* ── Sobre foto ─────────────────────────────────────────────────────────
+   Donde el fondo es una imagen y no el papel, la tinta y la acción vuelven
+   a ser claras. Sin esto los botones del hero quedaban marrón oscuro sobre
+   una foto oscurecida: 1,5 de contraste. */
+.sobre-foto {
+  --tinta: var(--sobre-oscuro);
+  --tinta-suave: var(--sobre-oscuro-suave);
+  --accion-tinta: var(--sobre-oscuro);
+  --accion-borde: rgb(244 242 232 / 0.5);
+  --accion-hover-fondo: var(--sobre-oscuro);
+  --accion-hover-tinta: var(--verde-tinta);
+  --acento: var(--sobre-oscuro);
+  --foco: var(--sobre-oscuro);
+  color: var(--sobre-oscuro);
+}
+
+/* `.claro` queda como alias del papel base: hay páginas y componentes que
+   todavía lo nombran, y ahora el sitio entero es claro. */
+.claro { --fondo: var(--banda-papel); }

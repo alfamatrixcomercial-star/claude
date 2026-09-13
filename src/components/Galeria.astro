@@ -75,10 +75,10 @@ const { fotos, unidad = "complejo", titulo } = Astro.props;
     border: 0;
     border-radius: var(--radio);
     overflow: hidden;
-    background: var(--verde-profundo);
+    background: rgb(var(--velo));
     color: var(--sobre-oscuro);
   }
-  .visor::backdrop { background: rgb(5 35 25 / 0.9); }
+  .visor::backdrop { background: rgb(var(--velo) / 0.9); }
   .visor img { width: 100%; height: auto; }
   .pie-visor { padding: 0.9rem 1.1rem; font-size: 0.9rem; }
   .cerrar {
@@ -89,7 +89,7 @@ const { fotos, unidad = "complejo", titulo } = Astro.props;
     height: 2.5rem;
     border: 0;
     background: var(--acento);
-    color: var(--verde-profundo);
+    color: var(--sobre-acento);
     font-size: 1rem;
     cursor: pointer;
   }

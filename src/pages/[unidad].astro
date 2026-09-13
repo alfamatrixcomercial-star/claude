@@ -121,7 +121,7 @@ const datosEstructurados = {
         />
       </div>
       <div class="marco-hero">
-        <div class="texto">
+        <div class="texto sobre-foto">
           {
             d.marca ? (
               <Image
@@ -162,7 +162,7 @@ const datosEstructurados = {
 
     <Onda />
 
-    <section class="cuerpo claro">
+    <section class="cuerpo banda-crudo">
       <div class="interior">
         <div class="relato">
           <Ornamento pieza={d.ornamento} class="fondo-orn" />
@@ -234,7 +234,7 @@ const datosEstructurados = {
 
     {
       d.video && (
-        <section class="bloque banda-noche">
+        <section class="bloque banda-piedra">
           <div class="interior-simple">
             <div class="encabezado"><p class="rotulo">El lugar</p><h2>{d.video.titulo}</h2></div>
             <Video
@@ -278,7 +278,7 @@ const datosEstructurados = {
     height: 3px;
     background: var(--u);
   }
-  .fondo { position: absolute; inset: 0; z-index: -1; background: var(--verde-profundo); }
+  .fondo { position: absolute; inset: 0; z-index: -1; background: var(--fondo-alt); }
   /* Velo apenas: la foto tiene que verse.
      El contraste del texto no lo da este velo parejo —que para tapar una
      foto de mediodía tenía que estar al 0,9 y dejaba todo verde— sino la
@@ -290,9 +290,9 @@ const datosEstructurados = {
     inset: 0;
     background: linear-gradient(
       to top,
-      rgb(5 35 25 / 0.5) 0%,
-      rgb(5 35 25 / 0.22) 45%,
-      rgb(5 35 25 / 0.1) 100%
+      rgb(var(--velo) / 0.5) 0%,
+      rgb(var(--velo) / 0.22) 45%,
+      rgb(var(--velo) / 0.1) 100%
     );
   }
   .fondo :global(img) { width: 100%; height: 100%; object-fit: cover; }
@@ -357,9 +357,9 @@ const datosEstructurados = {
   .con-retrato .fondo::after {
     background: linear-gradient(
       to top,
-      rgb(5 35 25 / 0.62) 0%,
-      rgb(5 35 25 / 0.4) 50%,
-      rgb(5 35 25 / 0.24) 100%
+      rgb(var(--velo) / 0.62) 0%,
+      rgb(var(--velo) / 0.4) 50%,
+      rgb(var(--velo) / 0.24) 100%
     );
   }
   /* Cuando la unidad tiene marca propia, el logo ocupa el lugar del rótulo
@@ -383,8 +383,7 @@ const datosEstructurados = {
   .texto :global(.estado),
   .texto :global(.estado .detalle) { color: var(--sobre-oscuro); }
   .acciones { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 0.5rem; }
-  .acciones :global(.secundaria) { color: var(--sobre-oscuro); border-color: var(--sobre-oscuro); }
-  .acciones :global(.secundaria:hover) { background: var(--sobre-oscuro); color: var(--verde-profundo); }
+  /* El color de los botones lo pone .sobre-foto, no una regla suelta. */
 
   .cuerpo { padding: var(--paso) var(--margen); }
   .interior {
