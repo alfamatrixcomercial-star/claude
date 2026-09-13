@@ -72,6 +72,10 @@ CREATE POLICY "exam_answers_update_admin" ON exam_answers
   FOR UPDATE USING (is_admin()) WITH CHECK (is_admin());
 
 -- 4) Preguntas para el empleado: sin correct_option ni answer_guide.
+--    Se borra primero porque ahora devuelve question_type y Postgres no
+--    permite cambiar el tipo de retorno con CREATE OR REPLACE.
+DROP FUNCTION IF EXISTS get_exam_questions(uuid);
+
 CREATE OR REPLACE FUNCTION get_exam_questions(p_exam_id uuid)
 RETURNS TABLE (id uuid, question text, options jsonb, question_type text, "order" int)
 LANGUAGE sql SECURITY DEFINER SET search_path = public STABLE AS $$
