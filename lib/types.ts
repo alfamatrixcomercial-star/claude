@@ -16,11 +16,14 @@ export const PUESTOS = [
 
 export type Puesto = (typeof PUESTOS)[number]
 
+export type UserStatus = 'pending' | 'approved' | 'rejected'
+
 export interface Profile {
   id: string
   full_name: string
   role: UserRole
   puesto: string
+  status: UserStatus
   created_at: string
 }
 

@@ -3,6 +3,7 @@ import { createClient } from '@/lib/supabase/server'
 import BottomNav from '@/components/BottomNav'
 import Logo from '@/components/Logo'
 import NotificationBell from '@/components/NotificationBell'
+import PendingApproval from '@/components/PendingApproval'
 import type { Notification } from '@/lib/types'
 
 export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
@@ -15,11 +16,20 @@ export default async function DashboardLayout({ children }: { children: React.Re
 
   const { data: profile } = await supabase
     .from('profiles')
-    .select('role')
+    .select('role, full_name, status')
     .eq('id', session.user.id)
     .single()
 
   if (profile?.role === 'admin') redirect('/admin')
+
+  if (profile && profile.status !== 'approved') {
+    return (
+      <PendingApproval
+        status={profile.status === 'rejected' ? 'rejected' : 'pending'}
+        fullName={profile.full_name ?? ''}
+      />
+    )
+  }
 
   const { data: rawNotifications } = await supabase
     .from('notifications')
