@@ -2,7 +2,9 @@ import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { Utensils } from 'lucide-react'
 import MealSignupForm from '@/components/MealSignupForm'
-import { getNextWeekStart, formatWeekLabel } from '@/lib/meals-utils'
+import { getNextWeekDates, formatWeekLabel, isSignupOpen } from '@/lib/meals-utils'
+
+export const dynamic = 'force-dynamic'
 
 export default async function ComidaPage() {
   const supabase = await createClient()
@@ -11,17 +13,25 @@ export default async function ComidaPage() {
   } = await supabase.auth.getSession()
   if (!session) redirect('/login')
 
-  const weekStart = getNextWeekStart()
-
-  const { data: existing } = await supabase
-    .from('meal_signups')
-    .select('preference')
-    .eq('user_id', session.user.id)
-    .eq('week_start', weekStart)
-    .single()
-
-  const currentPreference = existing?.preference ?? null
+  const weekDays = getNextWeekDates()
+  const weekStart = weekDays[0].date
+  const weekEnd = weekDays[weekDays.length - 1].date
   const weekLabel = formatWeekLabel(weekStart)
+  const open = isSignupOpen()
+
+  const { data: rows } = await supabase
+    .from('meal_signups')
+    .select('meal_date, meal_type, preference')
+    .eq('user_id', session.user.id)
+    .gte('meal_date', weekStart)
+    .lte('meal_date', weekEnd)
+
+  const signups: Record<string, Record<string, string>> = {}
+  for (const row of rows ?? []) {
+    const date = row.meal_date as string
+    if (!signups[date]) signups[date] = {}
+    signups[date][row.meal_type as string] = row.preference as string
+  }
 
   return (
     <div className="space-y-6 animate-slide-up">
@@ -31,11 +41,11 @@ export default async function ComidaPage() {
           Comida Semanal
         </h1>
         <p className="text-brand-muted text-sm mt-0.5">
-          Anotate para la semana que viene. La cocina necesita saberlo con anticipación.
+          Semana del {weekLabel}. Elegí tu opción por día y tocá Guardar.
         </p>
       </div>
 
-      <MealSignupForm currentPreference={currentPreference} weekLabel={weekLabel} />
+      <MealSignupForm weekDays={weekDays} signups={signups} isOpen={open} />
     </div>
   )
 }
