@@ -21,7 +21,9 @@ hero:
   alt: >-
     Las carpas blancas del balneario alineadas sobre la arena, con las
     reposeras, las sombrillas y el mar detrás
-  foco: centro
+  # La foto es vertical y el hero es una franja ancha: al centro queda todo
+  # cielo. Abajo están las carpas, que es lo que hay que mostrar.
+  foco: abajo
 
 # El orden importa: las dos primeras de cada unidad son las que salen en la
 # banda de fotos del home.
