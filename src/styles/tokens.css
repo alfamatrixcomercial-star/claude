@@ -43,11 +43,16 @@
   --fondo-claro: var(--crudo);
   --tinta: #1c2a22;          /* 12,5 o más en todos los fondos */
   --tinta-suave: #4f5c53;    /* 5,3 o más */
-  --linea: #ddd8c6;
-  --linea-fuerte: #9c9686;
+  --linea: #d9dbd0;
+  --linea-fuerte: #8b9a8d;
 
-  --acento: #6b5334;
-  --acento-tenue: #a89e88;
+  /* El acento es verde de marca, en la versión que se lee sobre papel.
+     Medido contra los siete fondos del sitio: lo más bajo es 4,73, sobre la
+     banda celeste más cargada. Con #2f6b36 daba 4,41 ahí y no llegaba. */
+  --acento: #2c6633;
+  --acento-tenue: #7f9a83;
+  /* El verde pleno, para rellenos. Blanco encima da 4,76. */
+  --verde-relleno: #357a3c;
   /* Qué va ENCIMA del acento cuando se rellena. En el sistema oscuro el
      acento era arena clara y encima iba tinta; acá es marrón oscuro y va
      papel. Sin este rol quedaba texto oscuro sobre fondo oscuro. */
@@ -55,11 +60,11 @@
 
   /* La acción es un contorno. Cuando se rellena, va tinta con papel. */
   --accion-fondo: transparent;
-  --accion-tinta: #6b5334;
-  --accion-borde: #c3b69c;
-  --accion-hover-fondo: var(--verde-tinta);
+  --accion-tinta: #2c6633;
+  --accion-borde: #a9c0ab;
+  --accion-hover-fondo: var(--verde-relleno);
   --accion-hover-tinta: #f6f4ea;
-  --foco: #6b5334;
+  --foco: #2c6633;
 
   /* Sobre foto el texto sigue siendo claro: la foto es el fondo, no el
      papel. Estos dos no cambian con la banda. */
@@ -99,10 +104,10 @@
   --radio-chico: 10px;
   --radio-grande: 20px;
 
-  --superficie: #fbf9f1;
+  --superficie: #fbfaf3;
   --superficie-alta: #ffffff;
-  --borde-caja: #e2dcc9;
-  --borde-caja-activo: #bfb49a;
+  --borde-caja: #dde1d6;
+  --borde-caja-activo: #a9c0ab;
 
   --elev-1: 0 1px 2px rgb(28 42 34 / 0.06);
   --elev-2: 0 4px 12px rgb(28 42 34 / 0.08);
@@ -122,8 +127,9 @@
      la oscuridad: ninguna baja del 88 % de luminancia. */
   --banda-papel: #f6f4ea;
   --banda-crudo: #eeebdb;
+  --banda-verde: #e2efdd;
+  --banda-celeste: #cde4e2;
   --banda-arena: #f1e8d8;
-  --banda-teal: #e3ecea;
   --banda-terracota: #f3e7e0;
   --banda-piedra: #e4dfcd;
 
@@ -139,8 +145,9 @@
    —texto, botones, cajas, filetes— se acomoda solo. Van en la <section>. */
 
 .banda-crudo,
+.banda-verde,
+.banda-celeste,
 .banda-arena,
-.banda-teal,
 .banda-terracota,
 .banda-piedra,
 .claro {
@@ -163,13 +170,22 @@
   --borde-caja-activo: #c3b094;
   --linea: #e0d3ba;
 }
-.banda-teal {
-  --fondo: var(--banda-teal);
-  --fondo-alt: #d8e5e2;
-  --superficie: #eff5f4;
-  --borde-caja: #cfe0dd;
-  --borde-caja-activo: #a5c2be;
-  --linea: #cfe0dd;
+.banda-verde {
+  --fondo: var(--banda-verde);
+  --fondo-alt: #d6e7cf;
+  --superficie: #eef5ea;
+  --borde-caja: #cadec3;
+  --borde-caja-activo: #9dbf95;
+  --linea: #cadec3;
+}
+/* La celeste del brandboard, con presencia y no como un gris azulado. */
+.banda-celeste {
+  --fondo: var(--banda-celeste);
+  --fondo-alt: #bcdad7;
+  --superficie: #e0f0ee;
+  --borde-caja: #b3d5d1;
+  --borde-caja-activo: #85b3ae;
+  --linea: #b3d5d1;
 }
 .banda-terracota {
   --fondo: var(--banda-terracota);
