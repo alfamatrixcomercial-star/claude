@@ -1,39 +1,32 @@
-DO $$
-DECLARE
-  v_guide_id uuid;
-  v_exam_id uuid;
-BEGIN
-
 -- ============================================================
--- GUÍA PARA NUEVOS Y NO TAN NUEVOS (2025)
--- Mozos · Runners · Comisses — reconstruida completa desde el PDF oficial
+-- Guía para Nuevos y No Tan Nuevos: contenido actualizado al 22/6/2025
+--
+-- Reemplaza el contenido y las preguntas. NO borra la guía ni el examen,
+-- así se conserva el resultado ya rendido.
+-- Correr entero en Supabase -> SQL Editor.
 -- ============================================================
 
-SELECT id INTO v_guide_id FROM guides WHERE title = 'Guía para Nuevos y No Tan Nuevos';
-
-IF v_guide_id IS NULL THEN
-  INSERT INTO guides (title, description, content)
-  VALUES ('Guía para Nuevos y No Tan Nuevos', 'Guía completa para mozos, runners y comisses: roles y tareas de cada puesto, estándar de servicio, tareas diarias de apertura y cierre, los 21 criterios de evaluación con sus 4 niveles, propinas, pagos y preguntas frecuentes.', $GUIDE$
-# Guía para Nuevos y No Tan Nuevos
-
-**Mozos · Runners · Comisses**
+UPDATE guides
+SET description = 'Guía de incorporación para todo el personal: cómo empezar, filosofía y valores, horarios y descansos, reglamento interno, organigrama y roles, los criterios de evaluación con sus cuatro niveles, propinas, liquidación de sueldos, empresas del complejo y preguntas frecuentes.',
+    content = $GUIDE$
 *Mirador Waikiki — Mar del Plata, Buenos Aires · 2025*
+*Actualizada al 22/6/2025*
 
 ---
 
 ## PRESENTACIÓN
 
-Bienvenidos a todos los lectores a la **Guía para Nuevos y No Tan Nuevos 2025**.
+Bienvenidos a todos los lectores a la **Guía para Nuevos y No Tan Nuevos**. Este archivo fue creado especialmente para todas las personas que se suman a nuestro equipo. Acá vas a encontrar la información clave que necesitás para empezar a trabajar con nosotros de forma clara, organizada y sabiendo qué se espera de vos.
 
-En Mirador Waikiki entendemos que un gran servicio no depende de una sola persona, sino de un equipo bien organizado, comprometido y alineado. Por eso creamos esta guía con el objetivo de definir claramente los roles y responsabilidades de cada integrante del salón: **mozos, runners y commis**.
+Queremos que este material te sirva para conocer nuestra filosofía, entender cómo funciona el día a día en el salón, qué conductas valoramos, cómo se organizan las tareas, y también para que te familiarices con el espacio y el equipo.
 
-Esta guía también incluye una lista de tareas para garantizar que todos arranquemos y terminemos bien cada jornada.
+> Nuestro objetivo es que te sientas parte desde el primer momento. Por eso te invitamos a leer este archivo completo, con atención, y a consultarlo siempre que tengas dudas.
 
-> **Nuestro objetivo es que todos crezcan, aprendan y puedan alcanzar el 100% del rendimiento y las propinas.** Y para eso necesitamos compromiso, comunicación y ganas de hacer las cosas cada vez mejor.
+**¡Bienvenido/a!**
 
 ---
 
-## 1. CÓMO EMPEZAR
+## CÓMO EMPEZAR
 
 ### Introducción
 
@@ -41,341 +34,255 @@ Mirador Waikiki es mucho más que un restaurante: es un espacio icónico frente 
 
 Ser parte de este lugar significa integrarse a un equipo grande, con roles bien definidos (mozos, runners, comisses, recepcionistas, bacha, ensaladas, encargados, barra y cocina), donde cada persona cumple un papel fundamental.
 
-**No hay tareas chicas ni roles menos importantes:** todo lo que hacés impacta directamente en el funcionamiento del salón y en la experiencia del cliente.
+> **No hay tareas chicas ni roles menos importantes:** todo lo que hacés impacta directamente en el funcionamiento del salón y en la experiencia del cliente.
 
-### Primeros Pasos
+### 📅 ¿Cuándo llego?
 
-| Pregunta | Respuesta |
-|---|---|
-| ¿Cuándo llego? | **15 minutos antes** del horario pautado. |
-| ¿Dónde dejo mis cosas? | En los **lockers**. Si todavía no tenés uno asignado, consultá con el encargado. |
-| ¿Qué ropa uso hasta tener el uniforme? | **Ropa de color negro** (pantalón y remera o camisa negra). |
-| ¿A quién le aviso que llegué? | A **Facundo o Enzo** (encargados de salón). |
+Lo ideal es llegar **15 minutos antes** del horario pautado. Eso te da tiempo para acomodarte, cambiarte si hace falta y entrar en sintonía con el equipo.
 
-**🔒 Detalles importantes**
+Guardá tus cosas en el **locker** (consultá a un encargado por uno disponible). No se pueden dejar pertenencias a la vista ni en zonas del salón.
 
-- El celular **NO** se usa durante el turno (salvo excepciones autorizadas).
-- Si tenés una duda, **preguntá antes de equivocarte**.
-- La imagen del equipo es parte del servicio.
+### 👕 ¿Qué llevo?
 
----
+Hasta que se te proporcione el uniforme, necesitamos que traigas:
 
-## 2. FILOSOFÍA Y VALORES
+- Ropa negra cómoda (remera o camisa lisa, pantalón o jeans sin roturas).
+- Zapatillas negras limpias o calzado cerrado cómodo.
 
-### Los 6 Principios de Mirador Waikiki
+### 🎯 ¿Con quién hablo?
 
-**1. Todo impacta**
-Cada acción, por pequeña que parezca, tiene un efecto en la experiencia del cliente y en el ambiente del equipo. Nada es insignificante.
+Al llegar, pedí por un **encargado de salón (Facundo o Enzo)**. Él o ellos te van a dar la bienvenida y guiarte.
 
-**2. El cliente es sagrado**
-El cliente es nuestra razón de ser. Su experiencia, comodidad y satisfacción están por encima de todo. No importa cómo sea el día: el cliente siempre merece lo mejor.
+Si no lo ves, hablá con cualquier compañero que esté ya trabajando, siempre con respeto.
 
-**3. El servicio es colectivo**
-No importa tu rol: si ves una necesidad, atendela. Si podés ayudar a un compañero, hacelo. El éxito del equipo es el éxito de todos.
+### 📋 ¿Qué hago ese primer día?
 
-**4. La actitud abre puertas**
-La predisposición, el compromiso y las ganas de hacer las cosas bien son valoradas más que cualquier habilidad técnica. Acá se aprende, pero la actitud se trae.
+- Prestá atención, observá mucho y no tengas miedo de hacer preguntas.
+- Seguí al referente que te asignen. El objetivo es que aprendas observando y luego acompañando tareas simples.
+- No se espera que sepas todo: se espera que pongas **ganas, respeto y predisposición**.
 
-**5. Ser profesional no es ser frío**
-Se puede ser amable, cálido y cercano siendo completamente profesional. El trato humano es parte de nuestro servicio diferencial.
+### 🔒 Detalles importantes
 
-**6. Nos cuidamos entre todos**
-El equipo se protege mutuamente. Eso significa hablar con respeto, cubrirse cuando alguien lo necesita, y construir un ambiente donde todos puedan trabajar bien.
-
-### Qué se espera de vos
-
-- Llegar a horario (o antes).
-- Presentarte en condiciones (uniforme, higiene, actitud).
-- Conocer tu rol y cumplirlo con responsabilidad.
-- Comunicarte con el equipo de forma clara y respetuosa.
-- Reportar problemas o dudas a los encargados, no guardártelos.
-- Cuidar el espacio, los materiales y los equipos.
-- Tratar a cada cliente como si fuera el más importante.
+- La presentación personal es clave: higiene, orden y buena energía.
+- Todo lo que veas, aprendas o te expliquen, anotalo. Demuestra interés.
+- No se puede estar en el salón sin el uniforme en horario laboral.
 
 ---
 
-## 3. HORARIOS Y FUNCIONAMIENTO
+## FILOSOFÍA Y VALORES
 
-### Horarios
+### Lo que nos representa
 
-Los horarios se comunican semanalmente por **WhatsApp**. Es responsabilidad de cada persona revisar su turno con anticipación.
+En Mirador Waikiki creemos que un buen servicio no se construye solo con técnicas, sino con **valores compartidos**. La forma en que hacemos las cosas es tan importante como las cosas que hacemos.
 
-### Fichaje
+Por eso, más allá del puesto o la antigüedad, esperamos que todos los que forman parte del equipo se identifiquen con una forma de trabajar basada en el respeto, el compromiso y la buena energía.
 
-El fichaje se realiza a través de **WhatsApp**, con el sistema de registro habilitado por la empresa. Debés fichar al entrar y al salir de cada turno. No fichar puede generar inconsistencias en el cálculo de horas.
+### 1. Todo lo que hacés, impacta
 
-### Descanso (Media Hora)
+Desde acomodar una silla hasta servir un plato o resolver una queja: cada acción suma (o resta) a la experiencia del cliente. Nada es menor.
 
-Cada turno incluye un descanso de **30 minutos**:
+### 2. El cliente es sagrado y siempre debe sentirse escuchado
 
-| Turno | Horario del descanso |
-|---|---|
-| Almuerzo | **11:00 a 11:30** |
-| Cena | **19:00 a 19:30** |
+Respondemos con empatía, sin justificar errores. Mantenemos la calma, consultamos con el encargado si es necesario y buscamos una solución.
 
-Durante ese tiempo podés comer, descansar o hacer una pausa. No se extiende el descanso más allá del tiempo asignado.
+### 3. El servicio es colectivo, no individual
 
-### Ausencias
+Podés ser excelente en tu tarea, pero si no colaborás con el resto, el equipo no funciona. Ayudar, ofrecerse, anticiparse y estar atento es parte de nuestro día a día.
 
-Si no podés asistir a un turno, debés **avisar con la mayor anticipación posible** al encargado por WhatsApp. Las ausencias por enfermedad requieren **certificado médico**. Las ausencias sin justificación pueden tener consecuencias en la evaluación de desempeño.
+### 4. La actitud es lo que abre puertas
 
-### Reducción de Personal
+Preferimos mil veces alguien con ganas, respeto y humildad, que alguien con experiencia pero sin compromiso. La buena actitud se nota y se premia.
 
-En casos de **baja demanda** (temporada baja, días de lluvia, etc.), la empresa puede aplicar una reducción de personal por turno. Esto se comunica en el momento. No implica despido ni penalización: es parte del funcionamiento operativo del negocio.
+### 5. Ser profesional no es ser frío
+
+Podés ser amable, simpático, cercano… sin perder el foco. Mostrarte serio no significa ser serio: significa **tomarte en serio el trabajo**.
+
+### 6. Nos cuidamos entre todos
+
+Cuidar el salón, los materiales, los horarios, la limpieza, la palabra y el clima laboral. Todo eso también es parte de tu tarea.
+
+### ¿Qué se espera de vos?
+
+- Que llegues con tiempo y buena energía.
+- Que respetes el uniforme, los tiempos y las tareas.
+- Que aceptes devoluciones sin ponerte a la defensiva.
+- Que tomes cada turno como una oportunidad de mejorar.
+- Que te sumes al equipo con la cabeza puesta en dar lo mejor, no en hacer lo justo.
+
+> Esta es la base. **Lo técnico se aprende. La actitud, en cambio, es lo que te diferencia.**
 
 ---
 
-## 4. NORMAS Y CONVIVENCIA (Reglamento Interno)
+## HORARIOS Y FUNCIONAMIENTO
 
-### 4.1 Respeto
+En Mirador Waikiki el ritmo de trabajo varía mucho según la temporada, el clima y el tipo de jornada. Por eso, tener claras las reglas de funcionamiento diario es clave para que todo fluya bien y no haya malos entendidos.
 
-El respeto es la base de todo. No se tolera ningún tipo de discriminación, maltrato, insulto ni conducta violenta, ya sea hacia clientes, compañeros, encargados o cualquier persona que circule por el espacio.
+### 🕒 Horarios y fichaje
 
-### 4.2 Presentación Personal
+- Los horarios se comunican **semanalmente por el grupo de WhatsApp** del equipo.
+- Siempre se espera que llegues **15 minutos antes** del horario asignado, para preparar tu plaza o rol.
+- **Fichás al entrar y al salir.** Ese fichaje define tus horas trabajadas y tu participación en la propina.
+- Para fichar, pedí tu **huella digital** al encargado de turno, o fichá en la planilla que se encuentra al lado del mismo.
 
-- Uniforme completo y en buen estado.
-- Higiene personal adecuada.
-- Cabello recogido o prolijo.
-- Sin accesorios que interfieran con el servicio o representen un riesgo.
-- Sin perfumes fuertes que puedan molestar a los clientes.
+> 🔁 **Ejemplo:** si tenés turno a las 8:00, debés estar en el lugar al horario puntual, con uniforme listo y dispuesto a arrancar tareas.
 
-### 4.3 Puntualidad
+### ☕ Descansos
 
-La puntualidad es un valor central. Llegar tarde afecta a todo el equipo. Se contemplan situaciones excepcionales, pero las llegadas tarde reiteradas son consideradas en la evaluación de desempeño.
+Cada persona tiene **30 minutos de descanso**, organizados en dos turnos:
 
-### 4.4 Celular
+| Comida | Primer turno | Segundo turno |
+|---|---|---|
+| Almuerzo | 11:00 hs | 11:30 hs |
+| Cena (los días que hay) | 19:00 hs | 19:30 hs |
 
-El uso del celular durante el turno está **prohibido**, salvo en situaciones de emergencia o con autorización expresa del encargado. Los celulares deben estar guardados durante todo el servicio. Esto aplica también en los momentos de menor actividad.
+- En fines de semana, feriados o eventos exigentes, el descanso puede postergarse o ajustarse.
+- El tiempo se respeta, pero **no se estira**: pasar de los 30 minutos afecta al equipo.
+- Es responsabilidad de todo el equipo dejar el área del descanso en perfectas condiciones.
 
-### 4.5 Ámbitos de Descanso
+> 💡 **Tip:** si ves que el salón está exigido, ofrecer postergar tu descanso no es obligatorio, pero suma mucho más de lo que parece.
 
-Los espacios de descanso (vestuarios, locker, zona de personal) son para uso exclusivo del personal. No se pueden llevar clientes a esas áreas ni utilizarlas para situaciones ajenas al descanso autorizado.
+### 👥 ¿Y si no podés asistir?
 
-### 4.6 Responsabilidad en las Tareas
+- Si estás enfermo o tenés una emergencia, **avisá lo antes posible**.
+- Se requiere **certificado médico** para justificar la ausencia y no perder el pago del día.
+- No presentarse sin aviso se considera **falta grave**.
 
-Cada persona es responsable de su área y sus tareas asignadas. Si algo no está claro, se consulta al encargado. No se abandona una tarea sin completarla o sin haberla delegado formalmente.
+### 👥 ¿Qué pasa si hay poco trabajo?
+
+Si durante el turno la demanda disminuye y no se justifica la permanencia de todo el equipo, el encargado de turno podrá decidir **retiradas anticipadas** o reducir la cantidad de personal presente.
+
+En caso de no completarse la jornada habitual (**8,5 horas**), se contabilizarán únicamente las horas efectivamente trabajadas al cierre del mes.
+
+---
+
+## NORMAS Y CONVIVENCIA
+
+### 4.1 Respeto y trato cordial
+
+- El respeto entre compañeros, superiores, clientes y proveedores es **obligatorio en todo momento**.
+- No se tolerarán gritos, maltratos, sarcasmo hiriente ni gestos despectivos.
+- Las diferencias deben resolverse en forma privada, con diálogo o intervención de un encargado si es necesario.
+
+### 4.2 Presentación personal
+
+- Uniforme limpio, completo y en buen estado.
+- Cabello prolijo, uñas limpias y sin esmalte llamativo.
+- Uso moderado de perfumes o desodorantes; no se permiten olores fuertes ni transpiración evidente.
+- No se permite trabajar con gorras personales, auriculares, piercings visibles excesivos ni prendas fuera del uniforme.
+
+### 4.3 Puntualidad y asistencia
+
+- Llegar al menos **10 minutos antes** del horario de fichada.
+- Avisar con tiempo ante cualquier eventualidad que impida presentarse a trabajar.
+- No se puede faltar sin aviso ni justificativo válido.
+
+### 4.4 Uso del celular
+
+- **Totalmente prohibido durante el servicio**, salvo autorización del encargado.
+- Se puede utilizar en los espacios y momentos habilitados (pausas, descanso, fuera del salón).
+- En caso de emergencia personal, se debe avisar al responsable del turno.
+
+### 4.5 Ámbitos de descanso y tiempos muertos
+
+- No se permiten reuniones prolongadas en cocina, barra, baños o sectores visibles al cliente.
+- En momentos sin trabajo activo, se debe permanecer en movimiento, ordenando o ayudando en otros sectores.
+
+### 4.6 Responsabilidad sobre las tareas
+
+- Cada colaborador debe cumplir su rol asignado sin evadir funciones ni "pasar la pelota".
+- Ayudar a compañeros es positivo, pero no debe descuidarse la tarea propia.
+- Las tareas deben hacerse con compromiso, criterio y sin necesidad de reiteradas correcciones.
 
 ### 4.7 Prohibiciones
 
-- **Consumir comida sin autorización** del encargado (incluye probar platillos sin permiso).
-- **Fumar** dentro del establecimiento o en las áreas de trabajo.
-- **Consumir alcohol o sustancias** antes o durante el turno.
+- No se permite **consumir comida del lugar sin autorización** (excepto lo previsto para el personal).
+- Está prohibido **fumar** durante el horario laboral (incluso cigarrillo electrónico).
+- Prohibido **ingresar bajo efectos de alcohol o sustancias**.
+- No se puede ausentarse del lugar de trabajo sin permiso.
 
-### 4.8 Manejo de Conflictos
+### 4.8 Manejo de conflictos
 
-Si hay un problema o conflicto con un compañero o una situación de trabajo, el camino correcto es hablarlo con el encargado, no manejarlo de manera informal o confrontacional. Los conflictos no resueltos afectan el ambiente de todo el equipo.
-
----
-
-## 5. LOS TRES ROLES DEL SALÓN
-
-Esta guía está dedicada especialmente a los tres roles que sostienen el servicio en el salón. Cada uno tiene una función distinta, y los tres son igual de necesarios.
+- Todo conflicto debe ser elevado al encargado o responsable del día.
+- **No se permiten discusiones delante de clientes.**
+- Quienes tengan actitudes agresivas, tóxicas o negativas serán advertidos y, en caso de reincidencia, desvinculados.
 
 ---
 
-### 🧹 COMISSES
+## ROLES Y ORGANIGRAMA
 
-#### Introducción
+Este organigrama representa la estructura jerárquica del equipo de Mirador Waikiki. No se trata solo de cargos, sino de roles y responsabilidades que permiten que todo funcione correctamente, con orden, respeto y colaboración.
 
-El rol del commis es **fundamental para que el servicio funcione de forma fluida y profesional**. Su principal responsabilidad es mantener el salón en orden y apoyar al equipo en todas las tareas de limpieza, reposición y armado.
+- **Agustín y Daniel** lideran el proyecto a nivel general y toman las decisiones estratégicas.
+- **Facundo, Ángel y Enzo** coordinan la operación diaria, reparten tareas, supervisan el servicio y acompañan al equipo en cada turno.
+- **Paz y Bruno** cumplen funciones clave en la gestión, la formación y el soporte del personal.
+- El resto del personal (mozos, runners, commis, barra, cocina) sostiene el día a día con su esfuerzo, profesionalismo y compromiso.
 
-> El commis tiene que ser **rápido, atento y ordenado**. Es el primer eslabón para que todo el salón se mantenga limpio, presentable y operativo durante el servicio.
+> Todos los niveles son importantes. Acá nadie trabaja solo ni por su cuenta: el éxito del servicio depende de la conexión y la colaboración entre todos.
 
-#### Tareas principales
+### Organigrama
 
-| Tarea | En qué consiste |
-|---|---|
-| **Fajinado** | Fajinado constante de la vajilla del salón. |
-| **Paneras y cortesía** | Gestionar el pan todos los días (verificar estado) y, en el momento de despacho, armar paneras con su respectiva cortesía del día. |
-| **Reposición constante** | Servilletas, cubiertos, copas, vasos y lo necesario en las estaciones de servicio. |
-| **Limpieza del salón** | Mantener mesas, sillas y pisos limpios durante todo el turno. Limpiar derrames y desechos de forma inmediata. |
-| **Armado de mesas** | Repasar y montar correctamente las mesas cuando se desocupan. |
-| **Orden de zonas de trabajo** | Mantener limpios y ordenados los descansos, sin acumulación de objetos innecesarios. |
-| **Soporte general** | Ayudar a mozos y runners si el salón está exigido o hay tareas puntuales que lo requieran. |
+- **DIRECTORES — Agustín Di Iorio y Daniel Urcabe**
+  - **Jefe de Cocina — Ángel Sachett**
+    - Cocina
+    - Pastelería
+    - Limpieza
+  - **Encargados de Salón — Facundo Núñez y Enzo Espiño**
+    - Caja
+    - Comisses y Calientaplatos
+    - Bacha y Limpieza
+    - **Enc. de Mozos — Rocío Conde**
+      - Camareros y Runners
+    - **Enc. de Barra — Bruno Molina**
+      - Barra
+    - **Enc. de Recepción — Paz Rave**
+      - Recepción
 
----
+**Administrativa:** Romina Marquez
+**Colaborador:** Germán Zeluk
 
-### 🏃 RUNNERS
+### 🧍‍♀️ Recepción
 
-#### Introducción
+La recepcionista es la primera impresión del lugar. Recibe a los clientes con cordialidad, los asesora en caso de consultas y gestiona la ubicación de las mesas, organizando los ingresos según la disponibilidad y la dinámica del servicio. También canaliza inquietudes y mantiene una actitud atenta, amable y resolutiva desde el primer contacto.
 
-El runner cumple un **rol clave como nexo entre cocina y salón**. Es quien se encarga de que los platos lleguen bien a la mesa, que no falte nada y que el cliente tenga todo lo necesario sin tener que pedirlo.
+### 🧽 Bacha
 
-> El runner tiene que estar en **movimiento constante**, con mirada general del salón y actitud resolutiva. Su aporte eleva la experiencia del cliente y sostiene el ritmo del servicio.
+Las chicas de bacha cumplen un rol clave y silencioso: se encargan de que todo esté limpio, higiénico y en condiciones para que el servicio no se detenga nunca. Lavan vajilla, utensilios, ollas y recipientes, y mantienen el área operativa de cocina siempre ordenada. Su trabajo es esencial para que el resto del equipo pueda funcionar con fluidez y seguridad.
 
-#### Tareas principales
+### 🍽️ Mozos
 
-| Tarea | En qué consiste |
-|---|---|
-| **Entrega de platos** | Llevar los platos a la mesa con agilidad y cuidado, confirmando que sean correctos (comanda, punto de cocción, guarnición, etc.). |
-| **Control de calidad visual** | Verificar que la presentación sea adecuada y que no falte ningún componente antes de salir de cocina. |
-| **Atención post-entrega** | Al volver al salón, observar si alguna mesa necesita algo (pan, hielo, servilletas, cubiertos, etc.). |
-| **Reposición espontánea** | Llevar lo que falte a la mesa **sin esperar a que lo pidan**. |
-| **Colaboración con mozos** | Ayudar en lo que se necesite para que el servicio sea fluido (armado, limpieza rápida, soporte en momentos de alta demanda). |
-| **Tareas de apertura y cierre** | Participar activamente en el armado del salón (abrir sombrillas, armar queseras, revisar copas y aderezos, etc.). |
-| **Buena actitud y agilidad** | Circular con energía, sin quedarse quieto, siempre atento al salón. |
+Los mozos son el contacto directo con el cliente. Su objetivo es brindar una excelente atención en mesa, acompañar la experiencia de quienes nos visitan y asegurarse de que cada persona se retire conforme. También son los responsables de recoger sugerencias, quejas o recomendaciones para mejorar el servicio día a día.
 
----
+### 🍸 Barra
 
-### 🍷 MOZOS
+La barra es uno de los motores operativos del restaurante. Se encargan de la elaboración de bebidas, cafetería y despacho de productos. Su ritmo, orden y coordinación impactan directamente en la velocidad y calidad del servicio general. Además, mantienen comunicación fluida con mozos, recepción y caja para asegurar consistencia en toda la experiencia.
 
-#### Introducción
+### 🔥 Calentaplatos
 
-El mozo es **quien tiene el contacto directo con el cliente y quien lidera la experiencia en la mesa**. Su rol va más allá de tomar pedidos: se trata de brindar un servicio profesional, atento, y generar confianza desde el primer momento.
+La función del calentaplatos es ser **el nexo entre cocina y salón**. Organiza y gestiona las comandas, llama a los runners para la distribución de platos y controla que cada pedido esté correcto y en condiciones óptimas para salir. Cumple un rol de supervisión clave para garantizar que el despacho sea ágil y ordenado.
 
-> El mozo tiene que ser **líder de su sector**, con mirada atenta, excelente comunicación y ganas de brindar una experiencia que supere las expectativas del cliente.
+### 🚶 Runners
 
-#### Tareas principales
+Los runners son los responsables de llevar los platos a la mesa y de asistir en todo momento a los mozos. Se aseguran de que a la mesa no le falte nada, reponen bebidas, retiran platos y colaboran para que el servicio se mantenga fluido y coordinado.
 
-| Tarea | En qué consiste |
-|---|---|
-| **Presentación inicial** | Saludar cordialmente, presentarse con nombre y predisposición. |
-| **Toma de pedidos (comandas)** | Saber escuchar, sugerir platos, detallar ingredientes y comandar correctamente en el sistema. |
-| **Conocimiento de carta y menú** | Estar al tanto de los platos, promociones, tiempos de cocina, productos fuera de carta o no disponibles. |
-| **Atención constante** | Asegurar que a la mesa no le falte nada (hielo, pan, cubiertos, agua, servilletas) sin que el cliente tenga que pedirlo. |
-| **Gestión de tiempos** | Organizar bien sus mesas, anticiparse a las necesidades y avisar de cualquier demora. |
-| **Resolución de conflictos** | Actuar con empatía frente a reclamos o errores. No justificarse, sino ofrecer soluciones rápidas. |
-| **Manejo de sistema** | Usar correctamente la terminal, separar platos, cargar extras y cerrar cuentas sin errores. |
-| **Prolijidad y presencia** | Uniforme limpio, buena postura, cero celular visible y actitud profesional. |
+### 🧼 Comisses
 
----
+Los comis son los encargados de mantener el orden, la limpieza y la organización del salón. Fajinan, distribuyen cubiertos, ordenan estaciones de trabajo y ayudan en la reposición de lo necesario para que cada turno se desarrolle correctamente. Su presencia y ritmo son fundamentales en el funcionamiento del restaurante.
 
-## 6. ORGANIGRAMA Y OTROS ROLES
+### 🍳 Cocina
 
-### Dirección y Gestión
+La cocina es el corazón del lugar. Desde ahí se preparan todos los platos que definen la propuesta gastronómica del restaurante. Su tarea requiere concentración, precisión, coordinación y una comunicación constante con el salón para garantizar que cada plato llegue en tiempo, forma y calidad.
 
-| Rol | Nombre |
-|-----|--------|
-| Director | Agustín Di Iorio |
-| Director | Daniel Urcabe |
-| Jefe de Cocina | Ángel Sachett |
-| Encargado de Salón | Facundo Núñez |
-| Encargado de Salón | Enzo Espiño |
-| Barra | Bruno Molina |
-| Recepción | Paz Rave |
-| Administrativa | Romina Márquez |
-| Colaborador | Germán Zeluk |
+### 💵 Caja
 
-### Otros roles del equipo
+La caja es el punto final del circuito de atención al cliente. Se encarga de facturación, cobros y cierre de cuentas, asegurando precisión y orden en cada transacción. Además, colabora con recepción y encargados para mantener el flujo de ingreso y egreso controlado.
 
-**Recepción**
-Es el primer contacto del cliente con el local. Recibe, asigna mesas, maneja las reservas y coordina la llegada y salida de los grupos. Es fundamental para la organización del salón.
+### 🎯 Encargados
 
-**Bacha**
-Se encarga de la limpieza de vajilla, cubiertos y utensilios. Es un rol clave para mantener el flujo de materiales en cocina y salón. Sin bacha, nada funciona.
-
-**Barra**
-Prepara bebidas (alcohólicas y no alcohólicas), café, infusiones y cocktails. Colabora también con el servicio de salón cuando es necesario.
-
-**Calientaplatos**
-Tiene a cargo mantener la temperatura de los platos antes de que salgan al salón. Es un rol de soporte a la cocina y al servicio, clave en momentos de alta demanda.
-
-**Cocina**
-Prepara todos los platos del menú. Trabaja bajo la dirección del Jefe de Cocina. La coordinación entre cocina y salón es fundamental para el éxito del servicio.
-
-**Caja**
-Maneja los cobros, tanto en efectivo como con tarjeta. Emite facturas y tickets. Coordina con los mozos el cierre de cada mesa.
-
-**Encargados**
-Son la autoridad operativa del salón. Coordinan al personal, resuelven problemas, atienden las necesidades especiales de los clientes, y son el canal de comunicación entre el equipo y la dirección.
+Los encargados están presentes en cada turno para guiar el servicio, resolver problemas, organizar al equipo y tomar decisiones. Son el primer referente ante cualquier situación y cumplen una función de liderazgo operativo y humano. **Ante dudas, problemas o sugerencias, siempre hay que acudir a ellos.**
 
 ---
 
-## 7. CÓMO INICIAR
-
-El correcto desarrollo de las tareas diarias es **tan importante como la atención al cliente**.
-
-Cada acción —desde armar una panera hasta cerrar el salón— impacta directamente en la experiencia del comensal y en el funcionamiento del equipo.
-
-Esta sección detalla las responsabilidades operativas que todo camarero debe dominar. No se trata solo de "hacer por hacer", sino de hacerlo con **criterio, prolijidad, sentido común y compromiso**.
-
-El objetivo es lograr que cada jornada empiece y termine con orden, limpieza, eficiencia y respeto por el equipo y el cliente.
-
-> ⚠️ **Estas tareas no son opcionales ni "para cuando sobra tiempo": son parte esencial del trabajo.**
-
-Ser parte del staff de Mirador Waikiki implica cumplir con los siguientes puntos fundamentales para asegurar un servicio de calidad, profesional y en sintonía con los valores del equipo.
-
-### 🧍 Presentación y actitud
-
-- Buena presencia (uniforme limpio, higiene, postura profesional).
-- Puntualidad y asistencia constante.
-- Actitud de servicio: predisposición, empatía y buena energía con clientes y compañeros.
-- Comunicación verbal y no verbal adecuada (trato cordial, sin modismos fuera de lugar).
-- Aceptar correcciones con humildad y disposición a mejorar.
-
-### 🛠️ Habilidades técnicas
-
-- Manejo correcto de la bandeja (cafetería, bebidas y platos).
-- Conocimiento completo de la carta (comidas, bebidas y promociones).
-- Saber explicar platos **sin TACC**, opciones veggies y vegetarianas.
-- Conocer los tiempos estimados de cada preparación.
-- Capacidad de sugerir platos y bebidas con enfoque en la venta.
-- Apertura y servicio correcto de vinos.
-- Toma de comandas precisa y manejo del sistema de adición sin errores.
-- Buen armado de bandejas y presentación prolija en desayunos y meriendas.
-- Armado del servicio correcto en ambos turnos.
-
-### 🧩 Comportamiento en equipo
-
-- Colaborar en cualquier tarea asignada, sin excusas.
-- Adaptación a los ritmos del salón (saber rendir en días de alto flujo y no "colgarse" en los días tranquilos).
-- Disposición a cambiar de rol o repetir plaza cuando sea necesario.
-- Participación activa en reuniones y capacitaciones.
-
-### 🚀 Actitud de crecimiento
-
-- Demostrar interés genuino por aprender y mejorar.
-- Escuchar devoluciones sin ponerse a la defensiva.
-- Buscar oportunidades para aportar al equipo y al servicio.
-
----
-
-## 8. TAREAS DIARIAS
-
-### 🌅 Apertura
-
-- **Apertura prolija**: limpiar mesas, barrer salón, abrir balcón completo, preparar descansos.
-- **Queseras**, teniendo en cuenta los cuidados para no desperdiciar la materia prima.
-- **Limones**: cortar y diferenciar cuándo están buenos o malos, para saber si hace falta preparar más cantidad.
-- **Aceites**: saber sobre la preparación del aceite, limpiar botellas de aceiteros y accetos.
-- **Paneras y cortesías**.
-- **Completar aderezos**.
-- **Limpieza de bandejas y bandejeros**.
-- **Completar servilleteros**, con azúcar, edulcorantes y servilletas.
-- **Cambiar fundas** de los sillones interior/exterior cuando no estén para seguir usando.
-- **Fajinada completa** de la vajilla.
-- **Preparar el servicio a la perfección**.
-
-### 🍽️ Durante el servicio
-
-- Armado y desarmado de servicio.
-- Servicio de vino.
-- Servicio de trinche.
-- Flambear panqueques en la mesa.
-- Reponer tés.
-
-### 🌙 Cierre
-
-Realizar un buen cierre implica:
-
-- Limpieza de mesas.
-- Barrido del salón.
-- Vajilla fajinada.
-- Descansos desarmados (interior y exterior).
-- Puertas y ventanas cerradas.
-- Balcón con sillas acomodadas y sombrillas cerradas.
-- Sin papeles ni sobres de azúcar en el suelo.
-- Retirar o achicar bolsas de consorcio y tirar si es necesario.
-
----
-
-## 9. CRITERIOS DE EVALUACIÓN
-
-En Mirador Waikiki creemos que **la forma en que se hacen las cosas es tan importante como las tareas en sí**. Por eso definimos una escala de evaluación clara que nos permite medir el desempeño diario no solo en base al cumplimiento de tareas, sino también a la actitud, el compromiso y el trato con compañeros y clientes.
-
-Esta sección busca dejar en claro qué consideramos un buen comportamiento, qué cosas no se toleran, y cuáles son las actitudes que realmente marcan la diferencia dentro del equipo.
-
-> **La idea no es castigar, sino ordenar y mejorar.** Reconocer a quienes hacen las cosas bien y también dar herramientas para corregir lo que no suma.
+## CRITERIOS DE EVALUACIÓN
 
 ### La escala
 
@@ -385,8 +292,6 @@ Esta sección busca dejar en claro qué consideramos un buen comportamiento, qu�
 | 🟧 **Mal** | Actitudes que no suman, generan desgaste o muestran poca responsabilidad. Se corrigen hablando, pero **si se repiten, bajan la imagen** que el equipo y los encargados tienen de vos. |
 | 🟨 **Bien** | Lo mínimo esperable. Se valora, pero **no se premia lo que simplemente es una obligación básica**. |
 | 🟩 **Muy bien** | Actitudes que suman, elevan al equipo y generan confianza. Estas personas son consideradas para **liderar, crecer y mantenerse siempre en el grupo**. Acá es donde aparecen las oportunidades. |
-
----
 
 ### Los criterios, uno por uno
 
@@ -425,13 +330,6 @@ Esta sección busca dejar en claro qué consideramos un buen comportamiento, qu�
 | 🟨 Bien | Ser respetuoso incluso si hay diferencias. |
 | 🟩 Muy bien | Fomentar el buen clima de trabajo, contener a otros si están tensos, dar el ejemplo. |
 
-| Menús | |
-|---|---|
-| 🟥 Muy mal | No mencionarlos nunca, actuar de manera indiferente. |
-| 🟧 Mal | Mencionarlos pero sin ganas ni información clara. |
-| 🟨 Bien | Ofrecer los menús como una opción más, sabiendo lo que incluyen. |
-| 🟩 Muy bien | Sugerir los menús destacando sus beneficios (precio, rapidez, sabor), y venderlos con entusiasmo y conocimiento. |
-
 | Expresarse | |
 |---|---|
 | 🟥 Muy mal | Guardarse todo y explotar después, o hacerlo saber de mala manera. |
@@ -453,33 +351,12 @@ Esta sección busca dejar en claro qué consideramos un buen comportamiento, qu�
 | 🟨 Bien | Informar el error a tiempo para que se pueda corregir. |
 | 🟩 Muy bien | Avisar rápido, proponer cómo arreglarlo y asumir la responsabilidad sin drama. |
 
-| Comandas | |
-|---|---|
-| 🟥 Muy mal | Anotar mal seguido y responsabilizar a cocina o barra. |
-| 🟧 Mal | Olvidarse cosas por no verificar bien. |
-| 🟨 Bien | Anotar con claridad y repasar antes de enviar. |
-| 🟩 Muy bien | Confirmar con el cliente, detallar bien y asegurar que salga perfecto. |
-
-| Atención al cliente | |
-|---|---|
-| 🟥 Muy mal | Mostrar desgano, mala cara o ignorar al cliente. |
-| 🟧 Mal | Atender por cumplir, sin conexión. |
-| 🟨 Bien | Ser correcto, amable y responder dudas. |
-| 🟩 Muy bien | Mostrar entusiasmo, recomendar con criterio, anticiparse a lo que el cliente puede necesitar y generar una experiencia memorable. |
-
 | Roturas | |
 |---|---|
 | 🟥 Muy mal | Reírse como si nada, hacer chistes o burlarse frente a clientes o compañeros. |
 | 🟧 Mal | No reaccionar, minimizar la situación o dejar que otros lo limpien. |
 | 🟨 Bien | Asumir el error, levantar rápido los restos y avisar a quien corresponda. |
 | 🟩 Muy bien | Resolver con agilidad, pedir disculpas si hizo ruido o molestó, y reponer la copa si corresponde sin que lo tengan que pedir. |
-
-| Desayuno / Merienda | |
-|---|---|
-| 🟥 Muy mal | No se presta atención a la plaza por estar desayunando o merendando. Se abandona la atención al cliente. Falta de respeto al grupo y al trabajo. |
-| 🟧 Mal | Se extiende demasiado el desayuno o se charla más de lo necesario. |
-| 🟨 Bien | Merienda breve, sin perder totalmente la atención. Se mantiene el respeto por el ritmo de trabajo. |
-| 🟩 Muy bien | Se toma el café o la merienda de manera ágil, sin descuidar la plaza. Si hay otro mozo en la misma plaza, se turnan correctamente. |
 
 | Conducta y vocabulario | |
 |---|---|
@@ -488,19 +365,12 @@ Esta sección busca dejar en claro qué consideramos un buen comportamiento, qu�
 | 🟨 Bien | Buena conducta, con algún tono relajado pero respetuoso. |
 | 🟩 Muy bien | Actitud profesional. Voz baja, respeto por el entorno y por los compañeros. Se transmite seriedad y calidad. |
 
-| Plazas y mozos a la vista | |
+| Versatilidad | |
 |---|---|
-| 🟥 Muy mal | La plaza queda completamente desatendida. El mozo está boludeando o en otro sector sin motivo. **Falta grave.** |
-| 🟧 Mal | No hay nadie visible durante varios minutos. El cliente empieza a buscar atención. |
-| 🟨 Bien | Aunque no esté siempre visible, el mozo responde con rapidez y atención. |
-| 🟩 Muy bien | Siempre hay un mozo a la vista, atento y disponible. El cliente se siente cuidado desde el primer momento. |
-
-| Carta | |
-|---|---|
-| 🟥 Muy mal | Decir "no sé" o inventar lo que incluye un plato. |
-| 🟧 Mal | Dudar o no transmitir seguridad al explicarlo. |
-| 🟨 Bien | Conocer los básicos del menú, y consultar en caso de duda. |
-| 🟩 Muy bien | Saber cada ítem, recomendar con fundamento y transmitir confianza. |
+| 🟥 Muy mal | Negarse sistemáticamente a ayudar en tareas que no son "de su rol", incluso en momentos de necesidad. No colaborar aunque haya compañeros desbordados. |
+| 🟧 Mal | Aceptar a regañadientes, con mala actitud, o sólo si se lo ordenan directamente. |
+| 🟨 Bien | Estar dispuesto a colaborar en otras tareas cuando se lo piden, aunque no sea habitual. |
+| 🟩 Muy bien | Ofrecer ayuda sin que se lo pidan, asumir tareas fuera del rol con buena actitud, entender que el objetivo es que el equipo funcione, no sólo su puesto. |
 
 | Reposición | |
 |---|---|
@@ -513,34 +383,23 @@ Esta sección busca dejar en claro qué consideramos un buen comportamiento, qu�
 |---|---|
 | 🟥 Muy mal | Fumar en el salón, cocina o espacios visibles al cliente. Fumar durante el turno sin permiso. |
 | 🟧 Mal | Fumar en momentos inapropiados. |
-| 🟨 Bien | Fumar en zonas autorizadas, en pausas designadas y sin afectar el servicio. |
+| 🟨 Bien | Fumar en zonas autorizadas, en el descanso y sin afectar el servicio. |
 | 🟩 Muy bien | Evitar fumar durante el turno, dar prioridad al servicio y mantener el uniforme impecable (sin olor ni residuos). |
-
-| Versatilidad | |
-|---|---|
-| 🟥 Muy mal | Negarse sistemáticamente a ayudar en tareas que no son "de su rol", incluso en momentos de necesidad. No colaborar aunque haya compañeros desbordados. |
-| 🟧 Mal | Aceptar a regañadientes, con mala actitud, o sólo si se lo ordenan directamente. |
-| 🟨 Bien | Estar dispuesto a colaborar en otras tareas cuando se lo piden, aunque no sea habitual. |
-| 🟩 Muy bien | Ofrecer ayuda sin que se lo pidan, asumir tareas fuera del rol con buena actitud, entender que el objetivo es que el equipo funcione, no sólo su puesto. |
-
----
 
 ### Cumplimiento de los descansos
 
 En Mirador Waikiki entendemos que **el descanso es necesario** para rendir bien y tener buena energía durante el turno. Pero también es clave que ese descanso se cumpla con responsabilidad y en función del ritmo real del salón.
 
-El descanso estipulado es de **30 minutos**, y debe tomarse en el momento indicado por los encargados o cuando la operación lo permite. Lo que no puede pasar es que el descanso se estire a 40 minutos o más, especialmente en **feriados, fines de semana largos o eventos especiales**, donde el salón está exigido y cada persona cuenta.
+El descanso estipulado es de **30 minutos**, y debe tomarse en el momento indicado por los encargados o cuando la operación lo permite. Lo que no puede pasar es que se estire a 40 minutos o más, especialmente en **feriados, fines de semana largos o eventos especiales**, donde el salón está exigido y cada persona cuenta.
 
 > A veces no se nota, pero un descanso más largo en esos momentos deja al equipo con menos manos, genera más estrés y termina perjudicando al cliente.
 
 | 📉 Evaluación del cumplimiento del descanso | |
 |---|---|
-| 🟥 Muy mal | Tomarse más de 30 minutos sabiendo que no corresponde, especialmente en momentos de alta demanda. Hacerlo sin pedir permiso, desentendiéndose del servicio. En esos casos, además de afectar el funcionamiento, se interpreta como una **falta de respeto al grupo y al trabajo**. |
+| 🟥 Muy mal | Tomarse más de 30 minutos sabiendo que no corresponde, especialmente en momentos de alta demanda. Hacerlo sin pedir permiso, desentendiéndose del servicio. Además de afectar el funcionamiento, se interpreta como una **falta de respeto al grupo y al trabajo**. |
 | 🟧 Mal | Pasarse de los 30 minutos con frecuencia o hacerlo justo cuando más se necesita apoyo, aunque no sea con mala intención. |
 | 🟨 Bien | Cumplir los 30 minutos, estar atento al reloj y volver con buena actitud. |
 | 🟩 Muy bien | Cumplir siempre el descanso en tiempo y forma. Acortar o postergar su descanso si ve que el equipo lo necesita, sin que se lo pidan y con conciencia de grupo. |
-
----
 
 ### Predisposición horaria
 
@@ -563,746 +422,175 @@ La predisposición horaria **no significa estar disponible 24/7**, sino tener la
 
 ---
 
-## 10. PROPINAS
+## PROPINAS
 
-### Cuándo se cobran
+### 📅 ¿Cuándo se entrega?
 
-Las propinas se distribuyen los **días 2 y 17 de cada mes**.
+El **día 2** y el **día 17** de cada mes. Si cae en fin de semana o feriado, se entrega el **día hábil posterior**.
 
-### Distribución
+### 💰 ¿Cómo se calcula?
+
+Del total recaudado en concepto de propina fija:
 
 | Sector | Porcentaje |
 |---|---|
-| **Salón** (mozos, runners, comisses, recepción, barra, etc.) | **60%** |
-| **Cocina** (incluyendo bacha y calientaplatos) | **40%** |
+| Equipo de salón (mozos, runners, commis, bacha, recepción, etc.) | **60%** |
+| Resto del personal (cocina, pastelería, limpieza) | **40%** |
 
-### Cálculo
+Cada porcentaje se reparte dentro de su sector **en función de las horas trabajadas** por cada integrante.
 
-La distribución se calcula en base a las **horas trabajadas** por cada persona en el período correspondiente. A más horas trabajadas, mayor parte de la propina.
+**Qué período cubre cada pago:**
 
-### Mozos y Runners
+| Pago | Cubre las horas trabajadas |
+|---|---|
+| Día 2 | Del día 16 al último día del mes anterior |
+| Día 17 | Del día 1 al 15 del mes en curso |
 
-Los mozos y runners tienen un **sistema diferente** de distribución de propinas. El detalle de ese sistema está en la guía específica para esos roles.
+Además de la propina diaria del salón, el resto del personal también recibe una **propina fija** que se reparte dos veces por mes y se retira por la caja del restaurante.
+
+### 🧾 ¿Quién organiza la entrega?
+
+El cálculo lo realiza el equipo de **encargados y administración**. La distribución se informa por mensaje privado o en el grupo correspondiente, y se retira directamente por caja.
+
+> En el caso de los **runners y mozos** el sistema de reparto es de otra manera: consultalo en la guía específica de ese rol.
+
+Este sistema busca que todos los sectores sean reconocidos por su trabajo y esfuerzo. **Cuantas más horas trabajás, más corresponde. Y si el equipo crece, todos crecemos.**
 
 ---
 
-## 11. PAGOS
+## PAGOS Y MENSUALIDAD
 
-| Concepto | Detalle |
-|---|---|
-| **Frecuencia** | Mensual. |
-| **Escala salarial** | Escala de **UTHGRA** (Unión de Trabajadores del Turismo, Hotelería y Gastronomía de la República Argentina). |
-| **Cálculo de días** | La jornada laboral estándar equivale a **8.5 horas = 1 día** trabajado. |
-| **Feriados** | Se pagan al **doble** de la jornada normal. |
+El pago es **mensual** y se calcula en base a la escala salarial vigente de **UTHGRA** correspondiente al mes trabajado.
 
----
+### 📊 ¿Cómo se calcula?
 
-## 12. EMPRESAS DEL COMPLEJO
+1. Se suman todas las horas trabajadas y se dividen por **8,5** para determinar los días trabajados.
+2. Ese número se multiplica por el valor diario según tu categoría.
 
-Mirador Waikiki forma parte de un complejo más amplio. Estas son las empresas que integran el grupo:
+> 📌 **Ejemplo:** 170 horas trabajadas ÷ 8,5 = 20 días → se pagan 20 días según escala.
 
-**ili ili Hotel Boutique**
-Hotel boutique con **17 habitaciones** ubicado dentro del complejo. Ofrece alojamiento de categoría frente al mar.
+### 💵 Feriados
 
-**Balneario Waikiki**
-Espacio de playa y pileta del complejo. Funciona en temporada estival y es parte de la experiencia de ocio del lugar.
+Si trabajás un feriado, **se paga doble**.
 
-**Mar Eventos**
-Empresa de organización de eventos: **bodas, fiestas de XV años, eventos corporativos** y más. Utiliza los espacios del complejo para sus celebraciones.
+### 👉 Cuándo se cobra
 
-**Mirador 9**
-Restaurante y espacio de eventos dentro del complejo. **En verano funciona todos los días**; el **resto del año, fines de semana y feriados**. Es el espacio principal donde trabajamos.
+El sueldo se liquida **a mes vencido** y se deposita los primeros días hábiles del mes siguiente. Para dudas sobre tu liquidación, consultá con el encargado o el responsable administrativo.
 
 ---
 
-## 13. PREGUNTAS FRECUENTES
+## EMPRESAS QUE NOS ACOMPAÑAN
 
-**¿Cómo consigo mi locker?**
-Solicitá la llave al encargado de turno. Se te asignará uno disponible.
+### 🏨 ili ili Hotel Boutique
 
-**¿Dónde están los vestuarios?**
-Los vestuarios están disponibles para todo el personal. Consultá la ubicación con tu encargado si no la conocés.
+Es el hotel del complejo. Ofrece alojamiento boutique frente al mar, con excelente diseño, confort y atención personalizada. Ideal para recomendar a clientes que preguntan por hospedaje.
 
-**¿Cómo registro mi asistencia?**
-El fichaje se realiza por **WhatsApp** usando el sistema habilitado por la empresa. Hacelo al entrar y al salir.
+> 📌 Hay tarjetas del hotel en recepción con toda la información necesaria para los clientes.
 
-**¿Tengo descuento en el consumo?**
-Sí. El personal tiene un **50% de descuento** en el consumo del restaurante, **excepto en bebidas alcohólicas**.
+### 🩴 Balneario Waikiki
 
-**¿Hay café de personal?**
-Sí, hay café disponible para el personal. Consultá con el encargado el horario y lugar habilitado.
+Ofrece servicio de carpas y sombrillas, con atención personalizada frente al mar. Es una unidad independiente del restaurante, pero forma parte del mismo complejo.
 
-**¿Qué hago si me enfermo?**
-Avisá lo antes posible al encargado y presentá el **certificado médico** correspondiente.
+> 📌 Si hay consultas, derivar al encargado del balneario. El contacto está disponible en recepción.
 
-**¿La empresa provee el uniforme?**
-Sí, el uniforme es provisto por la empresa. Sin embargo, cada empleado debe traer su propio **destapador, lapicera y anotador**.
+### 🎉 Mar Eventos
 
-**¿Quién desayuna?**
-Solo los empleados con turnos que comienzan a las **7:30, 8:00 o 9:00** tienen desayuno incluido.
+Es la empresa encargada de organizar **todos los eventos privados** dentro del complejo.
 
-**¿Dónde están los baños?**
-- **Personal**: baños de uso exclusivo ubicados en **planta baja**.
-- **Clientes**: dos baños bajando las escaleras + uno en el sector **Ala Wai**.
+**Qué tipo de eventos realiza:**
+- Bodas
+- Fiestas de XV
+- Cenas o almuerzos personalizados
+- Eventos corporativos
 
-**¿Qué hago al terminar mi turno?**
-Al finalizar el turno, salís sin uniforme y te retirás de las zonas de trabajo. No podés quedarte en las áreas operativas del local fuera de tu turno.
+**Dónde trabaja:** en Mirador Waikiki, en Mirador 9 y en otros espacios del complejo, según necesidad.
 
-**¿Puedo estar en el área de trabajo antes de que empiece mi turno?**
-No. Antes de que empiece tu turno, debés esperar **fuera del área de servicio**. Ingresás cuando el encargado te lo indique.
+> 📌 Si un cliente muestra interés o hace consultas sobre eventos, hay que **derivarlo a Mar Eventos**. Hay tarjetas en recepción con los datos de contacto.
 
-**¿Dónde puedo consultar los platos del menú?**
-Toda la información sobre platos, ingredientes y preparaciones está en la **Guía de Platos e Ingredientes**, disponible en la aplicación.
+### 🌅 Mirador 9
+
+Es un restaurante y salón de eventos ubicado **al lado de La Caseta**. Forma parte del mismo grupo que Waikiki y comparte los mismos valores de servicio, atención y calidad.
+
+**Cómo funciona:**
+- Durante la temporada de verano, abre **todos los días** como restaurante.
+- El resto del año, abre **fines de semana y feriados**.
+- Además, el espacio se adapta para eventos sociales y corporativos con formato cerrado.
 
 ---
 
-*Guía para Nuevos y No Tan Nuevos — Mar del Plata, Buenos Aires. 2025*
+## PREGUNTAS FRECUENTES
 
-**¡SIGAMOS CRECIENDO JUNTOS!**
+### 🔒 ¿Dónde dejo mis pertenencias?
 
-$GUIDE$)
-  RETURNING id INTO v_guide_id;
-ELSE
-  UPDATE guides SET description = 'Guía completa para mozos, runners y comisses: roles y tareas de cada puesto, estándar de servicio, tareas diarias de apertura y cierre, los 21 criterios de evaluación con sus 4 niveles, propinas, pagos y preguntas frecuentes.', content = $GUIDE$
-# Guía para Nuevos y No Tan Nuevos
+Las mochilas y pertenencias personales deben guardarse en los **lockers**. Para acceder a ellos, se debe solicitar una llave al encargado del restaurante. En caso de no haber lockers disponibles, se brindará una alternativa. **Está prohibido dejar pertenencias en el salón.**
 
-**Mozos · Runners · Comisses**
-*Mirador Waikiki — Mar del Plata, Buenos Aires · 2025*
+### 👕 ¿Dónde me cambio?
 
----
+El restaurante cuenta con **vestuarios de personal** asignados para cambiarse antes y después del turno.
 
-## PRESENTACIÓN
+### 🕒 ¿Qué horario tengo que fichar?
 
-Bienvenidos a todos los lectores a la **Guía para Nuevos y No Tan Nuevos 2025**.
+Los horarios se informan semanalmente a través del grupo de WhatsApp. Cada empleado debe **fichar al ingresar y al salir** según el horario asignado.
 
-En Mirador Waikiki entendemos que un gran servicio no depende de una sola persona, sino de un equipo bien organizado, comprometido y alineado. Por eso creamos esta guía con el objetivo de definir claramente los roles y responsabilidades de cada integrante del salón: **mozos, runners y commis**.
+### ☕ ¿Puedo comer algo del lugar? ¿Hay tiempo para merendar?
 
-Esta guía también incluye una lista de tareas para garantizar que todos arranquemos y terminemos bien cada jornada.
+Sí. El personal cuenta con **50% de descuento en consumos, excepto bebidas alcohólicas**. También hay **café de personal** (café con leche, té, cortado, lágrima, etc.) a un precio muy bajo.
 
-> **Nuestro objetivo es que todos crezcan, aprendan y puedan alcanzar el 100% del rendimiento y las propinas.** Y para eso necesitamos compromiso, comunicación y ganas de hacer las cosas cada vez mejor.
+El tiempo para merendar o desayunar dependerá del momento y del flujo de trabajo. Siempre debe coordinarse con los compañeros y **no descuidar la plaza**.
 
----
+### 🤒 ¿A quién le tengo que avisar si me siento mal?
 
-## 1. CÓMO EMPEZAR
+Debés avisar al **encargado de turno** lo antes posible. Si no podés asistir por enfermedad, se requiere **certificado médico** para que se pague el día. En caso de no presentarlo, la empresa no está obligada a abonar la jornada.
 
-### Introducción
+### 📵 ¿Se puede usar el celular durante el servicio?
 
-Mirador Waikiki es mucho más que un restaurante: es un espacio icónico frente al mar que ofrece una experiencia 360°, con una propuesta cuidada, ambiente relajado y un servicio profesional. Acá no solo se trabaja bien, se trabaja en equipo, con la meta de que cada cliente se lleve algo más que una comida: una sensación positiva.
+**No.** Está totalmente prohibido el uso del celular mientras se brinda servicio. Solo se podrá consultar en descansos, en el baño o en sectores fuera del salón, previa autorización del encargado.
 
-Ser parte de este lugar significa integrarse a un equipo grande, con roles bien definidos (mozos, runners, comisses, recepcionistas, bacha, ensaladas, encargados, barra y cocina), donde cada persona cumple un papel fundamental.
+### 📚 ¿Qué hago si no me acuerdo qué lleva un plato?
 
-**No hay tareas chicas ni roles menos importantes:** todo lo que hacés impacta directamente en el funcionamiento del salón y en la experiencia del cliente.
+**No se pregunta al aire ni se improvisa.** Se debe recurrir a la **Guía de Platos e Ingredientes 2025**, provista por los encargados. Es obligación del personal conocer los platos o estudiar el material disponible.
 
-### Primeros Pasos
+### 🧥 ¿Hay que llevar uniforme?
 
-| Pregunta | Respuesta |
-|---|---|
-| ¿Cuándo llego? | **15 minutos antes** del horario pautado. |
-| ¿Dónde dejo mis cosas? | En los **lockers**. Si todavía no tenés uno asignado, consultá con el encargado. |
-| ¿Qué ropa uso hasta tener el uniforme? | **Ropa de color negro** (pantalón y remera o camisa negra). |
-| ¿A quién le aviso que llegué? | A **Facundo o Enzo** (encargados de salón). |
+El uniforme **será provisto por la empresa**. Cada empleado debe traer su propio **destapador, lapicera y anotador** para trabajar correctamente.
 
-**🔒 Detalles importantes**
+### ☕ ¿Quiénes pueden desayunar en el restaurante?
 
-- El celular **NO** se usa durante el turno (salvo excepciones autorizadas).
-- Si tenés una duda, **preguntá antes de equivocarte**.
-- La imagen del equipo es parte del servicio.
+Solo el personal que ingresa en los horarios de **7:30, 8:00 o 9:00 hs** como máximo. Quienes ingresen en horarios posteriores deben venir desayunados desde casa. El desayuno no puede interferir con el desarrollo del servicio ni atrasar la organización.
 
----
+### 🚻 ¿Dónde están los baños?
 
-## 2. FILOSOFÍA Y VALORES
+Los baños de **personal** están en la **planta baja**. Los de **clientes** están a nivel del restaurante: hay **3 baños de clientes**, dos bajando las escaleras y otro a nivel, en el salón **Ala Wai**.
 
-### Los 6 Principios de Mirador Waikiki
+### ⏳ ¿Puedo quedarme antes de mi turno en el salón?
 
-**1. Todo impacta**
-Cada acción, por pequeña que parezca, tiene un efecto en la experiencia del cliente y en el ambiente del equipo. Nada es insignificante.
+Si llegás con mucha anticipación, te pedimos que **aguardes fuera del área de servicio** hasta que arranque tu horario laboral. Podés sentarte en una zona que no interfiera con la operación del salón. Esto ayuda a que el equipo que está en turno trabaje con foco y sin distracciones.
 
-**2. El cliente es sagrado**
-El cliente es nuestra razón de ser. Su experiencia, comodidad y satisfacción están por encima de todo. No importa cómo sea el día: el cliente siempre merece lo mejor.
+### 🚫 ¿Puedo quedarme en el salón luego de mi turno?
 
-**3. El servicio es colectivo**
-No importa tu rol: si ves una necesidad, atendela. Si podés ayudar a un compañero, hacelo. El éxito del equipo es el éxito de todos.
+Una vez finalizado el horario laboral, si querés quedarte a merendar, comer o descansar:
 
-**4. La actitud abre puertas**
-La predisposición, el compromiso y las ganas de hacer las cosas bien son valoradas más que cualquier habilidad técnica. Acá se aprende, pero la actitud se trae.
-
-**5. Ser profesional no es ser frío**
-Se puede ser amable, cálido y cercano siendo completamente profesional. El trato humano es parte de nuestro servicio diferencial.
-
-**6. Nos cuidamos entre todos**
-El equipo se protege mutuamente. Eso significa hablar con respeto, cubrirse cuando alguien lo necesita, y construir un ambiente donde todos puedan trabajar bien.
-
-### Qué se espera de vos
-
-- Llegar a horario (o antes).
-- Presentarte en condiciones (uniforme, higiene, actitud).
-- Conocer tu rol y cumplirlo con responsabilidad.
-- Comunicarte con el equipo de forma clara y respetuosa.
-- Reportar problemas o dudas a los encargados, no guardártelos.
-- Cuidar el espacio, los materiales y los equipos.
-- Tratar a cada cliente como si fuera el más importante.
+- Debés **sacarte el uniforme completo**.
+- Estar **fuera de las zonas de trabajo** (barra, caja, cocina, calientaplatos, etc.).
+- **No interferir** con el equipo que sigue trabajando.
 
 ---
 
-## 3. HORARIOS Y FUNCIONAMIENTO
+## PARA CERRAR
 
-### Horarios
+### ¡Quiero colaborar!
 
-Los horarios se comunican semanalmente por **WhatsApp**. Es responsabilidad de cada persona revisar su turno con anticipación.
+¿Ya sos parte del equipo de Mirador Waikiki y se te ocurrió alguna duda a resolver, sección o pregunta frecuente para agregar? Contactá a un encargado de salón y hacenos llegar tu aporte para poder agregarlo.
 
-### Fichaje
+### ¿Leíste todo el archivo?
 
-El fichaje se realiza a través de **WhatsApp**, con el sistema de registro habilitado por la empresa. Debés fichar al entrar y al salir de cada turno. No fichar puede generar inconsistencias en el cálculo de horas.
+Gracias por tomarte el tiempo de leer esta guía. Sabemos que es mucha información, pero también sabemos que marca la diferencia entre improvisar o trabajar con claridad, respeto y compromiso.
 
-### Descanso (Media Hora)
+> 📘 Recordá que este archivo es una **herramienta de consulta permanente**. Cada vez que tengas una duda, antes de preguntar, volvé a revisar esta guía.
 
-Cada turno incluye un descanso de **30 minutos**:
+### ✍️ Por último…
 
-| Turno | Horario del descanso |
-|---|---|
-| Almuerzo | **11:00 a 11:30** |
-| Cena | **19:00 a 19:30** |
-
-Durante ese tiempo podés comer, descansar o hacer una pausa. No se extiende el descanso más allá del tiempo asignado.
-
-### Ausencias
-
-Si no podés asistir a un turno, debés **avisar con la mayor anticipación posible** al encargado por WhatsApp. Las ausencias por enfermedad requieren **certificado médico**. Las ausencias sin justificación pueden tener consecuencias en la evaluación de desempeño.
-
-### Reducción de Personal
-
-En casos de **baja demanda** (temporada baja, días de lluvia, etc.), la empresa puede aplicar una reducción de personal por turno. Esto se comunica en el momento. No implica despido ni penalización: es parte del funcionamiento operativo del negocio.
-
----
-
-## 4. NORMAS Y CONVIVENCIA (Reglamento Interno)
-
-### 4.1 Respeto
-
-El respeto es la base de todo. No se tolera ningún tipo de discriminación, maltrato, insulto ni conducta violenta, ya sea hacia clientes, compañeros, encargados o cualquier persona que circule por el espacio.
-
-### 4.2 Presentación Personal
-
-- Uniforme completo y en buen estado.
-- Higiene personal adecuada.
-- Cabello recogido o prolijo.
-- Sin accesorios que interfieran con el servicio o representen un riesgo.
-- Sin perfumes fuertes que puedan molestar a los clientes.
-
-### 4.3 Puntualidad
-
-La puntualidad es un valor central. Llegar tarde afecta a todo el equipo. Se contemplan situaciones excepcionales, pero las llegadas tarde reiteradas son consideradas en la evaluación de desempeño.
-
-### 4.4 Celular
-
-El uso del celular durante el turno está **prohibido**, salvo en situaciones de emergencia o con autorización expresa del encargado. Los celulares deben estar guardados durante todo el servicio. Esto aplica también en los momentos de menor actividad.
-
-### 4.5 Ámbitos de Descanso
-
-Los espacios de descanso (vestuarios, locker, zona de personal) son para uso exclusivo del personal. No se pueden llevar clientes a esas áreas ni utilizarlas para situaciones ajenas al descanso autorizado.
-
-### 4.6 Responsabilidad en las Tareas
-
-Cada persona es responsable de su área y sus tareas asignadas. Si algo no está claro, se consulta al encargado. No se abandona una tarea sin completarla o sin haberla delegado formalmente.
-
-### 4.7 Prohibiciones
-
-- **Consumir comida sin autorización** del encargado (incluye probar platillos sin permiso).
-- **Fumar** dentro del establecimiento o en las áreas de trabajo.
-- **Consumir alcohol o sustancias** antes o durante el turno.
-
-### 4.8 Manejo de Conflictos
-
-Si hay un problema o conflicto con un compañero o una situación de trabajo, el camino correcto es hablarlo con el encargado, no manejarlo de manera informal o confrontacional. Los conflictos no resueltos afectan el ambiente de todo el equipo.
-
----
-
-## 5. LOS TRES ROLES DEL SALÓN
-
-Esta guía está dedicada especialmente a los tres roles que sostienen el servicio en el salón. Cada uno tiene una función distinta, y los tres son igual de necesarios.
-
----
-
-### 🧹 COMISSES
-
-#### Introducción
-
-El rol del commis es **fundamental para que el servicio funcione de forma fluida y profesional**. Su principal responsabilidad es mantener el salón en orden y apoyar al equipo en todas las tareas de limpieza, reposición y armado.
-
-> El commis tiene que ser **rápido, atento y ordenado**. Es el primer eslabón para que todo el salón se mantenga limpio, presentable y operativo durante el servicio.
-
-#### Tareas principales
-
-| Tarea | En qué consiste |
-|---|---|
-| **Fajinado** | Fajinado constante de la vajilla del salón. |
-| **Paneras y cortesía** | Gestionar el pan todos los días (verificar estado) y, en el momento de despacho, armar paneras con su respectiva cortesía del día. |
-| **Reposición constante** | Servilletas, cubiertos, copas, vasos y lo necesario en las estaciones de servicio. |
-| **Limpieza del salón** | Mantener mesas, sillas y pisos limpios durante todo el turno. Limpiar derrames y desechos de forma inmediata. |
-| **Armado de mesas** | Repasar y montar correctamente las mesas cuando se desocupan. |
-| **Orden de zonas de trabajo** | Mantener limpios y ordenados los descansos, sin acumulación de objetos innecesarios. |
-| **Soporte general** | Ayudar a mozos y runners si el salón está exigido o hay tareas puntuales que lo requieran. |
-
----
-
-### 🏃 RUNNERS
-
-#### Introducción
-
-El runner cumple un **rol clave como nexo entre cocina y salón**. Es quien se encarga de que los platos lleguen bien a la mesa, que no falte nada y que el cliente tenga todo lo necesario sin tener que pedirlo.
-
-> El runner tiene que estar en **movimiento constante**, con mirada general del salón y actitud resolutiva. Su aporte eleva la experiencia del cliente y sostiene el ritmo del servicio.
-
-#### Tareas principales
-
-| Tarea | En qué consiste |
-|---|---|
-| **Entrega de platos** | Llevar los platos a la mesa con agilidad y cuidado, confirmando que sean correctos (comanda, punto de cocción, guarnición, etc.). |
-| **Control de calidad visual** | Verificar que la presentación sea adecuada y que no falte ningún componente antes de salir de cocina. |
-| **Atención post-entrega** | Al volver al salón, observar si alguna mesa necesita algo (pan, hielo, servilletas, cubiertos, etc.). |
-| **Reposición espontánea** | Llevar lo que falte a la mesa **sin esperar a que lo pidan**. |
-| **Colaboración con mozos** | Ayudar en lo que se necesite para que el servicio sea fluido (armado, limpieza rápida, soporte en momentos de alta demanda). |
-| **Tareas de apertura y cierre** | Participar activamente en el armado del salón (abrir sombrillas, armar queseras, revisar copas y aderezos, etc.). |
-| **Buena actitud y agilidad** | Circular con energía, sin quedarse quieto, siempre atento al salón. |
-
----
-
-### 🍷 MOZOS
-
-#### Introducción
-
-El mozo es **quien tiene el contacto directo con el cliente y quien lidera la experiencia en la mesa**. Su rol va más allá de tomar pedidos: se trata de brindar un servicio profesional, atento, y generar confianza desde el primer momento.
-
-> El mozo tiene que ser **líder de su sector**, con mirada atenta, excelente comunicación y ganas de brindar una experiencia que supere las expectativas del cliente.
-
-#### Tareas principales
-
-| Tarea | En qué consiste |
-|---|---|
-| **Presentación inicial** | Saludar cordialmente, presentarse con nombre y predisposición. |
-| **Toma de pedidos (comandas)** | Saber escuchar, sugerir platos, detallar ingredientes y comandar correctamente en el sistema. |
-| **Conocimiento de carta y menú** | Estar al tanto de los platos, promociones, tiempos de cocina, productos fuera de carta o no disponibles. |
-| **Atención constante** | Asegurar que a la mesa no le falte nada (hielo, pan, cubiertos, agua, servilletas) sin que el cliente tenga que pedirlo. |
-| **Gestión de tiempos** | Organizar bien sus mesas, anticiparse a las necesidades y avisar de cualquier demora. |
-| **Resolución de conflictos** | Actuar con empatía frente a reclamos o errores. No justificarse, sino ofrecer soluciones rápidas. |
-| **Manejo de sistema** | Usar correctamente la terminal, separar platos, cargar extras y cerrar cuentas sin errores. |
-| **Prolijidad y presencia** | Uniforme limpio, buena postura, cero celular visible y actitud profesional. |
-
----
-
-## 6. ORGANIGRAMA Y OTROS ROLES
-
-### Dirección y Gestión
-
-| Rol | Nombre |
-|-----|--------|
-| Director | Agustín Di Iorio |
-| Director | Daniel Urcabe |
-| Jefe de Cocina | Ángel Sachett |
-| Encargado de Salón | Facundo Núñez |
-| Encargado de Salón | Enzo Espiño |
-| Barra | Bruno Molina |
-| Recepción | Paz Rave |
-| Administrativa | Romina Márquez |
-| Colaborador | Germán Zeluk |
-
-### Otros roles del equipo
-
-**Recepción**
-Es el primer contacto del cliente con el local. Recibe, asigna mesas, maneja las reservas y coordina la llegada y salida de los grupos. Es fundamental para la organización del salón.
-
-**Bacha**
-Se encarga de la limpieza de vajilla, cubiertos y utensilios. Es un rol clave para mantener el flujo de materiales en cocina y salón. Sin bacha, nada funciona.
-
-**Barra**
-Prepara bebidas (alcohólicas y no alcohólicas), café, infusiones y cocktails. Colabora también con el servicio de salón cuando es necesario.
-
-**Calientaplatos**
-Tiene a cargo mantener la temperatura de los platos antes de que salgan al salón. Es un rol de soporte a la cocina y al servicio, clave en momentos de alta demanda.
-
-**Cocina**
-Prepara todos los platos del menú. Trabaja bajo la dirección del Jefe de Cocina. La coordinación entre cocina y salón es fundamental para el éxito del servicio.
-
-**Caja**
-Maneja los cobros, tanto en efectivo como con tarjeta. Emite facturas y tickets. Coordina con los mozos el cierre de cada mesa.
-
-**Encargados**
-Son la autoridad operativa del salón. Coordinan al personal, resuelven problemas, atienden las necesidades especiales de los clientes, y son el canal de comunicación entre el equipo y la dirección.
-
----
-
-## 7. CÓMO INICIAR
-
-El correcto desarrollo de las tareas diarias es **tan importante como la atención al cliente**.
-
-Cada acción —desde armar una panera hasta cerrar el salón— impacta directamente en la experiencia del comensal y en el funcionamiento del equipo.
-
-Esta sección detalla las responsabilidades operativas que todo camarero debe dominar. No se trata solo de "hacer por hacer", sino de hacerlo con **criterio, prolijidad, sentido común y compromiso**.
-
-El objetivo es lograr que cada jornada empiece y termine con orden, limpieza, eficiencia y respeto por el equipo y el cliente.
-
-> ⚠️ **Estas tareas no son opcionales ni "para cuando sobra tiempo": son parte esencial del trabajo.**
-
-Ser parte del staff de Mirador Waikiki implica cumplir con los siguientes puntos fundamentales para asegurar un servicio de calidad, profesional y en sintonía con los valores del equipo.
-
-### 🧍 Presentación y actitud
-
-- Buena presencia (uniforme limpio, higiene, postura profesional).
-- Puntualidad y asistencia constante.
-- Actitud de servicio: predisposición, empatía y buena energía con clientes y compañeros.
-- Comunicación verbal y no verbal adecuada (trato cordial, sin modismos fuera de lugar).
-- Aceptar correcciones con humildad y disposición a mejorar.
-
-### 🛠️ Habilidades técnicas
-
-- Manejo correcto de la bandeja (cafetería, bebidas y platos).
-- Conocimiento completo de la carta (comidas, bebidas y promociones).
-- Saber explicar platos **sin TACC**, opciones veggies y vegetarianas.
-- Conocer los tiempos estimados de cada preparación.
-- Capacidad de sugerir platos y bebidas con enfoque en la venta.
-- Apertura y servicio correcto de vinos.
-- Toma de comandas precisa y manejo del sistema de adición sin errores.
-- Buen armado de bandejas y presentación prolija en desayunos y meriendas.
-- Armado del servicio correcto en ambos turnos.
-
-### 🧩 Comportamiento en equipo
-
-- Colaborar en cualquier tarea asignada, sin excusas.
-- Adaptación a los ritmos del salón (saber rendir en días de alto flujo y no "colgarse" en los días tranquilos).
-- Disposición a cambiar de rol o repetir plaza cuando sea necesario.
-- Participación activa en reuniones y capacitaciones.
-
-### 🚀 Actitud de crecimiento
-
-- Demostrar interés genuino por aprender y mejorar.
-- Escuchar devoluciones sin ponerse a la defensiva.
-- Buscar oportunidades para aportar al equipo y al servicio.
-
----
-
-## 8. TAREAS DIARIAS
-
-### 🌅 Apertura
-
-- **Apertura prolija**: limpiar mesas, barrer salón, abrir balcón completo, preparar descansos.
-- **Queseras**, teniendo en cuenta los cuidados para no desperdiciar la materia prima.
-- **Limones**: cortar y diferenciar cuándo están buenos o malos, para saber si hace falta preparar más cantidad.
-- **Aceites**: saber sobre la preparación del aceite, limpiar botellas de aceiteros y accetos.
-- **Paneras y cortesías**.
-- **Completar aderezos**.
-- **Limpieza de bandejas y bandejeros**.
-- **Completar servilleteros**, con azúcar, edulcorantes y servilletas.
-- **Cambiar fundas** de los sillones interior/exterior cuando no estén para seguir usando.
-- **Fajinada completa** de la vajilla.
-- **Preparar el servicio a la perfección**.
-
-### 🍽️ Durante el servicio
-
-- Armado y desarmado de servicio.
-- Servicio de vino.
-- Servicio de trinche.
-- Flambear panqueques en la mesa.
-- Reponer tés.
-
-### 🌙 Cierre
-
-Realizar un buen cierre implica:
-
-- Limpieza de mesas.
-- Barrido del salón.
-- Vajilla fajinada.
-- Descansos desarmados (interior y exterior).
-- Puertas y ventanas cerradas.
-- Balcón con sillas acomodadas y sombrillas cerradas.
-- Sin papeles ni sobres de azúcar en el suelo.
-- Retirar o achicar bolsas de consorcio y tirar si es necesario.
-
----
-
-## 9. CRITERIOS DE EVALUACIÓN
-
-En Mirador Waikiki creemos que **la forma en que se hacen las cosas es tan importante como las tareas en sí**. Por eso definimos una escala de evaluación clara que nos permite medir el desempeño diario no solo en base al cumplimiento de tareas, sino también a la actitud, el compromiso y el trato con compañeros y clientes.
-
-Esta sección busca dejar en claro qué consideramos un buen comportamiento, qué cosas no se toleran, y cuáles son las actitudes que realmente marcan la diferencia dentro del equipo.
-
-> **La idea no es castigar, sino ordenar y mejorar.** Reconocer a quienes hacen las cosas bien y también dar herramientas para corregir lo que no suma.
-
-### La escala
-
-| Nivel | Qué significa |
-|---|---|
-| 🟥 **Muy mal** | Comportamientos que afectan gravemente el funcionamiento del equipo o la experiencia del cliente. Pueden derivar en un **apercibimiento, suspensión** o en no tenerte en cuenta para futuras oportunidades (como responsabilidad o continuidad en el puesto). |
-| 🟧 **Mal** | Actitudes que no suman, generan desgaste o muestran poca responsabilidad. Se corrigen hablando, pero **si se repiten, bajan la imagen** que el equipo y los encargados tienen de vos. |
-| 🟨 **Bien** | Lo mínimo esperable. Se valora, pero **no se premia lo que simplemente es una obligación básica**. |
-| 🟩 **Muy bien** | Actitudes que suman, elevan al equipo y generan confianza. Estas personas son consideradas para **liderar, crecer y mantenerse siempre en el grupo**. Acá es donde aparecen las oportunidades. |
-
----
-
-### Los criterios, uno por uno
-
-| Estación de trabajo | |
-|---|---|
-| 🟥 Muy mal | Terminar el turno y dejar todo sucio para que otro limpie. |
-| 🟧 Mal | Limpiar por encima sin verificar bien. |
-| 🟨 Bien | Limpiar su puesto correctamente al retirarse. |
-| 🟩 Muy bien | Limpiar su puesto y, si hay tiempo, ayudar a dejar todo en orden general. |
-
-| Comida de personal | |
-|---|---|
-| 🟥 Muy mal | Quejarse con tono irónico, burlón o generando mal ambiente. |
-| 🟧 Mal | Quejarse abiertamente sin buscar solución. |
-| 🟨 Bien | Expresar el descontento de forma respetuosa. |
-| 🟩 Muy bien | Expresar el descontento de forma amable, calmar el ambiente si fue tenso y proponer una mejora. |
-
-| Llegadas tarde | |
-|---|---|
-| 🟥 Muy mal | No avisar y encima llegar relajado como si nada. |
-| 🟧 Mal | Avisar cuando ya se pasó la hora o llegar seguido tarde. |
-| 🟨 Bien | Avisar con tiempo cuando surge algo puntual. |
-| 🟩 Muy bien | Avisar con antelación, ofrecer recuperar el tiempo o ayudar más ese día. |
-
-| Uso del celular | |
-|---|---|
-| 🟥 Muy mal | Revisar el celular en zona de salón o mientras hay clientes. |
-| 🟧 Mal | Usarlo en pasillos o cocina sin que haya pausa real. |
-| 🟨 Bien | Revisarlo solo en momentos de pausa y fuera de la vista del cliente (baño). |
-| 🟩 Muy bien | Usarlo exclusivamente para temas laborales o de emergencia, con discreción total, habiendo pedido permiso y estando fuera del salón. |
-
-| Trato entre compañeros | |
-|---|---|
-| 🟥 Muy mal | Gritar, burlarse o generar peleas delante de clientes o equipo. |
-| 🟧 Mal | Tratar con indiferencia o responder mal bajo presión. |
-| 🟨 Bien | Ser respetuoso incluso si hay diferencias. |
-| 🟩 Muy bien | Fomentar el buen clima de trabajo, contener a otros si están tensos, dar el ejemplo. |
-
-| Menús | |
-|---|---|
-| 🟥 Muy mal | No mencionarlos nunca, actuar de manera indiferente. |
-| 🟧 Mal | Mencionarlos pero sin ganas ni información clara. |
-| 🟨 Bien | Ofrecer los menús como una opción más, sabiendo lo que incluyen. |
-| 🟩 Muy bien | Sugerir los menús destacando sus beneficios (precio, rapidez, sabor), y venderlos con entusiasmo y conocimiento. |
-
-| Expresarse | |
-|---|---|
-| 🟥 Muy mal | Guardarse todo y explotar después, o hacerlo saber de mala manera. |
-| 🟧 Mal | No decir nada y dejar que el enojo se note en la atención. |
-| 🟨 Bien | Hablar a solas con quien corresponde cuando algo molesta. |
-| 🟩 Muy bien | Expresar malestares con respeto, pedir un momento para charlar con los encargados y proponer soluciones o mejoras para que no se repita. |
-
-| Esperar órdenes | |
-|---|---|
-| 🟥 Muy mal | Estar parado sin hacer nada cuando hay cosas para hacer. |
-| 🟧 Mal | Cumplir solo las tareas básicas sin iniciativa. |
-| 🟨 Bien | Consultar si pueden ayudar en algo más. |
-| 🟩 Muy bien | Anticiparse a las necesidades, mantener todo ordenado, y resolver sin esperar órdenes. |
-
-| Equivocaciones | |
-|---|---|
-| 🟥 Muy mal | Ocultar un error y dejar que lo descubran otros o los clientes. |
-| 🟧 Mal | Admitirlo pero sin buscar solución. |
-| 🟨 Bien | Informar el error a tiempo para que se pueda corregir. |
-| 🟩 Muy bien | Avisar rápido, proponer cómo arreglarlo y asumir la responsabilidad sin drama. |
-
-| Comandas | |
-|---|---|
-| 🟥 Muy mal | Anotar mal seguido y responsabilizar a cocina o barra. |
-| 🟧 Mal | Olvidarse cosas por no verificar bien. |
-| 🟨 Bien | Anotar con claridad y repasar antes de enviar. |
-| 🟩 Muy bien | Confirmar con el cliente, detallar bien y asegurar que salga perfecto. |
-
-| Atención al cliente | |
-|---|---|
-| 🟥 Muy mal | Mostrar desgano, mala cara o ignorar al cliente. |
-| 🟧 Mal | Atender por cumplir, sin conexión. |
-| 🟨 Bien | Ser correcto, amable y responder dudas. |
-| 🟩 Muy bien | Mostrar entusiasmo, recomendar con criterio, anticiparse a lo que el cliente puede necesitar y generar una experiencia memorable. |
-
-| Roturas | |
-|---|---|
-| 🟥 Muy mal | Reírse como si nada, hacer chistes o burlarse frente a clientes o compañeros. |
-| 🟧 Mal | No reaccionar, minimizar la situación o dejar que otros lo limpien. |
-| 🟨 Bien | Asumir el error, levantar rápido los restos y avisar a quien corresponda. |
-| 🟩 Muy bien | Resolver con agilidad, pedir disculpas si hizo ruido o molestó, y reponer la copa si corresponde sin que lo tengan que pedir. |
-
-| Desayuno / Merienda | |
-|---|---|
-| 🟥 Muy mal | No se presta atención a la plaza por estar desayunando o merendando. Se abandona la atención al cliente. Falta de respeto al grupo y al trabajo. |
-| 🟧 Mal | Se extiende demasiado el desayuno o se charla más de lo necesario. |
-| 🟨 Bien | Merienda breve, sin perder totalmente la atención. Se mantiene el respeto por el ritmo de trabajo. |
-| 🟩 Muy bien | Se toma el café o la merienda de manera ágil, sin descuidar la plaza. Si hay otro mozo en la misma plaza, se turnan correctamente. |
-
-| Conducta y vocabulario | |
-|---|---|
-| 🟥 Muy mal | Carcajadas, gritos, lenguaje vulgar o desubicado. Afecta directamente la imagen del lugar. |
-| 🟧 Mal | Risas fuertes o comentarios que se escuchan desde el sector cliente. |
-| 🟨 Bien | Buena conducta, con algún tono relajado pero respetuoso. |
-| 🟩 Muy bien | Actitud profesional. Voz baja, respeto por el entorno y por los compañeros. Se transmite seriedad y calidad. |
-
-| Plazas y mozos a la vista | |
-|---|---|
-| 🟥 Muy mal | La plaza queda completamente desatendida. El mozo está boludeando o en otro sector sin motivo. **Falta grave.** |
-| 🟧 Mal | No hay nadie visible durante varios minutos. El cliente empieza a buscar atención. |
-| 🟨 Bien | Aunque no esté siempre visible, el mozo responde con rapidez y atención. |
-| 🟩 Muy bien | Siempre hay un mozo a la vista, atento y disponible. El cliente se siente cuidado desde el primer momento. |
-
-| Carta | |
-|---|---|
-| 🟥 Muy mal | Decir "no sé" o inventar lo que incluye un plato. |
-| 🟧 Mal | Dudar o no transmitir seguridad al explicarlo. |
-| 🟨 Bien | Conocer los básicos del menú, y consultar en caso de duda. |
-| 🟩 Muy bien | Saber cada ítem, recomendar con fundamento y transmitir confianza. |
-
-| Reposición | |
-|---|---|
-| 🟥 Muy mal | Ver que falta algo y seguir trabajando igual, dejando que otro lo note. |
-| 🟧 Mal | Avisar pero no reponer. |
-| 🟨 Bien | Reponer o avisar en el momento. |
-| 🟩 Muy bien | Reponer, organizar y dejar mejor de lo que estaba. Anticiparse a lo que pueda faltar. |
-
-| Cigarrillo | |
-|---|---|
-| 🟥 Muy mal | Fumar en el salón, cocina o espacios visibles al cliente. Fumar durante el turno sin permiso. |
-| 🟧 Mal | Fumar en momentos inapropiados. |
-| 🟨 Bien | Fumar en zonas autorizadas, en pausas designadas y sin afectar el servicio. |
-| 🟩 Muy bien | Evitar fumar durante el turno, dar prioridad al servicio y mantener el uniforme impecable (sin olor ni residuos). |
-
-| Versatilidad | |
-|---|---|
-| 🟥 Muy mal | Negarse sistemáticamente a ayudar en tareas que no son "de su rol", incluso en momentos de necesidad. No colaborar aunque haya compañeros desbordados. |
-| 🟧 Mal | Aceptar a regañadientes, con mala actitud, o sólo si se lo ordenan directamente. |
-| 🟨 Bien | Estar dispuesto a colaborar en otras tareas cuando se lo piden, aunque no sea habitual. |
-| 🟩 Muy bien | Ofrecer ayuda sin que se lo pidan, asumir tareas fuera del rol con buena actitud, entender que el objetivo es que el equipo funcione, no sólo su puesto. |
-
----
-
-### Cumplimiento de los descansos
-
-En Mirador Waikiki entendemos que **el descanso es necesario** para rendir bien y tener buena energía durante el turno. Pero también es clave que ese descanso se cumpla con responsabilidad y en función del ritmo real del salón.
-
-El descanso estipulado es de **30 minutos**, y debe tomarse en el momento indicado por los encargados o cuando la operación lo permite. Lo que no puede pasar es que el descanso se estire a 40 minutos o más, especialmente en **feriados, fines de semana largos o eventos especiales**, donde el salón está exigido y cada persona cuenta.
-
-> A veces no se nota, pero un descanso más largo en esos momentos deja al equipo con menos manos, genera más estrés y termina perjudicando al cliente.
-
-| 📉 Evaluación del cumplimiento del descanso | |
-|---|---|
-| 🟥 Muy mal | Tomarse más de 30 minutos sabiendo que no corresponde, especialmente en momentos de alta demanda. Hacerlo sin pedir permiso, desentendiéndose del servicio. En esos casos, además de afectar el funcionamiento, se interpreta como una **falta de respeto al grupo y al trabajo**. |
-| 🟧 Mal | Pasarse de los 30 minutos con frecuencia o hacerlo justo cuando más se necesita apoyo, aunque no sea con mala intención. |
-| 🟨 Bien | Cumplir los 30 minutos, estar atento al reloj y volver con buena actitud. |
-| 🟩 Muy bien | Cumplir siempre el descanso en tiempo y forma. Acortar o postergar su descanso si ve que el equipo lo necesita, sin que se lo pidan y con conciencia de grupo. |
-
----
-
-### Predisposición horaria
-
-En gastronomía hay momentos del año donde el trabajo se intensifica: **fines de semana, feriados, vacaciones o eventos especiales**. Son días clave para el funcionamiento y la rentabilidad del restaurante, y como equipo necesitamos que todos lo entiendan.
-
-La predisposición horaria **no significa estar disponible 24/7**, sino tener la actitud correcta cuando el restaurante más lo necesita. Es saber que hay días donde quedarse una hora más, cubrir un compañero o dar una mano fuera de tarea directa puede marcar la diferencia entre un buen servicio y un caos.
-
-**Se espera que el equipo:**
-
-- Esté dispuesto a quedarse un poco más si el salón lo requiere.
-- No ponga "cara larga" ni genere mal clima en esos días.
-- Pregunte si puede ayudar, especialmente cuando se ve que hay presión o faltan manos.
-
-| 📉 Evaluación de la predisposición horaria | |
-|---|---|
-| 🟥 Muy mal | No tener predisposición nunca. No ofrecer ayuda ni siquiera en días de máximo trabajo. Poner mala cara, evadir tareas o desentenderse del equipo. |
-| 🟧 Mal | Hacer lo justo, evitar involucrarse o mostrar incomodidad constante cuando se necesita apoyo extra. |
-| 🟨 Bien | Estar dispuesto a colaborar si se lo piden y hacerlo con actitud neutra o respetuosa. |
-| 🟩 Muy bien | Anticiparse, ofrecer ayuda sin que lo pidan, quedarse con buena onda cuando se necesita y dar ejemplo al resto. |
-
----
-
-## 10. PROPINAS
-
-### Cuándo se cobran
-
-Las propinas se distribuyen los **días 2 y 17 de cada mes**.
-
-### Distribución
-
-| Sector | Porcentaje |
-|---|---|
-| **Salón** (mozos, runners, comisses, recepción, barra, etc.) | **60%** |
-| **Cocina** (incluyendo bacha y calientaplatos) | **40%** |
-
-### Cálculo
-
-La distribución se calcula en base a las **horas trabajadas** por cada persona en el período correspondiente. A más horas trabajadas, mayor parte de la propina.
-
-### Mozos y Runners
-
-Los mozos y runners tienen un **sistema diferente** de distribución de propinas. El detalle de ese sistema está en la guía específica para esos roles.
-
----
-
-## 11. PAGOS
-
-| Concepto | Detalle |
-|---|---|
-| **Frecuencia** | Mensual. |
-| **Escala salarial** | Escala de **UTHGRA** (Unión de Trabajadores del Turismo, Hotelería y Gastronomía de la República Argentina). |
-| **Cálculo de días** | La jornada laboral estándar equivale a **8.5 horas = 1 día** trabajado. |
-| **Feriados** | Se pagan al **doble** de la jornada normal. |
-
----
-
-## 12. EMPRESAS DEL COMPLEJO
-
-Mirador Waikiki forma parte de un complejo más amplio. Estas son las empresas que integran el grupo:
-
-**ili ili Hotel Boutique**
-Hotel boutique con **17 habitaciones** ubicado dentro del complejo. Ofrece alojamiento de categoría frente al mar.
-
-**Balneario Waikiki**
-Espacio de playa y pileta del complejo. Funciona en temporada estival y es parte de la experiencia de ocio del lugar.
-
-**Mar Eventos**
-Empresa de organización de eventos: **bodas, fiestas de XV años, eventos corporativos** y más. Utiliza los espacios del complejo para sus celebraciones.
-
-**Mirador 9**
-Restaurante y espacio de eventos dentro del complejo. **En verano funciona todos los días**; el **resto del año, fines de semana y feriados**. Es el espacio principal donde trabajamos.
-
----
-
-## 13. PREGUNTAS FRECUENTES
-
-**¿Cómo consigo mi locker?**
-Solicitá la llave al encargado de turno. Se te asignará uno disponible.
-
-**¿Dónde están los vestuarios?**
-Los vestuarios están disponibles para todo el personal. Consultá la ubicación con tu encargado si no la conocés.
-
-**¿Cómo registro mi asistencia?**
-El fichaje se realiza por **WhatsApp** usando el sistema habilitado por la empresa. Hacelo al entrar y al salir.
-
-**¿Tengo descuento en el consumo?**
-Sí. El personal tiene un **50% de descuento** en el consumo del restaurante, **excepto en bebidas alcohólicas**.
-
-**¿Hay café de personal?**
-Sí, hay café disponible para el personal. Consultá con el encargado el horario y lugar habilitado.
-
-**¿Qué hago si me enfermo?**
-Avisá lo antes posible al encargado y presentá el **certificado médico** correspondiente.
-
-**¿La empresa provee el uniforme?**
-Sí, el uniforme es provisto por la empresa. Sin embargo, cada empleado debe traer su propio **destapador, lapicera y anotador**.
-
-**¿Quién desayuna?**
-Solo los empleados con turnos que comienzan a las **7:30, 8:00 o 9:00** tienen desayuno incluido.
-
-**¿Dónde están los baños?**
-- **Personal**: baños de uso exclusivo ubicados en **planta baja**.
-- **Clientes**: dos baños bajando las escaleras + uno en el sector **Ala Wai**.
-
-**¿Qué hago al terminar mi turno?**
-Al finalizar el turno, salís sin uniforme y te retirás de las zonas de trabajo. No podés quedarte en las áreas operativas del local fuera de tu turno.
-
-**¿Puedo estar en el área de trabajo antes de que empiece mi turno?**
-No. Antes de que empiece tu turno, debés esperar **fuera del área de servicio**. Ingresás cuando el encargado te lo indique.
-
-**¿Dónde puedo consultar los platos del menú?**
-Toda la información sobre platos, ingredientes y preparaciones está en la **Guía de Platos e Ingredientes**, disponible en la aplicación.
+Te pedimos que firmes la **constancia de lectura** entregada por tu encargado de turno. Si no la recibiste, solicitala. Esto confirma que accediste al contenido completo y que entendiste lo que se espera de vos en Mirador Waikiki.
 
 ---
 
@@ -1311,307 +599,67 @@ Toda la información sobre platos, ingredientes y preparaciones está en la **Gu
 **¡SIGAMOS CRECIENDO JUNTOS!**
 
 $GUIDE$
-  WHERE id = v_guide_id;
-END IF;
+WHERE id = 'aa34234b-0eaa-4331-ac79-d2e028c25bbf';
 
-SELECT id INTO v_exam_id FROM exams WHERE guide_id = v_guide_id;
+UPDATE exams SET title = 'Examen: Guía para Nuevos y No Tan Nuevos', passing_score = 70
+WHERE id = 'e07e3664-a1a3-451d-8b5b-655437774363';
 
-IF v_exam_id IS NULL THEN
-  INSERT INTO exams (guide_id, title, passing_score)
-  VALUES (v_guide_id, 'Examen: Guía para Nuevos y No Tan Nuevos', 70)
-  RETURNING id INTO v_exam_id;
-ELSE
-  UPDATE exams SET title = 'Examen: Guía para Nuevos y No Tan Nuevos', passing_score = 70 WHERE id = v_exam_id;
-END IF;
+DELETE FROM exam_questions WHERE exam_id = 'e07e3664-a1a3-451d-8b5b-655437774363';
 
-DELETE FROM exam_questions WHERE exam_id = v_exam_id;
+INSERT INTO exam_questions (exam_id, question, options, correct_option, question_type, answer_guide, "order") VALUES
+('e07e3664-a1a3-451d-8b5b-655437774363','¿Con cuánta anticipación se recomienda llegar al horario pautado?','["5 minutos", "10 minutos", "15 minutos", "30 minutos"]',2,'multiple_choice',NULL,0),
+('e07e3664-a1a3-451d-8b5b-655437774363','Hasta recibir el uniforme, ¿qué ropa hay que traer?','["Ropa cómoda de cualquier color", "Ropa negra y zapatillas negras limpias o calzado cerrado", "Camisa blanca y pantalón negro", "Uniforme prestado por un compañero"]',1,'multiple_choice',NULL,1),
+('e07e3664-a1a3-451d-8b5b-655437774363','Al llegar el primer día, ¿por quién hay que pedir?','["Por el jefe de cocina", "Por un encargado de salón (Facundo o Enzo)", "Por la administrativa", "Por cualquier mozo"]',1,'multiple_choice',NULL,2),
+('e07e3664-a1a3-451d-8b5b-655437774363','¿Cuál es el primer principio de la filosofía de Mirador Waikiki?','["El cliente es sagrado", "Todo lo que hacés, impacta", "La actitud abre puertas", "Nos cuidamos entre todos"]',1,'multiple_choice',NULL,3),
+('e07e3664-a1a3-451d-8b5b-655437774363','Según el principio 3, ¿por qué el servicio es colectivo?','["Porque todos cobran lo mismo", "Porque podés ser excelente en tu tarea, pero si no colaborás el equipo no funciona", "Porque los turnos se arman en conjunto", "Porque las propinas se reparten"]',1,'multiple_choice',NULL,4),
+('e07e3664-a1a3-451d-8b5b-655437774363','¿Qué define tu participación en la propina?','["La antigüedad", "El fichaje de entrada y salida", "El puesto que ocupás", "La evaluación de desempeño"]',1,'multiple_choice',NULL,5),
+('e07e3664-a1a3-451d-8b5b-655437774363','¿De cuántos minutos es el descanso?','["20 minutos", "30 minutos", "40 minutos", "45 minutos"]',1,'multiple_choice',NULL,6),
+('e07e3664-a1a3-451d-8b5b-655437774363','¿A qué hora arranca el descanso de almuerzo del PRIMER turno?','["10:30 hs", "11:00 hs", "11:30 hs", "12:00 hs"]',1,'multiple_choice',NULL,7),
+('e07e3664-a1a3-451d-8b5b-655437774363','Según el reglamento, ¿con cuánta anticipación hay que llegar al horario de fichada?','["5 minutos", "Al menos 10 minutos", "20 minutos", "Media hora"]',1,'multiple_choice',NULL,8),
+('e07e3664-a1a3-451d-8b5b-655437774363','¿Qué NO se permite en la presentación personal?','["Cabello recogido", "Gorras personales, auriculares y piercings visibles excesivos", "Uniforme planchado", "Uñas cortas"]',1,'multiple_choice',NULL,9),
+('e07e3664-a1a3-451d-8b5b-655437774363','¿Está permitido el cigarrillo electrónico durante el horario laboral?','["Sí", "No, está prohibido igual que el cigarrillo", "Solo en el descanso", "Solo fuera del salón"]',1,'multiple_choice',NULL,10),
+('e07e3664-a1a3-451d-8b5b-655437774363','¿Qué corresponde hacer ante un conflicto?','["Resolverlo en el momento con el compañero", "Elevarlo al encargado o responsable del día", "Comentarlo en el grupo de WhatsApp", "Ignorarlo"]',1,'multiple_choice',NULL,11),
+('e07e3664-a1a3-451d-8b5b-655437774363','¿Quiénes son los directores?','["Facundo Núñez y Enzo Espiño", "Agustín Di Iorio y Daniel Urcabe", "Ángel Sachett y Bruno Molina", "Paz Rave y Romina Marquez"]',1,'multiple_choice',NULL,12),
+('e07e3664-a1a3-451d-8b5b-655437774363','¿Quién es el jefe de cocina?','["Bruno Molina", "Ángel Sachett", "Germán Zeluk", "Agustín Di Iorio"]',1,'multiple_choice',NULL,13),
+('e07e3664-a1a3-451d-8b5b-655437774363','¿Quién es la encargada de mozos?','["Paz Rave", "Rocío Conde", "Romina Marquez", "Bruno Molina"]',1,'multiple_choice',NULL,14),
+('e07e3664-a1a3-451d-8b5b-655437774363','¿Quién es el encargado de barra?','["Bruno Molina", "Germán Zeluk", "Enzo Espiño", "Ángel Sachett"]',0,'multiple_choice',NULL,15),
+('e07e3664-a1a3-451d-8b5b-655437774363','¿Cuál es la función del calentaplatos?','["Mantener los platos calientes en el salón", "Ser el nexo entre cocina y salón, gestionando comandas y llamando a los runners", "Preparar las guarniciones", "Controlar el stock de cocina"]',1,'multiple_choice',NULL,16),
+('e07e3664-a1a3-451d-8b5b-655437774363','¿Qué hacen los comisses?','["Toman los pedidos en la mesa", "Mantienen el orden y la limpieza del salón, fajinan, distribuyen cubiertos y reponen", "Preparan las bebidas", "Cobran las cuentas"]',1,'multiple_choice',NULL,17),
+('e07e3664-a1a3-451d-8b5b-655437774363','¿Cuál es el rol de la bacha?','["Atender el balcón", "Lavar vajilla, utensilios y ollas, y mantener el área de cocina ordenada", "Recibir a los clientes", "Controlar el stock de bebidas"]',1,'multiple_choice',NULL,18),
+('e07e3664-a1a3-451d-8b5b-655437774363','Ante dudas, problemas o sugerencias, ¿a quién hay que acudir?','["A la administrativa", "A los encargados", "A los directores", "A recepción"]',1,'multiple_choice',NULL,19),
+('e07e3664-a1a3-451d-8b5b-655437774363','¿Qué representa el nivel 🟨 Bien en la escala de evaluación?','["Un desempeño sobresaliente", "Lo mínimo esperable: se valora, pero no se premia una obligación básica", "Un desempeño que requiere corrección", "Una falta leve"]',1,'multiple_choice',NULL,20),
+('e07e3664-a1a3-451d-8b5b-655437774363','¿Qué puede derivar de un comportamiento 🟥 Muy mal?','["Una charla informal", "Apercibimiento, suspensión o no ser considerado para futuras oportunidades", "Nada si no se repite", "Un cambio de sector"]',1,'multiple_choice',NULL,21),
+('e07e3664-a1a3-451d-8b5b-655437774363','En el criterio "Esperar órdenes", ¿qué es 🟩 Muy bien?','["Consultar si pueden ayudar en algo más", "Anticiparse a las necesidades y resolver sin esperar órdenes", "Cumplir las tareas asignadas", "Esperar instrucciones para no equivocarse"]',1,'multiple_choice',NULL,22),
+('e07e3664-a1a3-451d-8b5b-655437774363','En el criterio "Versatilidad", ¿qué es 🟩 Muy bien?','["Colaborar solo cuando se lo piden", "Ofrecer ayuda sin que se lo pidan y asumir tareas fuera del rol con buena actitud", "Priorizar siempre el puesto propio", "Aceptar tareas extra a regañadientes"]',1,'multiple_choice',NULL,23),
+('e07e3664-a1a3-451d-8b5b-655437774363','Tomarse más de 30 minutos de descanso en alta demanda y sin permiso se interpreta como...','["Un descuido menor", "Una falta de respeto al grupo y al trabajo", "Algo aceptable si se avisa después", "Un problema solo si se repite"]',1,'multiple_choice',NULL,24),
+('e07e3664-a1a3-451d-8b5b-655437774363','¿Qué significa la predisposición horaria?','["Estar disponible 24/7", "Tener la actitud correcta cuando el restaurante más lo necesita", "Aceptar cualquier cambio sin aviso", "Trabajar todos los feriados"]',1,'multiple_choice',NULL,25),
+('e07e3664-a1a3-451d-8b5b-655437774363','¿Qué días se entregan las propinas?','["1 y 15", "2 y 17", "5 y 20", "El último día del mes"]',1,'multiple_choice',NULL,26),
+('e07e3664-a1a3-451d-8b5b-655437774363','Si el día de entrega cae fin de semana o feriado, ¿qué pasa?','["Se adelanta al día hábil anterior", "Se entrega el día hábil posterior", "Se acumula al siguiente pago", "Se deposita"]',1,'multiple_choice',NULL,27),
+('e07e3664-a1a3-451d-8b5b-655437774363','¿Cómo se reparte la propina fija entre sectores?','["50% y 50%", "60% al salón y 40% al resto del personal", "70% al salón y 30% al resto", "40% al salón y 60% al resto"]',1,'multiple_choice',NULL,28),
+('e07e3664-a1a3-451d-8b5b-655437774363','El pago del día 2, ¿qué período cubre?','["Del 1 al 15 del mes en curso", "Del 16 al último día del mes anterior", "Todo el mes anterior", "Del 1 al 30"]',1,'multiple_choice',NULL,29),
+('e07e3664-a1a3-451d-8b5b-655437774363','El pago del día 17, ¿qué período cubre?','["Del 16 al último día del mes anterior", "Del 1 al 15 del mes en curso", "Del 17 al 30", "Todo el mes"]',1,'multiple_choice',NULL,30),
+('e07e3664-a1a3-451d-8b5b-655437774363','¿En base a qué escala se liquida el sueldo?','["Escala propia de la empresa", "Escala salarial vigente de UTHGRA", "Salario mínimo nacional", "Por convenio individual"]',1,'multiple_choice',NULL,31),
+('e07e3664-a1a3-451d-8b5b-655437774363','Si trabajaste 170 horas, ¿cuántos días se te pagan?','["17 días", "20 días", "21 días", "22 días"]',1,'multiple_choice',NULL,32),
+('e07e3664-a1a3-451d-8b5b-655437774363','¿Cómo se paga un feriado trabajado?','["Igual que un día normal", "Doble", "Con 50% adicional", "Con franco compensatorio"]',1,'multiple_choice',NULL,33),
+('e07e3664-a1a3-451d-8b5b-655437774363','¿Qué es ili ili?','["El balneario del complejo", "El hotel boutique del complejo", "La empresa de eventos", "El restaurante de al lado"]',1,'multiple_choice',NULL,34),
+('e07e3664-a1a3-451d-8b5b-655437774363','¿Qué empresa organiza los eventos privados del complejo?','["ili ili", "Mar Eventos", "Mirador 9", "Balneario Waikiki"]',1,'multiple_choice',NULL,35),
+('e07e3664-a1a3-451d-8b5b-655437774363','Si un cliente consulta por eventos, ¿qué corresponde hacer?','["Explicarle vos las opciones", "Derivarlo a Mar Eventos; hay tarjetas en recepción", "Pasarle el teléfono de los directores", "Decirle que no hacemos eventos"]',1,'multiple_choice',NULL,36),
+('e07e3664-a1a3-451d-8b5b-655437774363','¿Dónde está ubicado Mirador 9?','["Dentro del salón Ala Wai", "Al lado de La Caseta", "Frente al hotel", "En el balneario"]',1,'multiple_choice',NULL,37),
+('e07e3664-a1a3-451d-8b5b-655437774363','¿Qué descuento tiene el personal en consumos?','["25% en todo", "50%, excepto bebidas alcohólicas", "50% en todo", "30% en comidas"]',1,'multiple_choice',NULL,38),
+('e07e3664-a1a3-451d-8b5b-655437774363','¿Quiénes pueden desayunar en el restaurante?','["Todo el personal", "Solo quienes ingresan a las 7:30, 8:00 o 9:00 hs como máximo", "Solo los encargados", "Nadie"]',1,'multiple_choice',NULL,39),
+('e07e3664-a1a3-451d-8b5b-655437774363','¿Dónde están los baños del personal?','["A nivel del restaurante", "En la planta baja", "En el salón Ala Wai", "Junto a la cocina"]',1,'multiple_choice',NULL,40),
+('e07e3664-a1a3-451d-8b5b-655437774363','¿Qué artículos personales debe traer cada empleado?','["Delantal y guantes", "Destapador, lapicera y anotador", "Zapatos y medias negras", "Ninguno"]',1,'multiple_choice',NULL,41),
+('e07e3664-a1a3-451d-8b5b-655437774363','Si no te acordás qué lleva un plato, ¿qué hacés?','["Preguntás al aire", "Consultás la Guía de Platos e Ingredientes", "Improvisás algo parecido", "Le decís al cliente que no sabés"]',1,'multiple_choice',NULL,42),
+('e07e3664-a1a3-451d-8b5b-655437774363','Si llegás con mucha anticipación, ¿dónde esperás?','["En la barra", "Fuera del área de servicio, en una zona que no interfiera", "En cocina", "En el vestuario"]',1,'multiple_choice',NULL,43),
+('e07e3664-a1a3-451d-8b5b-655437774363','Si querés quedarte después del turno a comer o descansar, ¿qué tenés que hacer?','["Nada especial", "Sacarte el uniforme completo y estar fuera de las zonas de trabajo", "Pedir permiso a recepción", "Quedarte en la barra"]',1,'multiple_choice',NULL,44),
+('e07e3664-a1a3-451d-8b5b-655437774363','Explicá con tus palabras qué significa el principio "El servicio es colectivo, no individual" y dame un ejemplo concreto de cómo lo aplicarías en un turno.','[]'::jsonb,NULL,'open','Tiene que entender que no alcanza con ser bueno en la tarea propia: hay que colaborar, ofrecerse y anticiparse. El ejemplo debería ser algo concreto del salón, no una frase genérica.',45),
+('e07e3664-a1a3-451d-8b5b-655437774363','Un cliente te reclama molesto que su plato está tardando mucho. Contá paso a paso cómo lo manejarías.','[]'::jsonb,NULL,'open','Debe actuar con empatía y ofrecer una solución, sin justificarse ni echarle la culpa a cocina. Suma que mencione mantener la calma, avisar al encargado y mantener informado al cliente.',46),
+('e07e3664-a1a3-451d-8b5b-655437774363','Explicá cómo se calcula tu sueldo: de dónde salen los días trabajados y qué pasa si trabajás un feriado.','[]'::jsonb,NULL,'open','Horas trabajadas divididas por 8,5 da los días; ese número por el valor diario de su categoría según la escala de UTHGRA. El feriado se paga doble. Se liquida a mes vencido.',47),
+('e07e3664-a1a3-451d-8b5b-655437774363','Según el organigrama, ¿a quién le reportás vos y a quién acudirías ante un problema durante el turno? Justificá.','[]'::jsonb,NULL,'open','Debe ubicar su puesto en la estructura y reconocer a los encargados de salón (Facundo y Enzo) como primer referente operativo, o a su encargado directo según el sector (Rocío en mozos, Bruno en barra, Paz en recepción, Ángel en cocina).',48),
+('e07e3664-a1a3-451d-8b5b-655437774363','En el criterio "Cumplimiento de los descansos", ¿cuál es la diferencia entre hacerlo Bien y hacerlo Muy bien? ¿Por qué esa diferencia importa para el equipo?','[]'::jsonb,NULL,'open','Bien es cumplir los 30 minutos y volver con buena actitud. Muy bien es además acortar o postergar el descanso si ve que el equipo lo necesita, sin que se lo pidan. Debe notar que un descanso largo en momentos exigidos deja al equipo con menos manos.',49);
 
-INSERT INTO exam_questions (exam_id, question, options, correct_option) VALUES
-(v_exam_id,
- '¿Con cuánta anticipación se recomienda llegar antes del horario pautado?',
- '["5 minutos", "10 minutos", "15 minutos", "30 minutos"]',
- 2),
-
-(v_exam_id,
- '¿Qué ropa debés usar hasta recibir el uniforme oficial?',
- '["Ropa de cualquier color", "Ropa de color negro", "Ropa de color blanco", "No importa la ropa"]',
- 1),
-
-(v_exam_id,
- '¿A quién debés presentarte al llegar tu primer día?',
- '["Al director Agustín Di Iorio", "A Facundo o Enzo (encargados de salón)", "A Bruno Molina (barra)", "A Paz Rave (recepción)"]',
- 1),
-
-(v_exam_id,
- '¿Dónde podés guardar tus pertenencias personales durante el turno?',
- '["En la barra", "En la cocina", "En los lockers", "En la recepción"]',
- 2),
-
-(v_exam_id,
- '¿Cuál es el primer principio de Mirador Waikiki?',
- '["El cliente es sagrado", "Todo impacta", "La actitud abre puertas", "Nos cuidamos entre todos"]',
- 1),
-
-(v_exam_id,
- '¿Qué significa el principio "El servicio es colectivo"?',
- '["Cada uno hace solo su tarea asignada", "Si ves una necesidad, atendela; si podés ayudar, hacelo", "El mozo hace todo el trabajo", "Los encargados son responsables de todo"]',
- 1),
-
-(v_exam_id,
- 'Según la filosofía de Mirador Waikiki, ¿qué se valora más que las habilidades técnicas?',
- '["Los años de experiencia", "Los títulos académicos", "La actitud, predisposición y ganas de trabajar bien", "El aspecto físico"]',
- 2),
-
-(v_exam_id,
- '¿Qué implica el principio "Ser profesional no es ser frío"?',
- '["Hay que ser distante con los clientes", "Se puede ser amable y cercano siendo completamente profesional", "La frialdad es parte del servicio de calidad", "No se debe hablar con los clientes"]',
- 1),
-
-(v_exam_id,
- '¿Cuál es la principal responsabilidad del commis?',
- '["Tomar los pedidos de las mesas", "Mantener el salón en orden y apoyar en limpieza, reposición y armado", "Preparar las bebidas en la barra", "Cobrar las cuentas de los clientes"]',
- 1),
-
-(v_exam_id,
- 'Según la guía, ¿qué tres cualidades debe tener el commis?',
- '["Creativo, independiente y silencioso", "Rápido, atento y ordenado", "Carismático, vendedor y extrovertido", "Fuerte, veloz y callado"]',
- 1),
-
-(v_exam_id,
- '¿Qué tarea del commis consiste en gestionar el pan y armar las paneras con la cortesía del día?',
- '["Fajinado", "Paneras y cortesía", "Reposición constante", "Armado de mesas"]',
- 1),
-
-(v_exam_id,
- '¿Qué debe hacer el commis cuando una mesa se desocupa?',
- '["Esperar a que el mozo la arme", "Repasar y montar correctamente la mesa", "Dejarla sin armar hasta el cierre", "Avisar a recepción únicamente"]',
- 1),
-
-(v_exam_id,
- '¿Qué rol cumple el runner dentro del servicio?',
- '["Es el nexo entre cocina y salón", "Es el responsable de la caja", "Es el encargado de las reservas", "Es quien dirige la cocina"]',
- 0),
-
-(v_exam_id,
- 'Antes de salir de cocina con un plato, ¿qué debe verificar el runner?',
- '["Solo que el plato esté caliente", "Que la presentación sea adecuada y que no falte ningún componente", "Que el mozo esté disponible", "Que la mesa haya pagado"]',
- 1),
-
-(v_exam_id,
- '¿Qué debe hacer el runner al volver al salón después de entregar un plato?',
- '["Ir directo a la cocina por el siguiente pedido", "Observar si alguna mesa necesita algo (pan, hielo, servilletas, cubiertos)", "Esperar en la estación hasta que lo llamen", "Tomar un descanso breve"]',
- 1),
-
-(v_exam_id,
- '¿Qué significa la "reposición espontánea" en el rol del runner?',
- '["Reponer solo cuando el cliente lo pide", "Llevar lo que falte a la mesa sin esperar a que lo pidan", "Reponer únicamente al cierre del turno", "Avisar al mozo para que reponga él"]',
- 1),
-
-(v_exam_id,
- '¿Qué caracteriza principalmente al rol del mozo?',
- '["Tiene el contacto directo con el cliente y lidera la experiencia en la mesa", "Se ocupa exclusivamente de la limpieza", "Trabaja siempre dentro de la cocina", "Solo cobra las cuentas"]',
- 0),
-
-(v_exam_id,
- 'Frente a un reclamo o un error, ¿cómo debe actuar el mozo?',
- '["Justificarse y explicar de quién fue la culpa", "Actuar con empatía y ofrecer soluciones rápidas, sin justificarse", "Derivar siempre al encargado sin intervenir", "Ignorar el reclamo si no fue su error"]',
- 1),
-
-(v_exam_id,
- '¿Qué incluye la tarea de "atención constante" del mozo?',
- '["Estar parado junto a la mesa todo el tiempo", "Asegurar que a la mesa no le falte nada sin que el cliente tenga que pedirlo", "Preguntar cada cinco minutos si necesitan algo", "Atender solo cuando el cliente levanta la mano"]',
- 1),
-
-(v_exam_id,
- 'Respecto a la prolijidad y presencia, ¿qué exige la guía al mozo?',
- '["Uniforme limpio, buena postura, cero celular visible y actitud profesional", "Solo uniforme limpio", "Usar el celular únicamente para comandas", "Vestimenta libre mientras sea prolija"]',
- 0),
-
-(v_exam_id,
- 'Según la guía, las tareas operativas diarias son...',
- '["Opcionales, para cuando sobra tiempo", "Parte esencial del trabajo, no opcionales", "Responsabilidad exclusiva del commis", "Solo obligatorias en temporada alta"]',
- 1),
-
-(v_exam_id,
- '¿Qué habilidad técnica menciona la guía respecto a las opciones alimentarias?',
- '["Saber explicar platos sin TACC, opciones veggies y vegetarianas", "Saber preparar los platos sin TACC", "Derivar esas consultas a cocina siempre", "Ofrecer solo platos tradicionales"]',
- 0),
-
-(v_exam_id,
- 'Dentro de "Comportamiento en equipo", ¿qué implica la adaptación a los ritmos del salón?',
- '["Trabajar siempre al mismo ritmo", "Rendir en días de alto flujo y no colgarse en los días tranquilos", "Reducir el ritmo en días tranquilos", "Pedir cambio de plaza en días exigidos"]',
- 1),
-
-(v_exam_id,
- '¿Qué actitud describe la "Actitud de crecimiento"?',
- '["Escuchar devoluciones sin ponerse a la defensiva", "Evitar las devoluciones para no generar conflicto", "Aceptar solo devoluciones de los directores", "Responder a cada devolución con una explicación"]',
- 0),
-
-(v_exam_id,
- '¿Qué incluye la apertura prolija del salón?',
- '["Limpiar mesas, barrer salón, abrir balcón completo y preparar descansos", "Solo abrir las puertas y encender luces", "Únicamente armar las mesas", "Esperar indicaciones del encargado"]',
- 0),
-
-(v_exam_id,
- 'Respecto a los limones, ¿qué debe saber el personal?',
- '["Cortarlos y diferenciar cuándo están buenos o malos para saber si hace falta más cantidad", "Cortarlos solo si lo pide el mozo", "Usar únicamente limones ya cortados por cocina", "Cortarlos al final del turno"]',
- 0),
-
-(v_exam_id,
- '¿Cuál de estas es una tarea de servicio mencionada en la guía?',
- '["Flambear panqueques en la mesa", "Preparar los postres en cocina", "Diseñar la carta de vinos", "Cargar el stock de bebidas"]',
- 0),
-
-(v_exam_id,
- '¿Qué implica realizar un buen cierre?',
- '["Solo limpiar las mesas y retirarse", "Limpieza de mesas, barrido, vajilla fajinada, descansos desarmados, puertas y ventanas cerradas, balcón acomodado y sin residuos", "Cerrar la caja y apagar las luces", "Dejar el salón armado para el día siguiente sin limpiar"]',
- 1),
-
-(v_exam_id,
- '¿Cuántos niveles tiene la escala de evaluación de Mirador Waikiki?',
- '["Tres", "Cuatro", "Cinco", "Seis"]',
- 1),
-
-(v_exam_id,
- '¿Qué representa el nivel 🟨 (Bien) en la escala de evaluación?',
- '["Un desempeño sobresaliente que se premia", "Lo mínimo esperable: se valora, pero no se premia lo que es una obligación básica", "Un desempeño que requiere corrección", "Una falta leve"]',
- 1),
-
-(v_exam_id,
- '¿Qué puede derivar de un comportamiento calificado como 🟥 (Muy mal)?',
- '["Una simple charla informal", "Apercibimiento, suspensión o no ser tenido en cuenta para futuras oportunidades", "Una advertencia escrita únicamente", "Ninguna consecuencia si no se repite"]',
- 1),
-
-(v_exam_id,
- 'Según la guía, ¿cuál es la idea detrás del sistema de evaluación?',
- '["Castigar a quienes no cumplen", "Ordenar y mejorar: reconocer a quienes hacen las cosas bien y dar herramientas para corregir", "Definir despidos", "Comparar el rendimiento entre compañeros"]',
- 1),
-
-(v_exam_id,
- 'En el criterio "Uso del celular", ¿qué se considera 🟩 Muy bien?',
- '["Usarlo solo en la cocina", "Usarlo exclusivamente para temas laborales o de emergencia, con discreción, con permiso y fuera del salón", "Revisarlo en los momentos de pausa dentro del salón", "No llevar celular al trabajo"]',
- 1),
-
-(v_exam_id,
- 'En el criterio "Equivocaciones", ¿qué se considera 🟥 Muy mal?',
- '["Admitir el error sin buscar solución", "Ocultar un error y dejar que lo descubran otros o los clientes", "Informar el error tarde", "Pedir ayuda para resolverlo"]',
- 1),
-
-(v_exam_id,
- 'En el criterio "Esperar órdenes", ¿qué comportamiento es 🟩 Muy bien?',
- '["Consultar si pueden ayudar en algo más", "Anticiparse a las necesidades, mantener todo ordenado y resolver sin esperar órdenes", "Cumplir las tareas básicas asignadas", "Esperar instrucciones para no equivocarse"]',
- 1),
-
-(v_exam_id,
- 'En el criterio "Plazas y mozos a la vista", ¿qué se considera falta grave?',
- '["No estar visible durante un minuto", "Que la plaza quede completamente desatendida estando el mozo en otro sector sin motivo", "Atender dos mesas al mismo tiempo", "Responder con demora a un llamado"]',
- 1),
-
-(v_exam_id,
- 'En el criterio "Carta", ¿qué se considera 🟥 Muy mal?',
- '["Consultar en caso de duda", "Decir \"no sé\" o inventar lo que incluye un plato", "Explicar el plato con inseguridad", "Recomendar un plato sin probarlo"]',
- 1),
-
-(v_exam_id,
- 'En el criterio "Versatilidad", ¿qué se considera 🟥 Muy mal?',
- '["Aceptar tareas de mala gana", "Negarse sistemáticamente a ayudar en tareas que no son de su rol, incluso en momentos de necesidad", "Colaborar solo cuando se lo piden", "Priorizar su puesto antes de ayudar"]',
- 1),
-
-(v_exam_id,
- '¿Cuántos minutos dura el descanso estipulado?',
- '["20 minutos", "30 minutos", "40 minutos", "45 minutos"]',
- 1),
-
-(v_exam_id,
- '¿En qué horario es el descanso del turno almuerzo?',
- '["10:00 a 10:30", "11:00 a 11:30", "12:00 a 12:30", "13:00 a 13:30"]',
- 1),
-
-(v_exam_id,
- 'Tomarse más de 30 minutos de descanso en un momento de alta demanda y sin pedir permiso se interpreta como...',
- '["Un descuido menor", "Una falta de respeto al grupo y al trabajo", "Algo aceptable si se avisa después", "Un problema solo si se repite"]',
- 1),
-
-(v_exam_id,
- '¿Qué significa la predisposición horaria según la guía?',
- '["Estar disponible 24/7", "Tener la actitud correcta cuando el restaurante más lo necesita", "Aceptar cualquier cambio de turno sin aviso", "Trabajar todos los feriados obligatoriamente"]',
- 1),
-
-(v_exam_id,
- '¿Qué se espera del equipo en días de alta demanda?',
- '["Cumplir estrictamente el horario y retirarse", "Estar dispuesto a quedarse un poco más, no poner mala cara y preguntar si puede ayudar", "Pedir horas extras por adelantado", "Reducir el ritmo para no agotarse"]',
- 1),
-
-(v_exam_id,
- '¿Está permitido el uso del celular durante el turno?',
- '["Sí, en cualquier momento", "No, salvo emergencias o autorización expresa del encargado", "Sí, solo en el salón", "Sí, durante los momentos de menor actividad"]',
- 1),
-
-(v_exam_id,
- '¿Qué se requiere para justificar una ausencia por enfermedad?',
- '["Un aviso por WhatsApp únicamente", "Certificado médico", "La autorización de un compañero", "Nada, alcanza con avisar"]',
- 1),
-
-(v_exam_id,
- '¿Cuál de estas es una prohibición explícita del reglamento interno?',
- '["Hablar con los clientes fuera del pedido", "Consumir comida sin autorización del encargado", "Cambiar de plaza durante el turno", "Tomar agua durante el servicio"]',
- 1),
-
-(v_exam_id,
- 'Si tenés un conflicto con un compañero, ¿cuál es el camino correcto?',
- '["Resolverlo directamente en el momento", "Hablarlo con el encargado", "Comentarlo con el resto del equipo", "Ignorarlo hasta que se resuelva solo"]',
- 1),
-
-(v_exam_id,
- '¿Qué días se distribuyen las propinas?',
- '["Los días 1 y 15", "Los días 2 y 17", "Los días 5 y 20", "El último día de cada mes"]',
- 1),
-
-(v_exam_id,
- '¿Cómo se reparten las propinas entre salón y cocina?',
- '["50% y 50%", "60% salón y 40% cocina", "70% salón y 30% cocina", "40% salón y 60% cocina"]',
- 1),
-
-(v_exam_id,
- '¿Cuántas horas equivalen a un día trabajado?',
- '["8 horas", "8.5 horas", "9 horas", "10 horas"]',
- 1),
-
-(v_exam_id,
- '¿Cómo se pagan los feriados?',
- '["Igual que un día normal", "Al doble de la jornada normal", "Con un 50% adicional", "Con un día de franco compensatorio"]',
- 1),
-
-(v_exam_id,
- '¿Cuántas habitaciones tiene ili ili Hotel Boutique?',
- '["12", "15", "17", "20"]',
- 2),
-
-(v_exam_id,
- '¿Qué descuento tiene el personal en el consumo del restaurante?',
- '["25%, incluyendo bebidas alcohólicas", "50%, excepto bebidas alcohólicas", "50%, incluyendo todo", "30%, excepto postres"]',
- 1),
-
-(v_exam_id,
- '¿Quiénes tienen derecho al desayuno en el local?',
- '["Todos los empleados sin excepción", "Solo los mozos y encargados", "Los empleados con turnos desde las 7:30, 8:00 o 9:00", "Solo los encargados"]',
- 2),
-
-(v_exam_id,
- '¿Dónde están los baños de uso exclusivo del personal?',
- '["En el primer piso", "En la planta baja", "En el sector Ala Wai", "Junto a la cocina"]',
- 1),
-
-(v_exam_id,
- '¿Qué artículos personales debe traer cada empleado aunque el uniforme sea provisto por la empresa?',
- '["Zapatos negros y medias", "Destapador, lapicera y anotador", "Delantal y guantes", "Ninguno, la empresa provee todo"]',
- 1),
-
-(v_exam_id,
- '¿Podés estar en el área de servicio antes de que empiece tu turno?',
- '["Sí, para preparar tu estación", "No, debés esperar fuera hasta que el encargado lo indique", "Sí, si ya fichaste", "Sí, hasta 30 minutos antes"]',
- 1);
-
-RAISE NOTICE 'Guia para Nuevos actualizada: 57 preguntas.';
-
-END $$;
+SELECT
+  (SELECT length(content) FROM guides WHERE id = 'aa34234b-0eaa-4331-ac79-d2e028c25bbf') AS caracteres_guia,
+  (SELECT count(*) FROM exam_questions WHERE exam_id = 'e07e3664-a1a3-451d-8b5b-655437774363' AND question_type='multiple_choice') AS opcion_multiple,
+  (SELECT count(*) FROM exam_questions WHERE exam_id = 'e07e3664-a1a3-451d-8b5b-655437774363' AND question_type='open') AS respuesta_escrita,
+  (SELECT count(*) FROM exam_results WHERE exam_id = 'e07e3664-a1a3-451d-8b5b-655437774363') AS resultados_conservados;
