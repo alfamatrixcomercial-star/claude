@@ -42,7 +42,9 @@ WHERE q.question_type = 'multiple_choice'
 
 -- 2) Preguntas escritas para los exámenes que no tenían.
 INSERT INTO exam_questions (exam_id, question, options, correct_option, question_type, answer_guide, "order")
-SELECT v.exam_id::uuid, v.question, v.options, v.correct_option, v.question_type, v.answer_guide, v."order"
+-- correct_option va casteado: en la lista de VALUES es siempre NULL y Postgres
+-- lo tipa como text, que no entra en una columna integer.
+SELECT v.exam_id::uuid, v.question, v.options, v.correct_option::int, v.question_type, v.answer_guide, v."order"::int
 FROM (VALUES
   ('01e1503e-9b43-4561-a0a2-e499928dc2f6', 'Explicá con tus palabras la diferencia entre una torta y una tarta.', '[]'::jsonb, NULL, 'open', 'Torta: base de bizcochuelo en capas, con relleno entre capas, textura esponjosa y húmeda. Tarta: base de masa sablée firme y crocante, con el relleno directo sobre la masa.', 900),
   ('01e1503e-9b43-4561-a0a2-e499928dc2f6', 'Un cliente pregunta cuál de los cheesecakes es distinto a los demás y por qué. ¿Qué le contestás?', '[]'::jsonb, NULL, 'open', 'El New York es el único cocido al horno; los otros dos (dulce de leche y Oreo) son fríos, con gelatina. El New York tiene textura firme y cremosa y se sirve con coulis de frutos rojos.', 900),
