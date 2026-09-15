@@ -3,7 +3,8 @@
 --
 -- Despues del recorte a 30 quedaron examenes desbalanceados: en Mozos
 -- la correcta cae en la C en 14 de 30 preguntas, y en Ensaladas en la B
--- en 7 de 12. Con eso alcanza para que alguien note el patron.
+-- en 7 de 12 y en la C en ninguna. Con eso alcanza para que alguien note
+-- el patron.
 --
 -- Que hace: rota las opciones de cada pregunta para que, dentro de cada
 -- examen, la correcta caiga en A, B, C y D casi la misma cantidad de
@@ -12,65 +13,66 @@
 -- si se vuelve a correr.
 --
 -- IMPORTANTE: rotar las opciones cambia el significado de los indices ya
--- guardados en exam_answers. Por eso el mismo script corrige tambien las
--- respuestas de los examenes ya rendidos, con la misma rotacion. Sin ese
--- paso, la pantalla de "en que me equivoque" mostraria una respuesta
--- equivocada para los intentos viejos.
+-- guardados en exam_answers. Por eso la misma sentencia corrige tambien
+-- las respuestas de los examenes ya rendidos, con la misma rotacion. Sin
+-- ese paso, la pantalla de "en que me equivoque" les mostraria a los que
+-- ya rindieron una respuesta que nunca eligieron.
 --
--- No cambia el texto de ninguna opcion ni cual es la correcta.
+-- Va todo en UNA sola sentencia con CTE, no en una tabla temporal: el
+-- editor de Supabase no mantiene las tablas temporales entre sentencias.
+-- Las dos partes leen la misma foto de los datos, asi que la rotacion que
+-- se aplica a las preguntas y a las respuestas es exactamente la misma.
+--
+-- No cambia el texto de ninguna opcion ni cual es la respuesta correcta,
+-- y las notas ya puestas no se mueven.
 --
 -- Correr entero en Supabase -> SQL Editor. Es idempotente.
 -- ============================================================
 
-BEGIN;
-
-CREATE TEMP TABLE _rot ON COMMIT DROP AS
-SELECT s.id,
-       s.destino,
-       ((s.destino - s.correct_option) % 4 + 4) % 4 AS giro
-FROM (
-  SELECT q.id,
-         q.correct_option,
-         ((row_number() OVER (PARTITION BY q.exam_id
-                              ORDER BY md5(q.id::text)))::int - 1) % 4 AS destino
-  FROM exam_questions q
-  WHERE q.question_type = 'multiple_choice'
-    AND jsonb_array_length(q.options) = 4
-) s;
-
--- Freno: si algo no cierra, no se toca nada.
-DO $$
-DECLARE n int;
-BEGIN
-  SELECT count(*) INTO n FROM _rot WHERE giro NOT BETWEEN 0 AND 3 OR destino NOT BETWEEN 0 AND 3;
-  IF n > 0 THEN RAISE EXCEPTION 'Rotacion invalida en % preguntas: se cancela.', n; END IF;
-END $$;
-
+WITH rot AS (
+  SELECT s.id,
+         s.destino,
+         ((s.destino - s.correct_option) % 4 + 4) % 4 AS giro
+  FROM (
+    SELECT q.id,
+           q.correct_option,
+           ((row_number() OVER (PARTITION BY q.exam_id
+                                ORDER BY md5(q.id::text)))::int - 1) % 4 AS destino
+    FROM exam_questions q
+    WHERE q.question_type = 'multiple_choice'
+      AND jsonb_array_length(q.options) = 4
+  ) s
+),
 -- 1) Rotar las opciones y mover el indice de la correcta.
-UPDATE exam_questions q
-SET options = jsonb_build_array(
-      q.options -> ((0 - r.giro + 4) % 4),
-      q.options -> ((1 - r.giro + 4) % 4),
-      q.options -> ((2 - r.giro + 4) % 4),
-      q.options -> ((3 - r.giro + 4) % 4)
-    ),
-    correct_option = r.destino
-FROM _rot r
-WHERE r.id = q.id AND r.giro <> 0;
-
+preguntas AS (
+  UPDATE exam_questions q
+  SET options = jsonb_build_array(
+        q.options -> ((0 - r.giro + 4) % 4),
+        q.options -> ((1 - r.giro + 4) % 4),
+        q.options -> ((2 - r.giro + 4) % 4),
+        q.options -> ((3 - r.giro + 4) % 4)
+      ),
+      correct_option = r.destino
+  FROM rot r
+  WHERE r.id = q.id AND r.giro <> 0
+  RETURNING q.id
+),
 -- 2) Mover con la misma rotacion lo que ya contestaron los examenes viejos.
-UPDATE exam_answers a
-SET selected_option = (a.selected_option + r.giro) % 4
-FROM _rot r
-WHERE r.id = a.question_id
-  AND r.giro <> 0
-  AND a.selected_option IS NOT NULL;
-
-COMMIT;
+respuestas AS (
+  UPDATE exam_answers a
+  SET selected_option = (a.selected_option + r.giro) % 4
+  FROM rot r
+  WHERE r.id = a.question_id
+    AND r.giro <> 0
+    AND a.selected_option IS NOT NULL
+  RETURNING a.id
+)
+SELECT (SELECT count(*) FROM preguntas) AS preguntas_rotadas,
+       (SELECT count(*) FROM respuestas) AS respuestas_viejas_corregidas;
 
 -- ------------------------------------------------------------
 -- Verificacion 1: reparto de A / B / C / D por examen.
--- Tienen que quedar parecidos entre si.
+-- Los de 30 preguntas tienen que quedar 8/8/7/7 y los de 12, 3/3/3/3.
 -- ------------------------------------------------------------
 SELECT e.title AS examen,
        count(*) FILTER (WHERE q.correct_option = 0) AS a,
@@ -85,8 +87,8 @@ GROUP BY e.title
 ORDER BY e.title;
 
 -- ------------------------------------------------------------
--- Verificacion 2: las notas de los examenes ya rendidos no cambian.
--- "coinciden" tiene que ser igual a "respuestas_guardadas".
+-- Verificacion 2: las notas de los examenes ya rendidos no cambiaron.
+-- "coinciden" tiene que dar igual a "respuestas_guardadas".
 -- ------------------------------------------------------------
 SELECT count(*) AS respuestas_guardadas,
        count(*) FILTER (
