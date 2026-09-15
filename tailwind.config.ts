@@ -11,8 +11,8 @@ const config: Config = {
       colors: {
         brand: {
           dark: '#dbd2b5',
-          card: '#e8e0ca',
-          'card-hover': '#e0d8c0',
+          card: '#ffffff',
+          'card-hover': '#f8f5f0',
           border: '#cab892',
           accent: '#6e8f7a',
           'accent-hover': '#5d7d6a',
