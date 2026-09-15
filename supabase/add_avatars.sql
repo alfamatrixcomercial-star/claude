@@ -63,6 +63,15 @@ BEGIN
     RETURN NEW;
   END IF;
 
+  -- Tampoco frena al editor SQL de Supabase ni a la service_role: ahi no hay
+  -- usuario logueado, y para llegar a esa consola ya hay que ser dueño del
+  -- proyecto. El freno es contra el navegador de un empleado, no contra vos.
+  -- Un anonimo no se cuela por aca: la politica de RLS de profiles ya exige
+  -- id = auth.uid() para poder escribir una fila.
+  IF auth.uid() IS NULL OR auth.role() = 'service_role' THEN
+    RETURN NEW;
+  END IF;
+
   IF NEW.role IS DISTINCT FROM OLD.role THEN
     RAISE EXCEPTION 'No podés cambiarte el rol.';
   END IF;
