@@ -7,6 +7,7 @@ import { createClient } from '@/lib/supabase/client'
 import { formatDate } from '@/lib/utils'
 import type { Profile } from '@/lib/types'
 import AvatarUploader from '@/components/AvatarUploader'
+import InstallPrompt from '@/components/InstallPrompt'
 
 export default function ProfilePage() {
   const router = useRouter()
@@ -99,6 +100,8 @@ export default function ProfilePage() {
           </div>
         </div>
       </div>
+
+      <InstallPrompt />
 
       <button
         onClick={handleLogout}

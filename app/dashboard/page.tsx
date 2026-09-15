@@ -1,5 +1,6 @@
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
+import InstallPrompt from '@/components/InstallPrompt'
 import { Utensils, ChevronRight } from 'lucide-react'
 import { createClient } from '@/lib/supabase/server'
 import GuideCard from '@/components/GuideCard'
@@ -121,6 +122,8 @@ export default async function DashboardPage() {
         </h1>
         <p className="text-brand-muted text-sm mt-0.5">{profile.puesto}</p>
       </div>
+
+      <InstallPrompt dismissible />
 
       {eom && eomProfile && (
         <Link href="/dashboard/empleado-del-mes" className="block">
