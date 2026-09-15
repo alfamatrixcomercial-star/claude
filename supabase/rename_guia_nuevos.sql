@@ -31,14 +31,18 @@ WHERE is_primary = true
   AND title NOT ILIKE '%Conocimientos B%sicos%';
 
 -- 3) El nombre nuevo.
+--    Solo renombra si todavia tiene el titulo viejo. Asi, si despues le
+--    cambiaste el nombre a mano, volver a correr este archivo no te lo pisa.
 UPDATE guides
 SET title = 'MIRADOR WAIKIKI - CONOCIMIENTOS BÁSICOS'
-WHERE is_primary = true;
+WHERE is_primary = true
+  AND title ILIKE '%Nuevos y No Tan Nuevos%';
 
--- 4) El examen acompaña.
+-- 4) El examen acompaña, con el mismo cuidado.
 UPDATE exams
 SET title = 'Examen: Conocimientos Básicos'
-WHERE guide_id IN (SELECT id FROM guides WHERE is_primary = true);
+WHERE title ILIKE '%Nuevos y No Tan Nuevos%'
+  AND guide_id IN (SELECT id FROM guides WHERE is_primary = true);
 
 -- ------------------------------------------------------------
 -- Verificacion: tiene que aparecer la guia con el nombre nuevo,

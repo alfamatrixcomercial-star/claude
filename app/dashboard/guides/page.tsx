@@ -21,6 +21,8 @@ export default async function GuidesPage() {
     .from('guides')
     .select('*')
     .or(`puestos.cs.{"${profile.puesto}"},puestos.cs.{"todos"}`)
+    // La guía principal va siempre primera, sin importar cuándo se creó.
+    .order('is_primary', { ascending: false })
     .order('created_at', { ascending: true })
 
   const { data: exams } = await supabase.from('exams').select('*')

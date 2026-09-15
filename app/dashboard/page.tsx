@@ -43,6 +43,8 @@ export default async function DashboardPage() {
     .from('guides')
     .select('*')
     .or(`puestos.cs.{"${profile.puesto}"},puestos.cs.{"todos"}`)
+    // La guía principal va siempre primera, sin importar cuándo se creó.
+    .order('is_primary', { ascending: false })
     .order('created_at', { ascending: true })
 
   // Sin join anidado a exam_questions: el personal ya no puede leer esa tabla
