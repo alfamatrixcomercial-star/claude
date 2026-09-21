@@ -104,7 +104,7 @@ const datosEstructurados = {
       poster={portada}
       alt="El complejo Mirador Waikiki visto desde el mar con un dron: el restaurante, las piletas, el parque y la playa sobre la costa de Mar del Plata"
     />
-    <div class="texto sobre-foto">
+    <div class="texto">
       <p class="eyebrow">
         {sitio.direccion.localidad} · desde {sitio.desde}
       </p>
@@ -141,7 +141,7 @@ const datosEstructurados = {
   </div>
 
   <!-- Un solo lugar -->
-  <section class="relato banda-verde">
+  <section class="relato claro">
     <div class="interior">
       <div class="palabra">
         <p class="firma">{sitio.firma}</p>
@@ -168,7 +168,7 @@ const datosEstructurados = {
   <!-- Horarios: imagen y las dos líneas, nada más -->
   {
     horarios.length > 0 && restaurante && (
-      <section class="horarios banda-celeste">
+      <section class="horarios banda-teal">
         <figure>
           <Foto
             foto={restaurante.data.hero}
@@ -225,7 +225,7 @@ const datosEstructurados = {
   <Confianza />
 
   <!-- Cómo llegar -->
-  <section class="llegar banda-celeste">
+  <section class="llegar claro">
     <div class="interior">
       <div>
         <div class="encabezado"><p class="rotulo">Cómo llegar</p><h2>Dónde estamos</h2></div>
@@ -272,14 +272,13 @@ const datosEstructurados = {
   .texto::before {
     content: "";
     position: absolute;
-    inset: -3rem -12rem -2.5rem -6rem;
+    inset: -3rem -10rem -2rem -5rem;
     z-index: -1;
     background: radial-gradient(
-      118% 135% at 18% 52%,
-      rgb(var(--velo) / 0.86) 0%,
-      rgb(var(--velo) / 0.7) 38%,
-      rgb(var(--velo) / 0.32) 62%,
-      rgb(var(--velo) / 0) 82%
+      115% 105% at 22% 62%,
+      rgb(var(--velo) / 0.78) 0%,
+      rgb(var(--velo) / 0.55) 42%,
+      rgb(var(--velo) / 0) 76%
     );
     pointer-events: none;
   }

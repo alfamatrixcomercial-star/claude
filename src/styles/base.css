@@ -72,7 +72,7 @@ button, summary, [role="button"] { cursor: pointer; }
   outline-offset: 3px;
 }
 
-::selection { background: var(--acento); color: var(--sobre-acento); }
+::selection { background: var(--acento); color: var(--verde-profundo); }
 
 /* Sólo para lectores de pantalla */
 .vo {
@@ -91,7 +91,7 @@ button, summary, [role="button"] { cursor: pointer; }
   top: -100px;
   z-index: var(--z-visor);
   background: var(--acento);
-  color: var(--sobre-acento);
+  color: var(--verde-profundo);
   font-weight: 600;
   padding: 0.75rem 1.25rem;
   transition: top 0.15s;
