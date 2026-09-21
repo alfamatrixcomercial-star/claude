@@ -1,8 +1,11 @@
 ---
 /**
  * El botón dice exactamente qué pasa al tocarlo. «Reservar mesa», no
- * «Contactanos». El primario es ámbar con tinta verde profundo: blanco
- * sobre ámbar da 3.26 y no se usa nunca.
+ * «Contactanos».
+ *
+ * La flecha no va suelta al lado del texto: va dentro de su propio disco,
+ * pegada al borde interior. Al pasar el mouse el disco se mueve en diagonal
+ * y el botón entero se hunde un punto al apretarlo.
  */
 interface Props {
   href: string;
@@ -19,40 +22,70 @@ const fuera = externo || href.startsWith("http");
   class:list={["boton", jerarquia, clase]}
   {...fuera ? { target: "_blank", rel: "noopener" } : {}}
 >
-  <span><slot /></span>
-  <svg viewBox="0 0 16 12" width="15" height="11" aria-hidden="true" focusable="false">
-    <path d="M0 6h13M9 1l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.8" />
-  </svg>
+  <span class="texto"><slot /></span>
+  <span class="disco" aria-hidden="true">
+    <svg viewBox="0 0 16 12" width="13" height="10" focusable="false">
+      <path d="M0 6h12M8 1l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.7"
+        stroke-linecap="round" stroke-linejoin="round" />
+    </svg>
+  </span>
 </a>
 
 <style>
   .boton {
     display: inline-flex;
     align-items: center;
-    gap: 0.9em;
+    gap: 0.75em;
     min-height: var(--toque);
-    padding: 0.7em 1.5em;
-    font-family: var(--f-texto);
+    /* Menos padding a la derecha: el disco ya trae su propio aire. */
+    padding: 0.55em 0.55em 0.55em 1.5em;
+    font-family: var(--f-ui);
     font-size: 0.78rem;
     font-weight: 500;
-    letter-spacing: 0.18em;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
     text-decoration: none;
     background: var(--accion-fondo);
     color: var(--accion-tinta);
     border: 1px solid var(--accion-borde);
     border-radius: 999px;
-    transition: background-color 0.25s, color 0.25s, border-color 0.25s;
+    transition:
+      background-color var(--transicion),
+      color var(--transicion),
+      border-color var(--transicion),
+      transform 160ms var(--curva);
   }
-  .boton svg { flex: none; transition: transform 0.25s; }
+
+  /* El disco de la flecha. Hereda el color del botón, así que en el hover
+     se invierte solo con el resto. */
+  .disco {
+    display: grid;
+    place-items: center;
+    width: 2rem;
+    height: 2rem;
+    flex: none;
+    border-radius: 999px;
+    background: color-mix(in srgb, currentColor 11%, transparent);
+    transition: transform var(--transicion), background-color var(--transicion);
+  }
+  .disco svg {
+    /* Un punto a la izquierda: la flecha centrada por cálculo se ve corrida
+       hacia la derecha, porque la punta pesa más que la cola. */
+    transform: translateX(-0.5px);
+  }
+
   .boton:hover {
     background: var(--accion-hover-fondo);
     color: var(--accion-hover-tinta);
     border-color: var(--accion-hover-fondo);
   }
-  .boton:hover svg { transform: translateX(3px); }
+  .boton:hover .disco {
+    transform: translate(3px, -1px) scale(1.06);
+    background: color-mix(in srgb, currentColor 18%, transparent);
+  }
+  .boton:active { transform: scale(0.98); }
 
-  /* La secundaria es aún más tenue: el filete apenas se insinúa. */
+  /* La secundaria es más tenue: el filete apenas se insinúa. */
   .secundaria {
     color: var(--tinta-suave);
     border-color: var(--linea);
@@ -64,6 +97,8 @@ const fuera = externo || href.startsWith("http");
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .boton:hover svg { transform: none; }
+    .boton, .disco { transition: background-color 0.01ms, color 0.01ms, border-color 0.01ms; }
+    .boton:hover .disco { transform: none; }
+    .boton:active { transform: none; }
   }
 </style>

@@ -25,7 +25,7 @@ const { items, titulo, rotulo } = Astro.props;
 
 {
   items.length > 0 && (
-    <section class="tira">
+    <section class="tira banda-crudo" data-revelar>
       <div class="interior">
         <div class="cabeza">
           <div class="encabezado">
@@ -56,7 +56,7 @@ const { items, titulo, rotulo } = Astro.props;
 }
 
 <style>
-  .tira { padding: var(--paso) var(--margen); background: var(--fondo-alt); }
+  .tira { padding: var(--paso) var(--margen) var(--paso-abajo); background: var(--fondo-alt); }
   .interior { max-width: var(--ancho); margin-inline: auto; }
 
   .cabeza {
@@ -96,7 +96,7 @@ const { items, titulo, rotulo } = Astro.props;
     content: "";
     position: absolute;
     inset: 0;
-    background: linear-gradient(to top, rgb(5 35 25 / 0.75) 0%, rgb(5 35 25 / 0) 55%);
+    background: linear-gradient(to top, rgb(var(--velo) / 0.75) 0%, rgb(var(--velo) / 0) 55%);
   }
 
   a :global(img) {

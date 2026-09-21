@@ -4,6 +4,7 @@ import Cabecera from "~/components/Cabecera.astro";
 import Pie from "~/components/Pie.astro";
 import { getImage } from "astro:assets";
 import { ClientRouter } from "astro:transitions";
+import Revelar from "~/components/Revelar.astro";
 import portada from "~/assets/fotos/complejo/predio-dron.jpg";
 import { datosSitio } from "~/lib/contacto";
 
@@ -27,6 +28,10 @@ const tituloCompleto =
 
 <!doctype html>
 <html lang="es-AR">
+  <!-- Marca que hay JS antes de que pinte nada, así el revelado por scroll
+       puede esconder el contenido sin riesgo de dejar la página en blanco
+       si el script no llega. Va inline y arriba de todo a propósito. -->
+  <script is:inline>document.documentElement.classList.add("js");</script>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -67,6 +72,8 @@ const tituloCompleto =
   </head>
 
   <body>
+    <div class="grano" aria-hidden="true"></div>
+    <Revelar />
     <div class="cargando" aria-hidden="true"></div>
     <a class="saltar" href="#contenido">Saltar al contenido</a>
     <Cabecera unidadActiva={unidadActiva} />

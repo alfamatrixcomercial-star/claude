@@ -104,7 +104,7 @@ const datosEstructurados = {
       poster={portada}
       alt="El complejo Mirador Waikiki visto desde el mar con un dron: el restaurante, las piletas, el parque y la playa sobre la costa de Mar del Plata"
     />
-    <div class="texto">
+    <div class="texto sobre-foto">
       <p class="eyebrow">
         {sitio.direccion.localidad} · desde {sitio.desde}
       </p>
@@ -121,7 +121,7 @@ const datosEstructurados = {
   <!-- Las cuatro puertas, en el primer scroll. Nadie atraviesa tres
        secciones de casamientos para reservar una mesa. -->
   <h2 class="vo">Las cuatro unidades del complejo</h2>
-  <div class="puertas">
+  <div class="puertas" data-revelar-grupo="4">
     {
       puertas.map((p, i) => (
         <Puerta
@@ -134,14 +134,14 @@ const datosEstructurados = {
           ctaHref={p.ctaHref}
           foto={p.unidad.data.hero}
           ornamento={p.unidad.data.ornamento}
-          orden={i}
+          destacada={i === 0}
         />
       ))
     }
   </div>
 
   <!-- Un solo lugar -->
-  <section class="relato claro">
+  <section class="relato banda-salvia" data-revelar>
     <div class="interior">
       <div class="palabra">
         <p class="firma">{sitio.firma}</p>
@@ -168,7 +168,7 @@ const datosEstructurados = {
   <!-- Horarios: imagen y las dos líneas, nada más -->
   {
     horarios.length > 0 && restaurante && (
-      <section class="horarios banda-teal">
+      <section class="horarios banda-celeste" data-revelar>
         <figure>
           <Foto
             foto={restaurante.data.hero}
@@ -225,7 +225,7 @@ const datosEstructurados = {
   <Confianza />
 
   <!-- Cómo llegar -->
-  <section class="llegar claro">
+  <section class="llegar banda-crudo" data-revelar>
     <div class="interior">
       <div>
         <div class="encabezado"><p class="rotulo">Cómo llegar</p><h2>Dónde estamos</h2></div>
@@ -259,7 +259,9 @@ const datosEstructurados = {
     flex-direction: column;
     justify-content: flex-end;
     max-width: var(--ancho);
-    min-height: clamp(19rem, 46vh, 27rem);
+    /* dvh y no vh: en Safari de iOS la barra de direcciones cambia de alto
+       al scrollear y con vh el hero salta. */
+    min-height: min(78dvh, 46rem);
     margin-inline: auto;
     padding: var(--paso) var(--margen) var(--paso-corto);
     color: var(--sobre-oscuro);
@@ -300,22 +302,39 @@ const datosEstructurados = {
     opacity: 0.88;
   }
 
+  /* Bento, no catálogo. Cuatro columnas iguales aplanan la jerarquía y se
+     leen como una grilla de plantilla; acá el restaurante ocupa la mitad
+     izquierda entera y las otras tres se apilan al costado.
+
+     Sube tapando el borde del hero: el solape es lo que da profundidad
+     real, y de paso rompe la línea recta entre secciones. */
   .puertas {
+    position: relative;
+    z-index: var(--z-base);
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: clamp(0.85rem, 1.6vw, 1.5rem);
+    grid-template-columns: minmax(0, 1fr);
+    gap: clamp(0.85rem, 1.5vw, 1.25rem);
     max-width: var(--ancho);
     margin-inline: auto;
-    padding: clamp(2rem, 4vw, 3.25rem) var(--margen);
+    margin-top: clamp(-3.5rem, -4vw, -2rem);
+    padding: 0 var(--margen) var(--paso-corto);
   }
   @media (min-width: 900px) {
-    .puertas { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .puertas {
+      grid-template-columns: minmax(0, 1.08fr) minmax(0, 1fr);
+      /* auto y no 1fr: con filas iguales las tres compactas se estiran a la
+         altura de la grande y el botón queda flotando lejos del texto. */
+      grid-template-rows: auto auto auto;
+      align-items: start;
+    }
+    /* La destacada toma la columna izquierda entera. */
+    .puertas > :global(.destacada) { grid-row: 1 / -1; height: 100%; }
   }
 
   .relato {
     background: var(--fondo-alt);
     border-block: 1px solid var(--linea);
-    padding: var(--paso) var(--margen);
+    padding: var(--paso) var(--margen) var(--paso-abajo);
   }
   .relato .interior {
     display: grid;
@@ -344,7 +363,7 @@ const datosEstructurados = {
     gap: clamp(2rem, 5vw, 4.5rem);
     max-width: var(--ancho);
     margin-inline: auto;
-    padding: var(--paso) var(--margen);
+    padding: var(--paso) var(--margen) var(--paso-abajo);
   }
   @media (min-width: 900px) {
     .horarios { grid-template-columns: 1fr 1fr; }
@@ -411,7 +430,7 @@ const datosEstructurados = {
   .u-balneario { --u: var(--u-balneario); }
   .u-eventos { --u: var(--u-eventos); }
 
-  .llegar { padding: var(--paso) var(--margen); }
+  .llegar { padding: var(--paso) var(--margen) var(--paso-abajo); }
   .llegar .interior {
     display: grid;
     gap: clamp(1.75rem, 4vw, 3rem);

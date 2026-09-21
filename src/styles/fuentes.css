@@ -11,47 +11,6 @@
    mismo dominio, así que no hay una conexión extra a Google en la primera
    pintura, que es lo que importa con conexión móvil floja. */
 @font-face {
-  font-family: "Poppins";
-  src: url("/fonts/poppins-300.woff2") format("woff2");
-  font-weight: 300;
-  font-style: normal;
-  font-display: swap;
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-@font-face {
-  font-family: "Poppins";
-  src: url("/fonts/poppins-400.woff2") format("woff2");
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-@font-face {
-  font-family: "Poppins";
-  src: url("/fonts/poppins-500.woff2") format("woff2");
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-@font-face {
-  font-family: "Poppins";
-  src: url("/fonts/poppins-600.woff2") format("woff2");
-  font-weight: 600;
-  font-style: normal;
-  font-display: swap;
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-@font-face {
-  font-family: "Poppins";
-  src: url("/fonts/poppins-700.woff2") format("woff2");
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-
-@font-face {
   font-family: "Bodoni Moda";
   src: url("/fonts/bodoni-400-italic.woff2") format("woff2");
   font-weight: 400;
@@ -100,10 +59,26 @@
 }
 */
 
+/* Instrument Sans en variable: un archivo de 31 KB cubre de 400 a 700 en
+   continuo. Reemplaza a las cinco caras estáticas de Poppins, que pesaban
+   40 KB en cinco pedidos y sólo daban cinco pesos sueltos.
+
+   Poppins es el geométrico por defecto de la última década: la misma 'o'
+   circular perfecta y la misma x-height enorme que tienen diez mil sitios.
+   Este grotesco tiene dibujo propio —la 'a' de doble piso, la 'g', la 'R'—
+   sin pelearse con la Bodoni de los títulos. */
+@font-face {
+  font-family: "Instrument Sans";
+  src: url("/fonts/instrument-sans.woff2") format("woff2-variations");
+  font-weight: 400 700;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   --f-display: "Ramona", "Bodoni Moda", Georgia, serif;
-  --f-texto: "Poppins", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --f-texto: "Instrument Sans", "Segoe UI", system-ui, -apple-system, sans-serif;
   --f-firma: "Apparel", "Bodoni Moda", Georgia, "Times New Roman", serif;
   /* Rótulos, botones y datos siempre en la sans. */
-  --f-ui: "Poppins", "Segoe UI", system-ui, sans-serif;
+  --f-ui: "Instrument Sans", "Segoe UI", system-ui, sans-serif;
 }

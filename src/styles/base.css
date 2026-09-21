@@ -27,20 +27,22 @@ body {
   text-rendering: optimizeLegibility;
 }
 
+/* El tracking se cierra a medida que crece el cuerpo. Una Bodoni de 88 px
+   con el espaciado de un párrafo se ve suelta; una de 20 px con el de un
+   titular se ve apretada. Cada escalón lleva el suyo. */
 h1, h2, h3, h4 {
   margin: 0;
   font-family: var(--f-display);
   font-weight: 400;
-  line-height: 1.18;
-  letter-spacing: 0;
+  line-height: 1.08;
   text-wrap: balance;
 }
-h3, h4 { font-weight: 500; }
-h1 { font-size: var(--t-h1); }
-h2 { font-size: var(--t-h2); }
-h3 { font-size: var(--t-h3); letter-spacing: -0.02em; }
+h3, h4 { font-weight: 500; line-height: 1.22; }
+h1 { font-size: var(--t-h1); letter-spacing: var(--track-h1); }
+h2 { font-size: var(--t-h2); letter-spacing: var(--track-h2); }
+h3 { font-size: var(--t-h3); letter-spacing: -0.018em; }
 
-p { margin: 0; }
+p { margin: 0; text-wrap: pretty; }
 ul, ol { margin: 0; padding: 0; }
 
 img, svg, video { display: block; max-width: 100%; }
@@ -51,6 +53,17 @@ a { color: inherit; text-underline-offset: 0.22em; }
 /* Sin el retardo de 300 ms del tap en móvil. */
 a, button, summary, [role="button"] { touch-action: manipulation; }
 button, summary, [role="button"] { cursor: pointer; }
+
+/* Respuesta al apretar. Sin esto, tocar un botón no devuelve nada: el
+   color cambia recién al soltar y la interfaz se siente muerta. */
+a:active, button:active, summary:active, [role="button"]:active {
+  transform: scale(0.985);
+}
+@media (prefers-reduced-motion: reduce) {
+  a:active, button:active, summary:active, [role="button"]:active {
+    transform: none;
+  }
+}
 
 /* Todo lo que se toca llega a 44 px de alto sin que cambie el diseño:
    el área crece por fuera de la caja visible. */
@@ -72,7 +85,7 @@ button, summary, [role="button"] { cursor: pointer; }
   outline-offset: 3px;
 }
 
-::selection { background: var(--acento); color: var(--verde-profundo); }
+::selection { background: var(--acento); color: var(--sobre-acento); }
 
 /* Sólo para lectores de pantalla */
 .vo {
@@ -91,7 +104,7 @@ button, summary, [role="button"] { cursor: pointer; }
   top: -100px;
   z-index: var(--z-visor);
   background: var(--acento);
-  color: var(--verde-profundo);
+  color: var(--sobre-acento);
   font-weight: 600;
   padding: 0.75rem 1.25rem;
   transition: top 0.15s;
@@ -135,6 +148,13 @@ button, summary, [role="button"] { cursor: pointer; }
    La unidad de superficie del sitio. Esquinas redondeadas, borde propio y
    elevación; al pasar el mouse sube un nivel y el borde se enciende.
    ──────────────────────────────────────────────────────────────────────── */
+/* Doble bisel: la caja no se apoya plana sobre el papel, va montada en una
+   bandeja. El marco exterior es un tono intermedio con un filete finito; el
+   núcleo va adentro, con su propio fondo y un brillo de 1 px arriba.
+
+   El radio interior es el exterior menos el bisel, así las dos curvas quedan
+   concéntricas. Con el mismo radio en los dos, el borde interno se ve más
+   redondo que el externo y la pieza parece mal armada. */
 .caja {
   position: relative;
   background: var(--superficie);
@@ -154,6 +174,52 @@ button, summary, [role="button"] { cursor: pointer; }
   border-color: var(--borde-caja-activo);
   box-shadow: var(--elev-3);
   transform: translateY(-4px);
+}
+
+/* Bandeja: la caja montada, para las piezas que mandan.
+   No se apoya plana sobre el papel: el marco exterior es un tono intermedio
+   con un filete finito, y el núcleo va adentro con su propio fondo y un
+   brillo de 1 px arriba, como un vidrio en una montura de aluminio.
+
+   El radio del núcleo es el de la bandeja menos el bisel, así las dos curvas
+   quedan concéntricas. Con el mismo radio en los dos, el borde de adentro se
+   ve más redondo que el de afuera y la pieza parece mal armada. */
+.bandeja {
+  position: relative;
+  padding: var(--bisel);
+  background: var(--superficie-bisel);
+  border: 1px solid var(--borde-caja);
+  border-radius: var(--radio-grande);
+  box-shadow: var(--elev-2);
+  transition:
+    transform var(--transicion),
+    box-shadow var(--transicion),
+    border-color var(--transicion),
+    background-color var(--transicion);
+}
+.bandeja-nucleo {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: var(--superficie-alta);
+  border-radius: var(--radio-interior);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.75);
+  overflow: hidden;
+}
+.bandeja:hover,
+.bandeja:focus-within {
+  border-color: var(--borde-caja-activo);
+  box-shadow: var(--elev-4);
+  transform: translateY(-5px);
+}
+.bandeja img { transition: transform 620ms var(--curva); }
+.bandeja:hover img { transform: scale(1.04); }
+
+@media (prefers-reduced-motion: reduce) {
+  .bandeja, .bandeja img { transition: none; }
+  .bandeja:hover, .bandeja:focus-within { transform: none; }
+  .bandeja:hover img { transform: none; }
 }
 
 /* La foto de una caja acompaña el hover con un acercamiento contenido. */
@@ -212,4 +278,63 @@ button, summary, [role="button"] { cursor: pointer; }
   ::view-transition-old(root),
   ::view-transition-new(root) { animation: none; }
   .cargando { transition: none; }
+}
+
+
+/* ── Grano ─────────────────────────────────────────────────────────────────
+   Una capa fija de ruido sobre todo el sitio, al 3,5 %. Es lo que separa un
+   fondo plano de una hoja impresa: sin esto el crema se ve como un color de
+   pantalla, con esto se ve como papel.
+
+   Va fija y con pointer-events: none. Pegada a un contenedor que scrollea,
+   el navegador la repinta en cada cuadro y se caen los fps en móvil. */
+.grano {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-grano);
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml;utf8,\
+<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'>\
+<filter id='r'><feTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='3' stitchTiles='stitch'/>\
+<feColorMatrix type='saturate' values='0'/></filter>\
+<rect width='160' height='160' filter='url(%23r)'/></svg>");
+  background-size: 160px 160px;
+}
+@media (prefers-reduced-motion: no-preference) {
+  /* Nada: el grano no se mueve. Queda declarado para que se vea que es una
+     decisión y no un olvido. */
+}
+
+/* ── Revelado al entrar ────────────────────────────────────────────────────
+   Nada aparece de golpe. Cada bloque sube desde 1,5 rem con un desenfoque
+   mínimo, y los hijos entran escalonados.
+
+   Sólo transform, opacity y filter: ninguna de las tres obliga al navegador
+   a recalcular el layout. */
+/* Va colgado de .js, que lo pone un script mínimo en el <head>. Si el JS
+   no corre, la regla no existe y el contenido se ve: esconder primero y
+   confiar en que después alguien lo muestre deja la página en blanco. */
+.js [data-revelar] {
+  opacity: 0;
+  transform: translate3d(0, 1.5rem, 0);
+  filter: blur(6px);
+  transition:
+    opacity var(--transicion-larga),
+    transform var(--transicion-larga),
+    filter var(--transicion-larga);
+  transition-delay: var(--retardo, 0ms);
+}
+.js [data-revelar].visible {
+  opacity: 1;
+  transform: none;
+  filter: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .js [data-revelar] {
+    opacity: 1;
+    transform: none;
+    filter: none;
+    transition: none;
+  }
 }

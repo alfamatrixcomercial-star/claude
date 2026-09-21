@@ -1,0 +1,57 @@
+---
+/**
+ * Revelado al entrar en pantalla.
+ *
+ * Todo lo que lleva `data-revelar` sube 1,5 rem y se enfoca al aparecer.
+ * Un contenedor con `data-revelar-grupo` escalona a sus hijos directos.
+ *
+ * Con IntersectionObserver y no con un listener de scroll: el listener se
+ * dispara en cada cuadro y obliga al navegador a recalcular posiciones todo
+ * el tiempo, que en un celular se nota enseguida.
+ */
+---
+
+<script>
+  const PASO = 90; /* ms entre un hijo y el siguiente */
+
+  function preparar(raiz: ParentNode = document) {
+    /* Los grupos reparten el retardo entre sus hijos antes de observar. */
+    raiz.querySelectorAll<HTMLElement>("[data-revelar-grupo]").forEach((g) => {
+      const tope = Number(g.dataset.revelarGrupo) || Infinity;
+      [...g.children].forEach((hijo, i) => {
+        const el = hijo as HTMLElement;
+        if (!el.hasAttribute("data-revelar")) el.setAttribute("data-revelar", "");
+        el.style.setProperty("--retardo", `${Math.min(i, tope) * PASO}ms`);
+      });
+    });
+
+    const sinVer = [...raiz.querySelectorAll<HTMLElement>("[data-revelar]")].filter(
+      (el) => !el.classList.contains("visible"),
+    );
+    if (!sinVer.length) return;
+
+    const ojo = new IntersectionObserver(
+      (entradas) => {
+        for (const e of entradas) {
+          if (!e.isIntersecting) continue;
+          e.target.classList.add("visible");
+          ojo.unobserve(e.target);
+        }
+      },
+      /* Entra cuando asoma el borde de arriba, no cuando ya está entero
+         adentro: si no, en pantallas altas el bloque se revela tarde. */
+      { rootMargin: "0px 0px -12% 0px", threshold: 0.01 },
+    );
+
+    for (const el of sinVer) {
+      /* Lo que ya está en pantalla al cargar no espera al scroll. */
+      const r = el.getBoundingClientRect();
+      if (r.top < window.innerHeight * 0.92) el.classList.add("visible");
+      else ojo.observe(el);
+    }
+  }
+
+  preparar();
+  /* Astro reemplaza el <body> al navegar: hay que volver a engancharlo. */
+  document.addEventListener("astro:after-swap", () => preparar());
+</script>

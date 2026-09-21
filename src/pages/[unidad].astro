@@ -121,7 +121,7 @@ const datosEstructurados = {
         />
       </div>
       <div class="marco-hero">
-        <div class="texto">
+        <div class="texto sobre-foto">
           {
             d.marca ? (
               <Image
@@ -175,7 +175,7 @@ const datosEstructurados = {
 
     {
       d.cartaUrl && (
-        <section class={`bloque ${banda}`}>
+        <section class={`bloque ${banda}`} data-revelar>
           <div class="interior-simple salida">
             <div>
               <div class="encabezado"><p class="rotulo">Para comer</p><h2>La carta</h2></div>
@@ -192,7 +192,7 @@ const datosEstructurados = {
 
     {
       d.listas.length > 0 && (
-        <section class={`bloque ${banda}`}>
+        <section class={`bloque ${banda}`} data-revelar>
           <div class="interior-simple listas">
             {d.listas.map((l) => (
               <div>
@@ -209,7 +209,7 @@ const datosEstructurados = {
 
     {
       d.derivacion && (
-        <section class={`derivacion ${banda}`}>
+        <section class={`derivacion ${banda}`} data-revelar>
           <div class="interior-simple">
             <div class="encabezado">
               <p class="rotulo">{d.derivacion.rotulo}</p>
@@ -234,7 +234,7 @@ const datosEstructurados = {
 
     {
       d.video && (
-        <section class="bloque banda-noche">
+        <section class="bloque banda-noche" data-revelar>
           <div class="interior-simple">
             <div class="encabezado"><p class="rotulo">El lugar</p><h2>{d.video.titulo}</h2></div>
             <Video
@@ -250,7 +250,7 @@ const datosEstructurados = {
 
     {
       d.galeria.length > 0 && (
-        <section class="bloque">
+        <section class="bloque" data-revelar>
           <div class="interior-simple">
             <Galeria fotos={d.galeria} unidad={id} titulo="El lugar" />
           </div>
@@ -270,7 +270,7 @@ const datosEstructurados = {
   .u-balneario { --u: var(--u-balneario); --u-txt: var(--u-balneario-txt); }
   .u-eventos { --u: var(--u-eventos); --u-txt: var(--u-eventos-txt); }
 
-  .hero { position: relative; isolation: isolate; }
+  .hero { position: relative; isolation: isolate; overflow: hidden; }
   .hero::after {
     content: "";
     position: absolute;
@@ -278,16 +278,16 @@ const datosEstructurados = {
     height: 3px;
     background: var(--u);
   }
-  .fondo { position: absolute; inset: 0; z-index: -1; background: var(--verde-profundo); }
+  .fondo { position: absolute; inset: 0; z-index: -1; background: var(--fondo-alt); }
   .fondo::after {
     content: "";
     position: absolute;
     inset: 0;
     background: linear-gradient(
       to top,
-      rgb(5 35 25 / 0.9) 0%,
-      rgb(5 35 25 / 0.72) 45%,
-      rgb(5 35 25 / 0.45) 100%
+      rgb(var(--velo) / 0.5) 0%,
+      rgb(var(--velo) / 0.22) 45%,
+      rgb(var(--velo) / 0.1) 100%
     );
   }
   .fondo :global(img) { width: 100%; height: 100%; object-fit: cover; }
@@ -300,13 +300,32 @@ const datosEstructurados = {
     margin-inline: auto;
     padding: var(--paso) var(--margen) var(--paso-corto);
   }
+  /* La mancha que hace legible el texto sobre la foto. Se desvanece antes
+     del borde, así no se ve como un recuadro, y deja limpio el resto de la
+     imagen. Es lo que permite que el velo general sea liviano. */
+  .texto::before {
+    content: "";
+    position: absolute;
+    inset: -3rem -12rem -2.5rem -6rem;
+    z-index: -1;
+    background: radial-gradient(
+      118% 132% at 18% 54%,
+      rgb(var(--velo) / 0.8) 0%,
+      rgb(var(--velo) / 0.62) 38%,
+      rgb(var(--velo) / 0.28) 62%,
+      rgb(var(--velo) / 0) 82%
+    );
+    pointer-events: none;
+  }
+
   .texto {
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     justify-content: flex-end;
     gap: 1rem;
-    min-height: clamp(19rem, 44vh, 27rem);
+    min-height: min(62dvh, 34rem);
     color: var(--sobre-oscuro);
   }
 
@@ -328,7 +347,7 @@ const datosEstructurados = {
   }
   @media (min-width: 860px) {
     .con-retrato .marco-hero { grid-template-columns: 1fr auto; }
-    .con-retrato .texto { min-height: clamp(19rem, 44vh, 27rem); }
+    .con-retrato .texto { min-height: min(62dvh, 34rem); }
     .con-retrato :global(.retrato) { width: clamp(16rem, 28vw, 22rem); }
   }
   /* Sobre el panel, la foto de fondo es textura: se oscurece más para que
@@ -336,9 +355,9 @@ const datosEstructurados = {
   .con-retrato .fondo::after {
     background: linear-gradient(
       to top,
-      rgb(5 35 25 / 0.94) 0%,
-      rgb(5 35 25 / 0.86) 50%,
-      rgb(5 35 25 / 0.7) 100%
+      rgb(var(--velo) / 0.6) 0%,
+      rgb(var(--velo) / 0.38) 50%,
+      rgb(var(--velo) / 0.22) 100%
     );
   }
   /* Cuando la unidad tiene marca propia, el logo ocupa el lugar del rótulo
@@ -362,10 +381,9 @@ const datosEstructurados = {
   .texto :global(.estado),
   .texto :global(.estado .detalle) { color: var(--sobre-oscuro); }
   .acciones { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 0.5rem; }
-  .acciones :global(.secundaria) { color: var(--sobre-oscuro); border-color: var(--sobre-oscuro); }
-  .acciones :global(.secundaria:hover) { background: var(--sobre-oscuro); color: var(--verde-profundo); }
+  /* El color de los botones lo pone .sobre-foto, no una regla suelta. */
 
-  .cuerpo { padding: var(--paso) var(--margen); }
+  .cuerpo { padding: var(--paso) var(--margen) var(--paso-abajo); }
   .interior {
     display: grid;
     gap: clamp(2rem, 5vw, 4rem);
@@ -402,7 +420,7 @@ const datosEstructurados = {
   }
   .parrafo { max-width: var(--medida); }
 
-  .bloque { padding: var(--paso) var(--margen); }
+  .bloque { padding: var(--paso) var(--margen) var(--paso-abajo); }
   .interior-simple { max-width: var(--ancho); margin-inline: auto; }
 
   .nota { color: var(--tinta-suave); max-width: var(--medida); }
@@ -452,7 +470,7 @@ const datosEstructurados = {
 
   .derivacion {
     border-top: 1px solid var(--linea);
-    padding: var(--paso) var(--margen);
+    padding: var(--paso) var(--margen) var(--paso-abajo);
   }
   /* Derivación y «también en el complejo» comparten material: pegadas,
      sus pasos verticales se sumaban. El corte lo marca el cambio de bloque,

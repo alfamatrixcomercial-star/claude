@@ -19,7 +19,7 @@ const otras = (await getCollection("unidades"))
 <section class="cruce">
   <div class="interior">
     <h2>También en el complejo</h2>
-    <ul>
+    <ul data-revelar-grupo="3">
       {
         otras.map((u) => (
           <li class:list={["caja", `u-${u.id}`]}>
@@ -100,4 +100,12 @@ const otras = (await getCollection("unidades"))
   .u-hotel { --u: var(--u-hotel-txt); }
   .u-balneario { --u: var(--u-balneario-txt); }
   .u-eventos { --u: var(--u-eventos-txt); }
+
+  /* La tarjeta entera lleva a la unidad. Antes sólo respondía el título:
+     una caja que se levanta al pasar el mouse y no se deja tocar en el
+     medio es una promesa rota. El foco de teclado sigue yendo al enlace. */
+  li { position: relative; }
+  li > a::after { content: ""; position: absolute; inset: 0; }
+  /* El estado queda por encima para que se pueda seleccionar su texto. */
+  li :global(.estado) { position: relative; z-index: var(--z-base); }
 </style>

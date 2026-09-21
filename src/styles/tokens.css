@@ -1,226 +1,211 @@
 /* ─────────────────────────────────────────────────────────────────────────
-   Mirador Waikiki · sistema oscuro
+   Mirador Waikiki · sistema editorial
 
-   Los colores siguen siendo los del brandboard. Lo que cambió es el peso
-   con que se usan: el sitio va sobre el verde profundo del manual y el
-   acento es la arena, en filete fino y en versalitas espaciadas, no en
-   bloques rellenos.
+   Vibe: papel cálido, serif de alto contraste para los títulos y grano de
+   imprenta sobre todo. Un complejo de 1999 sobre las rocas no es una app:
+   se parece más a una revista de costa que a un panel.
 
-   Reglas del sistema:
-   · Nada de rellenos saturados. El acento se usa en línea de 1 px,
-     en texto y en el hover. Un botón relleno es la excepción, no la regla.
-   · Sin sombras y sin radio: la separación es por filete y por material.
-   · Los títulos van en peso liviano y con la letra abierta, no en negrita.
+   Reglas:
+   · Un solo acento en todo el sitio, el verde de la paleta. Los colores por
+     unidad son identidad de página, no un segundo acento: nunca conviven
+     dos en la misma pantalla.
+   · Las sombras llevan la temperatura del papel. Ninguna es negra.
+   · El fondo cambia de temperatura, nunca de oscuridad: el sitio es claro
+     de punta a punta. Un bloque oscuro suelto en una página clara se lee
+     como un copiar y pegar, no como una decisión.
    ───────────────────────────────────────────────────────────────────────── */
 
 :root {
-  /* ── Paleta ──────────────────────────────────────────────────────────
-     La que pasó el cliente. Terracota, arena y teal coinciden con el
-     brandboard; el verde es más brillante que el olivo que figuraba ahí.
-     El ámbar no está en esta paleta, así que no se usa en ningún lado. */
+  /* ── Paleta del cliente ──────────────────────────────────────────────── */
   --verde: #4a9e52;
   --terracota: #a2745e;
   --arena: #bda38c;
   --teal: #5d878a;
-
-  /* Neutros de estructura, del manual */
   --verde-profundo: #052319;
-  --hueso: #f1f1f1;
   --crudo: #eeebdb;
 
-  /* Claros derivados, para que todo se lea sobre el verde profundo */
-  --verde-claro: #5fb268;
-  --arena-clara: #cfb79f;
-  --teal-claro: #7fa9ac;
-  --terracota-clara: #c2907a;
-
-  /* Roles */
-  --fondo: var(--verde-profundo);
-  --fondo-alt: #0a2c20;
+  /* ── Papel ───────────────────────────────────────────────────────────── */
+  --fondo: #faf8f2;
+  --fondo-alt: var(--crudo);
   --fondo-claro: var(--crudo);
-  --tinta: #efede4;
-  --tinta-suave: #a8bcb0;
-  --linea: #17402f;
-  --linea-fuerte: #8a9a92;
 
-  /* Acento: la arena del brandboard aclarada hacia el dorado pálido de la
-     referencia. 11.04 sobre el fondo, contra 6.96 de la arena plena: se lee
-     como un detalle fino y no como un bloque de color. */
-  --acento: #e8cfa8;
-  --acento-tenue: #6d7d6f;
+  /* ── Tinta ───────────────────────────────────────────────────────────── */
+  --tinta: #16221c;
+  --tinta-suave: #4b574e;
+  --linea: #e0ddcd;
+  --linea-fuerte: #9aa094;
 
-  /* La acción es un contorno, no un bloque de color. Cuando se rellena,
-     va arena con tinta verde profundo: 6.96, holgado. */
+  /* ── Acento: uno solo, el verde de la paleta ─────────────────────────── */
+  --acento: #2c6633;
+  --acento-tenue: #93a795;
+  --acento-relleno: #357a3c;
+  --sobre-acento: #faf8f2;
+
   --accion-fondo: transparent;
-  --accion-tinta: var(--acento);
-  --accion-borde: #4a5c4e;
-  --accion-hover-fondo: var(--acento);
-  --accion-hover-tinta: var(--verde-profundo);
-  --foco: var(--acento);
+  --accion-tinta: #2c6633;
+  --accion-borde: #b6c6b3;
+  --accion-hover-fondo: var(--acento-relleno);
+  --accion-hover-tinta: var(--sobre-acento);
+  --foco: #2c6633;
 
-  --sobre-oscuro: #efede4;
-  --sobre-oscuro-suave: #a8bcb0;
+  /* Sobre foto el fondo es la imagen, no el papel. */
+  --sobre-oscuro: #f7f5ee;
+  --sobre-oscuro-suave: #d9d6c9;
+  --velo: 24 26 22;
 
-  /* Color por unidad, en las versiones que se leen sobre oscuro */
-  --u-restaurante: var(--verde-claro);
-  --u-hotel: var(--arena-clara);
-  --u-balneario: var(--teal-claro);
-  --u-eventos: var(--terracota-clara);
-  --u-restaurante-txt: var(--verde-claro);
-  --u-hotel-txt: var(--arena-clara);
-  --u-balneario-txt: var(--teal-claro);
-  --u-eventos-txt: var(--terracota-clara);
+  /* ── Identidad por unidad ────────────────────────────────────────────── */
+  --u-restaurante: #2c6633;
+  --u-hotel: #6a5440;
+  --u-balneario: #33585c;
+  --u-eventos: #7a5040;
+  --u-restaurante-txt: var(--u-restaurante);
+  --u-hotel-txt: var(--u-hotel);
+  --u-balneario-txt: var(--u-balneario);
+  --u-eventos-txt: var(--u-eventos);
 
-  /* Escala tipográfica: más chica y más aireada que antes */
-  --t-eyebrow: 0.7rem;
-  --t-cuerpo: clamp(1rem, 0.32vw + 0.94rem, 1.0625rem);
-  --t-guia: clamp(1.125rem, 0.7vw + 0.98rem, 1.3125rem);
-  --t-h3: clamp(1.1875rem, 0.8vw + 1rem, 1.4375rem);
-  --t-h2: clamp(1.5rem, 1.7vw + 1.05rem, 2.25rem);
-  --t-h1: clamp(1.75rem, 2.4vw + 1.05rem, 3.125rem);
-  --t-display: clamp(2rem, 3.1vw + 1.05rem, 4rem);
+  /* ── Tipografía ──────────────────────────────────────────────────────────
+     Los títulos suben y se cierran: en editorial el display manda. El
+     tracking negativo crece con el tamaño, que es como se compone de verdad
+     —una Bodoni de 88 px con el espaciado de un párrafo se ve suelta. */
+  --t-eyebrow: 0.72rem;
+  --t-cuerpo: clamp(1rem, 0.3vw + 0.95rem, 1.0625rem);
+  --t-guia: clamp(1.1875rem, 0.85vw + 1rem, 1.4375rem);
+  --t-h3: clamp(1.25rem, 0.9vw + 1.05rem, 1.5625rem);
+  --t-h2: clamp(1.75rem, 2.4vw + 1.1rem, 3rem);
+  --t-h1: clamp(2.125rem, 3.6vw + 1.2rem, 4.25rem);
+  --t-display: clamp(2.5rem, 5.4vw + 1rem, 6rem);
 
-  /* El paso venía de 150 px en desktop. Con el fondo plano eso era un
-     hueco; con las bandas alcanza bastante menos para separar. */
-  --paso: clamp(3.5rem, 7vw, 7rem);
-  --paso-corto: clamp(2rem, 3.6vw, 3rem);
-  --medida: 64ch;
-  --ancho: 1140px;
-  --margen: clamp(1.5rem, 5vw, 3.5rem);
+  --track-display: -0.035em;
+  --track-h1: -0.03em;
+  --track-h2: -0.022em;
+  --track-eyebrow: 0.2em;
+
+  /* ── Ritmo ───────────────────────────────────────────────────────────────
+     El paso de abajo es mayor que el de arriba. Ópticamente, un bloque con
+     el mismo aire arriba y abajo se ve caído hacia el final. */
+  --paso: clamp(4.5rem, 9vw, 9rem);
+  --paso-abajo: clamp(5.25rem, 10.5vw, 10.5rem);
+  --paso-corto: clamp(2.25rem, 4vw, 3.25rem);
+  --medida: 62ch;
+  --ancho: 1240px;
+  --ancho-angosto: 980px;
+  --margen: clamp(1.5rem, 5vw, 4rem);
   --barra: 4rem;
 
-  /* ── Cajas ───────────────────────────────────────────────────────────
-     Radio, elevación y transición según UI/UX Pro Max: radio de 12 a 16 px,
-     escala de elevación de cuatro niveles y micro-interacciones de 150 a
-     300 ms. Sobre fondo oscuro la elevación se construye con una superficie
-     más clara y un borde, no sólo con sombra, que casi no se ve. */
-  --radio: 14px;
+  /* ── Materia ─────────────────────────────────────────────────────────────
+     Radios concéntricos: el interior lleva el radio del exterior menos su
+     propio padding, así las curvas quedan paralelas y no desfasadas. */
+  --radio-grande: 24px;
+  --radio: 16px;
   --radio-chico: 10px;
-  --radio-grande: 20px;
+  --bisel: 6px;
+  --radio-interior: calc(var(--radio-grande) - var(--bisel));
 
-  --superficie: #0b3025;
-  --superficie-alta: #10402f;
-  --borde-caja: #1d4c39;
-  --borde-caja-activo: #3f6b52;
+  --superficie: #fdfcf7;
+  --superficie-alta: #ffffff;
+  --superficie-bisel: #efece0;
+  --borde-caja: #e4e0d0;
+  --borde-caja-activo: #b6c6b3;
 
-  --elev-1: 0 1px 2px rgb(0 0 0 / 0.24);
-  --elev-2: 0 4px 12px rgb(0 0 0 / 0.28);
-  --elev-3: 0 10px 28px rgb(0 0 0 / 0.34);
-  --elev-4: 0 20px 48px rgb(0 0 0 / 0.4);
+  /* Sombras con la temperatura del papel: una sombra negra sobre crema se
+     ve gris sucio. Estas llevan el marrón del fondo. */
+  --elev-1: 0 1px 2px rgb(70 58 38 / 0.05);
+  --elev-2: 0 2px 4px rgb(70 58 38 / 0.04), 0 8px 20px rgb(70 58 38 / 0.06);
+  --elev-3: 0 4px 8px rgb(70 58 38 / 0.04), 0 18px 40px rgb(70 58 38 / 0.08);
+  --elev-4: 0 8px 16px rgb(70 58 38 / 0.05), 0 32px 72px rgb(70 58 38 / 0.1);
 
-  --transicion: 220ms cubic-bezier(0.25, 0.6, 0.3, 1);
+  /* Curva única, con peso. Ni linear ni ease-in-out. */
+  --curva: cubic-bezier(0.32, 0.72, 0, 1);
+  --transicion: 260ms var(--curva);
+  --transicion-larga: 760ms var(--curva);
 
   --toque: 44px;
   --z-base: 1;
   --z-flotante: 10;
   --z-fijo: 20;
+  --z-grano: 30;
   --z-visor: 50;
 
-  /* ── Bandas ──────────────────────────────────────────────────────────
-     El sitio era un solo verde de arriba abajo y el aire entre secciones
-     se leía como vacío, no como respiro. Estos tonos son el mismo verde
-     profundo empujado hacia los otros colores de la paleta: cambian de
-     temperatura sin cambiar de marca. Todos miden 12,4 o más contra la
-     tinta, así que ninguno compromete la lectura.
+  /* ── Bandas ──────────────────────────────────────────────────────────────
+     Seis papeles con distinta temperatura. Ninguno baja del 86 % de
+     luminancia: cambian de clima, no de luz. */
+  --banda-papel: #faf8f2;
+  --banda-crudo: #eeebdb;
+  --banda-salvia: #e6ece0;
+  --banda-celeste: #dde9e7;
+  --banda-arena: #f0e8da;
+  --banda-piedra: #e5e0d2;
 
-     Se aplican con las clases de más abajo, una por sección. */
-  --banda-noche: #02150f;    /* más hondo que el fondo: cierra */
-  --banda-teal: #073539;     /* hacia el teal del brandboard */
-  --banda-arena: #1d3021;    /* hacia la arena: verde tibio */
-  --banda-terracota: #32241c;   /* hacia la terracota: tierra, no caqui */
-
-  --velo: 5 35 25;
-
-  color-scheme: dark;
+  color-scheme: light;
 }
 
-/* ── Bandas de sección ──────────────────────────────────────────────────
-   Cada una redefine los roles de color, así que todo lo que hay adentro
-   —texto, botones, cajas, filetes— se acomoda solo. Se ponen en la
-   <section>, nunca en un elemento suelto. */
+/* ── Bandas de sección ──────────────────────────────────────────────────── */
 
-.banda-teal,
+.banda-crudo,
+.banda-salvia,
+.banda-celeste,
 .banda-arena,
-.banda-terracota,
-.banda-noche,
-.claro {
+.banda-piedra {
   background: var(--fondo);
   color: var(--tinta);
 }
 
-.banda-teal {
-  --fondo: var(--banda-teal);
-  --fondo-alt: #0a4045;
-  --superficie: #0b3f44;
-  --superficie-alta: #114f55;
-  --borde-caja: #1e5a60;
-  --borde-caja-activo: #3f7d83;
-  --linea: #1a4d51;
+.banda-crudo {
+  --fondo: var(--banda-crudo);
+  --fondo-alt: #e7e3d0;
+  --superficie: #f7f5ea;
+  --superficie-bisel: #e6e2ce;
+  --borde-caja: #ddd9c6;
+  --linea: #ddd9c6;
+}
+.banda-salvia {
+  --fondo: var(--banda-salvia);
+  --fondo-alt: #dbe3d3;
+  --superficie: #f0f4eb;
+  --superficie-bisel: #dee5d6;
+  --borde-caja: #d4ddca;
+  --borde-caja-activo: #a8bca2;
+  --linea: #d4ddca;
+}
+.banda-celeste {
+  --fondo: var(--banda-celeste);
+  --fondo-alt: #cfdfdc;
+  --superficie: #ebf3f1;
+  --superficie-bisel: #d3e1de;
+  --borde-caja: #cadbd8;
+  --borde-caja-activo: #9dbcb7;
+  --linea: #cadbd8;
 }
 .banda-arena {
   --fondo: var(--banda-arena);
-  --fondo-alt: #24392a;
-  --superficie: #24392a;
-  --superficie-alta: #2e4634;
-  --borde-caja: #385444;
-  --borde-caja-activo: #56755f;
-  --linea: #324c3a;
+  --fondo-alt: #e7dcc8;
+  --superficie: #f7f1e6;
+  --superficie-bisel: #e8dfcd;
+  --borde-caja: #e0d5c0;
+  --borde-caja-activo: #c1ae92;
+  --linea: #e0d5c0;
 }
-.banda-terracota {
-  --fondo: var(--banda-terracota);
-  --fondo-alt: #3d2c22;
-  --superficie: #3d2c22;
-  --superficie-alta: #4a362a;
-  --borde-caja: #573f31;
-  --borde-caja-activo: #7d5c48;
-  --linea: #4d3829;
-}
-/* Cierre: más honda que el fondo, para que el pie no flote. */
-.banda-noche {
-  --fondo: var(--banda-noche);
-  --fondo-alt: #041d15;
-  --superficie: #062219;
-  --borde-caja: #123a2c;
+.banda-piedra {
+  --fondo: var(--banda-piedra);
+  --fondo-alt: #d9d4c2;
+  --superficie: #efecdf;
+  --superficie-bisel: #dcd7c6;
+  --borde-caja: #d2ccb8;
+  --linea: #d2ccb8;
 }
 
-/* Material claro. Corta el oscuro de verdad: es la única sección del sitio
-   donde el fondo es crema y la tinta, verde profundo.
-   Los colores de acá están medidos sobre #eeebdb: el acento daba 3,92 y los
-   colores por unidad hasta 2,78, por debajo del mínimo. Ahora ninguno baja
-   de 4,8. */
-.claro {
-  --fondo: var(--fondo-claro);
-  --fondo-alt: #e6e2ce;
-  --tinta: var(--verde-profundo);
-  --tinta-suave: #4a5a4f;
-  --linea: #ddd8c4;
-  --linea-fuerte: #8f8874;
-  --superficie: #e8e4d2;
-  --superficie-alta: #f5f3e8;
-  --borde-caja: #dcd7c2;
-  --borde-caja-activo: #b9b19a;
-  --acento: #6b5334;
-  --acento-tenue: #8f8874;
-  --accion-tinta: #6b5334;
-  --accion-borde: #b9a88e;
-  --accion-hover-fondo: var(--verde-profundo);
-  --accion-hover-tinta: var(--crudo);
-  --sobre-oscuro: var(--verde-profundo);
-  --sobre-oscuro-suave: #4a5a4f;
-  --foco: #6b5334;
-  --u-restaurante-txt: #2f6b36;
-  --u-hotel-txt: #6b5642;
-  --u-balneario-txt: #3a5d60;
-  --u-eventos-txt: #7d5343;
-  --u-restaurante: #2f6b36;
-  --u-hotel: #6b5642;
-  --u-balneario: #3a5d60;
-  --u-eventos: #7d5343;
-  --elev-1: 0 1px 2px rgb(31 40 27 / 0.08);
-  --elev-2: 0 4px 12px rgb(31 40 27 / 0.1);
-  --elev-3: 0 10px 28px rgb(31 40 27 / 0.12);
-  color-scheme: light;
+/* ── Sobre foto ─────────────────────────────────────────────────────────────
+   Donde el fondo es una imagen y no el papel, la tinta y la acción vuelven a
+   ser claras. Sin esto los botones del hero quedan verde oscuro sobre una
+   foto oscurecida. */
+.sobre-foto {
+  --tinta: var(--sobre-oscuro);
+  --tinta-suave: var(--sobre-oscuro-suave);
+  --accion-tinta: var(--sobre-oscuro);
+  --accion-borde: rgb(247 245 238 / 0.45);
+  --accion-hover-fondo: var(--sobre-oscuro);
+  --accion-hover-tinta: #16221c;
+  --acento: var(--sobre-oscuro);
+  --foco: var(--sobre-oscuro);
+  color: var(--sobre-oscuro);
 }
-
-/* `.oscuro` queda como alias: el sitio ya es oscuro por defecto. */
-.oscuro { --fondo: var(--fondo-alt); }
