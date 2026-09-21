@@ -28,11 +28,13 @@ const tituloCompleto =
 
 <!doctype html>
 <html lang="es-AR">
-  <!-- Marca que hay JS antes de que pinte nada, así el revelado por scroll
-       puede esconder el contenido sin riesgo de dejar la página en blanco
-       si el script no llega. Va inline y arriba de todo a propósito. -->
-  <script is:inline>document.documentElement.classList.add("js");</script>
   <head>
+    <!-- Marca que hay JS antes de que pinte nada, así el revelado por scroll
+         puede esconder el contenido sin riesgo de dejar la página en blanco
+         si el script no llega. Va primero adentro del head: entre <html> y
+         <head> es posición inválida y el parser termina descartando la
+         etiqueta. -->
+    <script is:inline>document.documentElement.classList.add("js");</script>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{tituloCompleto}</title>
