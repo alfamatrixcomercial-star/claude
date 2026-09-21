@@ -40,17 +40,51 @@ recursos: dict[str, str] = {}   # clave → data URI, una sola vez
 _clave = [0]
 
 
+_yaEstan: dict[tuple[pathlib.Path, str], str] = {}
+
+
 def guardar(ruta: str, tipo: str) -> str | None:
     archivo = DIST / ruta.lstrip("/")
     if not archivo.exists():
         return None
-    for clave, valor in recursos.items():
-        if valor.startswith(f"data:{tipo}") and valor.endswith(_hash(archivo)):
-            return clave
+    # La caché va por archivo y tipo. Antes comparaba el final del data URI
+    # contra el hash del archivo crudo; al empezar a recomprimir dejaron de
+    # coincidir y cada foto se guardaba de nuevo en cada página.
+    if (archivo, tipo) in _yaEstan:
+        return _yaEstan[(archivo, tipo)]
     _clave[0] += 1
     clave = f"r{_clave[0]}"
-    recursos[clave] = f"data:{tipo};base64,{base64.b64encode(archivo.read_bytes()).decode()}"
+    recursos[clave] = f"data:{tipo};base64,{base64.b64encode(_bytes(archivo, tipo)).decode()}"
+    _yaEstan[(archivo, tipo)] = clave
     return clave
+
+
+def _bytes(archivo: pathlib.Path, tipo: str) -> bytes:
+    """Recomprime las imágenes antes de embeberlas.
+
+    Sin esto, un poster de 200 KB entra tal cual y entre todos pasan los
+    4 MB. Acá el archivo tiene que abrirse de una sola vez: si el visor lo
+    corta, el mapa de recursos llega incompleto y todas las imágenes del
+    final quedan rotas —que fue exactamente lo que pasó—. A 520 px y
+    calidad 68 se ve igual en pantalla y pesa una fracción."""
+    crudo = archivo.read_bytes()
+    if not tipo.startswith("image/") or tipo == "image/svg+xml":
+        return crudo
+    try:
+        from PIL import Image
+        import io
+        im = Image.open(io.BytesIO(crudo))
+        if im.width > 520:
+            im = im.resize((520, round(im.height * 520 / im.width)), Image.LANCZOS)
+        buf = io.BytesIO()
+        if tipo == "image/webp":
+            im.save(buf, "WEBP", quality=68, method=5)
+        else:
+            im.convert("RGB").save(buf, "JPEG", quality=68, optimize=True, progressive=True)
+        chico = buf.getvalue()
+        return chico if len(chico) < len(crudo) else crudo
+    except Exception:
+        return crudo
 
 
 _hashes: dict[pathlib.Path, str] = {}
@@ -63,7 +97,12 @@ def _hash(archivo: pathlib.Path) -> str:
 
 
 def elegir_variante(etiqueta: str, src: str) -> str:
-    """Del srcset elige la variante webp más cercana a 1000 px de ancho."""
+    """Del srcset elige la variante webp más chica que se siga viendo bien.
+
+    Esto es una vista previa para mirar el diseño, no el sitio servido: a
+    1000 px por foto el archivo pasaba los 13 MB y el visor lo cortaba por
+    la mitad, dejando el mapa de recursos incompleto y todas las imágenes
+    del final rotas. A 560 px entra entero."""
     m = re.search(r'srcset="([^"]+)"', etiqueta)
     if not m:
         return src
@@ -75,7 +114,7 @@ def elegir_variante(etiqueta: str, src: str) -> str:
     if not candidatos:
         return src
     webp = [c for c in candidatos if c[1].endswith(".webp")] or candidatos
-    return min(webp, key=lambda c: abs(c[0] - 1000))[1]
+    return min(webp, key=lambda c: abs(c[0] - 560))[1]
 
 
 css_partes: list[str] = []
@@ -121,10 +160,12 @@ for ruta, archivo, nombre in PAGINAS:
 
     body = re.sub(r"<img\b[^>]*>", _img, body)
 
-    # Video del hero: se embebe sólo el mp4, que reproduce cualquier navegador.
+    # Los videos NO se embeben: son 6 MB de base64 y esto tiene que entrar
+    # en un archivo que el visor abra entero. Queda el poster, que es una
+    # foto del lugar, y el sitio real sí los sirve.
+    _SIN_VIDEO = True
     for base in re.findall(r'data-video="([^"]+)"', body):
-        clave = guardar(base + ".mp4", "video/mp4")
-        body = body.replace(f'data-video="{base}"', f'data-vid="{clave}"' if clave else "")
+        body = body.replace(f'data-video="{base}"', "")
 
     # <video> con <source> propios (el del restaurante)
     def _video_fuentes(m: re.Match) -> str:
@@ -132,8 +173,7 @@ for ruta, archivo, nombre in PAGINAS:
         src_m = re.search(r'src="([^"]+\.mp4)"', etiqueta)
         if not src_m:
             return ""
-        clave = guardar(src_m.group(1), "video/mp4")
-        return f'<source data-vid="{clave}" type="video/mp4">' if clave else ""
+        return ""
 
     body = re.sub(r'<source[^>]*\.webm"[^>]*>', "", body)
     body = re.sub(r'<source[^>]*\.mp4"[^>]*>', _video_fuentes, body)
@@ -170,7 +210,10 @@ const RECURSOS = __RECURSOS__;
 /* Las imágenes y los videos se asignan desde el mapa: así cada archivo
    aparece una sola vez aunque se repita en varias páginas. */
 for (const el of document.querySelectorAll("[data-img]")) {
-  el.src = RECURSOS[el.dataset.img];
+  /* Si el archivo llegó cortado y falta un recurso, la imagen se esconde en
+     lugar de mostrar el ícono de rota con el alt al lado. */
+  const d = RECURSOS[el.dataset.img];
+  if (d) el.src = d; else el.style.visibility = "hidden";
 }
 for (const el of document.querySelectorAll("[data-poster]")) {
   el.poster = RECURSOS[el.dataset.poster];
