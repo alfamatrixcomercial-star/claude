@@ -325,6 +325,8 @@ const datosEstructurados = {
     align-items: flex-start;
     justify-content: flex-end;
     gap: 1rem;
+    /* Reserva en vh para navegadores sin dvh. */
+    min-height: min(62vh, 34rem);
     min-height: min(62dvh, 34rem);
     color: var(--sobre-oscuro);
   }

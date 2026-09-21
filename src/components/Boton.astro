@@ -65,6 +65,9 @@ const fuera = externo || href.startsWith("http");
     height: 2rem;
     flex: none;
     border-radius: 999px;
+    /* Reserva para navegadores sin color-mix: sin esto el disco
+       desaparece, porque la declaración inválida se descarta entera. */
+    background: rgb(128 128 128 / 0.14);
     background: color-mix(in srgb, currentColor 11%, transparent);
     transition: transform var(--transicion), background-color var(--transicion);
   }
@@ -81,6 +84,7 @@ const fuera = externo || href.startsWith("http");
   }
   .boton:hover .disco {
     transform: translate(3px, -1px) scale(1.06);
+    background: rgb(128 128 128 / 0.22);
     background: color-mix(in srgb, currentColor 18%, transparent);
   }
   .boton:active { transform: scale(0.98); }
