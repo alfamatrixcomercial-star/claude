@@ -14,7 +14,10 @@
 --   8. La Crema Pastelera NO lleva harina (sale de la receta de pasteleria).
 --
 -- Se agregan ademas el Cheesecake de Arandanos y la Crema de Limon, que si
--- estan y no figuraban.
+-- estan y no figuraban, y los ingredientes de cada producto (sin cantidades:
+-- el mozo necesita saber que lleva para venderlo y para avisar de los frutos
+-- secos, no cuantos gramos). Se suma la seccion de ALFAJORES con los tres que
+-- tenemos receta: pistacho, cacao y nuez.
 --
 -- El examen tenia CUATRO preguntas que con esto quedaban mal, y se corrigen
 -- en el mismo archivo. Se conservan los ids de las preguntas, asi que no se
@@ -72,6 +75,13 @@ Se cocina a fuego directo. La manteca final se agrega en frío. Es el relleno de
 ### Ganache de Chocolate
 Mezcla de chocolate cobertura y crema de leche caliente. Se usa como cobertura, relleno o glaseado según la consistencia.
 
+### Ganache de Pistacho
+Ingredientes: **chocolate, crema de leche y pasta de pistacho**.
+
+### Bizcochuelo
+Ingredientes: **huevos, azúcar, aceite, leche, harina y polvo para hornear**.
+Es la base de las tortas de capas.
+
 ---
 
 ## TORTAS
@@ -81,6 +91,7 @@ Mezcla de chocolate cobertura y crema de leche caliente. Se usa como cobertura, 
 - **Color:** aportado por **colorante rojo y cacao** (no frutos rojos naturales ni remolacha).
 - **Capas:** bizcochuelo rojo + frosting de queso crema entre cada capa y en la cobertura.
 - **Presentación:** exterior cubierto de frosting blanco cremoso, decorado con migajas de bizcochuelo rojo.
+- **Lleva:** leche, huevos, aceite, azúcar, vainilla, sal, harina, cacao, colorante y vinagre.
 - Sugerencia al cliente: sabor suave, no muy dulce, ideal para quienes no son fans del chocolate intenso.
 
 ### Torta Bruce
@@ -88,6 +99,7 @@ Mezcla de chocolate cobertura y crema de leche caliente. Se usa como cobertura, 
 - **Bizcochuelo:** de chocolate negro.
 - **Almíbar:** de café (aporta humedad y contraste aromático).
 - **Cobertura:** ganache de chocolate cobertura.
+- **Lleva:** harina, cacao, azúcar, bicarbonato, polvo para hornear, huevos, aceite, leche con limón y café.
 - Sugerencia: para amantes del chocolate. Intensa y húmeda.
 
 ### Blondie
@@ -146,6 +158,31 @@ Mezcla de chocolate cobertura y crema de leche caliente. Se usa como cobertura, 
 
 ### Años Locos
 **No es una torta:** es un **brownie con dulce de leche y crema**.
+- **El brownie lleva:** nueces, chocolate semiamargo, manteca, huevos, azúcar, sal, vainilla y harina.
+- Sugerencia: contundente y bien dulce. Para compartir o para quien quiere algo chocolatoso sin ser una porción de torta.
+
+### Brownie
+**Descripción:** Brownie clásico, húmedo y con nueces.
+- **Lleva:** nueces, chocolate semiamargo, manteca, huevos, azúcar, sal, vainilla y harina.
+- Es la base de Años Locos.
+
+---
+
+## ALFAJORES
+
+> Ojo: **los alfajores llevan frutos secos**. El de pistacho y el de nuez no son aptos para alérgicos, y el de cacao lleva ralladura de naranja.
+
+### Alfajor de Pistacho
+- **Lleva:** manteca pomada, azúcar, huevo, harina 0000, vainilla y pistacho triturado.
+- Sugerencia: el más distinto de los tres. Sabor a pistacho marcado, textura arenosa.
+
+### Alfajor de Cacao
+- **Lleva:** manteca, azúcar, miel, ralladura de naranja, huevo, harina, almidón, cacao, polvo de hornear y bicarbonato.
+- La **ralladura de naranja** es lo que lo diferencia: aporta un fondo cítrico al chocolate.
+
+### Alfajor de Nuez
+- **Lleva:** manteca, azúcar, miel, ralladura de naranja, huevo, harina, polvo de hornear y nueces procesadas.
+- Sugerencia: parecido al de cacao pero sin chocolate, con la nuez como protagonista.
 
 ---
 
