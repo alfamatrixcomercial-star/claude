@@ -25,39 +25,45 @@
   --crudo: #eeebdb;
 
   /* ── Papel ───────────────────────────────────────────────────────────── */
-  --fondo: #faf8f2;
-  --fondo-alt: var(--crudo);
-  --fondo-claro: var(--crudo);
+  /* El papel no es blanco: es verde muy claro. Un crema casi blanco de
+     fondo deja el sitio lavado y los colores de la paleta no aparecen por
+     ningún lado. */
+  --fondo: #eef4ea;
+  --fondo-alt: #e0ecdc;
+  --fondo-claro: #e0ecdc;
 
   /* ── Tinta ───────────────────────────────────────────────────────────── */
   --tinta: #16221c;
-  --tinta-suave: #4b574e;
-  --linea: #e0ddcd;
-  --linea-fuerte: #9aa094;
+  --tinta-suave: #44534a;
+  --linea: #cfdec9;
+  --linea-fuerte: #8ba189;
 
   /* ── Acento: uno solo, el verde de la paleta ─────────────────────────── */
-  --acento: #2c6633;
-  --acento-tenue: #93a795;
-  --acento-relleno: #357a3c;
-  --sobre-acento: #faf8f2;
+  /* #235c2b y no #2c6633: sobre la banda turquesa más cargada el segundo
+     da 4,27 y no llega al mínimo. Este da 4,94 en el peor de los siete
+     fondos del sitio. */
+  --acento: #235c2b;
+  --acento-tenue: #7fa085;
+  --acento-relleno: #2f7238;
+  --sobre-acento: #f2f8ef;
 
   --accion-fondo: transparent;
-  --accion-tinta: #2c6633;
-  --accion-borde: #b6c6b3;
+  --accion-tinta: #235c2b;
+  --accion-borde: #9cba9c;
   --accion-hover-fondo: var(--acento-relleno);
   --accion-hover-tinta: var(--sobre-acento);
-  --foco: #2c6633;
+  --foco: #235c2b;
 
   /* Sobre foto el fondo es la imagen, no el papel. */
-  --sobre-oscuro: #f7f5ee;
-  --sobre-oscuro-suave: #d9d6c9;
-  --velo: 24 26 22;
+  --sobre-oscuro: #f3f8f1;
+  --sobre-oscuro-suave: #cfdcce;
+  --velo: 20 28 24;
 
   /* ── Identidad por unidad ────────────────────────────────────────────── */
-  --u-restaurante: #2c6633;
-  --u-hotel: #6a5440;
-  --u-balneario: #33585c;
-  --u-eventos: #7a5040;
+  --u-restaurante: #235c2b;
+  --u-hotel: #63503c;
+  --u-balneario: #2c5256;
+  --u-eventos: #744a3b;
   --u-restaurante-txt: var(--u-restaurante);
   --u-hotel-txt: var(--u-hotel);
   --u-balneario-txt: var(--u-balneario);
@@ -101,18 +107,21 @@
   --bisel: 6px;
   --radio-interior: calc(var(--radio-grande) - var(--bisel));
 
-  --superficie: #fdfcf7;
-  --superficie-alta: #ffffff;
-  --superficie-bisel: #efece0;
-  --borde-caja: #e4e0d0;
-  --borde-caja-activo: #b6c6b3;
+  /* Las superficies también van teñidas. Una tarjeta blanca pura sobre un
+     papel verde se lee como un agujero en la página. */
+  --superficie: #f5faf3;
+  --superficie-alta: #fafdf8;
+  --superficie-bisel: #e3eede;
+  --borde-caja: #d4e2cf;
+  --borde-caja-activo: #9cba9c;
 
   /* Sombras con la temperatura del papel: una sombra negra sobre crema se
      ve gris sucio. Estas llevan el marrón del fondo. */
-  --elev-1: 0 1px 2px rgb(70 58 38 / 0.05);
-  --elev-2: 0 2px 4px rgb(70 58 38 / 0.04), 0 8px 20px rgb(70 58 38 / 0.06);
-  --elev-3: 0 4px 8px rgb(70 58 38 / 0.04), 0 18px 40px rgb(70 58 38 / 0.08);
-  --elev-4: 0 8px 16px rgb(70 58 38 / 0.05), 0 32px 72px rgb(70 58 38 / 0.1);
+  /* La sombra lleva el verde del papel, no el marrón de antes ni negro. */
+  --elev-1: 0 1px 2px rgb(30 58 40 / 0.06);
+  --elev-2: 0 2px 4px rgb(30 58 40 / 0.05), 0 8px 20px rgb(30 58 40 / 0.07);
+  --elev-3: 0 4px 8px rgb(30 58 40 / 0.05), 0 18px 40px rgb(30 58 40 / 0.09);
+  --elev-4: 0 8px 16px rgb(30 58 40 / 0.06), 0 32px 72px rgb(30 58 40 / 0.11);
 
   /* Curva única, con peso. Ni linear ni ease-in-out. */
   --curva: cubic-bezier(0.32, 0.72, 0, 1);
@@ -129,69 +138,83 @@
   /* ── Bandas ──────────────────────────────────────────────────────────────
      Seis papeles con distinta temperatura. Ninguno baja del 86 % de
      luminancia: cambian de clima, no de luz. */
-  --banda-papel: #faf8f2;
-  --banda-crudo: #eeebdb;
-  --banda-salvia: #e6ece0;
-  --banda-celeste: #dde9e7;
-  --banda-arena: #f0e8da;
-  --banda-piedra: #e5e0d2;
+  --banda-papel: #eef4ea;
+  --banda-salvia: #e0ecdc;
+  --banda-verde: #d2e7cd;
+  --banda-celeste: #cfe8e4;
+  --banda-turquesa: #b9ded9;
+  --banda-arena: #e8ecd8;
+  --banda-piedra: #c9ddd2;
 
   color-scheme: light;
 }
 
 /* ── Bandas de sección ──────────────────────────────────────────────────── */
 
-.banda-crudo,
 .banda-salvia,
+.banda-verde,
 .banda-celeste,
+.banda-turquesa,
 .banda-arena,
 .banda-piedra {
   background: var(--fondo);
   color: var(--tinta);
 }
 
-.banda-crudo {
-  --fondo: var(--banda-crudo);
-  --fondo-alt: #e7e3d0;
-  --superficie: #f7f5ea;
-  --superficie-bisel: #e6e2ce;
-  --borde-caja: #ddd9c6;
-  --linea: #ddd9c6;
-}
 .banda-salvia {
   --fondo: var(--banda-salvia);
-  --fondo-alt: #dbe3d3;
-  --superficie: #f0f4eb;
-  --superficie-bisel: #dee5d6;
-  --borde-caja: #d4ddca;
-  --borde-caja-activo: #a8bca2;
-  --linea: #d4ddca;
+  --fondo-alt: #d3e3ce;
+  --superficie: #edf4ea;
+  --superficie-bisel: #d7e6d2;
+  --borde-caja: #cbdfc6;
+  --linea: #cbdfc6;
 }
+.banda-verde {
+  --fondo: var(--banda-verde);
+  --fondo-alt: #c3dcbd;
+  --superficie: #e2f0de;
+  --superficie-bisel: #c9dfc4;
+  --borde-caja: #bdd7b8;
+  --borde-caja-activo: #93b58e;
+  --linea: #bdd7b8;
+}
+/* La celeste del brandboard, ya casi turquesa. */
 .banda-celeste {
   --fondo: var(--banda-celeste);
-  --fondo-alt: #cfdfdc;
-  --superficie: #ebf3f1;
-  --superficie-bisel: #d3e1de;
-  --borde-caja: #cadbd8;
-  --borde-caja-activo: #9dbcb7;
-  --linea: #cadbd8;
+  --fondo-alt: #bfdedb;
+  --superficie: #e1f2ef;
+  --superficie-bisel: #c6e0dd;
+  --borde-caja: #b9d9d5;
+  --borde-caja-activo: #8bb9b3;
+  --linea: #b9d9d5;
+}
+/* Turquesa pleno, el tono más cargado del sistema. */
+.banda-turquesa {
+  --fondo: var(--banda-turquesa);
+  --fondo-alt: #a4d1cb;
+  --superficie: #cfe9e5;
+  --superficie-bisel: #aed6d1;
+  --borde-caja: #9ecbc5;
+  --borde-caja-activo: #6fa8a1;
+  --linea: #9ecbc5;
 }
 .banda-arena {
   --fondo: var(--banda-arena);
-  --fondo-alt: #e7dcc8;
-  --superficie: #f7f1e6;
-  --superficie-bisel: #e8dfcd;
-  --borde-caja: #e0d5c0;
-  --borde-caja-activo: #c1ae92;
-  --linea: #e0d5c0;
+  --fondo-alt: #dbe2c8;
+  --superficie: #f0f3e6;
+  --superficie-bisel: #dfe5cf;
+  --borde-caja: #d5dcc3;
+  --borde-caja-activo: #aab694;
+  --linea: #d5dcc3;
 }
+/* Verde grisado, para cerrar la página. */
 .banda-piedra {
   --fondo: var(--banda-piedra);
-  --fondo-alt: #d9d4c2;
-  --superficie: #efecdf;
-  --superficie-bisel: #dcd7c6;
-  --borde-caja: #d2ccb8;
-  --linea: #d2ccb8;
+  --fondo-alt: #b7cfc2;
+  --superficie: #dceade;
+  --superficie-bisel: #bed5c7;
+  --borde-caja: #b2cabc;
+  --linea: #b2cabc;
 }
 
 /* ── Sobre foto ─────────────────────────────────────────────────────────────

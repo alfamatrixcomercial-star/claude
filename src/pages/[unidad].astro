@@ -47,10 +47,10 @@ const ctas = (
    ser un verde único de punta a punta y cada sección cambia de temperatura
    sin salirse de la paleta. */
 const banda = {
-  restaurante: "banda-arena",
-  hotel: "banda-arena",
-  balneario: "banda-teal",
-  eventos: "banda-terracota",
+  restaurante: "banda-verde",
+  hotel: "banda-salvia",
+  balneario: "banda-turquesa",
+  eventos: "banda-arena",
 }[id];
 
 const estado = estadoDeUnidad({
@@ -162,7 +162,7 @@ const datosEstructurados = {
 
     <Onda />
 
-    <section class="cuerpo claro">
+    <section class="cuerpo banda-salvia">
       <div class="interior">
         <div class="relato">
           <Ornamento pieza={d.ornamento} class="fondo-orn" />
@@ -234,7 +234,7 @@ const datosEstructurados = {
 
     {
       d.video && (
-        <section class="bloque banda-noche" data-revelar>
+        <section class="bloque banda-celeste" data-revelar>
           <div class="interior-simple">
             <div class="encabezado"><p class="rotulo">El lugar</p><h2>{d.video.titulo}</h2></div>
             <Video
