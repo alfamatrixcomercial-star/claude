@@ -62,15 +62,32 @@ jobs:
       - name: Preparar dist
         run: node scripts/paquete.mjs --sin-zip
 
+      # Sin la clave cargada no tiene sentido intentar: la corrida fallaría
+      # en la conexión y el registro diría algo poco claro. Así avisa qué
+      # falta y termina en verde.
+      - name: ¿Están las credenciales?
+        id: credenciales
+        run: |
+          if [ -z "${{ secrets.FTP_CLAVE }}" ]; then
+            echo "listas=no" >> "$GITHUB_OUTPUT"
+            echo "::notice::Falta el secreto FTP_CLAVE. El sitio se compiló bien pero no se sube."
+          else
+            echo "listas=si" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Subir por FTP
+        if: steps.credenciales.outputs.listas == 'si'
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: ${{ secrets.FTP_SERVIDOR }}
           username: ${{ secrets.FTP_USUARIO }}
           password: ${{ secrets.FTP_CLAVE }}
-          # ftps va cifrado. Si el hosting no lo soporta, cambiar a `ftp`,
-          # sabiendo que ahí la contraseña viaja en claro.
-          protocol: ftps
+          # ftps va cifrado y es el que hay que usar. Si el servidor no lo
+          # acepta, la corrida falla al conectar: en ese caso, en GitHub →
+          # Settings → Secrets and variables → Actions → pestaña Variables,
+          # crear FTP_PROTOCOLO con el valor `ftp`. No hace falta tocar este
+          # archivo. Con `ftp` la contraseña viaja sin cifrar.
+          protocol: ${{ vars.FTP_PROTOCOLO || 'ftps' }}
           local-dir: ./dist/
           server-dir: ./public_html/
           # Lo que el hosting maneja por su cuenta no se toca.
