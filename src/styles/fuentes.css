@@ -59,29 +59,49 @@
 }
 */
 
-/* Instrument Sans en variable: un archivo de 31 KB cubre de 400 a 700 en
-   continuo. Reemplaza a las cinco caras estáticas de Poppins, que pesaban
-   40 KB en cinco pedidos y sólo daban cinco pesos sueltos.
-
-   Poppins es el geométrico por defecto de la última década: la misma 'o'
-   circular perfecta y la misma x-height enorme que tienen diez mil sitios.
-   Este grotesco tiene dibujo propio —la 'a' de doble piso, la 'g', la 'R'—
-   sin pelearse con la Bodoni de los títulos. */
+/* Poppins, cinco pesos, sólo el subconjunto latino: 8 KB cada uno.
+   El 300 y el 600 están para tener escalones intermedios y no depender de
+   saltar de normal a negrita. */
 @font-face {
-  font-family: "Instrument Sans";
-  /* format("woff2") a secas, no "woff2-variations": esa cadena es vieja y
-     no estándar, Safari la rechaza entera y la fuente no carga. El rango de
-     pesos lo declara font-weight, no el format. */
-  src: url("/fonts/instrument-sans.woff2") format("woff2");
-  font-weight: 400 700;
+  font-family: "Poppins";
+  src: url("/fonts/poppins-300.woff2") format("woff2");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Poppins";
+  src: url("/fonts/poppins-400.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Poppins";
+  src: url("/fonts/poppins-500.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Poppins";
+  src: url("/fonts/poppins-600.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Poppins";
+  src: url("/fonts/poppins-700.woff2") format("woff2");
+  font-weight: 700;
   font-style: normal;
   font-display: swap;
 }
 
 :root {
   --f-display: "Ramona", "Bodoni Moda", Georgia, serif;
-  --f-texto: "Instrument Sans", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --f-texto: "Poppins", "Segoe UI", system-ui, -apple-system, sans-serif;
   --f-firma: "Apparel", "Bodoni Moda", Georgia, "Times New Roman", serif;
   /* Rótulos, botones y datos siempre en la sans. */
-  --f-ui: "Instrument Sans", "Segoe UI", system-ui, sans-serif;
+  --f-ui: "Poppins", "Segoe UI", system-ui, sans-serif;
 }
