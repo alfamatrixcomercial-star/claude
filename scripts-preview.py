@@ -31,6 +31,9 @@ PAGINAS = [
     ("/galeria", "galeria/index.html", "Galería"),
     ("/contacto", "contacto/index.html", "Contacto"),
     ("/legales", "legales/index.html", "Legales"),
+    # No se enlaza en el sitio, pero en la vista previa tiene que poder
+    # mirarse: para eso está.
+    ("/giftcard", "giftcard/index.html", "Gift card"),
 ]
 
 TIPO = {"jpeg": "image/jpeg", "jpg": "image/jpeg", "webp": "image/webp",

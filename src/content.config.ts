@@ -223,6 +223,20 @@ const sitio = defineCollection({
     }),
     woki: z.string().url().nullable(),
     /**
+     * Gift card. La página existe en /giftcard pero no se enlaza desde
+     * ningún lado hasta que esté terminada, y lleva noindex.
+     */
+    giftcard: z
+      .object({
+        titulo: z.string().min(10),
+        bajada: z.string().min(20),
+        intro: z.array(z.string()).min(1),
+        pasos: z.array(z.object({ titulo: z.string(), texto: z.string() })).min(2),
+        aviso: z.string().min(20),
+        montoMinimo: z.number().int().positive(),
+      })
+      .optional(),
+    /**
      * Prueba social. El patrón que recomienda el plugin para hotelería pide
      * de 3 a 5 testimonios con nombre.
      *

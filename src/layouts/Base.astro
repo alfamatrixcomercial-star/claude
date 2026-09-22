@@ -14,8 +14,10 @@ interface Props {
   unidadActiva?: string;
   /** JSON-LD ya armado por la página. Uno por página, sin plantillas. */
   datosEstructurados?: Record<string, unknown>;
+  /** Fuera de Google. Para páginas que existen pero todavía no se publican. */
+  noindex?: boolean;
 }
-const { titulo, descripcion, unidadActiva, datosEstructurados } = Astro.props;
+const { titulo, descripcion, unidadActiva, datosEstructurados, noindex = false } = Astro.props;
 
 const sitio = await datosSitio();
 const url = new URL(Astro.url.pathname, Astro.site).href;
@@ -40,6 +42,7 @@ const tituloCompleto =
     <title>{tituloCompleto}</title>
     <meta name="description" content={descripcion} />
     <link rel="canonical" href={url} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
 
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content={sitio.nombre} />

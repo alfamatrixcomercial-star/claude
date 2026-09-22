@@ -1,0 +1,440 @@
+---
+/**
+ * Gift card · /giftcard
+ *
+ * NO se enlaza desde ninguna sección: ni el menú, ni el pie, ni el cruce
+ * entre unidades. Se llega escribiendo la dirección. Además lleva noindex y
+ * queda fuera del sitemap, porque si no Google la encuentra igual aunque no
+ * haya un solo enlace apuntándole.
+ *
+ * El pago todavía no se hace acá. El formulario valida, arma el pedido y
+ * abre WhatsApp con todo escrito: quien atiende recibe los datos completos
+ * y coordina la transferencia. Cuando haya pasarela, lo único que cambia es
+ * lo que pasa al apretar el botón; el formulario se queda igual.
+ */
+import Base from "~/layouts/Base.astro";
+import Onda from "~/components/Onda.astro";
+import { datosSitio } from "~/lib/contacto";
+
+const sitio = await datosSitio();
+const g = sitio.giftcard;
+if (!g) throw new Error("Falta el bloque giftcard en sitio.yaml");
+
+/* El número sale del contenido, como todos los demás. El texto del mensaje
+   lo arma el navegador porque depende de lo que se escriba en el formulario. */
+const whatsapp = sitio.contacto.general.whatsapp;
+
+const unidades = [
+  { valor: "Cualquiera del complejo", etiqueta: "Cualquiera del complejo" },
+  { valor: "Restaurante", etiqueta: "Restaurante" },
+  { valor: "Hotel Ili Ili", etiqueta: "Hotel Ili Ili" },
+  { valor: "Balneario", etiqueta: "Balneario" },
+];
+---
+
+<Base titulo={g.titulo} descripcion={g.bajada} noindex>
+  <section class="portada banda-turquesa-hondo">
+    <div class="interior">
+      <p class="rotulo">Gift card</p>
+      <h1>{g.titulo}</h1>
+      <p class="bajada">{g.bajada}</p>
+    </div>
+  </section>
+
+  <Onda />
+
+  <section class="cuerpo" data-revelar>
+    <div class="interior columnas">
+      <div class="relato">
+        {g.intro.map((t) => <p class="parrafo">{t}</p>)}
+
+        <ol class="pasos" data-revelar-grupo="3">
+          {
+            g.pasos.map((paso, i) => (
+              <li>
+                <span class="num">{i + 1}</span>
+                <span class="paso-cuerpo">
+                  <b>{paso.titulo}</b>
+                  <span>{paso.texto}</span>
+                </span>
+              </li>
+            ))
+          }
+        </ol>
+
+        <p class="aviso"><b>Importante.</b> {g.aviso}</p>
+      </div>
+
+      <div class="bandeja marco-form">
+        <div class="bandeja-nucleo">
+          <form
+            class="form"
+            novalidate
+            data-whatsapp={whatsapp}
+            data-minimo={String(g.montoMinimo)}
+          >
+            <p class="form-titulo">Pedir la gift card</p>
+
+            <div class="campo">
+              <label for="de">Tu nombre</label>
+              <input id="de" name="de" type="text" autocomplete="name" required
+                maxlength="60" placeholder="Como querés que figure en la tarjeta" />
+              <p class="error" id="e-de" hidden></p>
+            </div>
+
+            <div class="campo">
+              <label for="email">Tu email</label>
+              <input id="email" name="email" type="email" autocomplete="email"
+                required maxlength="120" placeholder="Para mandarte el comprobante" />
+              <p class="error" id="e-email" hidden></p>
+            </div>
+
+            <div class="campo">
+              <label for="para">Nombre de quien la recibe</label>
+              <input id="para" name="para" type="text" required maxlength="60" />
+              <p class="error" id="e-para" hidden></p>
+            </div>
+
+            <div class="campo">
+              <label for="emailPara">
+                Email de quien la recibe <span class="opcional">opcional</span>
+              </label>
+              <input id="emailPara" name="emailPara" type="email" maxlength="120"
+                placeholder="Si lo dejás vacío, te la mandamos a vos" />
+              <p class="error" id="e-emailPara" hidden></p>
+            </div>
+
+            <div class="dos">
+              <div class="campo">
+                <label for="monto">Monto</label>
+                <div class="con-signo">
+                  <span aria-hidden="true">$</span>
+                  <input id="monto" name="monto" type="text" inputmode="numeric"
+                    required maxlength="12" placeholder="0" />
+                </div>
+                <p class="error" id="e-monto" hidden></p>
+              </div>
+
+              <div class="campo">
+                <label for="unidad">Para usar en</label>
+                <select id="unidad" name="unidad">
+                  {unidades.map((u) => <option value={u.valor}>{u.etiqueta}</option>)}
+                </select>
+              </div>
+            </div>
+
+            <div class="campo">
+              <label for="mensaje">
+                Mensaje en la tarjeta <span class="opcional">opcional</span>
+              </label>
+              <textarea id="mensaje" name="mensaje" rows="3" maxlength="200"></textarea>
+              <p class="contador"><span data-contador>0</span>/200</p>
+            </div>
+
+            <button type="submit" class="enviar">
+              <span>Enviar el pedido por WhatsApp</span>
+              <span class="disco" aria-hidden="true">
+                <svg viewBox="0 0 16 12" width="13" height="10" focusable="false">
+                  <path d="M0 6h12M8 1l5 5-5 5" fill="none" stroke="currentColor"
+                    stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </span>
+            </button>
+
+            <p class="pie-form" role="status" data-estado></p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .portada { padding: var(--paso) var(--margen) var(--paso-corto); }
+  .interior { max-width: var(--ancho); margin-inline: auto; }
+  .portada h1 { margin-top: 0.6rem; max-width: 16ch; }
+  .bajada {
+    margin-top: 1.1rem;
+    max-width: var(--medida);
+    font-size: var(--t-guia);
+    color: var(--tinta-suave);
+  }
+
+  .cuerpo { padding: var(--paso) var(--margen) var(--paso-abajo); }
+  .columnas { display: grid; gap: clamp(2.5rem, 5vw, 4.5rem); align-items: start; }
+  @media (min-width: 960px) {
+    .columnas { grid-template-columns: minmax(0, 1fr) minmax(0, 27rem); }
+  }
+
+  .relato { display: flex; flex-direction: column; gap: 1.25rem; }
+  .parrafo { max-width: var(--medida); }
+
+  .pasos { list-style: none; display: flex; flex-direction: column; gap: 1rem; margin-top: 0.75rem; }
+  .pasos li { display: flex; gap: 1rem; align-items: flex-start; }
+  .num {
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 2rem;
+    height: 2rem;
+    border: 1px solid var(--borde-caja-activo);
+    border-radius: 999px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    color: var(--acento);
+  }
+  .paso-cuerpo { display: flex; flex-direction: column; gap: 0.15rem; }
+  .paso-cuerpo b { font-weight: 600; }
+  .paso-cuerpo span { color: var(--tinta-suave); font-size: 0.94rem; }
+
+  .aviso {
+    margin-top: 0.75rem;
+    padding: 1rem 1.15rem;
+    max-width: var(--medida);
+    background: var(--superficie);
+    border: 1px solid var(--borde-caja);
+    border-left: 3px solid var(--acento);
+    border-radius: var(--radio-chico);
+    font-size: 0.94rem;
+    color: var(--tinta-suave);
+  }
+  .aviso b { color: var(--tinta); font-weight: 600; }
+
+  /* ── Formulario ─────────────────────────────────────────────────────── */
+  .marco-form { position: sticky; top: calc(var(--barra) + 1rem); }
+  @media (max-width: 959px) { .marco-form { position: static; } }
+
+  .form { display: flex; flex-direction: column; gap: 1.1rem; padding: 1.6rem 1.5rem 1.5rem; }
+  .form-titulo {
+    font-family: var(--f-ui);
+    font-size: var(--t-eyebrow);
+    font-weight: 600;
+    letter-spacing: var(--track-eyebrow);
+    text-transform: uppercase;
+    color: var(--acento);
+  }
+
+  .campo { display: flex; flex-direction: column; gap: 0.4rem; }
+  label { font-size: 0.86rem; font-weight: 500; }
+  .opcional {
+    font-weight: 400;
+    font-size: 0.76rem;
+    color: var(--tinta-suave);
+    text-transform: lowercase;
+  }
+
+  input, select, textarea {
+    width: 100%;
+    min-height: var(--toque);
+    padding: 0.6rem 0.85rem;
+    font-family: inherit;
+    font-size: 1rem;
+    color: var(--tinta);
+    background: var(--superficie-bisel);
+    border: 1px solid var(--borde-caja);
+    border-radius: var(--radio-chico);
+    transition: border-color var(--transicion), background-color var(--transicion);
+  }
+  textarea { min-height: 5.5rem; resize: vertical; line-height: 1.5; }
+  input:hover, select:hover, textarea:hover { border-color: var(--borde-caja-activo); }
+  input:focus-visible, select:focus-visible, textarea:focus-visible {
+    border-color: var(--acento);
+    background: var(--superficie);
+  }
+  input::placeholder, textarea::placeholder { color: var(--tinta-suave); opacity: 0.75; }
+
+  /* El signo va adentro del campo, no como prefijo suelto al lado. */
+  .con-signo { position: relative; }
+  .con-signo span {
+    position: absolute;
+    left: 0.85rem;
+    top: 50%;
+    translate: 0 -50%;
+    color: var(--tinta-suave);
+    pointer-events: none;
+  }
+  .con-signo input { padding-left: 1.85rem; font-variant-numeric: tabular-nums; }
+
+  .dos { display: grid; gap: 1.1rem; }
+  @media (min-width: 420px) { .dos { grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); } }
+
+  .error {
+    font-size: 0.82rem;
+    color: var(--u-eventos);
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+  }
+  .error::before { content: "—"; opacity: 0.6; }
+  .campo:has(.error:not([hidden])) input,
+  .campo:has(.error:not([hidden])) select { border-color: var(--u-eventos); }
+
+  .contador {
+    font-size: 0.76rem;
+    color: var(--tinta-suave);
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .enviar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75em;
+    margin-top: 0.4rem;
+    min-height: var(--toque);
+    padding: 0.5em 0.5em 0.5em 1.3em;
+    font-family: var(--f-ui);
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accion-hover-tinta);
+    background: var(--acento);
+    border: 1px solid var(--acento);
+    border-radius: 999px;
+    transition: background-color var(--transicion), transform 160ms var(--curva);
+  }
+  .enviar .disco {
+    display: grid;
+    place-items: center;
+    width: 2rem;
+    height: 2rem;
+    flex: none;
+    border-radius: 999px;
+    background: rgb(0 0 0 / 0.12);
+    transition: transform var(--transicion);
+  }
+  .enviar:hover .disco { transform: translate(3px, -1px) scale(1.06); }
+  .enviar:active { transform: scale(0.98); }
+
+  .pie-form { font-size: 0.86rem; color: var(--tinta-suave); }
+  .pie-form:empty { display: none; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .enviar, .enviar .disco, input, select, textarea { transition: none; }
+    .enviar:hover .disco, .enviar:active { transform: none; }
+  }
+</style>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>(".form");
+  if (form) {
+    const wa = form.dataset.whatsapp!;
+    const minimo = Number(form.dataset.minimo) || 0;
+    const estado = form.querySelector<HTMLElement>("[data-estado]")!;
+
+    const campo = (n: string) => form.querySelector<HTMLInputElement>(`#${n}`)!;
+    const errorDe = (n: string) => form.querySelector<HTMLElement>(`#e-${n}`)!;
+
+    const marcar = (n: string, texto: string | null) => {
+      const caja = errorDe(n);
+      const entrada = campo(n);
+      caja.textContent = texto ?? "";
+      caja.hidden = !texto;
+      entrada.setAttribute("aria-invalid", texto ? "true" : "false");
+      if (texto) entrada.setAttribute("aria-describedby", `e-${n}`);
+      else entrada.removeAttribute("aria-describedby");
+    };
+
+    /* Sólo dígitos en el monto, formateados con puntos de mil mientras se
+       escribe. Se guarda el número limpio aparte para validar y para el
+       mensaje. */
+    const monto = campo("monto");
+    const soloNumero = (s: string) => s.replace(/\D/g, "");
+    monto.addEventListener("input", () => {
+      const limpio = soloNumero(monto.value);
+      monto.value = limpio ? Number(limpio).toLocaleString("es-AR") : "";
+    });
+
+    const contador = form.querySelector<HTMLElement>("[data-contador]");
+    const mensaje = form.querySelector<HTMLTextAreaElement>("#mensaje");
+    if (contador && mensaje) {
+      const actualizar = () => (contador.textContent = String(mensaje.value.length));
+      mensaje.addEventListener("input", actualizar);
+      actualizar();
+    }
+
+    /* Validación propia y no la del navegador: los mensajes nativos salen en
+       el idioma del sistema y no se pueden escribir. */
+    const emailValido = (v: string) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim());
+
+    function revisar() {
+      let primerError: string | null = null;
+      const fallar = (n: string, texto: string) => {
+        marcar(n, texto);
+        primerError ??= n;
+      };
+
+      const de = campo("de").value.trim();
+      de.length >= 2 ? marcar("de", null) : fallar("de", "Poné tu nombre.");
+
+      const email = campo("email").value;
+      emailValido(email) ? marcar("email", null) : fallar("email", "Revisá el email: falta el @ o el punto.");
+
+      const para = campo("para").value.trim();
+      para.length >= 2 ? marcar("para", null) : fallar("para", "Poné el nombre de quien la recibe.");
+
+      const emailPara = campo("emailPara").value.trim();
+      !emailPara || emailValido(emailPara)
+        ? marcar("emailPara", null)
+        : fallar("emailPara", "Ese email no parece válido.");
+
+      const n = Number(soloNumero(monto.value));
+      if (!n) fallar("monto", "Poné un monto.");
+      else if (n < minimo)
+        fallar("monto", `El mínimo es $${minimo.toLocaleString("es-AR")}.`);
+      else marcar("monto", null);
+
+      return primerError;
+    }
+
+    /* Revalida al salir de cada campo, pero sólo si ya se había marcado:
+       corregir un error tiene que apagar el cartel enseguida, y a la vez
+       nadie quiere que le griten antes de terminar de escribir. */
+    for (const n of ["de", "email", "para", "emailPara", "monto"]) {
+      campo(n).addEventListener("blur", () => {
+        if (!errorDe(n).hidden) revisar();
+      });
+    }
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const error = revisar();
+      if (error) {
+        estado.textContent = "Faltan datos. Mirá los campos marcados.";
+        const entrada = campo(error);
+        entrada.focus();
+        entrada.scrollIntoView({ block: "center", behavior: "smooth" });
+        return;
+      }
+
+      const v = (n: string) => campo(n).value.trim();
+      const unidad = form.querySelector<HTMLSelectElement>("#unidad")!.value;
+      const texto = form.querySelector<HTMLTextAreaElement>("#mensaje")!.value.trim();
+      const importe = Number(soloNumero(monto.value)).toLocaleString("es-AR");
+
+      const lineas = [
+        "Hola! Quiero pedir una GIFT CARD de Mirador Waikiki.",
+        "",
+        `De parte de: ${v("de")}`,
+        `Mi email: ${v("email")}`,
+        `Para: ${v("para")}`,
+        v("emailPara") ? `Email de quien la recibe: ${v("emailPara")}` : "La entrego yo",
+        `Monto: $${importe}`,
+        `Para usar en: ${unidad}`,
+        texto ? `Mensaje en la tarjeta: "${texto}"` : null,
+        "",
+        "Quedo a la espera de los datos para transferir.",
+      ].filter((l): l is string => l !== null);
+
+      estado.textContent = "Abriendo WhatsApp con tu pedido…";
+      window.open(
+        `https://wa.me/${wa}?text=${encodeURIComponent(lineas.join("\n"))}`,
+        "_blank",
+        "noopener",
+      );
+    });
+  }
+</script>

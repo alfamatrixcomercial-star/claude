@@ -58,6 +58,33 @@ contacto:
 
 # VERIFICAR con un click: no pude abrir wokiapp.com desde el entorno de
 # desarrollo. Si redirige a otra dirección, cambiá esta línea y listo.
+# ── Gift card ────────────────────────────────────────────────────────────
+# La página vive en /giftcard y NO se enlaza desde ninguna sección. Mientras
+# no esté terminada, nadie tiene que llegar por navegación.
+giftcard:
+  titulo: Regalá una tarde frente al mar
+  bajada: >-
+    Una gift card del complejo, para usar en el restaurante, en el hotel o en
+    el balneario.
+  intro:
+    - >-
+      Elegís el monto, nos contás para quién es y nosotros preparamos la
+      tarjeta. Se puede usar en cualquiera de las cuatro unidades.
+    - >-
+      No hay un monto fijo: ponés el que quieras y quien la reciba lo usa
+      como prefiera.
+  pasos:
+    - titulo: Completás el formulario
+      texto: Con tus datos, los de quien la recibe y el monto.
+    - titulo: Te escribimos
+      texto: Coordinamos el pago por transferencia, sin pasarela ni tarjeta.
+    - titulo: Enviamos la tarjeta
+      texto: Al mail de quien la recibe, o al tuyo si la querés entregar vos.
+  aviso: >-
+    Por ahora el pago no se hace en el sitio. El formulario abre un WhatsApp
+    con el pedido ya escrito y lo terminamos de coordinar por ahí.
+  montoMinimo: 10000
+
 woki: "https://www.wokiapp.com/restaurante/mirador-waikiki"
 
 redes:
