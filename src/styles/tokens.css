@@ -31,15 +31,18 @@
   /* Verde de verdad, no un blanco roto con una idea de verde. Bajó de 0,89
      a 0,79 de luminancia: es la diferencia entre «el fondo es blanco» y «el
      fondo es verde». */
-  --fondo: #dcebd3;
-  --fondo-alt: #d0e4c6;
-  --fondo-claro: #d0e4c6;
+  /* Turquesa profundo, no un casi negro con una idea de verde. El
+     verde-profundo del manual tiene 0,017 de luminancia y se lee como negro;
+     este tiene 0,054 y se lee como turquesa. Esa es toda la diferencia. */
+  --fondo: #0e4a44;
+  --fondo-alt: #0a3831;
+  --fondo-claro: #0a3831;
 
   /* ── Tinta ───────────────────────────────────────────────────────────── */
-  --tinta: #132019;
-  --tinta-suave: #3c4d41;
-  --linea: #bcd3b2;
-  --linea-fuerte: #7d9878;
+  --tinta: #ecf6f1;
+  --tinta-suave: #bdd8ce;
+  --linea: #1b5b53;
+  --linea-fuerte: #4f8a80;
 
   /* ── Acento: uno solo, el verde de la paleta ─────────────────────────── */
   /* #235c2b y no #2c6633: sobre la banda turquesa más cargada el segundo
@@ -47,28 +50,30 @@
      fondos del sitio. */
   /* #1e5626: sobre el turquesa hondo, #235c2b da 4,50 y queda al filo.
      Este da 4,92 en el peor de los siete fondos. */
-  --acento: #1e5626;
-  --acento-tenue: #6f9276;
-  --acento-relleno: #2a6b33;
-  --sobre-acento: #edf6e8;
+  /* Verde de marca aclarado hasta que se lee sobre el turquesa: 5,58 en el
+     peor de los siete fondos. El #4a9e52 pleno da 2,9 y no alcanza. */
+  --acento: #93e9bf;
+  --acento-tenue: #4f8a80;
+  --acento-relleno: #93e9bf;
+  --sobre-acento: #06302b;
 
   --accion-fondo: transparent;
-  --accion-tinta: #1e5626;
-  --accion-borde: #8aad88;
-  --accion-hover-fondo: var(--acento-relleno);
-  --accion-hover-tinta: var(--sobre-acento);
-  --foco: #1e5626;
+  --accion-tinta: #93e9bf;
+  --accion-borde: #2d6b62;
+  --accion-hover-fondo: var(--acento);
+  --accion-hover-tinta: #06302b;
+  --foco: #93e9bf;
 
   /* Sobre foto el fondo es la imagen, no el papel. */
-  --sobre-oscuro: #f3f8f1;
-  --sobre-oscuro-suave: #cfdcce;
-  --velo: 20 28 24;
+  --sobre-oscuro: #ecf6f1;
+  --sobre-oscuro-suave: #bdd8ce;
+  --velo: 6 38 34;
 
   /* ── Identidad por unidad ────────────────────────────────────────────── */
-  --u-restaurante: #1e5626;
-  --u-hotel: #5a4835;
-  --u-balneario: #24494d;
-  --u-eventos: #6b4234;
+  --u-restaurante: #93e9bf;
+  --u-hotel: #e6cfb0;
+  --u-balneario: #96dfe0;
+  --u-eventos: #f0b79d;
   --u-restaurante-txt: var(--u-restaurante);
   --u-hotel-txt: var(--u-hotel);
   --u-balneario-txt: var(--u-balneario);
@@ -114,19 +119,21 @@
 
   /* Las superficies también van teñidas. Una tarjeta blanca pura sobre un
      papel verde se lee como un agujero en la página. */
-  --superficie: #e9f3e3;
-  --superficie-alta: #eff7ea;
-  --superficie-bisel: #d5e7cb;
-  --borde-caja: #c2d9b8;
-  --borde-caja-activo: #8aad88;
+  /* Sobre oscuro la elevación se construye con una superficie más clara y
+     un borde, no con sombra: una sombra negra sobre turquesa no se ve. */
+  --superficie: #10504a;
+  --superficie-alta: #13554d;
+  --superficie-bisel: #0b3f39;
+  --borde-caja: #1e6259;
+  --borde-caja-activo: #4f9a8e;
 
   /* Sombras con la temperatura del papel: una sombra negra sobre crema se
      ve gris sucio. Estas llevan el marrón del fondo. */
   /* La sombra lleva el verde del papel, no el marrón de antes ni negro. */
-  --elev-1: 0 1px 2px rgb(30 58 40 / 0.06);
-  --elev-2: 0 2px 4px rgb(30 58 40 / 0.05), 0 8px 20px rgb(30 58 40 / 0.07);
-  --elev-3: 0 4px 8px rgb(30 58 40 / 0.05), 0 18px 40px rgb(30 58 40 / 0.09);
-  --elev-4: 0 8px 16px rgb(30 58 40 / 0.06), 0 32px 72px rgb(30 58 40 / 0.11);
+  --elev-1: 0 1px 2px rgb(2 18 16 / 0.3);
+  --elev-2: 0 2px 4px rgb(2 18 16 / 0.28), 0 8px 20px rgb(2 18 16 / 0.32);
+  --elev-3: 0 4px 8px rgb(2 18 16 / 0.28), 0 18px 40px rgb(2 18 16 / 0.38);
+  --elev-4: 0 8px 16px rgb(2 18 16 / 0.3), 0 32px 72px rgb(2 18 16 / 0.44);
 
   /* Curva única, con peso. Ni linear ni ease-in-out. */
   --curva: cubic-bezier(0.32, 0.72, 0, 1);
@@ -143,15 +150,15 @@
   /* ── Bandas ──────────────────────────────────────────────────────────────
      Seis papeles con distinta temperatura. Ninguno baja del 86 % de
      luminancia: cambian de clima, no de luz. */
-  --banda-papel: #dcebd3;
-  --banda-salvia: #d0e4c6;
-  --banda-verde: #c6e0ba;
-  --banda-turquesa: #a8d8d0;
-  --banda-turquesa-hondo: #93cec5;
-  --banda-arena: #d9e5c4;
-  --banda-piedra: #b4ceb9;
+  --banda-papel: #0e4a44;
+  --banda-salvia: #0d4740;
+  --banda-verde: #14512f;
+  --banda-turquesa: #105048;
+  --banda-turquesa-hondo: #0a3831;
+  --banda-arena: #123f36;
+  --banda-piedra: #093c36;
 
-  color-scheme: light;
+  color-scheme: dark;
 }
 
 /* ── Bandas de sección ──────────────────────────────────────────────────── */
@@ -168,57 +175,60 @@
 
 .banda-salvia {
   --fondo: var(--banda-salvia);
-  --fondo-alt: #c2dab6;
-  --superficie: #dfeed6;
-  --superficie-bisel: #c8ddbc;
-  --borde-caja: #b8d2ac;
-  --linea: #b8d2ac;
+  --fondo-alt: #0a3831;
+  --superficie: #104d46;
+  --superficie-bisel: #0a3c35;
+  --borde-caja: #1c5d55;
+  --linea: #1a564f;
 }
+/* Verde de marca, hondo. */
 .banda-verde {
   --fondo: var(--banda-verde);
-  --fondo-alt: #b4d5a6;
-  --superficie: #d6ebcc;
-  --superficie-bisel: #bbd8ae;
-  --borde-caja: #aecda1;
-  --borde-caja-activo: #7fa673;
-  --linea: #aecda1;
+  --fondo-alt: #0f3e24;
+  --superficie: #185c36;
+  --superficie-alta: #1b6539;
+  --superficie-bisel: #10422a;
+  --borde-caja: #236f45;
+  --borde-caja-activo: #4fa06c;
+  --linea: #1d6440;
 }
-/* Turquesa, no celeste pálido. */
+/* Turquesa, el tono que da nombre al sistema. */
 .banda-turquesa {
   --fondo: var(--banda-turquesa);
-  --fondo-alt: #90ccc3;
-  --superficie: #c2e6e0;
-  --superficie-bisel: #9cd2ca;
-  --borde-caja: #8ec8bf;
-  --borde-caja-activo: #5f9f96;
-  --linea: #8ec8bf;
+  --fondo-alt: #0c3e38;
+  --superficie: #13584f;
+  --superficie-alta: #166057;
+  --superficie-bisel: #0d443d;
+  --borde-caja: #1f6c62;
+  --borde-caja-activo: #4fa093;
+  --linea: #1d6459;
 }
-/* El tono más cargado del sistema. */
+/* El más hondo, para cerrar. */
 .banda-turquesa-hondo {
   --fondo: var(--banda-turquesa-hondo);
-  --fondo-alt: #7dc2b8;
-  --superficie: #b2ddd6;
-  --superficie-bisel: #86c6bd;
-  --borde-caja: #79bdb3;
-  --borde-caja-activo: #4f948a;
-  --linea: #79bdb3;
+  --fondo-alt: #072b26;
+  --superficie: #0d413a;
+  --superficie-alta: #104a42;
+  --superficie-bisel: #082f2a;
+  --borde-caja: #16544c;
+  --linea: #14504a;
 }
 .banda-arena {
   --fondo: var(--banda-arena);
-  --fondo-alt: #cbdbb0;
-  --superficie: #e4eed4;
-  --superficie-bisel: #d0deb9;
-  --borde-caja: #c4d5aa;
-  --borde-caja-activo: #9aae7e;
-  --linea: #c4d5aa;
+  --fondo-alt: #0d3129;
+  --superficie: #16493f;
+  --superficie-alta: #185045;
+  --superficie-bisel: #0f362d;
+  --borde-caja: #225c50;
+  --linea: #1f564b;
 }
 .banda-piedra {
   --fondo: var(--banda-piedra);
-  --fondo-alt: #9dbda5;
-  --superficie: #c9dccd;
-  --superficie-bisel: #a8c6ae;
-  --borde-caja: #9bbca2;
-  --linea: #9bbca2;
+  --fondo-alt: #072e29;
+  --superficie: #0d443d;
+  --superficie-bisel: #083029;
+  --borde-caja: #155850;
+  --linea: #13544c;
 }
 
 /* ── Sobre foto ─────────────────────────────────────────────────────────────
@@ -226,13 +236,8 @@
    ser claras. Sin esto los botones del hero quedan verde oscuro sobre una
    foto oscurecida. */
 .sobre-foto {
-  --tinta: var(--sobre-oscuro);
-  --tinta-suave: var(--sobre-oscuro-suave);
-  --accion-tinta: var(--sobre-oscuro);
-  --accion-borde: rgb(247 245 238 / 0.45);
+  --accion-borde: rgb(236 246 241 / 0.4);
   --accion-hover-fondo: var(--sobre-oscuro);
-  --accion-hover-tinta: #16221c;
-  --acento: var(--sobre-oscuro);
-  --foco: var(--sobre-oscuro);
+  --accion-hover-tinta: #06302b;
   color: var(--sobre-oscuro);
 }
