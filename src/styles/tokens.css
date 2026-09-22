@@ -28,31 +28,36 @@
   /* El papel no es blanco: es verde muy claro. Un crema casi blanco de
      fondo deja el sitio lavado y los colores de la paleta no aparecen por
      ningún lado. */
-  --fondo: #eef4ea;
-  --fondo-alt: #e0ecdc;
-  --fondo-claro: #e0ecdc;
+  /* Verde de verdad, no un blanco roto con una idea de verde. Bajó de 0,89
+     a 0,79 de luminancia: es la diferencia entre «el fondo es blanco» y «el
+     fondo es verde». */
+  --fondo: #dcebd3;
+  --fondo-alt: #d0e4c6;
+  --fondo-claro: #d0e4c6;
 
   /* ── Tinta ───────────────────────────────────────────────────────────── */
-  --tinta: #16221c;
-  --tinta-suave: #44534a;
-  --linea: #cfdec9;
-  --linea-fuerte: #8ba189;
+  --tinta: #132019;
+  --tinta-suave: #3c4d41;
+  --linea: #bcd3b2;
+  --linea-fuerte: #7d9878;
 
   /* ── Acento: uno solo, el verde de la paleta ─────────────────────────── */
   /* #235c2b y no #2c6633: sobre la banda turquesa más cargada el segundo
      da 4,27 y no llega al mínimo. Este da 4,94 en el peor de los siete
      fondos del sitio. */
-  --acento: #235c2b;
-  --acento-tenue: #7fa085;
-  --acento-relleno: #2f7238;
-  --sobre-acento: #f2f8ef;
+  /* #1e5626: sobre el turquesa hondo, #235c2b da 4,50 y queda al filo.
+     Este da 4,92 en el peor de los siete fondos. */
+  --acento: #1e5626;
+  --acento-tenue: #6f9276;
+  --acento-relleno: #2a6b33;
+  --sobre-acento: #edf6e8;
 
   --accion-fondo: transparent;
-  --accion-tinta: #235c2b;
-  --accion-borde: #9cba9c;
+  --accion-tinta: #1e5626;
+  --accion-borde: #8aad88;
   --accion-hover-fondo: var(--acento-relleno);
   --accion-hover-tinta: var(--sobre-acento);
-  --foco: #235c2b;
+  --foco: #1e5626;
 
   /* Sobre foto el fondo es la imagen, no el papel. */
   --sobre-oscuro: #f3f8f1;
@@ -60,10 +65,10 @@
   --velo: 20 28 24;
 
   /* ── Identidad por unidad ────────────────────────────────────────────── */
-  --u-restaurante: #235c2b;
-  --u-hotel: #63503c;
-  --u-balneario: #2c5256;
-  --u-eventos: #744a3b;
+  --u-restaurante: #1e5626;
+  --u-hotel: #5a4835;
+  --u-balneario: #24494d;
+  --u-eventos: #6b4234;
   --u-restaurante-txt: var(--u-restaurante);
   --u-hotel-txt: var(--u-hotel);
   --u-balneario-txt: var(--u-balneario);
@@ -109,11 +114,11 @@
 
   /* Las superficies también van teñidas. Una tarjeta blanca pura sobre un
      papel verde se lee como un agujero en la página. */
-  --superficie: #f5faf3;
-  --superficie-alta: #fafdf8;
-  --superficie-bisel: #e3eede;
-  --borde-caja: #d4e2cf;
-  --borde-caja-activo: #9cba9c;
+  --superficie: #e9f3e3;
+  --superficie-alta: #eff7ea;
+  --superficie-bisel: #d5e7cb;
+  --borde-caja: #c2d9b8;
+  --borde-caja-activo: #8aad88;
 
   /* Sombras con la temperatura del papel: una sombra negra sobre crema se
      ve gris sucio. Estas llevan el marrón del fondo. */
@@ -138,13 +143,13 @@
   /* ── Bandas ──────────────────────────────────────────────────────────────
      Seis papeles con distinta temperatura. Ninguno baja del 86 % de
      luminancia: cambian de clima, no de luz. */
-  --banda-papel: #eef4ea;
-  --banda-salvia: #e0ecdc;
-  --banda-verde: #d2e7cd;
-  --banda-celeste: #cfe8e4;
-  --banda-turquesa: #b9ded9;
-  --banda-arena: #e8ecd8;
-  --banda-piedra: #c9ddd2;
+  --banda-papel: #dcebd3;
+  --banda-salvia: #d0e4c6;
+  --banda-verde: #c6e0ba;
+  --banda-turquesa: #a8d8d0;
+  --banda-turquesa-hondo: #93cec5;
+  --banda-arena: #d9e5c4;
+  --banda-piedra: #b4ceb9;
 
   color-scheme: light;
 }
@@ -153,8 +158,8 @@
 
 .banda-salvia,
 .banda-verde,
-.banda-celeste,
 .banda-turquesa,
+.banda-turquesa-hondo,
 .banda-arena,
 .banda-piedra {
   background: var(--fondo);
@@ -163,58 +168,57 @@
 
 .banda-salvia {
   --fondo: var(--banda-salvia);
-  --fondo-alt: #d3e3ce;
-  --superficie: #edf4ea;
-  --superficie-bisel: #d7e6d2;
-  --borde-caja: #cbdfc6;
-  --linea: #cbdfc6;
+  --fondo-alt: #c2dab6;
+  --superficie: #dfeed6;
+  --superficie-bisel: #c8ddbc;
+  --borde-caja: #b8d2ac;
+  --linea: #b8d2ac;
 }
 .banda-verde {
   --fondo: var(--banda-verde);
-  --fondo-alt: #c3dcbd;
-  --superficie: #e2f0de;
-  --superficie-bisel: #c9dfc4;
-  --borde-caja: #bdd7b8;
-  --borde-caja-activo: #93b58e;
-  --linea: #bdd7b8;
+  --fondo-alt: #b4d5a6;
+  --superficie: #d6ebcc;
+  --superficie-bisel: #bbd8ae;
+  --borde-caja: #aecda1;
+  --borde-caja-activo: #7fa673;
+  --linea: #aecda1;
 }
-/* La celeste del brandboard, ya casi turquesa. */
-.banda-celeste {
-  --fondo: var(--banda-celeste);
-  --fondo-alt: #bfdedb;
-  --superficie: #e1f2ef;
-  --superficie-bisel: #c6e0dd;
-  --borde-caja: #b9d9d5;
-  --borde-caja-activo: #8bb9b3;
-  --linea: #b9d9d5;
-}
-/* Turquesa pleno, el tono más cargado del sistema. */
+/* Turquesa, no celeste pálido. */
 .banda-turquesa {
   --fondo: var(--banda-turquesa);
-  --fondo-alt: #a4d1cb;
-  --superficie: #cfe9e5;
-  --superficie-bisel: #aed6d1;
-  --borde-caja: #9ecbc5;
-  --borde-caja-activo: #6fa8a1;
-  --linea: #9ecbc5;
+  --fondo-alt: #90ccc3;
+  --superficie: #c2e6e0;
+  --superficie-bisel: #9cd2ca;
+  --borde-caja: #8ec8bf;
+  --borde-caja-activo: #5f9f96;
+  --linea: #8ec8bf;
+}
+/* El tono más cargado del sistema. */
+.banda-turquesa-hondo {
+  --fondo: var(--banda-turquesa-hondo);
+  --fondo-alt: #7dc2b8;
+  --superficie: #b2ddd6;
+  --superficie-bisel: #86c6bd;
+  --borde-caja: #79bdb3;
+  --borde-caja-activo: #4f948a;
+  --linea: #79bdb3;
 }
 .banda-arena {
   --fondo: var(--banda-arena);
-  --fondo-alt: #dbe2c8;
-  --superficie: #f0f3e6;
-  --superficie-bisel: #dfe5cf;
-  --borde-caja: #d5dcc3;
-  --borde-caja-activo: #aab694;
-  --linea: #d5dcc3;
+  --fondo-alt: #cbdbb0;
+  --superficie: #e4eed4;
+  --superficie-bisel: #d0deb9;
+  --borde-caja: #c4d5aa;
+  --borde-caja-activo: #9aae7e;
+  --linea: #c4d5aa;
 }
-/* Verde grisado, para cerrar la página. */
 .banda-piedra {
   --fondo: var(--banda-piedra);
-  --fondo-alt: #b7cfc2;
-  --superficie: #dceade;
-  --superficie-bisel: #bed5c7;
-  --borde-caja: #b2cabc;
-  --linea: #b2cabc;
+  --fondo-alt: #9dbda5;
+  --superficie: #c9dccd;
+  --superficie-bisel: #a8c6ae;
+  --borde-caja: #9bbca2;
+  --linea: #9bbca2;
 }
 
 /* ── Sobre foto ─────────────────────────────────────────────────────────────
