@@ -91,9 +91,9 @@
   --t-h1: clamp(2.125rem, 3.6vw + 1.2rem, 4.25rem);
   --t-display: clamp(2.5rem, 5.4vw + 1rem, 6rem);
 
-  --track-display: -0.035em;
-  --track-h1: -0.03em;
-  --track-h2: -0.022em;
+  --track-display: -0.045em;
+  --track-h1: -0.04em;
+  --track-h2: -0.03em;
   --track-eyebrow: 0.2em;
 
   /* ── Ritmo ───────────────────────────────────────────────────────────────

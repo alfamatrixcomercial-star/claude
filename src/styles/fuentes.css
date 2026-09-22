@@ -99,7 +99,10 @@
 }
 
 :root {
-  --f-display: "Ramona", "Bodoni Moda", Georgia, serif;
+  /* Los títulos también en Poppins. La serif quedaba en todo lo grande, que
+     es justamente lo que se ve: con Poppins sólo en el texto chico, parecía
+     que no estaba. */
+  --f-display: "Poppins", "Segoe UI", system-ui, sans-serif;
   --f-texto: "Poppins", "Segoe UI", system-ui, -apple-system, sans-serif;
   --f-firma: "Apparel", "Bodoni Moda", Georgia, "Times New Roman", serif;
   /* Rótulos, botones y datos siempre en la sans. */

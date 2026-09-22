@@ -33,11 +33,13 @@ body {
 h1, h2, h3, h4 {
   margin: 0;
   font-family: var(--f-display);
-  font-weight: 400;
-  line-height: 1.08;
+  /* 600 y no 400: un geométrico a 96 px con peso de párrafo se ve flaco y
+     desarmado. La serif aguantaba el 400 porque tiene contraste propio. */
+  font-weight: 600;
+  line-height: 1.04;
   text-wrap: balance;
 }
-h3, h4 { font-weight: 500; line-height: 1.22; }
+h3, h4 { font-weight: 600; line-height: 1.24; }
 h1 { font-size: var(--t-h1); letter-spacing: var(--track-h1); }
 h2 { font-size: var(--t-h2); letter-spacing: var(--track-h2); }
 h3 { font-size: var(--t-h3); letter-spacing: -0.018em; }
