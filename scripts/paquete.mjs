@@ -18,6 +18,10 @@ import { promisify } from "node:util";
 
 const ejecutar = promisify(execFile);
 const DIST = "dist";
+
+/* Con --sin-zip poda y escribe el .htaccess, pero no comprime nada. Lo usa
+   el deploy automático, que sube archivo por archivo y no necesita zips. */
+const SIN_ZIP = process.argv.includes("--sin-zip");
 const ZIP = "miradorwaikiki-sitio.zip";
 
 /* ── 1. Originales huérfanos ──────────────────────────────────────────── */
@@ -156,10 +160,15 @@ for (const f of todos.filter(esImagen).sort((a, b) => b.bytes - a.bytes)) {
 }
 if (actual.length) grupos.push(actual);
 
-await ejecutar("sh", ["-c", "rm -f miradorwaikiki-sitio*.zip"]);
-
 console.log(`Originales huérfanos borrados: ${borrados} (${mb(liberado)} MB)`);
 console.log(`.htaccess escrito en ${DIST}/`);
+
+if (SIN_ZIP) {
+  console.log(`${todos.length} archivos listos en ${DIST}/, sin comprimir.`);
+  process.exit(0);
+}
+
+await ejecutar("sh", ["-c", "rm -f miradorwaikiki-sitio*.zip"]);
 
 const nombres = [];
 for (const [i, grupo] of grupos.entries()) {

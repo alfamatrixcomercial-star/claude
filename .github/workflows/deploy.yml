@@ -1,0 +1,81 @@
+# Deploy automático a DonWeb / Ferozo.
+#
+# Cada push a la rama compila el sitio y sube SÓLO lo que cambió por FTP.
+# No hay que armar zips ni entrar al administrador de archivos.
+#
+# ── Para activarlo ────────────────────────────────────────────────────────
+# En GitHub: Settings → Secrets and variables → Actions → New repository
+# secret. Tres secretos, con estos nombres exactos:
+#
+#   FTP_SERVIDOR   el host que da el panel de Ferozo (ej: ftp.miradorwaikiki.com)
+#   FTP_USUARIO    el usuario FTP
+#   FTP_CLAVE      la contraseña
+#
+# Los secretos no se ven después de guardarlos, no aparecen en los registros
+# y no quedan en el repositorio. Nunca los pongas en este archivo.
+#
+# ── Antes del primer deploy ───────────────────────────────────────────────
+# Vaciar public_html a mano (menos lo que el hosting ponga ahí de sistema).
+# La primera corrida sube todo; de ahí en más compara contra un archivo de
+# estado que deja en el servidor y sólo toca lo que cambió, incluyendo
+# borrar lo que dejó de existir.
+
+name: Deploy a DonWeb
+
+on:
+  push:
+    branches: [claude/clever-franklin-nj0rnb]
+  # Y a mano, desde la pestaña Actions, sin necesidad de pushear.
+  workflow_dispatch:
+
+# Si se pushea dos veces seguidas, la primera corrida se cancela: dos
+# deploys FTP en paralelo sobre la misma carpeta se pisan.
+concurrency:
+  group: deploy-donweb
+  cancel-in-progress: true
+
+jobs:
+  publicar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      # El mismo control de resolución que corre en local. En estricto, una
+      # foto por debajo del mínimo corta el deploy en vez de publicarse.
+      - run: npm run fotos
+        env:
+          FOTOS_ESTRICTO: "1"
+
+      - run: npx astro check
+
+      - run: npm run build
+
+      # Poda los originales huérfanos y escribe el .htaccess, igual que
+      # `npm run paquete`, pero sin armar los zips.
+      - name: Preparar dist
+        run: node scripts/paquete.mjs --sin-zip
+
+      - name: Subir por FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVIDOR }}
+          username: ${{ secrets.FTP_USUARIO }}
+          password: ${{ secrets.FTP_CLAVE }}
+          # ftps va cifrado. Si el hosting no lo soporta, cambiar a `ftp`,
+          # sabiendo que ahí la contraseña viaja en claro.
+          protocol: ftps
+          local-dir: ./dist/
+          server-dir: ./public_html/
+          # Lo que el hosting maneja por su cuenta no se toca.
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/node_modules/**
+            cgi-bin/**
