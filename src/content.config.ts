@@ -223,6 +223,18 @@ const sitio = defineCollection({
     }),
     woki: z.string().url().nullable(),
     /**
+     * Códigos de verificación de propiedad. Van acá y no pegados a mano en
+     * el layout: así sobreviven al próximo build y se cambian sin tocar
+     * código. Vacío = no se emite la etiqueta.
+     */
+    verificacion: z
+      .object({
+        google: z.string().default(""),
+        bing: z.string().default(""),
+        facebook: z.string().default(""),
+      })
+      .default({}),
+    /**
      * Gift card. La página existe en /giftcard pero no se enlaza desde
      * ningún lado hasta que esté terminada, y lleva noindex.
      */

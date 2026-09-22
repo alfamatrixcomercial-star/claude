@@ -58,6 +58,17 @@ contacto:
 
 # VERIFICAR con un click: no pude abrir wokiapp.com desde el entorno de
 # desarrollo. Si redirige a otra dirección, cambiá esta línea y listo.
+# ── Verificación de propiedad ────────────────────────────────────────────
+# Pegar acá el valor del atributo content= que da cada panel. Sólo el
+# código, sin la etiqueta <meta> entera. Vacío = no se emite nada.
+#
+#   Google Search Console → Propiedad de prefijo de URL → Etiqueta HTML
+#   Bing Webmaster Tools  → Agregar sitio → Etiqueta meta
+verificacion:
+  google: ""
+  bing: ""
+  facebook: ""
+
 # ── Gift card ────────────────────────────────────────────────────────────
 # La página vive en /giftcard y NO se enlaza desde ninguna sección. Mientras
 # no esté terminada, nadie tiene que llegar por navegación.
