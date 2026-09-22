@@ -271,6 +271,41 @@ const datosEstructurados = {
   .u-eventos { --u: var(--u-eventos); --u-txt: var(--u-eventos-txt); }
 
   .hero { position: relative; isolation: isolate; overflow: hidden; }
+  /* La mancha que hace legible el texto va en el hero entero, no en la caja
+     del texto. Colgada del bloque de texto, el degradado no alcanzaba a
+     llegar a transparente antes del borde de su caja y se cortaba en seco:
+     se veía un rectángulo más oscuro con los tres lados marcados.
+
+     A sangre no hay borde que se pueda ver, y el degradado se apaga dentro
+     del propio hero. */
+  .hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background:
+      radial-gradient(
+        118% 128% at 18% 64%,
+        rgb(var(--velo) / 0.84) 0%,
+        rgb(var(--velo) / 0.66) 28%,
+        rgb(var(--velo) / 0.32) 50%,
+        rgb(var(--velo) / 0.08) 70%,
+        rgb(var(--velo) / 0) 86%
+      ),
+      /* Capa vertical de apoyo. Va de ancho completo, así que no tiene un
+         borde lateral que se pueda ver, y cubre toda la franja donde cae el
+         texto sin importar cuánto crezca el titular. */
+      linear-gradient(
+        to top,
+        rgb(var(--velo) / 0.6) 0%,
+        rgb(var(--velo) / 0.46) 38%,
+        rgb(var(--velo) / 0.3) 62%,
+        rgb(var(--velo) / 0.1) 82%,
+        rgb(var(--velo) / 0) 96%
+      );
+    pointer-events: none;
+  }
+
   .hero::after {
     content: "";
     position: absolute;
@@ -278,7 +313,7 @@ const datosEstructurados = {
     height: 3px;
     background: var(--u);
   }
-  .fondo { position: absolute; inset: 0; z-index: -1; background: var(--fondo-alt); }
+  .fondo { position: absolute; inset: 0; z-index: -2; background: var(--fondo-alt); }
   .fondo::after {
     content: "";
     position: absolute;
@@ -299,23 +334,6 @@ const datosEstructurados = {
     max-width: var(--ancho);
     margin-inline: auto;
     padding: var(--paso) var(--margen) var(--paso-corto);
-  }
-  /* La mancha que hace legible el texto sobre la foto. Se desvanece antes
-     del borde, así no se ve como un recuadro, y deja limpio el resto de la
-     imagen. Es lo que permite que el velo general sea liviano. */
-  .texto::before {
-    content: "";
-    position: absolute;
-    inset: -3rem -12rem -2.5rem -6rem;
-    z-index: -1;
-    background: radial-gradient(
-      118% 132% at 18% 54%,
-      rgb(var(--velo) / 0.8) 0%,
-      rgb(var(--velo) / 0.62) 38%,
-      rgb(var(--velo) / 0.28) 62%,
-      rgb(var(--velo) / 0) 82%
-    );
-    pointer-events: none;
   }
 
   .texto {

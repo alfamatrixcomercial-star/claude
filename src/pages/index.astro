@@ -253,6 +253,41 @@ const datosEstructurados = {
 
 <style>
   .hero { position: relative; isolation: isolate; overflow: hidden; }
+  /* La mancha que hace legible el texto va en el hero entero, no en la caja
+     del texto. Colgada del bloque de texto, el degradado no alcanzaba a
+     llegar a transparente antes del borde de su caja y se cortaba en seco:
+     se veía un rectángulo más oscuro con los tres lados marcados.
+
+     A sangre no hay borde que se pueda ver, y el degradado se apaga dentro
+     del propio hero. */
+  .hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background:
+      radial-gradient(
+        118% 128% at 18% 64%,
+        rgb(var(--velo) / 0.84) 0%,
+        rgb(var(--velo) / 0.66) 28%,
+        rgb(var(--velo) / 0.32) 50%,
+        rgb(var(--velo) / 0.08) 70%,
+        rgb(var(--velo) / 0) 86%
+      ),
+      /* Capa vertical de apoyo. Va de ancho completo, así que no tiene un
+         borde lateral que se pueda ver, y cubre toda la franja donde cae el
+         texto sin importar cuánto crezca el titular. */
+      linear-gradient(
+        to top,
+        rgb(var(--velo) / 0.6) 0%,
+        rgb(var(--velo) / 0.46) 38%,
+        rgb(var(--velo) / 0.3) 62%,
+        rgb(var(--velo) / 0.1) 82%,
+        rgb(var(--velo) / 0) 96%
+      );
+    pointer-events: none;
+  }
+
   .texto {
     position: relative;
     display: flex;
@@ -267,25 +302,6 @@ const datosEstructurados = {
     margin-inline: auto;
     padding: var(--paso) var(--margen) var(--paso-corto);
     color: var(--sobre-oscuro);
-  }
-  /* Sombra propia del texto, además del velo general.
-     El rótulo es de 11 px: con el velo solo daba 3,46 y necesita 4,5, y
-     subir el velo hasta taparlo apagaba el video entero. Esta mancha va
-     detrás del texto nada más, y se desvanece antes del borde, así que no
-     se ve como un recuadro. */
-  .texto::before {
-    content: "";
-    position: absolute;
-    inset: -3rem -10rem -2rem -5rem;
-    z-index: -1;
-    background: radial-gradient(
-      125% 148% at 18% 48%,
-      rgb(var(--velo) / 0.88) 0%,
-      rgb(var(--velo) / 0.74) 40%,
-      rgb(var(--velo) / 0.38) 64%,
-      rgb(var(--velo) / 0) 84%
-    );
-    pointer-events: none;
   }
 
   .eyebrow {
