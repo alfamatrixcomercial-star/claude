@@ -96,24 +96,36 @@ const { fotos, unidad = "complejo", titulo } = Astro.props;
 </style>
 
 <script>
-  document.querySelectorAll<HTMLElement>(".galeria").forEach((galeria) => {
-    const visor = galeria.querySelector<HTMLDialogElement>(".visor");
-    const img = visor?.querySelector("img");
-    const pie = visor?.querySelector<HTMLElement>(".pie-visor");
-    if (!visor || !img || !pie) return;
+  import { enCadaPagina } from "~/lib/enCadaPagina";
 
-    galeria.querySelectorAll<HTMLButtonElement>("[data-abrir]").forEach((boton) => {
-      boton.addEventListener("click", () => {
-        const original = boton.querySelector("img");
-        if (!original) return;
-        img.src = original.currentSrc || original.src;
-        img.alt = original.alt;
-        pie.textContent = original.alt;
-        visor.showModal();
+  enCadaPagina(() => {
+    const visores: HTMLDialogElement[] = [];
+
+    document.querySelectorAll<HTMLElement>(".galeria").forEach((galeria) => {
+      const visor = galeria.querySelector<HTMLDialogElement>(".visor");
+      const img = visor?.querySelector("img");
+      const pie = visor?.querySelector<HTMLElement>(".pie-visor");
+      if (!visor || !img || !pie) return;
+      visores.push(visor);
+
+      galeria.querySelectorAll<HTMLButtonElement>("[data-abrir]").forEach((boton) => {
+        boton.addEventListener("click", () => {
+          const original = boton.querySelector("img");
+          if (!original) return;
+          img.src = original.currentSrc || original.src;
+          img.alt = original.alt;
+          pie.textContent = original.alt;
+          visor.showModal();
+        });
       });
+
+      visor.querySelector(".cerrar")?.addEventListener("click", () => visor.close());
+      visor.addEventListener("click", (e) => { if (e.target === visor) visor.close(); });
     });
 
-    visor.querySelector(".cerrar")?.addEventListener("click", () => visor.close());
-    visor.addEventListener("click", (e) => { if (e.target === visor) visor.close(); });
+    /* Con el visor abierto se puede salir con el botón atrás del navegador.
+       Se cierra antes del cambio para que la transición no arranque con la
+       foto ampliada encima. */
+    return () => visores.forEach((v) => v.open && v.close());
   });
 </script>

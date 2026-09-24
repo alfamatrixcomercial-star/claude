@@ -12,6 +12,8 @@
 ---
 
 <script>
+  import { enCadaPagina } from "~/lib/enCadaPagina";
+
   const PASO = 90; /* ms entre un hijo y el siguiente */
 
   function preparar(raiz: ParentNode = document) {
@@ -49,9 +51,10 @@
       if (r.top < window.innerHeight * 0.92) el.classList.add("visible");
       else ojo.observe(el);
     }
+    return () => ojo.disconnect();
   }
 
-  preparar();
-  /* Astro reemplaza el <body> al navegar: hay que volver a engancharlo. */
-  document.addEventListener("astro:after-swap", () => preparar());
+  /* Astro reemplaza el <body> al navegar: hay que volver a engancharlo, y
+     soltar el observer de la página anterior. */
+  enCadaPagina(() => preparar());
 </script>

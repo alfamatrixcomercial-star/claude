@@ -36,7 +36,17 @@ const tituloCompleto =
          si el script no llega. Va primero adentro del head: entre <html> y
          <head> es posición inválida y el parser termina descartando la
          etiqueta. -->
-    <script is:inline>document.documentElement.classList.add("js");</script>
+    <script is:inline>
+      document.documentElement.classList.add("js");
+      /* Al navegar, el router copia los atributos del <html> de la página
+         nueva, que viene del servidor sin la clase: hay que volver a
+         ponerla o el revelado queda apagado desde el primer clic. Si el
+         listener llegara a quedar duplicado no pasa nada: agregar una
+         clase que ya está no cambia nada. */
+      document.addEventListener("astro:after-swap", () =>
+        document.documentElement.classList.add("js"),
+      );
+    </script>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{tituloCompleto}</title>
@@ -88,7 +98,9 @@ const tituloCompleto =
   <body>
     <div class="grano" aria-hidden="true"></div>
     <Revelar />
-    <div class="cargando" aria-hidden="true"></div>
+    <!-- Persiste entre páginas: el script de abajo la agarra una sola vez
+         y la necesita viva durante todo el cambio de página. -->
+    <div class="cargando" aria-hidden="true" transition:persist="cargando"></div>
     <a class="saltar" href="#contenido">Saltar al contenido</a>
     <Cabecera unidadActiva={unidadActiva} />
     <main id="contenido">

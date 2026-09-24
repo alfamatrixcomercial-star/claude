@@ -75,27 +75,38 @@ const { src, poster, titulo, descripcion } = Astro.props;
 </style>
 
 <script>
-  document.querySelectorAll<HTMLElement>(".video").forEach((bloque) => {
-    const video = bloque.querySelector("video");
-    const boton = bloque.querySelector<HTMLButtonElement>(".reproducir");
-    if (!video || !boton) return;
+  import { enCadaPagina } from "~/lib/enCadaPagina";
 
-    const quietud = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const ahorro = (navigator as any).connection?.saveData === true;
+  enCadaPagina(() => {
+    const soltar: (() => void)[] = [];
 
-    const arrancar = () => {
-      video.play().then(() => { boton.hidden = true; }).catch(() => { boton.hidden = false; });
-    };
-    boton.addEventListener("click", arrancar);
+    document.querySelectorAll<HTMLElement>(".video").forEach((bloque) => {
+      const video = bloque.querySelector("video");
+      const boton = bloque.querySelector<HTMLButtonElement>(".reproducir");
+      if (!video || !boton) return;
 
-    /* Arranca solo cuando entra en pantalla, salvo que el visitante pida
-       menos movimiento o tenga el ahorro de datos activado. */
-    if (quietud.matches || ahorro) return;
-    new IntersectionObserver((entradas) => {
-      for (const e of entradas) {
-        if (e.isIntersecting) arrancar();
-        else video.pause();
-      }
-    }, { threshold: 0.4 }).observe(video);
+      const quietud = window.matchMedia("(prefers-reduced-motion: reduce)");
+      const ahorro = (navigator as any).connection?.saveData === true;
+
+      const arrancar = () => {
+        video.play().then(() => { boton.hidden = true; }).catch(() => { boton.hidden = false; });
+      };
+      boton.addEventListener("click", arrancar);
+      soltar.push(() => video.pause());
+
+      /* Arranca solo cuando entra en pantalla, salvo que el visitante pida
+         menos movimiento o tenga el ahorro de datos activado. */
+      if (quietud.matches || ahorro) return;
+      const ojo = new IntersectionObserver((entradas) => {
+        for (const e of entradas) {
+          if (e.isIntersecting) arrancar();
+          else video.pause();
+        }
+      }, { threshold: 0.4 });
+      ojo.observe(video);
+      soltar.push(() => ojo.disconnect());
+    });
+
+    return () => soltar.forEach((f) => f());
   });
 </script>

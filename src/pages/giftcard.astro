@@ -69,6 +69,7 @@ const unidades = [
         <div class="bandeja-nucleo">
           <form
             class="form"
+            data-giftcard
             novalidate
             data-whatsapp={whatsapp}
             data-minimo={String(g.montoMinimo)}
@@ -267,6 +268,9 @@ const unidades = [
     gap: 0.35rem;
   }
   .error::before { content: "—"; opacity: 0.6; }
+  /* El display: flex de arriba le gana al [hidden] del navegador: sin esto
+     la caja vacía se dibuja igual y deja un guión suelto bajo cada campo. */
+  .error[hidden] { display: none; }
   .campo:has(.error:not([hidden])) input,
   .campo:has(.error:not([hidden])) select { border-color: var(--u-eventos); }
 
@@ -319,8 +323,14 @@ const unidades = [
 </style>
 
 <script>
-  const form = document.querySelector<HTMLFormElement>(".form");
-  if (form) {
+  import { enCadaPagina } from "~/lib/enCadaPagina";
+
+  /* Con el router, este script corre una vez y queda vivo en las páginas
+     siguientes: se engancha al formulario cada vez que aparece, y en las
+     demás páginas no encuentra nada y no hace nada. */
+  enCadaPagina(() => {
+    const form = document.querySelector<HTMLFormElement>("form[data-giftcard]");
+    if (!form) return;
     const wa = form.dataset.whatsapp!;
     const minimo = Number(form.dataset.minimo) || 0;
     const estado = form.querySelector<HTMLElement>("[data-estado]")!;
@@ -390,11 +400,16 @@ const unidades = [
       return primerError;
     }
 
-    /* Revalida al salir de cada campo, pero sólo si ya se había marcado:
-       corregir un error tiene que apagar el cartel enseguida, y a la vez
-       nadie quiere que le griten antes de terminar de escribir. */
+    /* Revalida mientras se escribe, pero sólo si el campo ya se había
+       marcado: corregir un error tiene que apagar el cartel enseguida, y a
+       la vez nadie quiere que le griten antes de terminar de escribir.
+
+       Al escribir y no al salir del campo: salir del último campo es
+       apretar "Enviar", y si el cartel se apaga en ese momento el botón se
+       corre hacia arriba entre que se aprieta y se suelta, y el clic se
+       pierde. */
     for (const n of ["de", "email", "para", "emailPara", "monto"]) {
-      campo(n).addEventListener("blur", () => {
+      campo(n).addEventListener("input", () => {
         if (!errorDe(n).hidden) revisar();
       });
     }
@@ -436,5 +451,5 @@ const unidades = [
         "noopener",
       );
     });
-  }
+  });
 </script>

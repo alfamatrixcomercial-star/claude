@@ -79,35 +79,47 @@ const { src, poster, alt } = Astro.props;
 </style>
 
 <script>
-  const bloque = document.querySelector<HTMLElement>(".fondo-video");
-  const video = bloque?.querySelector("video");
-  const src = bloque?.dataset.video;
+  import { enCadaPagina } from "~/lib/enCadaPagina";
 
-  if (bloque && video && src) {
+  enCadaPagina(() => {
+    const bloque = document.querySelector<HTMLElement>(".fondo-video");
+    const video = bloque?.querySelector("video");
+    const src = bloque?.dataset.video;
+    if (!bloque || !video || !src) return;
+
     const quietud = window.matchMedia("(prefers-reduced-motion: reduce)");
     const angosto = window.matchMedia("(max-width: 700px)");
     const ahorro = (navigator as any).connection?.saveData === true;
+    if (quietud.matches || angosto.matches || ahorro) return;
 
-    if (!quietud.matches && !angosto.matches && !ahorro) {
-      /* Se carga recién cuando el navegador terminó con lo importante. */
-      const arrancar = () => {
-        /* El mp4 va primero: en este material pesa menos que el webm y lo
-           lee todo el mundo. El webm queda de reserva para los navegadores
-           compilados sin H.264. */
-        for (const [tipo, ext] of [
-          ["video/mp4", "mp4"],
-          ["video/webm", "webm"],
-        ]) {
-          const fuente = document.createElement("source");
-          fuente.src = `${src}.${ext}`;
-          fuente.type = tipo;
-          video.appendChild(fuente);
-        }
-        video.load();
-        video.play().then(() => video.classList.add("visible")).catch(() => {});
-      };
-      if (document.readyState === "complete") arrancar();
-      else window.addEventListener("load", arrancar, { once: true });
-    }
-  }
+    /* Se carga recién cuando el navegador terminó con lo importante. */
+    const arrancar = () => {
+      /* El mp4 va primero: en este material pesa menos que el webm y lo
+         lee todo el mundo. El webm queda de reserva para los navegadores
+         compilados sin H.264. */
+      for (const [tipo, ext] of [
+        ["video/mp4", "mp4"],
+        ["video/webm", "webm"],
+      ]) {
+        const fuente = document.createElement("source");
+        fuente.src = `${src}.${ext}`;
+        fuente.type = tipo;
+        video.appendChild(fuente);
+      }
+      video.load();
+      video.play().then(() => video.classList.add("visible")).catch(() => {});
+    };
+    if (document.readyState === "complete") arrancar();
+    else window.addEventListener("load", arrancar, { once: true });
+
+    /* Al irse de la página el video sale del documento pero sigue bajando
+       hasta que el navegador lo descarta. Sin fuentes y con load() corta
+       la descarga en el momento. */
+    return () => {
+      window.removeEventListener("load", arrancar);
+      video.pause();
+      video.querySelectorAll("source").forEach((f) => f.remove());
+      video.load();
+    };
+  });
 </script>

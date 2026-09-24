@@ -55,33 +55,50 @@ const { src, poster, alt } = Astro.props;
 </style>
 
 <script>
-  document.querySelectorAll<HTMLElement>(".retrato").forEach((bloque) => {
-    const video = bloque.querySelector("video");
-    const src = bloque.dataset.video;
-    if (!video || !src) return;
+  import { enCadaPagina } from "~/lib/enCadaPagina";
 
-    const quietud = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const angosto = window.matchMedia("(max-width: 700px)");
-    const ahorro = (navigator as any).connection?.saveData === true;
-    if (quietud.matches || angosto.matches || ahorro) return;
+  enCadaPagina(() => {
+    const soltar: (() => void)[] = [];
 
-    const arrancar = () => {
-      /* El mp4 va primero a propósito: pesa menos que el webm en este
-         material y lo lee todo el mundo. El webm queda de reserva para los
-         navegadores compilados sin H.264. */
-      for (const [tipo, ext] of [
-        ["video/mp4", "mp4"],
-        ["video/webm", "webm"],
-      ]) {
-        const fuente = document.createElement("source");
-        fuente.src = `${src}.${ext}`;
-        fuente.type = tipo;
-        video.appendChild(fuente);
-      }
-      video.load();
-      video.play().then(() => video.classList.add("visible")).catch(() => {});
-    };
-    if (document.readyState === "complete") arrancar();
-    else window.addEventListener("load", arrancar, { once: true });
+    document.querySelectorAll<HTMLElement>(".retrato").forEach((bloque) => {
+      const video = bloque.querySelector("video");
+      const src = bloque.dataset.video;
+      if (!video || !src) return;
+
+      const quietud = window.matchMedia("(prefers-reduced-motion: reduce)");
+      const angosto = window.matchMedia("(max-width: 700px)");
+      const ahorro = (navigator as any).connection?.saveData === true;
+      if (quietud.matches || angosto.matches || ahorro) return;
+
+      const arrancar = () => {
+        /* El mp4 va primero a propósito: pesa menos que el webm en este
+           material y lo lee todo el mundo. El webm queda de reserva para los
+           navegadores compilados sin H.264. */
+        for (const [tipo, ext] of [
+          ["video/mp4", "mp4"],
+          ["video/webm", "webm"],
+        ]) {
+          const fuente = document.createElement("source");
+          fuente.src = `${src}.${ext}`;
+          fuente.type = tipo;
+          video.appendChild(fuente);
+        }
+        video.load();
+        video.play().then(() => video.classList.add("visible")).catch(() => {});
+      };
+      if (document.readyState === "complete") arrancar();
+      else window.addEventListener("load", arrancar, { once: true });
+
+      /* Corta la descarga al irse de la página: fuera del documento el
+         video sigue bajando hasta que el navegador lo descarta. */
+      soltar.push(() => {
+        window.removeEventListener("load", arrancar);
+        video.pause();
+        video.querySelectorAll("source").forEach((f) => f.remove());
+        video.load();
+      });
+    });
+
+    return () => soltar.forEach((f) => f());
   });
 </script>

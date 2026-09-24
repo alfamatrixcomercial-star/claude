@@ -42,23 +42,34 @@ const { texto, href } = Astro.props;
 </style>
 
 <script>
-  const barra = document.querySelector<HTMLElement>(".barra");
-  const hero = document.querySelector<HTMLElement>("[data-hero]");
-  const pie = document.querySelector<HTMLElement>("footer");
-  if (barra && hero) {
+  import { enCadaPagina } from "~/lib/enCadaPagina";
+
+  enCadaPagina(() => {
+    const barra = document.querySelector<HTMLElement>(".barra");
+    const hero = document.querySelector<HTMLElement>("[data-hero]");
+    const pie = document.querySelector<HTMLElement>("footer");
+    if (!barra || !hero) return;
+
     let pasoElHero = false;
     let llegoAlPie = false;
     const refrescar = () => barra.classList.toggle("visible", pasoElHero && !llegoAlPie);
 
-    new IntersectionObserver(
-      ([e]) => { pasoElHero = !e.isIntersecting; refrescar(); },
-      { rootMargin: "-60px 0px 0px 0px" },
-    ).observe(hero);
+    const ojos = [
+      new IntersectionObserver(
+        ([e]) => { pasoElHero = !e.isIntersecting; refrescar(); },
+        { rootMargin: "-60px 0px 0px 0px" },
+      ),
+    ];
+    ojos[0].observe(hero);
 
     if (pie) {
-      new IntersectionObserver(
+      const ojoPie = new IntersectionObserver(
         ([e]) => { llegoAlPie = e.isIntersecting; refrescar(); },
-      ).observe(pie);
+      );
+      ojoPie.observe(pie);
+      ojos.push(ojoPie);
     }
-  }
+
+    return () => ojos.forEach((o) => o.disconnect());
+  });
 </script>
