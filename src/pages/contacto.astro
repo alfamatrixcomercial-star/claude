@@ -4,6 +4,9 @@ import Base from "~/layouts/Base.astro";
 import Onda from "~/components/Onda.astro";
 import Boton from "~/components/Boton.astro";
 import Estado from "~/components/Estado.astro";
+import Foto from "~/components/Foto.astro";
+import FondoFoto from "~/components/FondoFoto.astro";
+import MarcoFoto from "~/components/MarcoFoto.astro";
 import { estadoDeUnidad } from "~/lib/estado";
 import { datosSitio, waLink, telefonoLegible } from "~/lib/contacto";
 
@@ -15,6 +18,8 @@ const canales = await Promise.all(
     id: u.id as "restaurante" | "hotel" | "balneario" | "eventos",
     nombre: u.data.nombreLargo,
     bajada: u.data.bajada,
+    hero: u.data.hero,
+    ornamento: u.data.ornamento,
     wa: await waLink(u.id as any),
     tel: telefonoLegible(sitio.contacto[u.id as "restaurante"].whatsapp),
     estado: estadoDeUnidad({
@@ -53,8 +58,9 @@ const datosEstructurados = {
   unidadActiva="contacto"
   datosEstructurados={datosEstructurados}
 >
-  <section class="portada">
-    <div class="interior">
+  <section class="portada con-fondo portada-foto">
+    <FondoFoto foto={sitio.fotos.contacto} prioridad />
+    <div class="interior sobre-foto">
       <p class="eyebrow">Contacto</p>
       <h1>Escribinos a la unidad que te interesa.</h1>
       <p class="bajada">
@@ -73,6 +79,15 @@ const datosEstructurados = {
         {
           canales.map((c) => (
             <li class:list={["caja", `u-${c.id}`]}>
+              <div class="media">
+                <Foto
+                  foto={c.hero}
+                  unidad={c.id}
+                  ornamento={c.ornamento}
+                  sizes="(min-width: 1100px) 22vw, (min-width: 600px) 45vw, 100vw"
+                  anchos={[480, 800]}
+                />
+              </div>
               <div class="cabeza">
                 <h3>{c.nombre}</h3>
                 <p class="bajadita">{c.bajada}</p>
@@ -102,11 +117,14 @@ const datosEstructurados = {
         </ul>
         <p class="estacionamiento">{sitio.estacionamiento}</p>
       </div>
-      <div class="acciones">
-        <Boton href={mapa} externo>Abrir en Google Maps</Boton>
-        <Boton href={await waLink("general")} jerarquia="secundaria" externo>
-          Consulta general por WhatsApp
-        </Boton>
+      <div class="lado">
+        <div class="acciones">
+          <Boton href={mapa} externo>Abrir en Google Maps</Boton>
+          <Boton href={await waLink("general")} jerarquia="secundaria" externo>
+            Consulta general por WhatsApp
+          </Boton>
+        </div>
+        <MarcoFoto foto={sitio.fotos.llegar} proporcion="4/5" sizes="(min-width: 780px) 35vw, 100vw" />
       </div>
     </div>
   </section>
@@ -138,12 +156,20 @@ const datosEstructurados = {
     flex-direction: column;
     justify-content: space-between;
     gap: 1.5rem;
-    padding: 1.75rem 1.6rem 1.85rem;
+    padding: 0 1.6rem 1.85rem;
+    overflow: hidden;
+  }
+  /* La foto de la unidad arriba, a sangre dentro de la tarjeta. */
+  .media {
+    aspect-ratio: 16 / 10;
+    margin: 0 -1.6rem -0.25rem;
+    overflow: hidden;
   }
   .canales > .interior > ul > li::before {
     content: "";
     position: absolute;
     inset: 0 0 auto;
+    z-index: var(--z-base);
     height: 3px;
     background: var(--u);
   }
@@ -158,6 +184,7 @@ const datosEstructurados = {
   }
 
   .llegar { padding: var(--paso) var(--margen); }
+  .lado { display: flex; flex-direction: column; gap: 1.75rem; }
   .alt { background: var(--fondo-alt); }
   .dos { display: grid; gap: clamp(1.75rem, 4vw, 3rem); }
   @media (min-width: 780px) {

@@ -5,14 +5,17 @@
  * tiene que volver a subir a buscar el botón.
  */
 import Boton from "./Boton.astro";
-import { waLink, wokiLink } from "~/lib/contacto";
+import FondoFoto from "./FondoFoto.astro";
+import { datosSitio, waLink, wokiLink } from "~/lib/contacto";
 
+const sitio = await datosSitio();
 const woki = await wokiLink();
 const wa = await waLink("general");
 ---
 
-<section class="cierre banda-verde">
-  <div class="interior">
+<section class="cierre banda-verde con-fondo">
+  <FondoFoto foto={sitio.fotos.cierre} sombra="centro" />
+  <div class="interior sobre-foto">
     <div class="encabezado centrado">
       <p class="rotulo">Reservas</p>
       <h2>Se reserva por WhatsApp o por Woki.</h2>
@@ -42,7 +45,7 @@ const wa = await waLink("general");
   }
   .aclaracion {
     max-width: 46ch;
-    color: var(--tinta-suave);
+    color: var(--sobre-oscuro);
     margin-bottom: 2.25rem;
   }
   .acciones { display: flex; flex-wrap: wrap; gap: 0.9rem; justify-content: center; }

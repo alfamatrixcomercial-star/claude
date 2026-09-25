@@ -114,6 +114,12 @@ const unidades = defineCollection({
         })
         .optional(),
       galeria: z.array(foto(image)).default([]),
+      /** Junto a la introducción, en el hueco que deja al lado la ficha. */
+      fotoRelato: foto(image).optional(),
+      /** Al costado del bloque de la carta. */
+      cartaFoto: foto(image).optional(),
+      /** Al costado del bloque de listas (servicios, espacios). */
+      listasFoto: foto(image).optional(),
 
       horarios: z.array(horario).default([]),
       temporada: z
@@ -172,6 +178,8 @@ const unidades = defineCollection({
               alt: z.string().min(10, "El alt del logo dice de quién es la marca."),
             })
             .optional(),
+          /** Foto del lado del bloque. */
+          foto: foto(image).optional(),
         })
         .optional(),
 
@@ -195,7 +203,7 @@ const canal = z.object({
 
 const sitio = defineCollection({
   loader: glob({ base: "./src/content/sitio", pattern: "**/*.yaml" }),
-  schema: z.object({
+  schema: ({ image }) => z.object({
     nombre: z.string(),
     desde: z.number().int(),
     lema: z.string(),
@@ -246,6 +254,10 @@ const sitio = defineCollection({
         pasos: z.array(z.object({ titulo: z.string(), texto: z.string() })).min(2),
         aviso: z.string().min(20),
         montoMinimo: z.number().int().positive(),
+        /** Fondo del encabezado de la página. */
+        foto: foto(image),
+        /** La foto de la tarjeta de muestra que se completa con el formulario. */
+        fotoTarjeta: foto(image),
       })
       .optional(),
     /**
@@ -267,6 +279,23 @@ const sitio = defineCollection({
       )
       .default([]),
     redes: z.array(z.object({ nombre: z.string(), url: z.string().url() })).default([]),
+    /**
+     * Fotos de los bloques que no son de una unidad. Cada una con su alt:
+     * aunque vaya de fondo, la foto cuenta cómo es el lugar.
+     */
+    fotos: z.object({
+      /** Detrás de las cifras del home. */
+      confianza: foto(image),
+      /** Al costado de «Dónde estamos», en el home y en contacto. */
+      llegar: foto(image),
+      /** Detrás del cierre «Se reserva por WhatsApp o por Woki». */
+      cierre: foto(image),
+      /** Encabezados de página. */
+      contacto: foto(image),
+      galeria: foto(image),
+      legales: foto(image),
+      error: foto(image),
+    }),
   }),
 });
 

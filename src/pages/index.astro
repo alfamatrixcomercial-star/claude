@@ -8,10 +8,12 @@ import HeroVideo from "~/components/HeroVideo.astro";
 import Boton from "~/components/Boton.astro";
 import Confianza from "~/components/Confianza.astro";
 import TiraFotos from "~/components/TiraFotos.astro";
+import MarcoFoto from "~/components/MarcoFoto.astro";
 import CierreCta from "~/components/CierreCta.astro";
 import { estadoDeUnidad, agendaVigente } from "~/lib/estado";
 import { datosSitio, waLink, wokiLink } from "~/lib/contacto";
 import portada from "~/assets/fotos/complejo/predio-dron.jpg";
+import portadaVertical from "~/assets/fotos/complejo/predio-dron-vertical.jpg";
 import mar from "~/assets/fotos/complejo/mar-surfistas.jpg";
 
 const sitio = await datosSitio();
@@ -96,12 +98,14 @@ const datosEstructurados = {
   descripcion={sitio.descripcion}
   datosEstructurados={datosEstructurados}
 >
-  <!-- Hero: foto fija, titular a la izquierda. Ni video a pantalla completa
-       ni flecha hacia abajo: las cuatro puertas ya asoman. -->
+  <!-- Hero: el video ocupa toda la pantalla debajo de la cabecera, con el
+       titular abajo a la izquierda. La onda cierra el primer pantallazo y
+       las cuatro puertas empiezan en el primer scroll. -->
   <section class="hero" data-hero>
     <HeroVideo
       src="/video/waikiki-hero"
       poster={portada}
+      posterVertical={portadaVertical}
       alt="El complejo Mirador Waikiki visto desde el mar con un dron: el restaurante, las piletas, el parque y la playa sobre la costa de Mar del Plata"
     />
     <div class="texto sobre-foto">
@@ -238,11 +242,14 @@ const datosEstructurados = {
         </ul>
         <p class="estacionamiento">{sitio.estacionamiento}</p>
       </div>
-      <div class="acciones">
-        <Boton href={sitio.mapaUrl} externo>
-          Abrir en Google Maps
-        </Boton>
-        <Boton href="/contacto" jerarquia="secundaria">Teléfonos y contacto</Boton>
+      <div class="lado-llegar">
+        <div class="acciones">
+          <Boton href={sitio.mapaUrl} externo>
+            Abrir en Google Maps
+          </Boton>
+          <Boton href="/contacto" jerarquia="secundaria">Teléfonos y contacto</Boton>
+        </div>
+        <MarcoFoto foto={sitio.fotos.llegar} proporcion="4/5" sizes="(min-width: 780px) 35vw, 100vw" />
       </div>
     </div>
   </section>
@@ -253,39 +260,48 @@ const datosEstructurados = {
 
 <style>
   .hero { position: relative; isolation: isolate; overflow: hidden; }
-  /* La mancha que hace legible el texto va en el hero entero, no en la caja
-     del texto. Colgada del bloque de texto, el degradado no alcanzaba a
-     llegar a transparente antes del borde de su caja y se cortaba en seco:
-     se veía un rectángulo más oscuro con los tres lados marcados.
+  /* Una sola sombra, en la franja del texto: oscurece la izquierda y se
+     apaga hacia la derecha y hacia arriba. El resto del cuadro queda
+     limpio, que es lo que se tiene que ver.
 
-     A sangre no hay borde que se pueda ver, y el degradado se apaga dentro
-     del propio hero. */
+     Es un degradado horizontal recortado por una máscara vertical: el
+     producto de los dos da una esquina oscura abajo a la izquierda sin
+     ningún borde visible. Va en el hero entero y no en la caja del texto:
+     colgada del texto, el degradado no llegaba a transparente antes del
+     borde de su caja y se veía un rectángulo recortado.
+
+     Los valores salen de medir: el rótulo y la bajada son texto chico y
+     piden 4,5 contra el pixel más claro del video que les pasa por
+     detrás, en cualquier momento del recorrido. */
   .hero::before {
     content: "";
     position: absolute;
     inset: 0;
     z-index: -1;
-    background:
-      radial-gradient(
-        118% 128% at 18% 64%,
-        rgb(var(--velo) / 0.84) 0%,
-        rgb(var(--velo) / 0.66) 28%,
-        rgb(var(--velo) / 0.32) 50%,
-        rgb(var(--velo) / 0.08) 70%,
-        rgb(var(--velo) / 0) 86%
-      ),
-      /* Capa vertical de apoyo. Va de ancho completo, así que no tiene un
-         borde lateral que se pueda ver, y cubre toda la franja donde cae el
-         texto sin importar cuánto crezca el titular. */
-      linear-gradient(
-        to top,
-        rgb(var(--velo) / 0.6) 0%,
-        rgb(var(--velo) / 0.46) 38%,
-        rgb(var(--velo) / 0.3) 62%,
-        rgb(var(--velo) / 0.1) 82%,
-        rgb(var(--velo) / 0) 96%
-      );
+    background: linear-gradient(
+      to right,
+      rgb(var(--velo) / var(--sombra-texto)) 0%,
+      rgb(var(--velo) / var(--sombra-texto)) 46%,
+      rgb(var(--velo) / 0.3) 60%,
+      rgb(var(--velo) / 0) 76%
+    );
+    -webkit-mask-image: linear-gradient(to top, #000 0%, #000 var(--sombra-alto), transparent 88%);
+    mask-image: linear-gradient(to top, #000 0%, #000 var(--sombra-alto), transparent 88%);
     pointer-events: none;
+    --sombra-texto: 0.64;
+    --sombra-alto: 50%;
+  }
+  /* En el celular el texto va de borde a borde y ocupa más alto: la sombra
+     cubre todo el ancho y sube un poco más. */
+  @media (max-width: 700px) {
+    .hero::before {
+      background: rgb(var(--velo) / var(--sombra-texto));
+      /* La foto vertical tiene la espuma de las olas justo detrás del
+         texto: pide más sombra que la horizontal, pero sólo en la franja
+         de abajo. El cielo, el mar y el complejo quedan limpios. */
+      --sombra-texto: 0.62;
+      --sombra-alto: 44%;
+    }
   }
 
   .texto {
@@ -294,11 +310,14 @@ const datosEstructurados = {
     flex-direction: column;
     justify-content: flex-end;
     max-width: var(--ancho);
-    /* dvh y no vh: en Safari de iOS la barra de direcciones cambia de alto
-       al scrollear y con vh el hero salta. */
-    /* Reserva en vh para navegadores sin dvh. */
-    min-height: min(78vh, 46rem);
-    min-height: min(78dvh, 46rem);
+    /* Todo lo que queda de pantalla debajo de la cabecera, dejando a la
+       vista la onda que cierra el hero.
+       svh y no vh ni dvh: en el celular la barra del navegador cambia de
+       alto al scrollear; con vh el hero queda más alto que la pantalla y
+       con dvh salta mientras se scrollea. svh es el alto con la barra
+       visible, fijo. La primera línea es la reserva sin svh. */
+    min-height: calc(100vh - var(--alto-cabecera) - var(--alto-onda));
+    min-height: calc(100svh - var(--alto-cabecera) - var(--alto-onda));
     margin-inline: auto;
     padding: var(--paso) var(--margen) var(--paso-corto);
     color: var(--sobre-oscuro);
@@ -313,20 +332,23 @@ const datosEstructurados = {
     color: var(--sobre-oscuro);
     margin-bottom: 0.9rem;
   }
-  h1 { font-size: var(--t-display); max-width: 14ch; }
+  /* Más chico que el display del resto del sitio: acá manda el video. */
+  h1 {
+    font-size: clamp(2.25rem, 2.2vw + 1.4rem, 4rem);
+    max-width: 16ch;
+  }
   .valor {
     max-width: 44ch;
     margin-top: 1.25rem;
     color: var(--sobre-oscuro);
-    opacity: 0.88;
   }
 
   /* Bento, no catálogo. Cuatro columnas iguales aplanan la jerarquía y se
      leen como una grilla de plantilla; acá el restaurante ocupa la mitad
      izquierda entera y las otras tres se apilan al costado.
 
-     Sube tapando el borde del hero: el solape es lo que da profundidad
-     real, y de paso rompe la línea recta entre secciones. */
+     Empieza debajo del hero, sin taparlo: el primer pantallazo es entero
+     del video. */
   .puertas {
     position: relative;
     z-index: var(--z-base);
@@ -335,8 +357,7 @@ const datosEstructurados = {
     gap: clamp(0.85rem, 1.5vw, 1.25rem);
     max-width: var(--ancho);
     margin-inline: auto;
-    margin-top: clamp(-3.5rem, -4vw, -2rem);
-    padding: 0 var(--margen) var(--paso-corto);
+    padding: var(--paso-corto) var(--margen);
   }
   @media (min-width: 900px) {
     .puertas {
@@ -450,6 +471,7 @@ const datosEstructurados = {
   .u-eventos { --u: var(--u-eventos); }
 
   .llegar { padding: var(--paso) var(--margen) var(--paso-abajo); }
+  .lado-llegar { display: flex; flex-direction: column; gap: 1.75rem; }
   .llegar .interior {
     display: grid;
     gap: clamp(1.75rem, 4vw, 3rem);

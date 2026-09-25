@@ -95,6 +95,16 @@ giftcard:
     Por ahora el pago no se hace en el sitio. El formulario abre un WhatsApp
     con el pedido ya escrito y lo terminamos de coordinar por ahí.
   montoMinimo: 10000
+  foto:
+    src: ../../assets/fotos/restaurante/terraza-macrame.jpg
+    alt: >-
+      La terraza cubierta al mediodía, con macramés colgando del techo de cañas
+      y familias almorzando en las mesas de madera
+  fotoTarjeta:
+    src: ../../assets/fotos/complejo/predio-dron-vertical.jpg
+    alt: >-
+      El complejo visto desde un dron: el restaurante sobre las rocas, la
+      pileta, las carpas sobre la arena y el mar abierto
 
 woki: "https://www.wokiapp.com/restaurante/mirador-waikiki"
 
@@ -118,3 +128,39 @@ redes:
 #      fecha: "2026-01"      # opcional
 # ─────────────────────────────────────────────────────────────────────────
 testimonios: []
+
+# ── Fotos de los bloques que no son de una unidad ──────────────────────────
+# Cada una con su alt: aunque vaya de fondo, cuenta cómo es el lugar. Para
+# cambiar una foto se cambia la ruta acá; ningún componente la nombra.
+fotos:
+  confianza:
+    src: ../../assets/fotos/restaurante/mesa-vista.jpg
+    alt: Una mesa puesta junto a la baranda, con la costa de Mar del Plata al fondo
+  llegar:
+    src: ../../assets/fotos/balneario/baranda-mar.jpg
+    alt: >-
+      El restaurante del complejo desde afuera, con las sombrillas blancas de
+      la terraza y el cielo despejado sobre el mar
+  cierre:
+    src: ../../assets/fotos/restaurante/atardecer-ventanal.jpg
+    alt: El atardecer sobre la costa, visto desde el ventanal del salón
+  contacto:
+    src: ../../assets/fotos/restaurante/taza-logo.jpg
+    alt: >-
+      Una taza de café con leche con el logo de Mirador Waikiki, servida por
+      el barista
+  galeria:
+    src: ../../assets/fotos/complejo/mar-surfistas.jpg
+    alt: >-
+      El mar de Mar del Plata desde el aire, con surfistas esperando la ola en
+      agua verde oscuro
+  legales:
+    src: ../../assets/fotos/balneario/carpas-arena.jpg
+    alt: >-
+      Las carpas blancas del balneario alineadas sobre la arena, con las
+      reposeras, las sombrillas y el mar detrás
+  error:
+    src: ../../assets/fotos/restaurante/desayuno-terraza.jpg
+    alt: >-
+      La mesa del desayuno servida en la terraza de madera, con el mar detrás
+      de la baranda blanca

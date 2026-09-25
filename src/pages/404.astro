@@ -2,11 +2,16 @@
 import Base from "~/layouts/Base.astro";
 import Onda from "~/components/Onda.astro";
 import Boton from "~/components/Boton.astro";
+import FondoFoto from "~/components/FondoFoto.astro";
+import { datosSitio } from "~/lib/contacto";
+
+const sitio = await datosSitio();
 ---
 
 <Base titulo="Página no encontrada" descripcion="Esa página no existe en el sitio de Mirador Waikiki.">
-  <section class="cuatro">
-    <div class="interior">
+  <section class="cuatro con-fondo portada-foto">
+    <FondoFoto foto={sitio.fotos.error} prioridad />
+    <div class="interior sobre-foto">
       <p class="eyebrow">Error 404</p>
       <h1>Esa página no existe.</h1>
       <p class="parrafo">

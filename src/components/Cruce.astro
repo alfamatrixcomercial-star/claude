@@ -6,6 +6,7 @@
  */
 import { getCollection } from "astro:content";
 import Estado from "./Estado.astro";
+import Foto from "./Foto.astro";
 import { estadoDeUnidad } from "~/lib/estado";
 
 interface Props { excepto: string }
@@ -23,6 +24,15 @@ const otras = (await getCollection("unidades"))
       {
         otras.map((u) => (
           <li class:list={["caja", `u-${u.id}`]}>
+            <div class="media">
+              <Foto
+                foto={u.data.hero}
+                unidad={u.id as any}
+                ornamento={u.data.ornamento}
+                sizes="(min-width: 900px) 30vw, 100vw"
+                anchos={[480, 800]}
+              />
+            </div>
             <a href={`/${u.id}`}>
               <span class="nombre">{u.data.nombre}</span>
               <span class="bajada">{u.data.bajada}</span>
@@ -70,12 +80,29 @@ const otras = (await getCollection("unidades"))
     display: flex;
     flex-direction: column;
     gap: 0.7rem;
-    padding: 1.5rem 1.6rem 1.7rem;
+    padding: 0 0 1.7rem;
+    overflow: hidden;
   }
+  /* La foto de la unidad arriba, a sangre dentro de la tarjeta. */
+  .media {
+    aspect-ratio: 16 / 10;
+    margin-bottom: 0.6rem;
+    overflow: hidden;
+  }
+  .media :global(img) { transition: transform 900ms var(--curva); }
+  @media (hover: hover) {
+    li:hover .media :global(img) { transform: scale(1.04); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .media :global(img) { transition: none; }
+    li:hover .media :global(img) { transform: none; }
+  }
+  li > a, li > :global(.estado) { margin-inline: 1.6rem; }
   li::before {
     content: "";
     position: absolute;
     inset: 0 0 auto;
+    z-index: var(--z-base);
     height: 3px;
     background: var(--u);
   }

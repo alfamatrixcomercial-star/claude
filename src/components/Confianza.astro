@@ -9,6 +9,7 @@
  *    vacía, ese bloque no existe.
  */
 import { datosSitio } from "~/lib/contacto";
+import FondoFoto from "./FondoFoto.astro";
 
 const sitio = await datosSitio();
 const testimonios = sitio.testimonios;
@@ -22,8 +23,9 @@ const datos = [
 ];
 ---
 
-<section class="confianza banda-turquesa" data-revelar>
-  <div class="interior">
+<section class="confianza banda-turquesa con-fondo" data-revelar>
+  <FondoFoto foto={sitio.fotos.confianza} sombra="pareja" />
+  <div class="interior sobre-foto">
     <ul class="cifras" data-revelar-grupo="3">
       {
         datos.map((d) => (
@@ -126,7 +128,7 @@ const datos = [
     text-transform: uppercase;
     margin-top: 0.7rem;
   }
-  .nota { font-size: 0.9rem; color: var(--tinta-suave); }
+  .nota { font-size: 0.9rem; color: var(--sobre-oscuro); }
 
   .citas {
     display: grid;

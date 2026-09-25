@@ -26,7 +26,7 @@ const limpio = onda.replace("<svg", '<svg preserveAspectRatio="none"');
   .onda :global(svg) {
     display: block;
     width: 100%;
-    height: clamp(6px, 0.7vw, 9px);
+    height: var(--alto-onda);
   }
 
   /* El único momento orquestado del sitio: el horizonte se traza una vez. */

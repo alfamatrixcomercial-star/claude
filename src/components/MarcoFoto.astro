@@ -1,0 +1,50 @@
+---
+/**
+ * Foto enmarcada al costado de un bloque de texto: esquinas redondeadas,
+ * sombra y una proporción fija, así el bloque no salta mientras carga.
+ */
+import Foto from "./Foto.astro";
+
+interface Props {
+  foto: { src: ImageMetadata; alt: string; foco?: "centro" | "arriba" | "abajo" };
+  /** Ancho sobre alto. Las fotos del sitio son casi todas verticales. */
+  proporcion?: "4/5" | "3/2" | "1/1";
+  /** Qué ancho ocupa en pantalla, para que el navegador baje el tamaño justo. */
+  sizes?: string;
+  class?: string;
+}
+const {
+  foto,
+  proporcion = "4/5",
+  sizes = "(min-width: 860px) 40vw, 100vw",
+  class: clase,
+} = Astro.props;
+---
+
+<figure class:list={["marco-foto", clase]} style={`aspect-ratio: ${proporcion}`}>
+  <Foto foto={foto} sizes={sizes} anchos={[480, 800, 1200]} />
+</figure>
+
+<style>
+  .marco-foto {
+    position: relative;
+    margin: 0;
+    overflow: hidden;
+    border-radius: var(--radio-grande);
+    border: 1px solid var(--borde-caja);
+    box-shadow: var(--elev-3);
+    background: var(--fondo-alt);
+  }
+  .marco-foto :global(img) {
+    position: absolute;
+    inset: 0;
+    transition: transform 900ms var(--curva);
+  }
+  @media (hover: hover) {
+    .marco-foto:hover :global(img) { transform: scale(1.03); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .marco-foto :global(img) { transition: none; }
+    .marco-foto:hover :global(img) { transform: none; }
+  }
+</style>

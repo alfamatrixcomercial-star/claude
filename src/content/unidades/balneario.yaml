@@ -34,7 +34,7 @@ galeria:
       Una mesa servida junto a la baranda, con la playa abajo
   - src: ../../assets/fotos/balneario/baranda-mar.jpg
     alt: >-
-      La baranda blanca del complejo sobre la playa, con el mar y la rompiente
+      El restaurante del complejo desde afuera, con las sombrillas blancas de la terraza y el cielo despejado sobre el mar
   - src: ../../assets/fotos/balneario/mar-plantas.jpg
     alt: >-
       El mar visto entre las plantas del predio, con la ciudad de Mar del Plata a lo lejos
@@ -69,6 +69,17 @@ listas:
       - Temporada completa
 # TODO: confirmar servicios y unidades. Las tarifas no van en el sitio: se
 # consultan por WhatsApp, según lo decidido.
+
+fotoRelato:
+  src: ../../assets/fotos/complejo/predio-dron-vertical.jpg
+  alt: >-
+    El complejo visto desde un dron: las filas de carpas sobre la arena, el
+    restaurante sobre las rocas, la pileta y el mar abierto
+listasFoto:
+  src: ../../assets/fotos/restaurante/spritz-rabas.jpg
+  alt: >-
+    Un spritz y un plato de rabas con limón, sobre la mesa de la terraza frente
+    al mar
 
 seo:
   titulo: Balneario en Mar del Plata, carpas y sombrillas

@@ -10,29 +10,62 @@
  *  · En pantallas chicas tampoco arranca solo: 770 KB no se le imponen a
  *    una conexión móvil de enero.
  */
-import { Image } from "astro:assets";
+import { getImage } from "astro:assets";
 
 interface Props {
   /** Sin extensión: se sirven .webm y .mp4 desde la misma base. */
   src: string;
   poster: ImageMetadata;
+  /** Foto para pantallas angostas, donde el video no arranca y la
+   *  horizontal recortada a lo alto pierde casi todo el cuadro. */
+  posterVertical?: ImageMetadata;
   alt: string;
 }
-const { src, poster, alt } = Astro.props;
+const { src, poster, posterVertical, alt } = Astro.props;
+
+/* Se arma el <picture> a mano porque el componente de Astro no cambia de
+   foto según el ancho de pantalla: sólo cambia de tamaño. */
+async function juego(foto: ImageMetadata, anchos: number[], format: "avif" | "webp" | "jpeg") {
+  const hechas = await Promise.all(
+    anchos.filter((w) => w <= foto.width).map((width) => getImage({ src: foto, width, format })),
+  );
+  return hechas.map((h) => `${h.src} ${h.attributes.width}w`).join(", ");
+}
+const ANCHOS = [720, 1200, 1800];
+const ANCHOS_VERTICAL = [480, 720, 1080, 1440];
+const horizontal = {
+  avif: await juego(poster, ANCHOS, "avif"),
+  webp: await juego(poster, ANCHOS, "webp"),
+  jpeg: await juego(poster, ANCHOS, "jpeg"),
+};
+const vertical = posterVertical && {
+  avif: await juego(posterVertical, ANCHOS_VERTICAL, "avif"),
+  webp: await juego(posterVertical, ANCHOS_VERTICAL, "webp"),
+};
+const base = await getImage({ src: poster, width: 1200, format: "jpeg" });
+const ANGOSTO = "(max-width: 700px)";
 ---
 
 <div class="fondo-video" data-video={src}>
-  <Image
-    src={poster}
-    alt={alt}
-    widths={[720, 1200, 1800]}
-    sizes="100vw"
-    loading="eager"
-    fetchpriority="high"
-    class="poster"
-  />
+  <picture>
+    {vertical && <source media={ANGOSTO} type="image/avif" srcset={vertical.avif} sizes="100vw" />}
+    {vertical && <source media={ANGOSTO} type="image/webp" srcset={vertical.webp} sizes="100vw" />}
+    <source type="image/avif" srcset={horizontal.avif} sizes="100vw" />
+    <source type="image/webp" srcset={horizontal.webp} sizes="100vw" />
+    <img
+      src={base.src}
+      srcset={horizontal.jpeg}
+      sizes="100vw"
+      width={base.attributes.width}
+      height={base.attributes.height}
+      alt={alt}
+      loading="eager"
+      fetchpriority="high"
+      decoding="async"
+      class="poster"
+    />
+  </picture>
   <video muted loop playsinline preload="none" aria-hidden="true"></video>
-  <div class="velo"></div>
 </div>
 
 <style>
@@ -46,32 +79,17 @@ const { src, poster, alt } = Astro.props;
     height: 100%;
     object-fit: cover;
   }
+  /* En angosto se ve la foto vertical: corrida a la derecha entran el
+     restaurante y la pileta, que centrada quedaban cortados. */
+  @media (max-width: 700px) {
+    .poster { object-position: 64% center; }
+  }
   video { opacity: 0; transition: opacity 700ms ease; }
   video.visible { opacity: 1; }
 
-  /* Dos velos cruzados en lugar de uno parejo.
-     El de abajo oscurece la esquina donde está el texto; el vertical apenas
-     asienta el resto. Con un velo único al 0,42 arriba, el rótulo chico
-     quedaba en 3,77 de contraste, por debajo del mínimo; y para taparlo
-     había que oscurecer todo el cuadro y perder el video. */
-  .velo {
-    position: absolute;
-    inset: 0;
-    background:
-      linear-gradient(
-        to right,
-        rgb(var(--velo) / 0.62) 0%,
-        rgb(var(--velo) / 0.44) 32%,
-        rgb(var(--velo) / 0.14) 64%,
-        rgb(var(--velo) / 0.05) 100%
-      ),
-      linear-gradient(
-        to top,
-        rgb(var(--velo) / 0.52) 0%,
-        rgb(var(--velo) / 0.22) 52%,
-        rgb(var(--velo) / 0.12) 100%
-      );
-  }
+  /* Sin velo propio: la sombra que hace legible el texto la pone el hero,
+     una sola y sólo donde cae el texto. Con velo acá y otro en el hero se
+     apilaban cuatro degradados y el video llegaba a pantalla casi negro. */
 
   @media (prefers-reduced-motion: reduce) {
     video { display: none; }

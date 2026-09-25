@@ -2,6 +2,9 @@
 import { getCollection, render } from "astro:content";
 import Base from "~/layouts/Base.astro";
 import Onda from "~/components/Onda.astro";
+import FondoFoto from "~/components/FondoFoto.astro";
+import { datosSitio } from "~/lib/contacto";
+const sitio = await datosSitio();
 
 const docs = (await getCollection("legales")).sort((a, b) => a.data.orden - b.data.orden);
 const render_ = await Promise.all(
@@ -13,8 +16,9 @@ const render_ = await Promise.all(
   titulo="Legales"
   descripcion="Términos y condiciones y política de privacidad del sitio de Mirador Waikiki, Mar del Plata."
 >
-  <section class="portada">
-    <div class="interior">
+  <section class="portada con-fondo portada-foto">
+    <FondoFoto foto={sitio.fotos.legales} prioridad />
+    <div class="interior sobre-foto">
       <p class="eyebrow">Legales</p>
       <h1>Términos y privacidad.</h1>
       <nav aria-label="Documentos legales">

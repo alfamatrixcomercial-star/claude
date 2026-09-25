@@ -8,6 +8,7 @@ import { getCollection } from "astro:content";
 import Base from "~/layouts/Base.astro";
 import Galeria from "~/components/Galeria.astro";
 import Onda from "~/components/Onda.astro";
+import FondoFoto from "~/components/FondoFoto.astro";
 import { datosSitio } from "~/lib/contacto";
 
 const sitio = await datosSitio();
@@ -21,8 +22,9 @@ const total = conFotos.reduce((n, u) => n + u.data.galeria.length, 0);
   descripcion={`Fotos del restaurante, el hotel, el balneario y los eventos de ${sitio.nombre}, en la costa de Mar del Plata.`}
   unidadActiva="galeria"
 >
-  <section class="portada">
-    <div class="interior">
+  <section class="portada con-fondo portada-foto">
+    <FondoFoto foto={sitio.fotos.galeria} prioridad />
+    <div class="interior sobre-foto">
       <p class="eyebrow">{total > 0 ? `${total} fotos del complejo` : "Galería"}</p>
       <h1>El predio, de cerca.</h1>
     </div>

@@ -13,6 +13,7 @@ import Galeria from "~/components/Galeria.astro";
 import Video from "~/components/Video.astro";
 import HeroRetrato from "~/components/HeroRetrato.astro";
 import Cruce from "~/components/Cruce.astro";
+import MarcoFoto from "~/components/MarcoFoto.astro";
 import BarraFija from "~/components/BarraFija.astro";
 import Ornamento from "~/components/Ornamento.astro";
 import { estadoDeUnidad } from "~/lib/estado";
@@ -168,6 +169,14 @@ const datosEstructurados = {
           <Ornamento pieza={d.ornamento} class="fondo-orn" />
           {d.firma && <p class="firma">{d.firma}</p>}
           {d.intro.map((p) => <p class="parrafo">{p}</p>)}
+          {d.fotoRelato && (
+            <MarcoFoto
+              foto={d.fotoRelato}
+              proporcion="3/2"
+              sizes="(min-width: 860px) 55vw, 100vw"
+              class="foto-relato"
+            />
+          )}
         </div>
         <Ficha horarios={d.horarios} ficha={d.ficha} />
       </div>
@@ -176,7 +185,9 @@ const datosEstructurados = {
     {
       d.cartaUrl && (
         <section class={`bloque ${banda}`} data-revelar>
-          <div class="interior-simple salida">
+          <div class:list={["interior-simple", d.cartaFoto && "lado-foto foto-izq"]}>
+            {d.cartaFoto && <MarcoFoto foto={d.cartaFoto} />}
+            <div class="salida">
             <div>
               <div class="encabezado"><p class="rotulo">Para comer</p><h2>La carta</h2></div>
               <p class="nota">
@@ -185,6 +196,7 @@ const datosEstructurados = {
               </p>
             </div>
             <Boton href={d.cartaUrl} externo>Ver la carta</Boton>
+            </div>
           </div>
         </section>
       )
@@ -193,7 +205,8 @@ const datosEstructurados = {
     {
       d.listas.length > 0 && (
         <section class={`bloque ${banda}`} data-revelar>
-          <div class="interior-simple listas">
+          <div class:list={["interior-simple", d.listasFoto && "lado-foto"]}>
+            <div class="listas">
             {d.listas.map((l) => (
               <div>
                 <h2>{l.titulo}</h2>
@@ -202,6 +215,8 @@ const datosEstructurados = {
                 </ul>
               </div>
             ))}
+            </div>
+            {d.listasFoto && <MarcoFoto foto={d.listasFoto} />}
           </div>
         </section>
       )
@@ -210,7 +225,9 @@ const datosEstructurados = {
     {
       d.derivacion && (
         <section class={`derivacion ${banda}`} data-revelar>
-          <div class="interior-simple">
+          <div class:list={["interior-simple", d.derivacion.foto && "lado-foto foto-izq"]}>
+            {d.derivacion.foto && <MarcoFoto foto={d.derivacion.foto} />}
+            <div class="texto-derivacion">
             <div class="encabezado">
               <p class="rotulo">{d.derivacion.rotulo}</p>
               <h2>{d.derivacion.titulo}</h2>
@@ -227,6 +244,7 @@ const datosEstructurados = {
               />
             )}
             <Boton href={d.derivacion.url} externo>{d.derivacion.texto_cta}</Boton>
+            </div>
           </div>
         </section>
       )
@@ -445,6 +463,23 @@ const datosEstructurados = {
 
   .nota { color: var(--tinta-suave); max-width: var(--medida); }
 
+  /* Bloque de texto con una foto al costado. La foto alterna de lado de un
+     bloque al siguiente (foto-izq) para que la página no sea una columna
+     de texto con fotos siempre a la derecha. En angosto se apilan. */
+  .lado-foto {
+    display: grid;
+    gap: clamp(2rem, 5vw, 4.5rem);
+    align-items: center;
+  }
+  @media (min-width: 860px) {
+    .lado-foto { grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); }
+    .lado-foto.foto-izq { grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); }
+  }
+
+  /* La foto de la introducción ocupa el hueco que deja al lado la ficha,
+     que es más alta que el texto. */
+  .relato :global(.foto-relato) { margin-top: 0.75rem; }
+
   /* Bloque que manda a otro lado: título a la izquierda, salida a la derecha. */
   .salida {
     display: flex;
@@ -497,7 +532,7 @@ const datosEstructurados = {
      no el doble de aire. */
   .derivacion:has(+ :global(.cruce)) { padding-bottom: var(--paso-corto); }
   .derivacion + :global(.cruce) { padding-top: var(--paso-corto); }
-  .derivacion .interior-simple {
+  .texto-derivacion {
     display: flex;
     flex-direction: column;
     align-items: flex-start;

@@ -141,6 +141,13 @@
   --transicion-larga: 760ms var(--curva);
 
   --toque: 44px;
+  /* Alto de la cabecera: el botón Reservar manda (el toque más su borde)
+     más el relleno y la línea de abajo. El logo nunca pasa de 46 px, así
+     que no la estira. Lo usa el hero del home para ocupar exactamente lo
+     que queda de pantalla. */
+  --alto-cabecera: calc(var(--toque) + 2px + 1.3rem + 1px);
+  /* Alto de la onda divisoria. */
+  --alto-onda: clamp(6px, 0.7vw, 9px);
   --z-base: 1;
   --z-flotante: 10;
   --z-fijo: 20;

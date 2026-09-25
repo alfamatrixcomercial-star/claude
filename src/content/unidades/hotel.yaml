@@ -46,10 +46,6 @@ galeria:
     alt: >-
       La galería de los balcones sobre el techo verde del complejo, con la
       costa de Mar del Plata a lo lejos
-  - src: ../../assets/fotos/hotel/edificio-parque.jpg
-    alt: >-
-      El edificio del hotel visto desde el parque del predio, con los árboles
-      en primer plano
 
 estadoFijo: Abierto todo el año
 
@@ -83,6 +79,17 @@ derivacion:
   logo:
     src: ../../assets/logos/ili-ili.png
     alt: Logo de Ili Ili Hotel Boutique
+  foto:
+    src: ../../assets/fotos/hotel/edificio-parque.jpg
+    alt: >-
+      El edificio del hotel visto desde el parque del predio, con los árboles
+      en primer plano
+
+fotoRelato:
+  src: ../../assets/fotos/balneario/mar-plantas.jpg
+  alt: >-
+    El mar visto entre las plantas del predio, con la ciudad de Mar del Plata
+    a lo lejos
 
 seo:
   titulo: Ili Ili Hotel Boutique, primera línea de playa

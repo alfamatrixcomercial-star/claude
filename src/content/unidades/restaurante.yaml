@@ -52,7 +52,7 @@ galeria:
       Una mesa puesta junto a la baranda, con la costa de Mar del Plata al fondo
   - src: ../../assets/fotos/restaurante/barra-mozo.jpg
     alt: >-
-      Un mozo detrás de la barra de madera, con la luz cálida del salón
+      Un mozo sirve un plato en una mesa del salón, con una botella de vino y la luz cálida de la noche
   - src: ../../assets/fotos/restaurante/atardecer-ventanal.jpg
     alt: >-
       El atardecer visto desde el ventanal del salón, con el cielo naranja sobre la costa
@@ -112,6 +112,17 @@ ctas:
 cartaUrl: "https://mimenulatech.com/miradorwaikiki"
 
 listas: []
+
+fotoRelato:
+  src: ../../assets/fotos/restaurante/terraza-macrame.jpg
+  alt: >-
+    La terraza cubierta al mediodía, con macramés colgando del techo de cañas
+    y familias almorzando en las mesas de madera
+cartaFoto:
+  src: ../../assets/fotos/restaurante/bife-vino.jpg
+  alt: >-
+    Un bife grillado con papas y una copa de vino tinto sobre la mesa, con la
+    luz del ventanal detrás
 
 seo:
   titulo: Restaurante frente al mar en Mar del Plata

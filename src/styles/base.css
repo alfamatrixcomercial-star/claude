@@ -339,3 +339,25 @@ a:active, button:active, summary:active, [role="button"]:active {
     transition: none;
   }
 }
+
+/* Bloque con foto de fondo (ver FondoFoto.astro). Aislado para que la
+   foto, en z-index negativo, quede detrás del texto pero delante del fondo
+   de la banda. */
+.con-fondo {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+/* Encabezado de página con foto de fondo: gift card, contacto, galería,
+   legales, 404. Alto suficiente para que la foto se vea, con el texto
+   apoyado abajo, donde la sombra es más pareja. Sobre la foto el texto
+   secundario usa la tinta clara plena: la suave no alcanza el contraste
+   contra una foto. */
+.portada-foto {
+  display: flex;
+  align-items: flex-end;
+  min-height: clamp(22rem, 54vh, 34rem);
+}
+.portada-foto > * { width: 100%; }
+.portada-foto .sobre-foto p { color: var(--sobre-oscuro); }

@@ -35,9 +35,6 @@ galeria:
   - src: ../../assets/fotos/eventos/trago-barra.jpg
     alt: >-
       Un trago servido sobre la barra de noche, con las botellas iluminadas de fondo
-  - src: ../../assets/fotos/restaurante/salon-lamparas.jpg
-    alt: >-
-      El salón bajo las lámparas de mimbre, montado para una noche
   - src: ../../assets/fotos/restaurante/atardecer-ventanal.jpg
     alt: >-
       El atardecer sobre la costa, visto desde el ventanal del salón
@@ -70,6 +67,15 @@ listas:
       - Barra bajo las lámparas del salón
 # TODO: confirmar espacios, capacidades por montaje y qué incluye el servicio
 
+fotoRelato:
+  src: ../../assets/fotos/restaurante/coctel-chispas.jpg
+  alt: >-
+    El bartender flameando un cóctel en la barra, con las chispas cayendo sobre
+    el vaso
+listasFoto:
+  src: ../../assets/fotos/restaurante/salon-lamparas.jpg
+  alt: El salón bajo las lámparas de mimbre, montado para una noche
+
 derivacion:
   rotulo: Producción
   titulo: La producción la hace Mar Eventos
@@ -82,6 +88,9 @@ derivacion:
   logo:
     src: ../../assets/logos/mar-eventos.png
     alt: Logo de Mar Eventos
+  foto:
+    src: ../../assets/fotos/restaurante/barra-mozo.jpg
+    alt: Un mozo sirve un plato en una mesa del salón, con una botella de vino y la luz cálida de la noche
 
 seo:
   titulo: Casamientos frente al mar en Mar del Plata
