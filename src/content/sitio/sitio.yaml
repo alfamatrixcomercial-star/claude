@@ -134,8 +134,10 @@ testimonios: []
 # cambiar una foto se cambia la ruta acá; ningún componente la nombra.
 fotos:
   confianza:
-    src: ../../assets/fotos/restaurante/mesa-vista.jpg
-    alt: Una mesa puesta junto a la baranda, con la costa de Mar del Plata al fondo
+    src: ../../assets/fotos/balneario/mar-plantas.jpg
+    alt: >-
+      El mar visto entre las plantas del predio, con la ciudad de Mar del Plata
+      a lo lejos
   llegar:
     src: ../../assets/fotos/restaurante/entrada-pasarela.jpg
     alt: >-

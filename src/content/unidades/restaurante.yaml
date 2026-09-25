@@ -134,6 +134,10 @@ cartaUrl: "https://mimenulatech.com/miradorwaikiki"
 
 listas: []
 
+fotoPuerta:
+  src: ../../assets/fotos/restaurante/mesa-vista.jpg
+  alt: Una mesa puesta junto a la baranda, con la costa de Mar del Plata al fondo
+
 fotoRelato:
   src: ../../assets/fotos/restaurante/terraza-macrame.jpg
   alt: >-

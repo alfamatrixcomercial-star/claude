@@ -76,6 +76,12 @@ listas:
       - Barra bajo las lámparas del salón
 # TODO: confirmar espacios, capacidades por montaje y qué incluye el servicio
 
+fotoPuerta:
+  src: ../../assets/fotos/eventos/buffet-barra.jpg
+  alt: >-
+    La barra armada como buffet para un evento, con los platos servidos, la
+    estantería de vinos y un puesto celíaco y veggie al fondo
+
 fotoRelato:
   src: ../../assets/fotos/eventos/salon-montado.jpg
   alt: >-

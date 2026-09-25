@@ -114,6 +114,13 @@ const unidades = defineCollection({
         })
         .optional(),
       galeria: z.array(foto(image)).default([]),
+      /**
+       * Foto de la tarjeta de la unidad en el home, si no es la principal.
+       * Las cuatro tarjetas van juntas y tienen que combinar entre sí: luz
+       * de día, blanco y mar. La principal de cada unidad se elige para su
+       * propia página y no siempre acompaña a las otras tres.
+       */
+      fotoPuerta: foto(image).optional(),
       /** Junto a la introducción, en el hueco que deja al lado la ficha. */
       fotoRelato: foto(image).optional(),
       /** Al costado del bloque de la carta. */

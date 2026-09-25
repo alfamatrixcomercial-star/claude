@@ -26,15 +26,18 @@ hero:
 # El orden importa: las dos primeras de cada unidad son las que salen en la
 # banda de fotos del home.
 galeria:
-  - src: ../../assets/fotos/complejo/predio-dron.jpg
-    alt: >-
-      El complejo entero visto desde el mar con un dron: las piletas, el parque y la playa
+  # Las dos primeras salen también en la banda del home: no pueden ser el
+  # dron (imagen de espera del video del inicio) ni el mar entre las
+  # plantas (fondo de las cifras).
   - src: ../../assets/fotos/balneario/desayuno-baranda.jpg
     alt: >-
       Una mesa servida junto a la baranda, con la playa abajo
   - src: ../../assets/fotos/balneario/baranda-mar.jpg
     alt: >-
       El restaurante del complejo desde afuera, con las sombrillas blancas de la terraza y el cielo despejado sobre el mar
+  - src: ../../assets/fotos/complejo/predio-dron.jpg
+    alt: >-
+      El complejo entero visto desde el mar con un dron: las piletas, el parque y la playa
   - src: ../../assets/fotos/balneario/mar-plantas.jpg
     alt: >-
       El mar visto entre las plantas del predio, con la ciudad de Mar del Plata a lo lejos
