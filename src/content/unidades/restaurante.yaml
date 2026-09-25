@@ -19,10 +19,10 @@ intro:
     oscuro del otro lado del ventanal y la costa iluminada a lo lejos.
 
 hero:
-  src: ../../assets/fotos/restaurante/terraza-almuerzo.jpg
+  src: ../../assets/fotos/restaurante/cena-ventanal.jpg
   alt: >-
-    La terraza del restaurante llena a la hora del almuerzo, bajo los tejidos de
-    macramé, con las sombrillas y el mar al fondo
+    Una cena junto a los ventanales al caer la tarde, con el mar y la ciudad
+    iluminándose del otro lado del vidrio
   foco: centro
 
 # Del video del salón: panel central recortado, sin audio y comprimido.
@@ -35,6 +35,27 @@ video:
     sol. Sin audio.
 
 galeria:
+  # Las tres primeras salen también en la banda de fotos del home.
+  - src: ../../assets/fotos/restaurante/barra-cartel.jpg
+    alt: >-
+      La barra del salón bajo el cartel verde de Mirador Waikiki, con las
+      botellas de vino en los estantes y una moza trabajando detrás
+  - src: ../../assets/fotos/restaurante/tallarines-vino.jpg
+    alt: >-
+      Un plato de tallarines con salsa de tomate y queso rallado, con una
+      botella de tinto y copas de vino blanco sobre la mesa junto al ventanal
+  - src: ../../assets/fotos/restaurante/ventanales-atardecer.jpg
+    alt: >-
+      Los ventanales del salón al atardecer, con la luz encendida bajo el alero
+      y la costa de la ciudad al fondo
+  - src: ../../assets/fotos/restaurante/entrada-pasarela.jpg
+    alt: >-
+      La entrada al restaurante por la pasarela de madera, con el cartel de
+      Mirador Waikiki sobre la puerta y el techo octogonal detrás
+  - src: ../../assets/fotos/restaurante/terraza-almuerzo.jpg
+    alt: >-
+      La terraza del restaurante llena a la hora del almuerzo, bajo los tejidos
+      de macramé, con las sombrillas y el mar al fondo
   - src: ../../assets/fotos/restaurante/salon-lamparas.jpg
     alt: >-
       El salón bajo las lámparas de mimbre colgadas del techo alto, con la barra y las tablas de surf al fondo

@@ -117,6 +117,13 @@ const datosEstructurados = {
           Restaurante, hotel, balneario y salón de eventos en un mismo predio
           sobre las rocas, con bajada directa a la playa.
         </p>
+        {/* La carta, a un toque desde que se entra. La dirección es la misma
+            del restaurante (cartaUrl): se cambia en un solo lugar. */}
+        {restaurante?.data.cartaUrl && (
+          <div class="acciones-hero">
+            <Boton href={restaurante.data.cartaUrl} externo>Ver la carta</Boton>
+          </div>
+        )}
       </div>
     </div>
   </section>
@@ -170,13 +177,14 @@ const datosEstructurados = {
     </div>
   </section>
 
-  <!-- Horarios: imagen y las dos líneas, nada más -->
+  <!-- Horarios: imagen y las dos líneas, nada más. La foto no es la
+       principal del restaurante, que ya está en su puerta más arriba. -->
   {
     horarios.length > 0 && restaurante && (
       <section class="horarios banda-turquesa" data-revelar>
         <figure>
           <Foto
-            foto={restaurante.data.hero}
+            foto={restaurante.data.fotoRelato ?? restaurante.data.hero}
             unidad="restaurante"
             anchos={[420, 700, 1000]}
             sizes="(max-width: 900px) 100vw, 46vw"
@@ -291,6 +299,7 @@ const datosEstructurados = {
     font-size: var(--t-portada);
     max-width: 16ch;
   }
+  .acciones-hero { margin-top: 1.5rem; }
   .valor {
     max-width: 44ch;
     margin-top: 1.25rem;

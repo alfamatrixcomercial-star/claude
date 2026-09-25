@@ -137,10 +137,10 @@ fotos:
     src: ../../assets/fotos/restaurante/mesa-vista.jpg
     alt: Una mesa puesta junto a la baranda, con la costa de Mar del Plata al fondo
   llegar:
-    src: ../../assets/fotos/balneario/baranda-mar.jpg
+    src: ../../assets/fotos/restaurante/entrada-pasarela.jpg
     alt: >-
-      El restaurante del complejo desde afuera, con las sombrillas blancas de
-      la terraza y el cielo despejado sobre el mar
+      La entrada al restaurante por la pasarela de madera, con el cartel de
+      Mirador Waikiki sobre la puerta y el techo octogonal detrás
   cierre:
     src: ../../assets/fotos/restaurante/atardecer-ventanal.jpg
     alt: El atardecer sobre la costa, visto desde el ventanal del salón

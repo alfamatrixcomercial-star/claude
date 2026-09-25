@@ -22,13 +22,22 @@ intro:
 # Provisoria: recorte de la foto aérea del predio, para que el sitio no
 # muestre bloques vacíos. Reemplazar por una foto propia de la unidad.
 hero:
-  src: ../../assets/fotos/eventos/salon-atardecer.jpg
+  src: ../../assets/fotos/eventos/mesas-ventanal.jpg
   alt: >-
-    El salón principal al atardecer, con el techo de madera a dos aguas, los
-    sillones blancos y el mar por los ventanales
+    Una mesa larga con sillones blancos junto a los ventanales, lista para una
+    cena, con el mar y la costa del otro lado del vidrio
   foco: centro
 
 galeria:
+  # Las dos primeras salen también en la banda de fotos del home.
+  - src: ../../assets/fotos/eventos/rincon-lounge.jpg
+    alt: >-
+      Un rincón lounge con sillón, puffs de mimbre y faroles colgantes,
+      iluminado en violeta para un evento, con el mar detrás de los ventanales
+  - src: ../../assets/fotos/eventos/salon-atardecer.jpg
+    alt: >-
+      El salón principal al atardecer, con el techo de madera a dos aguas, los
+      sillones blancos y el mar por los ventanales
   - src: ../../assets/fotos/eventos/lounge-tablas.jpg
     alt: >-
       El sector lounge con las tablas de surf en la pared, mesas redondas de madera y flores
@@ -68,13 +77,15 @@ listas:
 # TODO: confirmar espacios, capacidades por montaje y qué incluye el servicio
 
 fotoRelato:
-  src: ../../assets/fotos/restaurante/coctel-chispas.jpg
+  src: ../../assets/fotos/eventos/salon-montado.jpg
   alt: >-
-    El bartender flameando un cóctel en la barra, con las chispas cayendo sobre
-    el vaso
+    El salón montado para un evento, con mesas largas de madera, centros de
+    flores y la pista con una pared de luces al fondo
 listasFoto:
-  src: ../../assets/fotos/restaurante/salon-lamparas.jpg
-  alt: El salón bajo las lámparas de mimbre, montado para una noche
+  src: ../../assets/fotos/eventos/barra-lamparas.jpg
+  alt: >-
+    La barra de tragos bajo las lámparas de mimbre, con las botellas y las
+    copas en una estructura de hierro iluminada
 
 derivacion:
   rotulo: Producción
@@ -89,8 +100,10 @@ derivacion:
     src: ../../assets/logos/mar-eventos.png
     alt: Logo de Mar Eventos
   foto:
-    src: ../../assets/fotos/restaurante/barra-mozo.jpg
-    alt: Un mozo sirve un plato en una mesa del salón, con una botella de vino y la luz cálida de la noche
+    src: ../../assets/fotos/eventos/buffet-barra.jpg
+    alt: >-
+      La barra armada como buffet para un evento, con los platos servidos, la
+      estantería de vinos y un puesto celíaco y veggie al fondo
 
 seo:
   titulo: Casamientos frente al mar en Mar del Plata
