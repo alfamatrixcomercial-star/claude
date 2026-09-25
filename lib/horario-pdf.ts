@@ -6,6 +6,7 @@ import {
   esNoche,
   etiquetaSemana,
   numeroDeDia,
+  diasConNoche,
   pintaComoFinde,
   tipoCelda,
   totalesDelSector,
@@ -43,7 +44,7 @@ const GRIS: RGB = [106, 125, 114]
 /** Proporción del logo recortado (public/logo-blanco.png): 340 × 270. */
 const LOGO_ANCHO_SOBRE_ALTO = 340 / 270
 
-function fondoDeCelda(valor: string, dia: number, finde: boolean): RGB {
+function fondoDeCelda(valor: string, finde: boolean, hayNoche: boolean): RGB {
   switch (tipoCelda(valor)) {
     case 'libre':
       return LIBRE
@@ -54,7 +55,7 @@ function fondoDeCelda(valor: string, dia: number, finde: boolean): RGB {
     case 'otro_lugar':
       return MIRADOR_9
     case 'turno':
-      if (esNoche(valor, dia)) return NOCHE
+      if (esNoche(valor, hayNoche)) return NOCHE
       return finde ? FIN_DE_SEMANA : BLANCO
     default:
       return finde ? FIN_DE_SEMANA : BLANCO
@@ -171,6 +172,8 @@ export function generarPDFHorario(datos: DatosHorario, lunes: string, logo: stri
 
   // Sábado, domingo y feriados van en verde, como en la planilla.
   const findes = DIAS.map((_, i) => pintaComoFinde(datos, i))
+  // Días con servicio de noche: quien cierra esos días, hace noche.
+  const noches = diasConNoche(datos)
   const encabezadoDias = DIAS.map(
     (d, i) => d.toUpperCase() + ' ' + numeroDeDia(lunes, i) + (esFeriado(datos, i) ? ' · FERIADO' : '')
   )
@@ -196,7 +199,7 @@ export function generarPDFHorario(datos: DatosHorario, lunes: string, logo: stri
       y = inicioResto
     }
 
-    const totales = totalesDelSector({ ...sector, personas })
+    const totales = totalesDelSector({ ...sector, personas }, noches)
     autoTable(doc, {
       startY: y,
       margin: { top: inicioResto, left: margen, right: margen, bottom: 13 },
@@ -259,9 +262,9 @@ export function generarPDFHorario(datos: DatosHorario, lunes: string, logo: stri
         }
         if (data.section === 'body') {
           const valor = String(data.cell.raw ?? '')
-          data.cell.styles.fillColor = fondoDeCelda(valor, dia, findes[dia])
+          data.cell.styles.fillColor = fondoDeCelda(valor, findes[dia], noches[dia])
           if (tipoCelda(valor) !== 'turno') data.cell.styles.textColor = GRIS
-          if (esNoche(valor, dia)) data.cell.styles.fontStyle = 'bold'
+          if (esNoche(valor, noches[dia])) data.cell.styles.fontStyle = 'bold'
         }
       },
     })
