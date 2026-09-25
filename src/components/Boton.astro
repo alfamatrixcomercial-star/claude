@@ -89,15 +89,17 @@ const fuera = externo || href.startsWith("http");
   }
   .boton:active { transform: scale(0.98); }
 
-  /* La secundaria es más tenue: el filete apenas se insinúa. */
+  /* La secundaria es de contorno: el texto en el verde de texto y el
+     filete en el verde de la app. Al pasar el mouse se tiñe apenas. */
   .secundaria {
-    color: var(--tinta-suave);
-    border-color: var(--linea);
+    background: transparent;
+    color: var(--acento);
+    border-color: var(--acento-tenue);
   }
   .secundaria:hover {
-    background: transparent;
+    background: rgb(110 143 122 / 0.14);
     color: var(--tinta);
-    border-color: var(--tinta-suave);
+    border-color: var(--acento);
   }
 
   @media (prefers-reduced-motion: reduce) {

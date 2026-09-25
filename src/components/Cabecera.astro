@@ -78,7 +78,7 @@ const wa = await waLink("general");
     align-items: center;
     min-height: var(--toque);
     padding: 0 1.25rem;
-    background: transparent;
+    background: var(--accion-fondo);
     color: var(--accion-tinta);
     border: 1px solid var(--accion-borde);
     border-radius: 999px;
@@ -138,7 +138,7 @@ const wa = await waLink("general");
     border-bottom: 1px solid var(--linea);
   }
   .menu nav li:last-child a { border-bottom: 0; }
-  .menu nav a.activo { font-weight: 700; color: var(--u, var(--tinta)); }
+  .menu nav a.activo { font-weight: 700; color: var(--u-txt, var(--tinta)); }
 
   /* A partir de acá el menú es una barra horizontal y el botón desaparece. */
   @media (min-width: 880px) {
@@ -168,10 +168,11 @@ const wa = await waLink("general");
     .menu nav a.activo { border-bottom-color: var(--u, var(--tinta)); color: inherit; }
   }
 
-  .u-restaurante { --u: var(--u-restaurante); }
-  .u-hotel { --u: var(--u-hotel); }
-  .u-balneario { --u: var(--u-balneario); }
-  .u-eventos { --u: var(--u-eventos); }
+  /* --u para la raya de abajo (detalle, 3:1); --u-txt para la letra (4,5). */
+  .u-restaurante { --u: var(--u-restaurante); --u-txt: var(--u-restaurante-txt); }
+  .u-hotel { --u: var(--u-hotel); --u-txt: var(--u-hotel-txt); }
+  .u-balneario { --u: var(--u-balneario); --u-txt: var(--u-balneario-txt); }
+  .u-eventos { --u: var(--u-eventos); --u-txt: var(--u-eventos-txt); }
 </style>
 
 <script>

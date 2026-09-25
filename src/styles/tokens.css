@@ -1,83 +1,83 @@
 /* ─────────────────────────────────────────────────────────────────────────
-   Mirador Waikiki · sistema editorial
+   Mirador Waikiki · sistema de color
 
-   Vibe: papel cálido, serif de alto contraste para los títulos y grano de
-   imprenta sobre todo. Un complejo de 1999 sobre las rocas no es una app:
-   se parece más a una revista de costa que a un panel.
+   La paleta es la de la app de Mirador Waikiki: crema, arena y verde salvia.
+   Mediodía, playa y terraza, no noche.
 
    Reglas:
-   · Un solo acento en todo el sitio, el verde de la paleta. Los colores por
-     unidad son identidad de página, no un segundo acento: nunca conviven
-     dos en la misma pantalla.
-   · Las sombras llevan la temperatura del papel. Ninguna es negra.
-   · El fondo cambia de temperatura, nunca de oscuridad: el sitio es claro
-     de punta a punta. Un bloque oscuro suelto en una página clara se lee
-     como un copiar y pegar, no como una decisión.
+   · Fondos, tarjetas, bordes y detalles usan los colores de la app tal cual.
+   · El texto no siempre: el gris verdoso (#6a7d72) y el verde de botones
+     sobre el crema no llegan a 4,5 de contraste (2,9 y 3,0). Para texto van
+     versiones más oscuras del mismo tono, calculadas hasta pasar sobre el
+     crema, que es el fondo más oscuro del sitio.
+   · Los botones son un verde apenas más oscuro que el de la app (#516d5c)
+     con texto blanco: 5,69. El verde principal con blanco da 3,58 y el verde
+     oscuro 4,56, justo en el límite: medido en el botón real, con el disco
+     de la flecha, quedaba en 4,4.
    ───────────────────────────────────────────────────────────────────────── */
 
 :root {
-  /* ── Paleta del cliente ──────────────────────────────────────────────── */
-  --verde: #4a9e52;
-  --terracota: #a2745e;
-  --arena: #bda38c;
-  --teal: #5d878a;
-  --verde-profundo: #052319;
-  --crudo: #eeebdb;
+  /* ── Paleta de la app ────────────────────────────────────────────────── */
+  --app-crema: #dbd2b5;         /* fondo de toda la app */
+  --app-blanco: #ffffff;        /* tarjetas */
+  --app-crema-clarito: #f8f5f0; /* fondo al tocar una tarjeta */
+  --app-arena: #cab892;         /* bordes y líneas */
+  --app-verde: #6e8f7a;         /* botones, íconos y acentos */
+  --app-verde-oscuro: #5d7d6a;  /* botón apretado */
+  --app-casi-negro: #1f2d27;    /* texto principal */
+  --app-gris-verdoso: #6a7d72;  /* texto secundario */
+  --app-bien: #4e8a48;
+  --app-rojo: #c83830;
 
   /* ── Papel ───────────────────────────────────────────────────────────── */
-  /* El papel no es blanco: es verde muy claro. Un crema casi blanco de
-     fondo deja el sitio lavado y los colores de la paleta no aparecen por
-     ningún lado. */
-  /* Verde de verdad, no un blanco roto con una idea de verde. Bajó de 0,89
-     a 0,79 de luminancia: es la diferencia entre «el fondo es blanco» y «el
-     fondo es verde». */
-  /* Turquesa profundo, no un casi negro con una idea de verde. El
-     verde-profundo del manual tiene 0,017 de luminancia y se lee como negro;
-     este tiene 0,054 y se lee como turquesa. Esa es toda la diferencia. */
-  --fondo: #0e4a44;
-  --fondo-alt: #0a3831;
-  --fondo-claro: #0a3831;
+  --fondo: var(--app-crema);
+  --fondo-alt: var(--app-crema-clarito);
+  --fondo-claro: var(--app-crema-clarito);
 
   /* ── Tinta ───────────────────────────────────────────────────────────── */
-  --tinta: #ecf6f1;
-  --tinta-suave: #bdd8ce;
-  --linea: #1b5b53;
-  --linea-fuerte: #4f8a80;
+  --tinta: var(--app-casi-negro);          /* 9,5 sobre crema */
+  --tinta-suave: #4f5d55;                  /* gris verdoso oscurecido: 4,59 */
+  --linea: var(--app-arena);
+  --linea-fuerte: #a8956b;
 
-  /* ── Acento: uno solo, el verde de la paleta ─────────────────────────── */
-  /* #235c2b y no #2c6633: sobre la banda turquesa más cargada el segundo
-     da 4,27 y no llega al mínimo. Este da 4,94 en el peor de los siete
-     fondos del sitio. */
-  /* #1e5626: sobre el turquesa hondo, #235c2b da 4,50 y queda al filo.
-     Este da 4,92 en el peor de los siete fondos. */
-  /* Verde de marca aclarado hasta que se lee sobre el turquesa: 5,58 en el
-     peor de los siete fondos. El #4a9e52 pleno da 2,9 y no alcanza. */
-  --acento: #93e9bf;
-  --acento-tenue: #4f8a80;
-  --acento-relleno: #93e9bf;
-  --sobre-acento: #06302b;
+  /* ── Acento ──────────────────────────────────────────────────────────── */
+  /* Para texto (rótulos, cifras, enlaces): verde oscurecido, 4,54 sobre
+     crema. Para rellenos y detalles, el verde de la app. */
+  --acento: #476051;
+  --acento-tenue: var(--app-verde);
+  --acento-relleno: var(--app-verde-oscuro);
+  --sobre-acento: #ffffff;
 
-  --accion-fondo: transparent;
-  --accion-tinta: #93e9bf;
-  --accion-borde: #2d6b62;
-  --accion-hover-fondo: var(--acento);
-  --accion-hover-tinta: #06302b;
-  --foco: #93e9bf;
+  /* Botón: relleno verde, texto blanco. */
+  --accion-fondo: #516d5c;                 /* blanco encima: 5,69 */
+  --accion-tinta: #ffffff;
+  --accion-borde: #516d5c;
+  --accion-hover-fondo: #465f50;           /* blanco encima: 7,0 */
+  --accion-hover-tinta: #ffffff;
+  --foco: #3d6b52;
 
-  /* Sobre foto el fondo es la imagen, no el papel. */
-  --sobre-oscuro: #ecf6f1;
-  --sobre-oscuro-suave: #bdd8ce;
-  --velo: 6 38 34;
+  /* Lo que va directamente sobre una foto, sin placa (el logo de la
+     tarjeta de regalo, el visor de la galería). */
+  --sobre-oscuro: #ffffff;
+  --sobre-oscuro-suave: #f1ede3;
+  /* Tinte de placas, etiquetas y fondo del visor. */
+  --velo: 31 45 39;
+
+  /* Estados de formularios. */
+  --error: #b3322b;
+  --bien: #396535;
 
   /* ── Identidad por unidad ────────────────────────────────────────────── */
-  --u-restaurante: #93e9bf;
-  --u-hotel: #e6cfb0;
-  --u-balneario: #96dfe0;
-  --u-eventos: #f0b79d;
-  --u-restaurante-txt: var(--u-restaurante);
-  --u-hotel-txt: var(--u-hotel);
-  --u-balneario-txt: var(--u-balneario);
-  --u-eventos-txt: var(--u-eventos);
+  /* El primero, para barras y detalles (3:1 sobre crema, lo que pide un
+     elemento de interfaz); el -txt, para texto (4,5). */
+  --u-restaurante: #607c6a;
+  --u-hotel: #8e7143;
+  --u-balneario: #467f84;
+  --u-eventos: #af6046;
+  --u-restaurante-txt: #495f51;
+  --u-hotel-txt: #6e5733;
+  --u-balneario-txt: #356165;
+  --u-eventos-txt: #874a36;
 
   /* ── Tipografía ──────────────────────────────────────────────────────────
      Los títulos suben y se cierran: en editorial el display manda. El
@@ -117,23 +117,19 @@
   --bisel: 6px;
   --radio-interior: calc(var(--radio-grande) - var(--bisel));
 
-  /* Las superficies también van teñidas. Una tarjeta blanca pura sobre un
-     papel verde se lee como un agujero en la página. */
-  /* Sobre oscuro la elevación se construye con una superficie más clara y
-     un borde, no con sombra: una sombra negra sobre turquesa no se ve. */
-  --superficie: #10504a;
-  --superficie-alta: #13554d;
-  --superficie-bisel: #0b3f39;
-  --borde-caja: #1e6259;
-  --borde-caja-activo: #4f9a8e;
+  /* Tarjetas blancas sobre el crema, como en la app. */
+  --superficie: var(--app-blanco);
+  --superficie-alta: var(--app-blanco);
+  --superficie-bisel: var(--app-crema-clarito);
+  --borde-caja: var(--app-arena);
+  --borde-caja-activo: var(--app-verde);
 
-  /* Sombras con la temperatura del papel: una sombra negra sobre crema se
-     ve gris sucio. Estas llevan el marrón del fondo. */
-  /* La sombra lleva el verde del papel, no el marrón de antes ni negro. */
-  --elev-1: 0 1px 2px rgb(2 18 16 / 0.3);
-  --elev-2: 0 2px 4px rgb(2 18 16 / 0.28), 0 8px 20px rgb(2 18 16 / 0.32);
-  --elev-3: 0 4px 8px rgb(2 18 16 / 0.28), 0 18px 40px rgb(2 18 16 / 0.38);
-  --elev-4: 0 8px 16px rgb(2 18 16 / 0.3), 0 32px 72px rgb(2 18 16 / 0.44);
+  /* Sombras con la temperatura de la arena, no negras: una sombra negra
+     sobre crema se ve gris sucio. */
+  --elev-1: 0 1px 2px rgb(92 76 44 / 0.12);
+  --elev-2: 0 2px 4px rgb(92 76 44 / 0.1), 0 8px 20px rgb(92 76 44 / 0.12);
+  --elev-3: 0 4px 8px rgb(92 76 44 / 0.1), 0 18px 40px rgb(92 76 44 / 0.16);
+  --elev-4: 0 8px 16px rgb(92 76 44 / 0.12), 0 32px 72px rgb(92 76 44 / 0.2);
 
   /* Curva única, con peso. Ni linear ni ease-in-out. */
   --curva: cubic-bezier(0.32, 0.72, 0, 1);
@@ -161,20 +157,22 @@
   --z-visor: 50;
 
   /* ── Bandas ──────────────────────────────────────────────────────────────
-     Seis papeles con distinta temperatura. Ninguno baja del 86 % de
-     luminancia: cambian de clima, no de luz. */
-  --banda-papel: #0e4a44;
-  --banda-salvia: #0d4740;
-  --banda-verde: #14512f;
-  --banda-turquesa: #105048;
-  --banda-turquesa-hondo: #0a3831;
-  --banda-arena: #123f36;
-  --banda-piedra: #093c36;
+     Las secciones alternan entre el crema de la app, el crema clarito, el
+     blanco y un salvia muy claro hecho con el verde de la app. Cambian de
+     temperatura, no de luz: el sitio es claro de punta a punta. */
+  --banda-papel: var(--app-crema);
+  --banda-salvia: #e4e9e1;
+  --banda-verde: #e4e9e1;
+  --banda-turquesa: var(--app-crema-clarito);
+  --banda-turquesa-hondo: var(--app-crema);
+  --banda-arena: #ebe4d1;
+  --banda-piedra: var(--app-crema);
 
-  color-scheme: dark;
+  color-scheme: light;
 }
 
 /* ── Bandas de sección ──────────────────────────────────────────────────── */
+/* Los nombres vienen del sistema anterior; lo que cuenta es el tono. */
 
 .banda-salvia,
 .banda-verde,
@@ -185,75 +183,17 @@
   background: var(--fondo);
   color: var(--tinta);
 }
-
-.banda-salvia {
-  --fondo: var(--banda-salvia);
-  --fondo-alt: #0a3831;
-  --superficie: #104d46;
-  --superficie-bisel: #0a3c35;
-  --borde-caja: #1c5d55;
-  --linea: #1a564f;
-}
-/* Verde de marca, hondo. */
-.banda-verde {
-  --fondo: var(--banda-verde);
-  --fondo-alt: #0f3e24;
-  --superficie: #185c36;
-  --superficie-alta: #1b6539;
-  --superficie-bisel: #10422a;
-  --borde-caja: #236f45;
-  --borde-caja-activo: #4fa06c;
-  --linea: #1d6440;
-}
-/* Turquesa, el tono que da nombre al sistema. */
-.banda-turquesa {
-  --fondo: var(--banda-turquesa);
-  --fondo-alt: #0c3e38;
-  --superficie: #13584f;
-  --superficie-alta: #166057;
-  --superficie-bisel: #0d443d;
-  --borde-caja: #1f6c62;
-  --borde-caja-activo: #4fa093;
-  --linea: #1d6459;
-}
-/* El más hondo, para cerrar. */
-.banda-turquesa-hondo {
-  --fondo: var(--banda-turquesa-hondo);
-  --fondo-alt: #072b26;
-  --superficie: #0d413a;
-  --superficie-alta: #104a42;
-  --superficie-bisel: #082f2a;
-  --borde-caja: #16544c;
-  --linea: #14504a;
-}
-.banda-arena {
-  --fondo: var(--banda-arena);
-  --fondo-alt: #0d3129;
-  --superficie: #16493f;
-  --superficie-alta: #185045;
-  --superficie-bisel: #0f362d;
-  --borde-caja: #225c50;
-  --linea: #1f564b;
-}
-.banda-piedra {
-  --fondo: var(--banda-piedra);
-  --fondo-alt: #072e29;
-  --superficie: #0d443d;
-  --superficie-bisel: #083029;
-  --borde-caja: #155850;
-  --linea: #13544c;
-}
+.banda-salvia,
+.banda-verde { --fondo: var(--banda-salvia); --fondo-alt: var(--app-crema-clarito); }
+.banda-turquesa { --fondo: var(--banda-turquesa); --fondo-alt: var(--app-crema); --superficie-bisel: var(--app-crema); }
+.banda-turquesa-hondo,
+.banda-piedra { --fondo: var(--app-crema); --fondo-alt: var(--app-crema-clarito); }
+.banda-arena { --fondo: var(--banda-arena); --fondo-alt: var(--app-crema-clarito); }
 
 /* ── Sobre foto ─────────────────────────────────────────────────────────────
-   Donde el fondo es una imagen y no el papel, la tinta y la acción vuelven a
-   ser claras. Sin esto los botones del hero quedan verde oscuro sobre una
-   foto oscurecida. */
-.sobre-foto {
-  --accion-borde: rgb(236 246 241 / 0.4);
-  --accion-hover-fondo: var(--sobre-oscuro);
-  --accion-hover-tinta: #06302b;
-  color: var(--sobre-oscuro);
-}
+   Todo el texto sobre foto va en una .placa clara (base.css), con la tinta
+   de siempre. Esta clase queda para marcar esos bloques. */
+.sobre-foto { color: var(--tinta); }
 
 /* svh: el alto de pantalla con la barra del navegador visible. Con vh, en
    el celular el primer bloque cambia de alto al scrollear. */

@@ -295,8 +295,8 @@ a:active, button:active, summary:active, [role="button"]:active {
   inset: 0;
   z-index: var(--z-grano);
   pointer-events: none;
-  /* Sobre oscuro el ruido se ve más: al 3,5 % quedaba sucio. */
-  opacity: 0.02;
+  /* Sobre crema el ruido se nota menos que sobre oscuro. */
+  opacity: 0.035;
   /* En una sola línea: la barra de continuación dentro de una cadena CSS
      la resuelve distinto cada motor y el data URI llega partido. */
   background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='r'><feTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='3' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='160' height='160' filter='url(%23r)'/></svg>");
@@ -376,13 +376,18 @@ a:active, button:active, summary:active, [role="button"]:active {
   max-width: 100%;
   padding: clamp(1.1rem, 2.6vw, 1.9rem) clamp(1.2rem, 3vw, 2.2rem);
   border-radius: var(--radio-grande);
-  background: rgb(var(--velo) / 0.7);
-  -webkit-backdrop-filter: blur(16px) saturate(1.15);
-  backdrop-filter: blur(16px) saturate(1.15);
-  border: 1px solid rgb(236 246 241 / 0.14);
-  box-shadow: 0 12px 40px rgb(2 18 16 / 0.28);
+  background: rgb(248 245 240 / 0.88);
+  -webkit-backdrop-filter: blur(16px) saturate(1.1);
+  backdrop-filter: blur(16px) saturate(1.1);
+  border: 1px solid rgb(255 255 255 / 0.6);
+  box-shadow: 0 12px 40px rgb(31 45 39 / 0.18);
+  color: var(--tinta);
+  /* Adentro de la placa, lo que estaba pensado como «texto sobre foto»
+     vuelve a ser tinta: la placa es crema, no la foto. */
+  --sobre-oscuro: var(--tinta);
+  --sobre-oscuro-suave: var(--tinta-suave);
 }
 /* Sin desenfoque el tinte solo tiene que hacer todo el trabajo. */
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
-  .placa { background: rgb(var(--velo) / 0.84); }
+  .placa { background: rgb(248 245 240 / 0.95); }
 }

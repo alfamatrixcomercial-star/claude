@@ -109,17 +109,17 @@ const { items, titulo, rotulo } = Astro.props;
     z-index: 1;
     padding: 0.4rem 0.75rem;
     border-radius: 999px;
-    background: rgb(var(--velo) / 0.66);
+    background: rgb(248 245 240 / 0.86);
     -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
     font-size: var(--t-eyebrow);
     font-weight: 700;
     letter-spacing: 0.14em;
     text-transform: uppercase;
-    color: var(--sobre-oscuro);
+    color: var(--tinta);
   }
   @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
-    .pie { background: rgb(var(--velo) / 0.86); }
+    .pie { background: rgb(248 245 240 / 0.96); }
   }
 
   @media (hover: hover) {

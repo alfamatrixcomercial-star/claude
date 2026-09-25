@@ -278,13 +278,14 @@ const usos = (await getCollection("unidades"))
     max-width: 100%;
     padding: 0.7rem 0.95rem 0.75rem;
     border-radius: 14px;
-    background: rgb(var(--velo) / 0.62);
-    -webkit-backdrop-filter: blur(14px) saturate(1.15);
-    backdrop-filter: blur(14px) saturate(1.15);
-    border: 1px solid rgb(236 246 241 / 0.14);
+    background: rgb(248 245 240 / 0.86);
+    -webkit-backdrop-filter: blur(14px) saturate(1.1);
+    backdrop-filter: blur(14px) saturate(1.1);
+    border: 1px solid rgb(255 255 255 / 0.6);
+    color: var(--tinta);
   }
   @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
-    .tarjeta-pie { background: rgb(var(--velo) / 0.84); }
+    .tarjeta-pie { background: rgb(248 245 240 / 0.96); }
   }
   .tarjeta-pie .tarjeta-rotulo { margin-bottom: 0.2rem; }
   .tarjeta-para { font-size: 0.9rem; }
@@ -432,7 +433,7 @@ const usos = (await getCollection("unidades"))
 
   .error {
     font-size: 0.82rem;
-    color: var(--u-eventos);
+    color: var(--error);
     display: flex;
     align-items: center;
     gap: 0.35rem;
@@ -442,7 +443,7 @@ const usos = (await getCollection("unidades"))
      la caja vacía se dibuja igual y deja un guión suelto bajo cada campo. */
   .error[hidden] { display: none; }
   .campo:has(.error:not([hidden])) input,
-  .campo:has(.error:not([hidden])) select { border-color: var(--u-eventos); }
+  .campo:has(.error:not([hidden])) select { border-color: var(--error); }
 
   .contador {
     font-size: 0.76rem;
