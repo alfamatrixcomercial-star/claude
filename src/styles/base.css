@@ -350,14 +350,39 @@ a:active, button:active, summary:active, [role="button"]:active {
 }
 
 /* Encabezado de página con foto de fondo: gift card, contacto, galería,
-   legales, 404. Alto suficiente para que la foto se vea, con el texto
-   apoyado abajo, donde la sombra es más pareja. Sobre la foto el texto
-   secundario usa la tinta clara plena: la suave no alcanza el contraste
-   contra una foto. */
+   legales, 404. Mismo alto que el hero del home y el de las unidades, con
+   el texto apoyado abajo. Sobre la foto el texto secundario usa la tinta
+   clara plena: la suave no alcanza el contraste. */
 .portada-foto {
   display: flex;
   align-items: flex-end;
-  min-height: clamp(22rem, 54vh, 34rem);
+  min-height: var(--alto-portada);
 }
 .portada-foto > * { width: 100%; }
 .portada-foto .sobre-foto p { color: var(--sobre-oscuro); }
+.portada-foto h1 { font-size: var(--t-portada); }
+
+/* ── Placa ───────────────────────────────────────────────────────────────
+   El texto que va sobre una foto se apoya en su propia placa, del tamaño
+   justo del texto. La foto no lleva ninguna capa: se ve entera y con sus
+   colores. Sin placa, la tinta clara sobre cielo, espuma o una sombrilla
+   blanca no se lee.
+
+   Vidrio esmerilado: el desenfoque promedia lo que hay detrás (una ola
+   brillante deja de ser un pico de blanco) y el tinte hace el resto. Los
+   valores salen de medir el contraste contra lo más claro de cada foto. */
+.placa {
+  width: fit-content;
+  max-width: 100%;
+  padding: clamp(1.1rem, 2.6vw, 1.9rem) clamp(1.2rem, 3vw, 2.2rem);
+  border-radius: var(--radio-grande);
+  background: rgb(var(--velo) / 0.7);
+  -webkit-backdrop-filter: blur(16px) saturate(1.15);
+  backdrop-filter: blur(16px) saturate(1.15);
+  border: 1px solid rgb(236 246 241 / 0.14);
+  box-shadow: 0 12px 40px rgb(2 18 16 / 0.28);
+}
+/* Sin desenfoque el tinte solo tiene que hacer todo el trabajo. */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .placa { background: rgb(var(--velo) / 0.84); }
+}

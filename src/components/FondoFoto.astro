@@ -1,32 +1,23 @@
 ---
 /**
- * Foto a sangre detrás de un bloque de texto, con la sombra justa para que
- * el texto se lea.
+ * Foto a sangre detrás de un bloque de texto. Sin ninguna capa encima: la
+ * foto se ve entera y con sus colores. El texto del bloque va sobre una
+ * .placa (base.css), que es lo que lo hace legible.
  *
- * El bloque que la contiene tiene que llevar la clase `con-fondo` (lo
- * posiciona y lo aísla) y `sobre-foto` en lo que va encima (tinta clara).
- *
- * La sombra depende de dónde cae el texto:
- *  · izquierda: encabezados de página, texto alineado a la izquierda. Se
- *    aclara hacia la derecha, donde la foto queda limpia.
- *  · centro: texto centrado (el cierre). Se aclara hacia los bordes.
- *  · pareja: texto repartido por todo el ancho (las cifras).
- *
- * Los valores de cada una salen de medir el contraste del texto contra el
- * pixel más claro de la foto que le pasa por detrás, no de mirarlo.
+ * El bloque que la contiene lleva la clase `con-fondo` (lo posiciona y lo
+ * aísla) y `sobre-foto` en lo que va encima (tinta clara).
  */
 import Foto from "./Foto.astro";
 
 interface Props {
   foto: { src: ImageMetadata; alt: string; foco?: "centro" | "arriba" | "abajo" };
-  sombra?: "izquierda" | "centro" | "pareja";
   /** Sólo para el primer bloque de la página, que se ve sin scrollear. */
   prioridad?: boolean;
 }
-const { foto, sombra = "izquierda", prioridad = false } = Astro.props;
+const { foto, prioridad = false } = Astro.props;
 ---
 
-<div class:list={["fondo-foto", `sombra-${sombra}`]}>
+<div class="fondo-foto">
   <Foto foto={foto} prioridad={prioridad} sizes="100vw" anchos={[640, 1024, 1600, 2200]} />
 </div>
 
@@ -41,36 +32,4 @@ const { foto, sombra = "izquierda", prioridad = false } = Astro.props;
     position: absolute;
     inset: 0;
   }
-  .fondo-foto::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-  }
-
-  .sombra-izquierda::after {
-    background: linear-gradient(
-      to right,
-      rgb(var(--velo) / 0.8) 0%,
-      rgb(var(--velo) / 0.74) 50%,
-      rgb(var(--velo) / 0.46) 76%,
-      rgb(var(--velo) / 0.24) 100%
-    );
-  }
-  /* En angosto el texto va de borde a borde: no hay lado limpio. */
-  @media (max-width: 700px) {
-    .sombra-izquierda::after { background: rgb(var(--velo) / 0.74); }
-  }
-
-  .sombra-centro::after {
-    background: radial-gradient(
-      ellipse 75% 85% at 50% 50%,
-      rgb(var(--velo) / 0.62) 0%,
-      rgb(var(--velo) / 0.48) 60%,
-      rgb(var(--velo) / 0.3) 100%
-    );
-  }
-
-  /* Pareja y fuerte: el texto cruza todo el ancho y puede caer sobre la
-     espuma del mar, que es casi blanca. Medido contra la foto cargada. */
-  .sombra-pareja::after { background: rgb(var(--velo) / 0.68); }
 </style>

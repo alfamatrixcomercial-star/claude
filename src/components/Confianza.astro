@@ -24,8 +24,9 @@ const datos = [
 ---
 
 <section class="confianza banda-turquesa con-fondo" data-revelar>
-  <FondoFoto foto={sitio.fotos.confianza} sombra="pareja" />
+  <FondoFoto foto={sitio.fotos.confianza} />
   <div class="interior sobre-foto">
+    <div class="placa placa-cifras">
     <ul class="cifras" data-revelar-grupo="3">
       {
         datos.map((d) => (
@@ -37,6 +38,7 @@ const datos = [
         ))
       }
     </ul>
+    </div>
 
     {
       testimonios.length > 0 && (
@@ -68,6 +70,9 @@ const datos = [
     padding: var(--paso) var(--margen) var(--paso-abajo);
   }
   .interior { max-width: var(--ancho); margin-inline: auto; }
+  /* Las cifras cruzan todo el ancho: la placa también. Arriba y abajo de
+     ella la foto queda limpia. */
+  .placa-cifras { width: 100%; }
 
   /* Tres cajas iguales en fila es el patrón de plantilla por excelencia.
      Acá van como una línea editorial: la cifra enorme en la serif, el dato

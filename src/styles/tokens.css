@@ -148,6 +148,12 @@
   --alto-cabecera: calc(var(--toque) + 2px + 1.3rem + 1px);
   /* Alto de la onda divisoria. */
   --alto-onda: clamp(6px, 0.7vw, 9px);
+  /* Alto del primer bloque de todas las páginas: el hero del home, el de
+     cada unidad y los encabezados con foto. Uno solo, así ninguna página
+     arranca más grande o más chica que otra. vh de reserva; svh abajo. */
+  --alto-portada: clamp(28rem, 70vh, 44rem);
+  /* Título de ese primer bloque, el mismo en todas las páginas. */
+  --t-portada: clamp(2.25rem, 2.2vw + 1.4rem, 4rem);
   --z-base: 1;
   --z-flotante: 10;
   --z-fijo: 20;
@@ -247,4 +253,10 @@
   --accion-hover-fondo: var(--sobre-oscuro);
   --accion-hover-tinta: #06302b;
   color: var(--sobre-oscuro);
+}
+
+/* svh: el alto de pantalla con la barra del navegador visible. Con vh, en
+   el celular el primer bloque cambia de alto al scrollear. */
+@supports (height: 1svh) {
+  :root { --alto-portada: clamp(28rem, 70svh, 44rem); }
 }

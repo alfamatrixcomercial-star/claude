@@ -66,7 +66,8 @@ const { src, poster, alt } = Astro.props;
       if (!video || !src) return;
 
       const quietud = window.matchMedia("(prefers-reduced-motion: reduce)");
-      const angosto = window.matchMedia("(max-width: 700px)");
+      /* En angosto el panel no se muestra: no se baja el video. */
+      const angosto = window.matchMedia("(max-width: 859px)");
       const ahorro = (navigator as any).connection?.saveData === true;
       if (quietud.matches || angosto.matches || ahorro) return;
 

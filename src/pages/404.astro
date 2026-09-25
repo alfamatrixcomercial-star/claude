@@ -12,6 +12,7 @@ const sitio = await datosSitio();
   <section class="cuatro con-fondo portada-foto">
     <FondoFoto foto={sitio.fotos.error} prioridad />
     <div class="interior sobre-foto">
+      <div class="placa">
       <p class="eyebrow">Error 404</p>
       <h1>Esa página no existe.</h1>
       <p class="parrafo">
@@ -24,13 +25,14 @@ const sitio = await datosSitio();
         <li><a href="/eventos">Eventos</a></li>
       </ul>
       <Boton href="/">Volver al inicio</Boton>
+      </div>
     </div>
   </section>
   <Onda />
 </Base>
 
 <style>
-  .cuatro { padding: var(--paso) var(--margen); }
+  .cuatro { padding: var(--paso-corto) var(--margen); }
   .interior { max-width: var(--ancho); margin-inline: auto; }
   .eyebrow {
     font-size: var(--t-eyebrow);
@@ -41,5 +43,5 @@ const sitio = await datosSitio();
     margin-bottom: 0.9rem;
   }
   .parrafo { max-width: var(--medida); margin-top: 1.25rem; color: var(--tinta-suave); }
-  ul { list-style: none; display: flex; flex-wrap: wrap; gap: 1.5rem; margin: 1.75rem 0 2.25rem; }
+  ul { list-style: none; display: flex; flex-wrap: wrap; gap: 0.6rem 1.4rem; margin: 1.1rem 0 1.4rem; }
 </style>

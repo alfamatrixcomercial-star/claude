@@ -14,8 +14,9 @@ const wa = await waLink("general");
 ---
 
 <section class="cierre banda-verde con-fondo">
-  <FondoFoto foto={sitio.fotos.cierre} sombra="centro" />
+  <FondoFoto foto={sitio.fotos.cierre} />
   <div class="interior sobre-foto">
+    <div class="placa placa-cierre">
     <div class="encabezado centrado">
       <p class="rotulo">Reservas</p>
       <h2>Se reserva por WhatsApp o por Woki.</h2>
@@ -29,6 +30,7 @@ const wa = await waLink("general");
       <Boton href={wa} jerarquia={woki ? "secundaria" : "primaria"} externo>
         Escribir por WhatsApp
       </Boton>
+    </div>
     </div>
   </div>
 </section>
@@ -49,4 +51,10 @@ const wa = await waLink("general");
     margin-bottom: 2.25rem;
   }
   .acciones { display: flex; flex-wrap: wrap; gap: 0.9rem; justify-content: center; }
+  .placa-cierre {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
 </style>

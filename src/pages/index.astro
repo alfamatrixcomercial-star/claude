@@ -98,9 +98,8 @@ const datosEstructurados = {
   descripcion={sitio.descripcion}
   datosEstructurados={datosEstructurados}
 >
-  <!-- Hero: el video ocupa toda la pantalla debajo de la cabecera, con el
-       titular abajo a la izquierda. La onda cierra el primer pantallazo y
-       las cuatro puertas empiezan en el primer scroll. -->
+  <!-- Hero: el video a sangre, sin capas, con el titular en su placa abajo
+       a la izquierda. Mismo alto que el primer bloque de todas las páginas. -->
   <section class="hero" data-hero>
     <HeroVideo
       src="/video/waikiki-hero"
@@ -109,14 +108,16 @@ const datosEstructurados = {
       alt="El complejo Mirador Waikiki visto desde el mar con un dron: el restaurante, las piletas, el parque y la playa sobre la costa de Mar del Plata"
     />
     <div class="texto sobre-foto">
-      <p class="eyebrow">
-        {sitio.direccion.localidad} · desde {sitio.desde}
-      </p>
-      <h1>{sitio.lema}</h1>
-      <p class="valor">
-        Restaurante, hotel, balneario y salón de eventos en un mismo predio
-        sobre las rocas, con bajada directa a la playa.
-      </p>
+      <div class="placa">
+        <p class="eyebrow">
+          {sitio.direccion.localidad} · desde {sitio.desde}
+        </p>
+        <h1>{sitio.lema}</h1>
+        <p class="valor">
+          Restaurante, hotel, balneario y salón de eventos en un mismo predio
+          sobre las rocas, con bajada directa a la playa.
+        </p>
+      </div>
     </div>
   </section>
 
@@ -260,49 +261,8 @@ const datosEstructurados = {
 
 <style>
   .hero { position: relative; isolation: isolate; overflow: hidden; }
-  /* Una sola sombra, en la franja del texto: oscurece la izquierda y se
-     apaga hacia la derecha y hacia arriba. El resto del cuadro queda
-     limpio, que es lo que se tiene que ver.
-
-     Es un degradado horizontal recortado por una máscara vertical: el
-     producto de los dos da una esquina oscura abajo a la izquierda sin
-     ningún borde visible. Va en el hero entero y no en la caja del texto:
-     colgada del texto, el degradado no llegaba a transparente antes del
-     borde de su caja y se veía un rectángulo recortado.
-
-     Los valores salen de medir: el rótulo y la bajada son texto chico y
-     piden 4,5 contra el pixel más claro del video que les pasa por
-     detrás, en cualquier momento del recorrido. */
-  .hero::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    background: linear-gradient(
-      to right,
-      rgb(var(--velo) / var(--sombra-texto)) 0%,
-      rgb(var(--velo) / var(--sombra-texto)) 46%,
-      rgb(var(--velo) / 0.3) 60%,
-      rgb(var(--velo) / 0) 76%
-    );
-    -webkit-mask-image: linear-gradient(to top, #000 0%, #000 var(--sombra-alto), transparent 88%);
-    mask-image: linear-gradient(to top, #000 0%, #000 var(--sombra-alto), transparent 88%);
-    pointer-events: none;
-    --sombra-texto: 0.64;
-    --sombra-alto: 50%;
-  }
-  /* En el celular el texto va de borde a borde y ocupa más alto: la sombra
-     cubre todo el ancho y sube un poco más. */
-  @media (max-width: 700px) {
-    .hero::before {
-      background: rgb(var(--velo) / var(--sombra-texto));
-      /* La foto vertical tiene la espuma de las olas justo detrás del
-         texto: pide más sombra que la horizontal, pero sólo en la franja
-         de abajo. El cielo, el mar y el complejo quedan limpios. */
-      --sombra-texto: 0.62;
-      --sombra-alto: 44%;
-    }
-  }
+  /* Sin ninguna capa sobre el video: se ve entero y con sus colores. El
+     texto se apoya en su propia placa (ver .placa en base.css). */
 
   .texto {
     position: relative;
@@ -310,16 +270,10 @@ const datosEstructurados = {
     flex-direction: column;
     justify-content: flex-end;
     max-width: var(--ancho);
-    /* Todo lo que queda de pantalla debajo de la cabecera, dejando a la
-       vista la onda que cierra el hero.
-       svh y no vh ni dvh: en el celular la barra del navegador cambia de
-       alto al scrollear; con vh el hero queda más alto que la pantalla y
-       con dvh salta mientras se scrollea. svh es el alto con la barra
-       visible, fijo. La primera línea es la reserva sin svh. */
-    min-height: calc(100vh - var(--alto-cabecera) - var(--alto-onda));
-    min-height: calc(100svh - var(--alto-cabecera) - var(--alto-onda));
+    /* El mismo alto que el primer bloque de todas las páginas. */
+    min-height: var(--alto-portada);
     margin-inline: auto;
-    padding: var(--paso) var(--margen) var(--paso-corto);
+    padding: var(--paso-corto) var(--margen);
     color: var(--sobre-oscuro);
   }
 
@@ -334,7 +288,7 @@ const datosEstructurados = {
   }
   /* Más chico que el display del resto del sitio: acá manda el video. */
   h1 {
-    font-size: clamp(2.25rem, 2.2vw + 1.4rem, 4rem);
+    font-size: var(--t-portada);
     max-width: 16ch;
   }
   .valor {

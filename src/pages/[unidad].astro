@@ -123,6 +123,7 @@ const datosEstructurados = {
       </div>
       <div class="marco-hero">
         <div class="texto sobre-foto">
+          <div class="placa">
           {
             d.marca ? (
               <Image
@@ -147,6 +148,7 @@ const datosEstructurados = {
                 </Boton>
               ))
             }
+          </div>
           </div>
         </div>
         {
@@ -289,40 +291,7 @@ const datosEstructurados = {
   .u-eventos { --u: var(--u-eventos); --u-txt: var(--u-eventos-txt); }
 
   .hero { position: relative; isolation: isolate; overflow: hidden; }
-  /* La mancha que hace legible el texto va en el hero entero, no en la caja
-     del texto. Colgada del bloque de texto, el degradado no alcanzaba a
-     llegar a transparente antes del borde de su caja y se cortaba en seco:
-     se veía un rectángulo más oscuro con los tres lados marcados.
-
-     A sangre no hay borde que se pueda ver, y el degradado se apaga dentro
-     del propio hero. */
-  .hero::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    background:
-      radial-gradient(
-        118% 128% at 18% 64%,
-        rgb(var(--velo) / 0.84) 0%,
-        rgb(var(--velo) / 0.66) 28%,
-        rgb(var(--velo) / 0.32) 50%,
-        rgb(var(--velo) / 0.08) 70%,
-        rgb(var(--velo) / 0) 86%
-      ),
-      /* Capa vertical de apoyo. Va de ancho completo, así que no tiene un
-         borde lateral que se pueda ver, y cubre toda la franja donde cae el
-         texto sin importar cuánto crezca el titular. */
-      linear-gradient(
-        to top,
-        rgb(var(--velo) / 0.6) 0%,
-        rgb(var(--velo) / 0.46) 38%,
-        rgb(var(--velo) / 0.3) 62%,
-        rgb(var(--velo) / 0.1) 82%,
-        rgb(var(--velo) / 0) 96%
-      );
-    pointer-events: none;
-  }
+  /* Sin capas sobre la foto: se ve entera. El texto va en su placa. */
 
   .hero::after {
     content: "";
@@ -332,17 +301,6 @@ const datosEstructurados = {
     background: var(--u);
   }
   .fondo { position: absolute; inset: 0; z-index: -2; background: var(--fondo-alt); }
-  .fondo::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(
-      to top,
-      rgb(var(--velo) / 0.5) 0%,
-      rgb(var(--velo) / 0.22) 45%,
-      rgb(var(--velo) / 0.1) 100%
-    );
-  }
   .fondo :global(img) { width: 100%; height: 100%; object-fit: cover; }
   .fondo :global(.pendiente) { height: 100%; }
 
@@ -351,7 +309,7 @@ const datosEstructurados = {
   .marco-hero {
     max-width: var(--ancho);
     margin-inline: auto;
-    padding: var(--paso) var(--margen) var(--paso-corto);
+    padding: var(--paso-corto) var(--margen);
   }
 
   .texto {
@@ -361,42 +319,33 @@ const datosEstructurados = {
     align-items: flex-start;
     justify-content: flex-end;
     gap: 1rem;
-    /* Reserva en vh para navegadores sin dvh. */
-    min-height: min(62vh, 34rem);
-    min-height: min(62dvh, 34rem);
+    /* El hero entero mide --alto-portada: el texto ocupa lo que dejan los
+       rellenos del marco. */
+    min-height: calc(var(--alto-portada) - 2 * var(--paso-corto));
     color: var(--sobre-oscuro);
   }
 
   /* El video vertical no se estira a pantalla completa: convive con el
-     texto. Debajo de 860 px se apila y queda arriba, que es donde manda. */
+     texto, al costado. Debajo de 860 px no se muestra. */
   .con-retrato .marco-hero {
     display: grid;
     gap: clamp(1.75rem, 4vw, 3.5rem);
     align-items: center;
   }
-  .con-retrato .texto { min-height: 0; }
   .con-retrato :global(.retrato) { justify-self: center; }
-  /* Apilado, el panel se mide por alto: a 9/16 sobre el ancho de un
-     teléfono empujaría el resto de la página media pantalla más abajo. */
+  /* Apilado arriba del texto, el panel duplicaba el alto del hero y lo
+     hacía distinto del resto de las páginas. En angosto no va: el video
+     tampoco arrancaba ahí (ver HeroRetrato). */
   @media (max-width: 859px) {
-    /* El tope va en el ancho, no en el alto: con `width: auto` dentro de la
-       grilla el panel se encoge a cero, porque no tiene de dónde medir. */
-    .con-retrato :global(.retrato) { max-width: min(25rem, calc(54vh * 9 / 16)); }
+    .con-retrato :global(.retrato) { display: none; }
   }
   @media (min-width: 860px) {
     .con-retrato .marco-hero { grid-template-columns: 1fr auto; }
-    .con-retrato .texto { min-height: min(62dvh, 34rem); }
-    .con-retrato :global(.retrato) { width: clamp(16rem, 28vw, 22rem); }
-  }
-  /* Sobre el panel, la foto de fondo es textura: se oscurece más para que
-     el video sea lo único que se mira. */
-  .con-retrato .fondo::after {
-    background: linear-gradient(
-      to top,
-      rgb(var(--velo) / 0.6) 0%,
-      rgb(var(--velo) / 0.38) 50%,
-      rgb(var(--velo) / 0.22) 100%
-    );
+    /* El panel mide lo mismo que el texto: el hero no crece por él. */
+    .con-retrato :global(.retrato) {
+      height: calc(var(--alto-portada) - 2 * var(--paso-corto));
+      width: auto;
+    }
   }
   /* Cuando la unidad tiene marca propia, el logo ocupa el lugar del rótulo
      y con bastante más presencia: es el nombre de la casa, no una etiqueta. */
@@ -413,7 +362,13 @@ const datosEstructurados = {
     text-transform: uppercase;
     color: var(--sobre-oscuro);
   }
-  h1 { max-width: 18ch; }
+  .texto .placa {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  h1 { font-size: var(--t-portada); max-width: 18ch; }
   /* El texto sobre foto se lee siempre: gana el color claro, no el de
      cuerpo, que sobre el velo quedaba invisible. */
   .texto :global(.estado),

@@ -61,12 +61,14 @@ const datosEstructurados = {
   <section class="portada con-fondo portada-foto">
     <FondoFoto foto={sitio.fotos.contacto} prioridad />
     <div class="interior sobre-foto">
+      <div class="placa">
       <p class="eyebrow">Contacto</p>
       <h1>Escribinos a la unidad que te interesa.</h1>
       <p class="bajada">
         Cada unidad atiende su propio WhatsApp. El mensaje se abre ya escrito para que
         quien atiende sepa de qué se trata sin preguntar.
       </p>
+      </div>
     </div>
   </section>
 
@@ -131,7 +133,7 @@ const datosEstructurados = {
 </Base>
 
 <style>
-  .portada { padding: var(--paso) var(--margen) var(--paso-corto); }
+  .portada { padding: var(--paso-corto) var(--margen); }
   .interior { max-width: var(--ancho); margin-inline: auto; }
   .eyebrow {
     font-size: var(--t-eyebrow);

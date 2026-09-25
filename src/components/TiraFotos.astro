@@ -92,12 +92,6 @@ const { items, titulo, rotulo } = Astro.props;
     box-shadow: var(--elev-1);
     text-decoration: none;
   }
-  a::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(to top, rgb(var(--velo) / 0.75) 0%, rgb(var(--velo) / 0) 55%);
-  }
 
   a :global(img) {
     width: 100%;
@@ -106,16 +100,26 @@ const { items, titulo, rotulo } = Astro.props;
     transition: transform var(--transicion);
   }
 
+  /* Sin degradado sobre la foto: el nombre va en una etiqueta propia, de
+     vidrio esmerilado como las placas, y la foto se ve entera. */
   .pie {
     position: absolute;
-    left: 0.9rem;
+    left: 0.75rem;
     bottom: 0.75rem;
     z-index: 1;
+    padding: 0.4rem 0.75rem;
+    border-radius: 999px;
+    background: rgb(var(--velo) / 0.66);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
     font-size: var(--t-eyebrow);
     font-weight: 700;
     letter-spacing: 0.14em;
     text-transform: uppercase;
     color: var(--sobre-oscuro);
+  }
+  @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    .pie { background: rgb(var(--velo) / 0.86); }
   }
 
   @media (hover: hover) {
