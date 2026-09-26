@@ -307,16 +307,13 @@ const datosEstructurados = {
 </Base>
 
 <style>
-  /* Portada a pantalla completa: todo lo que queda debajo de la cabecera.
-     Es la única excepción al alto común de primer bloque (--alto-portada):
-     el home es la tapa. svh y no vh: en el celular la barra del navegador
-     cambia de alto al scrollear. */
+  /* Portada a pantalla completa: todo lo que queda debajo de la cabecera,
+     el mismo alto que el primer bloque de todas las páginas. */
   .hero {
     position: relative;
     isolation: isolate;
     overflow: hidden;
-    min-height: calc(100vh - var(--alto-cabecera));
-    min-height: calc(100svh - var(--alto-cabecera));
+    min-height: var(--alto-portada);
   }
 
   /* La placa de abajo: una frase y cómo llegar, nada más. Centrada y chica,
@@ -366,7 +363,7 @@ const datosEstructurados = {
     font-weight: 600;
     letter-spacing: 0.2em;
     text-transform: uppercase;
-    color: var(--celeste-texto);
+    color: var(--verde-rotulo);
     margin-bottom: 0.9rem;
   }
   h1 {

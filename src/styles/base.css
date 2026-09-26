@@ -40,7 +40,7 @@ h1, h2, h3, h4 {
   text-wrap: balance;
 }
 h3, h4 { font-weight: 600; line-height: 1.24; }
-/* Títulos en el celeste de la paleta (ver --titulo en tokens.css). */
+/* Títulos en el verde del botón (ver --titulo en tokens.css). */
 h1, h2 { color: var(--titulo); }
 h1 { font-size: var(--t-h1); letter-spacing: var(--track-h1); }
 h2 { font-size: var(--t-h2); letter-spacing: var(--track-h2); }
@@ -122,7 +122,7 @@ a:active, button:active, summary:active, [role="button"]:active {
   font-weight: 500;
   letter-spacing: 0.24em;
   text-transform: uppercase;
-  color: var(--celeste-texto);
+  color: var(--verde-rotulo);
 }
 
 /* Encabezado de sección: rótulo chico arriba, título serif debajo. */
@@ -284,7 +284,7 @@ a:active, button:active, summary:active, [role="button"]:active {
   visibility: visible;
   transition: opacity 240ms var(--curva), visibility 0s;
 }
-.logo-carga { display: flex; color: var(--celeste-titulo); }
+.logo-carga { display: flex; color: var(--verde-titulo); }
 .logo-carga svg {
   width: auto;
   height: clamp(72px, 16vw, 104px);
@@ -408,7 +408,7 @@ a:active, button:active, summary:active, [role="button"]:active {
      vuelve a ser tinta: la placa es crema, no la foto. */
   --sobre-oscuro: var(--tinta);
   --sobre-oscuro-suave: var(--tinta-suave);
-  --titulo: var(--celeste-titulo);
+  --titulo: var(--verde-titulo);
 }
 /* Sin desenfoque el tinte solo tiene que hacer todo el trabajo. */
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {

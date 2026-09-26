@@ -344,7 +344,7 @@ const datosEstructurados = {
     .con-retrato .marco-hero { grid-template-columns: 1fr auto; }
     /* El panel mide lo mismo que el texto: el hero no crece por él. */
     .con-retrato :global(.retrato) {
-      height: calc(var(--alto-portada) - 2 * var(--paso-corto));
+      height: min(44rem, calc(var(--alto-portada) - 2 * var(--paso-corto)));
       width: auto;
     }
   }
@@ -361,7 +361,7 @@ const datosEstructurados = {
     font-weight: 700;
     letter-spacing: 0.2em;
     text-transform: uppercase;
-    color: var(--celeste-texto);
+    color: var(--verde-rotulo);
   }
   .texto .placa {
     display: flex;

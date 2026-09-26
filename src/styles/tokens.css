@@ -63,16 +63,14 @@
   /* Tinte de placas, etiquetas y fondo del visor. */
   --velo: 31 45 39;
 
-  /* ── Celeste ─────────────────────────────────────────────────────────
-     El celeste de la paleta, #5d888b, para la tipografía de títulos y
-     rótulos. Tal cual sirve para títulos (piden 3) sobre los fondos claros:
-     crema clarito 3,6, blanco 3,9, salvia 3,2. Sobre el crema de fondo da
-     2,6 y no alcanza: ahí va un celeste apenas más hondo. Los rótulos son
-     letra chica (piden 4,5) y llevan el más oscuro. */
-  --celeste: #5d888b;
-  --celeste-titulo: #4b6e70;    /* 3,7 sobre crema; 3,5 en la placa con foto oscura detrás */
-  --celeste-texto: #3e5b5d;     /* 4,9 sobre crema */
-  --titulo: var(--celeste-titulo);
+  /* ── Tipografía en verde ─────────────────────────────────────────────
+     El verde del botón «Ver la carta» (#516d5c) para los títulos: pasa en
+     todos los fondos del sitio (3,6 en el peor, un título pide 3). Los
+     rótulos son letra chica (piden 4,5) y llevan el mismo tono un poco
+     más oscuro. */
+  --verde-titulo: #516d5c;      /* 3,8 sobre crema; 3,6 en la placa con foto oscura detrás */
+  --verde-rotulo: #445b4d;      /* 4,9 sobre crema; 4,6 en la placa */
+  --titulo: var(--verde-titulo);
 
   /* Estados de formularios. */
   --error: #b3322b;
@@ -157,8 +155,10 @@
   --alto-onda: clamp(6px, 0.7vw, 9px);
   /* Alto del primer bloque de todas las páginas: el hero del home, el de
      cada unidad y los encabezados con foto. Uno solo, así ninguna página
-     arranca más grande o más chica que otra. vh de reserva; svh abajo. */
-  --alto-portada: clamp(28rem, 70vh, 44rem);
+     arranca más grande o más chica que otra: toda la pantalla debajo de la
+     cabecera, con un mínimo para pantallas muy bajas. vh de reserva; svh
+     abajo. */
+  --alto-portada: max(28rem, calc(100vh - var(--alto-cabecera)));
   /* Título de ese primer bloque, el mismo en todas las páginas. */
   --t-portada: clamp(2.25rem, 2.2vw + 1.4rem, 4rem);
   --z-base: 1;
@@ -201,12 +201,6 @@
 .banda-piedra { --fondo: var(--app-crema); --fondo-alt: var(--app-crema-clarito); }
 .banda-arena { --fondo: var(--banda-arena); --fondo-alt: var(--app-crema-clarito); }
 
-/* Sobre los fondos más claros el título va en el celeste exacto. */
-.banda-salvia,
-.banda-verde,
-.banda-turquesa,
-.banda-arena { --titulo: var(--celeste); }
-
 /* ── Sobre foto ─────────────────────────────────────────────────────────────
    Todo el texto sobre foto va en una .placa clara (base.css), con la tinta
    de siempre. Esta clase queda para marcar esos bloques. */
@@ -215,5 +209,5 @@
 /* svh: el alto de pantalla con la barra del navegador visible. Con vh, en
    el celular el primer bloque cambia de alto al scrollear. */
 @supports (height: 1svh) {
-  :root { --alto-portada: clamp(28rem, 70svh, 44rem); }
+  :root { --alto-portada: max(28rem, calc(100svh - var(--alto-cabecera))); }
 }
