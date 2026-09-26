@@ -95,11 +95,13 @@ giftcard:
     Por ahora el pago no se hace en el sitio. El formulario abre un WhatsApp
     con el pedido ya escrito y lo terminamos de coordinar por ahí.
   montoMinimo: 10000
+  # A lo ancho de la pantalla: pide una foto de 2000 px o más. La terraza de
+  # los macramés tiene 1333 y en un monitor de 1920 se estiraba 1,44 veces.
   foto:
-    src: ../../assets/fotos/restaurante/terraza-macrame.jpg
+    src: ../../assets/fotos/restaurante/tallarines-vino.jpg
     alt: >-
-      La terraza cubierta al mediodía, con macramés colgando del techo de cañas
-      y familias almorzando en las mesas de madera
+      Un plato de tallarines con salsa de tomate y queso rallado, con una
+      botella de tinto y copas de vino blanco sobre la mesa junto al ventanal
   fotoTarjeta:
     src: ../../assets/fotos/complejo/predio-dron-vertical.jpg
     alt: >-
@@ -134,10 +136,10 @@ testimonios: []
 # cambiar una foto se cambia la ruta acá; ningún componente la nombra.
 fotos:
   confianza:
-    src: ../../assets/fotos/balneario/mar-plantas.jpg
+    src: ../../assets/fotos/restaurante/desayuno-terraza.jpg
     alt: >-
-      El mar visto entre las plantas del predio, con la ciudad de Mar del Plata
-      a lo lejos
+      La mesa del desayuno servida en la terraza de madera, con el mar detrás
+      de la baranda blanca
   llegar:
     src: ../../assets/fotos/restaurante/entrada-pasarela.jpg
     alt: >-
@@ -157,10 +159,8 @@ fotos:
       El mar de Mar del Plata desde el aire, con surfistas esperando la ola en
       agua verde oscuro
   legales:
-    src: ../../assets/fotos/balneario/carpas-arena.jpg
-    alt: >-
-      Las carpas blancas del balneario alineadas sobre la arena, con las
-      reposeras, las sombrillas y el mar detrás
+    src: ../../assets/fotos/restaurante/mesa-vista.jpg
+    alt: Una mesa puesta junto a la baranda, con la costa de Mar del Plata al fondo
   error:
     src: ../../assets/fotos/restaurante/desayuno-terraza.jpg
     alt: >-

@@ -40,6 +40,8 @@ h1, h2, h3, h4 {
   text-wrap: balance;
 }
 h3, h4 { font-weight: 600; line-height: 1.24; }
+/* Títulos en el celeste de la paleta (ver --titulo en tokens.css). */
+h1, h2 { color: var(--titulo); }
 h1 { font-size: var(--t-h1); letter-spacing: var(--track-h1); }
 h2 { font-size: var(--t-h2); letter-spacing: var(--track-h2); }
 h3 { font-size: var(--t-h3); letter-spacing: -0.018em; }
@@ -120,7 +122,7 @@ a:active, button:active, summary:active, [role="button"]:active {
   font-weight: 500;
   letter-spacing: 0.24em;
   text-transform: uppercase;
-  color: var(--acento);
+  color: var(--celeste-texto);
 }
 
 /* Encabezado de sección: rótulo chico arriba, título serif debajo. */
@@ -376,7 +378,9 @@ a:active, button:active, summary:active, [role="button"]:active {
   max-width: 100%;
   padding: clamp(1.1rem, 2.6vw, 1.9rem) clamp(1.2rem, 3vw, 2.2rem);
   border-radius: var(--radio-grande);
-  background: rgb(248 245 240 / 0.88);
+  /* Arena clara y no crema clarito: el casi blanco hacía que el título
+     pareciera pegado sobre un recuadro de papel. */
+  background: rgb(235 228 209 / 0.92);
   -webkit-backdrop-filter: blur(16px) saturate(1.1);
   backdrop-filter: blur(16px) saturate(1.1);
   border: 1px solid rgb(255 255 255 / 0.6);
@@ -386,8 +390,9 @@ a:active, button:active, summary:active, [role="button"]:active {
      vuelve a ser tinta: la placa es crema, no la foto. */
   --sobre-oscuro: var(--tinta);
   --sobre-oscuro-suave: var(--tinta-suave);
+  --titulo: var(--celeste-titulo);
 }
 /* Sin desenfoque el tinte solo tiene que hacer todo el trabajo. */
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
-  .placa { background: rgb(248 245 240 / 0.95); }
+  .placa { background: rgb(235 228 209 / 0.97); }
 }

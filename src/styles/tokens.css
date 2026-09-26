@@ -63,6 +63,17 @@
   /* Tinte de placas, etiquetas y fondo del visor. */
   --velo: 31 45 39;
 
+  /* ── Celeste ─────────────────────────────────────────────────────────
+     El celeste de la paleta, #5d888b, para la tipografía de títulos y
+     rótulos. Tal cual sirve para títulos (piden 3) sobre los fondos claros:
+     crema clarito 3,6, blanco 3,9, salvia 3,2. Sobre el crema de fondo da
+     2,6 y no alcanza: ahí va un celeste apenas más hondo. Los rótulos son
+     letra chica (piden 4,5) y llevan el más oscuro. */
+  --celeste: #5d888b;
+  --celeste-titulo: #4b6e70;    /* 3,7 sobre crema; 3,5 en la placa con foto oscura detrás */
+  --celeste-texto: #3e5b5d;     /* 4,9 sobre crema */
+  --titulo: var(--celeste-titulo);
+
   /* Estados de formularios. */
   --error: #b3322b;
   --bien: #396535;
@@ -189,6 +200,12 @@
 .banda-turquesa-hondo,
 .banda-piedra { --fondo: var(--app-crema); --fondo-alt: var(--app-crema-clarito); }
 .banda-arena { --fondo: var(--banda-arena); --fondo-alt: var(--app-crema-clarito); }
+
+/* Sobre los fondos más claros el título va en el celeste exacto. */
+.banda-salvia,
+.banda-verde,
+.banda-turquesa,
+.banda-arena { --titulo: var(--celeste); }
 
 /* ── Sobre foto ─────────────────────────────────────────────────────────────
    Todo el texto sobre foto va en una .placa clara (base.css), con la tinta

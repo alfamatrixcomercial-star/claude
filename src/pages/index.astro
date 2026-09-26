@@ -52,17 +52,49 @@ const puertas = await Promise.all(
   }),
 );
 
-/* La banda de fotos del home se arma sola: las dos primeras de la galería de
-   cada unidad. Cargar una foto en un YAML la trae acá sin tocar esta página. */
-const tira = unidades.flatMap((u, i) =>
-  /* Tres de la primera y dos del resto: nueve fotos son una pieza grande
-     más dos filas completas de cuatro, sin un hueco al final. */
-  u.data.galeria.slice(0, i === 0 ? 3 : 2).map((foto) => ({
-    foto,
-    unidad: u.id as "restaurante" | "hotel" | "balneario" | "eventos",
-    nombre: u.data.nombre,
-  })),
+/* La banda de fotos del home se arma sola desde las galerías: tres de la
+   primera unidad y dos de cada una de las demás. Si a alguna le faltan
+   fotos, el hueco lo completan las otras, así siempre son nueve: una pieza
+   grande más dos filas de cuatro, sin un agujero al final. Cargar una foto
+   en un YAML la trae acá sin tocar esta página. */
+const TOTAL_TIRA = 9;
+type Item = {
+  foto: (typeof unidades)[number]["data"]["galeria"][number];
+  unidad: "restaurante" | "hotel" | "balneario" | "eventos";
+  nombre: string;
+};
+const aItem = (u: (typeof unidades)[number]) => (foto: Item["foto"]): Item => ({
+  foto,
+  unidad: u.id as Item["unidad"],
+  nombre: u.data.nombre,
+});
+/* Fuera de la banda las fotos que el home ya muestra en otro bloque: una
+   misma foto dos veces en la página se ve como un descuido. */
+const enOtroBloque = new Set(
+  [
+    portada,
+    portadaVertical,
+    mar,
+    sitio.fotos.llegar.src,
+    sitio.fotos.confianza.src,
+    sitio.fotos.cierre.src,
+    restaurante?.data.fotoRelato?.src,
+    restaurante?.data.hero?.src,
+    ...unidades.map((u) => (u.data.fotoPuerta ?? u.data.hero)?.src),
+  ]
+    .filter(Boolean)
+    .map((f) => f!.src),
 );
+const galerias = unidades.map((u) => u.data.galeria.filter((f) => !enOtroBloque.has(f.src.src)));
+const cupo = unidades.map((u, i) => galerias[i].slice(0, i === 0 ? 3 : 2).map(aItem(u)));
+const resto = unidades.map((u, i) => galerias[i].slice(i === 0 ? 3 : 2).map(aItem(u)));
+const tira: Item[] = cupo.flat();
+for (let vuelta = 0; tira.length < TOTAL_TIRA && resto.some((r) => r.length); vuelta++) {
+  for (const r of resto) {
+    const siguiente = r.shift();
+    if (siguiente && tira.length < TOTAL_TIRA) tira.push(siguiente);
+  }
+}
 
 const datosEstructurados = {
   "@context": "https://schema.org",
@@ -290,8 +322,7 @@ const datosEstructurados = {
     font-weight: 600;
     letter-spacing: 0.2em;
     text-transform: uppercase;
-    /* Sobre foto gana el color claro: el arena quedaba al límite. */
-    color: var(--sobre-oscuro);
+    color: var(--celeste-texto);
     margin-bottom: 0.9rem;
   }
   /* Más chico que el display del resto del sitio: acá manda el video. */

@@ -22,10 +22,10 @@ marca:
   alt: Ili Ili Hotel Boutique
 
 hero:
-  src: ../../assets/fotos/hotel/habitacion-balcon.jpg
+  src: ../../assets/fotos/hotel/edificio-parque.jpg
   alt: >-
-    Una habitación del hotel con la cama tendida y el ventanal abierto al
-    balcón, con el mar de fondo
+    El edificio del hotel visto desde el parque del predio, con los árboles
+    en primer plano
   foco: centro
 
 # Video vertical del hotel, tal como llegó: 720x1280 de teléfono. Va en un
@@ -37,15 +37,10 @@ heroVideo:
     Amanecer desde la terraza del hotel: el deck de madera, una silla mirando
     al mar y el sol saliendo sobre el agua
 
-galeria:
-  - src: ../../assets/fotos/hotel/habitacion-mar.jpg
-    alt: >-
-      La misma habitación desde la puerta: el respaldo de madera, la cama y la
-      salida al balcón sobre la playa
-  - src: ../../assets/fotos/hotel/balcones-costa.jpg
-    alt: >-
-      La galería de los balcones sobre el techo verde del complejo, con la
-      costa de Mar del Plata a lo lejos
+# Vacía hasta que lleguen fotos del hotel en buena resolución: las que
+# había eran de 1024 px y muy comprimidas (ver _sin-usar/LEEME.md). Sin
+# fotos, el bloque de galería no se muestra.
+galeria: []
 
 estadoFijo: Abierto todo el año
 
@@ -80,10 +75,10 @@ derivacion:
     src: ../../assets/logos/ili-ili.png
     alt: Logo de Ili Ili Hotel Boutique
   foto:
-    src: ../../assets/fotos/hotel/edificio-parque.jpg
+    src: ../../assets/fotos/complejo/predio-dron.jpg
     alt: >-
-      El edificio del hotel visto desde el parque del predio, con los árboles
-      en primer plano
+      El complejo visto desde el mar con un dron: el restaurante, las piletas,
+      el parque y la playa sobre la costa de Mar del Plata
 
 fotoRelato:
   src: ../../assets/fotos/balneario/mar-plantas.jpg

@@ -3,6 +3,7 @@
  * Grilla asimétrica: la primera foto ocupa dos columnas para que no sea otra
  * grilla de cards iguales. Sin librería de lightbox: <dialog> nativo.
  */
+import { getImage } from "astro:assets";
 import Foto from "./Foto.astro";
 
 interface Props {
@@ -11,6 +12,23 @@ interface Props {
   titulo?: string;
 }
 const { fotos, unidad = "complejo", titulo } = Astro.props;
+
+/* Versión grande de cada foto para el visor. Antes el visor abría la misma
+   versión de la miniatura (400 a 700 px) y la estiraba a pantalla completa:
+   se veía borrosa. El navegador elige de estas la justa para su pantalla. */
+const grandes = await Promise.all(
+  fotos.map(async (f) => {
+    const anchos = [800, 1200, 1800].filter((w) => w <= f.src.width);
+    if (anchos.length === 0) anchos.push(f.src.width);
+    const hechas = await Promise.all(
+      anchos.map((width) => getImage({ src: f.src, width, format: "webp" })),
+    );
+    return {
+      srcset: hechas.map((h) => `${h.src} ${h.attributes.width}w`).join(", "),
+      src: hechas[hechas.length - 1].src,
+    };
+  }),
+);
 ---
 
 {
@@ -20,7 +38,15 @@ const { fotos, unidad = "complejo", titulo } = Astro.props;
       <ul data-revelar-grupo="6">
         {fotos.map((f, i) => (
           <li class:list={{ ancha: i === 0 }}>
-            <button type="button" data-abrir={i} aria-label={`Ampliar: ${f.alt}`}>
+            <button
+              type="button"
+              data-abrir={i}
+              data-grande={grandes[i].src}
+              data-grande-srcset={grandes[i].srcset}
+              data-ancho={f.src.width}
+              data-alto={f.src.height}
+              aria-label={`Ampliar: ${f.alt}`}
+            >
               <Foto
                 foto={f}
                 unidad={unidad}
@@ -69,8 +95,15 @@ const { fotos, unidad = "complejo", titulo } = Astro.props;
     cursor: zoom-in;
   }
 
+  /* El visor se ajusta a la foto y la foto entra entera en la pantalla,
+     vertical u horizontal: se achica si hace falta, nunca se recorta. Antes
+     tenía ancho fijo y la foto crecía a lo alto: una vertical quedaba
+     cortada y se veía sólo un pedazo. */
   .visor {
-    width: min(94vw, 1100px);
+    width: fit-content;
+    max-width: min(94vw, 1100px);
+    max-height: 94vh;
+    max-height: 94dvh;
     padding: 0;
     border: 0;
     border-radius: var(--radio);
@@ -78,9 +111,35 @@ const { fotos, unidad = "complejo", titulo } = Astro.props;
     background: rgb(var(--velo));
     color: var(--sobre-oscuro);
   }
+  .visor[open] { display: flex; flex-direction: column; }
   .visor::backdrop { background: rgb(var(--velo) / 0.9); }
-  .visor img { width: 100%; height: auto; }
-  .pie-visor { padding: 0.9rem 1.1rem; font-size: 0.9rem; }
+  .visor img {
+    display: block;
+    /* Centrada y no estirada al ancho del visor: estirada, una foto vertical
+       quedaba con franjas a los costados. */
+    align-self: center;
+    width: auto;
+    height: auto;
+    max-width: min(94vw, 1100px);
+    /* Lo que queda después del pie de foto (hasta tres renglones). */
+    max-height: calc(94vh - 5.5rem);
+    max-height: calc(94dvh - 5.5rem);
+    object-fit: contain;
+  }
+  /* El pie no ensancha el visor: mide lo que mide la foto. Hasta tres
+     renglones; lo que sobra se corta con «…». */
+  .pie-visor {
+    width: 0;
+    min-width: 100%;
+    padding: 0.8rem 1.1rem 0.9rem;
+    font-size: 0.875rem;
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    overflow: hidden;
+  }
   .cerrar {
     position: absolute;
     top: 0.5rem;
@@ -112,7 +171,13 @@ const { fotos, unidad = "complejo", titulo } = Astro.props;
         boton.addEventListener("click", () => {
           const original = boton.querySelector("img");
           if (!original) return;
-          img.src = original.currentSrc || original.src;
+          /* La versión grande. El ancho y alto reales le dan la proporción
+             antes de que cargue, así el visor no salta. */
+          img.width = Number(boton.dataset.ancho) || original.naturalWidth;
+          img.height = Number(boton.dataset.alto) || original.naturalHeight;
+          img.sizes = "min(94vw, 1100px)";
+          img.srcset = boton.dataset.grandeSrcset ?? "";
+          img.src = boton.dataset.grande ?? (original.currentSrc || original.src);
           img.alt = original.alt;
           pie.textContent = original.alt;
           visor.showModal();
