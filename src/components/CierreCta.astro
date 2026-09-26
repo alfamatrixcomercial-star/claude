@@ -51,7 +51,11 @@ const wa = await waLink("general");
     margin-bottom: 2.25rem;
   }
   .acciones { display: flex; flex-wrap: wrap; gap: 0.9rem; justify-content: center; }
+  /* La foto del cierre es un atardecer casi de noche: con la placa tan
+     transparente como las demás, el rótulo y el botón de contorno no se
+     leían. Esta va más cubierta. */
   .placa-cierre {
+    --placa-alfa: 0.9;
     display: flex;
     flex-direction: column;
     align-items: center;

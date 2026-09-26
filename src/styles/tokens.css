@@ -70,7 +70,17 @@
      más oscuro. */
   --verde-titulo: #516d5c;      /* 3,8 sobre crema; 3,6 en la placa con foto oscura detrás */
   --verde-rotulo: #445b4d;      /* 4,9 sobre crema; 4,6 en la placa */
+  /* Letra chica sobre las placas transparentes: sobre la parte más oscura
+     de una foto la placa queda como un gris medio, y ahí hace falta un
+     verde casi negro para llegar a 4,5. */
+  --verde-placa-texto: #2e4136;
   --titulo: var(--verde-titulo);
+
+  /* Cuánto tapan el vidrio de la cabecera y el de las placas sobre foto.
+     Lo más transparente que deja leer la letra oscura con una parte
+     oscura de la foto detrás (medido en todas las páginas). */
+  --cabecera-alfa: 0.55;   /* al 45 % los links no llegan sobre el mar de galería */
+  --placa-alfa: 0.74;      /* con los títulos de placa en el verde de rótulos */
 
   /* Estados de formularios. */
   --error: #b3322b;
@@ -155,10 +165,10 @@
   --alto-onda: clamp(6px, 0.7vw, 9px);
   /* Alto del primer bloque de todas las páginas: el hero del home, el de
      cada unidad y los encabezados con foto. Uno solo, así ninguna página
-     arranca más grande o más chica que otra: toda la pantalla debajo de la
-     cabecera, con un mínimo para pantallas muy bajas. vh de reserva; svh
-     abajo. */
-  --alto-portada: max(28rem, calc(100vh - var(--alto-cabecera)));
+     arranca más grande o más chica que otra: toda la pantalla (la cabecera
+     va encima, de vidrio), con un mínimo para pantallas muy bajas. vh de
+     reserva; svh abajo. */
+  --alto-portada: max(28rem, 100vh);
   /* Título de ese primer bloque, el mismo en todas las páginas. */
   --t-portada: clamp(2.25rem, 2.2vw + 1.4rem, 4rem);
   --z-base: 1;
@@ -209,5 +219,5 @@
 /* svh: el alto de pantalla con la barra del navegador visible. Con vh, en
    el celular el primer bloque cambia de alto al scrollear. */
 @supports (height: 1svh) {
-  :root { --alto-portada: max(28rem, calc(100svh - var(--alto-cabecera))); }
+  :root { --alto-portada: max(28rem, 100svh); }
 }

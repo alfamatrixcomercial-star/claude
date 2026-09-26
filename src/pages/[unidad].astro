@@ -310,7 +310,8 @@ const datosEstructurados = {
   .marco-hero {
     max-width: var(--ancho);
     margin-inline: auto;
-    padding: var(--paso-corto) var(--margen);
+    /* Arriba, lo que ocupa la cabecera, que va encima de la foto. */
+    padding: calc(var(--alto-cabecera) + var(--paso-corto)) var(--margen) var(--paso-corto);
   }
 
   .texto {
@@ -322,7 +323,7 @@ const datosEstructurados = {
     gap: 1rem;
     /* El hero entero mide --alto-portada: el texto ocupa lo que dejan los
        rellenos del marco. */
-    min-height: calc(var(--alto-portada) - 2 * var(--paso-corto));
+    min-height: calc(var(--alto-portada) - var(--alto-cabecera) - 2 * var(--paso-corto));
     color: var(--sobre-oscuro);
   }
 
@@ -344,7 +345,7 @@ const datosEstructurados = {
     .con-retrato .marco-hero { grid-template-columns: 1fr auto; }
     /* El panel mide lo mismo que el texto: el hero no crece por él. */
     .con-retrato :global(.retrato) {
-      height: min(44rem, calc(var(--alto-portada) - 2 * var(--paso-corto)));
+      height: min(44rem, calc(var(--alto-portada) - var(--alto-cabecera) - 2 * var(--paso-corto)));
       width: auto;
     }
   }
@@ -361,7 +362,7 @@ const datosEstructurados = {
     font-weight: 700;
     letter-spacing: 0.2em;
     text-transform: uppercase;
-    color: var(--verde-rotulo);
+    color: var(--verde-placa-texto);
   }
   .texto .placa {
     display: flex;

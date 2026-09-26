@@ -398,7 +398,7 @@ a:active, button:active, summary:active, [role="button"]:active {
   border-radius: var(--radio-grande);
   /* Arena clara y no crema clarito: el casi blanco hacía que el título
      pareciera pegado sobre un recuadro de papel. */
-  background: rgb(235 228 209 / 0.92);
+  background: rgb(235 228 209 / var(--placa-alfa));
   -webkit-backdrop-filter: blur(16px) saturate(1.1);
   backdrop-filter: blur(16px) saturate(1.1);
   border: 1px solid rgb(255 255 255 / 0.6);
@@ -408,8 +408,18 @@ a:active, button:active, summary:active, [role="button"]:active {
      vuelve a ser tinta: la placa es crema, no la foto. */
   --sobre-oscuro: var(--tinta);
   --sobre-oscuro-suave: var(--tinta-suave);
-  --titulo: var(--verde-titulo);
+  /* Adentro de la placa el título va en el verde más hondo: la placa deja
+     ver la foto, y sobre una foto oscura el verde del botón no alcanza. */
+  --titulo: var(--verde-rotulo);
 }
+/* Botón de contorno sobre la placa: la letra en tinta, que el verde de
+   texto sobre una placa que deja ver una foto oscura queda al límite. */
+/* (Clases repetidas a propósito: el estilo propio del botón y los de cada
+   página pesan lo mismo que una regla de dos clases y se cargan después.) */
+.placa .boton.secundaria { color: var(--tinta); border-color: var(--acento); }
+/* Letra chica de la placa (rótulos). */
+.placa .eyebrow.eyebrow, .placa .rotulo.rotulo { color: var(--verde-placa-texto); }
+
 /* Sin desenfoque el tinte solo tiene que hacer todo el trabajo. */
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
   .placa { background: rgb(235 228 209 / 0.97); }

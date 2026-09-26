@@ -68,7 +68,8 @@ const total = conFotos.reduce((n, u) => n + u.data.galeria.length, 0);
 </Base>
 
 <style>
-  .portada { padding: var(--paso-corto) var(--margen); }
+  /* Arriba, lo que ocupa la cabecera, que va encima de la foto. */
+  .portada { padding: calc(var(--alto-cabecera) + var(--paso-corto)) var(--margen) var(--paso-corto); }
   .interior { max-width: var(--ancho); margin-inline: auto; }
   .eyebrow {
     font-size: var(--t-eyebrow);

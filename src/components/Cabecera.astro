@@ -51,15 +51,30 @@ const wa = await waLink("general");
 </header>
 
 <style>
+  /* La cabecera va encima de la foto del primer bloque, como vidrio
+     esmerilado: la imagen se ve a través, desenfocada. Todas las páginas
+     arrancan con foto, así que siempre hay algo lindo detrás. La
+     transparencia sale de medir: la letra oscura tiene que leerse aunque
+     detrás haya una parte oscura de la foto. */
   .cabecera {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: var(--z-fijo);
     display: grid;
     grid-template-columns: auto 1fr auto auto;
     align-items: center;
     gap: clamp(0.6rem, 2vw, 1.5rem);
     min-height: var(--alto-cabecera);
     padding: 0.65rem var(--margen);
-    background: var(--fondo);
-    border-bottom: 1px solid var(--linea);
+    background: rgb(235 228 209 / var(--cabecera-alfa));
+    -webkit-backdrop-filter: blur(14px) saturate(1.2);
+    backdrop-filter: blur(14px) saturate(1.2);
+    border-bottom: 1px solid rgb(255 255 255 / 0.35);
+  }
+  @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    .cabecera { background: rgb(235 228 209 / 0.94); }
   }
 
   .logo {
@@ -191,6 +206,9 @@ const wa = await waLink("general");
       position: static;
       background: none;
       border: 0;
+      /* La sombra es del panel desplegable del celular; en la barra ancha
+         dibujaba un rectángulo detrás de los links. */
+      box-shadow: none;
     }
     .menu ul {
       flex-direction: row;
