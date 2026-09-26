@@ -1,6 +1,11 @@
 ---
 /**
- * Primera impresión del sitio: video.
+ * Primera impresión del sitio: foto a pantalla completa y, si se le pasa
+ * `src`, video encima.
+ *
+ * Hoy el home va sin video: el que hay es de 720 px y a pantalla completa
+ * en un monitor de 1920 se estiraba casi tres veces. Para volver a video
+ * alcanza con pasarle `src` con uno de 1920 px o más.
  *
  * Reglas que se respetan, del brief y del plugin:
  *  · Mudo y en bucle, sin controles: es ambiente, no un reproductor.
@@ -13,8 +18,9 @@
 import { getImage } from "astro:assets";
 
 interface Props {
-  /** Sin extensión: se sirven .webm y .mp4 desde la misma base. */
-  src: string;
+  /** Sin extensión: se sirven .webm y .mp4 desde la misma base. Sin
+   *  `src`, sólo foto. */
+  src?: string;
   poster: ImageMetadata;
   /** Foto para pantallas angostas, donde el video no arranca y la
    *  horizontal recortada a lo alto pierde casi todo el cuadro. */
@@ -31,7 +37,7 @@ async function juego(foto: ImageMetadata, anchos: number[], format: "avif" | "we
   );
   return hechas.map((h) => `${h.src} ${h.attributes.width}w`).join(", ");
 }
-const ANCHOS = [720, 1200, 1800];
+const ANCHOS = [720, 1200, 1800, 2600];
 const ANCHOS_VERTICAL = [480, 720, 1080, 1440];
 const horizontal = {
   avif: await juego(poster, ANCHOS, "avif"),
@@ -65,7 +71,7 @@ const ANGOSTO = "(max-width: 700px)";
       class="poster"
     />
   </picture>
-  <video muted loop playsinline preload="none" aria-hidden="true"></video>
+  {src && <video muted loop playsinline preload="none" aria-hidden="true"></video>}
 </div>
 
 <style>
