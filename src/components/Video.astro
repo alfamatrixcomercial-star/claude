@@ -9,11 +9,13 @@ interface Props {
   poster: string;
   titulo: string;
   descripcion: string;
+  /** Video de teléfono: marco alto, en su proporción. */
+  vertical?: boolean;
 }
-const { src, poster, titulo, descripcion } = Astro.props;
+const { src, poster, titulo, descripcion, vertical = false } = Astro.props;
 ---
 
-<figure class="video">
+<figure class:list={["video", { vertical }]}>
   <div class="marco">
   <video
     poster={poster}
@@ -72,6 +74,14 @@ const { src, poster, titulo, descripcion } = Astro.props;
     cursor: pointer;
   }
   .reproducir[hidden] { display: none !important; }
+
+  /* Vertical: el marco alto y angosto, en la proporción del teléfono. */
+  .vertical .marco {
+    width: min(100%, 22rem);
+    aspect-ratio: 9 / 16;
+  }
+  .vertical video { width: 100%; height: 100%; object-fit: cover; }
+  .vertical figcaption { width: min(100%, 22rem); }
 </style>
 
 <script>

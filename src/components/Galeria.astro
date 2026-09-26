@@ -37,7 +37,7 @@ const grandes = await Promise.all(
       {titulo && <h2>{titulo}</h2>}
       <ul data-revelar-grupo="6">
         {fotos.map((f, i) => (
-          <li class:list={{ ancha: i === 0 }}>
+          <li class:list={{ ancha: i === 0, "ancha-movil": i === 0 && fotos.length % 2 === 1 }}>
             <button
               type="button"
               data-abrir={i}
@@ -81,6 +81,11 @@ const grandes = await Promise.all(
     .ancha { grid-column: span 2; grid-row: span 2; }
   }
 
+  /* En el celular (dos columnas) la primera ocupa el ancho sólo si la
+     cantidad es impar: así la última fila nunca queda con una foto sola. */
+  @media (max-width: 719px) {
+    .ancha-movil { grid-column: span 2; }
+  }
   li { aspect-ratio: 1; }
   .ancha { aspect-ratio: 1; }
 

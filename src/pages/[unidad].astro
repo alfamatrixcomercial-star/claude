@@ -255,13 +255,14 @@ const datosEstructurados = {
     {
       d.video && (
         <section class="bloque banda-turquesa" data-revelar>
-          <div class="interior-simple">
+          <div class:list={["interior-simple", d.video.formato === "vertical" && "con-video-vertical"]}>
             <div class="encabezado"><p class="rotulo">El lugar</p><h2>{d.video.titulo}</h2></div>
             <Video
               src={d.video.src}
               poster={d.video.poster}
               titulo={d.video.titulo}
               descripcion={d.video.descripcion}
+              vertical={d.video.formato === "vertical"}
             />
           </div>
         </section>
@@ -429,6 +430,19 @@ const datosEstructurados = {
   @media (min-width: 860px) {
     .lado-foto { grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); }
     .lado-foto.foto-izq { grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); }
+  }
+
+  /* Video vertical: en ancho, el título a la izquierda y el video alto a la
+     derecha; en angosto, uno debajo del otro, con el video centrado. */
+  .con-video-vertical :global(.video.vertical) { display: flex; flex-direction: column; align-items: center; }
+  @media (min-width: 860px) {
+    .con-video-vertical {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: center;
+      gap: clamp(2rem, 5vw, 4.5rem);
+    }
+    .con-video-vertical .encabezado { margin-bottom: 0; }
   }
 
   /* La foto de la introducción ocupa el hueco que deja al lado la ficha,

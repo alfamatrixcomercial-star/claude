@@ -25,17 +25,26 @@ hero:
     iluminándose del otro lado del vidrio
   foco: centro
 
-# Del video del salón: panel central recortado, sin audio y comprimido.
+# El video del salón entero, en vertical: son tres escenas apiladas y
+# cierra con el logo. Antes iba recortado a la del medio. Sin audio.
 video:
-  src: /video/waikiki-salon
-  poster: /video/waikiki-salon-poster.jpg
+  src: /video/waikiki-salon-vertical
+  poster: /video/waikiki-salon-vertical-poster.jpg
+  formato: vertical
   titulo: El lugar en diez segundos
   descripcion: >-
     Diez segundos por el salón, la barra, la cava y la terraza, un mediodía de
     sol. Sin audio.
 
 galeria:
-  # Las tres primeras salen también en la banda de fotos del home.
+  # La primera es la grande de la grilla: el Mirador desde afuera. Las
+  # siguientes que el home no usa en otro bloque salen también en su banda.
+  # Son 21 a propósito: con la primera doble, 21 cierran filas enteras de
+  # tres. Si se agrega una, conviene agregar de a tres.
+  - src: ../../assets/fotos/restaurante/entrada-pasarela.jpg
+    alt: >-
+      La entrada al restaurante por la pasarela de madera, con el cartel de
+      Mirador Waikiki sobre la puerta y el techo octogonal detrás
   - src: ../../assets/fotos/restaurante/barra-cartel.jpg
     alt: >-
       La barra del salón bajo el cartel verde de Mirador Waikiki, con las
@@ -48,10 +57,6 @@ galeria:
     alt: >-
       Los ventanales del salón al atardecer, con la luz encendida bajo el alero
       y la costa de la ciudad al fondo
-  - src: ../../assets/fotos/restaurante/entrada-pasarela.jpg
-    alt: >-
-      La entrada al restaurante por la pasarela de madera, con el cartel de
-      Mirador Waikiki sobre la puerta y el techo octogonal detrás
   - src: ../../assets/fotos/restaurante/terraza-almuerzo.jpg
     alt: >-
       La terraza del restaurante llena a la hora del almuerzo, bajo los tejidos
@@ -71,9 +76,6 @@ galeria:
   - src: ../../assets/fotos/restaurante/mesa-vista.jpg
     alt: >-
       Una mesa puesta junto a la baranda, con la costa de Mar del Plata al fondo
-  - src: ../../assets/fotos/restaurante/barra-mozo.jpg
-    alt: >-
-      Un mozo sirve un plato en una mesa del salón, con una botella de vino y la luz cálida de la noche
   - src: ../../assets/fotos/restaurante/atardecer-ventanal.jpg
     alt: >-
       El atardecer visto desde el ventanal del salón, con el cielo naranja sobre la costa

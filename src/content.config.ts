@@ -159,6 +159,9 @@ const unidades = defineCollection({
           poster: z.string().startsWith("/video/"),
           titulo: z.string(),
           descripcion: z.string().min(20),
+          /** Vertical: se muestra alto, en su proporción, al lado del texto.
+           *  Recortarlo a lo ancho deja afuera dos tercios del cuadro. */
+          formato: z.enum(["horizontal", "vertical"]).default("horizontal"),
         })
         .optional(),
       listas: z

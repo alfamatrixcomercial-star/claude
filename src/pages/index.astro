@@ -143,11 +143,10 @@ const datosEstructurados = {
     <div class="pie-hero sobre-foto">
       <div class="placa placa-pie">
         <p class="frase">{sitio.firma}</p>
-        {/* La carta, a un toque desde que se entra. La dirección es la misma
-            del restaurante (cartaUrl): se cambia en un solo lugar. */}
-        {restaurante?.data.cartaUrl && (
-          <Boton href={restaurante.data.cartaUrl} externo>Ver la carta</Boton>
-        )}
+        {/* Cómo llegar, a un toque desde que se entra. Abre la ficha del
+            lugar en Google Maps; la dirección es la misma de «Dónde estamos»
+            (mapaUrl en sitio.yaml): se cambia en un solo lugar. */}
+        <Boton href={sitio.mapaUrl} externo>Cómo llegar</Boton>
       </div>
     </div>
   </section>
@@ -319,7 +318,7 @@ const datosEstructurados = {
     min-height: calc(100svh - var(--alto-cabecera));
   }
 
-  /* La placa de abajo: una frase y la carta, nada más. Centrada y chica,
+  /* La placa de abajo: una frase y cómo llegar, nada más. Centrada y chica,
      para que la foto sea lo que se ve. */
   .pie-hero {
     position: absolute;
