@@ -7,6 +7,7 @@ import { ClientRouter } from "astro:transitions";
 import Revelar from "~/components/Revelar.astro";
 import portada from "~/assets/fotos/complejo/predio-dron.jpg";
 import { datosSitio } from "~/lib/contacto";
+import isologo from "~/assets/marca/isologo.svg?raw";
 
 interface Props {
   titulo: string;
@@ -98,9 +99,12 @@ const tituloCompleto =
   <body>
     <div class="grano" aria-hidden="true"></div>
     <Revelar />
-    <!-- Persiste entre páginas: el script de abajo la agarra una sola vez
-         y la necesita viva durante todo el cambio de página. -->
-    <div class="cargando" aria-hidden="true" transition:persist="cargando"></div>
+    <!-- Pantalla de carga entre páginas: crema con el logo. Persiste entre
+         páginas porque el script de abajo la agarra una sola vez y la
+         necesita viva durante todo el cambio. -->
+    <div class="pantalla-carga" aria-hidden="true" transition:persist="pantalla-carga">
+      <span class="logo-carga" set:html={isologo} />
+    </div>
     <a class="saltar" href="#contenido">Saltar al contenido</a>
     <Cabecera unidadActiva={unidadActiva} />
     <main id="contenido">
@@ -109,21 +113,23 @@ const tituloCompleto =
     <Pie />
 
     <script>
-      /* La barra sólo se muestra si la navegación tarda: si la página ya
-         está en caché, aparecer y desaparecer sería un parpadeo molesto. */
-      const barra = document.querySelector<HTMLElement>(".cargando");
+      /* La pantalla de carga sólo aparece si el cambio de página tarda más
+         de un cuarto de segundo: con buena conexión la página llega antes,
+         y mostrarla un instante sería un parpadeo. */
+      const pantalla = document.querySelector<HTMLElement>(".pantalla-carga");
       let reloj: number | undefined;
 
       document.addEventListener("astro:before-preparation", () => {
-        reloj = window.setTimeout(() => barra?.classList.add("activa"), 180);
-      });
-      document.addEventListener("astro:after-swap", () => {
         window.clearTimeout(reloj);
-        if (!barra?.classList.contains("activa")) return;
-        barra.classList.remove("activa");
-        barra.classList.add("lista");
-        window.setTimeout(() => barra.classList.remove("lista"), 460);
+        reloj = window.setTimeout(() => pantalla?.classList.add("activa"), 250);
       });
+      const ocultar = () => {
+        window.clearTimeout(reloj);
+        pantalla?.classList.remove("activa");
+      };
+      document.addEventListener("astro:after-swap", ocultar);
+      /* Por si algo corta la navegación antes del swap. */
+      document.addEventListener("astro:page-load", ocultar);
     </script>
   </body>
 </html>

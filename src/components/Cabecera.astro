@@ -33,8 +33,8 @@ const wa = await waLink("general");
     <nav aria-label="Secciones del complejo">
       <ul>
         {
-          enlaces.map((e) => (
-            <li>
+          enlaces.map((e, i) => (
+            <li style={`--i: ${i}`}>
               <a
                 href={e.href}
                 class:list={[`u-${e.id}`, { activo: unidadActiva === e.id }]}
@@ -109,8 +109,19 @@ const wa = await waLink("general");
   }
   summary::-webkit-details-marker { display: none; }
   .barras { display: grid; gap: 4px; }
-  .barras i { display: block; width: 20px; height: 2px; background: currentColor; }
-  .menu[open] .barras i:nth-child(2) { opacity: 0; }
+  .barras i {
+    display: block;
+    width: 20px;
+    height: 2px;
+    border-radius: 2px;
+    background: currentColor;
+    transition: transform 320ms var(--curva), opacity 200ms ease;
+  }
+  /* Abierto, las tres rayas se cruzan en una X. Las de afuera están a 6 px
+     del centro (2 de alto + 4 de separación). */
+  .menu[open]:not(.cerrando) .barras i:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+  .menu[open]:not(.cerrando) .barras i:nth-child(2) { opacity: 0; transform: scaleX(0.4); }
+  .menu[open]:not(.cerrando) .barras i:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
   .rotulo { display: none; }
 
   /* Panel plegado: ocupa el ancho completo debajo de la barra. */
@@ -121,6 +132,35 @@ const wa = await waLink("general");
     z-index: var(--z-flotante);
     background: var(--fondo);
     border-bottom: 1px solid var(--linea);
+    box-shadow: var(--elev-3);
+  }
+  /* Animación del panel en angosto: baja y aparece; los links detrás, de a
+     uno. Al cerrar se pliega hacia arriba (la clase .cerrando la pone el
+     script, que espera a que termine antes de cerrar el <details>). */
+  @media (max-width: 879px) {
+    .menu[open] nav { animation: desplegar 340ms var(--curva) both; }
+    .menu[open] nav li {
+      animation: asomar 420ms var(--curva) both;
+      animation-delay: calc(80ms + var(--i, 0) * 45ms);
+    }
+    .menu.cerrando nav { animation: plegar 220ms var(--curva) both; }
+    .menu.cerrando nav li { animation: none; }
+  }
+  @keyframes desplegar {
+    from { opacity: 0; transform: translateY(-12px); clip-path: inset(0 0 100% 0); }
+    to { opacity: 1; transform: none; clip-path: inset(0 0 0 0); }
+  }
+  @keyframes asomar {
+    from { opacity: 0; transform: translateY(-8px); }
+    to { opacity: 1; transform: none; }
+  }
+  @keyframes plegar {
+    from { opacity: 1; transform: none; clip-path: inset(0 0 0 0); }
+    to { opacity: 0; transform: translateY(-10px); clip-path: inset(0 0 100% 0); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .menu[open] nav, .menu[open] nav li, .menu.cerrando nav { animation: none; }
+    .barras i { transition: none; }
   }
   .menu ul {
     list-style: none;
@@ -184,18 +224,56 @@ const wa = await waLink("general");
      sin esto, en pantalla ancha (donde el botón del menú no se ve) los
      links desaparecían al primer clic. */
   const ancho = window.matchMedia("(min-width: 880px)");
+  const quietud = window.matchMedia("(prefers-reduced-motion: reduce)");
   const menus = () => document.querySelectorAll<HTMLDetailsElement>(".cabecera .menu");
-  const sincronizar = () => menus().forEach((menu) => { menu.open = ancho.matches; });
+  const sincronizar = () =>
+    menus().forEach((menu) => {
+      menu.classList.remove("cerrando");
+      menu.open = ancho.matches;
+    });
+
+  /* Cerrar con la animación de plegado: el <details> se cierra recién
+     cuando termina, si no el panel desaparecería de golpe. */
+  const cerrar = (menu: HTMLDetailsElement) => {
+    if (!menu.open || menu.classList.contains("cerrando")) return;
+    if (quietud.matches) { menu.open = false; return; }
+    menu.classList.add("cerrando");
+    const nav = menu.querySelector("nav");
+    const listo = () => {
+      menu.classList.remove("cerrando");
+      menu.open = false;
+    };
+    nav?.addEventListener("animationend", listo, { once: true });
+    /* Por si la animación no llega a correr (pestaña en segundo plano). */
+    window.setTimeout(() => menu.classList.contains("cerrando") && listo(), 320);
+  };
 
   enCadaPagina(sincronizar);
 
-  /* Estos dos van una sola vez y buscan el menú en el momento: si se
+  /* Estos van una sola vez y buscan el menú en el momento: si se
      registraran en cada página se irían acumulando. */
   ancho.addEventListener("change", sincronizar);
   document.addEventListener("click", (e) => {
     if (ancho.matches) return;
+    const destino = e.target as Element;
     menus().forEach((menu) => {
-      if (menu.open && !menu.contains(e.target as Node)) menu.open = false;
+      /* El botón del menú: si está abierto, se cierra con animación en vez
+         de dejar que el <details> se cierre en seco. */
+      if (destino.closest("summary") && menu.contains(destino) && menu.open) {
+        e.preventDefault();
+        cerrar(menu);
+        return;
+      }
+      if (menu.open && !menu.contains(destino)) cerrar(menu);
+    });
+  });
+  /* Escape también cierra. */
+  document.addEventListener("keydown", (e) => {
+    if (e.key !== "Escape" || ancho.matches) return;
+    menus().forEach((menu) => {
+      if (!menu.open) return;
+      cerrar(menu);
+      menu.querySelector("summary")?.focus();
     });
   });
 </script>

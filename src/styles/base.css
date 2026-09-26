@@ -263,25 +263,43 @@ a:active, button:active, summary:active, [role="button"]:active {
   from { opacity: 0; transform: translateY(16px); }
 }
 
-/* Barra de progreso durante la navegación */
-.cargando {
+/* ── Pantalla de carga entre páginas ─────────────────────────────────────
+   Crema de la app con el logo en el centro, respirando despacio. Aparece
+   sólo si el cambio de página tarda (ver el script en Base.astro) y se va
+   con un fundido. */
+.pantalla-carga {
   position: fixed;
-  inset: 0 auto auto 0;
-  z-index: var(--z-visor);
-  height: 2px;
-  width: 0;
-  background: var(--acento);
+  inset: 0;
+  z-index: calc(var(--z-visor) + 10);
+  display: grid;
+  place-items: center;
+  background: var(--app-crema);
   opacity: 0;
+  visibility: hidden;
   pointer-events: none;
-  transition: width 320ms ease-out, opacity 200ms ease;
+  transition: opacity 320ms var(--curva), visibility 0s linear 320ms;
 }
-.cargando.activa { opacity: 1; width: 82%; }
-.cargando.lista { width: 100%; opacity: 0; transition: width 160ms ease-out, opacity 320ms ease 120ms; }
+.pantalla-carga.activa {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 240ms var(--curva), visibility 0s;
+}
+.logo-carga { display: flex; color: var(--celeste-titulo); }
+.logo-carga svg {
+  width: auto;
+  height: clamp(72px, 16vw, 104px);
+  animation: respirar 1.8s ease-in-out infinite;
+}
+@keyframes respirar {
+  0%, 100% { opacity: 0.55; transform: scale(0.96); }
+  50% { opacity: 1; transform: scale(1); }
+}
 
 @media (prefers-reduced-motion: reduce) {
   ::view-transition-old(root),
   ::view-transition-new(root) { animation: none; }
-  .cargando { transition: none; }
+  .pantalla-carga, .pantalla-carga.activa { transition: none; }
+  .logo-carga svg { animation: none; }
 }
 
 
