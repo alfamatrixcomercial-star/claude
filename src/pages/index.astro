@@ -130,8 +130,10 @@ const datosEstructurados = {
   descripcion={sitio.descripcion}
   datosEstructurados={datosEstructurados}
 >
-  <!-- Hero: el video a sangre, sin capas, con el titular en su placa abajo
-       a la izquierda. Mismo alto que el primer bloque de todas las páginas. -->
+  <!-- Portada: la foto (en el celular) o el video (en pantalla ancha) a
+       pantalla completa, sin capas. Abajo, chica, la frase del complejo y
+       la carta. El título y la presentación van en el bloque siguiente:
+       la primera impresión es el lugar, no un párrafo. -->
   <section class="hero" data-hero>
     <HeroVideo
       src="/video/waikiki-hero"
@@ -139,28 +141,34 @@ const datosEstructurados = {
       posterVertical={portadaVertical}
       alt="El complejo Mirador Waikiki visto desde el mar con un dron: el restaurante, las piletas, el parque y la playa sobre la costa de Mar del Plata"
     />
-    <div class="texto sobre-foto">
-      <div class="placa">
-        <p class="eyebrow">
-          {sitio.direccion.localidad} · desde {sitio.desde}
-        </p>
-        <h1>{sitio.lema}</h1>
-        <p class="valor">
-          Restaurante, hotel, balneario y salón de eventos en un mismo predio
-          sobre las rocas, con bajada directa a la playa.
-        </p>
+    <div class="pie-hero sobre-foto">
+      <div class="placa placa-pie">
+        <p class="frase">{sitio.firma}</p>
         {/* La carta, a un toque desde que se entra. La dirección es la misma
             del restaurante (cartaUrl): se cambia en un solo lugar. */}
         {restaurante?.data.cartaUrl && (
-          <div class="acciones-hero">
-            <Boton href={restaurante.data.cartaUrl} externo>Ver la carta</Boton>
-          </div>
+          <Boton href={restaurante.data.cartaUrl} externo>Ver la carta</Boton>
         )}
       </div>
     </div>
   </section>
 
   <Onda animada />
+
+  <!-- Presentación: lo que antes iba sobre el video. «Cuatro maneras» y,
+       justo abajo, las cuatro. -->
+  <section class="bienvenida">
+    <div class="interior-bienvenida">
+      <p class="eyebrow">
+        {sitio.direccion.localidad} · desde {sitio.desde}
+      </p>
+      <h1>{sitio.lema}</h1>
+      <p class="valor">
+        Restaurante, hotel, balneario y salón de eventos en un mismo predio
+        sobre las rocas, con bajada directa a la playa.
+      </p>
+    </div>
+  </section>
 
   <!-- Las cuatro puertas, en el primer scroll. Nadie atraviesa tres
        secciones de casamientos para reservar una mesa. -->
@@ -300,23 +308,60 @@ const datosEstructurados = {
 </Base>
 
 <style>
-  .hero { position: relative; isolation: isolate; overflow: hidden; }
-  /* Sin ninguna capa sobre el video: se ve entero y con sus colores. El
-     texto se apoya en su propia placa (ver .placa en base.css). */
-
-  .texto {
+  /* Portada a pantalla completa: todo lo que queda debajo de la cabecera.
+     Es la única excepción al alto común de primer bloque (--alto-portada):
+     el home es la tapa. svh y no vh: en el celular la barra del navegador
+     cambia de alto al scrollear. */
+  .hero {
     position: relative;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    max-width: var(--ancho);
-    /* El mismo alto que el primer bloque de todas las páginas. */
-    min-height: var(--alto-portada);
-    margin-inline: auto;
-    padding: var(--paso-corto) var(--margen);
-    color: var(--sobre-oscuro);
+    isolation: isolate;
+    overflow: hidden;
+    min-height: calc(100vh - var(--alto-cabecera));
+    min-height: calc(100svh - var(--alto-cabecera));
   }
 
+  /* La placa de abajo: una frase y la carta, nada más. Centrada y chica,
+     para que la foto sea lo que se ve. */
+  .pie-hero {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: clamp(1.25rem, 4vh, 2.75rem);
+    display: flex;
+    justify-content: center;
+    padding-inline: var(--margen);
+  }
+  .placa-pie {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem 1.5rem;
+    padding: 0.9rem 0.9rem 0.9rem 1.5rem;
+    border-radius: 999px;
+    text-align: center;
+  }
+  .frase {
+    font-family: var(--f-firma);
+    font-style: italic;
+    font-size: clamp(1.05rem, 0.6vw + 0.9rem, 1.3rem);
+    color: var(--tinta);
+    /* Si parte en dos renglones, que sean parejos y no «frente / al mar». */
+    text-wrap: balance;
+  }
+  /* En el celular la frase y el botón se apilan: la placa pasa de píldora a
+     tarjeta redondeada. */
+  @media (max-width: 560px) {
+    .placa-pie {
+      flex-direction: column;
+      border-radius: var(--radio-grande);
+      padding: 1rem 1.25rem 1.1rem;
+    }
+  }
+
+  /* ── Presentación ─────────────────────────────────────────────────────── */
+  .bienvenida { padding: var(--paso-corto) var(--margen) 0; }
+  .interior-bienvenida { max-width: var(--ancho); margin-inline: auto; }
   .eyebrow {
     font-size: var(--t-eyebrow);
     font-weight: 600;
@@ -325,16 +370,14 @@ const datosEstructurados = {
     color: var(--celeste-texto);
     margin-bottom: 0.9rem;
   }
-  /* Más chico que el display del resto del sitio: acá manda el video. */
   h1 {
     font-size: var(--t-portada);
     max-width: 16ch;
   }
-  .acciones-hero { margin-top: 1.5rem; }
   .valor {
     max-width: 44ch;
     margin-top: 1.25rem;
-    color: var(--sobre-oscuro);
+    color: var(--tinta-suave);
   }
 
   /* Bento, no catálogo. Cuatro columnas iguales aplanan la jerarquía y se
