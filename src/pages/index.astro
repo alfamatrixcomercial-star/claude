@@ -13,7 +13,8 @@ import CierreCta from "~/components/CierreCta.astro";
 import { estadoDeUnidad, agendaVigente } from "~/lib/estado";
 import { datosSitio, waLink, wokiLink } from "~/lib/contacto";
 import portada from "~/assets/fotos/complejo/predio-dron.jpg";
-import portadaVertical from "~/assets/fotos/complejo/predio-dron-vertical.jpg";
+/* Cenital del dron: llegó en 759 px y se duplicó con superresolución (EDSR). */
+import portadaVertical from "~/assets/fotos/complejo/predio-dron-cenital.jpg";
 import mar from "~/assets/fotos/complejo/mar-surfistas.jpg";
 
 const sitio = await datosSitio();
@@ -138,7 +139,7 @@ const datosEstructurados = {
     <HeroVideo
       poster={portada}
       posterVertical={portadaVertical}
-      alt="El complejo Mirador Waikiki visto desde el mar con un dron: el restaurante, las piletas, el parque y la playa sobre la costa de Mar del Plata"
+      alt="El complejo Mirador Waikiki visto con un dron: el restaurante sobre las rocas, las piletas, el parque y la playa, en la costa de Mar del Plata"
     />
     <div class="pie-hero sobre-foto">
       <div class="placa placa-pie">

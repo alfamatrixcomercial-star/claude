@@ -85,10 +85,10 @@ const ANGOSTO = "(max-width: 700px)";
     height: 100%;
     object-fit: cover;
   }
-  /* En angosto se ve la foto vertical: corrida a la derecha entran el
-     restaurante y la pileta, que centrada quedaban cortados. */
+  /* En angosto se ve la foto vertical, centrada: el restaurante queda en
+     el medio del cuadro. */
   @media (max-width: 700px) {
-    .poster { object-position: 64% center; }
+    .poster { object-position: 50% center; }
   }
   video { opacity: 0; transition: opacity 700ms ease; }
   video.visible { opacity: 1; }
