@@ -1,0 +1,1744 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Fichadas · Mirador Waikiki</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:       #0e1117;
+    --surface:  #161b27;
+    --border:   #232b3e;
+    --accent:   #3b82f6;
+    --accent2:  #f59e0b;
+    --danger:   #ef4444;
+    --success:  #22c55e;
+    --split:    #8b5cf6;
+    --text:     #e2e8f0;
+    --muted:    #64748b;
+    --mono:     'DM Mono', monospace;
+    --sans:     'DM Sans', sans-serif;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: var(--sans);
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 0;
+  }
+
+  /* ── HEADER ─────────────────────────────── */
+  header {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  header .logo {
+    font-family: var(--mono);
+    font-size: .85rem;
+    font-weight: 500;
+    color: var(--accent);
+    letter-spacing: .1em;
+    text-transform: uppercase;
+  }
+  header .logo span { color: var(--muted); }
+  header nav { display: flex; gap: .25rem; margin-left: 2rem; }
+  header nav button {
+    font-family: var(--sans);
+    font-size: .8rem;
+    font-weight: 500;
+    background: none;
+    border: none;
+    color: var(--muted);
+    cursor: pointer;
+    padding: .35rem .85rem;
+    border-radius: 6px;
+    transition: all .15s;
+  }
+  header nav button.active,
+  header nav button:hover { color: var(--text); background: var(--border); }
+
+  /* ── MAIN ────────────────────────────────── */
+  main { max-width: 1300px; margin: 0 auto; padding: 2rem; }
+
+  /* ── PAGES ───────────────────────────────── */
+  .page { display: none; animation: fadeIn .2s ease; }
+  .page.active { display: block; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+  /* ── CARDS ───────────────────────────────── */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 1.25rem;
+  }
+  .card-title {
+    font-size: .95rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    margin-bottom: .35rem;
+  }
+  .card-desc {
+    font-size: .8rem;
+    color: var(--muted);
+    margin-bottom: 1.25rem;
+    line-height: 1.5;
+  }
+
+  /* ── DROP ZONE ───────────────────────────── */
+  .drop-zone {
+    border: 2px dashed var(--border);
+    border-radius: 10px;
+    padding: 3rem 2rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all .2s;
+    position: relative;
+  }
+  .drop-zone:hover, .drop-zone.dragover {
+    border-color: var(--accent);
+    background: rgba(59,130,246,.05);
+  }
+  .drop-zone input[type=file] {
+    position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%;
+  }
+  .drop-zone .drop-icon { font-size: 2.5rem; margin-bottom: .75rem; }
+  .drop-zone p { font-size: .85rem; color: var(--muted); }
+  .drop-zone p strong { color: var(--text); }
+
+  /* ── BUTTONS ─────────────────────────────── */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: .4rem;
+    font-family: var(--sans);
+    font-size: .82rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 7px;
+    padding: .55rem 1.1rem;
+    cursor: pointer;
+    transition: all .15s;
+    white-space: nowrap;
+  }
+  .btn-primary { background: var(--accent); color: #fff; }
+  .btn-primary:hover { background: #2563eb; }
+  .btn-success { background: var(--success); color: #fff; }
+  .btn-success:hover { background: #16a34a; }
+  .btn-ghost {
+    background: var(--border);
+    color: var(--text);
+  }
+  .btn-ghost:hover { background: #2d3748; }
+  .btn-danger { background: var(--danger); color: #fff; }
+  .btn-danger:hover { background: #dc2626; }
+  .btn-split { background: var(--split); color: #fff; }
+  .btn:disabled { opacity: .45; cursor: not-allowed; }
+  .btn-sm { font-size: .75rem; padding: .4rem .8rem; }
+
+  /* ── BADGES ──────────────────────────────── */
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: .3rem;
+    font-family: var(--mono);
+    font-size: .72rem;
+    padding: .2rem .6rem;
+    border-radius: 999px;
+    font-weight: 500;
+  }
+  .badge-blue   { background: rgba(59,130,246,.15);  color: #60a5fa; border: 1px solid rgba(59,130,246,.3); }
+  .badge-yellow { background: rgba(245,158,11,.12);  color: #fbbf24; border: 1px solid rgba(245,158,11,.3); }
+  .badge-red    { background: rgba(239,68,68,.12);   color: #f87171; border: 1px solid rgba(239,68,68,.3); }
+  .badge-green  { background: rgba(34,197,94,.12);   color: #4ade80; border: 1px solid rgba(34,197,94,.3); }
+  .badge-purple { background: rgba(139,92,246,.12);  color: #a78bfa; border: 1px solid rgba(139,92,246,.3); }
+  .badge-gray   { background: rgba(100,116,139,.12); color: #94a3b8; border: 1px solid rgba(100,116,139,.3); }
+
+  /* ── STATS ROW ───────────────────────────── */
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: .75rem;
+    margin: 1.25rem 0;
+  }
+  .stat-box {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1rem;
+    text-align: center;
+  }
+  .stat-box .stat-val { font-family: var(--mono); font-size: 1.6rem; font-weight: 500; }
+  .stat-box .stat-lbl { font-size: .72rem; color: var(--muted); margin-top: .2rem; }
+
+  /* ── TABLE ───────────────────────────────── */
+  .table-wrap { overflow-x: auto; border-radius: 10px; border: 1px solid var(--border); }
+  table { border-collapse: collapse; width: 100%; font-size: .78rem; }
+  thead th {
+    background: var(--bg);
+    padding: .6rem .75rem;
+    text-align: center;
+    font-family: var(--mono);
+    font-size: .7rem;
+    font-weight: 500;
+    color: var(--muted);
+    white-space: nowrap;
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 5;
+  }
+  thead th.col-name { text-align: left; position: sticky; left: 0; z-index: 10; min-width: 160px; }
+  thead th.col-total { background: rgba(59,130,246,.1); color: var(--accent); }
+  tbody tr:hover td { background: rgba(255,255,255,.025); }
+  tbody td {
+    padding: .5rem .6rem;
+    text-align: center;
+    border-bottom: 1px solid rgba(35,43,62,.6);
+    font-family: var(--mono);
+    font-size: .75rem;
+    white-space: nowrap;
+    cursor: pointer;
+  }
+  tbody td.col-name {
+    text-align: left;
+    position: sticky;
+    left: 0;
+    background: var(--surface);
+    font-family: var(--sans);
+    font-size: .78rem;
+    font-weight: 500;
+    z-index: 4;
+    cursor: default;
+  }
+  tbody td.col-total {
+    font-weight: 700;
+    color: var(--accent);
+    background: rgba(59,130,246,.05);
+    cursor: default;
+  }
+  td.cell-empty { color: #2d3748; cursor: pointer; }
+  td.cell-empty:hover { background: rgba(59,130,246,.08) !important; color: var(--muted); }
+  td.cell-ok:hover { background: rgba(59,130,246,.1) !important; }
+  td.cell-split { color: #c4b5fd; background: rgba(139,92,246,.18) !important; font-weight: 600; }
+  td.cell-split:hover { background: rgba(139,92,246,.3) !important; }
+  td.cell-error { color: #f87171; }
+  td.cell-error:hover { background: rgba(239,68,68,.1) !important; }
+  td.cell-selected { background: rgba(245,158,11,.12) !important; outline: 2px solid var(--accent2); outline-offset: -2px; }
+
+  /* ── EDIT PANEL ──────────────────────────── */
+  #edit-panel {
+    background: var(--bg);
+    border: 1px solid var(--accent2);
+    border-radius: 10px;
+    padding: 1.25rem;
+    margin-top: 1rem;
+    display: none;
+  }
+  #edit-panel.open { display: block; animation: fadeIn .15s ease; }
+  #edit-panel h4 { font-size: .85rem; font-weight: 600; margin-bottom: .75rem; display: flex; align-items: center; gap: .5rem; flex-wrap: wrap; }
+  .edit-row { display: grid; grid-template-columns: 1fr 1fr auto; gap: .75rem; align-items: end; }
+  .field label { display: block; font-size: .72rem; color: var(--muted); margin-bottom: .3rem; font-family: var(--mono); }
+  .field input[type=time] {
+    width: 100%;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text);
+    padding: .5rem .75rem;
+    font-family: var(--mono);
+    font-size: .85rem;
+    outline: none;
+    transition: border-color .15s;
+  }
+  .field input[type=time]:focus { border-color: var(--accent); }
+  .turno-info {
+    background: rgba(139,92,246,.08);
+    border: 1px solid rgba(139,92,246,.25);
+    border-radius: 8px;
+    padding: .6rem 1rem;
+    font-size: .77rem;
+    color: #c4b5fd;
+    display: flex;
+    gap: 2rem;
+    margin-bottom: .75rem;
+    font-family: var(--mono);
+  }
+
+  /* ── MISSING PANEL ───────────────────────── */
+  .missing-row {
+    display: grid;
+    grid-template-columns: 1fr auto auto auto auto;
+    gap: .6rem;
+    align-items: center;
+    padding: .65rem .75rem;
+    background: rgba(239,68,68,.05);
+    border: 1px solid rgba(239,68,68,.15);
+    border-radius: 8px;
+    margin-bottom: .5rem;
+  }
+  .missing-row .info { font-size: .78rem; }
+  .missing-row .info strong { display: block; font-size: .82rem; }
+  .missing-row .info small { color: var(--muted); font-family: var(--mono); font-size: .7rem; }
+  .missing-row select, .missing-row input[type=time] {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text);
+    padding: .4rem .6rem;
+    font-family: var(--mono);
+    font-size: .78rem;
+    outline: none;
+  }
+  .missing-row select { cursor: pointer; }
+
+  /* ── MANUAL ENTRY FORM ───────────────────── */
+  .manual-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr auto;
+    gap: .75rem;
+    align-items: end;
+  }
+  .manual-grid input, .manual-grid select {
+    width: 100%;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text);
+    padding: .5rem .75rem;
+    font-family: var(--mono);
+    font-size: .82rem;
+    outline: none;
+    transition: border-color .15s;
+  }
+  .manual-grid input:focus { border-color: var(--accent); }
+  .manual-grid label { display: block; font-size: .7rem; color: var(--muted); margin-bottom: .3rem; font-family: var(--mono); }
+
+  /* ── TEMPLATE FILLER ─────────────────────── */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+  .mapping-row {
+    display: grid;
+    grid-template-columns: 1fr 24px 1fr;
+    align-items: center;
+    gap: .5rem;
+    padding: .4rem 0;
+    border-bottom: 1px solid var(--border);
+    font-size: .8rem;
+  }
+  .mapping-row:last-child { border: none; }
+  .mapping-row .arrow { color: var(--muted); text-align: center; }
+  .mapping-row select {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text);
+    padding: .35rem .5rem;
+    font-size: .78rem;
+    font-family: var(--mono);
+    outline: none;
+    width: 100%;
+  }
+  .mapping-row select:focus { border-color: var(--accent); }
+  .mapping-scroll { max-height: 340px; overflow-y: auto; padding-right: .25rem; }
+
+  /* ── SPINNER ─────────────────────────────── */
+  .spinner {
+    width: 20px; height: 20px;
+    border: 2px solid var(--border);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: spin .6s linear infinite;
+    display: inline-block;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ── ALERT ───────────────────────────────── */
+  .alert {
+    border-radius: 8px;
+    padding: .75rem 1rem;
+    font-size: .8rem;
+    margin-top: .75rem;
+    line-height: 1.5;
+  }
+  .alert-warning { background: rgba(245,158,11,.08); border: 1px solid rgba(245,158,11,.25); color: #fcd34d; }
+  .alert-error   { background: rgba(239,68,68,.08);  border: 1px solid rgba(239,68,68,.25);  color: #fca5a5; }
+  .alert-success { background: rgba(34,197,94,.08);  border: 1px solid rgba(34,197,94,.25);  color: #86efac; }
+
+  .flex { display: flex; }
+  .gap-2 { gap: .5rem; }
+  .gap-3 { gap: .75rem; }
+  .wrap { flex-wrap: wrap; }
+  .items-center { align-items: center; }
+  .justify-between { justify-content: space-between; }
+  .mt-1 { margin-top: .25rem; }
+  .mt-2 { margin-top: .5rem; }
+  .mt-3 { margin-top: .75rem; }
+  .hidden { display: none !important; }
+  .text-muted { color: var(--muted); font-size: .78rem; }
+  .text-mono { font-family: var(--mono); }
+  hr { border: none; border-top: 1px solid var(--border); margin: 1.25rem 0; }
+
+  @media (max-width: 768px) {
+    main { padding: 1rem; }
+    .stats-row { grid-template-columns: repeat(2, 1fr); }
+    .manual-grid { grid-template-columns: 1fr 1fr; }
+    .two-col { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">⛱ Waikiki <span>/ Fichadas</span></div>
+  <nav>
+    <button class="active" onclick="showPage('proc')">📂 Procesar Fichadas</button>
+    <button onclick="showPage('fill')">📋 Rellenar Plantilla</button>
+    <button onclick="showPage('tips')">💰 Propinas</button>
+  </nav>
+</header>
+
+<main>
+
+<!-- ═══════════════════════════════════════════════════════════
+     PAGE 1: PROCESAR
+     ═══════════════════════════════════════════════════════════ -->
+<div id="page-proc" class="page active">
+
+  <!-- Drop zone -->
+  <div class="card">
+    <div class="card-title">📂 Cargar Archivo de Fichadas</div>
+    <div class="card-desc">
+      Soporta .xlsx, .xls y .csv · Detecta automáticamente: horarios nocturnos (00:00-06:59 → día anterior),
+      horarios cortados (≥2h de corte con 2 turnos), y elimina fichadas dobles.
+    </div>
+    <div class="drop-zone" id="dropZone">
+      <input type="file" id="fileInput" accept=".xlsx,.xls,.csv" onchange="handleFile(event)"/>
+      <div class="drop-icon">📄</div>
+      <p><strong>Arrastrá tu archivo aquí</strong> o hacé clic para seleccionarlo</p>
+      <p class="mt-1">.xlsx · .xls · .csv</p>
+    </div>
+    <div id="proc-status" class="hidden mt-2 flex items-center gap-2 text-muted">
+      <span class="spinner"></span><span id="proc-status-text"></span>
+    </div>
+  </div>
+
+  <!-- Column selector (hidden until needed) -->
+  <div id="col-selector" class="card hidden">
+    <div class="card-title">⚙️ Seleccionar Columnas Manualmente</div>
+    <div class="card-desc">No se detectaron las columnas. Seleccionalas vos.</div>
+    <div class="two-col" style="margin-bottom:1rem">
+      <div>
+        <label class="field"><span style="font-size:.72rem;color:var(--muted);display:block;margin-bottom:.3rem;font-family:var(--mono)">COLUMNA EMPLEADO</span>
+          <select id="colEmp" style="width:100%;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);padding:.5rem;font-family:var(--mono);font-size:.82rem;outline:none"></select>
+        </label>
+        <div id="previewEmp" class="text-muted mt-1" style="font-family:var(--mono);font-size:.72rem"></div>
+      </div>
+      <div>
+        <label class="field"><span style="font-size:.72rem;color:var(--muted);display:block;margin-bottom:.3rem;font-family:var(--mono)">COLUMNA FECHA/HORA</span>
+          <select id="colTs" style="width:100%;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);padding:.5rem;font-family:var(--mono);font-size:.82rem;outline:none"></select>
+        </label>
+        <div id="previewTs" class="text-muted mt-1" style="font-family:var(--mono);font-size:.72rem"></div>
+      </div>
+    </div>
+    <button class="btn btn-primary" onclick="confirmColumns()">✓ Confirmar y Procesar</button>
+  </div>
+
+  <!-- Stats (hidden until processed) -->
+  <div id="stats-section" class="hidden">
+    <div class="stats-row">
+      <div class="stat-box"><div class="stat-val" id="st-jornadas">0</div><div class="stat-lbl">Jornadas procesadas</div></div>
+      <div class="stat-box"><div class="stat-val" id="st-empleados">0</div><div class="stat-lbl">Empleados</div></div>
+      <div class="stat-box"><div class="stat-val" style="color:var(--split)" id="st-cortados">0</div><div class="stat-lbl">Horarios cortados</div></div>
+      <div class="stat-box"><div class="stat-val" style="color:var(--danger)" id="st-incompletos">0</div><div class="stat-lbl">Fichadas incompletas</div></div>
+    </div>
+  </div>
+
+  <!-- Missing records -->
+  <div id="missing-section" class="card hidden">
+    <div class="card-title">⚠️ Fichadas Incompletas <span id="missing-count-badge" class="badge badge-red ml-2">0</span></div>
+    <div class="card-desc">Completá el horario faltante o eliminá el registro. Los que no corrijas quedarán marcados con ⚠ en el reporte.</div>
+    <div id="missing-list"></div>
+  </div>
+
+  <!-- Manual entry -->
+  <div id="manual-section" class="card hidden">
+    <div class="card-title">✏️ Agregar Fichada Manual</div>
+    <div class="card-desc">Para personal que ficha en papel o para ajustar horarios.</div>
+    <div class="manual-grid">
+      <div>
+        <label>EMPLEADO</label>
+        <input type="text" id="m-emp" placeholder="JUAN PEREZ" style="text-transform:uppercase"/>
+      </div>
+      <div>
+        <label>FECHA (DD/MM/AAAA)</label>
+        <input type="text" id="m-fecha" placeholder="15/01/2025"/>
+      </div>
+      <div>
+        <label>ENTRADA</label>
+        <input type="time" id="m-entrada"/>
+      </div>
+      <div>
+        <label>SALIDA</label>
+        <input type="time" id="m-salida"/>
+      </div>
+      <div>
+        <label>&nbsp;</label>
+        <button class="btn btn-success" onclick="addManual()">+ Agregar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Results grid -->
+  <div id="results-section" class="card hidden">
+    <div class="card-title flex items-center justify-between">
+      <span>📊 Horas Trabajadas por Día</span>
+      <div class="flex gap-2 wrap">
+        <span class="badge badge-purple">✂ cortado</span>
+        <span class="badge badge-red">⚠ incompleto</span>
+        <span class="badge badge-gray">· sin fichada</span>
+      </div>
+    </div>
+    <div class="card-desc">Hacé clic en cualquier celda para ver detalles o editar la entrada/salida.</div>
+    <div class="table-wrap" id="grid-wrap"></div>
+    <div id="edit-panel">
+      <h4 id="edit-title">Editando</h4>
+      <div id="edit-turno-info" class="turno-info hidden"></div>
+      <div class="edit-row">
+        <div class="field">
+          <label>ENTRADA (primera fichada)</label>
+          <input type="time" id="edit-entrada"/>
+        </div>
+        <div class="field">
+          <label>SALIDA (última fichada)</label>
+          <input type="time" id="edit-salida"/>
+        </div>
+        <div class="flex gap-2 items-center" style="padding-bottom:.05rem">
+          <button class="btn btn-primary btn-sm" onclick="saveEdit()">Guardar</button>
+          <button class="btn btn-ghost btn-sm" onclick="closeEdit()">Cancelar</button>
+        </div>
+      </div>
+      <div id="edit-timestamps" class="text-muted mt-2" style="font-family:var(--mono);font-size:.7rem"></div>
+    </div>
+  </div>
+
+  <!-- Export buttons -->
+  <div id="export-section" class="hidden flex gap-3 wrap">
+    <button class="btn btn-primary" onclick="exportDetailed()">⬇ Reporte Detallado (con turnos + incompletos)</button>
+    <button class="btn btn-ghost" onclick="exportSimple()">⬇ Reporte Simple (total horas por empleado)</button>
+  </div>
+
+</div><!-- /page-proc -->
+
+
+<!-- ═══════════════════════════════════════════════════════════
+     PAGE 2: RELLENAR PLANTILLA
+     ═══════════════════════════════════════════════════════════ -->
+<div id="page-fill" class="page">
+  <div class="card">
+    <div class="card-title">📋 Rellenar Plantilla Maestra</div>
+    <div class="card-desc">Subí el reporte de horas generado en el paso anterior y tu plantilla. Se completarán automáticamente las horas por día.</div>
+    <div class="two-col">
+      <div>
+        <div style="font-size:.78rem;color:var(--muted);margin-bottom:.4rem;font-family:var(--mono)">1 · REPORTE DETALLADO (.xlsx)</div>
+        <div class="drop-zone" style="padding:1.5rem" onclick="document.getElementById('rpt-input').click()">
+          <input type="file" id="rpt-input" accept=".xlsx" style="display:none" onchange="loadReport(event)"/>
+          <div>📊 <span id="rpt-name" style="font-size:.82rem">Ningún archivo seleccionado</span></div>
+        </div>
+      </div>
+      <div>
+        <div style="font-size:.78rem;color:var(--muted);margin-bottom:.4rem;font-family:var(--mono)">2 · PLANTILLA MAESTRA (.xlsx)</div>
+        <div class="drop-zone" style="padding:1.5rem" onclick="document.getElementById('tpl-input').click()">
+          <input type="file" id="tpl-input" accept=".xlsx" style="display:none" onchange="loadTemplate(event)"/>
+          <div>📋 <span id="tpl-name" style="font-size:.82rem">Ningún archivo seleccionado</span></div>
+        </div>
+      </div>
+    </div>
+    <button class="btn btn-primary mt-3" id="fill-btn" onclick="startFill()" disabled>
+      ✨ Emparejar y Rellenar Automáticamente
+    </button>
+    <div id="fill-status" class="hidden mt-2 flex items-center gap-2 text-muted">
+      <span class="spinner"></span><span id="fill-status-text"></span>
+    </div>
+  </div>
+
+  <div id="fill-mapping" class="card hidden">
+    <div class="card-title">🔗 Revisá las Coincidencias de Nombres</div>
+    <div class="card-desc">El sistema intentó emparejar automáticamente. Corregí cualquier error antes de confirmar.</div>
+    <div class="mapping-scroll" id="mapping-rows"></div>
+    <hr/>
+    <div class="flex gap-3 mt-2">
+      <button class="btn btn-success" onclick="confirmFill()">✓ Confirmar y Descargar Plantilla Rellenada</button>
+      <button class="btn btn-ghost" onclick="cancelFill()">Cancelar</button>
+    </div>
+  </div>
+
+  <div id="fill-result" class="hidden"></div>
+</div><!-- /page-fill -->
+
+</main>
+
+<script>
+// ═══════════════════════════════════════════════════════════════
+// NAVIGATION
+// ═══════════════════════════════════════════════════════════════
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'))
+  document.querySelectorAll('header nav button').forEach(b => b.classList.remove('active'))
+  document.getElementById('page-' + id).classList.add('active')
+  event.currentTarget.classList.add('active')
+}
+
+// ═══════════════════════════════════════════════════════════════
+// DRAG & DROP
+// ═══════════════════════════════════════════════════════════════
+const dz = document.getElementById('dropZone')
+dz.addEventListener('dragover', e => { e.preventDefault(); dz.classList.add('dragover') })
+dz.addEventListener('dragleave', () => dz.classList.remove('dragover'))
+dz.addEventListener('drop', e => {
+  e.preventDefault(); dz.classList.remove('dragover')
+  const f = e.dataTransfer.files[0]
+  if (f) processFile(f)
+})
+
+// ═══════════════════════════════════════════════════════════════
+// CORE LOGIC
+// ═══════════════════════════════════════════════════════════════
+let rawData = [], rawHeaders = [], processedRecords = []
+let editingKey = null
+
+/** Fichadas entre 00:00-06:59 → día anterior */
+function getWorkDay(dt) {
+  const d = new Date(dt)
+  if (d.getHours() < 7) d.setDate(d.getDate() - 1)
+  return fmtDate(d)
+}
+
+function fmtDate(d) {
+  const dd = String(d.getDate()).padStart(2,'0')
+  const mm = String(d.getMonth()+1).padStart(2,'0')
+  const yy = d.getFullYear()
+  return `${dd}/${mm}/${yy}`
+}
+
+function fmtTime(d) {
+  return `${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`
+}
+
+function parseTimestamp(v) {
+  if (!v) return null
+  if (v instanceof Date && !isNaN(v)) return v
+  if (typeof v === 'number') {
+    // Excel serial date
+    const d = new Date(Math.round((v - 25569) * 86400 * 1000))
+    if (!isNaN(d)) return d
+  }
+  if (typeof v === 'string') {
+    const fmts = [
+      /^(\d{1,2})\/(\d{1,2})\/(\d{2,4})\s+(\d{1,2}):(\d{2})(?::(\d{2}))?$/,
+      /^(\d{4})-(\d{2})-(\d{2})[T\s](\d{2}):(\d{2})(?::(\d{2}))?/,
+      /^(\d{1,2})-(\d{1,2})-(\d{2,4})\s+(\d{1,2}):(\d{2})/,
+    ]
+    for (const re of fmts) {
+      const m = v.match(re)
+      if (m) {
+        try {
+          const d = new Date(v)
+          if (!isNaN(d)) return d
+        } catch(e) {}
+      }
+    }
+    const d = new Date(v)
+    if (!isNaN(d)) return d
+  }
+  return null
+}
+
+/** Construye el registro de una jornada a partir de los timestamps ordenados */
+function buildRecord(empleado, fecha, times) {
+  const n = times.length
+  const stamps = times.map(fmtTime)
+
+  if (n % 2 !== 0) {
+    let note = 'Fichada faltante — verificar manualmente'
+    if (n === 1) {
+      note = times[0].getHours() < 15 ? 'Falta salida' : 'Falta entrada'
+    } else {
+      const gaps = times.slice(0,-1).map((t,i) => (times[i+1]-t)/3600000)
+      const maxIdx = gaps.indexOf(Math.max(...gaps))
+      if (maxIdx === 0) note = 'Posible falta de salida en T1'
+      else if (maxIdx === n-2) note = 'Posible falta de entrada en T2'
+    }
+    return { empleado, fecha, stamps, entrada: fmtTime(times[0]), salida: fmtTime(times[n-1]), horas: null, cortado: false, error: true, note }
+  }
+
+  if (n === 2) {
+    const h = Math.round(((times[1]-times[0])/3600000)*10)/10
+    return { empleado, fecha, stamps, entrada: fmtTime(times[0]), salida: fmtTime(times[1]), horas: h, cortado: false }
+  }
+
+  // Buscar horario cortado: gap ≥ 2h con ≥2 fichadas a cada lado
+  const gaps = times.slice(0,-1).map((t,i) => (times[i+1]-t)/3600000)
+  let splitIdx = -1
+  for (let i = 0; i < n-1; i++) {
+    if (gaps[i] >= 2.0 && (i+1) >= 2 && (n-i-1) >= 2) { splitIdx = i; break }
+  }
+
+  if (splitIdx !== -1) {
+    const t1 = times.slice(0, splitIdx+1)
+    const t2 = times.slice(splitIdx+1)
+    const h1 = Math.round(((t1[t1.length-1]-t1[0])/3600000)*10)/10
+    const h2 = Math.round(((t2[t2.length-1]-t2[0])/3600000)*10)/10
+    return {
+      empleado, fecha, stamps,
+      entrada: fmtTime(times[0]), salida: fmtTime(times[n-1]),
+      horas: Math.round((h1+h2)*10)/10, cortado: true,
+      t1: { e: fmtTime(t1[0]), s: fmtTime(t1[t1.length-1]), h: h1 },
+      t2: { e: fmtTime(t2[0]), s: fmtTime(t2[t2.length-1]), h: h2 }
+    }
+  }
+
+  // 4+ sin gap grande → sumar pares
+  let totalH = 0
+  for (let i = 0; i < n; i += 2) if (i+1 < n) totalH += (times[i+1]-times[i])/3600000
+  return { empleado, fecha, stamps, entrada: fmtTime(times[0]), salida: fmtTime(times[n-1]), horas: Math.round(totalH*10)/10, cortado: false }
+}
+
+// ═══════════════════════════════════════════════════════════════
+// FILE HANDLING
+// ═══════════════════════════════════════════════════════════════
+function handleFile(e) { processFile(e.target.files[0]) }
+
+function processFile(file) {
+  if (!file) return
+  setStatus('Leyendo archivo...')
+  const reader = new FileReader()
+  reader.onload = e => {
+    try {
+      let data = [], headers = []
+      if (file.name.endsWith('.csv')) {
+        const text = e.target.result
+        const lines = text.split('\n').filter(l => l.trim())
+        headers = lines[0].split(',').map(h => h.trim().replace(/^"|"$/g,''))
+        data = lines.slice(1).map(l => {
+          const vals = l.split(',')
+          const obj = {}
+          headers.forEach((h,i) => obj[h] = vals[i]?.trim().replace(/^"|"$/g,''))
+          return obj
+        })
+      } else {
+        const wb = XLSX.read(e.target.result, { type: 'array', cellDates: true })
+        const ws = wb.Sheets[wb.SheetNames[0]]
+        data = XLSX.utils.sheet_to_json(ws, { raw: false, dateNF: 'dd/mm/yyyy hh:mm' })
+        if (data.length) headers = Object.keys(data[0])
+      }
+      rawData = data; rawHeaders = headers
+      setStatus('Detectando columnas...')
+      const mapping = autoDetectColumns(headers, data.slice(0,5))
+      if (mapping.emp && mapping.ts) {
+        doProcess(data, mapping.emp, mapping.ts)
+      } else {
+        showColumnSelector(headers, data.slice(0,5))
+      }
+    } catch(err) {
+      clearStatus()
+      showAlert('proc-status', 'Error al leer el archivo: ' + err.message, 'error')
+    }
+  }
+  if (file.name.endsWith('.csv')) reader.readAsText(file)
+  else reader.readAsArrayBuffer(file)
+}
+
+function autoDetectColumns(headers, sample) {
+  const empKw = ['nombre','apellido','empleado','worker','employee','usuario','user','name','person']
+  const tsKw  = ['fecha','time','hora','timestamp','date','fichaje','punch','cuando','momento']
+  let emp = null, ts = null
+
+  for (const h of headers) {
+    const l = h.toLowerCase()
+    if (!emp && empKw.some(k => l.includes(k))) emp = h
+    if (!ts  && tsKw.some(k => l.includes(k)))  ts  = h
+  }
+
+  // Si no encontró por nombre, buscar por contenido
+  if (!emp) {
+    let best = -Infinity, bestH = null
+    for (const h of headers) {
+      let score = 0
+      sample.forEach(r => {
+        const v = String(r[h]||'').trim()
+        if (/^\d+$/.test(v)) { score -= 10; return }
+        if (v.length < 3) { score -= 3; return }
+        if (/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/.test(v)) score += 5
+        if (v.includes(' ')) score += 4
+        if (v.includes(':') || v.includes('/')) score -= 8
+      })
+      if (score > best) { best = score; bestH = h }
+    }
+    if (best > 0) emp = bestH
+  }
+
+  if (!ts) {
+    for (const h of headers) {
+      const ok = sample.some(r => {
+        const v = r[h]
+        if (v instanceof Date) return true
+        const s = String(v||'')
+        return s.includes(':') || /\d{1,2}\/\d{1,2}\/\d{2,4}/.test(s) || /\d{4}-\d{2}-\d{2}/.test(s)
+      })
+      if (ok) { ts = h; break }
+    }
+  }
+
+  return { emp, ts }
+}
+
+function showColumnSelector(headers, sample) {
+  clearStatus()
+  const sel = document.getElementById('col-selector')
+  sel.classList.remove('hidden')
+  const empSel = document.getElementById('colEmp')
+  const tsSel  = document.getElementById('colTs')
+  empSel.innerHTML = tsSel.innerHTML = '<option value="">Seleccionar...</option>'
+  headers.forEach(h => {
+    empSel.innerHTML += `<option value="${h}">${h}</option>`
+    tsSel.innerHTML  += `<option value="${h}">${h}</option>`
+  })
+  empSel.onchange = () => {
+    document.getElementById('previewEmp').textContent =
+      sample.slice(0,3).map(r => r[empSel.value]).filter(Boolean).join(' · ')
+  }
+  tsSel.onchange = () => {
+    document.getElementById('previewTs').textContent =
+      sample.slice(0,3).map(r => r[tsSel.value]).filter(Boolean).join(' · ')
+  }
+}
+
+function confirmColumns() {
+  const emp = document.getElementById('colEmp').value
+  const ts  = document.getElementById('colTs').value
+  if (!emp || !ts) return alert('Seleccioná ambas columnas')
+  document.getElementById('col-selector').classList.add('hidden')
+  doProcess(rawData, emp, ts)
+}
+
+// ═══════════════════════════════════════════════════════════════
+// PROCESS
+// ═══════════════════════════════════════════════════════════════
+const INVALID = [/^\d+$/, /^TEST/i, /^PRUEBA/i, /^DEMO/i, /^XXX/i, /^---/]
+
+function doProcess(data, empCol, tsCol) {
+  setStatus('Procesando fichadas...')
+  setTimeout(() => {
+    try {
+      const groups = new Map()
+      for (const row of data) {
+        const empRaw = row[empCol]
+        const tsRaw  = row[tsCol]
+        if (!empRaw || !tsRaw) continue
+        const emp = String(empRaw).trim()
+        if (!emp || INVALID.some(p => p.test(emp))) continue
+        const ts = parseTimestamp(tsRaw)
+        if (!ts) continue
+        const fecha = getWorkDay(ts)
+        const key = `${emp}::${fecha}`
+        if (!groups.has(key)) groups.set(key, { emp, fecha, times: [] })
+        groups.get(key).times.push(ts)
+      }
+
+      const records = []
+      for (const { emp, fecha, times } of groups.values()) {
+        times.sort((a,b) => a-b)
+        // Deduplicar: eliminar fichadas con diferencia ≤30s
+        const deduped = []
+        for (const t of times) {
+          if (!deduped.length || (t - deduped[deduped.length-1]) > 30000) deduped.push(t)
+        }
+        records.push(buildRecord(emp, fecha, deduped))
+      }
+
+      // Ordenar por empleado → fecha
+      records.sort((a,b) => {
+        const ec = a.empleado.localeCompare(b.empleado)
+        if (ec !== 0) return ec
+        const [da,ma,ya] = a.fecha.split('/').map(Number)
+        const [db,mb,yb] = b.fecha.split('/').map(Number)
+        return new Date(ya,ma-1,da) - new Date(yb,mb-1,db)
+      })
+
+      processedRecords = records
+      clearStatus()
+      renderAll()
+    } catch(err) {
+      clearStatus()
+      alert('Error al procesar: ' + err.message)
+    }
+  }, 50)
+}
+
+// ═══════════════════════════════════════════════════════════════
+// RENDER
+// ═══════════════════════════════════════════════════════════════
+function renderAll() {
+  const valid     = processedRecords.filter(r => !r.error)
+  const errors    = processedRecords.filter(r => r.error)
+  const cortados  = valid.filter(r => r.cortado)
+
+  // Stats
+  const emps = new Set(processedRecords.map(r => r.empleado))
+  document.getElementById('st-jornadas').textContent   = processedRecords.length
+  document.getElementById('st-empleados').textContent  = emps.size
+  document.getElementById('st-cortados').textContent   = cortados.length
+  document.getElementById('st-incompletos').textContent = errors.length
+  document.getElementById('stats-section').classList.remove('hidden')
+
+  // Missing records
+  renderMissing(errors)
+
+  // Grid
+  renderGrid()
+
+  // Show sections
+  document.getElementById('manual-section').classList.remove('hidden')
+  document.getElementById('results-section').classList.remove('hidden')
+  document.getElementById('export-section').classList.remove('hidden')
+}
+
+function renderMissing(errors) {
+  const sec = document.getElementById('missing-section')
+  if (!errors.length) { sec.classList.add('hidden'); return }
+  sec.classList.remove('hidden')
+  document.getElementById('missing-count-badge').textContent = errors.length
+  const list = document.getElementById('missing-list')
+  list.innerHTML = errors.map(r => {
+    const key = `${r.empleado}::${r.fecha}`
+    return `
+    <div class="missing-row" id="mrow-${CSS.escape(key)}">
+      <div class="info">
+        <strong>${r.empleado}</strong>
+        <small>${r.fecha} · ${r.note} · ${r.stamps.join(' → ')}</small>
+      </div>
+      <select id="mtype-${CSS.escape(key)}">
+        <option value="">Tipo faltante...</option>
+        <option value="entrada">Entrada Faltante</option>
+        <option value="salida">Salida Faltante</option>
+      </select>
+      <input type="time" id="mtime-${CSS.escape(key)}" />
+      <button class="btn btn-primary btn-sm" onclick="correctMissing('${key.replace(/'/g,"\\'")}')">✓ Aplicar</button>
+      <button class="btn btn-ghost btn-sm" onclick="omitRecord('${key.replace(/'/g,"\\'")}')">✕ Omitir</button>
+    </div>`
+  }).join('')
+}
+
+function renderGrid() {
+  const wrap = document.getElementById('grid-wrap')
+  if (!processedRecords.length) { wrap.innerHTML = ''; return }
+
+  const employees = [...new Set(processedRecords.map(r => r.empleado))].sort()
+  const dateSet = [...new Set(processedRecords.map(r => r.fecha))].sort((a,b) => {
+    const [da,ma,ya] = a.split('/').map(Number)
+    const [db,mb,yb] = b.split('/').map(Number)
+    return new Date(ya,ma-1,da) - new Date(yb,mb-1,db)
+  })
+
+  const dataMap = new Map()
+  processedRecords.forEach(r => dataMap.set(`${r.empleado}::${r.fecha}`, r))
+
+  let html = `<table><thead><tr>
+    <th class="col-name">Empleado</th>
+    ${dateSet.map(d => `<th>${d.split('/')[0]}</th>`).join('')}
+    <th class="col-total">Total</th>
+  </tr></thead><tbody>`
+
+  for (const emp of employees) {
+    let total = 0
+    let cells = dateSet.map(fecha => {
+      const r = dataMap.get(`${emp}::${fecha}`)
+      if (!r) return `<td class="cell-empty" onclick="openEditEmpty('${emp}', '${fecha}')" title="Click para agregar horas">+</td>`
+      const key = `${emp}::${fecha}`.replace(/'/g,"\\'")
+      if (r.error) return `<td class="cell-error" onclick="openEdit('${key}')" title="${r.note}">⚠</td>`
+      total += r.horas || 0
+      if (r.cortado) return `<td class="cell-split" onclick="openEdit('${key}')" title="Cortado: T1 ${r.t1.e}-${r.t1.s} / T2 ${r.t2.e}-${r.t2.s}">${r.horas}✂</td>`
+      return `<td class="cell-ok" onclick="openEdit('${key}')">${r.horas}</td>`
+    }).join('')
+
+    html += `<tr>
+      <td class="col-name">${emp}</td>
+      ${cells}
+      <td class="col-total">${Math.round(total*10)/10}h</td>
+    </tr>`
+  }
+
+  html += '</tbody></table>'
+  wrap.innerHTML = html
+}
+
+// ═══════════════════════════════════════════════════════════════
+// EDIT PANEL
+// ═══════════════════════════════════════════════════════════════
+function openEdit(key) {
+  // Deselect previous
+  document.querySelectorAll('td.cell-selected').forEach(td => td.classList.remove('cell-selected'))
+
+  const r = processedRecords.find(r => `${r.empleado}::${r.fecha}` === key)
+  if (!r) return
+  editingKey = key
+
+  // Highlight cell
+  document.querySelectorAll('td').forEach(td => {
+    if (td.getAttribute('onclick') && td.getAttribute('onclick').includes(key.replace(/'/g,"\\'")))
+      td.classList.add('cell-selected')
+  })
+
+  const panel = document.getElementById('edit-panel')
+  panel.classList.add('open')
+
+  // Title
+  let titleHTML = `${r.empleado} — ${r.fecha}`
+  if (r.cortado) titleHTML += ` <span class="badge badge-purple">✂ Horario Cortado</span>`
+  if (r.error)   titleHTML += ` <span class="badge badge-red">⚠ ${r.note}</span>`
+  document.getElementById('edit-title').innerHTML = titleHTML
+
+  // Turno info
+  const ti = document.getElementById('edit-turno-info')
+  if (r.cortado && r.t1 && r.t2) {
+    ti.classList.remove('hidden')
+    ti.innerHTML = `<span>T1: ${r.t1.e} → ${r.t1.s} <strong>(${r.t1.h}h)</strong></span><span>T2: ${r.t2.e} → ${r.t2.s} <strong>(${r.t2.h}h)</strong></span>`
+  } else {
+    ti.classList.add('hidden')
+  }
+
+  document.getElementById('edit-entrada').value = r.entrada || ''
+  document.getElementById('edit-salida').value  = r.salida  || ''
+  document.getElementById('edit-timestamps').textContent = 'Fichadas del día: ' + r.stamps.join(' → ')
+
+  panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
+}
+
+function saveEdit() {
+  if (!editingKey) return
+  const entrada = document.getElementById('edit-entrada').value
+  const salida  = document.getElementById('edit-salida').value
+  if (!entrada || !salida) return alert('Completá ambos campos')
+
+  const idx = processedRecords.findIndex(r => `${r.empleado}::${r.fecha}` === editingKey)
+  if (idx === -1) return
+
+  const r = { ...processedRecords[idx] }
+  r.entrada = entrada; r.salida = salida
+  const [hIn,mIn]   = entrada.split(':').map(Number)
+  const [hOut,mOut] = salida.split(':').map(Number)
+  let total = hOut*60+mOut - (hIn*60+mIn)
+  if (total < 0) total += 24*60
+  r.horas = Math.round((total/60)*10)/10
+  r.error = false; r.note = undefined; r.cortado = false
+  r.t1 = undefined; r.t2 = undefined
+  processedRecords[idx] = r
+
+  closeEdit()
+  renderGrid()
+  renderMissing(processedRecords.filter(r => r.error))
+  updateStats()
+}
+
+function closeEdit() {
+  editingKey = null
+  document.getElementById('edit-panel').classList.remove('open')
+  document.querySelectorAll('td.cell-selected').forEach(td => td.classList.remove('cell-selected'))
+}
+
+// ═══════════════════════════════════════════════════════════════
+// MISSING CORRECTIONS
+// ═══════════════════════════════════════════════════════════════
+function openEditEmpty(empleado, fecha) {
+  // Create a blank record for this employee+date and open edit panel
+  const existing = processedRecords.find(r => r.empleado === empleado && r.fecha === fecha)
+  if (existing) { openEdit(`${empleado}::${fecha}`); return }
+
+  const newRec = {
+    empleado, fecha,
+    stamps: [],
+    entrada: '',
+    salida: '',
+    horas: null,
+    cortado: false,
+    error: true,
+    note: 'Ingresado manualmente'
+  }
+  processedRecords.push(newRec)
+  editingKey = `${empleado}::${fecha}`
+
+  // Highlight
+  document.querySelectorAll('td.cell-selected').forEach(td => td.classList.remove('cell-selected'))
+
+  const panel = document.getElementById('edit-panel')
+  panel.classList.add('open')
+
+  document.getElementById('edit-title').innerHTML = `${empleado} — ${fecha} <span class="badge badge-red">+ Nueva jornada</span>`
+  document.getElementById('edit-turno-info').classList.add('hidden')
+  document.getElementById('edit-entrada').value = ''
+  document.getElementById('edit-salida').value  = ''
+  document.getElementById('edit-timestamps').textContent = 'Sin fichadas — ingreso manual'
+  panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
+}
+
+
+function correctMissing(key) {
+  const ek = CSS.escape(key)
+  const type = document.getElementById(`mtype-${ek}`)?.value
+  const time = document.getElementById(`mtime-${ek}`)?.value
+  if (!type || !time) return alert('Seleccioná el tipo y el horario')
+
+  const idx = processedRecords.findIndex(r => `${r.empleado}::${r.fecha}` === key)
+  if (idx === -1) return
+  const r = { ...processedRecords[idx] }
+  if (type === 'entrada') r.entrada = time
+  else r.salida = time
+
+  const [hIn,mIn]   = r.entrada.split(':').map(Number)
+  const [hOut,mOut] = r.salida.split(':').map(Number)
+  let total = hOut*60+mOut - (hIn*60+mIn)
+  if (total < 0) total += 24*60
+  r.horas = Math.round((total/60)*10)/10
+  r.error = false; r.note = undefined
+  processedRecords[idx] = r
+
+  document.getElementById(`mrow-${ek}`)?.remove()
+  renderGrid()
+  updateStats()
+}
+
+function omitRecord(key) {
+  processedRecords = processedRecords.filter(r => `${r.empleado}::${r.fecha}` !== key)
+  const ek = CSS.escape(key)
+  document.getElementById(`mrow-${ek}`)?.remove()
+  renderGrid()
+  updateStats()
+}
+
+function updateStats() {
+  const errors = processedRecords.filter(r => r.error)
+  document.getElementById('st-jornadas').textContent    = processedRecords.length
+  document.getElementById('st-empleados').textContent   = new Set(processedRecords.map(r => r.empleado)).size
+  document.getElementById('st-cortados').textContent    = processedRecords.filter(r => r.cortado).length
+  document.getElementById('st-incompletos').textContent = errors.length
+  document.getElementById('missing-count-badge').textContent = errors.length
+  if (!errors.length) document.getElementById('missing-section').classList.add('hidden')
+}
+
+// ═══════════════════════════════════════════════════════════════
+// MANUAL ENTRY
+// ═══════════════════════════════════════════════════════════════
+function addManual() {
+  const emp     = document.getElementById('m-emp').value.trim().toUpperCase()
+  const fecha   = document.getElementById('m-fecha').value.trim()
+  const entrada = document.getElementById('m-entrada').value
+  const salida  = document.getElementById('m-salida').value
+  if (!emp || !fecha || !entrada || !salida) return alert('Completá todos los campos')
+
+  const [hIn,mIn]   = entrada.split(':').map(Number)
+  const [hOut,mOut] = salida.split(':').map(Number)
+  let total = hOut*60+mOut - (hIn*60+mIn)
+  if (total < 0) total += 24*60
+  const horas = Math.round((total/60)*10)/10
+
+  const existing = processedRecords.findIndex(r => r.empleado === emp && r.fecha === fecha)
+  const rec = { empleado: emp, fecha, stamps: [entrada, salida], entrada, salida, horas, cortado: false }
+  if (existing !== -1) processedRecords[existing] = rec
+  else processedRecords.push(rec)
+
+  processedRecords.sort((a,b) => {
+    const ec = a.empleado.localeCompare(b.empleado)
+    if (ec !== 0) return ec
+    const [da,ma,ya] = a.fecha.split('/').map(Number)
+    const [db,mb,yb] = b.fecha.split('/').map(Number)
+    return new Date(ya,ma-1,da) - new Date(yb,mb-1,db)
+  })
+
+  document.getElementById('m-emp').value = ''
+  document.getElementById('m-fecha').value = ''
+  document.getElementById('m-entrada').value = ''
+  document.getElementById('m-salida').value = ''
+  renderGrid(); updateStats()
+}
+
+// ═══════════════════════════════════════════════════════════════
+// EXPORT
+// ═══════════════════════════════════════════════════════════════
+function exportDetailed() {
+  const wb = XLSX.utils.book_new()
+
+  // Sheet 1: Detalle
+  const rows = processedRecords.filter(r => r.horas > 0).map(r => ({
+    'Empleado': r.empleado,
+    'Fecha': r.fecha,
+    'Entrada': r.entrada,
+    'Salida': r.salida,
+    'Horario Cortado': r.cortado ? 'Sí' : 'No',
+    'T1 Entrada': r.t1?.e || '',
+    'T1 Salida':  r.t1?.s || '',
+    'T1 Horas':   r.t1?.h || '',
+    'T2 Entrada': r.t2?.e || '',
+    'T2 Salida':  r.t2?.s || '',
+    'T2 Horas':   r.t2?.h || '',
+    'Horas Calculadas': r.horas,
+  }))
+  XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(rows), 'Fichada Detallada')
+
+  // Sheet 2: Resumen por empleado
+  const empMap = new Map()
+  processedRecords.forEach(r => { if (r.horas > 0) empMap.set(r.empleado, (empMap.get(r.empleado)||0) + r.horas) })
+  const resumen = [...empMap.entries()].sort((a,b) => a[0].localeCompare(b[0]))
+    .map(([Empleado, hrs]) => ({ Empleado, 'Horas Calculadas': Math.round(hrs*10)/10 }))
+  XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(resumen), 'Resumen por Empleado')
+
+  // Sheet 3: Incompletas
+  const errs = processedRecords.filter(r => r.error)
+  if (errs.length) {
+    const eRows = errs.map(r => ({ Empleado: r.empleado, Fecha: r.fecha, 'Fichadas del día': r.stamps.join(' | '), Observación: r.note||'' }))
+    XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(eRows), 'Fichadas Incompletas')
+  }
+
+  XLSX.writeFile(wb, 'fichada_procesada.xlsx')
+}
+
+function exportSimple() {
+  const empMap = new Map()
+  processedRecords.forEach(r => { if (r.horas > 0) empMap.set(r.empleado, (empMap.get(r.empleado)||0) + r.horas) })
+  const rows = [...empMap.entries()].sort((a,b) => a[0].localeCompare(b[0]))
+    .map(([Empleado, hrs]) => ({ Empleado, 'Horas Calculadas': Math.round(hrs*10)/10 }))
+  const wb = XLSX.utils.book_new()
+  XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(rows), 'Reporte de Asistencia')
+  XLSX.writeFile(wb, 'reporte_asistencia.xlsx')
+}
+
+// ═══════════════════════════════════════════════════════════════
+// STATUS HELPERS
+// ═══════════════════════════════════════════════════════════════
+function setStatus(msg) {
+  const s = document.getElementById('proc-status')
+  s.classList.remove('hidden')
+  document.getElementById('proc-status-text').textContent = msg
+}
+function clearStatus() {
+  document.getElementById('proc-status').classList.add('hidden')
+}
+
+// ═══════════════════════════════════════════════════════════════
+// TEMPLATE FILLER
+// ═══════════════════════════════════════════════════════════════
+let reportData = null, reportFile = null, templateWb = null, templateFile = null
+let nameMapping = {}, cachedNames = { report: [], template: [] }, employeeToRow = new Map(), dayToCol = new Map()
+
+function loadReport(e) {
+  const file = e.target.files[0]
+  if (!file) return
+  reportFile = file
+  document.getElementById('rpt-name').textContent = file.name
+  const reader = new FileReader()
+  reader.onload = ev => {
+    const wb = XLSX.read(ev.target.result)
+    reportData = XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]])
+    checkFillReady()
+  }
+  reader.readAsArrayBuffer(file)
+}
+
+function loadTemplate(e) {
+  templateFile = e.target.files[0]
+  if (!templateFile) return
+  document.getElementById('tpl-name').textContent = templateFile.name
+  const reader = new FileReader()
+  reader.onload = ev => {
+    templateWb = XLSX.read(ev.target.result, { type: 'array', cellStyles: true, cellNF: true, cellHTML: false })
+    checkFillReady()
+  }
+  reader.readAsArrayBuffer(templateFile)
+}
+
+function checkFillReady() {
+  document.getElementById('fill-btn').disabled = !(reportData && templateWb)
+}
+
+function normName(n) {
+  return String(n||'').trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z\s]/g,'')
+}
+
+function startFill() {
+  if (!reportData || !templateWb) return
+  document.getElementById('fill-status').classList.remove('hidden')
+  document.getElementById('fill-status-text').textContent = 'Analizando archivos...'
+
+  setTimeout(() => {
+    try {
+      // Get report names
+      const rptNames = [...new Set(reportData.map(r => String(r.Empleado||'').trim()).filter(Boolean))].sort()
+
+      // Parse template
+      const ws = templateWb.Sheets[templateWb.SheetNames[0]]
+      const range = XLSX.utils.decode_range(ws['!ref']||'A1')
+
+      // Find employee column
+      let empCol = -1
+      outer: for (let R = 0; R < Math.min(10, range.e.r); R++) {
+        for (let C = 0; C <= range.e.c; C++) {
+          const cell = ws[XLSX.utils.encode_cell({r:R,c:C})]
+          if (cell && typeof cell.v === 'string' && /nombre|apellido|empleado/i.test(cell.v)) {
+            empCol = C; break outer
+          }
+        }
+      }
+      if (empCol === -1) empCol = 1
+
+      // Get template names and row mapping
+      employeeToRow.clear()
+      const tplNames = []
+      for (let R = 0; R <= range.e.r; R++) {
+        const cell = ws[XLSX.utils.encode_cell({r:R,c:empCol})]
+        if (cell && typeof cell.v === 'string') {
+          const v = cell.v.trim()
+          if (v && v.length > 0 && !/^(entrada|salida|total|horas|fecha|dia)$/i.test(v)) {
+            employeeToRow.set(v, R)
+            tplNames.push(v)
+          }
+        }
+      }
+
+      // Get day→col mapping
+      dayToCol.clear()
+      for (let R = 0; R < Math.min(10, range.e.r); R++) {
+        for (let C = 0; C <= range.e.c; C++) {
+          const cell = ws[XLSX.utils.encode_cell({r:R,c:C})]
+          if (cell && cell.t === 'n' && cell.v >= 1 && cell.v <= 31) {
+            dayToCol.set(cell.v, C)
+          }
+        }
+        if (dayToCol.size > 15) break
+      }
+
+      if (!tplNames.length) throw new Error('No se encontraron nombres en la plantilla')
+      if (!rptNames.length) throw new Error('No se encontraron nombres en el reporte')
+
+      cachedNames = { report: rptNames, template: tplNames }
+
+      // Auto-match
+      nameMapping = {}
+      for (const tpl of tplNames) {
+        const nt = normName(tpl)
+        let best = null, bestScore = 0
+        for (const rpt of rptNames) {
+          const nr = normName(rpt)
+          if (nt === nr) { best = rpt; bestScore = 100; break }
+          const tw = nt.split(/\s+/).filter(w => w.length > 1)
+          const rw = nr.split(/\s+/).filter(w => w.length > 1)
+          let score = 0
+          for (const tw_ of tw) for (const rw_ of rw) {
+            if (tw_ === rw_) score += 30
+            else if (tw_.includes(rw_) || rw_.includes(tw_)) score += 12
+          }
+          if (score > bestScore && score >= 25) { bestScore = score; best = rpt }
+        }
+        nameMapping[tpl] = best
+      }
+
+      document.getElementById('fill-status').classList.add('hidden')
+      renderMappingReview(rptNames)
+    } catch(err) {
+      document.getElementById('fill-status').classList.add('hidden')
+      document.getElementById('fill-result').classList.remove('hidden')
+      document.getElementById('fill-result').innerHTML = `<div class="alert alert-error">❌ ${err.message}</div>`
+    }
+  }, 100)
+}
+
+function renderMappingReview(rptNames) {
+  const sec = document.getElementById('fill-mapping')
+  sec.classList.remove('hidden')
+  const rows = document.getElementById('mapping-rows')
+  rows.innerHTML = cachedNames.template.map(tpl => {
+    const matched = nameMapping[tpl] || ''
+    const opts = rptNames.map(n => `<option value="${n}" ${n===matched?'selected':''}>${n}</option>`).join('')
+    return `
+    <div class="mapping-row">
+      <span>${tpl}</span>
+      <span class="arrow">→</span>
+      <select onchange="nameMapping['${tpl.replace(/'/g,"\\'")}'] = this.value">
+        <option value="">-- Sin coincidencia --</option>
+        ${opts}
+      </select>
+    </div>`
+  }).join('')
+}
+
+function confirmFill() {
+  if (!reportData || !templateWb || !templateFile) return
+
+  document.getElementById('fill-result').classList.remove('hidden')
+  document.getElementById('fill-result').innerHTML = '<div class="alert alert-warning">⏳ Procesando...</div>'
+
+  try {
+    const ws = templateWb.Sheets[templateWb.SheetNames[0]]
+    const range = XLSX.utils.decode_range(ws['!ref'] || 'A1')
+
+    // day → column (fila 2, row index 1)
+    const localDayToCol = new Map()
+    for (let C = 0; C <= range.e.c; C++) {
+      const cell = ws[XLSX.utils.encode_cell({r:1, c:C})]
+      if (cell && (cell.t === 'n' || cell.t === 's')) {
+        const v = Number(cell.v)
+        if (v >= 1 && v <= 31) localDayToCol.set(v, C)
+      }
+    }
+
+    // nombre normalizado → fila (columna A, col index 0)
+    const nameToRow = new Map()
+    for (let R = 0; R <= range.e.r; R++) {
+      const cell = ws[XLSX.utils.encode_cell({r:R, c:0})]
+      if (cell && typeof cell.v === 'string') {
+        const v = cell.v.trim()
+        if (v && v.toUpperCase() !== 'EMPLEADO') nameToRow.set(normName(v), R)
+      }
+    }
+
+    // hours map: normName(emp) → Map(day → hours)
+    const hoursMap = new Map()
+    for (const rec of reportData) {
+      const emp = String(rec.Empleado||'').trim()
+      const fecha = String(rec.Fecha||'').trim()
+      const horas = parseFloat(rec['Horas Calculadas'])
+      if (!emp || !fecha || isNaN(horas) || horas <= 0) continue
+      const key = normName(emp)
+      if (!hoursMap.has(key)) hoursMap.set(key, new Map())
+      const day = parseInt(fecha.split('/')[0], 10)
+      hoursMap.get(key).set(day, horas)
+    }
+
+    let filled = 0, noMatch = []
+
+    for (const [tplName, rptName] of Object.entries(nameMapping)) {
+      if (!rptName) continue
+      const baseRow = nameToRow.get(normName(tplName))
+      if (baseRow === undefined) continue
+      const empHours = hoursMap.get(normName(rptName))
+      if (!empHours) { noMatch.push(rptName); continue }
+
+      for (const [day, horas] of empHours.entries()) {
+        const col = localDayToCol.get(day)
+        if (col === undefined) continue
+        const addr = XLSX.utils.encode_cell({r: baseRow, c: col})
+        const existing = ws[addr]
+        // Only update value, keep style intact
+        if (existing) {
+          existing.v = horas
+          existing.w = String(horas)
+          existing.t = 'n'
+          delete existing.f
+        } else {
+          ws[addr] = {t:'n', v:horas, w:String(horas)}
+        }
+        filled++
+      }
+    }
+
+    if (filled === 0) throw new Error('No se rellenó ninguna celda. Verificá que los nombres y fechas coincidan.')
+
+    const out = XLSX.write(templateWb, {bookType:'xlsx', type:'array'})
+    const blob = new Blob([out], {type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'})
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url; a.download = 'RELLENADO_' + templateFile.name; a.click()
+    URL.revokeObjectURL(url)
+
+    let msg = '✅ ¡Listo! Se rellenaron ' + filled + ' celdas.'
+    if (noMatch.length) msg += '<br><small style="opacity:.7">⚠ Sin coincidencia: ' + noMatch.join(', ') + '</small>'
+    document.getElementById('fill-result').innerHTML = '<div class="alert alert-success">' + msg + '</div>'
+    document.getElementById('fill-mapping').classList.add('hidden')
+
+  } catch(err) {
+    document.getElementById('fill-result').innerHTML = '<div class="alert alert-error">❌ ' + err.message + '</div>'
+  }
+}
+
+function cancelFill() {
+  document.getElementById('fill-mapping').classList.add('hidden')
+  document.getElementById('fill-result').classList.add('hidden')
+  reportData = null; reportFile = null; templateWb = null; templateFile = null
+  document.getElementById('rpt-name').textContent = 'Ningún archivo seleccionado'
+  document.getElementById('tpl-name').textContent = 'Ningún archivo seleccionado'
+  document.getElementById('rpt-input').value = ''
+  document.getElementById('tpl-input').value = ''
+  checkFillReady()
+}
+</script>
+
+<!-- ═══════════ PAGE 3: PROPINAS ═══════════ -->
+<style>
+.tips-team-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:0}
+.tips-emp-row{display:flex;justify-content:space-between;align-items:center;padding:.65rem 1.25rem;border-top:1px solid var(--border)}
+.tips-emp-row:hover{background:rgba(255,255,255,.02)}
+.tips-emp-amount{font-family:var(--mono);font-size:1rem;font-weight:700;color:var(--success)}
+.tips-emp-hours{font-family:var(--mono);font-size:.7rem;color:var(--muted);text-align:right}
+.tips-team-footer{padding:.65rem 1.25rem;border-top:1px solid var(--border);display:flex;justify-content:space-between;font-size:.75rem;color:var(--muted);font-family:var(--mono);background:var(--bg)}
+</style>
+
+<div id="page-tips" class="page">
+  <div class="card">
+    <div class="card-title">💰 Calculadora de Propinas</div>
+    <div class="card-desc">Subí el reporte de horas, ingresá el monto total y el sistema clasifica automáticamente: <strong>Cocina recibe 40%</strong> y <strong>Salón recibe 60%</strong>. El reparto dentro de cada equipo es proporcional a las horas trabajadas.</div>
+    <div class="two-col" style="margin-bottom:1rem">
+      <div>
+        <div style="font-size:.72rem;color:var(--muted);margin-bottom:.4rem;font-family:var(--mono)">ARCHIVO DE HORAS (.xlsx)</div>
+        <div class="drop-zone" style="padding:1.5rem;cursor:pointer" onclick="document.getElementById('tips-file').click()">
+          <input type="file" id="tips-file" accept=".xlsx" style="display:none" onchange="loadTipsFile(event)"/>
+          <div>📊 <span id="tips-file-name" style="font-size:.82rem">Ningún archivo seleccionado</span></div>
+        </div>
+      </div>
+      <div>
+        <div style="font-size:.72rem;color:var(--muted);margin-bottom:.4rem;font-family:var(--mono)">MONTO TOTAL DE PROPINAS ($)</div>
+        <input type="number" id="tips-total" placeholder="Ej: 1000000" min="0" oninput="checkTipsReady()"
+          style="width:100%;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);padding:.75rem 1rem;font-family:var(--mono);font-size:1.1rem;outline:none;margin-top:.25rem"/>
+        <div style="font-size:.72rem;color:var(--muted);margin-top:.4rem">Debe tener columnas "Empleado" y "Horas Calculadas"</div>
+      </div>
+    </div>
+    <button class="btn btn-primary" id="tips-btn" onclick="startTips()" disabled>✨ Clasificar y Calcular Propinas</button>
+    <div id="tips-alert" style="margin-top:.75rem"></div>
+  </div>
+
+  <div id="tips-review" class="card hidden">
+    <div class="card-title">👥 Revisá la Clasificación</div>
+    <div class="card-desc">Clasificación automática según las listas maestras. Corregí lo que sea necesario.</div>
+    <div class="table-wrap" style="margin-bottom:1rem">
+      <table>
+        <thead><tr>
+          <th class="col-name">Empleado</th>
+          <th style="text-align:center">Horas</th>
+          <th style="text-align:left">Equipo</th>
+          <th style="text-align:left;font-size:.68rem;color:var(--muted)">Motivo</th>
+        </tr></thead>
+        <tbody id="tips-class-rows"></tbody>
+      </table>
+    </div>
+    <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:1rem;margin-bottom:1rem">
+      <div style="font-size:.72rem;color:var(--muted);margin-bottom:.6rem;font-family:var(--mono)">+ AGREGAR EMPLEADO MANUAL</div>
+      <div class="manual-grid">
+        <div><label>NOMBRE</label><input type="text" id="tip-m-emp" placeholder="JUAN PEREZ" style="text-transform:uppercase"/></div>
+        <div><label>HORAS</label><input type="number" id="tip-m-horas" placeholder="40.5" min="0" step="0.5"/></div>
+        <div><label>EQUIPO</label>
+          <select id="tip-m-team" style="width:100%;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);padding:.5rem;font-family:var(--mono);font-size:.82rem;outline:none">
+            <option value="">Seleccionar...</option>
+            <option value="cocina">🍳 Cocina</option>
+            <option value="salon">🍷 Salón</option>
+          </select>
+        </div>
+        <div></div>
+        <div><label>&nbsp;</label><button class="btn btn-ghost" onclick="addTipEmployee()">+ Agregar</button></div>
+      </div>
+    </div>
+    <div class="flex gap-3">
+      <button class="btn btn-success" onclick="calculateTips()">💰 Confirmar y Calcular</button>
+      <button class="btn btn-ghost" onclick="resetTips()">Cancelar</button>
+    </div>
+  </div>
+
+  <div id="tips-results" class="hidden">
+    <div id="tips-results-inner" style="display:flex;flex-direction:column;gap:1.25rem"></div>
+    <div class="flex gap-3 wrap" style="margin-top:1rem">
+      <button class="btn btn-ghost" onclick="resetTips()">↩ Empezar de nuevo</button>
+      <button class="btn btn-success" onclick="exportTipsPDF()">⬇ Exportar PDF</button>
+      <button class="btn btn-primary" onclick="exportTipsXLSX()">⬇ Exportar Excel</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════════════
+// PROPINAS
+// ═══════════════════════════════════════════════════════════════
+const COCINA_NAMES = ['Nahuel Baldiviezo','Facu Viera','Facundo Viera','Marcela Musmanno','Gisel Vallejos','Angel Sachett','Miguel Sachett','Alan Toledo','Leandro Gimenez','Cristina Canales','Giuseppe Rivas','Carlos Bergera','Martin Luis Cajal','Carolina Gamarra','Camila Inda','Rodrigo Alfaro','Ricardo Chapa']
+const SALON_NAMES  = ['Bruno Molina','LOPEZ IGNACIO','Leonel Schroeder','Lazarte Lautaro','Luciano Pelizardi','Marcos Brantua','Paz Rave','Rave Paz','Valentina Genovese','Ornella Fernandez','Valentina Morinigo','Lara Comastri','Silvia Gregorio','Agüero Gisel','Nadia Sofia Cabo','Camila Gassmann','Agustina Zubillaga','Ailen Schroeder','Rosa Juarez','Nadia Soler','Candela Gomez','Jazmin Rodriguez','Zoe Fraga','Estefania Petroselli','Zulma Aguilar','Enzo Espino']
+
+let tipsEmps = [], tipsTotalAmt = 0, tipsResultsData = []
+
+function normTip(s){return String(s||'').trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z\s]/g,'')}
+
+function classifyName(name){
+  const n = normTip(name)
+  const words = n.split(/\s+/).filter(w=>w.length>1)
+  let best={team:'unclassified',score:0,reason:'Sin coincidencia en listas maestras'}
+  for(const list of [{names:COCINA_NAMES,team:'cocina'},{names:SALON_NAMES,team:'salon'}]){
+    for(const master of list.names){
+      const m=normTip(master)
+      if(n===m)return{team:list.team,confidence:1,reason:'Coincidencia exacta con "'+master+'"'}
+      const mw=m.split(/\s+/).filter(w=>w.length>1)
+      let matches=0
+      for(const w of words)for(const mw_ of mw)if(w===mw_||w.includes(mw_)||mw_.includes(w)){matches++;break}
+      const score=matches/Math.max(words.length,mw.length)
+      if(matches>=1&&score>best.score)best={team:list.team,score,confidence:score,reason:'Coincidencia parcial con "'+master+'"'}
+    }
+  }
+  return{team:best.team,confidence:best.score,reason:best.reason}
+}
+
+function checkTipsReady(){
+  const btn=document.getElementById('tips-btn')
+  if(btn)btn.disabled=!(tipsEmps.length>0&&parseFloat(document.getElementById('tips-total').value||0)>0)
+}
+
+function loadTipsFile(e){
+  const file=e.target.files[0]; if(!file)return
+  document.getElementById('tips-file-name').textContent=file.name
+  const reader=new FileReader()
+  reader.onload=ev=>{
+    try{
+      const wb=XLSX.read(ev.target.result)
+      const rows=XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]])
+      if(!rows.length)throw new Error('Archivo vacío')
+      if(!('Empleado' in rows[0])||!('Horas Calculadas' in rows[0]))
+        throw new Error('Necesita columnas "Empleado" y "Horas Calculadas". Usá el reporte de la pestaña Procesar Fichadas.')
+      const map=new Map()
+      for(const r of rows){const name=String(r['Empleado']||'').trim();const h=parseFloat(r['Horas Calculadas']);if(name&&h>0)map.set(name,(map.get(name)||0)+h)}
+      tipsEmps=[...map.entries()].map(([name,hours])=>{const cl=classifyName(name);return{name,hours,team:cl.team,confidence:cl.confidence,reason:cl.reason}})
+      checkTipsReady()
+    }catch(err){
+      const al=document.getElementById('tips-alert')
+      if(al)al.innerHTML='<div class="alert alert-error">'+err.message+'</div>'
+      tipsEmps=[]; checkTipsReady()
+    }
+  }
+  reader.readAsArrayBuffer(file)
+}
+
+function startTips(){
+  tipsTotalAmt=parseFloat(document.getElementById('tips-total').value)||0
+  if(!tipsEmps.length||tipsTotalAmt<=0)return
+  renderClassTable()
+  document.getElementById('tips-review').classList.remove('hidden')
+  document.getElementById('tips-review').scrollIntoView({behavior:'smooth'})
+}
+
+function renderClassTable(){
+  const tbody=document.getElementById('tips-class-rows')
+  tbody.innerHTML=tipsEmps.map((emp,i)=>{
+    const opts=['cocina','salon','unclassified'].map(t=>`<option value="${t}"${emp.team===t?' selected':''}>${t==='cocina'?'🍳 Cocina':t==='salon'?'🍷 Salón':'❓ Sin clasificar'}</option>`).join('')
+    const cc=emp.confidence>0.7?'var(--success)':emp.confidence>0.3?'var(--accent2)':'var(--danger)'
+    return`<tr><td class="col-name" style="cursor:default">${emp.name}</td><td style="text-align:center;font-family:var(--mono)">${emp.hours.toFixed(1)}</td><td><select style="background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);padding:.35rem .5rem;font-size:.78rem;font-family:var(--mono);outline:none" onchange="tipsEmps[${i}].team=this.value">${opts}</select></td><td style="font-size:.7rem;color:${cc};font-family:var(--mono)">${emp.reason}</td></tr>`
+  }).join('')
+}
+
+function addTipEmployee(){
+  const name=document.getElementById('tip-m-emp').value.trim().toUpperCase()
+  const hours=parseFloat(document.getElementById('tip-m-horas').value)
+  const team=document.getElementById('tip-m-team').value
+  if(!name||!hours||!team)return alert('Completá nombre, horas y equipo')
+  tipsEmps.push({name,hours,team,confidence:1,reason:'Agregado manualmente'})
+  document.getElementById('tip-m-emp').value=''
+  document.getElementById('tip-m-horas').value=''
+  document.getElementById('tip-m-team').value=''
+  renderClassTable()
+}
+
+function calculateTips(){
+  const unc=tipsEmps.filter(e=>e.team==='unclassified')
+  if(unc.length&&!confirm(unc.length+' empleado(s) sin clasificar serán ignorados. ¿Continuar?'))return
+  const cocina=tipsEmps.filter(e=>e.team==='cocina')
+  const salon=tipsEmps.filter(e=>e.team==='salon')
+  const hC=cocina.reduce((s,e)=>s+e.hours,0), hS=salon.reduce((s,e)=>s+e.hours,0)
+  const pC=tipsTotalAmt*0.4, pS=tipsTotalAmt*0.6
+  tipsResultsData=[
+    {name:'Cocina',emoji:'🍳',color:'#f97316',totalHours:hC,pool:pC,employees:cocina.map(e=>({...e,tip:hC?(e.hours/hC)*pC:0})).sort((a,b)=>b.tip-a.tip)},
+    {name:'Salón', emoji:'🍷',color:'#3b82f6',totalHours:hS,pool:pS,employees:salon.map(e=>({...e,tip:hS?(e.hours/hS)*pS:0})).sort((a,b)=>b.tip-a.tip)},
+  ]
+  renderTipsResults()
+  document.getElementById('tips-review').classList.add('hidden')
+  document.getElementById('tips-results').classList.remove('hidden')
+  document.getElementById('tips-results').scrollIntoView({behavior:'smooth'})
+}
+
+function fmtP(n){return'$'+n.toLocaleString('es-AR',{minimumFractionDigits:2})}
+
+function renderTipsResults(){
+  const c=document.getElementById('tips-results-inner')
+  const summaryCards=tipsResultsData.map(t=>`<div style="text-align:center;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:.75rem 1.25rem"><div style="font-size:1.2rem">${t.emoji}</div><div style="font-size:.72rem;color:var(--muted);font-family:var(--mono)">${t.name.toUpperCase()}</div><div style="font-family:var(--mono);font-size:1rem;font-weight:700;color:${t.color}">${fmtP(t.pool)}</div><div style="font-size:.7rem;color:var(--muted)">${t.employees.length} empl · ${t.totalHours.toFixed(1)}h</div></div>`).join('')
+  let html=`<div class="card" style="background:var(--bg);border-color:var(--success)"><div class="flex items-center justify-between wrap gap-3"><div><div style="font-size:.72rem;color:var(--muted);font-family:var(--mono)">MONTO TOTAL DISTRIBUIDO</div><div style="font-family:var(--mono);font-size:2rem;font-weight:700;color:var(--success)">${fmtP(tipsTotalAmt)}</div></div><div class="flex gap-3 wrap">${summaryCards}</div></div></div>`
+  for(const t of tipsResultsData){
+    if(!t.employees.length)continue
+    const rows=t.employees.map(e=>`<div class="tips-emp-row"><span style="font-size:.85rem;font-weight:500">${e.name}</span><div style="text-align:right"><div class="tips-emp-amount">${fmtP(e.tip)}</div><div class="tips-emp-hours">${e.hours.toFixed(1)} hs trabajadas</div></div></div>`).join('')
+    const bgRgb=t.color==='#f97316'?'249,115,22':'59,130,246'
+    html+=`<div class="tips-team-card"><div style="padding:1rem 1.25rem;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border);background:rgba(${bgRgb},.06)"><div style="font-size:1rem;font-weight:700;color:${t.color}">${t.emoji} ${t.name}</div><div style="text-align:right"><div style="font-size:.7rem;color:var(--muted);font-family:var(--mono)">POZO DEL EQUIPO</div><div style="font-size:1.5rem;font-weight:700;font-family:var(--mono);color:var(--success)">${fmtP(t.pool)}</div></div></div>${rows}<div class="tips-team-footer"><span>TOTAL HORAS EQUIPO</span><span>${t.totalHours.toFixed(1)} hs</span></div></div>`
+  }
+  c.innerHTML=html
+}
+
+function resetTips(){
+  tipsEmps=[];tipsTotalAmt=0;tipsResultsData=[]
+  document.getElementById('tips-file-name').textContent='Ningún archivo seleccionado'
+  document.getElementById('tips-file').value=''
+  document.getElementById('tips-total').value=''
+  document.getElementById('tips-review').classList.add('hidden')
+  document.getElementById('tips-results').classList.add('hidden')
+  document.getElementById('tips-results-inner').innerHTML=''
+  const btn=document.getElementById('tips-btn');if(btn)btn.disabled=true
+}
+
+function exportTipsPDF(){
+  if(!tipsResultsData.length)return
+  const today=new Date().toLocaleDateString('es-AR')
+  try{
+    const doc=new jsPDF()
+    const pw=doc.internal.pageSize.getWidth();let y=20
+    doc.setFontSize(16);doc.setFont('helvetica','bold');doc.text('REPORTE DE PROPINAS',pw/2,y,{align:'center'});y+=10
+    doc.setFontSize(9);doc.setFont('helvetica','normal');doc.text('Fecha: '+today,pw/2,y,{align:'center'});y+=8
+    doc.setFontSize(13);doc.setFont('helvetica','bold');doc.text('Monto Total: '+fmtP(tipsTotalAmt),pw/2,y,{align:'center'});y+=14
+    for(const t of tipsResultsData){
+      if(!t.employees.length)continue
+      if(y>265){doc.addPage();y=20}
+      doc.setFontSize(12);doc.setFont('helvetica','bold');doc.text(t.name.toUpperCase(),15,y);y+=7
+      doc.setFontSize(9);doc.setFont('helvetica','normal');doc.text('Pozo: '+fmtP(t.pool)+'   |   Horas: '+t.totalHours.toFixed(1)+' hs',15,y);y+=8
+      doc.line(15,y-2,pw-15,y-2)
+      for(const emp of t.employees){
+        if(y>275){doc.addPage();y=20}
+        doc.text(emp.name,15,y);doc.text(fmtP(emp.tip),pw-15,y,{align:'right'})
+        doc.setTextColor(150);doc.text(emp.hours.toFixed(1)+' hs',pw-55,y,{align:'right'});doc.setTextColor(0)
+        y+=6
+      }
+      y+=8
+    }
+    doc.save('propinas_'+today.replace(/\//g,'-')+'.pdf')
+  }catch(e){
+    // fallback texto plano
+    let txt='REPORTE DE PROPINAS\nFecha: '+today+'\nMonto Total: '+fmtP(tipsTotalAmt)+'\n\n'
+    for(const t of tipsResultsData){txt+=t.name.toUpperCase()+'\nPozo: '+fmtP(t.pool)+'\n';for(const e of t.employees)txt+='  '+e.name.padEnd(30)+fmtP(e.tip)+'  ('+e.hours.toFixed(1)+' hs)\n';txt+='\n'}
+    const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([txt],{type:'text/plain'}));a.download='propinas_'+today.replace(/\//g,'-')+'.txt';a.click()
+  }
+}
+
+function exportTipsXLSX(){
+  if(!tipsResultsData.length)return
+  const today=new Date().toLocaleDateString('es-AR')
+  const wb=XLSX.utils.book_new()
+  const rows=[]
+  for(const t of tipsResultsData)for(const e of t.employees)rows.push({'Equipo':t.name,'Empleado':e.name,'Horas':e.hours,'Propina ($)':Math.round(e.tip*100)/100})
+  XLSX.utils.book_append_sheet(wb,XLSX.utils.json_to_sheet(rows),'Reparto Propinas')
+  const res=tipsResultsData.map(t=>({'Equipo':t.name,'Pozo ($)':Math.round(t.pool*100)/100,'Total Horas':t.totalHours,'% del Total':t.name==='Cocina'?'40%':'60%'}))
+  XLSX.utils.book_append_sheet(wb,XLSX.utils.json_to_sheet(res),'Resumen')
+  XLSX.writeFile(wb,'propinas_'+today.replace(/\//g,'-')+'.xlsx')
+}
+<\/script>
+
+</body>
+</html>
