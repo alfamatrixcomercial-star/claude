@@ -1,613 +1,469 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
 <title>Fichadas · Mirador Waikiki</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@1,6..96,500&family=IBM+Plex+Mono:wght@400;500&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg:       #0e1117;
-    --surface:  #161b27;
-    --border:   #232b3e;
-    --accent:   #3b82f6;
-    --accent2:  #f59e0b;
-    --danger:   #ef4444;
-    --success:  #22c55e;
-    --split:    #8b5cf6;
-    --text:     #e2e8f0;
-    --muted:    #64748b;
-    --mono:     'DM Mono', monospace;
-    --sans:     'DM Sans', sans-serif;
+/* Layout: barra de marca con los 3 pasos; una columna de trabajo de 1240px; la grilla de horas es la pieza central */
+:root {
+  --bg: #f1f3ec;
+  --surface: #ffffff;
+  --surface-2: #e8ece2;
+  --border: #d4dacb;
+  --border-strong: #b5bfa9;
+  --text: #10281f;
+  --muted: #55665c;
+  --ink: #0f2a20;
+  --ink-text: #f1f3ec;
+  --accent: #2c7849;
+  --accent-text: #ffffff;
+  --accent-soft: #dfede2;
+  --split: #336a6f;
+  --split-soft: #dceaea;
+  --danger: #a5412b;
+  --danger-soft: #f6e1d9;
+  --warn: #875b0b;
+  --warn-soft: #f3e5c5;
+  --success: #2c7849;
+  --accent2: #875b0b;
+  --cocina: #96593f;
+  --salon: #336a6f;
+  --shadow: 0 1px 2px rgb(16 40 31 / .05), 0 6px 20px rgb(16 40 31 / .06);
+  --display: 'Bodoni Moda', 'Didot', Georgia, serif;
+  --sans: 'Poppins', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --mono: 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+  --radius: 10px;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0a1c17; --surface: #0f261f; --surface-2: #0c211b; --border: #1e3b32; --border-strong: #2e5549;
+    --text: #e5eee8; --muted: #95ab9f; --ink: #e5eee8; --ink-text: #0a1c17;
+    --accent: #7bcf9b; --accent-text: #05231a; --accent-soft: rgb(123 207 155 / .13);
+    --split: #8ecbce; --split-soft: rgb(142 203 206 / .14);
+    --danger: #f19b85; --danger-soft: rgb(241 155 133 / .2);
+    --warn: #eec069; --warn-soft: rgb(238 192 105 / .13);
+    --success: #7bcf9b; --accent2: #eec069; --cocina: #e4b49c; --salon: #8ecbce;
+    --shadow: 0 1px 2px rgb(0 0 0 / .25);
+    color-scheme: dark;
   }
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+}
+:root[data-theme="dark"] {
+  --bg: #0a1c17; --surface: #0f261f; --surface-2: #0c211b; --border: #1e3b32; --border-strong: #2e5549;
+  --text: #e5eee8; --muted: #95ab9f; --ink: #e5eee8; --ink-text: #0a1c17;
+  --accent: #7bcf9b; --accent-text: #05231a; --accent-soft: rgb(123 207 155 / .13);
+  --split: #8ecbce; --split-soft: rgb(142 203 206 / .14);
+  --danger: #f19b85; --danger-soft: rgb(241 155 133 / .2);
+  --warn: #eec069; --warn-soft: rgb(238 192 105 / .13);
+  --success: #7bcf9b; --accent2: #eec069; --cocina: #e4b49c; --salon: #8ecbce;
+  --shadow: 0 1px 2px rgb(0 0 0 / .25);
+  color-scheme: dark;
+}
 
-  body {
-    font-family: var(--sans);
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-    padding: 0;
-  }
+*, *::before, *::after { box-sizing: border-box; }
+body { margin: 0; font-family: var(--sans); font-size: 14px; line-height: 1.5; background: var(--bg); color: var(--text); -webkit-font-smoothing: antialiased; }
+button, input, select { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.i { width: 1.15em; height: 1.15em; flex: none; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
 
-  /* ── HEADER ─────────────────────────────── */
-  header {
-    background: var(--surface);
-    border-bottom: 1px solid var(--border);
-    padding: 0 2rem;
-    height: 56px;
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-  }
-  header .logo {
-    font-family: var(--mono);
-    font-size: .85rem;
-    font-weight: 500;
-    color: var(--accent);
-    letter-spacing: .1em;
-    text-transform: uppercase;
-  }
-  header .logo span { color: var(--muted); }
-  header nav { display: flex; gap: .25rem; margin-left: 2rem; }
-  header nav button {
-    font-family: var(--sans);
-    font-size: .8rem;
-    font-weight: 500;
-    background: none;
-    border: none;
-    color: var(--muted);
-    cursor: pointer;
-    padding: .35rem .85rem;
-    border-radius: 6px;
-    transition: all .15s;
-  }
-  header nav button.active,
-  header nav button:hover { color: var(--text); background: var(--border); }
+/* ── Barra superior ── */
+.topbar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: var(--surface); border-bottom: 1px solid var(--border); }
+.topbar-in { max-width: 1240px; margin: 0 auto; padding: .7rem 1.25rem; display: flex; align-items: center; gap: 1.25rem; flex-wrap: wrap; }
+.brand { display: flex; flex-direction: column; line-height: 1.1; margin-right: auto; }
+.brand-name { font-family: var(--display); font-style: italic; font-weight: 500; font-size: 1.45rem; letter-spacing: -.01em; color: var(--ink); }
+.brand-sub { font-size: .68rem; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); margin-top: .2rem; }
+.steps { display: flex; gap: .25rem; background: var(--surface-2); padding: .25rem; border-radius: 999px; overflow-x: auto; }
+.steps button { display: inline-flex; align-items: center; gap: .5rem; border: 0; background: none; cursor: pointer; padding: .45rem 1rem .45rem .5rem; border-radius: 999px; font-size: .84rem; font-weight: 500; color: var(--muted); white-space: nowrap; transition: background-color .18s, color .18s; }
+.steps button:hover { color: var(--text); }
+.steps button.active { background: var(--surface); color: var(--text); box-shadow: var(--shadow); }
+.step-n { display: inline-grid; place-items: center; width: 1.45rem; height: 1.45rem; border-radius: 50%; font-family: var(--mono); font-size: .72rem; border: 1px solid var(--border-strong); }
+.steps button.active .step-n { background: var(--ink); color: var(--ink-text); border-color: var(--ink); }
+.theme-toggle { display: inline-grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--border); background: var(--surface); color: var(--muted); cursor: pointer; transition: color .18s, border-color .18s; }
+.theme-toggle:hover { color: var(--text); border-color: var(--border-strong); }
+.theme-toggle .i-moon { display: none; }
+:root[data-eff="dark"] .theme-toggle .i-moon { display: block; }
+:root[data-eff="dark"] .theme-toggle .i-sun { display: none; }
 
-  /* ── MAIN ────────────────────────────────── */
-  main { max-width: 1300px; margin: 0 auto; padding: 2rem; }
+/* ── Estructura ── */
+main { max-width: 1240px; margin: 0 auto; padding-block: 1.75rem 3rem; padding-inline: 1.25rem; }
+.page { display: none; }
+.page.active { display: flex; flex-direction: column; gap: 1.25rem; animation: rise .22s ease-out; }
+@keyframes rise { from { opacity: .4; transform: translateY(4px); } to { opacity: 1; transform: none; } }
 
-  /* ── PAGES ───────────────────────────────── */
-  .page { display: none; animation: fadeIn .2s ease; }
-  .page.active { display: block; }
-  @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.35rem 1.5rem; min-width: 0; }
+.card-title { display: flex; align-items: center; gap: .55rem; font-size: 1rem; font-weight: 600; margin: 0 0 .3rem; text-wrap: balance; }
+.card-title .i { color: var(--muted); }
+.card-desc { font-size: .84rem; color: var(--muted); margin: 0 0 1.1rem; max-width: 70ch; }
 
-  /* ── CARDS ───────────────────────────────── */
-  .card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 1.5rem;
-    margin-bottom: 1.25rem;
-  }
-  .card-title {
-    font-size: .95rem;
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    gap: .5rem;
-    margin-bottom: .35rem;
-  }
-  .card-desc {
-    font-size: .8rem;
-    color: var(--muted);
-    margin-bottom: 1.25rem;
-    line-height: 1.5;
-  }
+/* ── Carga de archivo ── */
+.drop-zone { position: relative; border: 1.5px dashed var(--border-strong); border-radius: var(--radius); padding: 2.4rem 1.5rem; text-align: center; cursor: pointer; background: var(--surface-2); transition: border-color .18s, background-color .18s; }
+.drop-zone:hover, .drop-zone.dragover { border-color: var(--accent); background: var(--accent-soft); }
+.drop-zone.compact { padding: 1rem 1.25rem; }
+.drop-zone.compact .drop-icon, .drop-zone.compact .formats { display: none; }
+.drop-zone input[type=file] { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; }
+.drop-icon { display: inline-grid; place-items: center; width: 3rem; height: 3rem; border-radius: 50%; background: var(--surface); color: var(--accent); border: 1px solid var(--border); margin-bottom: .75rem; }
+.drop-icon .i { width: 1.4rem; height: 1.4rem; }
+.drop-zone p { margin: 0; font-size: .88rem; color: var(--muted); }
+.drop-zone p strong { color: var(--text); font-weight: 600; }
+.drop-zone .formats { font-family: var(--mono); font-size: .74rem; margin-top: .35rem; }
+.file-pick { display: flex; align-items: center; gap: .6rem; justify-content: center; padding: 1.2rem 1rem; font-size: .84rem; }
+.file-pick .i { color: var(--muted); }
 
-  /* ── DROP ZONE ───────────────────────────── */
-  .drop-zone {
-    border: 2px dashed var(--border);
-    border-radius: 10px;
-    padding: 3rem 2rem;
-    text-align: center;
-    cursor: pointer;
-    transition: all .2s;
-    position: relative;
-  }
-  .drop-zone:hover, .drop-zone.dragover {
-    border-color: var(--accent);
-    background: rgba(59,130,246,.05);
-  }
-  .drop-zone input[type=file] {
-    position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%;
-  }
-  .drop-zone .drop-icon { font-size: 2.5rem; margin-bottom: .75rem; }
-  .drop-zone p { font-size: .85rem; color: var(--muted); }
-  .drop-zone p strong { color: var(--text); }
+.rules { list-style: none; margin: 1.1rem 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: .5rem; }
+.rules li { display: inline-flex; align-items: baseline; gap: .45rem; padding: .35rem .7rem; border: 1px solid var(--border); border-radius: 6px; font-size: .76rem; background: var(--surface); }
+.rule-k { color: var(--muted); }
+.rule-v { font-family: var(--mono); font-weight: 500; color: var(--text); }
 
-  /* ── BUTTONS ─────────────────────────────── */
-  .btn {
-    display: inline-flex;
-    align-items: center;
-    gap: .4rem;
-    font-family: var(--sans);
-    font-size: .82rem;
-    font-weight: 600;
-    border: none;
-    border-radius: 7px;
-    padding: .55rem 1.1rem;
-    cursor: pointer;
-    transition: all .15s;
-    white-space: nowrap;
-  }
-  .btn-primary { background: var(--accent); color: #fff; }
-  .btn-primary:hover { background: #2563eb; }
-  .btn-success { background: var(--success); color: #fff; }
-  .btn-success:hover { background: #16a34a; }
-  .btn-ghost {
-    background: var(--border);
-    color: var(--text);
-  }
-  .btn-ghost:hover { background: #2d3748; }
-  .btn-danger { background: var(--danger); color: #fff; }
-  .btn-danger:hover { background: #dc2626; }
-  .btn-split { background: var(--split); color: #fff; }
-  .btn:disabled { opacity: .45; cursor: not-allowed; }
-  .btn-sm { font-size: .75rem; padding: .4rem .8rem; }
+/* ── Botones ── */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: .45rem; min-height: 40px; font-size: .84rem; font-weight: 500; border: 1px solid transparent; border-radius: 8px; padding: .5rem 1.05rem; cursor: pointer; white-space: nowrap; transition: background-color .18s, border-color .18s, color .18s, opacity .18s; }
+.btn-primary { background: var(--ink); color: var(--ink-text); }
+.btn-primary:hover { opacity: .88; }
+.btn-success { background: var(--accent); color: var(--accent-text); }
+.btn-success:hover { opacity: .88; }
+.btn-ghost { background: var(--surface); color: var(--text); border-color: var(--border); }
+.btn-ghost:hover { border-color: var(--border-strong); background: var(--surface-2); }
+.btn-danger { background: var(--danger); color: var(--surface); }
+.btn:disabled { opacity: .4; cursor: not-allowed; }
+.btn-sm { min-height: 34px; font-size: .78rem; padding: .35rem .75rem; }
 
-  /* ── BADGES ──────────────────────────────── */
-  .badge {
-    display: inline-flex;
-    align-items: center;
-    gap: .3rem;
-    font-family: var(--mono);
-    font-size: .72rem;
-    padding: .2rem .6rem;
-    border-radius: 999px;
-    font-weight: 500;
-  }
-  .badge-blue   { background: rgba(59,130,246,.15);  color: #60a5fa; border: 1px solid rgba(59,130,246,.3); }
-  .badge-yellow { background: rgba(245,158,11,.12);  color: #fbbf24; border: 1px solid rgba(245,158,11,.3); }
-  .badge-red    { background: rgba(239,68,68,.12);   color: #f87171; border: 1px solid rgba(239,68,68,.3); }
-  .badge-green  { background: rgba(34,197,94,.12);   color: #4ade80; border: 1px solid rgba(34,197,94,.3); }
-  .badge-purple { background: rgba(139,92,246,.12);  color: #a78bfa; border: 1px solid rgba(139,92,246,.3); }
-  .badge-gray   { background: rgba(100,116,139,.12); color: #94a3b8; border: 1px solid rgba(100,116,139,.3); }
-  .badge-amber  { background: rgba(245,158,11,.12); color: #fbbf24; border: 1px solid rgba(245,158,11,.3); }
+/* ── Etiquetas ── */
+.badge { display: inline-flex; align-items: center; gap: .3rem; font-family: var(--mono); font-size: .72rem; font-weight: 500; padding: .15rem .55rem; border-radius: 999px; white-space: nowrap; border: 1px solid transparent; }
+.badge-red    { background: var(--danger-soft); color: var(--danger); }
+.badge-purple { background: var(--split-soft); color: var(--split); }
+.badge-amber, .badge-yellow { background: var(--warn-soft); color: var(--warn); }
+.badge-gray   { background: var(--surface-2); color: var(--muted); border-color: var(--border); }
+.badge-green, .badge-blue { background: var(--accent-soft); color: var(--accent); }
 
-  /* ── STATS ROW ───────────────────────────── */
-  .stats-row {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: .75rem;
-    margin: 1.25rem 0;
-  }
-  .stat-box {
-    background: var(--bg);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 1rem;
-    text-align: center;
-  }
-  .stat-box .stat-val { font-family: var(--mono); font-size: 1.6rem; font-weight: 500; }
-  .stat-box .stat-lbl { font-size: .72rem; color: var(--muted); margin-top: .2rem; }
+/* ── Resumen ── */
+.stats-row { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+.stat-box { padding: 1rem 1.25rem; border-left: 1px solid var(--border); }
+.stat-box:first-child { border-left: 0; }
+.stat-val { font-family: var(--mono); font-size: 1.75rem; font-weight: 500; line-height: 1.1; font-variant-numeric: tabular-nums; }
+.stat-lbl { font-size: .74rem; color: var(--muted); margin-top: .25rem; }
+.stat-split .stat-val { color: var(--split); }
+.stat-danger .stat-val { color: var(--danger); }
 
-  /* ── TABLE ───────────────────────────────── */
-  .table-wrap { overflow-x: auto; border-radius: 10px; border: 1px solid var(--border); }
-  table { border-collapse: collapse; width: 100%; font-size: .78rem; }
-  thead th {
-    background: var(--bg);
-    padding: .6rem .75rem;
-    text-align: center;
-    font-family: var(--mono);
-    font-size: .7rem;
-    font-weight: 500;
-    color: var(--muted);
-    white-space: nowrap;
-    border-bottom: 1px solid var(--border);
-    position: sticky;
-    top: 0;
-    z-index: 5;
-  }
-  thead th.col-name { text-align: left; position: sticky; left: 0; z-index: 10; min-width: 160px; }
-  thead th.col-total { background: rgba(59,130,246,.1); color: var(--accent); }
-  tbody tr:hover td { background: rgba(255,255,255,.025); }
-  tbody td {
-    padding: .5rem .6rem;
-    text-align: center;
-    border-bottom: 1px solid rgba(35,43,62,.6);
-    font-family: var(--mono);
-    font-size: .75rem;
-    white-space: nowrap;
-    cursor: pointer;
-  }
-  tbody td.col-name {
-    text-align: left;
-    position: sticky;
-    left: 0;
-    background: var(--surface);
-    font-family: var(--sans);
-    font-size: .78rem;
-    font-weight: 500;
-    z-index: 4;
-    cursor: default;
-  }
-  tbody td.col-total {
-    font-weight: 700;
-    color: var(--accent);
-    background: rgba(59,130,246,.05);
-    cursor: default;
-  }
-  td.cell-empty { color: #2d3748; cursor: pointer; }
-  td.cell-empty:hover { background: rgba(59,130,246,.08) !important; color: var(--muted); }
-  td.cell-ok:hover { background: rgba(59,130,246,.1) !important; }
-  td.cell-split { color: #c4b5fd; background: rgba(139,92,246,.18) !important; font-weight: 600; }
-  td.cell-split:hover { background: rgba(139,92,246,.3) !important; }
-  td.cell-error { color: #f87171; }
-  td.cell-error:hover { background: rgba(239,68,68,.1) !important; }
-  td.cell-long { color: #fbbf24; box-shadow: inset 0 0 0 1px rgba(245,158,11,.45); }
-  td.cell-selected { background: rgba(245,158,11,.12) !important; outline: 2px solid var(--accent2); outline-offset: -2px; }
+/* ── Grilla de horas ── */
+.table-wrap { overflow: auto; max-height: 70vh; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); }
+table { border-collapse: separate; border-spacing: 0; width: 100%; font-size: .8rem; }
+thead th { position: sticky; top: 0; z-index: 5; background: var(--surface-2); padding: .55rem .5rem; text-align: center; font-family: var(--mono); font-size: .7rem; font-weight: 500; color: var(--muted); white-space: nowrap; border-bottom: 1px solid var(--border); }
+thead th.col-name { text-align: left; left: 0; z-index: 10; min-width: 170px; padding-left: .9rem; font-family: var(--sans); letter-spacing: .06em; text-transform: uppercase; font-size: .66rem; }
+thead th.col-total { color: var(--text); }
+tbody td { padding: .45rem .5rem; text-align: center; border-bottom: 1px solid var(--border); font-family: var(--mono); font-size: .76rem; white-space: nowrap; cursor: pointer; font-variant-numeric: tabular-nums; transition: background-color .12s; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:hover td { background: var(--surface-2); }
+tbody td.col-name { position: sticky; left: 0; z-index: 4; text-align: left; background: var(--surface); font-family: var(--sans); font-size: .8rem; font-weight: 500; padding-left: .9rem; cursor: default; border-right: 1px solid var(--border); }
+tbody tr:hover td.col-name { background: var(--surface-2); }
+tbody td.col-total { font-weight: 600; cursor: default; border-left: 1px solid var(--border); }
+td.cell-empty { color: var(--border-strong); }
+td.cell-empty:hover { color: var(--accent); background: var(--accent-soft) !important; }
+td.cell-ok:hover { background: var(--accent-soft) !important; }
+td.cell-split { color: var(--split); background: var(--split-soft); font-weight: 500; }
+td.cell-error { color: var(--danger); background: var(--danger-soft); font-weight: 600; }
+td.cell-long { color: var(--warn); box-shadow: inset 0 0 0 1.5px var(--warn); }
+td.cell-selected { box-shadow: inset 0 0 0 2px var(--ink) !important; }
 
-  /* ── EDIT PANEL ──────────────────────────── */
-  #edit-panel {
-    background: var(--bg);
-    border: 1px solid var(--accent2);
-    border-radius: 10px;
-    padding: 1.25rem;
-    margin-top: 1rem;
-    display: none;
-  }
-  #edit-panel.open { display: block; animation: fadeIn .15s ease; }
-  #edit-panel h4 { font-size: .85rem; font-weight: 600; margin-bottom: .75rem; display: flex; align-items: center; gap: .5rem; flex-wrap: wrap; }
-  .edit-row { display: grid; grid-template-columns: 1fr 1fr auto; gap: .75rem; align-items: end; }
-  .field label { display: block; font-size: .72rem; color: var(--muted); margin-bottom: .3rem; font-family: var(--mono); }
-  .field input[type=time] {
-    width: 100%;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    color: var(--text);
-    padding: .5rem .75rem;
-    font-family: var(--mono);
-    font-size: .85rem;
-    outline: none;
-    transition: border-color .15s;
-  }
-  .field input[type=time]:focus { border-color: var(--accent); }
-  .turno-info {
-    background: rgba(139,92,246,.08);
-    border: 1px solid rgba(139,92,246,.25);
-    border-radius: 8px;
-    padding: .6rem 1rem;
-    font-size: .77rem;
-    color: #c4b5fd;
-    display: flex;
-    gap: 2rem;
-    margin-bottom: .75rem;
-    font-family: var(--mono);
-  }
+.legend { display: flex; flex-wrap: wrap; gap: .4rem; }
+.grid-head { display: flex; align-items: center; justify-content: space-between; gap: .75rem 1rem; flex-wrap: wrap; margin-bottom: .3rem; }
+.grid-head .card-title { margin: 0; }
 
-  /* ── MISSING PANEL ───────────────────────── */
-  .missing-row {
-    display: grid;
-    grid-template-columns: 1fr auto auto auto auto;
-    gap: .6rem;
-    align-items: center;
-    padding: .65rem .75rem;
-    background: rgba(239,68,68,.05);
-    border: 1px solid rgba(239,68,68,.15);
-    border-radius: 8px;
-    margin-bottom: .5rem;
-  }
-  .missing-row .info { font-size: .78rem; }
-  .missing-row .info strong { display: block; font-size: .82rem; }
-  .missing-row .info small { color: var(--muted); font-family: var(--mono); font-size: .7rem; }
-  .missing-row select, .missing-row input[type=time] {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    color: var(--text);
-    padding: .4rem .6rem;
-    font-family: var(--mono);
-    font-size: .78rem;
-    outline: none;
-  }
-  .missing-row select { cursor: pointer; }
+/* ── Panel de edición ── */
+#edit-panel { display: none; margin-top: 1rem; padding: 1.1rem 1.25rem; border: 1px solid var(--border-strong); border-radius: var(--radius); background: var(--surface-2); }
+#edit-panel.open { display: block; animation: rise .15s ease-out; }
+#edit-panel h4 { margin: 0 0 .8rem; font-size: .92rem; font-weight: 600; display: flex; align-items: center; flex-wrap: wrap; gap: .5rem; }
+.edit-row { display: grid; grid-template-columns: 1fr 1fr auto; gap: .75rem; align-items: end; }
+.field label, .lbl, .manual-grid label { display: block; font-size: .68rem; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin-bottom: .3rem; }
+.field input, .input, .select, .manual-grid input, .manual-grid select, .mapping-row select, .missing-row select, .missing-row input[type=time] {
+  width: 100%; min-height: 40px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; color: var(--text); padding: .45rem .7rem; font-family: var(--mono); font-size: .84rem; outline: none; transition: border-color .15s;
+}
+.field input:focus, .input:focus, .select:focus, .manual-grid input:focus, .manual-grid select:focus, .mapping-row select:focus, .missing-row select:focus, .missing-row input:focus { border-color: var(--accent); }
+.input-lg { font-size: 1.15rem; min-height: 48px; }
+.turno-info { display: flex; flex-wrap: wrap; gap: .5rem 2rem; margin-bottom: .8rem; padding: .55rem .9rem; border-radius: 8px; background: var(--split-soft); color: var(--split); font-family: var(--mono); font-size: .78rem; }
+.stamps-line { margin-top: .75rem; font-family: var(--mono); font-size: .74rem; color: var(--muted); }
 
-  /* ── MANUAL ENTRY FORM ───────────────────── */
-  .manual-grid {
-    display: grid;
-    grid-template-columns: 2fr 1fr 1fr 1fr auto;
-    gap: .75rem;
-    align-items: end;
-  }
-  .manual-grid input, .manual-grid select {
-    width: 100%;
-    background: var(--bg);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    color: var(--text);
-    padding: .5rem .75rem;
-    font-family: var(--mono);
-    font-size: .82rem;
-    outline: none;
-    transition: border-color .15s;
-  }
-  .manual-grid input:focus { border-color: var(--accent); }
-  .manual-grid label { display: block; font-size: .7rem; color: var(--muted); margin-bottom: .3rem; font-family: var(--mono); }
+/* ── Fichadas incompletas ── */
+#missing-list { display: flex; flex-direction: column; gap: .5rem; max-height: 60vh; overflow-y: auto; padding-right: .2rem; }
+.missing-row { display: grid; grid-template-columns: minmax(0, 1fr) 11rem 9rem auto auto; gap: .6rem; align-items: center; padding: .7rem .85rem; border: 1px solid var(--border); border-left: 3px solid var(--danger); border-radius: 8px; background: var(--surface); }
+.missing-row .info { min-width: 0; font-size: .8rem; }
+.missing-row .info strong { display: block; font-size: .86rem; font-weight: 600; }
+.missing-row .info small { display: block; color: var(--muted); font-family: var(--mono); font-size: .72rem; overflow-wrap: anywhere; }
 
-  /* ── TEMPLATE FILLER ─────────────────────── */
-  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
-  .mapping-row {
-    display: grid;
-    grid-template-columns: 1fr 24px 1fr;
-    align-items: center;
-    gap: .5rem;
-    padding: .4rem 0;
-    border-bottom: 1px solid var(--border);
-    font-size: .8rem;
-  }
-  .mapping-row:last-child { border: none; }
-  .mapping-row .arrow { color: var(--muted); text-align: center; }
-  .mapping-row select {
-    background: var(--bg);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    color: var(--text);
-    padding: .35rem .5rem;
-    font-size: .78rem;
-    font-family: var(--mono);
-    outline: none;
-    width: 100%;
-  }
-  .mapping-row select:focus { border-color: var(--accent); }
-  .mapping-scroll { max-height: 340px; overflow-y: auto; padding-right: .25rem; }
+/* ── Formularios ── */
+.manual-grid { display: grid; grid-template-columns: 2fr 1.2fr 1fr 1fr auto; gap: .75rem; align-items: end; }
+.two-col { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem; }
+.actions { display: flex; flex-wrap: wrap; gap: .6rem; }
+.mapping-scroll { max-height: 360px; overflow-y: auto; padding-right: .25rem; }
+.mapping-row { display: grid; grid-template-columns: minmax(0, 1fr) 24px minmax(0, 1fr); align-items: center; gap: .5rem; padding: .4rem 0; border-bottom: 1px solid var(--border); font-size: .82rem; }
+.mapping-row:last-child { border-bottom: 0; }
+.mapping-row .arrow { color: var(--muted); text-align: center; }
+.preview { margin-top: .35rem; font-family: var(--mono); font-size: .72rem; color: var(--muted); }
+hr { border: 0; border-top: 1px solid var(--border); margin: 1.1rem 0; }
 
-  /* ── SPINNER ─────────────────────────────── */
-  .spinner {
-    width: 20px; height: 20px;
-    border: 2px solid var(--border);
-    border-top-color: var(--accent);
-    border-radius: 50%;
-    animation: spin .6s linear infinite;
-    display: inline-block;
-  }
-  @keyframes spin { to { transform: rotate(360deg); } }
+.spinner { width: 18px; height: 18px; border: 2px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin .6s linear infinite; display: inline-block; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.alert { border-radius: 8px; padding: .7rem .95rem; font-size: .84rem; margin-top: .75rem; line-height: 1.5; border: 1px solid transparent; }
+.alert-warning { background: var(--warn-soft); color: var(--warn); }
+.alert-error   { background: var(--danger-soft); color: var(--danger); }
+.alert-success { background: var(--accent-soft); color: var(--accent); }
 
-  /* ── ALERT ───────────────────────────────── */
-  .alert {
-    border-radius: 8px;
-    padding: .75rem 1rem;
-    font-size: .8rem;
-    margin-top: .75rem;
-    line-height: 1.5;
-  }
-  .alert-warning { background: rgba(245,158,11,.08); border: 1px solid rgba(245,158,11,.25); color: #fcd34d; }
-  .alert-error   { background: rgba(239,68,68,.08);  border: 1px solid rgba(239,68,68,.25);  color: #fca5a5; }
-  .alert-success { background: rgba(34,197,94,.08);  border: 1px solid rgba(34,197,94,.25);  color: #86efac; }
+/* ── Propinas ── */
+.tips-summary { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem 2rem; }
+.tips-total-lbl, .tips-lbl { font-size: .68rem; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+.tips-total { font-family: var(--mono); font-size: 2rem; font-weight: 500; font-variant-numeric: tabular-nums; }
+.tips-pools { display: flex; flex-wrap: wrap; gap: .75rem; }
+.tips-pool { min-width: 11rem; padding: .7rem 1rem; border: 1px solid var(--border); border-top: 3px solid var(--team); border-radius: 8px; }
+.tips-pool .amt { font-family: var(--mono); font-size: 1.1rem; font-weight: 500; color: var(--team); }
+.tips-pool .meta { font-size: .74rem; color: var(--muted); }
+.team-cocina { --team: var(--cocina); }
+.team-salon { --team: var(--salon); }
+.tips-team-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+.tips-team-head { display: flex; justify-content: space-between; align-items: center; gap: 1rem; padding: 1rem 1.25rem; border-bottom: 1px solid var(--border); background: var(--surface-2); }
+.tips-team-name { display: flex; align-items: center; gap: .55rem; font-size: 1rem; font-weight: 600; color: var(--team); }
+.dot { width: .6rem; height: .6rem; border-radius: 50%; background: var(--team); }
+.tips-team-pool { font-family: var(--mono); font-size: 1.35rem; font-weight: 500; text-align: right; }
+.tips-emp-row { display: flex; justify-content: space-between; align-items: center; gap: 1rem; padding: .6rem 1.25rem; border-top: 1px solid var(--border); }
+.tips-emp-row:first-of-type { border-top: 0; }
+.tips-emp-row:hover { background: var(--surface-2); }
+.tips-emp-name { font-size: .86rem; font-weight: 500; min-width: 0; }
+.tips-emp-amount { font-family: var(--mono); font-size: .98rem; font-weight: 500; text-align: right; font-variant-numeric: tabular-nums; }
+.tips-emp-hours { font-family: var(--mono); font-size: .72rem; color: var(--muted); text-align: right; }
+.tips-team-footer { display: flex; justify-content: space-between; padding: .6rem 1.25rem; border-top: 1px solid var(--border); font-family: var(--mono); font-size: .74rem; color: var(--muted); background: var(--surface-2); }
+.conf-hi { color: var(--accent); } .conf-mid { color: var(--warn); } .conf-lo { color: var(--danger); }
+.team-pct { font-weight: 600; color: var(--text); }
 
-  .flex { display: flex; }
-  .gap-2 { gap: .5rem; }
-  .gap-3 { gap: .75rem; }
-  .wrap { flex-wrap: wrap; }
-  .items-center { align-items: center; }
-  .justify-between { justify-content: space-between; }
-  .mt-1 { margin-top: .25rem; }
-  .mt-2 { margin-top: .5rem; }
-  .mt-3 { margin-top: .75rem; }
-  .hidden { display: none !important; }
-  .text-muted { color: var(--muted); font-size: .78rem; }
-  .text-mono { font-family: var(--mono); }
-  hr { border: none; border-top: 1px solid var(--border); margin: 1.25rem 0; }
+.toast { position: fixed; left: 50%; bottom: calc(1.25rem + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); z-index: 50; max-width: min(92vw, 34rem); padding: .75rem 1.1rem; border-radius: 10px; background: var(--ink); color: var(--ink-text); font-size: .86rem; box-shadow: 0 8px 30px rgb(0 0 0 / .25); }
 
-  @media (max-width: 768px) {
-    main { padding: 1rem; }
-    .stats-row { grid-template-columns: repeat(2, 1fr); }
-    .manual-grid { grid-template-columns: 1fr 1fr; }
-    .two-col { grid-template-columns: 1fr; }
-  }
+/* ── Utilidades ── */
+.flex { display: flex; } .gap-2 { gap: .5rem; } .gap-3 { gap: .75rem; } .wrap { flex-wrap: wrap; }
+.items-center { align-items: center; } .justify-between { justify-content: space-between; }
+.mt-1 { margin-top: .25rem; } .mt-2 { margin-top: .5rem; } .mt-3 { margin-top: .9rem; }
+.hidden { display: none !important; }
+.text-muted { color: var(--muted); font-size: .8rem; }
+.text-mono { font-family: var(--mono); }
+
+@media (max-width: 860px) {
+  .missing-row { grid-template-columns: 1fr 1fr; }
+  .missing-row .info { grid-column: 1 / -1; }
+  .manual-grid { grid-template-columns: 1fr 1fr; }
+  .manual-grid > div:first-child { grid-column: 1 / -1; }
+}
+@media (max-width: 640px) {
+  .topbar-in { padding: .6rem 1rem; gap: .6rem 1rem; }
+  .steps { order: 3; width: 100%; justify-content: space-between; }
+  .steps button { flex: 1; justify-content: center; padding-inline: .5rem; }
+  main { padding-inline: 1rem; }
+  .card { padding: 1.1rem 1rem; }
+  .stats-row { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .stat-box:nth-child(3) { border-left: 0; }
+  .stat-box:nth-child(n+3) { border-top: 1px solid var(--border); }
+  .two-col, .edit-row { grid-template-columns: 1fr; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
 </style>
-</head>
-<body>
 
-<header>
-  <div class="logo">⛱ Waikiki <span>/ Fichadas</span></div>
-  <nav>
-    <button class="active" onclick="showPage('proc')">📂 Procesar Fichadas</button>
-    <button onclick="showPage('fill')">📋 Rellenar Plantilla</button>
-    <button onclick="showPage('tips')">💰 Propinas</button>
-  </nav>
+<header class="topbar">
+  <div class="topbar-in">
+    <div class="brand">
+      <span class="brand-name">Mirador Waikiki</span>
+      <span class="brand-sub">Fichadas del personal</span>
+    </div>
+    <nav class="steps" aria-label="Pasos">
+      <button class="active" type="button" onclick="showPage('proc')"><span class="step-n">1</span>Fichadas</button>
+      <button type="button" onclick="showPage('fill')"><span class="step-n">2</span>Plantilla</button>
+      <button type="button" onclick="showPage('tips')"><span class="step-n">3</span>Propinas</button>
+    </nav>
+    <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Cambiar entre tema claro y oscuro" title="Tema claro / oscuro"><svg class="i i-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg><svg class="i i-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+  </div>
 </header>
 
 <main>
 
-<!-- ═══════════════════════════════════════════════════════════
-     PAGE 1: PROCESAR
-     ═══════════════════════════════════════════════════════════ -->
+<!-- ═══════════ PASO 1: FICHADAS ═══════════ -->
 <div id="page-proc" class="page active">
 
-  <!-- Drop zone -->
-  <div class="card">
-    <div class="card-title">📂 Cargar Archivo de Fichadas</div>
-    <div class="card-desc">
-      Soporta .xlsx, .xls y .csv · Detecta automáticamente: horarios nocturnos (00:00-06:59 → día anterior),
-      horarios cortados (≥2h de corte con 2 turnos), fichadas repetidas (a menos de 30 min) y si una fichada suelta era entrada o salida según el horario habitual de cada empleado.
-    </div>
+  <section class="card">
+    <h2 class="card-title"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>Cargar fichadas del reloj</h2>
+    <p class="card-desc">Subí el archivo que exporta el reloj. La app arma cada jornada, junta las fichadas repetidas y te muestra qué falta completar.</p>
     <div class="drop-zone" id="dropZone">
-      <input type="file" id="fileInput" accept=".xlsx,.xls,.csv" onchange="handleFile(event)"/>
-      <div class="drop-icon">📄</div>
-      <p><strong>Arrastrá tu archivo aquí</strong> o hacé clic para seleccionarlo</p>
-      <p class="mt-1">.xlsx · .xls · .csv</p>
+      <input type="file" id="fileInput" accept=".xlsx,.xls,.csv" onchange="handleFile(event)" aria-label="Archivo de fichadas"/>
+      <div class="drop-icon"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><path d="M8 13h8M8 17h5"/></svg></div>
+      <p><strong>Arrastrá el archivo acá</strong> o hacé clic para elegirlo</p>
+      <p class="formats">.xls · .xlsx · .csv</p>
     </div>
     <div id="proc-status" class="hidden mt-2 flex items-center gap-2 text-muted">
       <span class="spinner"></span><span id="proc-status-text"></span>
     </div>
-  </div>
+    <ul class="rules" aria-label="Criterios">
+      <li><span class="rule-k">Jornada</span><span class="rule-v">07:00 → 06:59</span></li>
+      <li><span class="rule-k">Fichada doble</span><span class="rule-v">&lt; 30 min</span></li>
+      <li><span class="rule-k">Horario cortado</span><span class="rule-v">corte ≥ 2 h</span></li>
+      <li><span class="rule-k">Fichada suelta</span><span class="rule-v">&lt; 12 h entrada · ≥ 17 h salida</span></li>
+      <li><span class="rule-k">Revisar</span><span class="rule-v">&gt; 17 h</span></li>
+    </ul>
+  </section>
 
-  <!-- Column selector (hidden until needed) -->
-  <div id="col-selector" class="card hidden">
-    <div class="card-title">⚙️ Seleccionar Columnas Manualmente</div>
-    <div class="card-desc">No se detectaron las columnas. Seleccionalas vos.</div>
-    <div class="two-col" style="margin-bottom:1rem">
+  <section id="col-selector" class="card hidden">
+    <h2 class="card-title"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg>Elegí las columnas</h2>
+    <p class="card-desc">No se pudieron detectar solas. Indicá cuál tiene el nombre y cuál la fecha y hora.</p>
+    <div class="two-col">
       <div>
-        <label class="field"><span style="font-size:.72rem;color:var(--muted);display:block;margin-bottom:.3rem;font-family:var(--mono)">COLUMNA EMPLEADO</span>
-          <select id="colEmp" style="width:100%;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);padding:.5rem;font-family:var(--mono);font-size:.82rem;outline:none"></select>
-        </label>
-        <div id="previewEmp" class="text-muted mt-1" style="font-family:var(--mono);font-size:.72rem"></div>
+        <label class="lbl" for="colEmp">Columna empleado</label>
+        <select id="colEmp" class="select"></select>
+        <div id="previewEmp" class="preview"></div>
       </div>
       <div>
-        <label class="field"><span style="font-size:.72rem;color:var(--muted);display:block;margin-bottom:.3rem;font-family:var(--mono)">COLUMNA FECHA/HORA</span>
-          <select id="colTs" style="width:100%;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);padding:.5rem;font-family:var(--mono);font-size:.82rem;outline:none"></select>
-        </label>
-        <div id="previewTs" class="text-muted mt-1" style="font-family:var(--mono);font-size:.72rem"></div>
+        <label class="lbl" for="colTs">Columna fecha y hora</label>
+        <select id="colTs" class="select"></select>
+        <div id="previewTs" class="preview"></div>
       </div>
     </div>
-    <button class="btn btn-primary" onclick="confirmColumns()">✓ Confirmar y Procesar</button>
-  </div>
+    <div class="actions mt-3"><button class="btn btn-primary" onclick="confirmColumns()"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Procesar</button></div>
+  </section>
 
-  <!-- Stats (hidden until processed) -->
   <div id="stats-section" class="hidden">
     <div class="stats-row">
-      <div class="stat-box"><div class="stat-val" id="st-jornadas">0</div><div class="stat-lbl">Jornadas procesadas</div></div>
+      <div class="stat-box"><div class="stat-val" id="st-jornadas">0</div><div class="stat-lbl">Jornadas</div></div>
       <div class="stat-box"><div class="stat-val" id="st-empleados">0</div><div class="stat-lbl">Empleados</div></div>
-      <div class="stat-box"><div class="stat-val" style="color:var(--split)" id="st-cortados">0</div><div class="stat-lbl">Horarios cortados</div></div>
-      <div class="stat-box"><div class="stat-val" style="color:var(--danger)" id="st-incompletos">0</div><div class="stat-lbl">Fichadas incompletas</div></div>
+      <div class="stat-box stat-split"><div class="stat-val" id="st-cortados">0</div><div class="stat-lbl">Horarios cortados</div></div>
+      <div class="stat-box stat-danger"><div class="stat-val" id="st-incompletos">0</div><div class="stat-lbl">Fichadas incompletas</div></div>
     </div>
   </div>
 
-  <!-- Missing records -->
-  <div id="missing-section" class="card hidden">
-    <div class="card-title">⚠️ Fichadas Incompletas <span id="missing-count-badge" class="badge badge-red ml-2">0</span></div>
-    <div class="card-desc">Completá el horario faltante o eliminá el registro. Los que no corrijas quedarán marcados con ⚠ en el reporte.</div>
+  <section id="missing-section" class="card hidden">
+    <h2 class="card-title"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>Fichadas incompletas <span id="missing-count-badge" class="badge badge-red">0</span></h2>
+    <p class="card-desc">Cada una ya trae elegido qué falta y la hora habitual de esa persona. Revisala y tocá Aplicar, o Omitir para sacar ese día. Las que no corrijas quedan marcadas en el reporte.</p>
     <div id="missing-list"></div>
-  </div>
+  </section>
 
-  <!-- Manual entry -->
-  <div id="manual-section" class="card hidden">
-    <div class="card-title">✏️ Agregar Fichada Manual</div>
-    <div class="card-desc">Para personal que ficha en papel o para ajustar horarios.</div>
-    <div class="manual-grid">
-      <div>
-        <label>EMPLEADO</label>
-        <input type="text" id="m-emp" placeholder="JUAN PEREZ" style="text-transform:uppercase"/>
-      </div>
-      <div>
-        <label>FECHA (DD/MM/AAAA)</label>
-        <input type="text" id="m-fecha" placeholder="15/01/2025"/>
-      </div>
-      <div>
-        <label>ENTRADA</label>
-        <input type="time" id="m-entrada"/>
-      </div>
-      <div>
-        <label>SALIDA</label>
-        <input type="time" id="m-salida"/>
-      </div>
-      <div>
-        <label>&nbsp;</label>
-        <button class="btn btn-success" onclick="addManual()">+ Agregar</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Results grid -->
-  <div id="results-section" class="card hidden">
-    <div class="card-title flex items-center justify-between">
-      <span>📊 Horas Trabajadas por Día</span>
-      <div class="flex gap-2 wrap">
+  <section id="results-section" class="card hidden">
+    <div class="grid-head">
+      <h2 class="card-title"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18"/></svg>Horas trabajadas por día</h2>
+      <div class="legend">
         <span class="badge badge-purple">✂ cortado</span>
         <span class="badge badge-red">⚠ incompleto</span>
-        <span class="badge badge-amber">⏱ más de 17h</span>
+        <span class="badge badge-amber">⏱ más de 17 h</span>
         <span class="badge badge-gray">² fichó dos veces</span>
-        <span class="badge badge-gray">· sin fichada</span>
+        <span class="badge badge-gray">+ sin fichada</span>
       </div>
     </div>
-    <div class="card-desc">Hacé clic en cualquier celda para ver detalles o editar la entrada/salida.</div>
+    <p class="card-desc">Tocá una celda para ver las fichadas del día o corregir la entrada y la salida.</p>
     <div class="table-wrap" id="grid-wrap"></div>
     <div id="edit-panel">
       <h4 id="edit-title">Editando</h4>
       <div id="edit-turno-info" class="turno-info hidden"></div>
       <div class="edit-row">
         <div class="field">
-          <label>ENTRADA (primera fichada)</label>
+          <label for="edit-entrada">Entrada</label>
           <input type="time" id="edit-entrada"/>
         </div>
         <div class="field">
-          <label>SALIDA (última fichada)</label>
+          <label for="edit-salida">Salida</label>
           <input type="time" id="edit-salida"/>
         </div>
-        <div class="flex gap-2 items-center" style="padding-bottom:.05rem">
+        <div class="actions">
           <button class="btn btn-primary btn-sm" onclick="saveEdit()">Guardar</button>
           <button class="btn btn-ghost btn-sm" onclick="closeEdit()">Cancelar</button>
         </div>
       </div>
-      <div id="edit-timestamps" class="text-muted mt-2" style="font-family:var(--mono);font-size:.7rem"></div>
+      <div id="edit-timestamps" class="stamps-line"></div>
     </div>
+  </section>
+
+  <section id="manual-section" class="card hidden">
+    <h2 class="card-title"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>Agregar jornada a mano</h2>
+    <p class="card-desc">Para quien fichó en papel o para cargar un día que no está en el reloj.</p>
+    <div class="manual-grid">
+      <div><label for="m-emp">Empleado</label><input type="text" id="m-emp" placeholder="PEREZ JUAN" style="text-transform:uppercase"/></div>
+      <div><label for="m-fecha">Fecha (dd/mm/aaaa)</label><input type="text" id="m-fecha" placeholder="15/09/2026" inputmode="numeric"/></div>
+      <div><label for="m-entrada">Entrada</label><input type="time" id="m-entrada"/></div>
+      <div><label for="m-salida">Salida</label><input type="time" id="m-salida"/></div>
+      <div><button class="btn btn-ghost" onclick="addManual()"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Agregar</button></div>
+    </div>
+  </section>
+
+  <div id="export-section" class="hidden actions">
+    <button class="btn btn-primary" onclick="exportDetailed()"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Reporte detallado</button>
+    <button class="btn btn-ghost" onclick="exportSimple()"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Reporte simple (total por empleado)</button>
   </div>
 
-  <!-- Export buttons -->
-  <div id="export-section" class="hidden flex gap-3 wrap">
-    <button class="btn btn-primary" onclick="exportDetailed()">⬇ Reporte Detallado (con turnos + incompletos)</button>
-    <button class="btn btn-ghost" onclick="exportSimple()">⬇ Reporte Simple (total horas por empleado)</button>
-  </div>
-
-</div><!-- /page-proc -->
+</div>
 
 
-<!-- ═══════════════════════════════════════════════════════════
-     PAGE 2: RELLENAR PLANTILLA
-     ═══════════════════════════════════════════════════════════ -->
+<!-- ═══════════ PASO 2: PLANTILLA ═══════════ -->
 <div id="page-fill" class="page">
-  <div class="card">
-    <div class="card-title">📋 Rellenar Plantilla Maestra</div>
-    <div class="card-desc">Subí el reporte de horas generado en el paso anterior y tu plantilla. Se completarán automáticamente las horas por día.</div>
+  <section class="card">
+    <h2 class="card-title"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/></svg>Rellenar la plantilla maestra</h2>
+    <p class="card-desc">Subí el reporte detallado del paso 1 y tu plantilla. Las horas de cada día se completan solas en la celda que corresponde.</p>
     <div class="two-col">
       <div>
-        <div style="font-size:.78rem;color:var(--muted);margin-bottom:.4rem;font-family:var(--mono)">1 · REPORTE DETALLADO (.xlsx)</div>
-        <div class="drop-zone" style="padding:1.5rem" onclick="document.getElementById('rpt-input').click()">
+        <div class="lbl">Reporte detallado (.xlsx)</div>
+        <div class="drop-zone" onclick="document.getElementById('rpt-input').click()">
           <input type="file" id="rpt-input" accept=".xlsx" style="display:none" onchange="loadReport(event)"/>
-          <div>📊 <span id="rpt-name" style="font-size:.82rem">Ningún archivo seleccionado</span></div>
+          <div class="file-pick"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><path d="M8 13h8M8 17h5"/></svg><span id="rpt-name">Ningún archivo elegido</span></div>
         </div>
       </div>
       <div>
-        <div style="font-size:.78rem;color:var(--muted);margin-bottom:.4rem;font-family:var(--mono)">2 · PLANTILLA MAESTRA (.xlsx)</div>
-        <div class="drop-zone" style="padding:1.5rem" onclick="document.getElementById('tpl-input').click()">
+        <div class="lbl">Plantilla maestra (.xlsx)</div>
+        <div class="drop-zone" onclick="document.getElementById('tpl-input').click()">
           <input type="file" id="tpl-input" accept=".xlsx" style="display:none" onchange="loadTemplate(event)"/>
-          <div>📋 <span id="tpl-name" style="font-size:.82rem">Ningún archivo seleccionado</span></div>
+          <div class="file-pick"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/></svg><span id="tpl-name">Ningún archivo elegido</span></div>
         </div>
       </div>
     </div>
-    <button class="btn btn-primary mt-3" id="fill-btn" onclick="startFill()" disabled>
-      ✨ Emparejar y Rellenar Automáticamente
-    </button>
+    <div class="actions mt-3">
+      <button class="btn btn-primary" id="fill-btn" onclick="startFill()" disabled><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/><path d="M19 17v4M17 19h4"/></svg>Emparejar nombres</button>
+    </div>
     <div id="fill-status" class="hidden mt-2 flex items-center gap-2 text-muted">
       <span class="spinner"></span><span id="fill-status-text"></span>
     </div>
-  </div>
+  </section>
 
-  <div id="fill-mapping" class="card hidden">
-    <div class="card-title">🔗 Revisá las Coincidencias de Nombres</div>
-    <div class="card-desc">El sistema intentó emparejar automáticamente. Corregí cualquier error antes de confirmar.</div>
+  <section id="fill-mapping" class="card hidden">
+    <h2 class="card-title"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>Revisá cómo se emparejaron los nombres</h2>
+    <p class="card-desc">A la izquierda, la plantilla; a la derecha, el reporte. Corregí los que estén mal antes de descargar.</p>
     <div class="mapping-scroll" id="mapping-rows"></div>
     <hr/>
-    <div class="flex gap-3 mt-2">
-      <button class="btn btn-success" onclick="confirmFill()">✓ Confirmar y Descargar Plantilla Rellenada</button>
+    <div class="actions">
+      <button class="btn btn-success" onclick="confirmFill()"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Descargar plantilla rellenada</button>
       <button class="btn btn-ghost" onclick="cancelFill()">Cancelar</button>
     </div>
-  </div>
+  </section>
 
   <div id="fill-result" class="hidden"></div>
-</div><!-- /page-fill -->
-
-</main>
-
+</div>
 <script>
 // ═══════════════════════════════════════════════════════════════
 // NAVIGATION
 // ═══════════════════════════════════════════════════════════════
 function showPage(id) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'))
-  document.querySelectorAll('header nav button').forEach(b => b.classList.remove('active'))
+  document.querySelectorAll('.steps button').forEach(b => b.classList.toggle('active', b.getAttribute('onclick').includes(`'${id}'`)))
   document.getElementById('page-' + id).classList.add('active')
-  event.currentTarget.classList.add('active')
+  window.scrollTo({ top: 0 })
 }
+
+// ═══════════════════════════════════════════════════════════════
+// TEMA CLARO / OSCURO
+// ═══════════════════════════════════════════════════════════════
+const themeMedia = window.matchMedia('(prefers-color-scheme: dark)')
+function effectiveTheme() {
+  const t = document.documentElement.getAttribute('data-theme')
+  return t || (themeMedia.matches ? 'dark' : 'light')
+}
+function syncThemeIcon() { document.documentElement.setAttribute('data-eff', effectiveTheme()) }
+try { const saved = localStorage.getItem('fichadas-tema'); if (saved === 'light' || saved === 'dark') document.documentElement.setAttribute('data-theme', saved) } catch (e) {}
+syncThemeIcon()
+themeMedia.addEventListener?.('change', syncThemeIcon)
+document.getElementById('theme-toggle').addEventListener('click', () => {
+  const next = effectiveTheme() === 'dark' ? 'light' : 'dark'
+  document.documentElement.setAttribute('data-theme', next)
+  try { localStorage.setItem('fichadas-tema', next) } catch (e) {}
+  syncThemeIcon()
+})
 
 // ═══════════════════════════════════════════════════════════════
 // DRAG & DROP
@@ -627,6 +483,16 @@ dz.addEventListener('drop', e => {
 let rawData = [], rawHeaders = [], processedRecords = []
 let editingKey = null
 
+// Avisos dentro de la página (el visor de Claude no muestra alert/confirm)
+let notifyTimer = null
+function notify(msg) {
+  const el = document.getElementById('toast')
+  el.textContent = msg
+  el.hidden = false
+  clearTimeout(notifyTimer)
+  notifyTimer = setTimeout(() => { el.hidden = true }, 5000)
+}
+
 // Descargas: dentro de Claude se pide permiso para guardar; en cualquier otro lado, descarga normal
 let downloadsApi = null
 if (window.claude && window.claude.use) window.claude.use('downloads').then(d => { downloadsApi = d }).catch(() => {})
@@ -637,7 +503,7 @@ async function saveFile(filename, data) {
     try { await downloadsApi.save({ filename, data: blob }); return }
     catch (e) {
       if (e && e.code === 'declined') return
-      if (e && e.code === 'rate_limited') return alert('Esperá un momento y probá de nuevo')
+      if (e && e.code === 'rate_limited') return notify('Esperá un momento y probá de nuevo')
     }
   }
   const a = document.createElement('a')
@@ -878,7 +744,7 @@ function processFile(file) {
       }
     } catch(err) {
       clearStatus()
-      showAlert('proc-status', 'Error al leer el archivo: ' + err.message, 'error')
+      notify('No se pudo leer el archivo: ' + err.message)
     }
   }
   if (file.name.endsWith('.csv')) reader.readAsText(file)
@@ -953,7 +819,7 @@ function showColumnSelector(headers, sample) {
 function confirmColumns() {
   const emp = document.getElementById('colEmp').value
   const ts  = document.getElementById('colTs').value
-  if (!emp || !ts) return alert('Seleccioná ambas columnas')
+  if (!emp || !ts) return notify('Seleccioná ambas columnas')
   document.getElementById('col-selector').classList.add('hidden')
   doProcess(rawData, emp, ts)
 }
@@ -1010,7 +876,7 @@ function doProcess(data, empCol, tsCol) {
       renderAll()
     } catch(err) {
       clearStatus()
-      alert('Error al procesar: ' + err.message)
+      notify('Error al procesar: ' + err.message)
     }
   }, 50)
 }
@@ -1030,6 +896,7 @@ function renderAll() {
   document.getElementById('st-cortados').textContent   = cortados.length
   document.getElementById('st-incompletos').textContent = errors.length
   document.getElementById('stats-section').classList.remove('hidden')
+  document.getElementById('dropZone').classList.add('compact')
 
   // Missing records
   renderMissing(errors)
@@ -1137,7 +1004,7 @@ function openEdit(key) {
 
   // Title
   let titleHTML = `${r.empleado} — ${r.fecha}`
-  if (r.cortado) titleHTML += ` <span class="badge badge-purple">✂ Horario Cortado</span>`
+  if (r.cortado) titleHTML += ` <span class="badge badge-purple">✂ Horario cortado</span>`
   if (r.error)   titleHTML += ` <span class="badge badge-red">⚠ ${r.note}</span>`
   document.getElementById('edit-title').innerHTML = titleHTML
 
@@ -1163,7 +1030,7 @@ function saveEdit() {
   if (!editingKey) return
   const entrada = document.getElementById('edit-entrada').value
   const salida  = document.getElementById('edit-salida').value
-  if (!entrada || !salida) return alert('Completá ambos campos')
+  if (!entrada || !salida) return notify('Completá ambos campos')
 
   const idx = processedRecords.findIndex(r => `${r.empleado}::${r.fecha}` === editingKey)
   if (idx === -1) return
@@ -1224,7 +1091,7 @@ function openEditEmpty(empleado, fecha) {
   document.getElementById('edit-turno-info').classList.add('hidden')
   document.getElementById('edit-entrada').value = ''
   document.getElementById('edit-salida').value  = ''
-  document.getElementById('edit-timestamps').textContent = 'Sin fichadas — ingreso manual'
+  document.getElementById('edit-timestamps').textContent = 'Sin fichadas: cargá la entrada y la salida'
   panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
 }
 
@@ -1233,7 +1100,7 @@ function correctMissing(key) {
   const ek = CSS.escape(key)
   const type = document.getElementById(`mtype-${ek}`)?.value
   const time = document.getElementById(`mtime-${ek}`)?.value
-  if (!type || !time) return alert('Seleccioná el tipo y el horario')
+  if (!type || !time) return notify('Seleccioná el tipo y el horario')
 
   const idx = processedRecords.findIndex(r => `${r.empleado}::${r.fecha}` === key)
   if (idx === -1) return
@@ -1243,9 +1110,9 @@ function correctMissing(key) {
   // (así un horario cortado sigue descontando el corte)
   const base = old.times || old.stamps.map(s => jornadaDate(old.fecha, s))
   const nt = jornadaDate(old.fecha, time)
-  if (base.some(t => t.getTime() === nt.getTime())) return alert('Ese horario ya está fichado')
-  if (type === 'entrada' && base.length === 1 && nt > base[0]) return alert('La entrada tiene que ser antes de ' + old.stamps[0])
-  if (type === 'salida'  && base.length === 1 && nt < base[0]) return alert('La salida tiene que ser después de ' + old.stamps[0])
+  if (base.some(t => t.getTime() === nt.getTime())) return notify('Ese horario ya está fichado')
+  if (type === 'entrada' && base.length === 1 && nt > base[0]) return notify('La entrada tiene que ser antes de ' + old.stamps[0])
+  if (type === 'salida'  && base.length === 1 && nt < base[0]) return notify('La salida tiene que ser después de ' + old.stamps[0])
   const times = [...base, nt].sort((a,b) => a-b)
   const r = buildRecord(old.empleado, old.fecha, times)
   if (old.dobles) { r.dobles = old.dobles; r.rawStamps = old.rawStamps }
@@ -1287,7 +1154,7 @@ function addManual() {
   const fecha   = document.getElementById('m-fecha').value.trim()
   const entrada = document.getElementById('m-entrada').value
   const salida  = document.getElementById('m-salida').value
-  if (!emp || !fecha || !entrada || !salida) return alert('Completá todos los campos')
+  if (!emp || !fecha || !entrada || !salida) return notify('Completá todos los campos')
 
   const [hIn,mIn]   = entrada.split(':').map(Number)
   const [hOut,mOut] = salida.split(':').map(Number)
@@ -1503,7 +1370,7 @@ function startFill() {
     } catch(err) {
       document.getElementById('fill-status').classList.add('hidden')
       document.getElementById('fill-result').classList.remove('hidden')
-      document.getElementById('fill-result').innerHTML = `<div class="alert alert-error">❌ ${err.message}</div>`
+      document.getElementById('fill-result').innerHTML = `<div class="alert alert-error">${err.message}</div>`
     }
   }, 100)
 }
@@ -1531,7 +1398,7 @@ function confirmFill() {
   if (!reportData || !templateWb || !templateFile) return
 
   document.getElementById('fill-result').classList.remove('hidden')
-  document.getElementById('fill-result').innerHTML = '<div class="alert alert-warning">⏳ Procesando...</div>'
+  document.getElementById('fill-result').innerHTML = '<div class="alert alert-warning">Procesando…</div>'
 
   try {
     const ws = templateWb.Sheets[templateWb.SheetNames[0]]
@@ -1601,13 +1468,13 @@ function confirmFill() {
 
     saveWorkbook(templateWb, 'RELLENADO_' + templateFile.name.replace(/\.[^.]+$/, '') + '.xlsx')
 
-    let msg = '✅ ¡Listo! Se rellenaron ' + filled + ' celdas.'
-    if (noMatch.length) msg += '<br><small style="opacity:.7">⚠ Sin coincidencia: ' + noMatch.join(', ') + '</small>'
+    let msg = 'Listo: se completaron ' + filled + ' celdas.'
+    if (noMatch.length) msg += '<br><small>Sin coincidencia: ' + noMatch.join(', ') + '</small>'
     document.getElementById('fill-result').innerHTML = '<div class="alert alert-success">' + msg + '</div>'
     document.getElementById('fill-mapping').classList.add('hidden')
 
   } catch(err) {
-    document.getElementById('fill-result').innerHTML = '<div class="alert alert-error">❌ ' + err.message + '</div>'
+    document.getElementById('fill-result').innerHTML = '<div class="alert alert-error">' + err.message + '</div>'
   }
 }
 
@@ -1615,95 +1482,88 @@ function cancelFill() {
   document.getElementById('fill-mapping').classList.add('hidden')
   document.getElementById('fill-result').classList.add('hidden')
   reportData = null; reportFile = null; templateWb = null; templateFile = null
-  document.getElementById('rpt-name').textContent = 'Ningún archivo seleccionado'
-  document.getElementById('tpl-name').textContent = 'Ningún archivo seleccionado'
+  document.getElementById('rpt-name').textContent = 'Ningún archivo elegido'
+  document.getElementById('tpl-name').textContent = 'Ningún archivo elegido'
   document.getElementById('rpt-input').value = ''
   document.getElementById('tpl-input').value = ''
   checkFillReady()
 }
 </script>
 
-<!-- ═══════════ PAGE 3: PROPINAS ═══════════ -->
-<style>
-#page-tips{max-width:1300px;margin:0 auto;padding:2rem}
-@media (max-width:768px){#page-tips{padding:1rem}}
-.tips-team-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:0}
-.tips-emp-row{display:flex;justify-content:space-between;align-items:center;padding:.65rem 1.25rem;border-top:1px solid var(--border)}
-.tips-emp-row:hover{background:rgba(255,255,255,.02)}
-.tips-emp-amount{font-family:var(--mono);font-size:1rem;font-weight:700;color:var(--success)}
-.tips-emp-hours{font-family:var(--mono);font-size:.7rem;color:var(--muted);text-align:right}
-.tips-team-footer{padding:.65rem 1.25rem;border-top:1px solid var(--border);display:flex;justify-content:space-between;font-size:.75rem;color:var(--muted);font-family:var(--mono);background:var(--bg)}
-</style>
 
+<!-- ═══════════ PASO 3: PROPINAS ═══════════ -->
 <div id="page-tips" class="page">
-  <div class="card">
-    <div class="card-title">💰 Calculadora de Propinas</div>
-    <div class="card-desc">Subí el reporte de horas, ingresá el monto total y el sistema clasifica automáticamente: <strong>Cocina recibe 40%</strong> y <strong>Salón recibe 60%</strong>. El reparto dentro de cada equipo es proporcional a las horas trabajadas.</div>
-    <div class="two-col" style="margin-bottom:1rem">
+  <section class="card">
+    <h2 class="card-title"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="8" cy="8" r="6"/><path d="M18.09 10.37A6 6 0 1 1 10.34 18"/><path d="M7 6h1v4"/><path d="m16.71 13.88.7.71-2.82 2.82"/></svg>Reparto de propinas</h2>
+    <p class="card-desc"><span class="team-pct">Cocina 40%</span> y <span class="team-pct">Salón 60%</span>. Dentro de cada equipo se reparte según las horas trabajadas. Usá el reporte detallado del paso 1.</p>
+    <div class="two-col">
       <div>
-        <div style="font-size:.72rem;color:var(--muted);margin-bottom:.4rem;font-family:var(--mono)">ARCHIVO DE HORAS (.xlsx)</div>
-        <div class="drop-zone" style="padding:1.5rem;cursor:pointer" onclick="document.getElementById('tips-file').click()">
+        <div class="lbl">Reporte de horas (.xlsx)</div>
+        <div class="drop-zone" onclick="document.getElementById('tips-file').click()">
           <input type="file" id="tips-file" accept=".xlsx" style="display:none" onchange="loadTipsFile(event)"/>
-          <div>📊 <span id="tips-file-name" style="font-size:.82rem">Ningún archivo seleccionado</span></div>
+          <div class="file-pick"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><path d="M8 13h8M8 17h5"/></svg><span id="tips-file-name">Ningún archivo elegido</span></div>
         </div>
       </div>
       <div>
-        <div style="font-size:.72rem;color:var(--muted);margin-bottom:.4rem;font-family:var(--mono)">MONTO TOTAL DE PROPINAS ($)</div>
-        <input type="number" id="tips-total" placeholder="Ej: 1000000" min="0" oninput="checkTipsReady()"
-          style="width:100%;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);padding:.75rem 1rem;font-family:var(--mono);font-size:1.1rem;outline:none;margin-top:.25rem"/>
-        <div style="font-size:.72rem;color:var(--muted);margin-top:.4rem">Debe tener columnas "Empleado" y "Horas Calculadas"</div>
+        <label class="lbl" for="tips-total">Monto total de propinas ($)</label>
+        <input type="number" id="tips-total" class="input input-lg" placeholder="1000000" min="0" inputmode="decimal" oninput="checkTipsReady()"/>
+        <div class="preview">Necesita las columnas "Empleado" y "Horas Calculadas"</div>
       </div>
     </div>
-    <button class="btn btn-primary" id="tips-btn" onclick="startTips()" disabled>✨ Clasificar y Calcular Propinas</button>
-    <div id="tips-alert" style="margin-top:.75rem"></div>
-  </div>
+    <div class="actions mt-3">
+      <button class="btn btn-primary" id="tips-btn" onclick="startTips()" disabled><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>Clasificar empleados</button>
+    </div>
+    <div id="tips-alert"></div>
+  </section>
 
-  <div id="tips-review" class="card hidden">
-    <div class="card-title">👥 Revisá la Clasificación</div>
-    <div class="card-desc">Clasificación automática según las listas maestras. Corregí lo que sea necesario.</div>
-    <div class="table-wrap" style="margin-bottom:1rem">
+  <section id="tips-review" class="card hidden">
+    <h2 class="card-title"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>Revisá la clasificación</h2>
+    <p class="card-desc">Cada persona se asignó a Cocina o Salón según las listas cargadas. Corregí lo que haga falta; los que queden sin clasificar no cobran en este reparto.</p>
+    <div class="table-wrap">
       <table>
         <thead><tr>
           <th class="col-name">Empleado</th>
-          <th style="text-align:center">Horas</th>
+          <th>Horas</th>
           <th style="text-align:left">Equipo</th>
-          <th style="text-align:left;font-size:.68rem;color:var(--muted)">Motivo</th>
+          <th style="text-align:left">Motivo</th>
         </tr></thead>
         <tbody id="tips-class-rows"></tbody>
       </table>
     </div>
-    <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:1rem;margin-bottom:1rem">
-      <div style="font-size:.72rem;color:var(--muted);margin-bottom:.6rem;font-family:var(--mono)">+ AGREGAR EMPLEADO MANUAL</div>
-      <div class="manual-grid">
-        <div><label>NOMBRE</label><input type="text" id="tip-m-emp" placeholder="JUAN PEREZ" style="text-transform:uppercase"/></div>
-        <div><label>HORAS</label><input type="number" id="tip-m-horas" placeholder="40.5" min="0" step="0.5"/></div>
-        <div><label>EQUIPO</label>
-          <select id="tip-m-team" style="width:100%;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);padding:.5rem;font-family:var(--mono);font-size:.82rem;outline:none">
-            <option value="">Seleccionar...</option>
-            <option value="cocina">🍳 Cocina</option>
-            <option value="salon">🍷 Salón</option>
-          </select>
-        </div>
-        <div></div>
-        <div><label>&nbsp;</label><button class="btn btn-ghost" onclick="addTipEmployee()">+ Agregar</button></div>
+    <hr/>
+    <div class="lbl">Agregar empleado a mano</div>
+    <div class="manual-grid">
+      <div><label for="tip-m-emp">Nombre</label><input type="text" id="tip-m-emp" placeholder="PEREZ JUAN" style="text-transform:uppercase"/></div>
+      <div><label for="tip-m-horas">Horas</label><input type="number" id="tip-m-horas" placeholder="40.5" min="0" step="0.5"/></div>
+      <div><label for="tip-m-team">Equipo</label>
+        <select id="tip-m-team">
+          <option value="">Elegir…</option>
+          <option value="cocina">Cocina</option>
+          <option value="salon">Salón</option>
+        </select>
       </div>
+      <div></div>
+      <div><button class="btn btn-ghost" onclick="addTipEmployee()"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Agregar</button></div>
     </div>
-    <div class="flex gap-3">
-      <button class="btn btn-success" onclick="calculateTips()">💰 Confirmar y Calcular</button>
+    <div id="tips-confirm" class="alert alert-warning hidden"></div>
+    <div class="actions mt-3">
+      <button class="btn btn-success" onclick="calculateTips()"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="8" cy="8" r="6"/><path d="M18.09 10.37A6 6 0 1 1 10.34 18"/><path d="M7 6h1v4"/><path d="m16.71 13.88.7.71-2.82 2.82"/></svg>Calcular reparto</button>
       <button class="btn btn-ghost" onclick="resetTips()">Cancelar</button>
     </div>
-  </div>
+  </section>
 
   <div id="tips-results" class="hidden">
     <div id="tips-results-inner" style="display:flex;flex-direction:column;gap:1.25rem"></div>
-    <div class="flex gap-3 wrap" style="margin-top:1rem">
-      <button class="btn btn-ghost" onclick="resetTips()">↩ Empezar de nuevo</button>
-      <button class="btn btn-success" onclick="exportTipsPDF()">⬇ Exportar PDF</button>
-      <button class="btn btn-primary" onclick="exportTipsXLSX()">⬇ Exportar Excel</button>
+    <div class="actions mt-3">
+      <button class="btn btn-ghost" onclick="resetTips()"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7v6h6"/><path d="M21 17a9 9 0 0 0-9-9 9 9 0 0 0-6 2.3L3 13"/></svg>Empezar de nuevo</button>
+      <button class="btn btn-primary" onclick="exportTipsPDF()"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>PDF</button>
+      <button class="btn btn-ghost" onclick="exportTipsXLSX()"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Excel</button>
     </div>
   </div>
 </div>
 
+</main>
+<div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
 <script>
 // ═══════════════════════════════════════════════════════════════
 // PROPINAS
@@ -1773,9 +1633,9 @@ function startTips(){
 function renderClassTable(){
   const tbody=document.getElementById('tips-class-rows')
   tbody.innerHTML=tipsEmps.map((emp,i)=>{
-    const opts=['cocina','salon','unclassified'].map(t=>`<option value="${t}"${emp.team===t?' selected':''}>${t==='cocina'?'🍳 Cocina':t==='salon'?'🍷 Salón':'❓ Sin clasificar'}</option>`).join('')
-    const cc=emp.confidence>0.7?'var(--success)':emp.confidence>0.3?'var(--accent2)':'var(--danger)'
-    return`<tr><td class="col-name" style="cursor:default">${emp.name}</td><td style="text-align:center;font-family:var(--mono)">${emp.hours.toFixed(1)}</td><td><select style="background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);padding:.35rem .5rem;font-size:.78rem;font-family:var(--mono);outline:none" onchange="tipsEmps[${i}].team=this.value">${opts}</select></td><td style="font-size:.7rem;color:${cc};font-family:var(--mono)">${emp.reason}</td></tr>`
+    const opts=['cocina','salon','unclassified'].map(t=>`<option value="${t}"${emp.team===t?' selected':''}>${t==='cocina'?'Cocina':t==='salon'?'Salón':'Sin clasificar'}</option>`).join('')
+    const cc=emp.confidence>0.7?'conf-hi':emp.confidence>0.3?'conf-mid':'conf-lo'
+    return`<tr><td class="col-name">${emp.name}</td><td>${emp.hours.toFixed(1)}</td><td style="text-align:left;cursor:default"><select class="select" style="min-width:10rem" aria-label="Equipo de ${emp.name}" onchange="tipsEmps[${i}].team=this.value">${opts}</select></td><td class="${cc}" style="text-align:left;cursor:default;font-size:.72rem">${emp.reason}</td></tr>`
   }).join('')
 }
 
@@ -1783,7 +1643,7 @@ function addTipEmployee(){
   const name=document.getElementById('tip-m-emp').value.trim().toUpperCase()
   const hours=parseFloat(document.getElementById('tip-m-horas').value)
   const team=document.getElementById('tip-m-team').value
-  if(!name||!hours||!team)return alert('Completá nombre, horas y equipo')
+  if(!name||!hours||!team)return notify('Completá nombre, horas y equipo')
   tipsEmps.push({name,hours,team,confidence:1,reason:'Agregado manualmente'})
   document.getElementById('tip-m-emp').value=''
   document.getElementById('tip-m-horas').value=''
@@ -1793,14 +1653,19 @@ function addTipEmployee(){
 
 function calculateTips(){
   const unc=tipsEmps.filter(e=>e.team==='unclassified')
-  if(unc.length&&!confirm(unc.length+' empleado(s) sin clasificar serán ignorados. ¿Continuar?'))return
+  const warn=document.getElementById('tips-confirm')
+  if(unc.length&&warn.classList.contains('hidden')){
+    warn.innerHTML=unc.length+' '+(unc.length===1?'persona queda':'personas quedan')+' sin clasificar y no cobran en este reparto. Asignales un equipo arriba o tocá <strong>Calcular reparto</strong> de nuevo para seguir igual.'
+    warn.classList.remove('hidden'); warn.scrollIntoView({behavior:'smooth',block:'nearest'}); return
+  }
+  warn.classList.add('hidden')
   const cocina=tipsEmps.filter(e=>e.team==='cocina')
   const salon=tipsEmps.filter(e=>e.team==='salon')
   const hC=cocina.reduce((s,e)=>s+e.hours,0), hS=salon.reduce((s,e)=>s+e.hours,0)
   const pC=tipsTotalAmt*0.4, pS=tipsTotalAmt*0.6
   tipsResultsData=[
-    {name:'Cocina',emoji:'🍳',color:'#f97316',totalHours:hC,pool:pC,employees:cocina.map(e=>({...e,tip:hC?(e.hours/hC)*pC:0})).sort((a,b)=>b.tip-a.tip)},
-    {name:'Salón', emoji:'🍷',color:'#3b82f6',totalHours:hS,pool:pS,employees:salon.map(e=>({...e,tip:hS?(e.hours/hS)*pS:0})).sort((a,b)=>b.tip-a.tip)},
+    {name:'Cocina',team:'cocina',totalHours:hC,pool:pC,employees:cocina.map(e=>({...e,tip:hC?(e.hours/hC)*pC:0})).sort((a,b)=>b.tip-a.tip)},
+    {name:'Salón', team:'salon',totalHours:hS,pool:pS,employees:salon.map(e=>({...e,tip:hS?(e.hours/hS)*pS:0})).sort((a,b)=>b.tip-a.tip)},
   ]
   renderTipsResults()
   document.getElementById('tips-review').classList.add('hidden')
@@ -1812,23 +1677,23 @@ function fmtP(n){return'$'+n.toLocaleString('es-AR',{minimumFractionDigits:2})}
 
 function renderTipsResults(){
   const c=document.getElementById('tips-results-inner')
-  const summaryCards=tipsResultsData.map(t=>`<div style="text-align:center;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:.75rem 1.25rem"><div style="font-size:1.2rem">${t.emoji}</div><div style="font-size:.72rem;color:var(--muted);font-family:var(--mono)">${t.name.toUpperCase()}</div><div style="font-family:var(--mono);font-size:1rem;font-weight:700;color:${t.color}">${fmtP(t.pool)}</div><div style="font-size:.7rem;color:var(--muted)">${t.employees.length} empl · ${t.totalHours.toFixed(1)}h</div></div>`).join('')
-  let html=`<div class="card" style="background:var(--bg);border-color:var(--success)"><div class="flex items-center justify-between wrap gap-3"><div><div style="font-size:.72rem;color:var(--muted);font-family:var(--mono)">MONTO TOTAL DISTRIBUIDO</div><div style="font-family:var(--mono);font-size:2rem;font-weight:700;color:var(--success)">${fmtP(tipsTotalAmt)}</div></div><div class="flex gap-3 wrap">${summaryCards}</div></div></div>`
+  const pools=tipsResultsData.map(t=>`<div class="tips-pool team-${t.team}"><div class="tips-lbl">${t.name}</div><div class="amt">${fmtP(t.pool)}</div><div class="meta">${t.employees.length} personas · ${t.totalHours.toFixed(1)} h</div></div>`).join('')
+  let html=`<section class="card tips-summary"><div><div class="tips-total-lbl">Total repartido</div><div class="tips-total">${fmtP(tipsTotalAmt)}</div></div><div class="tips-pools">${pools}</div></section>`
   for(const t of tipsResultsData){
     if(!t.employees.length)continue
-    const rows=t.employees.map(e=>`<div class="tips-emp-row"><span style="font-size:.85rem;font-weight:500">${e.name}</span><div style="text-align:right"><div class="tips-emp-amount">${fmtP(e.tip)}</div><div class="tips-emp-hours">${e.hours.toFixed(1)} hs trabajadas</div></div></div>`).join('')
-    const bgRgb=t.color==='#f97316'?'249,115,22':'59,130,246'
-    html+=`<div class="tips-team-card"><div style="padding:1rem 1.25rem;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border);background:rgba(${bgRgb},.06)"><div style="font-size:1rem;font-weight:700;color:${t.color}">${t.emoji} ${t.name}</div><div style="text-align:right"><div style="font-size:.7rem;color:var(--muted);font-family:var(--mono)">POZO DEL EQUIPO</div><div style="font-size:1.5rem;font-weight:700;font-family:var(--mono);color:var(--success)">${fmtP(t.pool)}</div></div></div>${rows}<div class="tips-team-footer"><span>TOTAL HORAS EQUIPO</span><span>${t.totalHours.toFixed(1)} hs</span></div></div>`
+    const rows=t.employees.map(e=>`<div class="tips-emp-row"><span class="tips-emp-name">${e.name}</span><div><div class="tips-emp-amount">${fmtP(e.tip)}</div><div class="tips-emp-hours">${e.hours.toFixed(1)} h</div></div></div>`).join('')
+    html+=`<section class="tips-team-card team-${t.team}"><div class="tips-team-head"><div class="tips-team-name"><span class="dot"></span>${t.name}</div><div><div class="tips-lbl" style="text-align:right">Pozo del equipo</div><div class="tips-team-pool">${fmtP(t.pool)}</div></div></div>${rows}<div class="tips-team-footer"><span>Horas del equipo</span><span>${t.totalHours.toFixed(1)} h</span></div></section>`
   }
   c.innerHTML=html
 }
 
 function resetTips(){
   tipsEmps=[];tipsTotalAmt=0;tipsResultsData=[]
-  document.getElementById('tips-file-name').textContent='Ningún archivo seleccionado'
+  document.getElementById('tips-file-name').textContent='Ningún archivo elegido'
   document.getElementById('tips-file').value=''
   document.getElementById('tips-total').value=''
   document.getElementById('tips-review').classList.add('hidden')
+  document.getElementById('tips-confirm').classList.add('hidden')
   document.getElementById('tips-results').classList.add('hidden')
   document.getElementById('tips-results-inner').innerHTML=''
   const btn=document.getElementById('tips-btn');if(btn)btn.disabled=true
@@ -1878,6 +1743,3 @@ function exportTipsXLSX(){
   saveWorkbook(wb,'propinas_'+today.replace(/\//g,'-')+'.xlsx')
 }
 </script>
-
-</body>
-</html>
