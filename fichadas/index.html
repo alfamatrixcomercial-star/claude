@@ -433,6 +433,10 @@ details[open] > .summary-toggle::after { content: 'Ocultar'; }
       <input type="checkbox" id="pm-fill" onchange="pmRefresh()"/>
       <span id="pm-fill-label">Completar con las horas del archivo del reloj</span>
     </label>
+    <label class="check mt-2" for="pm-round">
+      <input type="checkbox" id="pm-round" checked/>
+      <span>Redondear a la media hora más cercana (8,2 → 8 · 8,7 → 8,5 · 2,8 → 3)</span>
+    </label>
     <div id="pm-alert"></div>
   </section>
 
@@ -1880,6 +1884,8 @@ async function pmGenerate() {
     const { headerRow: H, dayRow: D, wdRow: W, nameCol: NC, firstDayCol: C0, lastDayCol, trailing, dataStart, divisor } = info
     const n = sel.days
     const useFill = document.getElementById('pm-fill').checked
+    const roundHalf = document.getElementById('pm-round').checked
+    const hoursOf = h => roundHalf ? Math.round(h * 2) / 2 : h
     const recs = useFill ? pmMonthRecords(sel) : new Map()
 
     const out = wb.addWorksheet('__nueva__', {
@@ -1985,7 +1991,7 @@ async function pmGenerate() {
         const cell = out.getCell(r, C0 + i)
         const rec = days && days.get(i + 1)
         if (rec && !rec.error && rec.horas > 0) {
-          cell.value = rec.horas
+          cell.value = hoursOf(rec.horas)
           cell.style = cloneStyle(dayFilled)
           filled++
         } else if (rec && rec.error) {
