@@ -415,12 +415,12 @@ details[open] > .summary-toggle::after { content: 'Ocultar'; }
     <p class="card-desc">Subí el archivo del reloj y descargá la planilla del mes terminada, con la cantidad de días que corresponde y el mismo orden, cargos y formato que tu planilla de asistencia. Los días incompletos quedan vacíos, pintados de rojo y con una nota.</p>
     <div class="two-col">
       <div>
-        <div class="lbl">Archivo del reloj (.xls, .xlsx o .csv)</div>
+        <div class="lbl">Fichadas (.xls, .xlsx o .csv)</div>
         <div class="drop-zone" onclick="document.getElementById('pm-reloj-input').click()">
           <input type="file" id="pm-reloj-input" accept=".xlsx,.xls,.csv" style="display:none" onchange="pmLoadReloj(event)"/>
           <div class="file-pick"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><path d="M8 13h8M8 17h5"/></svg><span id="pm-reloj-name">Ningún archivo elegido</span></div>
         </div>
-        <div class="preview" id="pm-reloj-info">También sirve el que ya cargaste en el paso 1.</div>
+        <div class="preview" id="pm-reloj-info">El archivo del reloj o el reporte detallado del paso 1 ya corregido.</div>
         <div class="preview" id="pm-base-info"></div>
       </div>
       <div>
@@ -934,6 +934,7 @@ function doProcess(data, empCol, tsCol) {
       clearStatus()
       renderAll()
       if (typeof pmRefresh === 'function' && records.length) {
+        pmReport = null
         const errs = records.filter(r => r.error).length
         document.getElementById('pm-reloj-info').textContent = `${records.length} jornadas · ${new Set(records.map(r => r.empleado)).size} personas · ${errs} incompletas`
         document.getElementById('pm-fill').checked = true
@@ -1660,12 +1661,72 @@ function pmParse(ws) {
   return { headerRow, nameCol, dayRow, wdRow, firstDayCol, lastDayCol, trailing, employees, dataStart, divisor }
 }
 
+let pmReport = null   // jornadas leídas de un reporte ya procesado (con las correcciones hechas)
+
 function pmLoadReloj(e) {
   const file = e.target.files[0]
   if (!file) return
   document.getElementById('pm-reloj-name').textContent = file.name
-  document.getElementById('pm-reloj-info').textContent = 'Procesando fichadas…'
-  processFile(file)
+  document.getElementById('pm-reloj-info').textContent = 'Leyendo archivo…'
+  const reader = new FileReader()
+  reader.onload = ev => {
+    try {
+      const recs = file.name.toLowerCase().endsWith('.csv') ? null : pmReadReport(XLSX.read(ev.target.result, { type: 'array' }))
+      if (recs) {
+        pmReport = recs
+        const errs = recs.filter(r => r.error).length
+        document.getElementById('pm-reloj-info').textContent = `Reporte procesado: ${recs.length} jornadas · ${new Set(recs.map(r => r.empleado)).size} personas · ${errs} incompletas`
+        pmPickMonth(recs)
+        document.getElementById('pm-fill').checked = true
+        pmRefresh()
+      } else {
+        pmReport = null
+        document.getElementById('pm-reloj-info').textContent = 'Procesando fichadas…'
+        processFile(file)
+      }
+    } catch (err) {
+      document.getElementById('pm-reloj-info').textContent = 'No se pudo leer: ' + err.message
+    }
+  }
+  reader.readAsArrayBuffer(file)
+}
+
+/** Si el archivo es el reporte detallado del paso 1 (columnas Empleado, Fecha, Horas Calculadas), devuelve sus jornadas */
+function pmReadReport(wb) {
+  const ws = wb.Sheets[wb.SheetNames[0]]
+  const rows = XLSX.utils.sheet_to_json(ws, { raw: false, defval: '' })
+  if (!rows.length || !('Empleado' in rows[0]) || !('Fecha' in rows[0]) || !('Horas Calculadas' in rows[0])) return null
+  const fecha = v => {
+    const m = String(v).trim().match(/^(\d{1,2})\/(\d{1,2})\/(\d{2,4})$/)
+    if (!m) return null
+    const y = m[3].length === 2 ? 2000 + Number(m[3]) : Number(m[3])
+    return `${m[1].padStart(2, '0')}/${m[2].padStart(2, '0')}/${y}`
+  }
+  const out = []
+  for (const r of rows) {
+    const emp = String(r.Empleado).trim(), f = fecha(r.Fecha)
+    const h = parseFloat(String(r['Horas Calculadas']).replace(',', '.'))
+    if (!emp || !f || !(h > 0)) continue
+    out.push({ empleado: emp, fecha: f, horas: h, stamps: [r.Entrada, r.Salida].filter(Boolean), error: false })
+  }
+  const incSheet = wb.SheetNames.find(n => /incomplet/i.test(n))
+  if (incSheet) {
+    for (const r of XLSX.utils.sheet_to_json(wb.Sheets[incSheet], { raw: false, defval: '' })) {
+      const emp = String(r.Empleado || '').trim(), f = fecha(r.Fecha)
+      if (!emp || !f || out.some(x => x.empleado === emp && x.fecha === f)) continue
+      out.push({ empleado: emp, fecha: f, horas: null, error: true,
+        stamps: String(r['Fichadas del día'] || '').split('|').map(x => x.trim()).filter(Boolean),
+        note: String(r['Observación'] || 'Fichada incompleta') })
+    }
+  }
+  return out
+}
+
+function pmPickMonth(records) {
+  const counts = {}
+  for (const r of records) { const [, m, y] = r.fecha.split('/'); counts[`${y}-${m}`] = (counts[`${y}-${m}`] || 0) + 1 }
+  const best = Object.entries(counts).sort((a, b) => b[1] - a[1])[0]
+  if (best) document.getElementById('pm-month').value = best[0]
 }
 
 async function pmSetBase(buffer, name) {
@@ -1693,7 +1754,7 @@ function pmSelectedMonth() {
 /** Jornadas del paso 1 que caen en el mes elegido, agrupadas por nombre del reloj */
 function pmMonthRecords(sel) {
   const out = new Map()
-  for (const r of processedRecords) {
+  for (const r of (pmReport || processedRecords)) {
     const [d, m, y] = r.fecha.split('/').map(Number)
     if (m !== sel.m || y !== sel.y) continue
     if (!out.has(r.empleado)) out.set(r.empleado, new Map())
@@ -1738,7 +1799,7 @@ function pmRefresh() {
   if (!recs.size) fill.checked = false
   fillLbl.textContent = recs.size
     ? `Completar con las horas del archivo del reloj (${recs.size} personas con fichadas en ese mes)`
-    : (processedRecords.length ? 'Las fichadas cargadas no son de este mes: la planilla sale vacía' : 'Completar con las horas del archivo del reloj (subilo arriba)')
+    : ((pmReport || processedRecords).length ? 'Las fichadas cargadas no son de este mes: la planilla sale vacía' : 'Completar con las horas del archivo del reloj (subilo arriba)')
 
   const ready = !!(pmBase && sel)
   document.getElementById('pm-actions').classList.toggle('hidden', !ready)
