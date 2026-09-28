@@ -1578,6 +1578,16 @@ const PM_ALIAS_FIJOS = {
 const PM_BAJAS = ['MATIAS SOLER', 'VALENTINA MORINIGO', 'MATIAS MILLAN']
 // Nombres del reloj que no se agregan a la planilla aunque tengan fichadas
 const PM_RELOJ_IGNORAR = ['CALLARA CA', 'JUAN CRUZ CHAPPE', 'SANDRA SERRANO']
+// Cargo de las personas que no están en la planilla modelo y se agregan al final (nombre como figura en el reloj)
+const PM_CARGOS_NUEVOS = {
+  'BRIAN MONTERO': 'BARRA',
+  'FEDERICO CARUSSO': 'BARRA',
+  'FEDERICO PUGLIESE': 'BARRA',
+  'GONZALO COCINA': 'AYUDANTE DE COCINA',
+  'JUANA BALSAMO': 'RECEPCIONISTA',
+  'VALENTINA MUZIO': 'RECEPCIONISTA',
+  'LUCIA LEIVA': 'MOZO',
+}
 function pmLoadAliases() {
   let saved = {}
   try { saved = JSON.parse(localStorage.getItem('fichadas-equivalencias') || '{}') || {} } catch (e) {}
@@ -1896,7 +1906,7 @@ async function pmGenerate() {
 
     const rows = info.employees.map(e => ({ name: e.name, cargo: e.cargo, srcRow: e.row, reloj: pmMap[e.name] }))
     if (useFill && document.getElementById('pm-add-extra').checked)
-      pmExtras.forEach(x => rows.push({ name: x, cargo: '', srcRow: info.employees[info.employees.length - 1].row, reloj: x }))
+      pmExtras.forEach(x => rows.push({ name: x, cargo: PM_CARGOS_NUEVOS[x.toUpperCase()] || '', srcRow: info.employees[info.employees.length - 1].row, reloj: x }))
 
     let filled = 0, flagged = 0
     rows.forEach((e, idx) => {
