@@ -5,6 +5,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@1,6..96,500&family=IBM+Plex+Mono:wght@400;500&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/exceljs@4.4.0/dist/exceljs.min.js"></script>
 <style>
 /* Layout: barra de marca con los 3 pasos; una columna de trabajo de 1240px; la grilla de horas es la pieza central */
 :root {
@@ -108,6 +109,7 @@ main { max-width: 1240px; margin: 0 auto; padding-block: 1.75rem 3rem; padding-i
 .drop-zone p { margin: 0; font-size: .88rem; color: var(--muted); }
 .drop-zone p strong { color: var(--text); font-weight: 600; }
 .drop-zone .formats { font-family: var(--mono); font-size: .74rem; margin-top: .35rem; }
+.drop-zone:has(.file-pick) { padding: .35rem .75rem; }
 .file-pick { display: flex; align-items: center; gap: .6rem; justify-content: center; padding: 1.2rem 1rem; font-size: .84rem; }
 .file-pick .i { color: var(--muted); }
 
@@ -208,6 +210,16 @@ hr { border: 0; border-top: 1px solid var(--border); margin: 1.1rem 0; }
 .alert-error   { background: var(--danger-soft); color: var(--danger); }
 .alert-success { background: var(--accent-soft); color: var(--accent); }
 
+.summary-toggle { cursor: pointer; list-style: none; margin: 0; }
+.summary-toggle::-webkit-details-marker { display: none; }
+.summary-toggle::after { content: 'Ver y corregir'; margin-left: auto; font-size: .78rem; font-weight: 500; color: var(--accent); }
+details[open] > .summary-toggle::after { content: 'Ocultar'; }
+.check { display: flex; align-items: center; gap: .6rem; font-size: .86rem; cursor: pointer; }
+.check input { width: 1.1rem; height: 1.1rem; accent-color: var(--accent); cursor: pointer; }
+.check.disabled { color: var(--muted); cursor: not-allowed; }
+.mapping-row.nomatch select { border-color: var(--warn); }
+.mapping-row .cargo { display: block; font-size: .72rem; color: var(--muted); }
+
 /* ── Propinas ── */
 .tips-summary { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem 2rem; }
 .tips-total-lbl, .tips-lbl { font-size: .68rem; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
@@ -252,7 +264,9 @@ hr { border: 0; border-top: 1px solid var(--border); margin: 1.1rem 0; }
 @media (max-width: 640px) {
   .topbar-in { padding: .6rem 1rem; gap: .6rem 1rem; }
   .steps { order: 3; width: 100%; justify-content: space-between; }
-  .steps button { flex: 1; justify-content: center; padding-inline: .5rem; }
+  .steps { gap: .1rem; }
+  .steps button { flex: 1; justify-content: center; padding: .4rem .3rem; gap: .3rem; font-size: .76rem; }
+  .step-n { width: 1.2rem; height: 1.2rem; font-size: .66rem; }
   main { padding-inline: 1rem; }
   .card { padding: 1.1rem 1rem; }
   .stats-row { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -273,8 +287,9 @@ hr { border: 0; border-top: 1px solid var(--border); margin: 1.1rem 0; }
     </div>
     <nav class="steps" aria-label="Pasos">
       <button class="active" type="button" onclick="showPage('proc')"><span class="step-n">1</span>Fichadas</button>
-      <button type="button" onclick="showPage('fill')"><span class="step-n">2</span>Plantilla</button>
-      <button type="button" onclick="showPage('tips')"><span class="step-n">3</span>Propinas</button>
+      <button type="button" onclick="showPage('month')"><span class="step-n">2</span>Planilla</button>
+      <button type="button" onclick="showPage('fill')"><span class="step-n">3</span>Rellenar</button>
+      <button type="button" onclick="showPage('tips')"><span class="step-n">4</span>Propinas</button>
     </nav>
     <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Cambiar entre tema claro y oscuro" title="Tema claro / oscuro"><svg class="i i-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg><svg class="i i-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
   </div>
@@ -393,11 +408,65 @@ hr { border: 0; border-top: 1px solid var(--border); margin: 1.1rem 0; }
 </div>
 
 
-<!-- ═══════════ PASO 2: PLANTILLA ═══════════ -->
+<!-- ═══════════ PASO 2: PLANILLA DEL MES ═══════════ -->
+<div id="page-month" class="page">
+  <section class="card">
+    <h2 class="card-title"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Planilla del mes</h2>
+    <p class="card-desc">Subí el archivo del reloj y descargá la planilla del mes terminada, con la cantidad de días que corresponde y el mismo orden, cargos y formato que tu planilla modelo. Los días incompletos quedan vacíos, pintados de rojo y con una nota.</p>
+    <div class="two-col">
+      <div>
+        <div class="lbl">Archivo del reloj (.xls, .xlsx o .csv)</div>
+        <div class="drop-zone" onclick="document.getElementById('pm-reloj-input').click()">
+          <input type="file" id="pm-reloj-input" accept=".xlsx,.xls,.csv" style="display:none" onchange="pmLoadReloj(event)"/>
+          <div class="file-pick"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><path d="M8 13h8M8 17h5"/></svg><span id="pm-reloj-name">Ningún archivo elegido</span></div>
+        </div>
+        <div class="preview" id="pm-reloj-info">También sirve el que ya cargaste en el paso 1.</div>
+      </div>
+      <div>
+        <div class="lbl">Planilla modelo (.xlsx)</div>
+        <div class="drop-zone" onclick="document.getElementById('pm-base-input').click()">
+          <input type="file" id="pm-base-input" accept=".xlsx" style="display:none" onchange="pmLoadBase(event)"/>
+          <div class="file-pick"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/></svg><span id="pm-base-name">Ningún archivo elegido</span></div>
+        </div>
+        <div class="preview" id="pm-base-info">Una planilla de un mes anterior. Se sube una vez y queda recordada.</div>
+      </div>
+    </div>
+    <div class="two-col mt-3">
+      <div>
+        <label class="lbl" for="pm-month">Mes</label>
+        <input type="month" id="pm-month" class="input input-lg" onchange="pmRefresh()"/>
+        <div class="preview" id="pm-month-info"></div>
+      </div>
+      <div></div>
+    </div>
+    <label class="check mt-3" for="pm-fill">
+      <input type="checkbox" id="pm-fill" onchange="pmRefresh()"/>
+      <span id="pm-fill-label">Completar con las horas del archivo del reloj</span>
+    </label>
+    <div id="pm-alert"></div>
+  </section>
+
+  <details id="pm-review" class="card hidden">
+    <summary class="card-title summary-toggle"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg><span id="pm-review-title">Nombres emparejados</span></summary>
+    <p class="card-desc mt-2">A la izquierda, la planilla; a la derecha, el nombre como figura en el reloj. Si alguno está mal, corregilo acá antes de descargar. Los que no tengan fichadas quedan vacíos.</p>
+    <div class="mapping-scroll" id="pm-map-rows"></div>
+    <label class="check mt-3 hidden" for="pm-add-extra" id="pm-extra-wrap">
+      <input type="checkbox" id="pm-add-extra" checked/>
+      <span id="pm-extra-label"></span>
+    </label>
+  </details>
+
+  <div id="pm-actions" class="actions hidden">
+    <button class="btn btn-primary" id="pm-btn" onclick="pmGenerate()"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg><span id="pm-btn-label">Descargar planilla</span></button>
+  </div>
+</div>
+
+
+<!-- ═══════════ PASO 3: RELLENAR ═══════════ -->
 <div id="page-fill" class="page">
   <section class="card">
     <h2 class="card-title"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/></svg>Rellenar la plantilla maestra</h2>
-    <p class="card-desc">Subí el reporte detallado del paso 1 y tu plantilla. Las horas de cada día se completan solas en la celda que corresponde.</p>
+    <p class="card-desc">Subí el reporte detallado del paso 1 y una planilla que ya tengas. Las horas de cada día se completan solas en la celda que corresponde.</p>
     <div class="two-col">
       <div>
         <div class="lbl">Reporte detallado (.xlsx)</div>
@@ -874,6 +943,15 @@ function doProcess(data, empCol, tsCol) {
       processedRecords = records
       clearStatus()
       renderAll()
+      if (typeof pmRefresh === 'function' && records.length) {
+        const errs = records.filter(r => r.error).length
+        document.getElementById('pm-reloj-info').textContent = `${records.length} jornadas · ${new Set(records.map(r => r.empleado)).size} personas · ${errs} incompletas`
+        document.getElementById('pm-fill').checked = true
+        const counts = {}
+        for (const r of records) { const [, m, y] = r.fecha.split('/'); counts[`${y}-${m}`] = (counts[`${y}-${m}`] || 0) + 1 }
+        document.getElementById('pm-month').value = Object.entries(counts).sort((a, b) => b[1] - a[1])[0][0]
+        pmRefresh()
+      }
     } catch(err) {
       clearStatus()
       notify('Error al procesar: ' + err.message)
@@ -1491,7 +1569,384 @@ function cancelFill() {
 </script>
 
 
-<!-- ═══════════ PASO 3: PROPINAS ═══════════ -->
+<script>
+// ═══════════════════════════════════════════════════════════════
+// PLANILLA DEL MES (formato tomado de una planilla anterior)
+// ═══════════════════════════════════════════════════════════════
+const MESES = ['ENERO','FEBRERO','MARZO','ABRIL','MAYO','JUNIO','JULIO','AGOSTO','SEPTIEMBRE','OCTUBRE','NOVIEMBRE','DICIEMBRE']
+const DIAS_SEMANA = ['DOMINGO','LUNES','MARTES','MIÉRCOLES','JUEVES','VIERNES','SÁBADO']
+let pmBase = null      // { buffer, name, info }
+let pmMap = {}         // fila de la planilla → nombre del reloj
+let pmExtras = []      // personas del reloj que no están en la planilla
+
+const cellText = c => {
+  const v = c && c.value
+  if (v == null) return ''
+  if (typeof v === 'object') return String(v.richText ? v.richText.map(t => t.text).join('') : (v.result ?? v.text ?? ''))
+  return String(v)
+}
+const cloneStyle = c => (c && c.style) ? JSON.parse(JSON.stringify(c.style)) : {}
+
+/** Lee la estructura de la planilla modelo: encabezados, columnas de días, columnas finales y empleados */
+function pmParse(ws) {
+  let headerRow = 0, nameCol = 1
+  for (let r = 1; r <= Math.min(10, ws.rowCount) && !headerRow; r++)
+    for (let c = 1; c <= Math.min(10, ws.columnCount); c++)
+      if (/^empleado/i.test(cellText(ws.getCell(r, c)).trim())) { headerRow = r; nameCol = c; break }
+  if (!headerRow) throw new Error('No encontré la celda "EMPLEADO" en la planilla. Usá una planilla de asistencia de un mes anterior.')
+
+  let dayRow = 0, firstDayCol = 0, lastDayCol = 0
+  for (let r = headerRow; r <= headerRow + 4 && !dayRow; r++) {
+    for (let c = 1; c <= ws.columnCount; c++) {
+      if (Number(cellText(ws.getCell(r, c))) === 1) {
+        let k = c
+        while (Number(cellText(ws.getCell(r, k + 1))) === (k - c + 2)) k++
+        if (k - c >= 26) { dayRow = r; firstDayCol = c; lastDayCol = k; break }
+      }
+    }
+  }
+  if (!dayRow) throw new Error('No encontré la fila con los números de día (1, 2, 3…) en la planilla.')
+  const wdRow = DIAS_SEMANA.concat(['SABADO','MIERCOLES']).includes(cellText(ws.getCell(dayRow + 1, firstDayCol)).trim().toUpperCase()) ? dayRow + 1 : dayRow
+
+  const trailing = []
+  for (let c = lastDayCol + 1; c <= ws.columnCount; c++) {
+    const t = cellText(ws.getCell(headerRow, c)).trim()
+    if (!t) break
+    trailing.push({ col: c, text: t.toUpperCase() })
+  }
+
+  const employees = []
+  let dataStart = 0
+  for (let r = wdRow + 1; r <= ws.rowCount; r++) {
+    const name = cellText(ws.getCell(r, nameCol)).trim()
+    if (!name) continue
+    if (!dataStart) dataStart = r
+    employees.push({ row: r, name, cargo: cellText(ws.getCell(r, nameCol + 1)).trim() })
+  }
+  if (!employees.length) throw new Error('La planilla no tiene empleados cargados debajo de los encabezados.')
+
+  // Divisor de días (ej. =S5/8.5)
+  let divisor = 8.5
+  ws.eachRow(row => row.eachCell(c => {
+    const f = c.value && c.value.formula
+    const m = f && f.match(/\/\s*([\d.]+)\s*$/)
+    if (m) divisor = Number(m[1])
+  }))
+  return { headerRow, nameCol, dayRow, wdRow, firstDayCol, lastDayCol, trailing, employees, dataStart, divisor }
+}
+
+function pmLoadReloj(e) {
+  const file = e.target.files[0]
+  if (!file) return
+  document.getElementById('pm-reloj-name').textContent = file.name
+  document.getElementById('pm-reloj-info').textContent = 'Procesando fichadas…'
+  processFile(file)
+}
+
+async function pmLoadBase(e) {
+  const file = e.target.files[0]
+  if (!file) return
+  try {
+    const buffer = await file.arrayBuffer()
+    await pmSetBase(buffer, file.name)
+    try { localStorage.setItem('fichadas-planilla-base', JSON.stringify({ name: file.name, data: bufToB64(buffer) })) } catch (err) {}
+  } catch (err) {
+    pmBase = null
+    document.getElementById('pm-alert').innerHTML = `<div class="alert alert-error">${err.message}</div>`
+    pmRefresh()
+  }
+}
+
+async function pmSetBase(buffer, name) {
+  const wb = new ExcelJS.Workbook()
+  await wb.xlsx.load(buffer.slice(0))
+  const info = pmParse(wb.worksheets[0])
+  pmBase = { buffer, name, info }
+  document.getElementById('pm-alert').innerHTML = ''
+  document.getElementById('pm-base-name').textContent = name
+  document.getElementById('pm-base-info').textContent = `${info.employees.length} empleados · columnas finales: ${info.trailing.map(t => t.text).join(', ') || 'ninguna'}`
+  pmRefresh()
+}
+
+function bufToB64(buf) {
+  let s = '', b = new Uint8Array(buf)
+  for (let i = 0; i < b.length; i += 0x8000) s += String.fromCharCode.apply(null, b.subarray(i, i + 0x8000))
+  return btoa(s)
+}
+function b64ToBuf(b64) {
+  const s = atob(b64), b = new Uint8Array(s.length)
+  for (let i = 0; i < s.length; i++) b[i] = s.charCodeAt(i)
+  return b.buffer
+}
+
+function pmSelectedMonth() {
+  const v = document.getElementById('pm-month').value
+  if (!/^\d{4}-\d{2}$/.test(v)) return null
+  const [y, m] = v.split('-').map(Number)
+  return { y, m, days: new Date(y, m, 0).getDate() }
+}
+
+/** Jornadas del paso 1 que caen en el mes elegido, agrupadas por nombre del reloj */
+function pmMonthRecords(sel) {
+  const out = new Map()
+  for (const r of processedRecords) {
+    const [d, m, y] = r.fecha.split('/').map(Number)
+    if (m !== sel.m || y !== sel.y) continue
+    if (!out.has(r.empleado)) out.set(r.empleado, new Map())
+    out.get(r.empleado).set(d, r)
+  }
+  return out
+}
+
+/** Empareja filas de la planilla con nombres del reloj (ej. "ESPIÑO ENZO LUCIANO" ↔ "ENZO ESPIÑO") */
+function pmAutoMatch(planillaNames, relojNames) {
+  const words = n => normName(n).split(/\s+/).filter(w => w.length > 1)
+  const pairs = []
+  for (const p of planillaNames) {
+    const pw = words(p)
+    for (const r of relojNames) {
+      const rw = words(r)
+      // Tienen que coincidir al menos dos palabras (nombre y apellido); una sola da falsos positivos
+      let score = 0, hits = 0
+      for (const a of pw) for (const b of rw) {
+        if (a === b) { score += 30; hits++ }
+        else if (a.length > 3 && b.length > 3 && (a.startsWith(b) || b.startsWith(a))) { score += 20; hits++ }
+      }
+      if (hits >= Math.min(2, pw.length, rw.length)) pairs.push({ p, r, score: score - Math.abs(pw.length - rw.length) })
+    }
+  }
+  pairs.sort((a, b) => b.score - a.score)
+  const map = {}, used = new Set()
+  for (const { p, r } of pairs) if (!(p in map) && !used.has(r)) { map[p] = r; used.add(r) }
+  return map
+}
+
+function pmRefresh() {
+  const sel = pmSelectedMonth()
+  const fill = document.getElementById('pm-fill')
+  const fillLbl = document.getElementById('pm-fill-label')
+  const monthInfo = document.getElementById('pm-month-info')
+  monthInfo.textContent = sel ? `${MESES[sel.m-1].charAt(0) + MESES[sel.m-1].slice(1).toLowerCase()} ${sel.y}: ${sel.days} días, empieza ${DIAS_SEMANA[new Date(sel.y, sel.m-1, 1).getDay()].toLowerCase()}` : ''
+
+  const recs = sel ? pmMonthRecords(sel) : new Map()
+  fill.disabled = !recs.size
+  fill.parentElement.classList.toggle('disabled', !recs.size)
+  if (!recs.size) fill.checked = false
+  fillLbl.textContent = recs.size
+    ? `Completar con las horas del archivo del reloj (${recs.size} personas con fichadas en ese mes)`
+    : (processedRecords.length ? 'Las fichadas cargadas no son de este mes: la planilla sale vacía' : 'Completar con las horas del archivo del reloj (subilo arriba)')
+
+  const ready = !!(pmBase && sel)
+  document.getElementById('pm-actions').classList.toggle('hidden', !ready)
+  if (ready) document.getElementById('pm-btn-label').textContent = `Descargar ${pmFileName(sel)}`
+
+  const review = document.getElementById('pm-review')
+  if (!ready || !fill.checked) { review.classList.add('hidden'); return }
+
+  const planilla = pmBase.info.employees.map(e => e.name)
+  const reloj = [...recs.keys()].sort()
+  pmMap = pmAutoMatch(planilla, reloj)
+  pmRenderMap(reloj)
+  const ok = Object.keys(pmMap).length
+  document.getElementById('pm-review-title').textContent = `Nombres emparejados: ${ok} de ${planilla.length} filas${pmExtras.length ? ` · ${pmExtras.length} del reloj no están en la planilla` : ''}`
+  review.classList.remove('hidden')
+}
+
+function pmRenderMap(reloj) {
+  const rows = document.getElementById('pm-map-rows')
+  rows.innerHTML = pmBase.info.employees.map((e, i) => {
+    const cur = pmMap[e.name] || ''
+    const opts = reloj.map(n => `<option value="${n.replace(/"/g,'&quot;')}"${n === cur ? ' selected' : ''}>${n}</option>`).join('')
+    return `<div class="mapping-row${cur ? '' : ' nomatch'}">
+      <span>${e.name}<span class="cargo">${e.cargo || ''}</span></span>
+      <span class="arrow">→</span>
+      <select aria-label="Nombre en el reloj para ${e.name.replace(/"/g,'&quot;')}" onchange="pmSetMap(${i}, this.value)"><option value="">Sin fichadas</option>${opts}</select>
+    </div>`
+  }).join('')
+  pmUpdateExtras(reloj)
+}
+
+function pmSetMap(i, value) {
+  const name = pmBase.info.employees[i].name
+  if (value) pmMap[name] = value; else delete pmMap[name]
+  pmRenderMap([...pmMonthRecords(pmSelectedMonth()).keys()].sort())
+}
+
+function pmUpdateExtras(reloj) {
+  const used = new Set(Object.values(pmMap))
+  pmExtras = reloj.filter(n => !used.has(n))
+  const wrap = document.getElementById('pm-extra-wrap')
+  wrap.classList.toggle('hidden', !pmExtras.length)
+  document.getElementById('pm-extra-label').textContent = pmExtras.length
+    ? `Agregar al final ${pmExtras.length === 1 ? 'a la persona' : `a las ${pmExtras.length} personas`} del reloj que no están en la planilla: ${pmExtras.join(', ')}`
+    : ''
+}
+
+function pmFileName(sel) {
+  const mes = MESES[sel.m-1]
+  return `Asistencia${mes.charAt(0)}${mes.slice(1).toLowerCase()}${sel.y}.xlsx`
+}
+
+async function pmGenerate() {
+  const sel = pmSelectedMonth()
+  if (!pmBase || !sel) return
+  const btn = document.getElementById('pm-btn')
+  btn.disabled = true
+  try {
+    const wb = new ExcelJS.Workbook()
+    await wb.xlsx.load(pmBase.buffer.slice(0))
+    const src = wb.worksheets[0]
+    const info = pmParse(src)
+    const { headerRow: H, dayRow: D, wdRow: W, nameCol: NC, firstDayCol: C0, lastDayCol, trailing, dataStart, divisor } = info
+    const n = sel.days
+    const useFill = document.getElementById('pm-fill').checked
+    const recs = useFill ? pmMonthRecords(sel) : new Map()
+
+    const out = wb.addWorksheet('__nueva__', {
+      views: [{ state: 'frozen', xSplit: NC + 1, ySplit: dataStart - 1, zoomScale: (src.views && src.views[0] && src.views[0].zoomScale) || 100 }],
+      properties: { defaultRowHeight: src.properties.defaultRowHeight }
+    })
+    const srcDayCol = i => C0 + Math.min(i, lastDayCol - C0)          // columna modelo para el día i
+    const dstTrail = k => C0 + n + k                                  // columna nueva de cada columna final
+    const copy = (sr, sc, dr, dc, withValue = true) => {
+      const s = src.getCell(sr, sc), d = out.getCell(dr, dc)
+      if (withValue) d.value = s.value && s.value.formula ? null : s.value
+      d.style = cloneStyle(s)
+    }
+
+    // Anchos de columna
+    for (let c = 1; c < C0; c++) out.getColumn(c).width = src.getColumn(c).width
+    for (let i = 0; i < n; i++) out.getColumn(C0 + i).width = src.getColumn(srcDayCol(i)).width
+    trailing.forEach((t, k) => out.getColumn(dstTrail(k)).width = src.getColumn(t.col).width)
+
+    // Encabezados y filas separadoras (todo lo que está arriba de los empleados)
+    for (let r = 1; r < dataStart; r++) {
+      if (src.getRow(r).height) out.getRow(r).height = src.getRow(r).height
+      for (let c = 1; c < C0; c++) copy(r, c, r, c)
+      for (let i = 0; i < n; i++) copy(r, srcDayCol(i), r, C0 + i, false)
+      trailing.forEach((t, k) => copy(r, t.col, r, dstTrail(k)))
+    }
+    out.getCell(H, C0).value = MESES[sel.m-1]
+    for (let i = 0; i < n; i++) {
+      out.getCell(D, C0 + i).value = i + 1
+      if (W !== D) out.getCell(W, C0 + i).value = DIAS_SEMANA[new Date(sel.y, sel.m-1, i + 1).getDay()]
+    }
+    // Celdas combinadas del encabezado
+    for (const m of (src.model.merges || [])) {
+      const [a, b] = m.split(':')
+      const ca = src.getCell(a), cb = src.getCell(b)
+      if (ca.row >= dataStart) continue
+      if (cb.col < C0) out.mergeCells(ca.row, ca.col, cb.row, cb.col)
+      else if (ca.col >= C0 && cb.col <= lastDayCol && cb.col - ca.col >= 20) out.mergeCells(ca.row, C0, cb.row, C0 + n - 1)
+      else {
+        const ka = trailing.findIndex(t => t.col === ca.col), kb = trailing.findIndex(t => t.col === cb.col)
+        if (ka >= 0 && kb >= 0) out.mergeCells(ca.row, dstTrail(ka), cb.row, dstTrail(kb))
+      }
+    }
+
+    // Estilos modelo para las filas de empleados
+    const firstEmp = info.employees[0].row
+    let dayFilled = null, dayEmpty = null
+    for (const e of info.employees) {
+      for (let c = C0; c <= lastDayCol; c++) {
+        const cell = src.getCell(e.row, c)
+        if (!dayFilled && typeof cell.value === 'number') dayFilled = cell
+        if (!dayEmpty && cell.value == null && cell.style && cell.style.border) dayEmpty = cell
+      }
+      if (dayFilled && dayEmpty) break
+    }
+    dayFilled = dayFilled || src.getCell(firstEmp, C0)
+    dayEmpty = dayEmpty || dayFilled
+    const findFormulaCell = re => {
+      for (const e of info.employees) for (let c = 1; c <= src.columnCount; c++) {
+        const cell = src.getCell(e.row, c)
+        if (cell.value && cell.value.formula && re.test(cell.value.formula)) return cell
+      }
+      return null
+    }
+    const sumStyleCell = findFormulaCell(/^SUM\(/i)
+    const divStyleCell = findFormulaCell(/\/\s*[\d.]+\s*$/)
+    const horasK = trailing.findIndex(t => /^HORAS/.test(t.text))
+    const diasK = trailing.findIndex(t => /^DIAS|^DÍAS/.test(t.text))
+    const colL = c => out.getColumn(c).letter
+
+    const rows = info.employees.map(e => ({ name: e.name, cargo: e.cargo, srcRow: e.row, reloj: pmMap[e.name] }))
+    if (useFill && document.getElementById('pm-add-extra').checked)
+      pmExtras.forEach(x => rows.push({ name: x, cargo: '', srcRow: info.employees[info.employees.length - 1].row, reloj: x }))
+
+    let filled = 0, flagged = 0
+    rows.forEach((e, idx) => {
+      const r = dataStart + idx
+      const nameCell = out.getCell(r, NC)
+      nameCell.value = e.name
+      nameCell.style = cloneStyle(src.getCell(e.srcRow, NC))
+      const cargoCell = out.getCell(r, NC + 1)
+      cargoCell.value = e.cargo || null
+      cargoCell.style = cloneStyle(src.getCell(e.srcRow, NC + 1))
+      for (let c = 1; c < NC; c++) copy(e.srcRow, c, r, c)
+
+      const days = e.reloj ? recs.get(e.reloj) : null
+      for (let i = 0; i < n; i++) {
+        const cell = out.getCell(r, C0 + i)
+        const rec = days && days.get(i + 1)
+        if (rec && !rec.error && rec.horas > 0) {
+          cell.value = rec.horas
+          cell.style = cloneStyle(dayFilled)
+          filled++
+        } else if (rec && rec.error) {
+          cell.value = null
+          cell.style = cloneStyle(dayEmpty)
+          cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFFFC7CE' } }
+          cell.note = `${rec.note}\nFichadas: ${rec.stamps.join(' - ')}${rec.suggest ? `\nSuele ${rec.missing === 'salida' ? 'salir' : 'entrar'} ${rec.suggest}` : ''}`
+          flagged++
+        } else {
+          cell.value = null
+          cell.style = cloneStyle(dayEmpty)
+        }
+      }
+      const first = `${colL(C0)}${r}`, last = `${colL(C0 + n - 1)}${r}`
+      trailing.forEach((t, k) => {
+        const cell = out.getCell(r, dstTrail(k))
+        cell.style = cloneStyle(src.getCell(e.srcRow, t.col))
+        cell.value = null
+        if (k === horasK) {
+          cell.value = { formula: `SUM(${first}:${last})` }
+          if (sumStyleCell) cell.style = cloneStyle(sumStyleCell)
+        } else if (k === diasK && horasK >= 0) {
+          cell.value = { formula: `${colL(dstTrail(horasK))}${r}/${divisor}` }
+          if (divStyleCell) cell.style = cloneStyle(divStyleCell)
+        }
+      })
+    })
+
+    wb.removeWorksheet(src.id)
+    out.name = src.name || 'Hoja1'
+    const buf = await wb.xlsx.writeBuffer()
+    await saveFile(pmFileName(sel), new Blob([buf]))
+    const msg = useFill
+      ? `Planilla lista: ${filled} días con horas${flagged ? ` y ${flagged} incompletos marcados en rojo con una nota` : ''}.`
+      : `Planilla lista: ${n} días, ${rows.length} empleados.`
+    document.getElementById('pm-alert').innerHTML = `<div class="alert alert-success">${msg}</div>`
+  } catch (err) {
+    document.getElementById('pm-alert').innerHTML = `<div class="alert alert-error">No se pudo armar la planilla: ${err.message}</div>`
+  } finally {
+    btn.disabled = false
+  }
+}
+
+// Mes por defecto: el de las fichadas procesadas o el actual; planilla base recordada en este navegador
+;(function pmInit() {
+  const now = new Date()
+  document.getElementById('pm-month').value = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`
+  try {
+    const saved = JSON.parse(localStorage.getItem('fichadas-planilla-base') || 'null')
+    if (saved && saved.data && window.ExcelJS) pmSetBase(b64ToBuf(saved.data), saved.name).catch(() => {})
+  } catch (e) {}
+  pmRefresh()
+})()
+</script>
+
+<!-- ═══════════ PASO 4: PROPINAS ═══════════ -->
 <div id="page-tips" class="page">
   <section class="card">
     <h2 class="card-title"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="8" cy="8" r="6"/><path d="M18.09 10.37A6 6 0 1 1 10.34 18"/><path d="M7 6h1v4"/><path d="m16.71 13.88.7.71-2.82 2.82"/></svg>Reparto de propinas</h2>
