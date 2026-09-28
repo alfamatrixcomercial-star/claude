@@ -438,7 +438,7 @@ details[open] > .summary-toggle::after { content: 'Ocultar'; }
 
   <details id="pm-review" class="card hidden">
     <summary class="card-title summary-toggle"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg><span id="pm-review-title">Nombres emparejados</span></summary>
-    <p class="card-desc mt-2">A la izquierda, la planilla; a la derecha, el nombre como figura en el reloj. Si alguno está mal, corregilo acá antes de descargar. Los que no tengan fichadas quedan vacíos.</p>
+    <p class="card-desc mt-2">A la izquierda, la planilla; a la derecha, el nombre como figura en el reloj. Si alguno está mal o falta, corregilo acá: la app recuerda tus correcciones para los próximos meses. Los que no tengan fichadas quedan vacíos.</p>
     <div class="mapping-scroll" id="pm-map-rows"></div>
     <label class="check mt-3 hidden" for="pm-add-extra" id="pm-extra-wrap">
       <input type="checkbox" id="pm-add-extra" checked/>
@@ -1569,6 +1569,21 @@ let pmBase = null      // { buffer, name, info }
 let pmMap = {}         // fila de la planilla → nombre del reloj
 let pmExtras = []      // personas del reloj que no están en la planilla
 
+// Equivalencias confirmadas (planilla → reloj). Las fijas van en el código; las que se corrigen a mano se recuerdan en este navegador
+const PM_ALIAS_FIJOS = {}
+function pmLoadAliases() {
+  let saved = {}
+  try { saved = JSON.parse(localStorage.getItem('fichadas-equivalencias') || '{}') || {} } catch (e) {}
+  return { ...PM_ALIAS_FIJOS, ...saved }
+}
+function pmSaveAlias(planilla, reloj) {
+  try {
+    const saved = JSON.parse(localStorage.getItem('fichadas-equivalencias') || '{}') || {}
+    saved[planilla] = reloj
+    localStorage.setItem('fichadas-equivalencias', JSON.stringify(saved))
+  } catch (e) {}
+}
+
 const cellText = c => {
   const v = c && c.value
   if (v == null) return ''
@@ -1715,6 +1730,15 @@ function pmRefresh() {
   const planilla = pmBase.info.employees.map(e => e.name)
   const reloj = [...recs.keys()].sort()
   pmMap = pmAutoMatch(planilla, reloj)
+  // Aplicar equivalencias confirmadas antes (tienen prioridad sobre las automáticas)
+  const aliases = pmLoadAliases()
+  for (const [p, r] of Object.entries(aliases)) {
+    if (!planilla.includes(p)) continue
+    if (r === '') { delete pmMap[p]; continue }
+    if (!reloj.includes(r)) continue
+    for (const k of Object.keys(pmMap)) if (pmMap[k] === r) delete pmMap[k]
+    pmMap[p] = r
+  }
   pmRenderMap(reloj)
   const ok = Object.keys(pmMap).length
   document.getElementById('pm-review-title').textContent = `Nombres emparejados: ${ok} de ${planilla.length} filas${pmExtras.length ? ` · ${pmExtras.length} del reloj no están en la planilla` : ''}`
@@ -1737,8 +1761,14 @@ function pmRenderMap(reloj) {
 
 function pmSetMap(i, value) {
   const name = pmBase.info.employees[i].name
-  if (value) pmMap[name] = value; else delete pmMap[name]
-  pmRenderMap([...pmMonthRecords(pmSelectedMonth()).keys()].sort())
+  if (value) {
+    for (const k of Object.keys(pmMap)) if (pmMap[k] === value && k !== name) { delete pmMap[k]; pmSaveAlias(k, '') }
+    pmMap[name] = value
+  } else delete pmMap[name]
+  pmSaveAlias(name, value)
+  const reloj = [...pmMonthRecords(pmSelectedMonth()).keys()].sort()
+  pmRenderMap(reloj)
+  document.getElementById('pm-review-title').textContent = `Nombres emparejados: ${Object.keys(pmMap).length} de ${pmBase.info.employees.length} filas${pmExtras.length ? ` · ${pmExtras.length} del reloj no están en la planilla` : ''}`
 }
 
 function pmUpdateExtras(reloj) {
