@@ -321,6 +321,7 @@ details[open] > .summary-toggle::after { content: 'Ocultar'; }
     </div>
     <ul class="rules" aria-label="Criterios">
       <li><span class="rule-k">Jornada</span><span class="rule-v">07:00 → 06:59</span></li>
+      <li><span class="rule-k">Zulma</span><span class="rule-v">00:00 → 23:59</span></li>
       <li><span class="rule-k">Fichada doble</span><span class="rule-v">&lt; 30 min</span></li>
       <li><span class="rule-k">Horario cortado</span><span class="rule-v">corte ≥ 2 h</span></li>
       <li><span class="rule-k">Fichada suelta</span><span class="rule-v">&lt; 12 h entrada · ≥ 17 h salida</span></li>
@@ -605,10 +606,19 @@ const JORNADA_LARGA_H = 17   // más de 17h se marca para revisar (puede ser rea
 const HORA_ENTRADA_MAX = 12  // única fichada antes de las 12 → era la entrada
 const HORA_SALIDA_MIN  = 17  // única fichada desde las 17 (o madrugada) → era la salida
 
-/** Hora decimal dentro de la jornada (00:00-06:59 cuenta como 24-31) */
-function jornadaHour(d) {
+// Personas cuya jornada es el día calendario (00:00 a 23:59) porque entran de madrugada.
+// Ej.: Zulma (limpieza) entra 03:00-04:30 y sale 13:30-16:30; con el corte de las 07:00 su entrada caería en el día anterior
+const JORNADA_CALENDARIO = ['zulma aguilar']
+
+/** Hora en que empieza la jornada de esa persona: 7 para todos, 0 para quienes entran de madrugada */
+function inicioJornada(emp) {
+  return emp && JORNADA_CALENDARIO.includes(normName(emp).replace(/\s+/g, ' ').trim()) ? 0 : 7
+}
+
+/** Hora decimal dentro de la jornada (antes del inicio de jornada cuenta como 24-31) */
+function jornadaHour(d, emp) {
   const h = d.getHours() + d.getMinutes()/60
-  return h < 7 ? h + 24 : h
+  return h < inicioJornada(emp) ? h + 24 : h
 }
 
 function hourToTime(h) {
@@ -635,10 +645,10 @@ function collapseTimes(times) {
   return { times: out, dobles }
 }
 
-/** Fichadas entre 00:00-06:59 → día anterior */
-function getWorkDay(dt) {
+/** Fichadas entre 00:00-06:59 → día anterior (salvo quienes tienen jornada de día calendario) */
+function getWorkDay(dt, emp) {
   const d = new Date(dt)
-  if (d.getHours() < 7) d.setDate(d.getDate() - 1)
+  if (d.getHours() < inicioJornada(emp)) d.setDate(d.getDate() - 1)
   return fmtDate(d)
 }
 
@@ -694,7 +704,7 @@ function buildRecord(empleado, fecha, times) {
     let note = 'Fichada faltante — verificar manualmente', missing = ''
     if (n === 1) {
       // Se ajusta después con el horario habitual del empleado (ver classifySingles)
-      missing = jornadaHour(times[0]) < 15 ? 'salida' : 'entrada'
+      missing = jornadaHour(times[0], empleado) < 15 ? 'salida' : 'entrada'
       note = missing === 'salida' ? 'Falta salida' : 'Falta entrada'
     } else {
       const gaps = times.slice(0,-1).map((t,i) => (times[i+1]-t)/3600000)
@@ -743,8 +753,8 @@ function buildProfiles(records) {
   for (const r of records) {
     if (r.error || !r.times || r.times.length < 2) continue
     const p = acc.get(r.empleado) || { en: [], sa: [] }
-    p.en.push(jornadaHour(r.times[0]))
-    p.sa.push(jornadaHour(r.times[r.times.length-1]))
+    p.en.push(jornadaHour(r.times[0], r.empleado))
+    p.sa.push(jornadaHour(r.times[r.times.length-1], r.empleado))
     acc.set(r.empleado, p)
   }
   const med = a => { const s = [...a].sort((x,y) => x-y); return s[Math.floor(s.length/2)] }
@@ -766,7 +776,7 @@ function classifySingles(records) {
     if (!r.error || !r.times) continue
     const p = profiles.get(r.empleado)
     if (r.times.length === 1) {
-      const h = jornadaHour(r.times[0])
+      const h = jornadaHour(r.times[0], r.empleado)
       let missing, porHabito = false
       if (h < HORA_ENTRADA_MAX) missing = 'salida'
       else if (h >= HORA_SALIDA_MIN) missing = 'entrada'
@@ -775,16 +785,17 @@ function classifySingles(records) {
       r.missing = missing
       r.note = (missing === 'salida' ? 'Falta salida' : 'Falta entrada') + (porHabito ? ' (según su horario habitual)' : '')
     }
-    if (p && r.missing) r.suggest = hourToTime(r.missing === 'salida' ? p.salida : p.entrada)
+    // Solo se sugiere hora cuando hay una única fichada; con 3 o más no se sabe cuál falta
+    if (p && r.missing && r.times.length === 1) r.suggest = hourToTime(r.missing === 'salida' ? p.salida : p.entrada)
   }
 }
 
 /** Arma la fecha/hora real de una hora "HH:MM" dentro de la jornada dd/mm/aaaa (madrugada = día siguiente) */
-function jornadaDate(fecha, hhmm) {
+function jornadaDate(fecha, hhmm, emp) {
   const [d,m,y] = fecha.split('/').map(Number)
   const [hh,mm] = hhmm.split(':').map(Number)
   const dt = new Date(y, m-1, d, hh, mm)
-  if (hh < 7) dt.setDate(dt.getDate() + 1)
+  if (hh < inicioJornada(emp)) dt.setDate(dt.getDate() + 1)
   return dt
 }
 
@@ -924,7 +935,7 @@ function doProcess(data, empCol, tsCol) {
         if (!emp || INVALID.some(p => p.test(emp))) continue
         const ts = parseTimestamp(tsRaw)
         if (!ts) continue
-        const fecha = getWorkDay(ts)
+        const fecha = getWorkDay(ts, emp)
         const key = `${emp}::${fecha}`
         if (!groups.has(key)) groups.set(key, { emp, fecha, times: [] })
         groups.get(key).times.push(ts)
@@ -1200,8 +1211,8 @@ function correctMissing(key) {
 
   // Se agrega la fichada que falta y se recalcula la jornada completa
   // (así un horario cortado sigue descontando el corte)
-  const base = old.times || old.stamps.map(s => jornadaDate(old.fecha, s))
-  const nt = jornadaDate(old.fecha, time)
+  const base = old.times || old.stamps.map(s => jornadaDate(old.fecha, s, old.empleado))
+  const nt = jornadaDate(old.fecha, time, old.empleado)
   if (base.some(t => t.getTime() === nt.getTime())) return notify('Ese horario ya está fichado')
   if (type === 'entrada' && base.length === 1 && nt > base[0]) return notify('La entrada tiene que ser antes de ' + old.stamps[0])
   if (type === 'salida'  && base.length === 1 && nt < base[0]) return notify('La salida tiene que ser después de ' + old.stamps[0])
