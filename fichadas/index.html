@@ -217,6 +217,13 @@ details[open] > .summary-toggle::after { content: 'Ocultar'; }
 .check { display: flex; align-items: center; gap: .6rem; font-size: .86rem; cursor: pointer; }
 .check input { width: 1.1rem; height: 1.1rem; accent-color: var(--accent); cursor: pointer; }
 .check.disabled { color: var(--muted); cursor: not-allowed; }
+.new-list { display: flex; flex-direction: column; gap: .4rem; margin-top: .9rem; }
+.new-list:empty { display: none; }
+.new-item { display: flex; align-items: center; gap: .75rem; padding: .55rem .8rem; border: 1px solid var(--border); border-radius: 8px; background: var(--surface-2); font-size: .84rem; }
+.new-item .who { flex: 1; min-width: 0; }
+.new-item .who small { display: block; color: var(--muted); font-family: var(--mono); font-size: .72rem; }
+.icon-btn { display: inline-grid; place-items: center; width: 34px; height: 34px; border-radius: 8px; border: 1px solid var(--border); background: var(--surface); color: var(--muted); cursor: pointer; }
+.icon-btn:hover { color: var(--danger); border-color: var(--danger); }
 .mapping-row.nomatch select { border-color: var(--warn); }
 .mapping-row .cargo { display: block; font-size: .72rem; color: var(--muted); }
 
@@ -449,6 +456,18 @@ details[open] > .summary-toggle::after { content: 'Ocultar'; }
       <span id="pm-extra-label"></span>
     </label>
   </details>
+
+  <section class="card">
+    <h2 class="card-title"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M19 8v6M22 11h-6"/></svg>Empleados nuevos</h2>
+    <p class="card-desc">Se agregan al final de la planilla. Si ya fichan, elegí cómo figuran en el reloj para que salgan sus horas. Quedan guardados para los próximos meses.</p>
+    <div class="manual-grid">
+      <div><label for="pm-new-name">Nombre</label><input type="text" id="pm-new-name" placeholder="PEREZ JUAN" style="text-transform:uppercase"/></div>
+      <div><label for="pm-new-cargo">Cargo</label><input type="text" id="pm-new-cargo" placeholder="MOZO" style="text-transform:uppercase"/></div>
+      <div style="grid-column: span 2"><label for="pm-new-reloj">En el reloj</label><select id="pm-new-reloj"><option value="">Todavía no ficha</option></select></div>
+      <div><button class="btn btn-ghost" type="button" onclick="pmAddManual()"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Agregar</button></div>
+    </div>
+    <div id="pm-new-list" class="new-list"></div>
+  </section>
 
   <div id="pm-actions" class="actions hidden">
     <button class="btn btn-primary" id="pm-btn" onclick="pmGenerate()"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg><span id="pm-btn-label">Descargar planilla</span></button>
@@ -1667,6 +1686,52 @@ function pmParse(ws) {
 
 let pmReport = null   // jornadas leídas de un reporte ya procesado (con las correcciones hechas)
 
+// Empleados nuevos cargados a mano (van al final de la planilla). Se recuerdan en este navegador
+let pmManual = []
+try { pmManual = JSON.parse(localStorage.getItem('fichadas-empleados-nuevos') || '[]') || [] } catch (e) { pmManual = [] }
+function pmSaveManual() { try { localStorage.setItem('fichadas-empleados-nuevos', JSON.stringify(pmManual)) } catch (e) {} }
+
+function pmRelojNames() {
+  const sel = pmSelectedMonth()
+  return sel ? [...pmMonthRecords(sel).keys()].sort() : []
+}
+
+function pmAddManual() {
+  const name = document.getElementById('pm-new-name').value.trim().toUpperCase().replace(/\s+/g, ' ')
+  const cargo = document.getElementById('pm-new-cargo').value.trim().toUpperCase()
+  let reloj = document.getElementById('pm-new-reloj').value
+  if (!name) return notify('Escribí el nombre del empleado')
+  if (pmManual.some(m => m.name === name) || (pmBase && pmBase.info.employees.some(e => e.name.toUpperCase() === name)))
+    return notify(name + ' ya está en la planilla')
+  if (!reloj) {
+    const libres = pmRelojNames().filter(n => !Object.values(pmMap).includes(n) && !pmManual.some(m => m.reloj === n))
+    reloj = pmAutoMatch([name], libres)[name] || ''
+  }
+  pmManual.push({ name, cargo, reloj })
+  pmSaveManual()
+  document.getElementById('pm-new-name').value = ''
+  document.getElementById('pm-new-cargo').value = ''
+  notify(name + ' se agrega al final de la planilla' + (reloj ? ` con las fichadas de ${reloj}` : ''))
+  pmRefresh()
+}
+
+function pmRemoveManual(i) {
+  pmManual.splice(i, 1)
+  pmSaveManual()
+  pmRefresh()
+}
+
+function pmRenderManual() {
+  const reloj = pmRelojNames()
+  const usados = new Set([...Object.values(pmMap), ...pmManual.map(m => m.reloj).filter(Boolean)])
+  document.getElementById('pm-new-reloj').innerHTML = '<option value="">Todavía no ficha</option>' +
+    reloj.filter(n => !usados.has(n)).map(n => `<option value="${n.replace(/"/g, '&quot;')}">${n}</option>`).join('')
+  document.getElementById('pm-new-list').innerHTML = pmManual.map((m, i) => {
+    const conFichadas = m.reloj && reloj.includes(m.reloj)
+    return `<div class="new-item"><div class="who"><strong>${m.name}</strong><small>${m.cargo || 'Sin cargo'} · ${m.reloj ? (conFichadas ? 'reloj: ' + m.reloj : 'reloj: ' + m.reloj + ' (sin fichadas este mes)') : 'todavía no ficha'}</small></div><button class="icon-btn" type="button" aria-label="Quitar a ${m.name.replace(/"/g, '&quot;')}" title="Quitar" onclick="pmRemoveManual(${i})">✕</button></div>`
+  }).join('')
+}
+
 function pmLoadReloj(e) {
   const file = e.target.files[0]
   if (!file) return
@@ -1810,7 +1875,7 @@ function pmRefresh() {
   if (ready) document.getElementById('pm-btn-label').textContent = `Descargar ${pmFileName(sel)}`
 
   const review = document.getElementById('pm-review')
-  if (!ready || !fill.checked) { review.classList.add('hidden'); return }
+  if (!ready || !fill.checked) { review.classList.add('hidden'); pmMap = {}; pmRenderManual(); return }
 
   const planilla = pmBase.info.employees.map(e => e.name)
   const reloj = [...recs.keys()].sort()
@@ -1825,6 +1890,7 @@ function pmRefresh() {
     pmMap[p] = r
   }
   pmRenderMap(reloj)
+  pmRenderManual()
   const ok = Object.keys(pmMap).length
   document.getElementById('pm-review-title').textContent = `Nombres emparejados: ${ok} de ${planilla.length} filas${pmExtras.length ? ` · ${pmExtras.length} del reloj no están en la planilla` : ''}`
   review.classList.remove('hidden')
@@ -1853,12 +1919,14 @@ function pmSetMap(i, value) {
   pmSaveAlias(name, value)
   const reloj = [...pmMonthRecords(pmSelectedMonth()).keys()].sort()
   pmRenderMap(reloj)
+  pmRenderManual()
   document.getElementById('pm-review-title').textContent = `Nombres emparejados: ${Object.keys(pmMap).length} de ${pmBase.info.employees.length} filas${pmExtras.length ? ` · ${pmExtras.length} del reloj no están en la planilla` : ''}`
 }
 
 function pmUpdateExtras(reloj) {
   const used = new Set(Object.values(pmMap))
-  pmExtras = reloj.filter(n => !used.has(n) && !PM_RELOJ_IGNORAR.includes(n.toUpperCase()))
+  const manuales = new Set(pmManual.map(m => m.reloj).filter(Boolean))
+  pmExtras = reloj.filter(n => !used.has(n) && !manuales.has(n) && !PM_RELOJ_IGNORAR.includes(n.toUpperCase()))
   const wrap = document.getElementById('pm-extra-wrap')
   wrap.classList.toggle('hidden', !pmExtras.length)
   document.getElementById('pm-extra-label').textContent = pmExtras.length
@@ -1974,6 +2042,7 @@ async function pmGenerate() {
     const rows = info.employees.map(e => ({ name: e.name, cargo: e.cargo, srcRow: e.row, reloj: pmMap[e.name] }))
     if (useFill && document.getElementById('pm-add-extra').checked)
       pmExtras.forEach(x => rows.push({ name: x, cargo: PM_CARGOS_NUEVOS[x.toUpperCase()] || '', srcRow: info.employees[info.employees.length - 1].row, reloj: x }))
+    pmManual.forEach(m => rows.push({ name: m.name, cargo: m.cargo, srcRow: info.employees[info.employees.length - 1].row, reloj: useFill ? m.reloj : null }))
 
     let filled = 0, flagged = 0
     rows.forEach((e, idx) => {
