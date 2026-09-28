@@ -1576,6 +1576,8 @@ const PM_ALIAS_FIJOS = {
 }
 // Personas de la planilla modelo que ya no trabajan: no se incluyen en las planillas nuevas
 const PM_BAJAS = ['MATIAS SOLER', 'VALENTINA MORINIGO', 'MATIAS MILLAN']
+// Nombres del reloj que no se agregan a la planilla aunque tengan fichadas
+const PM_RELOJ_IGNORAR = ['CALLARA CA', 'JUAN CRUZ CHAPPE', 'SANDRA SERRANO']
 function pmLoadAliases() {
   let saved = {}
   try { saved = JSON.parse(localStorage.getItem('fichadas-equivalencias') || '{}') || {} } catch (e) {}
@@ -1781,7 +1783,7 @@ function pmSetMap(i, value) {
 
 function pmUpdateExtras(reloj) {
   const used = new Set(Object.values(pmMap))
-  pmExtras = reloj.filter(n => !used.has(n))
+  pmExtras = reloj.filter(n => !used.has(n) && !PM_RELOJ_IGNORAR.includes(n.toUpperCase()))
   const wrap = document.getElementById('pm-extra-wrap')
   wrap.classList.toggle('hidden', !pmExtras.length)
   document.getElementById('pm-extra-label').textContent = pmExtras.length
