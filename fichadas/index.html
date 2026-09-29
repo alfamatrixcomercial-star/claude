@@ -1159,6 +1159,10 @@ function saveEdit() {
 
 function closeEdit() {
   editingKey = null
+  // Si se abrió una celda vacía y no se guardó, no dejar una jornada fantasma sin fichadas
+  const before = processedRecords.length
+  processedRecords = processedRecords.filter(r => !(r.error && !r.stamps.length && r.note === 'Ingresado manualmente'))
+  if (processedRecords.length !== before) { renderGrid(); updateStats() }
   document.getElementById('edit-panel').classList.remove('open')
   document.querySelectorAll('td.cell-selected').forEach(td => td.classList.remove('cell-selected'))
 }
@@ -1320,7 +1324,7 @@ function exportDetailed() {
   XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(resumen), 'Resumen por Empleado')
 
   // Sheet 3: Incompletas
-  const errs = processedRecords.filter(r => r.error)
+  const errs = processedRecords.filter(r => r.error && r.stamps.length)
   if (errs.length) {
     const eRows = errs.map(r => ({ Empleado: r.empleado, Fecha: r.fecha, 'Fichadas del día': r.stamps.join(' | '), Observación: r.note||'' }))
     XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(eRows), 'Fichadas Incompletas')
@@ -1794,6 +1798,7 @@ function pmReadReport(wb) {
     for (const r of XLSX.utils.sheet_to_json(wb.Sheets[incSheet], { raw: false, defval: '' })) {
       const emp = String(r.Empleado || '').trim(), f = fecha(r.Fecha)
       if (!emp || !f || out.some(x => x.empleado === emp && x.fecha === f)) continue
+      if (!String(r['Fichadas del día'] || '').trim()) continue   // jornada vacía abierta por error
       out.push({ empleado: emp, fecha: f, horas: null, error: true,
         stamps: String(r['Fichadas del día'] || '').split('|').map(x => x.trim()).filter(Boolean),
         note: String(r['Observación'] || 'Fichada incompleta') })
