@@ -443,7 +443,7 @@ details[open] > .summary-toggle::after { content: 'Ocultar'; }
     </label>
     <label class="check mt-2" for="pm-round">
       <input type="checkbox" id="pm-round" checked/>
-      <span>Redondear a la media hora más cercana (8,2 → 8 · 8,7 → 8,5 · 2,8 → 3)</span>
+      <span>Redondear a la media hora más cercana (8,2 → 8 · 8,7 → 8,5 · 2,8 → 3 · justo en el medio baja: 5:45 → 5,5)</span>
     </label>
     <div id="pm-alert"></div>
   </section>
@@ -1701,6 +1701,25 @@ function pmParse(ws) {
 
 let pmReport = null   // jornadas leídas de un reporte ya procesado (con las correcciones hechas)
 
+const aMin = t => { const m = String(t || '').match(/^(\d{1,2}):(\d{2})/); return m ? Number(m[1]) * 60 + Number(m[2]) : null }
+const difMin = (e, s) => { const a = aMin(e), b = aMin(s); if (a == null || b == null) return null; let d = b - a; if (d < 0) d += 1440; return d }
+
+/** Minutos trabajados de una jornada, a partir de los horarios (así el redondeo no depende del decimal) */
+function minutosDe(rec) {
+  const aprox = Math.round((rec.horas || 0) * 60)
+  let m = rec.mins
+  if (m == null && rec.cortado && rec.t1 && rec.t2) { const a = difMin(rec.t1.e, rec.t1.s), b = difMin(rec.t2.e, rec.t2.s); if (a != null && b != null) m = a + b }
+  if (m == null && rec.stamps && rec.stamps.length >= 2 && rec.stamps.length % 2 === 0 && !rec.error) {
+    m = 0; for (let i = 0; i < rec.stamps.length; i += 2) { const d = difMin(rec.stamps[i], rec.stamps[i + 1]); if (d == null) { m = null; break } m += d }
+  }
+  if (m == null && rec.entrada && rec.salida) m = difMin(rec.entrada, rec.salida)
+  // Si los horarios no cierran con las horas cargadas (se editaron a mano), mandan las horas
+  return (m == null || Math.abs(m - aprox) > 6) ? aprox : m
+}
+
+/** Media hora más cercana; si queda justo en el medio (x:15 o x:45) baja: 5:45 → 5,5 · 8:15 → 8 */
+function redondearMediaHora(min) { return Math.max(0, Math.ceil((min - 15) / 30)) / 2 }
+
 // Empleados nuevos cargados a mano (van al final de la planilla). Se recuerdan en este navegador
 let pmManual = []
 try { pmManual = JSON.parse(localStorage.getItem('fichadas-empleados-nuevos') || '[]') || [] } catch (e) { pmManual = [] }
@@ -1791,7 +1810,11 @@ function pmReadReport(wb) {
     const emp = String(r.Empleado).trim(), f = fecha(r.Fecha)
     const h = parseFloat(String(r['Horas Calculadas']).replace(',', '.'))
     if (!emp || !f || !(h > 0)) continue
-    out.push({ empleado: emp, fecha: f, horas: h, stamps: [r.Entrada, r.Salida].filter(Boolean), error: false })
+    const cort = /^s[ií]/i.test(String(r['Horario Cortado'] || ''))
+    const rec = { empleado: emp, fecha: f, horas: h, stamps: [r.Entrada, r.Salida].filter(Boolean), error: false, entrada: r.Entrada, salida: r.Salida }
+    if (cort && r['T1 Entrada'] && r['T2 Entrada']) { rec.cortado = true; rec.t1 = { e: r['T1 Entrada'], s: r['T1 Salida'] }; rec.t2 = { e: r['T2 Entrada'], s: r['T2 Salida'] } }
+    rec.stamps = []
+    out.push(rec)
   }
   const incSheet = wb.SheetNames.find(n => /incomplet/i.test(n))
   if (incSheet) {
@@ -1969,7 +1992,7 @@ async function pmGenerate() {
     const n = sel.days
     const useFill = document.getElementById('pm-fill').checked
     const roundHalf = document.getElementById('pm-round').checked
-    const hoursOf = h => roundHalf ? Math.round(h * 2) / 2 : h
+    const hoursOf = rec => roundHalf ? redondearMediaHora(minutosDe(rec)) : rec.horas
     const recs = useFill ? pmMonthRecords(sel) : new Map()
 
     const out = wb.addWorksheet('__nueva__', {
@@ -2076,7 +2099,7 @@ async function pmGenerate() {
         const cell = out.getCell(r, C0 + i)
         const rec = days && days.get(i + 1)
         if (rec && !rec.error && rec.horas > 0) {
-          cell.value = hoursOf(rec.horas)
+          cell.value = hoursOf(rec)
           cell.style = cloneStyle(dayFilled)
           filled++
         } else if (rec && rec.error) {
