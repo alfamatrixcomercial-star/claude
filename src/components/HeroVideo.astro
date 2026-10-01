@@ -136,9 +136,25 @@ const ANGOSTO = "(max-width: 700px)";
         fuente.type = tipo;
         video.appendChild(fuente);
       }
+      video.muted = true;
       video.load();
-      video.play().then(() => video.classList.add("visible")).catch(() => {});
+      video.play().then(mostrar).catch(reintentar);
     };
+    const mostrar = () => video.classList.add("visible");
+
+    /* El iPhone en modo de ahorro de batería no deja arrancar videos solos:
+       play() falla. Sí los deja después de un gesto, así que se reintenta
+       con el primer toque (que es también como empieza un scroll en el
+       celular); mientras tanto queda la foto. */
+    const GESTOS = ["touchstart", "pointerdown", "keydown"] as const;
+    const conGesto = () => {
+      soltarGestos();
+      video.play().then(mostrar).catch(() => {});
+    };
+    const soltarGestos = () =>
+      GESTOS.forEach((g) => window.removeEventListener(g, conGesto));
+    const reintentar = () =>
+      GESTOS.forEach((g) => window.addEventListener(g, conGesto, { once: true, passive: true }));
     if (document.readyState === "complete") arrancar();
     else window.addEventListener("load", arrancar, { once: true });
 
@@ -147,6 +163,7 @@ const ANGOSTO = "(max-width: 700px)";
        la descarga en el momento. */
     return () => {
       window.removeEventListener("load", arrancar);
+      soltarGestos();
       video.pause();
       video.querySelectorAll("source").forEach((f) => f.remove());
       video.load();

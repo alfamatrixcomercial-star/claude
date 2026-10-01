@@ -4,14 +4,18 @@ Los originales, tal como llegaron. De acá salen los `public/video/*.mp4` y
 `*.webm` que sirve el sitio. Nada de esta carpeta se importa, así que Astro
 no la empaqueta.
 
-## dron-predio.mp4 → /video/waikiki-dron
+## dron-complejo-hotel.mp4 → /video/waikiki-dron
 
-Portada del home en pantalla ancha. La bandera sobre el mar, el
-restaurante a contraluz y el predio desde el dron. Llegó en 636x360 y a
-330 kb/s: es una copia comprimida, no el archivo de la cámara. Se le
-quita el ruido de compresión, se lleva a 1280x720 y se le da un poco de
-nitidez (hqdn3d, lanczos, unsharp), sin audio. A pantalla completa en un
-monitor grande sigue viéndose blando: el original del dron lo resolvería.
+Portada del home en pantalla ancha. El complejo desde el dron, el hotel,
+las habitaciones y el restaurante frente al mar. 1276x720, 37 s, 25 fps.
+El .mp4 es el original sin recomprimir (sólo se le quita el audio): cada
+pasada de compresión pierde calidad. El .webm, de reserva, va en VP9.
+
+## dron-predio.mp4 (sin uso)
+
+Fue la portada ancha antes que el de arriba. Llegó en 636x360 y a 330
+kb/s, y aun limpio y llevado a 1280x720 se veía blando a pantalla
+completa.
 
 ## dron-fachada-vertical.mp4 → /video/waikiki-dron-vertical
 
