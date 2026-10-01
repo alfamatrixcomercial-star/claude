@@ -4,12 +4,15 @@ Los originales, tal como llegaron. De acá salen los `public/video/*.mp4` y
 `*.webm` que sirve el sitio. Nada de esta carpeta se importa, así que Astro
 no la empaqueta.
 
-## dron-complejo-hotel.mp4 → /video/waikiki-dron
+## dron-complejo-hotel.mp4 → /video/waikiki-complejo
 
 Portada del home en pantalla ancha. El complejo desde el dron, el hotel,
 las habitaciones y el restaurante frente al mar. 1276x720, 37 s, 25 fps.
 El .mp4 es el original sin recomprimir (sólo se le quita el audio): cada
 pasada de compresión pierde calidad. El .webm, de reserva, va en VP9.
+Lleva otro nombre que el anterior (waikiki-dron) a propósito: con el
+mismo, los navegadores que ya lo tenían guardado seguían mostrando el
+viejo. Si se vuelve a cambiar el video, cambiarle el nombre otra vez.
 
 ## dron-predio.mp4 (sin uso)
 

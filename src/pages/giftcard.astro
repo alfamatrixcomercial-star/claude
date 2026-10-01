@@ -65,12 +65,12 @@ const usos = (await getCollection("unidades"))
         Dos menús del restaurante, con entrada, principal, postre y vino, o una
         escapada que suma una noche en el hotel.
       </p>
-      <ul class:list={["lista-menus", { impar: menus.length % 2 === 1 }]} data-revelar-grupo={String(menus.length)}>
+      <ul class="lista-menus" data-revelar-grupo={String(menus.length)}>
         {menus.map((m) => (
           <li>
             <article class="menu-card" aria-labelledby={`t-${m.id}`}>
               <div class="menu-foto">
-                <Foto foto={m.foto} sizes="(min-width: 760px) 46vw, 92vw" anchos={[480, 800, 1200]} />
+                <Foto foto={m.foto} sizes="(min-width: 860px) 32vw, 92vw" anchos={[480, 800, 1200]} />
               </div>
               <div class="menu-cuerpo">
                 <header class="menu-cabeza">
@@ -81,6 +81,7 @@ const usos = (await getCollection("unidades"))
                   </p>
                   <p class="menu-bajada">{m.bajada}</p>
                 </header>
+                <div class="tiempos">
                 {m.tiempos.map((t) => (
                   <div class="tiempo">
                     <p class="tiempo-titulo">
@@ -92,6 +93,7 @@ const usos = (await getCollection("unidades"))
                     </ul>
                   </div>
                 ))}
+                </div>
                 <div class="menu-accion" data-elegir={m.id}>
                   <Boton href="#pedido">Regalar {m.nombre}</Boton>
                 </div>
@@ -426,15 +428,6 @@ const usos = (await getCollection("unidades"))
     gap: clamp(1.25rem, 3vw, 2rem);
     margin-top: clamp(1.75rem, 4vw, 2.5rem);
   }
-  /* Dos columnas; con un número impar, la última va a lo ancho, con la
-     foto al costado: así la escapada no queda como una columna medio vacía
-     al lado de dos menús largos. */
-  @media (min-width: 760px) {
-    .lista-menus { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    .lista-menus.impar > li:last-child { grid-column: 1 / -1; }
-    .lista-menus.impar > li:last-child .menu-card { flex-direction: row; }
-    .lista-menus.impar > li:last-child .menu-foto { flex: 0 0 48%; aspect-ratio: auto; min-height: 22rem; }
-  }
   .lista-menus > li { display: flex; }
   .menu-card {
     display: flex;
@@ -450,6 +443,7 @@ const usos = (await getCollection("unidades"))
   .menu-foto :global(img) { position: absolute; inset: 0; }
   .menu-cuerpo {
     flex: 1;
+    min-width: 0;
     display: flex;
     flex-direction: column;
     gap: 1.15rem;
@@ -510,7 +504,29 @@ const usos = (await getCollection("unidades"))
     height: 1px;
     background: var(--app-arena);
   }
-  .menu-accion { margin-top: auto; padding-top: 0.5rem; }
+  .tiempos { display: flex; flex-direction: column; gap: 1.15rem; }
+  .menu-accion { margin-top: auto; padding-top: 0.25rem; }
+  /* Una propuesta por fila. En pantalla ancha, foto al costado y los
+     tiempos en dos columnas: así cada carta entra entera en la pantalla de
+     una compu y se lee sin scrollear a mitad de un menú. */
+  @media (min-width: 860px) {
+    .menu-card { flex-direction: row; }
+    .menu-foto { flex: 0 0 32%; aspect-ratio: auto; }
+    .menu-cabeza {
+      flex-direction: row;
+      flex-wrap: wrap;
+      align-items: baseline;
+      justify-content: space-between;
+      column-gap: 1.5rem;
+    }
+    .menu-bajada { flex-basis: 100%; }
+    .tiempos {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1.1rem 2.25rem;
+    }
+    .tiempo li { font-size: 0.97rem; }
+  }
 
   /* ── Qué regalás ────────────────────────────────────────────────────── */
   .opciones { border: 0; padding: 0; margin: 0; min-width: 0; display: grid; gap: 0.5rem; }
