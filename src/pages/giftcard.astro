@@ -35,8 +35,9 @@ const menus = g.menus;
 const pesos = (n: number) => `$ ${n.toLocaleString("es-AR")}`;
 const valor = (m: (typeof menus)[number]) => (m.precio ? pesos(m.precio) : "Valor a consultar");
 
-/* «Para usar en»: una foto por unidad donde se puede usar la tarjeta. Salen
-   de la foto principal de cada unidad, así cambian solas si cambia esa. */
+/* «Para usar en»: una foto por unidad donde se puede usar la tarjeta. Es la
+   misma de su tarjeta en el home (o la principal, si no tiene), así
+   cambian solas si cambia esa. */
 const DONDE = ["restaurante", "hotel"];
 const usos = (await getCollection("unidades"))
   .filter((u) => DONDE.includes(u.id))
@@ -149,7 +150,7 @@ const usos = (await getCollection("unidades"))
             {usos.map((u) => (
               <li>
                 <Foto
-                  foto={u.data.hero}
+                  foto={u.data.fotoPuerta ?? u.data.hero}
                   unidad={u.id as any}
                   ornamento={u.data.ornamento}
                   sizes="(min-width: 960px) 12rem, 30vw"

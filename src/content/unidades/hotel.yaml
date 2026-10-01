@@ -24,9 +24,16 @@ marca:
 hero:
   src: ../../assets/fotos/hotel/edificio-parque.jpg
   alt: >-
-    El edificio del hotel visto desde el parque del predio, con los árboles
-    en primer plano
+    El restaurante del complejo visto desde el parque del predio, con los
+    árboles en primer plano
   foco: centro
+
+# La tarjeta del hotel en el home: una habitación, que es lo que se busca.
+fotoPuerta:
+  src: ../../assets/fotos/hotel/habitacion-vista-mar.jpg
+  alt: >-
+    Una habitación del hotel con la cama tendida, los sillones junto al
+    ventanal y el mar y la ciudad detrás de los balcones
 
 # Video vertical del hotel, tal como llegó: 720x1280 de teléfono. Va en un
 # panel dentro del hero, en su proporción, para no ampliarlo ni recortarlo.

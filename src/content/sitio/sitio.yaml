@@ -171,10 +171,10 @@ giftcard:
       # Sin precio: el valor se consulta por WhatsApp.
       para: dos
       foto:
-        src: ../../assets/fotos/hotel/edificio-parque.jpg
+        src: ../../assets/fotos/hotel/habitacion-vista-mar.jpg
         alt: >-
-          El edificio del hotel visto desde el parque del predio, con los
-          árboles en primer plano
+          Una habitación del hotel con la cama tendida, los sillones junto al
+          ventanal y el mar y la ciudad detrás de los balcones
       tiempos:
         - titulo: En el restaurante
           platos:
