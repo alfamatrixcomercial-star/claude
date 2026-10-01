@@ -1,33 +1,35 @@
 ---
 /**
- * Primera impresión del sitio: foto a pantalla completa y, si se le pasa
- * `src`, video encima.
+ * Primera impresión del sitio: foto a pantalla completa y video encima.
  *
- * Hoy el home va sin video: el que hay es de 720 px y a pantalla completa
- * en un monitor de 1920 se estiraba casi tres veces. Para volver a video
- * alcanza con pasarle `src` con uno de 1920 px o más.
+ * Un video para pantalla ancha (`src`, horizontal) y otro para el celular
+ * (`srcVertical`): un horizontal recortado a lo alto de un teléfono pierde
+ * casi todo el cuadro. Si para un ancho no hay video, queda la foto.
  *
  * Reglas que se respetan, del brief y del plugin:
  *  · Mudo y en bucle, sin controles: es ambiente, no un reproductor.
- *  · `poster` para la primera pintura, así nunca hay un rectángulo negro.
+ *  · La foto pinta primero, así nunca hay un rectángulo negro, y el video
+ *    aparece encima con un fundido cuando ya está andando.
+ *  · Se pide recién cuando terminó de cargar la página: lo importante no
+ *    compite con varios megas de video.
  *  · No arranca si el visitante pide menos movimiento o tiene ahorro de
- *    datos: en ese caso queda el poster, que es una foto del lugar.
- *  · En pantallas chicas tampoco arranca solo: 770 KB no se le imponen a
- *    una conexión móvil de enero.
+ *    datos: en ese caso queda la foto del lugar.
  */
 import { getImage } from "astro:assets";
 
 interface Props {
-  /** Sin extensión: se sirven .webm y .mp4 desde la misma base. Sin
-   *  `src`, sólo foto. */
+  /** Sin extensión: se sirven .mp4 y .webm desde la misma base. Video
+   *  horizontal, para pantallas de más de 700 px. */
   src?: string;
+  /** Lo mismo, vertical, para el celular. */
+  srcVertical?: string;
   poster: ImageMetadata;
-  /** Foto para pantallas angostas, donde el video no arranca y la
-   *  horizontal recortada a lo alto pierde casi todo el cuadro. */
+  /** Foto para pantallas angostas: la horizontal recortada a lo alto
+   *  pierde casi todo el cuadro. */
   posterVertical?: ImageMetadata;
   alt: string;
 }
-const { src, poster, posterVertical, alt } = Astro.props;
+const { src, srcVertical, poster, posterVertical, alt } = Astro.props;
 
 /* Se arma el <picture> a mano porque el componente de Astro no cambia de
    foto según el ancho de pantalla: sólo cambia de tamaño. */
@@ -52,7 +54,7 @@ const base = await getImage({ src: poster, width: 1200, format: "jpeg" });
 const ANGOSTO = "(max-width: 700px)";
 ---
 
-<div class="fondo-video" data-video={src}>
+<div class="fondo-video" data-video={src} data-video-vertical={srcVertical}>
   <picture>
     {vertical && <source media={ANGOSTO} type="image/avif" srcset={vertical.avif} sizes="100vw" />}
     {vertical && <source media={ANGOSTO} type="image/webp" srcset={vertical.webp} sizes="100vw" />}
@@ -71,7 +73,7 @@ const ANGOSTO = "(max-width: 700px)";
       class="poster"
     />
   </picture>
-  {src && <video muted loop playsinline preload="none" aria-hidden="true"></video>}
+  {(src || srcVertical) && <video muted loop playsinline preload="none" aria-hidden="true"></video>}
 </div>
 
 <style>
@@ -108,13 +110,17 @@ const ANGOSTO = "(max-width: 700px)";
   enCadaPagina(() => {
     const bloque = document.querySelector<HTMLElement>(".fondo-video");
     const video = bloque?.querySelector("video");
-    const src = bloque?.dataset.video;
-    if (!bloque || !video || !src) return;
+    if (!bloque || !video) return;
+
+    /* El mismo corte que la foto: hasta 700 px, el vertical. Se decide una
+       vez al cargar; girar el teléfono no cambia de video a mitad. */
+    const angosto = window.matchMedia("(max-width: 700px)").matches;
+    const src = angosto ? bloque.dataset.videoVertical : bloque.dataset.video;
+    if (!src) return;
 
     const quietud = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const angosto = window.matchMedia("(max-width: 700px)");
     const ahorro = (navigator as any).connection?.saveData === true;
-    if (quietud.matches || angosto.matches || ahorro) return;
+    if (quietud.matches || ahorro) return;
 
     /* Se carga recién cuando el navegador terminó con lo importante. */
     const arrancar = () => {
