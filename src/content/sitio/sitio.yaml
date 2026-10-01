@@ -126,14 +126,10 @@ giftcard:
           platos:
             - Brownie con crema helada, reducción de frutos rojos y crocante de café
             - Panqueque de Dulce de Leche con helado
-        # TODO: confirmar qué bebida va con cada menú. Se asignaron en el
-        # orden en que llegaron (la primera al Clásico Waikiki).
         - titulo: Bebida
           platos:
-            - >-
-              Una botella de Nicasia Vineyards Red Blend Cabernet Franc o
-              Nicasia Vineyards Blanc de Blancs
-            - Un agua Eco de Los Andes, con o sin gas
+            - Una botella de Alamos Chardonnay o Alamos Malbec
+            - Un agua Eco de Los Andes por persona, con o sin gas
     - id: mar-adentro
       nombre: Mar Adentro
       bajada: La más completa, con burrata, gambas, mero y el Ravioli Nero.
@@ -165,8 +161,10 @@ giftcard:
             - Marquise de Chocolate con helado
         - titulo: Bebida
           platos:
-            - Una botella de Alamos Chardonnay o Alamos Malbec
-            - Un agua Eco de Los Andes por persona, con o sin gas
+            - >-
+              Una botella de Nicasia Vineyards Red Blend Cabernet Franc o
+              Nicasia Vineyards Blanc de Blancs
+            - Un agua Eco de Los Andes, con o sin gas
     - id: escapada-ili-ili
       nombre: Escapada Ili Ili
       bajada: El menú Mar Adentro y, después, una noche en el hotel del complejo.
