@@ -263,14 +263,17 @@ const sitio = defineCollection({
         intro: z.array(z.string()).min(1),
         pasos: z.array(z.object({ titulo: z.string(), texto: z.string() })).min(2),
         aviso: z.string().min(20),
-        montoMinimo: z.number().int().positive(),
-        /** Menús del restaurante que se regalan a precio fijo. */
+        /**
+         * Las propuestas que se regalan. Sin precio, la tarjeta dice «Valor a
+         * consultar» y el pedido lo pregunta por WhatsApp.
+         */
         menus: z
           .array(
             z.object({
               id: z.string().regex(/^[a-z0-9-]+$/, "Sólo minúsculas, números y guiones."),
               nombre: z.string().min(3),
-              precio: z.number().int().positive(),
+              bajada: z.string().min(10),
+              precio: z.number().int().positive().optional(),
               foto: foto(image),
               tiempos: z
                 .array(
@@ -281,10 +284,9 @@ const sitio = defineCollection({
                   }),
                 )
                 .min(1),
-              bebida: z.string().min(10),
             }),
           )
-          .default([]),
+          .min(1),
         /** Fondo del encabezado de la página. */
         foto: foto(image),
         /** La foto de la tarjeta de muestra que se completa con el formulario. */

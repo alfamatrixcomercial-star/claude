@@ -29,22 +29,15 @@ if (!g) throw new Error("Falta el bloque giftcard en sitio.yaml");
    lo arma el navegador porque depende de lo que se escriba en el formulario. */
 const whatsapp = sitio.contacto.general.whatsapp;
 
-/* Los menús se regalan a precio fijo; «Otro monto» es la tarjeta de
-   siempre, con el importe que se quiera. Si no hay menús cargados, el
-   formulario arranca directamente en monto libre. */
+/* Las propuestas que se regalan. Una sin precio dice «Valor a consultar» y
+   el pedido lo pregunta por WhatsApp. */
 const menus = g.menus;
 const pesos = (n: number) => `$ ${n.toLocaleString("es-AR")}`;
-
-const unidades = [
-  { valor: "Cualquiera del complejo", etiqueta: "Cualquiera del complejo" },
-  { valor: "Restaurante", etiqueta: "Restaurante" },
-  { valor: "Hotel Ili Ili", etiqueta: "Hotel Ili Ili" },
-  { valor: "Balneario", etiqueta: "Balneario" },
-];
+const valor = (m: (typeof menus)[number]) => (m.precio ? pesos(m.precio) : "Valor a consultar");
 
 /* «Para usar en»: una foto por unidad donde se puede usar la tarjeta. Salen
    de la foto principal de cada unidad, así cambian solas si cambia esa. */
-const DONDE = ["restaurante", "hotel", "balneario"];
+const DONDE = ["restaurante", "hotel"];
 const usos = (await getCollection("unidades"))
   .filter((u) => DONDE.includes(u.id))
   .sort((a, b) => a.data.orden - b.data.orden);
@@ -64,54 +57,48 @@ const usos = (await getCollection("unidades"))
 
   <Onda />
 
-  {
-    menus.length > 0 && (
-      <section class="menus" aria-labelledby="t-menus" data-revelar>
-        <div class="interior">
-          <p class="rotulo">Para regalar</p>
-          <h2 id="t-menus">Dos menús frente al mar</h2>
-          <p class="menus-bajada">
-            Entrada, principal, postre y vino, en el restaurante del complejo.
-          </p>
-          <ul class="lista-menus" data-revelar-grupo={String(menus.length)}>
-            {menus.map((m) => (
-              <li>
-                <article class="menu-card" aria-labelledby={`t-${m.id}`}>
-                  <div class="menu-foto">
-                    <Foto foto={m.foto} sizes="(min-width: 760px) 34rem, 92vw" anchos={[480, 800, 1200]} />
+  <section class="menus" aria-labelledby="t-menus" data-revelar>
+    <div class="interior">
+      <p class="rotulo">Para regalar</p>
+      <h2 id="t-menus">Elegí qué regalar</h2>
+      <p class="menus-bajada">
+        Dos menús del restaurante, con entrada, principal, postre y vino, o una
+        escapada que suma una noche en el hotel.
+      </p>
+      <ul class:list={["lista-menus", { impar: menus.length % 2 === 1 }]} data-revelar-grupo={String(menus.length)}>
+        {menus.map((m) => (
+          <li>
+            <article class="menu-card" aria-labelledby={`t-${m.id}`}>
+              <div class="menu-foto">
+                <Foto foto={m.foto} sizes="(min-width: 760px) 46vw, 92vw" anchos={[480, 800, 1200]} />
+              </div>
+              <div class="menu-cuerpo">
+                <header class="menu-cabeza">
+                  <h3 id={`t-${m.id}`}>{m.nombre}</h3>
+                  <p class:list={["precio", { consultar: !m.precio }]}>{valor(m)}</p>
+                  <p class="menu-bajada">{m.bajada}</p>
+                </header>
+                {m.tiempos.map((t) => (
+                  <div class="tiempo">
+                    <p class="tiempo-titulo">
+                      {t.titulo}
+                      {t.nota && <span class="tiempo-nota">{t.nota}</span>}
+                    </p>
+                    <ul>
+                      {t.platos.map((plato) => <li>{plato}</li>)}
+                    </ul>
                   </div>
-                  <div class="menu-cuerpo">
-                    <header class="menu-cabeza">
-                      <h3 id={`t-${m.id}`}>{m.nombre}</h3>
-                      <p class="precio">{pesos(m.precio)}</p>
-                    </header>
-                    {m.tiempos.map((t) => (
-                      <div class="tiempo">
-                        <p class="tiempo-titulo">
-                          {t.titulo}
-                          {t.nota && <span class="tiempo-nota">{t.nota}</span>}
-                        </p>
-                        <ul>
-                          {t.platos.map((plato) => <li>{plato}</li>)}
-                        </ul>
-                      </div>
-                    ))}
-                    <div class="tiempo">
-                      <p class="tiempo-titulo">Bebida</p>
-                      <p class="bebida">{m.bebida}</p>
-                    </div>
-                    <div class="menu-accion" data-elegir={m.id}>
-                      <Boton href="#pedido">Regalar el {m.nombre}</Boton>
-                    </div>
-                  </div>
-                </article>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </section>
-    )
-  }
+                ))}
+                <div class="menu-accion" data-elegir={m.id}>
+                  <Boton href="#pedido">Regalar {m.nombre}</Boton>
+                </div>
+              </div>
+            </article>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
 
   <section class="cuerpo" data-revelar>
     <div class="interior columnas">
@@ -129,7 +116,7 @@ const usos = (await getCollection("unidades"))
             <div class="tarjeta-pie">
               <span class="tarjeta-rotulo">Gift card</span>
               <p class="tarjeta-para">Para <b data-vista="para" data-vacio="quien la reciba">quien la reciba</b></p>
-              <p class="tarjeta-monto" data-vista="monto" data-vacio="El monto que elijas">El monto que elijas</p>
+              <p class="tarjeta-monto" data-vista="monto" data-vacio="La gift card que elijas">La gift card que elijas</p>
               <p class="tarjeta-mensaje" data-vista="mensaje" data-vacio="" hidden></p>
               <p class="tarjeta-de" data-vista-de hidden>De <span data-vista="de" data-vacio=""></span></p>
             </div>
@@ -178,7 +165,6 @@ const usos = (await getCollection("unidades"))
             data-giftcard
             novalidate
             data-whatsapp={whatsapp}
-            data-minimo={String(g.montoMinimo)}
           >
             <p class="form-titulo">Pedir la gift card</p>
 
@@ -188,37 +174,14 @@ const usos = (await getCollection("unidades"))
                 menus.map((m, i) => (
                   <label class="opcion">
                     <input type="radio" name="regalo" value={m.id} data-nombre={m.nombre}
-                      data-precio={String(m.precio)} checked={i === 0} />
+                      data-valor={m.precio ? `$${m.precio.toLocaleString("es-AR")}` : ""}
+                      checked={i === 0} />
                     <span class="opcion-nombre">{m.nombre}</span>
-                    <span class="opcion-detalle">{pesos(m.precio)}</span>
+                    <span class="opcion-detalle">{m.precio ? pesos(m.precio) : "A consultar"}</span>
                   </label>
                 ))
               }
-              <label class="opcion">
-                <input type="radio" name="regalo" value="libre" checked={menus.length === 0} />
-                <span class="opcion-nombre">Otro monto</span>
-                <span class="opcion-detalle">El que quieras</span>
-              </label>
             </fieldset>
-
-            <div class="dos" data-solo-libre hidden={menus.length > 0}>
-              <div class="campo">
-                <label for="monto">Monto</label>
-                <div class="con-signo">
-                  <span aria-hidden="true">$</span>
-                  <input id="monto" name="monto" type="text" inputmode="numeric"
-                    required maxlength="12" placeholder="0" />
-                </div>
-                <p class="error" id="e-monto" hidden></p>
-              </div>
-
-              <div class="campo">
-                <label for="unidad">Para usar en</label>
-                <select id="unidad" name="unidad">
-                  {unidades.map((u) => <option value={u.valor}>{u.etiqueta}</option>)}
-                </select>
-              </div>
-            </div>
 
             <div class="campo">
               <label for="de">Tu nombre</label>
@@ -401,9 +364,9 @@ const usos = (await getCollection("unidades"))
   .usos ul {
     list-style: none;
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 0.75rem;
-    max-width: 36rem;
+    max-width: 24rem;
   }
   .usos li { display: flex; flex-direction: column; gap: 0.5rem; }
   .usos li :global(img),
@@ -459,8 +422,14 @@ const usos = (await getCollection("unidades"))
     gap: clamp(1.25rem, 3vw, 2rem);
     margin-top: clamp(1.75rem, 4vw, 2.5rem);
   }
+  /* Dos columnas; con un número impar, la última va a lo ancho, con la
+     foto al costado: así la escapada no queda como una columna medio vacía
+     al lado de dos menús largos. */
   @media (min-width: 760px) {
     .lista-menus { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .lista-menus.impar > li:last-child { grid-column: 1 / -1; }
+    .lista-menus.impar > li:last-child .menu-card { flex-direction: row; }
+    .lista-menus.impar > li:last-child .menu-foto { flex: 0 0 48%; aspect-ratio: auto; min-height: 22rem; }
   }
   .lista-menus > li { display: flex; }
   .menu-card {
@@ -484,14 +453,13 @@ const usos = (await getCollection("unidades"))
   }
   .menu-cabeza {
     display: flex;
-    flex-wrap: wrap;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: 0.25rem 1rem;
+    flex-direction: column;
+    gap: 0.3rem;
     padding-bottom: 1rem;
     border-bottom: 1px solid var(--linea);
   }
   .menu-cabeza h3 { color: var(--titulo); font-size: clamp(1.5rem, 1.2vw + 1.15rem, 2rem); }
+  .menu-bajada { margin-top: 0.2rem; font-size: 0.94rem; color: var(--tinta-suave); }
   .precio {
     font-family: var(--f-display);
     font-size: clamp(1.35rem, 2vw + 0.8rem, 1.75rem);
@@ -500,6 +468,7 @@ const usos = (await getCollection("unidades"))
     font-variant-numeric: tabular-nums;
     color: var(--tinta);
   }
+  .precio.consultar { font-family: var(--f-ui); font-size: 0.95rem; font-weight: 600; letter-spacing: 0; }
   .tiempo-titulo {
     display: flex;
     flex-wrap: wrap;
@@ -529,7 +498,6 @@ const usos = (await getCollection("unidades"))
     height: 1px;
     background: var(--app-arena);
   }
-  .bebida { margin-top: 0.4rem; color: var(--tinta-suave); }
   .menu-accion { margin-top: auto; padding-top: 0.5rem; }
 
   /* ── Qué regalás ────────────────────────────────────────────────────── */
@@ -570,7 +538,6 @@ const usos = (await getCollection("unidades"))
     color: var(--tinta-suave);
     font-variant-numeric: tabular-nums;
   }
-  .dos[hidden] { display: none; }
 
   /* ── Formulario ─────────────────────────────────────────────────────── */
   .marco-form { position: sticky; top: calc(var(--barra) + 1rem); scroll-margin-top: 1rem; }
@@ -614,21 +581,6 @@ const usos = (await getCollection("unidades"))
     background: var(--superficie);
   }
   input::placeholder, textarea::placeholder { color: var(--tinta-suave); opacity: 0.75; }
-
-  /* El signo va adentro del campo, no como prefijo suelto al lado. */
-  .con-signo { position: relative; }
-  .con-signo span {
-    position: absolute;
-    left: 0.85rem;
-    top: 50%;
-    translate: 0 -50%;
-    color: var(--tinta-suave);
-    pointer-events: none;
-  }
-  .con-signo input { padding-left: 1.85rem; font-variant-numeric: tabular-nums; }
-
-  .dos { display: grid; gap: 1.1rem; }
-  @media (min-width: 420px) { .dos { grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); } }
 
   .error {
     font-size: 0.82rem;
@@ -702,7 +654,6 @@ const usos = (await getCollection("unidades"))
     const form = document.querySelector<HTMLFormElement>("form[data-giftcard]");
     if (!form) return;
     const wa = form.dataset.whatsapp!;
-    const minimo = Number(form.dataset.minimo) || 0;
     const estado = form.querySelector<HTMLElement>("[data-estado]")!;
 
     const campo = (n: string) => form.querySelector<HTMLInputElement>(`#${n}`)!;
@@ -718,36 +669,14 @@ const usos = (await getCollection("unidades"))
       else entrada.removeAttribute("aria-describedby");
     };
 
-    /* Sólo dígitos en el monto, formateados con puntos de mil mientras se
-       escribe. Se guarda el número limpio aparte para validar y para el
-       mensaje. */
-    const monto = campo("monto");
-    const soloNumero = (s: string) => s.replace(/\D/g, "");
-    monto.addEventListener("input", () => {
-      const limpio = soloNumero(monto.value);
-      monto.value = limpio ? Number(limpio).toLocaleString("es-AR") : "";
-    });
-
-    /* Qué se regala: un menú a precio fijo o un monto libre. Con un menú, el
-       monto y la unidad no hacen falta (el menú es del restaurante) y se
-       esconden. */
-    const zonaLibre = form.querySelector<HTMLElement>("[data-solo-libre]")!;
+    /* Qué se regala: siempre hay una opción marcada (la primera, de
+       entrada). */
     const elegido = () =>
-      form.querySelector<HTMLInputElement>('input[name="regalo"]:checked');
-    const esLibre = () => (elegido()?.value ?? "libre") === "libre";
-    const aplicarOpcion = () => {
-      zonaLibre.hidden = !esLibre();
-      if (!esLibre()) marcar("monto", null);
-    };
-    form.querySelectorAll<HTMLInputElement>('input[name="regalo"]').forEach((r) =>
-      r.addEventListener("change", aplicarOpcion),
-    );
-    aplicarOpcion();
+      form.querySelector<HTMLInputElement>('input[name="regalo"]:checked')!;
 
-    /* «Regalar el Menú 1», en la tarjeta del menú: lo deja marcado en el
-       formulario y lleva hasta ahí. */
+    /* «Regalar Atardecer», en la tarjeta de cada propuesta: la deja marcada
+       en el formulario y lleva hasta ahí. */
     const quieto = matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const botones = [...document.querySelectorAll<HTMLElement>("[data-elegir]")];
     const elegir = (e: Event) => {
       const caja = (e.currentTarget as HTMLElement).closest<HTMLElement>("[data-elegir]")!;
       const radio = form.querySelector<HTMLInputElement>(
@@ -757,15 +686,15 @@ const usos = (await getCollection("unidades"))
       e.preventDefault();
       radio.checked = true;
       radio.dispatchEvent(new Event("change", { bubbles: true }));
-      form.dispatchEvent(new Event("input"));
       (form.closest<HTMLElement>("#pedido") ?? form).scrollIntoView({
         block: "start",
         behavior: quieto ? "auto" : "smooth",
       });
       radio.focus({ preventScroll: true });
     };
-    const enlaces = botones.map((b) => b.querySelector("a")).filter((a): a is HTMLAnchorElement => !!a);
-    enlaces.forEach((a) => a.addEventListener("click", elegir));
+    document
+      .querySelectorAll<HTMLAnchorElement>("[data-elegir] a")
+      .forEach((a) => a.addEventListener("click", elegir));
 
     const contador = form.querySelector<HTMLElement>("[data-contador]");
     const mensaje = form.querySelector<HTMLTextAreaElement>("#mensaje");
@@ -786,13 +715,7 @@ const usos = (await getCollection("unidades"))
         return el;
       };
       poner("para", campo("para").value.trim());
-      const importe = soloNumero(monto.value);
-      poner(
-        "monto",
-        !esLibre()
-          ? elegido()!.dataset.nombre!
-          : importe ? `$ ${Number(importe).toLocaleString("es-AR")}` : "",
-      );
+      poner("monto", elegido().dataset.nombre ?? "");
       const texto = (mensaje?.value ?? "").trim();
       const renglon = poner("mensaje", texto ? `“${texto}”` : "");
       if (renglon) renglon.hidden = !texto;
@@ -830,13 +753,6 @@ const usos = (await getCollection("unidades"))
         ? marcar("emailPara", null)
         : fallar("emailPara", "Ese email no parece válido.");
 
-      const n = Number(soloNumero(monto.value));
-      if (!esLibre()) marcar("monto", null);
-      else if (!n) fallar("monto", "Poné un monto.");
-      else if (n < minimo)
-        fallar("monto", `El mínimo es $${minimo.toLocaleString("es-AR")}.`);
-      else marcar("monto", null);
-
       return primerError;
     }
 
@@ -848,7 +764,7 @@ const usos = (await getCollection("unidades"))
        apretar "Enviar", y si el cartel se apaga en ese momento el botón se
        corre hacia arriba entre que se aprieta y se suelta, y el clic se
        pierde. */
-    for (const n of ["de", "email", "para", "emailPara", "monto"]) {
+    for (const n of ["de", "email", "para", "emailPara"]) {
       campo(n).addEventListener("input", () => {
         if (!errorDe(n).hidden) revisar();
       });
@@ -866,13 +782,11 @@ const usos = (await getCollection("unidades"))
       }
 
       const v = (n: string) => campo(n).value.trim();
-      const unidad = form.querySelector<HTMLSelectElement>("#unidad")!.value;
       const texto = form.querySelector<HTMLTextAreaElement>("#mensaje")!.value.trim();
-      const importe = Number(soloNumero(monto.value)).toLocaleString("es-AR");
-      const menu = esLibre() ? null : elegido()!;
-      const regalo = menu
-        ? [`Regalo: ${menu.dataset.nombre} ($${Number(menu.dataset.precio).toLocaleString("es-AR")}), en el restaurante`]
-        : [`Monto: $${importe}`, `Para usar en: ${unidad}`];
+      const opcion = elegido();
+      const regalo = opcion.dataset.valor
+        ? [`Regalo: ${opcion.dataset.nombre} (${opcion.dataset.valor})`]
+        : [`Regalo: ${opcion.dataset.nombre}`, "¿Me pasan el valor?"];
 
       const lineas = [
         "Hola! Quiero pedir una GIFT CARD de Mirador Waikiki.",

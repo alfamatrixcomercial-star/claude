@@ -73,20 +73,17 @@ verificacion:
 # La página vive en /giftcard y NO se enlaza desde ninguna sección. Mientras
 # no esté terminada, nadie tiene que llegar por navegación.
 giftcard:
-  titulo: Regalá una tarde frente al mar
+  titulo: Regalá una salida frente al mar
   bajada: >-
-    Una gift card del complejo, para usar en el restaurante, en el hotel o en
-    el balneario.
+    Una gift card para comer en el restaurante frente al mar, o para sumarle
+    una noche en el Hotel Ili Ili Boutique.
   intro:
     - >-
-      Elegís uno de los dos menús del restaurante, o un monto libre, nos
-      contás para quién es y nosotros preparamos la tarjeta.
-    - >-
-      Con monto libre no hay un valor fijo: ponés el que quieras y quien la
-      reciba lo usa en el restaurante, el hotel o el balneario.
+      Elegís una de las tres propuestas, nos contás para quién es y nosotros
+      preparamos la tarjeta.
   pasos:
     - titulo: Completás el formulario
-      texto: Con tus datos, los de quien la recibe y el menú o el monto.
+      texto: Con tus datos, los de quien la recibe y la gift card que elegiste.
     - titulo: Te escribimos
       texto: Coordinamos el pago por transferencia, sin pasarela ni tarjeta.
     - titulo: Enviamos la tarjeta
@@ -94,13 +91,15 @@ giftcard:
   aviso: >-
     Por ahora el pago no se hace en el sitio. El formulario abre un WhatsApp
     con el pedido ya escrito y lo terminamos de coordinar por ahí.
-  montoMinimo: 10000
-  # Los menús que se pueden regalar. El precio va en pesos y sin puntos;
-  # el sitio lo escribe con el formato de acá. Para sacar uno, borrá su
-  # bloque entero; para agregar otro, copiá uno y cambiá el id.
+  # Las propuestas que se regalan. Los platos van con el nombre que tienen en
+  # la carta (mimenulatech.com/miradorwaikiki). El precio va en pesos y sin
+  # puntos; sin precio, la tarjeta dice «Valor a consultar» y el pedido lo
+  # pregunta por WhatsApp. Para sacar una, borrá su bloque entero; para
+  # agregar otra, copiá una y cambiá el id.
   menus:
-    - id: menu-1
-      nombre: Menú 1
+    - id: clasico-waikiki
+      nombre: Clásico Waikiki
+      bajada: Rabas, milanesa y sorrentinos, para compartir mirando el mar.
       precio: 110000
       foto:
         src: ../../assets/fotos/restaurante/spritz-rabas.jpg
@@ -112,53 +111,75 @@ giftcard:
         - titulo: Entrada
           nota: para compartir
           platos:
-            - Rabas
-            - Tabla de mar
-            - Tapeo de quesos y fiambres
+            - Rabas con Limón
+            - Tabla de Mar
+            - Tapeo de Quesos y Fiambres
         - titulo: Principal
           nota: uno por persona
           platos:
-            - Milanesa napolitana con papas fritas
-            - Sorrentinos con bolognesa
-            - Bondiola a la mostaza y miel con papas españolas
+            - Milanesa de Peceto Napolitana con papas fritas
+            - Sorrentinos con Salsa Bolognesa
+            - Bondiola a la Mostaza y Miel con papas españolas
         - titulo: Postre
           platos:
             - Brownie con crema helada y frutos rojos
-            - Panqueque de dulce de leche con helado
-      # TODO: confirmar qué bebida va con cada menú. Se asignaron en el orden
-      # en que llegaron (la primera al Menú 1).
-      bebida: >-
-        Una botella de vino Nicasia Cabernet Franc o Chardonnay y un agua con
-        o sin gas
-    - id: menu-2
-      nombre: Menú 2
+            - Panqueque de Dulce de Leche con helado
+        # TODO: confirmar qué bebida va con cada menú. Se asignaron en el
+        # orden en que llegaron (la primera al Clásico Waikiki).
+        - titulo: Bebida
+          platos:
+            - >-
+              Una botella de Nicasia Vineyards Red Blend Cabernet Franc o
+              Nicasia Chardonnay
+            - Un agua Eco de Los Andes, con o sin gas
+    - id: atardecer
+      nombre: Atardecer
+      bajada: La más completa, con burrata, gambas, mero y el Ravioli Nero.
       precio: 125000
       foto:
-        src: ../../assets/fotos/restaurante/langostinos-burrata.jpg
+        src: ../../assets/fotos/restaurante/ravioles.jpg
         alt: >-
-          Ensalada de langostinos con burrata y tomates, servida en plato hondo
-          blanco
+          Ravioli Nero en salsa de crema con queso rallado y pimentón, con una
+          copa de tinto al lado
+        foco: abajo
       tiempos:
         - titulo: Entrada
           nota: para compartir
           platos:
             - Burrata
-            - Gambas al ajillo
-            - Calamarettes a la leonesa
+            - Gambas al Ajillo
+            - Calamarettes a la Leonesa
         - titulo: Principal
           nota: uno por persona
           platos:
-            - Mero con salsa Mar del Plata
-            - Bife de chorizo al malbec con papas españolas
-            - Ravioli nero a la crema de verdeo
-            - Salmón rosado con crema de camarones y puré duquesa
+            - Mero con Salsa Mar del Plata
+            - Bife de Chorizo al Malbec con papas españolas
+            - Ravioli Nero a la Crema de Verdeo
+            - Salmón Rosado a la Crema de Camarones con puré duquesa
         - titulo: Postre
           platos:
-            - Panqueque de manzana con helado
-            - Marquise de chocolate con helado
-      bebida: >-
-        Una botella de vino Alamos Chardonnay o Malbec y un agua con o sin gas
-        por persona
+            - Panqueque de Manzanas con helado
+            - Marquise de Chocolate con helado
+        - titulo: Bebida
+          platos:
+            - Una botella de Alamos Chardonnay o Alamos Malbec
+            - Un agua Eco de Los Andes por persona, con o sin gas
+    - id: escapada-ili-ili
+      nombre: Escapada Ili Ili
+      bajada: El menú Atardecer y, después, una noche en el hotel del complejo.
+      # Sin precio: el valor se consulta por WhatsApp.
+      foto:
+        src: ../../assets/fotos/hotel/edificio-parque.jpg
+        alt: >-
+          El edificio del hotel visto desde el parque del predio, con los
+          árboles en primer plano
+      tiempos:
+        - titulo: En el restaurante
+          platos:
+            - El menú Atardecer completo, con entrada, principal, postre y vino
+        - titulo: En el hotel
+          platos:
+            - Una noche en el Hotel Ili Ili Boutique
   # A lo ancho de la pantalla: pide una foto de 2000 px o más. La terraza de
   # los macramés tiene 1333 y en un monitor de 1920 se estiraba 1,44 veces.
   foto:
