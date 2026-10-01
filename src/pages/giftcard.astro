@@ -75,7 +75,10 @@ const usos = (await getCollection("unidades"))
               <div class="menu-cuerpo">
                 <header class="menu-cabeza">
                   <h3 id={`t-${m.id}`}>{m.nombre}</h3>
-                  <p class:list={["precio", { consultar: !m.precio }]}>{valor(m)}</p>
+                  <p class:list={["precio", { consultar: !m.precio }]}>
+                    {valor(m)}
+                    {m.para && <span class="para">para {m.para}</span>}
+                  </p>
                   <p class="menu-bajada">{m.bajada}</p>
                 </header>
                 {m.tiempos.map((t) => (
@@ -174,6 +177,7 @@ const usos = (await getCollection("unidades"))
                 menus.map((m, i) => (
                   <label class="opcion">
                     <input type="radio" name="regalo" value={m.id} data-nombre={m.nombre}
+                      data-para={m.para ? `para ${m.para}` : ""}
                       data-valor={m.precio ? `$${m.precio.toLocaleString("es-AR")}` : ""}
                       checked={i === 0} />
                     <span class="opcion-nombre">{m.nombre}</span>
@@ -468,6 +472,14 @@ const usos = (await getCollection("unidades"))
     font-variant-numeric: tabular-nums;
     color: var(--tinta);
   }
+  .para {
+    margin-left: 0.45rem;
+    font-family: var(--f-ui);
+    font-size: 0.9rem;
+    font-weight: 500;
+    letter-spacing: 0;
+    color: var(--tinta-suave);
+  }
   .precio.consultar { font-family: var(--f-ui); font-size: 0.95rem; font-weight: 600; letter-spacing: 0; }
   .tiempo-titulo {
     display: flex;
@@ -674,7 +686,7 @@ const usos = (await getCollection("unidades"))
     const elegido = () =>
       form.querySelector<HTMLInputElement>('input[name="regalo"]:checked')!;
 
-    /* «Regalar Atardecer», en la tarjeta de cada propuesta: la deja marcada
+    /* «Regalar Mar Adentro», en la tarjeta de cada propuesta: la deja marcada
        en el formulario y lleva hasta ahí. */
     const quieto = matchMedia("(prefers-reduced-motion: reduce)").matches;
     const elegir = (e: Event) => {
@@ -784,9 +796,11 @@ const usos = (await getCollection("unidades"))
       const v = (n: string) => campo(n).value.trim();
       const texto = form.querySelector<HTMLTextAreaElement>("#mensaje")!.value.trim();
       const opcion = elegido();
-      const regalo = opcion.dataset.valor
-        ? [`Regalo: ${opcion.dataset.nombre} (${opcion.dataset.valor})`]
-        : [`Regalo: ${opcion.dataset.nombre}`, "¿Me pasan el valor?"];
+      const { nombre, para, valor } = opcion.dataset;
+      const cual = [nombre, para].filter(Boolean).join(", ");
+      const regalo = valor
+        ? [`Regalo: ${cual} (${valor})`]
+        : [`Regalo: ${cual}`, "¿Me pasan el valor?"];
 
       const lineas = [
         "Hola! Quiero pedir una GIFT CARD de Mirador Waikiki.",

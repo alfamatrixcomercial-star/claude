@@ -94,13 +94,15 @@ giftcard:
   # Las propuestas que se regalan. Los platos van con el nombre que tienen en
   # la carta (mimenulatech.com/miradorwaikiki). El precio va en pesos y sin
   # puntos; sin precio, la tarjeta dice «Valor a consultar» y el pedido lo
-  # pregunta por WhatsApp. Para sacar una, borrá su bloque entero; para
+  # pregunta por WhatsApp. «para» dice para cuántos es (el precio es por
+  # todo eso, no por persona). Para sacar una, borrá su bloque entero; para
   # agregar otra, copiá una y cambiá el id.
   menus:
     - id: clasico-waikiki
       nombre: Clásico Waikiki
       bajada: Rabas, milanesa y sorrentinos, para compartir mirando el mar.
       precio: 110000
+      para: dos
       foto:
         src: ../../assets/fotos/restaurante/spritz-rabas.jpg
         alt: >-
@@ -122,7 +124,7 @@ giftcard:
             - Bondiola a la Mostaza y Miel con papas españolas
         - titulo: Postre
           platos:
-            - Brownie con crema helada y frutos rojos
+            - Brownie con crema helada, reducción de frutos rojos y crocante de café
             - Panqueque de Dulce de Leche con helado
         # TODO: confirmar qué bebida va con cada menú. Se asignaron en el
         # orden en que llegaron (la primera al Clásico Waikiki).
@@ -130,12 +132,13 @@ giftcard:
           platos:
             - >-
               Una botella de Nicasia Vineyards Red Blend Cabernet Franc o
-              Nicasia Chardonnay
+              Nicasia Vineyards Blanc de Blancs
             - Un agua Eco de Los Andes, con o sin gas
-    - id: atardecer
-      nombre: Atardecer
+    - id: mar-adentro
+      nombre: Mar Adentro
       bajada: La más completa, con burrata, gambas, mero y el Ravioli Nero.
       precio: 125000
+      para: dos
       foto:
         src: ../../assets/fotos/restaurante/ravioles.jpg
         alt: >-
@@ -166,8 +169,9 @@ giftcard:
             - Un agua Eco de Los Andes por persona, con o sin gas
     - id: escapada-ili-ili
       nombre: Escapada Ili Ili
-      bajada: El menú Atardecer y, después, una noche en el hotel del complejo.
+      bajada: El menú Mar Adentro y, después, una noche en el hotel del complejo.
       # Sin precio: el valor se consulta por WhatsApp.
+      para: dos
       foto:
         src: ../../assets/fotos/hotel/edificio-parque.jpg
         alt: >-
@@ -176,7 +180,7 @@ giftcard:
       tiempos:
         - titulo: En el restaurante
           platos:
-            - El menú Atardecer completo, con entrada, principal, postre y vino
+            - El menú Mar Adentro completo, con entrada, principal, postre y vino
         - titulo: En el hotel
           platos:
             - Una noche en el Hotel Ili Ili Boutique

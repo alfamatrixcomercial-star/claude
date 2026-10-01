@@ -274,6 +274,8 @@ const sitio = defineCollection({
               nombre: z.string().min(3),
               bajada: z.string().min(10),
               precio: z.number().int().positive().optional(),
+              /** Para cuántos es, en letras: «dos». El precio es por todos. */
+              para: z.string().optional(),
               foto: foto(image),
               tiempos: z
                 .array(
