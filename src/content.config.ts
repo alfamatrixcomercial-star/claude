@@ -264,6 +264,27 @@ const sitio = defineCollection({
         pasos: z.array(z.object({ titulo: z.string(), texto: z.string() })).min(2),
         aviso: z.string().min(20),
         montoMinimo: z.number().int().positive(),
+        /** Menús del restaurante que se regalan a precio fijo. */
+        menus: z
+          .array(
+            z.object({
+              id: z.string().regex(/^[a-z0-9-]+$/, "Sólo minúsculas, números y guiones."),
+              nombre: z.string().min(3),
+              precio: z.number().int().positive(),
+              foto: foto(image),
+              tiempos: z
+                .array(
+                  z.object({
+                    titulo: z.string(),
+                    nota: z.string().optional(),
+                    platos: z.array(z.string().min(3)).min(1),
+                  }),
+                )
+                .min(1),
+              bebida: z.string().min(10),
+            }),
+          )
+          .default([]),
         /** Fondo del encabezado de la página. */
         foto: foto(image),
         /** La foto de la tarjeta de muestra que se completa con el formulario. */

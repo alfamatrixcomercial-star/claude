@@ -79,14 +79,14 @@ giftcard:
     el balneario.
   intro:
     - >-
-      Elegís el monto, nos contás para quién es y nosotros preparamos la
-      tarjeta. Se puede usar en cualquiera de las cuatro unidades.
+      Elegís uno de los dos menús del restaurante, o un monto libre, nos
+      contás para quién es y nosotros preparamos la tarjeta.
     - >-
-      No hay un monto fijo: ponés el que quieras y quien la reciba lo usa
-      como prefiera.
+      Con monto libre no hay un valor fijo: ponés el que quieras y quien la
+      reciba lo usa en el restaurante, el hotel o el balneario.
   pasos:
     - titulo: Completás el formulario
-      texto: Con tus datos, los de quien la recibe y el monto.
+      texto: Con tus datos, los de quien la recibe y el menú o el monto.
     - titulo: Te escribimos
       texto: Coordinamos el pago por transferencia, sin pasarela ni tarjeta.
     - titulo: Enviamos la tarjeta
@@ -95,6 +95,70 @@ giftcard:
     Por ahora el pago no se hace en el sitio. El formulario abre un WhatsApp
     con el pedido ya escrito y lo terminamos de coordinar por ahí.
   montoMinimo: 10000
+  # Los menús que se pueden regalar. El precio va en pesos y sin puntos;
+  # el sitio lo escribe con el formato de acá. Para sacar uno, borrá su
+  # bloque entero; para agregar otro, copiá uno y cambiá el id.
+  menus:
+    - id: menu-1
+      nombre: Menú 1
+      precio: 110000
+      foto:
+        src: ../../assets/fotos/restaurante/spritz-rabas.jpg
+        alt: >-
+          Un spritz y un plato de rabas con limón, sobre la mesa de la terraza
+          frente al mar
+        foco: abajo
+      tiempos:
+        - titulo: Entrada
+          nota: para compartir
+          platos:
+            - Rabas
+            - Tabla de mar
+            - Tapeo de quesos y fiambres
+        - titulo: Principal
+          nota: uno por persona
+          platos:
+            - Milanesa napolitana con papas fritas
+            - Sorrentinos con bolognesa
+            - Bondiola a la mostaza y miel con papas españolas
+        - titulo: Postre
+          platos:
+            - Brownie con crema helada y frutos rojos
+            - Panqueque de dulce de leche con helado
+      # TODO: confirmar qué bebida va con cada menú. Se asignaron en el orden
+      # en que llegaron (la primera al Menú 1).
+      bebida: >-
+        Una botella de vino Nicasia Cabernet Franc o Chardonnay y un agua con
+        o sin gas
+    - id: menu-2
+      nombre: Menú 2
+      precio: 125000
+      foto:
+        src: ../../assets/fotos/restaurante/langostinos-burrata.jpg
+        alt: >-
+          Ensalada de langostinos con burrata y tomates, servida en plato hondo
+          blanco
+      tiempos:
+        - titulo: Entrada
+          nota: para compartir
+          platos:
+            - Burrata
+            - Gambas al ajillo
+            - Calamarettes a la leonesa
+        - titulo: Principal
+          nota: uno por persona
+          platos:
+            - Mero con salsa Mar del Plata
+            - Bife de chorizo al malbec con papas españolas
+            - Ravioli nero a la crema de verdeo
+            - Salmón rosado con crema de camarones y puré duquesa
+        - titulo: Postre
+          platos:
+            - Panqueque de manzana con helado
+            - Marquise de chocolate con helado
+      bebida: >-
+        Una botella de vino Alamos Chardonnay o Malbec y un agua con o sin gas
+        por persona
   # A lo ancho de la pantalla: pide una foto de 2000 px o más. La terraza de
   # los macramés tiene 1333 y en un monitor de 1920 se estiraba 1,44 veces.
   foto:
