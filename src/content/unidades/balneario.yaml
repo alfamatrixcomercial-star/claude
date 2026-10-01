@@ -70,10 +70,11 @@ listas:
 # consultan por WhatsApp, según lo decidido.
 
 fotoPuerta:
-  src: ../../assets/fotos/balneario/mar-plantas.jpg
+  src: ../../assets/fotos/balneario/carpas-dron.jpg
   alt: >-
-    El mar visto entre las plantas del predio, con la ciudad de Mar del Plata
-    a lo lejos
+    El balneario visto desde un dron: las hileras de carpas blancas y las
+    sombrillas sobre la arena, con la pileta y el restaurante detrás
+  foco: abajo
 
 fotoRelato:
   src: ../../assets/fotos/complejo/predio-dron-vertical.jpg
