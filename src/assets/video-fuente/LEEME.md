@@ -4,21 +4,19 @@ Los originales, tal como llegaron. De acá salen los `public/video/*.mp4` y
 `*.webm` que sirve el sitio. Nada de esta carpeta se importa, así que Astro
 no la empaqueta.
 
-## dron-complejo-hotel.mp4 → /video/waikiki-complejo
+## dron-complejo-hotel.mp4 → /video/waikiki-complejo-hd
 
 Portada del home en pantalla ancha. El complejo desde el dron, el hotel,
-las habitaciones y el restaurante frente al mar. 1276x720, 37 s, 25 fps.
-El .mp4 es el original sin recomprimir (sólo se le quita el audio): cada
-pasada de compresión pierde calidad. El .webm, de reserva, va en VP9.
-Lleva otro nombre que el anterior (waikiki-dron) a propósito: con el
-mismo, los navegadores que ya lo tenían guardado seguían mostrando el
-viejo. Si se vuelve a cambiar el video, cambiarle el nombre otra vez.
+las habitaciones y el restaurante frente al mar. Llegó en 1276x720, 37 s,
+25 fps. A pantalla completa el navegador lo estiraba a 1920 y se veía
+blando, así que se prepara a 1920x1080: se limpia el ruido de compresión
+(hqdn3d suave), se agranda con lanczos y se le da nitidez adaptativa
+(cas), sin audio, x264 CRF 23 (unos 20 MB). Se probó también un
+agrandado con red neuronal (FSRCNN): ganaba menos que esto.
 
-## dron-predio.mp4 (sin uso)
-
-Fue la portada ancha antes que el de arriba. Llegó en 636x360 y a 330
-kb/s, y aun limpio y llevado a 1280x720 se veía blando a pantalla
-completa.
+El nombre cambia con cada video nuevo a propósito (antes waikiki-dron,
+después waikiki-complejo): con el mismo, los navegadores que ya lo tenían
+guardado seguían mostrando el viejo.
 
 ## dron-fachada-vertical.mp4 → /video/waikiki-dron-vertical
 
@@ -26,6 +24,12 @@ Portada del home en el celular. La fachada del restaurante y el dron que
 sube hasta ver el mar y la ciudad. 720x1280, 15,8 s. Se le quita el
 audio y los dos últimos cuadros, que son negros y hacían parpadear el
 bucle en cada vuelta.
+
+## restaurante-vertical.mp4 → /video/waikiki-restaurante-vertical
+
+Portada de la página del restaurante en el celular (videoCelu en
+restaurante.yaml): el salón, las rabas y la terraza al atardecer.
+720x1280, 14,3 s. Sólo se le quita el audio y se vuelve a comprimir.
 
 ## complejo-recorrido.mp4 (sin uso)
 

@@ -25,6 +25,9 @@ hero:
     iluminándose del otro lado del vidrio
   foco: centro
 
+# Portada en el celular: el salón, las rabas y la terraza al atardecer.
+videoCelu: /video/waikiki-restaurante-vertical
+
 # El video del salón entero, en vertical: son tres escenas apiladas y
 # cierra con el logo. Antes iba recortado a la del medio. Sin audio.
 video:

@@ -1,0 +1,50 @@
+---
+/**
+ * Video vertical de fondo para la portada de una sección, sólo en el
+ * celular. Va encima de la foto de la portada y aparece con un fundido
+ * cuando arranca; en pantalla ancha no se pide ni se muestra: ahí queda
+ * la foto, que es horizontal y llena el cuadro.
+ *
+ * Arranque, menos movimiento, ahorro de datos y reintento con un toque:
+ * ~/lib/videoFondo.
+ */
+interface Props {
+  /** Base sin extensión: se sirven .mp4 y .webm. */
+  src: string;
+}
+const { src } = Astro.props;
+---
+
+<video class="video-celu" data-video-celu={src} muted loop playsinline preload="none" aria-hidden="true"></video>
+
+<style>
+  .video-celu {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 700ms ease;
+  }
+  .video-celu.visible { opacity: 1; }
+  @media (min-width: 701px) {
+    .video-celu { display: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .video-celu { display: none; }
+  }
+</style>
+
+<script>
+  import { enCadaPagina } from "~/lib/enCadaPagina";
+  import { arrancarVideoFondo } from "~/lib/videoFondo";
+
+  enCadaPagina(() => {
+    const video = document.querySelector<HTMLVideoElement>("video[data-video-celu]");
+    const src = video?.dataset.videoCelu;
+    if (!video || !src) return;
+    if (!window.matchMedia("(max-width: 700px)").matches) return;
+    return arrancarVideoFondo(video, src);
+  });
+</script>

@@ -113,6 +113,18 @@ const unidades = defineCollection({
             .min(15, "El alt del video también es contenido: contá qué se ve."),
         })
         .optional(),
+      /**
+       * Video vertical de fondo para la portada en el celular (hasta 700
+       * px), encima de la foto principal. En pantalla ancha queda la foto.
+       * Base sin extensión: el sitio sirve .mp4 y .webm.
+       */
+      videoCelu: z
+        .string()
+        .startsWith("/video/")
+        .refine((v) => !/\.(mp4|webm)$/.test(v), {
+          message: "Poné la base sin extensión, por ejemplo /video/waikiki-restaurante-vertical",
+        })
+        .optional(),
       galeria: z.array(foto(image)).default([]),
       /**
        * Foto de la tarjeta de la unidad en el home, si no es la principal.

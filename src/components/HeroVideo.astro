@@ -106,6 +106,7 @@ const ANGOSTO = "(max-width: 700px)";
 
 <script>
   import { enCadaPagina } from "~/lib/enCadaPagina";
+  import { arrancarVideoFondo } from "~/lib/videoFondo";
 
   enCadaPagina(() => {
     const bloque = document.querySelector<HTMLElement>(".fondo-video");
@@ -117,56 +118,6 @@ const ANGOSTO = "(max-width: 700px)";
     const angosto = window.matchMedia("(max-width: 700px)").matches;
     const src = angosto ? bloque.dataset.videoVertical : bloque.dataset.video;
     if (!src) return;
-
-    const quietud = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const ahorro = (navigator as any).connection?.saveData === true;
-    if (quietud.matches || ahorro) return;
-
-    /* Se carga recién cuando el navegador terminó con lo importante. */
-    const arrancar = () => {
-      /* El mp4 va primero: en este material pesa menos que el webm y lo
-         lee todo el mundo. El webm queda de reserva para los navegadores
-         compilados sin H.264. */
-      for (const [tipo, ext] of [
-        ["video/mp4", "mp4"],
-        ["video/webm", "webm"],
-      ]) {
-        const fuente = document.createElement("source");
-        fuente.src = `${src}.${ext}`;
-        fuente.type = tipo;
-        video.appendChild(fuente);
-      }
-      video.muted = true;
-      video.load();
-      video.play().then(mostrar).catch(reintentar);
-    };
-    const mostrar = () => video.classList.add("visible");
-
-    /* El iPhone en modo de ahorro de batería no deja arrancar videos solos:
-       play() falla. Sí los deja después de un gesto, así que se reintenta
-       con el primer toque (que es también como empieza un scroll en el
-       celular); mientras tanto queda la foto. */
-    const GESTOS = ["touchstart", "pointerdown", "keydown"] as const;
-    const conGesto = () => {
-      soltarGestos();
-      video.play().then(mostrar).catch(() => {});
-    };
-    const soltarGestos = () =>
-      GESTOS.forEach((g) => window.removeEventListener(g, conGesto));
-    const reintentar = () =>
-      GESTOS.forEach((g) => window.addEventListener(g, conGesto, { once: true, passive: true }));
-    if (document.readyState === "complete") arrancar();
-    else window.addEventListener("load", arrancar, { once: true });
-
-    /* Al irse de la página el video sale del documento pero sigue bajando
-       hasta que el navegador lo descarta. Sin fuentes y con load() corta
-       la descarga en el momento. */
-    return () => {
-      window.removeEventListener("load", arrancar);
-      soltarGestos();
-      video.pause();
-      video.querySelectorAll("source").forEach((f) => f.remove());
-      video.load();
-    };
+    return arrancarVideoFondo(video, src);
   });
 </script>

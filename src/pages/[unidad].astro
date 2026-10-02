@@ -12,6 +12,7 @@ import Ficha from "~/components/Ficha.astro";
 import Galeria from "~/components/Galeria.astro";
 import Video from "~/components/Video.astro";
 import HeroRetrato from "~/components/HeroRetrato.astro";
+import VideoFondoCelu from "~/components/VideoFondoCelu.astro";
 import Cruce from "~/components/Cruce.astro";
 import MarcoFoto from "~/components/MarcoFoto.astro";
 import BarraFija from "~/components/BarraFija.astro";
@@ -120,6 +121,7 @@ const datosEstructurados = {
           prioridad
           sizes="100vw"
         />
+        {d.videoCelu && <VideoFondoCelu src={d.videoCelu} />}
       </div>
       <div class="marco-hero">
         <div class="texto sobre-foto">
