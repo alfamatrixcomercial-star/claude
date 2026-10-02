@@ -9,3 +9,6 @@ preview-home.html
 
 # Paquete de deploy: se regenera con `npm run paquete`.
 miradorwaikiki-sitio*.zip
+
+# Capturas de las pruebas locales: nunca van al repositorio.
+nav/

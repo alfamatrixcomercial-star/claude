@@ -1,0 +1,1061 @@
+---
+/**
+ * Gift cards · /gestion
+ *
+ * Herramienta interna, sólo para los administradores de la app de Waikiki
+ * (entran con el mismo usuario). No se enlaza desde ningún lado, lleva
+ * noindex y está fuera del sitemap. Pero la protección de verdad no es
+ * esconderla: es la base, que no le muestra ni le deja escribir nada a
+ * quien no sea administrador (supabase/giftcards.sql).
+ *
+ * El circuito: el cliente pide la gift card desde /giftcard → WhatsApp →
+ * transfiere → acá se emite con el comprobante → se genera la tarjeta y se
+ * le manda por WhatsApp desde el número de Waikiki. Después, al canjearla,
+ * se marca como canjeada. Todo queda en el historial de cada tarjeta.
+ */
+import { getImage } from "astro:assets";
+import Gestion from "~/layouts/Gestion.astro";
+import isologo from "~/assets/marca/isologo.svg?raw";
+import { datosSitio, telefonoLegible } from "~/lib/contacto";
+
+const sitio = await datosSitio();
+const g = sitio.giftcard;
+if (!g) throw new Error("Falta el bloque giftcard en sitio.yaml");
+
+/* Las propuestas salen del mismo contenido que la página pública: si se
+   cambia un menú o un precio, el panel lo toma solo. La foto va a 1080 px,
+   el ancho de la tarjeta. */
+const propuestas = await Promise.all(
+  g.menus.map(async (m) => ({
+    id: m.id,
+    nombre: m.nombre,
+    para: m.para ?? null,
+    precio: m.precio ?? null,
+    foto: (await getImage({ src: m.foto.src, width: 1080, format: "jpeg", quality: 85 })).src,
+  })),
+);
+
+const whatsapp = sitio.contacto.general.whatsapp;
+const config = {
+  propuestas,
+  pie: `Reservas por WhatsApp al ${telefonoLegible(whatsapp)} · miradorwaikiki.com`,
+  logoSvg: isologo,
+};
+const pesos = (n: number) => `$ ${n.toLocaleString("es-AR")}`;
+---
+
+<Gestion titulo="Gift cards">
+  <script is:inline type="application/json" id="config-gestion" set:html={JSON.stringify(config)} />
+
+  <div class="app" data-app>
+    <!-- Mientras se fija si hay sesión -->
+    <section class="vista centro" data-vista="cargando">
+      <span class="logo-gestion" set:html={isologo} />
+      <p class="tenue">Cargando…</p>
+    </section>
+
+    <!-- Entrar -->
+    <section class="vista centro" data-vista="login" hidden>
+      <form class="caja login" data-login novalidate>
+        <span class="logo-gestion" set:html={isologo} />
+        <h1>Gift cards</h1>
+        <p class="tenue">Entrá con tu usuario de la app de Mirador Waikiki.</p>
+        <label>Email<input name="email" type="email" autocomplete="username" required /></label>
+        <label>Contraseña<input name="clave" type="password" autocomplete="current-password" required /></label>
+        <button class="btn primario" type="submit">Entrar</button>
+        <p class="error" data-error-login role="alert" hidden></p>
+      </form>
+    </section>
+
+    <!-- Logueado pero no es administrador -->
+    <section class="vista centro" data-vista="sin-permiso" hidden>
+      <div class="caja">
+        <h1>Sin acceso</h1>
+        <p>Tu usuario no es administrador. Las gift cards las ven y las emiten sólo los administradores de la app.</p>
+        <button class="btn" type="button" data-salir>Salir</button>
+      </div>
+    </section>
+
+    <!-- El panel -->
+    <section class="vista" data-vista="panel" hidden>
+      <header class="barra">
+        <a class="marca" href="#" aria-label="Lista de gift cards">
+          <span class="logo-gestion chico" set:html={isologo} />
+          <span>Gift cards</span>
+        </a>
+        <div class="barra-acciones">
+          <span class="tenue usuario" data-usuario></span>
+          <a class="btn primario" href="#nueva">Nueva gift card</a>
+          <button class="btn" type="button" data-salir>Salir</button>
+        </div>
+      </header>
+
+      <main class="contenido">
+        <!-- Lista -->
+        <div data-sub="lista">
+          <div class="resumen" data-resumen></div>
+          <div class="filtros">
+            <div class="chips" role="group" aria-label="Filtrar por estado" data-filtros>
+              <button type="button" data-filtro="todas" aria-pressed="true">Todas</button>
+              <button type="button" data-filtro="activa" aria-pressed="false">Activas</button>
+              <button type="button" data-filtro="vencida" aria-pressed="false">Vencidas</button>
+              <button type="button" data-filtro="canjeada" aria-pressed="false">Canjeadas</button>
+              <button type="button" data-filtro="anulada" aria-pressed="false">Anuladas</button>
+            </div>
+            <input class="buscar" type="search" placeholder="Buscar por N°, código o nombre" data-buscar aria-label="Buscar" />
+          </div>
+          <div class="tabla-envase">
+            <table class="tabla">
+              <thead>
+                <tr><th>N°</th><th>Propuesta</th><th>Para</th><th>De</th><th>Emitida</th><th>Vence</th><th>Cobrado</th><th>Estado</th></tr>
+              </thead>
+              <tbody data-filas></tbody>
+            </table>
+          </div>
+          <p class="tenue vacio" data-vacio hidden>No hay gift cards con ese filtro.</p>
+        </div>
+
+        <!-- Emitir -->
+        <div data-sub="nueva" hidden>
+          <a class="volver" href="#">← Volver a la lista</a>
+          <h1>Nueva gift card</h1>
+          <p class="tenue">Cargala cuando la transferencia ya está acreditada. Al guardarla se numera sola y queda en el historial.</p>
+          <div class="dos-col">
+            <form class="caja form" data-form-nueva novalidate>
+              <fieldset class="propuestas">
+                <legend>Propuesta</legend>
+                {propuestas.map((p, i) => (
+                  <label class="opcion">
+                    <input type="radio" name="propuesta" value={p.id} checked={i === 0} />
+                    <span class="opcion-nombre">{p.nombre}</span>
+                    <span class="tenue">{p.precio ? pesos(p.precio) : "A consultar"}{p.para ? ` · para ${p.para}` : ""}</span>
+                  </label>
+                ))}
+              </fieldset>
+
+              <div class="grilla">
+                <label>Para (quien la recibe)<input name="para" required maxlength="80" /></label>
+                <label>De (quien la regala)<input name="de" required maxlength="80" /></label>
+                <label>WhatsApp de quien la regala<input name="telefono_comprador" inputmode="tel" placeholder="223 555 1234" /></label>
+                <label>WhatsApp de quien la recibe <span class="tenue">opcional</span><input name="telefono_destinatario" inputmode="tel" /></label>
+                <label class="ancho">Email de quien la regala <span class="tenue">opcional</span><input name="email_comprador" type="email" /></label>
+                <label class="ancho">Mensaje en la tarjeta <span class="tenue">opcional, hasta 200</span><textarea name="mensaje" maxlength="200" rows="2"></textarea></label>
+                <label>Monto cobrado<span class="con-signo"><span aria-hidden="true">$</span><input name="monto_cobrado" inputmode="numeric" required /></span></label>
+                <label>Medio de pago
+                  <select name="medio_pago">
+                    <option>transferencia</option>
+                    <option>mercado pago</option>
+                    <option>efectivo</option>
+                    <option>otro</option>
+                  </select>
+                </label>
+                <label>Vence<input name="vence_en" type="date" required /></label>
+                <label>Comprobante <span class="tenue" data-comprobante-nota>obligatorio</span><input name="comprobante" type="file" accept="image/*,application/pdf" /></label>
+                <label class="ancho">Notas internas <span class="tenue">opcional, no van en la tarjeta</span><textarea name="notas" rows="2"></textarea></label>
+              </div>
+              <button class="btn primario" type="submit">Emitir gift card</button>
+              <p class="error" data-error-nueva role="alert" hidden></p>
+            </form>
+            <figure class="vista-previa">
+              <canvas data-previa width="1080" height="1350" aria-label="Vista previa de la tarjeta"></canvas>
+              <figcaption class="tenue">Vista previa. El número y el código se asignan al emitir.</figcaption>
+            </figure>
+          </div>
+        </div>
+
+        <!-- Detalle -->
+        <div data-sub="detalle" hidden>
+          <a class="volver" href="#">← Volver a la lista</a>
+          <div data-detalle></div>
+        </div>
+      </main>
+    </section>
+  </div>
+
+  <!-- Un solo diálogo para confirmar canjes, anulaciones y reactivaciones -->
+  <dialog class="dialogo" data-dialogo>
+    <form method="dialog" data-dialogo-form>
+      <h2 data-dialogo-titulo></h2>
+      <p class="tenue" data-dialogo-texto></p>
+      <label data-dialogo-campo hidden><span data-dialogo-etiqueta></span><textarea rows="3" data-dialogo-valor></textarea></label>
+      <p class="error" data-dialogo-error hidden></p>
+      <div class="dialogo-acciones">
+        <button class="btn" value="cancelar" type="submit" formnovalidate>Cancelar</button>
+        <button class="btn primario" value="ok" type="submit" data-dialogo-ok>Confirmar</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- Editar datos de una tarjeta ya emitida -->
+  <dialog class="dialogo ancho" data-editar>
+    <form method="dialog" data-editar-form>
+      <h2>Editar datos</h2>
+      <p class="tenue">El cambio queda anotado en el historial. El número y el código no cambian.</p>
+      <div class="grilla">
+        <label>Para<input name="para" required maxlength="80" /></label>
+        <label>De<input name="de" required maxlength="80" /></label>
+        <label>WhatsApp de quien la regala<input name="telefono_comprador" inputmode="tel" /></label>
+        <label>WhatsApp de quien la recibe<input name="telefono_destinatario" inputmode="tel" /></label>
+        <label class="ancho">Email de quien la regala<input name="email_comprador" type="email" /></label>
+        <label class="ancho">Mensaje<textarea name="mensaje" maxlength="200" rows="2"></textarea></label>
+        <label>Monto cobrado<input name="monto_cobrado" inputmode="numeric" /></label>
+        <label>Vence<input name="vence_en" type="date" required /></label>
+        <label class="ancho">Notas internas<textarea name="notas" rows="2"></textarea></label>
+      </div>
+      <p class="error" data-editar-error hidden></p>
+      <div class="dialogo-acciones">
+        <button class="btn" value="cancelar" type="submit" formnovalidate>Cancelar</button>
+        <button class="btn primario" value="ok" type="submit">Guardar cambios</button>
+      </div>
+    </form>
+  </dialog>
+</Gestion>
+
+<style is:global>
+  /* Globales a propósito: esta página es sola y buena parte del panel se
+     arma con JavaScript (el detalle, la lista), adonde los estilos con
+     alcance de Astro no llegan. */
+  .app { min-height: 100vh; }
+  .vista[hidden], [data-sub][hidden] { display: none !important; }
+  .centro { min-height: 100vh; display: grid; place-items: center; padding: 1.5rem; text-align: center; gap: 0.75rem; align-content: center; }
+  .tenue { color: var(--tinta-suave); font-size: 0.9rem; }
+  .logo-gestion { display: inline-flex; color: var(--verde-titulo); }
+  .logo-gestion svg { height: 64px; width: auto; }
+  .logo-gestion.chico svg { height: 30px; }
+
+  .caja {
+    background: var(--superficie);
+    border: 1px solid var(--borde-caja);
+    border-radius: var(--radio-grande);
+    box-shadow: var(--elev-2);
+    padding: 1.5rem;
+  }
+  .login { width: min(100%, 24rem); display: grid; gap: 0.9rem; text-align: left; }
+  .login .logo-gestion { justify-self: center; }
+  .login h1 { text-align: center; font-size: 1.6rem; }
+  .login .tenue { text-align: center; }
+
+  label { display: grid; gap: 0.35rem; font-size: 0.86rem; font-weight: 500; }
+  input, select, textarea {
+    width: 100%;
+    min-height: 44px;
+    padding: 0.55rem 0.8rem;
+    font: inherit;
+    font-size: 1rem;
+    color: var(--tinta);
+    background: var(--superficie-bisel, #faf8f3);
+    border: 1px solid var(--borde-caja);
+    border-radius: var(--radio-chico);
+  }
+  textarea { resize: vertical; line-height: 1.45; }
+  input[type="file"] { padding: 0.45rem; min-height: 0; }
+  .con-signo { position: relative; display: block; }
+  .con-signo > span { position: absolute; left: 0.8rem; top: 50%; translate: 0 -50%; color: var(--tinta-suave); }
+  .con-signo input { padding-left: 1.7rem; }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    min-height: 44px;
+    padding: 0.5rem 1.1rem;
+    font: inherit;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    color: var(--tinta);
+    background: var(--superficie);
+    border: 1px solid var(--acento);
+    border-radius: 999px;
+    cursor: pointer;
+    text-decoration: none;
+  }
+  .btn:hover { background: var(--fondo-alt); }
+  .btn.primario { background: var(--accion-fondo); border-color: var(--accion-fondo); color: #fff; }
+  .btn.primario:hover { background: var(--accion-hover-fondo); }
+  .btn.peligro { border-color: var(--error); color: var(--error); }
+  .btn[disabled] { opacity: 0.55; cursor: progress; }
+  .error { color: var(--error); font-size: 0.88rem; }
+  .error[hidden] { display: none; }
+
+  .barra {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding: 0.75rem var(--margen);
+    background: rgb(235 228 209 / 0.9);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--borde-caja);
+  }
+  .marca { display: inline-flex; align-items: center; gap: 0.6rem; font-weight: 600; color: var(--tinta); text-decoration: none; }
+  .barra-acciones { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem; }
+  .usuario { margin-right: 0.25rem; }
+  .contenido { max-width: 72rem; margin: 0 auto; padding: 1.5rem var(--margen) 4rem; }
+  .contenido h1 { font-size: clamp(1.5rem, 2vw + 1rem, 2.2rem); margin: 0.4rem 0 0.3rem; }
+  .volver { display: inline-block; margin-bottom: 0.5rem; color: var(--acento); font-size: 0.9rem; }
+
+  .resumen { display: grid; grid-template-columns: repeat(auto-fit, minmax(9.5rem, 1fr)); gap: 0.75rem; margin-bottom: 1.25rem; }
+  .resumen .dato { background: var(--superficie); border: 1px solid var(--borde-caja); border-radius: var(--radio); padding: 0.85rem 1rem; }
+  .resumen .dato b { display: block; font-size: 1.6rem; line-height: 1.1; color: var(--verde-titulo); font-variant-numeric: tabular-nums; }
+  .resumen .dato span { font-size: 0.82rem; color: var(--tinta-suave); }
+
+  .filtros { display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; justify-content: space-between; margin-bottom: 0.9rem; }
+  .chips { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+  .chips button { min-height: 38px; padding: 0.3rem 0.9rem; font: inherit; font-size: 0.85rem; border-radius: 999px; border: 1px solid var(--borde-caja); background: var(--superficie); color: var(--tinta); cursor: pointer; }
+  .chips button[aria-pressed="true"] { background: var(--accion-fondo); border-color: var(--accion-fondo); color: #fff; }
+  .buscar { max-width: 20rem; }
+
+  .tabla-envase { overflow-x: auto; background: var(--superficie); border: 1px solid var(--borde-caja); border-radius: var(--radio); }
+  .tabla { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+  .tabla th, .tabla td { padding: 0.7rem 0.85rem; text-align: left; border-bottom: 1px solid var(--borde-caja); white-space: nowrap; }
+  .tabla th { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--tinta-suave); background: var(--fondo-alt); }
+  .tabla tbody tr { cursor: pointer; }
+  .tabla tbody tr:hover { background: var(--fondo-alt); }
+  .tabla a { color: var(--tinta); font-weight: 600; text-decoration: none; }
+  .tabla .num { font-variant-numeric: tabular-nums; }
+  .vacio { padding: 1rem 0; }
+  .vacio[hidden] { display: none; }
+
+  .estado-gc { display: inline-block; padding: 0.15rem 0.6rem; border-radius: 999px; font-size: 0.78rem; font-weight: 600; }
+  .estado-gc.activa { background: #e1ecdf; color: #2f5a2c; }
+  .estado-gc.vencida { background: #f3e6cf; color: #7a5317; }
+  .estado-gc.canjeada { background: #e3e7ee; color: #3b4a63; }
+  .estado-gc.anulada { background: #f6dedb; color: #8f2620; }
+
+  .dos-col { display: grid; gap: 1.5rem; align-items: start; margin-top: 1rem; }
+  @media (min-width: 980px) { .dos-col { grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); } }
+  .form { display: grid; gap: 1.1rem; }
+  .grilla { display: grid; gap: 0.9rem; }
+  @media (min-width: 600px) {
+    .grilla { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .grilla .ancho { grid-column: 1 / -1; }
+  }
+  .propuestas { border: 0; padding: 0; margin: 0; display: grid; gap: 0.5rem; }
+  .propuestas legend { font-size: 0.86rem; font-weight: 500; margin-bottom: 0.4rem; }
+  .opcion { display: flex; align-items: center; gap: 0.7rem; padding: 0.6rem 0.9rem; border: 1px solid var(--borde-caja); border-radius: var(--radio-chico); cursor: pointer; grid-template-columns: none; }
+  .opcion:has(input:checked) { border-color: var(--acento); box-shadow: inset 0 0 0 1px var(--acento); }
+  .opcion input { width: 1.1rem; min-height: 0; accent-color: var(--acento); }
+  .opcion-nombre { font-weight: 600; font-size: 0.95rem; }
+  .opcion .tenue { margin-left: auto; }
+  .vista-previa { margin: 0; position: sticky; top: 5rem; display: grid; gap: 0.5rem; }
+  .vista-previa canvas, .detalle-tarjeta canvas { width: 100%; height: auto; border-radius: 18px; box-shadow: var(--elev-3); background: var(--fondo-alt); }
+
+  .detalle { display: grid; gap: 1.5rem; margin-top: 0.5rem; }
+  @media (min-width: 980px) { .detalle { grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); } }
+  .detalle-tarjeta { display: grid; gap: 0.75rem; align-content: start; }
+  .acciones { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .ficha-gc { display: grid; grid-template-columns: max-content 1fr; gap: 0.45rem 1.25rem; font-size: 0.92rem; }
+  .ficha-gc dt { color: var(--tinta-suave); }
+  .ficha-gc dd { margin: 0; overflow-wrap: anywhere; }
+  .historial { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.6rem; font-size: 0.9rem; }
+  .historial li { padding-left: 0.9rem; border-left: 2px solid var(--linea); }
+  .historial time { display: block; font-size: 0.8rem; color: var(--tinta-suave); }
+  .bloque-gc { display: grid; gap: 0.9rem; }
+  .bloque-gc h2 { font-size: 1.05rem; color: var(--verde-rotulo); }
+  .aviso-gc { padding: 0.75rem 1rem; border-radius: var(--radio-chico); background: var(--fondo-alt); font-size: 0.88rem; }
+
+  .dialogo { border: 1px solid var(--borde-caja); border-radius: var(--radio-grande); padding: 1.5rem; width: min(92vw, 28rem); background: var(--superficie); color: var(--tinta); box-shadow: var(--elev-4); }
+  .dialogo.ancho { width: min(94vw, 40rem); }
+  .dialogo::backdrop { background: rgb(31 45 39 / 0.45); }
+  .dialogo form { display: grid; gap: 0.9rem; }
+  .dialogo h2 { font-size: 1.25rem; }
+  .dialogo-acciones { display: flex; justify-content: flex-end; gap: 0.5rem; }
+  [data-dialogo-campo][hidden] { display: none; }
+
+  @media (max-width: 640px) {
+    .ficha-gc { grid-template-columns: 1fr; gap: 0.1rem; }
+    .ficha-gc dd { margin-bottom: 0.55rem; }
+    .usuario { display: none; }
+    .buscar { max-width: none; }
+  }
+</style>
+
+<script>
+  import { supabase } from "~/lib/supabase";
+  import { dibujarTarjeta, aArchivo, type DatosTarjeta } from "~/lib/gestion/tarjeta";
+
+  type Propuesta = { id: string; nombre: string; para: string | null; precio: number | null; foto: string };
+  type Config = { propuestas: Propuesta[]; pie: string; logoSvg: string };
+  type Estado = "activa" | "canjeada" | "anulada";
+  type GiftCard = {
+    id: string;
+    numero: number;
+    codigo: string;
+    propuesta_id: string;
+    propuesta_nombre: string;
+    para_cuantos: string | null;
+    precio: number | null;
+    monto_cobrado: number | null;
+    para: string;
+    de: string;
+    email_comprador: string | null;
+    telefono_comprador: string | null;
+    telefono_destinatario: string | null;
+    mensaje: string | null;
+    medio_pago: string;
+    comprobante_path: string | null;
+    notas: string | null;
+    estado: Estado;
+    emitida_en: string;
+    vence_en: string;
+    canjeada_en: string | null;
+    nota_canje: string | null;
+    anulada_en: string | null;
+    motivo_anulacion: string | null;
+    emisor?: { full_name: string | null } | null;
+  };
+
+  const config: Config = JSON.parse(document.getElementById("config-gestion")!.textContent!);
+  const sb = supabase();
+  const BUCKET = "giftcard-comprobantes";
+  const $ = <T extends Element = HTMLElement>(sel: string, raiz: ParentNode = document) => raiz.querySelector<T>(sel)!;
+  const $$ = <T extends Element = HTMLElement>(sel: string, raiz: ParentNode = document) => [...raiz.querySelectorAll<T>(sel)];
+
+  /* ── Utilidades ─────────────────────────────────────────────────────── */
+  const esc = (s: unknown) =>
+    String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]!);
+  const pesos = (n: number | null | undefined) => (n == null ? "—" : `$ ${n.toLocaleString("es-AR")}`);
+  const fecha = (iso: string | null | undefined) => {
+    if (!iso) return "—";
+    if (/^\d{4}-\d{2}-\d{2}$/.test(iso)) {
+      const [a, m, d] = iso.split("-");
+      return `${d}/${m}/${a}`;
+    }
+    return new Date(iso).toLocaleDateString("es-AR", {
+      timeZone: "America/Argentina/Buenos_Aires",
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+    });
+  };
+  const fechaHora = (iso: string) =>
+    new Date(iso).toLocaleString("es-AR", {
+      timeZone: "America/Argentina/Buenos_Aires",
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+  /** Hoy en Argentina, AAAA-MM-DD. */
+  const hoy = () => new Intl.DateTimeFormat("en-CA", { timeZone: "America/Argentina/Buenos_Aires" }).format(new Date());
+  const enSeisMeses = () => {
+    const [a, m, d] = hoy().split("-").map(Number);
+    const f = new Date(Date.UTC(a, m - 1 + 6, d));
+    return f.toISOString().slice(0, 10);
+  };
+  const soloNumero = (s: string) => s.replace(/\D/g, "");
+  const n4 = (n: number) => String(n).padStart(4, "0");
+  /** El estado que se ve: una activa con la fecha pasada está vencida. */
+  const estadoVisible = (gc: Pick<GiftCard, "estado" | "vence_en">) =>
+    gc.estado === "activa" && gc.vence_en < hoy() ? "vencida" : gc.estado;
+  const ETIQUETA: Record<string, string> = { activa: "Activa", vencida: "Vencida", canjeada: "Canjeada", anulada: "Anulada" };
+  /** Un número de WhatsApp argentino en el formato de wa.me (549 + área + número). */
+  function waNumero(tel: string | null | undefined) {
+    let d = soloNumero(tel ?? "");
+    if (!d) return "";
+    d = d.replace(/^0+/, "");
+    if (d.startsWith("54")) d = d.slice(2);
+    if (d.startsWith("9")) d = d.slice(1);
+    d = d.replace(/^(\d{2,4})15/, "$1");
+    return `549${d}`;
+  }
+  const propuesta = (id: string) => config.propuestas.find((p) => p.id === id);
+  const nombreArchivo = (s: string) =>
+    s.normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/[^a-zA-Z0-9.]+/g, "-").replace(/^-|-$/g, "").slice(0, 60) || "comprobante";
+  const mensajeError = (e: unknown) => {
+    const m = (e as { message?: string })?.message ?? String(e);
+    if (/Invalid login credentials/i.test(m)) return "Email o contraseña incorrectos.";
+    if (/row-level security|permission denied/i.test(m)) return "Tu usuario no tiene permiso para esto.";
+    if (/Failed to fetch|NetworkError/i.test(m)) return "No hay conexión con el servidor. Probá de nuevo.";
+    return m;
+  };
+
+  /* ── Vistas ─────────────────────────────────────────────────────────── */
+  function mostrarVista(nombre: string) {
+    $$("[data-vista]").forEach((v) => (v.hidden = v.dataset.vista !== nombre));
+  }
+  function mostrarSub(nombre: string) {
+    $$("[data-sub]").forEach((v) => (v.hidden = v.dataset.sub !== nombre));
+    window.scrollTo(0, 0);
+  }
+
+  /* ── Sesión ─────────────────────────────────────────────────────────── */
+  let listas: GiftCard[] = [];
+  let filtro = "todas";
+
+  async function arrancar() {
+    const { data } = await sb.auth.getSession();
+    if (!data.session) return mostrarVista("login");
+    const { data: esAdmin, error } = await sb.rpc("is_admin");
+    if (error || !esAdmin) return mostrarVista("sin-permiso");
+    const { data: perfil } = await sb.from("profiles").select("full_name").eq("id", data.session.user.id).maybeSingle();
+    $("[data-usuario]").textContent = perfil?.full_name ?? data.session.user.email ?? "";
+    mostrarVista("panel");
+    await rutear();
+  }
+
+  $<HTMLFormElement>("[data-login]").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const form = e.currentTarget as HTMLFormElement;
+    const err = $("[data-error-login]");
+    const boton = $<HTMLButtonElement>("button[type=submit]", form);
+    const datos = new FormData(form);
+    err.hidden = true;
+    boton.disabled = true;
+    const { error } = await sb.auth.signInWithPassword({
+      email: String(datos.get("email")).trim(),
+      password: String(datos.get("clave")),
+    });
+    boton.disabled = false;
+    if (error) {
+      err.textContent = mensajeError(error);
+      err.hidden = false;
+      return;
+    }
+    await arrancar();
+  });
+
+  $$("[data-salir]").forEach((b) =>
+    b.addEventListener("click", async () => {
+      await sb.auth.signOut();
+      location.hash = "";
+      mostrarVista("login");
+    }),
+  );
+
+  /* ── Rutas: #, #nueva, #gc-7 ────────────────────────────────────────── */
+  async function rutear() {
+    const h = location.hash.slice(1);
+    if (h === "nueva") return abrirNueva();
+    const m = /^gc-(\d+)$/.exec(h);
+    if (m) return abrirDetalle(Number(m[1]));
+    return abrirLista();
+  }
+  window.addEventListener("hashchange", () => {
+    if (!$("[data-vista=panel]").hidden) rutear();
+  });
+
+  /* ── Lista ──────────────────────────────────────────────────────────── */
+  async function abrirLista() {
+    mostrarSub("lista");
+    const { data, error } = await sb
+      .from("giftcards")
+      .select("id, numero, codigo, propuesta_id, propuesta_nombre, para_cuantos, para, de, estado, vence_en, emitida_en, monto_cobrado, precio")
+      .order("numero", { ascending: false });
+    if (error) {
+      $("[data-resumen]").innerHTML = `<p class="error">${esc(mensajeError(error))}</p>`;
+      return;
+    }
+    listas = (data ?? []) as GiftCard[];
+    pintarResumen();
+    pintarFilas();
+  }
+
+  function pintarResumen() {
+    const cuenta = (e: string) => listas.filter((g) => estadoVisible(g) === e).length;
+    const cobrado = listas.filter((g) => g.estado !== "anulada").reduce((s, g) => s + (g.monto_cobrado ?? 0), 0);
+    $("[data-resumen]").innerHTML = [
+      ["Activas", cuenta("activa")],
+      ["Vencidas", cuenta("vencida")],
+      ["Canjeadas", cuenta("canjeada")],
+      ["Anuladas", cuenta("anulada")],
+      ["Cobrado (sin anuladas)", pesos(cobrado)],
+    ]
+      .map(([t, v]) => `<div class="dato"><b>${esc(v)}</b><span>${esc(t)}</span></div>`)
+      .join("");
+  }
+
+  function pintarFilas() {
+    const q = $<HTMLInputElement>("[data-buscar]").value.trim().toLowerCase();
+    const filas = listas.filter((g) => {
+      if (filtro !== "todas" && estadoVisible(g) !== filtro) return false;
+      if (!q) return true;
+      const num = soloNumero(q);
+      return (
+        (num && String(g.numero) === String(Number(num))) ||
+        g.codigo.toLowerCase().includes(q) ||
+        g.para.toLowerCase().includes(q) ||
+        g.de.toLowerCase().includes(q)
+      );
+    });
+    $("[data-filas]").innerHTML = filas
+      .map((g) => {
+        const e = estadoVisible(g);
+        return `<tr data-ir="${g.numero}">
+          <td class="num"><a href="#gc-${g.numero}">${n4(g.numero)}</a></td>
+          <td>${esc(g.propuesta_nombre)}</td>
+          <td>${esc(g.para)}</td>
+          <td>${esc(g.de)}</td>
+          <td class="num">${fecha(g.emitida_en)}</td>
+          <td class="num">${fecha(g.vence_en)}</td>
+          <td class="num">${pesos(g.monto_cobrado)}</td>
+          <td><span class="estado-gc ${e}">${ETIQUETA[e]}</span></td>
+        </tr>`;
+      })
+      .join("");
+    $("[data-vacio]").hidden = filas.length > 0;
+  }
+
+  $("[data-filas]").addEventListener("click", (e) => {
+    const fila = (e.target as HTMLElement).closest<HTMLElement>("[data-ir]");
+    if (fila) location.hash = `gc-${fila.dataset.ir}`;
+  });
+  $("[data-filtros]").addEventListener("click", (e) => {
+    const b = (e.target as HTMLElement).closest<HTMLButtonElement>("[data-filtro]");
+    if (!b) return;
+    filtro = b.dataset.filtro!;
+    $$("[data-filtro]").forEach((x) => x.setAttribute("aria-pressed", String(x === b)));
+    pintarFilas();
+  });
+  $("[data-buscar]").addEventListener("input", pintarFilas);
+
+  /* ── Emitir ─────────────────────────────────────────────────────────── */
+  const formNueva = $<HTMLFormElement>("[data-form-nueva]");
+  const previa = $<HTMLCanvasElement>("[data-previa]");
+  const campoN = <T extends HTMLElement = HTMLInputElement>(n: string) => formNueva.elements.namedItem(n) as unknown as T;
+
+  function propuestaElegida() {
+    const id = (formNueva.querySelector<HTMLInputElement>("input[name=propuesta]:checked") ?? { value: config.propuestas[0].id }).value;
+    return propuesta(id)!;
+  }
+  function comprobanteObligatorio() {
+    return campoN<HTMLSelectElement>("medio_pago").value !== "efectivo";
+  }
+
+  function abrirNueva() {
+    mostrarSub("nueva");
+    if (!campoN("vence_en").value) campoN("vence_en").value = enSeisMeses();
+    alCambiarPropuesta();
+    pintarPrevia();
+  }
+
+  function alCambiarPropuesta() {
+    const p = propuestaElegida();
+    campoN("monto_cobrado").value = p.precio ? p.precio.toLocaleString("es-AR") : "";
+    campoN("monto_cobrado").placeholder = p.precio ? "" : "El valor que se cobró";
+  }
+
+  let pintando = 0;
+  async function pintarPrevia() {
+    const turno = ++pintando;
+    const p = propuestaElegida();
+    const datos: DatosTarjeta = {
+      para: campoN("para").value.trim() || "Nombre de quien la recibe",
+      de: campoN("de").value.trim() || "Nombre de quien la regala",
+      mensaje: campoN<HTMLTextAreaElement>("mensaje").value.trim() || null,
+      propuesta: p.nombre,
+      paraCuantos: p.para,
+      venceEn: campoN("vence_en").value || enSeisMeses(),
+      foto: p.foto,
+    };
+    await new Promise((r) => setTimeout(r, 60));
+    if (turno !== pintando) return;
+    await dibujarTarjeta(previa, datos, config);
+  }
+
+  formNueva.addEventListener("input", (e) => {
+    const t = e.target as HTMLInputElement;
+    if (t.name === "monto_cobrado") {
+      const n = soloNumero(t.value);
+      t.value = n ? Number(n).toLocaleString("es-AR") : "";
+    }
+    pintarPrevia();
+  });
+  formNueva.addEventListener("change", (e) => {
+    const t = e.target as HTMLInputElement;
+    if (t.name === "propuesta") alCambiarPropuesta();
+    if (t.name === "medio_pago") $("[data-comprobante-nota]").textContent = comprobanteObligatorio() ? "obligatorio" : "opcional";
+    pintarPrevia();
+  });
+
+  async function subirComprobante(numero: number, archivo: File) {
+    const ruta = `${numero}/${Date.now()}-${nombreArchivo(archivo.name)}`;
+    const { error } = await sb.storage.from(BUCKET).upload(ruta, archivo, {
+      contentType: archivo.type || undefined,
+      upsert: false,
+    });
+    if (error) throw error;
+    return ruta;
+  }
+
+  formNueva.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const err = $("[data-error-nueva]");
+    const boton = $<HTMLButtonElement>("button[type=submit]", formNueva);
+    const fallar = (m: string) => {
+      err.textContent = m;
+      err.hidden = false;
+    };
+    err.hidden = true;
+
+    const p = propuestaElegida();
+    const para = campoN("para").value.trim();
+    const de = campoN("de").value.trim();
+    const monto = Number(soloNumero(campoN("monto_cobrado").value));
+    const archivo = campoN("comprobante").files?.[0];
+    if (para.length < 2) return fallar("Falta el nombre de quien la recibe.");
+    if (de.length < 2) return fallar("Falta el nombre de quien la regala.");
+    if (!monto) return fallar("Falta el monto cobrado.");
+    if (!campoN("vence_en").value) return fallar("Falta la fecha de vencimiento.");
+    if (comprobanteObligatorio() && !archivo) return fallar("Falta el comprobante de pago.");
+    if (archivo && archivo.size > 10 * 1024 * 1024) return fallar("El comprobante pesa más de 10 MB.");
+
+    boton.disabled = true;
+    boton.textContent = "Emitiendo…";
+    try {
+      const valor = (n: string) => (campoN<HTMLInputElement>(n).value.trim() || null);
+      const { data, error } = await sb
+        .from("giftcards")
+        .insert({
+          propuesta_id: p.id,
+          propuesta_nombre: p.nombre,
+          para_cuantos: p.para,
+          precio: p.precio,
+          monto_cobrado: monto,
+          para,
+          de,
+          telefono_comprador: valor("telefono_comprador"),
+          telefono_destinatario: valor("telefono_destinatario"),
+          email_comprador: valor("email_comprador"),
+          mensaje: valor("mensaje"),
+          medio_pago: campoN<HTMLSelectElement>("medio_pago").value,
+          vence_en: campoN("vence_en").value,
+          notas: valor("notas"),
+        })
+        .select("id, numero")
+        .single();
+      if (error) throw error;
+
+      if (archivo) {
+        try {
+          const ruta = await subirComprobante(data.numero, archivo);
+          const { error: e2 } = await sb.from("giftcards").update({ comprobante_path: ruta }).eq("id", data.id);
+          if (e2) throw e2;
+        } catch (e) {
+          alert(`La gift card N° ${n4(data.numero)} quedó emitida, pero el comprobante no se pudo subir: ${mensajeError(e)}. Cargalo desde el detalle.`);
+        }
+      }
+      formNueva.reset();
+      campoN("vence_en").value = "";
+      location.hash = `gc-${data.numero}`;
+    } catch (e) {
+      fallar(mensajeError(e));
+    } finally {
+      boton.disabled = false;
+      boton.textContent = "Emitir gift card";
+    }
+  });
+
+  /* ── Detalle ────────────────────────────────────────────────────────── */
+  let actual: GiftCard | null = null;
+
+  async function abrirDetalle(numero: number) {
+    mostrarSub("detalle");
+    const raiz = $("[data-detalle]");
+    raiz.innerHTML = `<p class="tenue">Cargando la gift card N° ${n4(numero)}…</p>`;
+    const { data, error } = await sb
+      .from("giftcards")
+      .select("*, emisor:profiles!giftcards_emitida_por_fkey(full_name)")
+      .eq("numero", numero)
+      .maybeSingle();
+    if (error || !data) {
+      raiz.innerHTML = `<p class="error">${esc(error ? mensajeError(error) : `No existe la gift card N° ${n4(numero)}.`)}</p>`;
+      return;
+    }
+    actual = data as GiftCard;
+    const gc = actual;
+    const e = estadoVisible(gc);
+    const p = propuesta(gc.propuesta_id);
+
+    const { data: eventos } = await sb
+      .from("giftcard_eventos")
+      .select("tipo, detalle, hecho_en, autor:profiles!giftcard_eventos_hecho_por_fkey(full_name)")
+      .eq("giftcard_id", gc.id)
+      .order("hecho_en", { ascending: true });
+
+    let urlComprobante = "";
+    if (gc.comprobante_path) {
+      const { data: firmada } = await sb.storage.from(BUCKET).createSignedUrl(gc.comprobante_path, 60 * 30);
+      urlComprobante = firmada?.signedUrl ?? "";
+    }
+
+    const telDestino = waNumero(gc.telefono_destinatario) || waNumero(gc.telefono_comprador);
+    const fila = (t: string, v: string) => `<dt>${esc(t)}</dt><dd>${v}</dd>`;
+    const TIPO: Record<string, string> = {
+      emitida: "Emitida",
+      canjeada: "Canjeada",
+      anulada: "Anulada",
+      reactivada: "Reactivada",
+      editada: "Editada",
+      comprobante: "Comprobante",
+    };
+
+    raiz.innerHTML = `
+      <h1>Gift card N° ${n4(gc.numero)} <span class="estado-gc ${e}">${ETIQUETA[e]}</span></h1>
+      <p class="tenue">Código <b>${esc(gc.codigo)}</b> · ${esc(gc.propuesta_nombre)}${gc.para_cuantos ? ` para ${esc(gc.para_cuantos)}` : ""}</p>
+      <div class="detalle">
+        <div class="detalle-tarjeta">
+          <canvas data-tarjeta width="1080" height="1350" aria-label="La gift card"></canvas>
+          ${e !== "activa" ? `<p class="aviso-gc">La imagen sale con el sello «${ETIQUETA[e].toUpperCase()}»: así una tarjeta que ya no vale no se puede reenviar como si valiera.</p>` : ""}
+          <div class="acciones">
+            <button class="btn primario" type="button" data-accion="compartir" hidden>Compartir imagen</button>
+            <button class="btn" type="button" data-accion="descargar">Descargar imagen</button>
+            ${telDestino && e === "activa" ? `<button class="btn" type="button" data-accion="whatsapp">Abrir WhatsApp de ${esc(gc.telefono_destinatario ? gc.para : gc.de)}</button>` : ""}
+          </div>
+          <p class="tenue">En el celular, «Compartir imagen» la manda directo a WhatsApp con el mensaje. En la compu: descargá la imagen y adjuntala en el chat.</p>
+        </div>
+        <div class="bloque-gc">
+          <div class="caja">
+            <dl class="ficha-gc">
+              ${fila("Para", esc(gc.para))}
+              ${fila("De", esc(gc.de))}
+              ${gc.mensaje ? fila("Mensaje", `«${esc(gc.mensaje)}»`) : ""}
+              ${fila("Emitida", `${fechaHora(gc.emitida_en)}${gc.emisor?.full_name ? ` · por ${esc(gc.emisor.full_name)}` : ""}`)}
+              ${fila("Vence", fecha(gc.vence_en))}
+              ${fila("Precio", pesos(gc.precio))}
+              ${fila("Cobrado", `${pesos(gc.monto_cobrado)} · ${esc(gc.medio_pago)}`)}
+              ${fila("Comprobante", urlComprobante ? `<a href="${esc(urlComprobante)}" target="_blank" rel="noopener">Ver comprobante</a>` : `<span class="error">Sin comprobante</span>`)}
+              ${gc.telefono_comprador ? fila("WhatsApp de quien regala", esc(gc.telefono_comprador)) : ""}
+              ${gc.telefono_destinatario ? fila("WhatsApp de quien recibe", esc(gc.telefono_destinatario)) : ""}
+              ${gc.email_comprador ? fila("Email", esc(gc.email_comprador)) : ""}
+              ${gc.estado === "canjeada" ? fila("Canjeada", `${fechaHora(gc.canjeada_en!)}${gc.nota_canje ? ` · ${esc(gc.nota_canje)}` : ""}`) : ""}
+              ${gc.estado === "anulada" ? fila("Anulada", `${fechaHora(gc.anulada_en!)} · ${esc(gc.motivo_anulacion)}`) : ""}
+              ${gc.notas ? fila("Notas", esc(gc.notas)) : ""}
+            </dl>
+          </div>
+          <div class="acciones">
+            ${gc.estado === "activa" ? `<button class="btn primario" type="button" data-accion="canjear">Marcar canjeada</button>` : ""}
+            ${gc.estado !== "activa" ? `<button class="btn" type="button" data-accion="reactivar">Reactivar</button>` : ""}
+            <button class="btn" type="button" data-accion="editar">Editar datos</button>
+            <label class="btn">${gc.comprobante_path ? "Reemplazar comprobante" : "Cargar comprobante"}<input type="file" accept="image/*,application/pdf" data-accion-archivo hidden /></label>
+            ${gc.estado !== "anulada" ? `<button class="btn peligro" type="button" data-accion="anular">Anular</button>` : ""}
+          </div>
+          <div class="caja">
+            <h2>Historial</h2>
+            <ol class="historial">
+              ${(eventos ?? [])
+                .map(
+                  (ev: any) =>
+                    `<li><b>${esc(TIPO[ev.tipo] ?? ev.tipo)}</b>${ev.detalle ? ` · ${esc(ev.detalle)}` : ""}<time>${fechaHora(ev.hecho_en)}${ev.autor?.full_name ? ` · ${esc(ev.autor.full_name)}` : ""}</time></li>`,
+                )
+                .join("")}
+            </ol>
+          </div>
+        </div>
+      </div>`;
+
+    const canvas = $<HTMLCanvasElement>("[data-tarjeta]", raiz);
+    await dibujarTarjeta(
+      canvas,
+      {
+        para: gc.para,
+        de: gc.de,
+        mensaje: gc.mensaje,
+        propuesta: gc.propuesta_nombre,
+        paraCuantos: gc.para_cuantos,
+        numero: gc.numero,
+        codigo: gc.codigo,
+        venceEn: gc.vence_en,
+        estado: e,
+        foto: p?.foto ?? config.propuestas[0].foto,
+      },
+      config,
+    );
+
+    const archivoTarjeta = () => aArchivo(canvas, `giftcard-mirador-waikiki-${n4(gc.numero)}.jpg`);
+    const texto = mensajeWhatsApp(gc);
+
+    const compartir = $<HTMLButtonElement>("[data-accion=compartir]", raiz);
+    try {
+      const prueba = new File([new Blob(["x"], { type: "image/jpeg" })], "x.jpg", { type: "image/jpeg" });
+      if (navigator.canShare?.({ files: [prueba] })) compartir.hidden = false;
+    } catch {}
+    compartir.addEventListener("click", async () => {
+      try {
+        await navigator.share({ files: [await archivoTarjeta()], text: texto });
+      } catch (err) {
+        if ((err as DOMException)?.name !== "AbortError") alert(mensajeError(err));
+      }
+    });
+
+    $("[data-accion=descargar]", raiz).addEventListener("click", async () => {
+      const f = await archivoTarjeta();
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(f);
+      a.download = f.name;
+      a.click();
+      setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+    });
+
+    raiz.querySelector("[data-accion=whatsapp]")?.addEventListener("click", () => {
+      window.open(`https://wa.me/${telDestino}?text=${encodeURIComponent(texto)}`, "_blank", "noopener");
+    });
+
+    raiz.querySelector("[data-accion=canjear]")?.addEventListener("click", async () => {
+      const nota = await preguntar({
+        titulo: `Canjear la N° ${n4(gc.numero)}`,
+        texto: `${gc.propuesta_nombre} para ${gc.para}. Confirmá que se está usando ahora.`,
+        etiqueta: "Nota (opcional): mesa, fecha de la reserva, quién atendió",
+        ok: "Marcar canjeada",
+      });
+      if (nota === null) return;
+      await actualizar({ estado: "canjeada", nota_canje: nota || null });
+    });
+
+    raiz.querySelector("[data-accion=anular]")?.addEventListener("click", async () => {
+      const motivo = await preguntar({
+        titulo: `Anular la N° ${n4(gc.numero)}`,
+        texto: "La tarjeta deja de valer. No se borra: queda en el historial con el motivo.",
+        etiqueta: "Motivo (obligatorio)",
+        obligatorio: true,
+        ok: "Anular",
+      });
+      if (motivo === null) return;
+      await actualizar({ estado: "anulada", motivo_anulacion: motivo });
+    });
+
+    raiz.querySelector("[data-accion=reactivar]")?.addEventListener("click", async () => {
+      const ok = await preguntar({
+        titulo: `Reactivar la N° ${n4(gc.numero)}`,
+        texto: "Vuelve a quedar activa. Usalo para corregir un canje o una anulación por error; queda en el historial.",
+        ok: "Reactivar",
+      });
+      if (ok === null) return;
+      await actualizar({ estado: "activa" });
+    });
+
+    raiz.querySelector("[data-accion=editar]")?.addEventListener("click", () => editar(gc));
+
+    raiz.querySelector<HTMLInputElement>("[data-accion-archivo]")?.addEventListener("change", async (ev) => {
+      const archivo = (ev.target as HTMLInputElement).files?.[0];
+      if (!archivo) return;
+      try {
+        const ruta = await subirComprobante(gc.numero, archivo);
+        const { error: e2 } = await sb.from("giftcards").update({ comprobante_path: ruta }).eq("id", gc.id);
+        if (e2) throw e2;
+        await abrirDetalle(gc.numero);
+      } catch (err) {
+        alert(mensajeError(err));
+      }
+    });
+  }
+
+  function mensajeWhatsApp(gc: GiftCard) {
+    const para = gc.para.split(" ")[0];
+    return [
+      `¡Hola ${para}! ${gc.de} te regaló una gift card de Mirador Waikiki 🌊`,
+      "",
+      `${gc.propuesta_nombre}${gc.para_cuantos ? ` para ${gc.para_cuantos}` : ""}.`,
+      gc.mensaje ? `«${gc.mensaje}»` : null,
+      "",
+      `N° ${n4(gc.numero)} · Código ${gc.codigo}`,
+      `Válida hasta el ${fecha(gc.vence_en)}.`,
+      "",
+      "Para usarla, reservá por este WhatsApp y pasanos el código. ¡Te esperamos!",
+    ]
+      .filter((l) => l !== null)
+      .join("\n");
+  }
+
+  async function actualizar(cambios: Partial<GiftCard>) {
+    if (!actual) return;
+    const { error } = await sb.from("giftcards").update(cambios).eq("id", actual.id);
+    if (error) return alert(mensajeError(error));
+    await abrirDetalle(actual.numero);
+  }
+
+  /* ── Diálogos ───────────────────────────────────────────────────────── */
+  const dialogo = $<HTMLDialogElement>("[data-dialogo]");
+  function preguntar(op: { titulo: string; texto: string; etiqueta?: string; obligatorio?: boolean; ok: string }): Promise<string | null> {
+    $("[data-dialogo-titulo]").textContent = op.titulo;
+    $("[data-dialogo-texto]").textContent = op.texto;
+    const campo = $("[data-dialogo-campo]");
+    const valor = $<HTMLTextAreaElement>("[data-dialogo-valor]");
+    const err = $("[data-dialogo-error]");
+    campo.hidden = !op.etiqueta;
+    $("[data-dialogo-etiqueta]").textContent = op.etiqueta ?? "";
+    valor.value = "";
+    err.hidden = true;
+    $("[data-dialogo-ok]").textContent = op.ok;
+    dialogo.showModal();
+    return new Promise((resolver) => {
+      const alCerrar = (e: SubmitEvent) => {
+        const quien = (e.submitter as HTMLButtonElement | null)?.value;
+        if (quien === "ok" && op.obligatorio && !valor.value.trim()) {
+          e.preventDefault();
+          err.textContent = "Este dato es obligatorio.";
+          err.hidden = false;
+          return;
+        }
+        $("[data-dialogo-form]").removeEventListener("submit", alCerrar as EventListener);
+        resolver(quien === "ok" ? valor.value.trim() : null);
+      };
+      $("[data-dialogo-form]").addEventListener("submit", alCerrar as EventListener);
+      dialogo.addEventListener("cancel", () => resolver(null), { once: true });
+    });
+  }
+
+  const dialogoEditar = $<HTMLDialogElement>("[data-editar]");
+  const formEditar = $<HTMLFormElement>("[data-editar-form]");
+  function editar(gc: GiftCard) {
+    const campo = (n: string) => formEditar.elements.namedItem(n) as HTMLInputElement;
+    for (const n of ["para", "de", "telefono_comprador", "telefono_destinatario", "email_comprador", "mensaje", "vence_en", "notas"]) {
+      campo(n).value = ((gc as any)[n] ?? "") as string;
+    }
+    campo("monto_cobrado").value = gc.monto_cobrado != null ? gc.monto_cobrado.toLocaleString("es-AR") : "";
+    $("[data-editar-error]").hidden = true;
+    dialogoEditar.showModal();
+  }
+  formEditar.addEventListener("submit", async (e) => {
+    const quien = (e.submitter as HTMLButtonElement | null)?.value;
+    if (quien !== "ok" || !actual) return;
+    e.preventDefault();
+    const campo = (n: string) => (formEditar.elements.namedItem(n) as HTMLInputElement).value.trim();
+    const err = $("[data-editar-error]");
+    if (campo("para").length < 2 || campo("de").length < 2 || !campo("vence_en")) {
+      err.textContent = "Para, De y Vence son obligatorios.";
+      err.hidden = false;
+      return;
+    }
+    const monto = soloNumero(campo("monto_cobrado"));
+    const { error } = await sb
+      .from("giftcards")
+      .update({
+        para: campo("para"),
+        de: campo("de"),
+        telefono_comprador: campo("telefono_comprador") || null,
+        telefono_destinatario: campo("telefono_destinatario") || null,
+        email_comprador: campo("email_comprador") || null,
+        mensaje: campo("mensaje") || null,
+        monto_cobrado: monto ? Number(monto) : null,
+        vence_en: campo("vence_en"),
+        notas: campo("notas") || null,
+      })
+      .eq("id", actual.id);
+    if (error) {
+      err.textContent = mensajeError(error);
+      err.hidden = false;
+      return;
+    }
+    dialogoEditar.close();
+    await abrirDetalle(actual.numero);
+  });
+
+  sb.auth.onAuthStateChange((evento) => {
+    if (evento === "SIGNED_OUT") mostrarVista("login");
+  });
+
+  arrancar().catch((e) => {
+    mostrarVista("login");
+    const err = $("[data-error-login]");
+    err.textContent = mensajeError(e);
+    err.hidden = false;
+  });
+</script>

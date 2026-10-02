@@ -1,0 +1,32 @@
+---
+/**
+ * Marco de las herramientas internas (/gestion). Sin la cabecera ni el pie
+ * del sitio, sin router y fuera de Google: no es una página para clientes.
+ */
+import "~/styles/base.css";
+
+interface Props {
+  titulo: string;
+}
+const { titulo } = Astro.props;
+---
+
+<!doctype html>
+<html lang="es-AR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="referrer" content="no-referrer" />
+    <meta name="theme-color" content="#dbd2b5" />
+    <title>{titulo} · Mirador Waikiki</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  </head>
+  <body class="gestion">
+    <slot />
+  </body>
+</html>
+
+<style is:global>
+  body.gestion { background: var(--fondo); min-height: 100vh; }
+</style>
