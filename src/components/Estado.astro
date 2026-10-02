@@ -2,6 +2,9 @@
 /**
  * El estado real de la unidad hoy: abierto, cerrado, temporada. Se calcula
  * desde los horarios del YAML, no se escribe a mano en ningún lado.
+ *
+ * El HTML trae el texto calculado al publicar; el script lo vuelve a
+ * calcular en el navegador con la hora de Argentina, que es la que vale.
  */
 import type { Estado } from "~/lib/estado";
 
@@ -15,11 +18,14 @@ const { estado, unidad, class: clase } = Astro.props;
 
 {
   estado.texto && (
-    <p class:list={["estado", `u-${unidad}`, { off: !estado.activo }, clase]}>
+    <p
+      class:list={["estado", `u-${unidad}`, { off: !estado.activo }, clase]}
+      data-estado={estado.fuente ? JSON.stringify(estado.fuente) : undefined}
+    >
       <span class="punto" aria-hidden="true" />
       <span>
-        {estado.texto}
-        {estado.detalle && <span class="detalle">{estado.detalle}</span>}
+        <span data-texto>{estado.texto}</span>
+        <span class="detalle" data-detalle hidden={!estado.detalle}>{estado.detalle}</span>
       </span>
     </p>
   )
@@ -47,6 +53,7 @@ const { estado, unidad, class: clase } = Astro.props;
     background: transparent;
     border: 1.5px solid var(--u);
   }
+  .detalle[hidden] { display: none; }
   .detalle {
     display: block;
     font-weight: 400;
@@ -58,3 +65,37 @@ const { estado, unidad, class: clase } = Astro.props;
   .u-balneario { --u: var(--u-balneario); }
   .u-eventos { --u: var(--u-eventos); }
 </style>
+
+<script>
+  import { enCadaPagina } from "~/lib/enCadaPagina";
+  import { estadoDeUnidad } from "~/lib/estado";
+
+  /* Se recalcula al llegar a cada página y cada minuto mientras está
+     abierta: alguien que deja la pestaña abierta a las 19:58 tiene que
+     ver que a las 20:00 cerró. */
+  enCadaPagina(() => {
+    const pintar = () => {
+      document.querySelectorAll<HTMLElement>(".estado[data-estado]").forEach((el) => {
+        let fuente;
+        try {
+          fuente = JSON.parse(el.dataset.estado!);
+        } catch {
+          return;
+        }
+        const e = estadoDeUnidad(fuente);
+        if (!e.texto) return;
+        el.classList.toggle("off", !e.activo);
+        const texto = el.querySelector<HTMLElement>("[data-texto]");
+        const detalle = el.querySelector<HTMLElement>("[data-detalle]");
+        if (texto) texto.textContent = e.texto;
+        if (detalle) {
+          detalle.textContent = e.detalle ?? "";
+          detalle.hidden = !e.detalle;
+        }
+      });
+    };
+    pintar();
+    const reloj = window.setInterval(pintar, 60_000);
+    return () => window.clearInterval(reloj);
+  });
+</script>

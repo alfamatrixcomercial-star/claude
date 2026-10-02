@@ -3,34 +3,40 @@
  * temporada en el YAML, y acá se calcula qué mostrar hoy. Un complejo
  * costero vive de la estacionalidad: ocultarla es la mentira del rubro.
  *
- * Ojo: esto se evalúa en build time (el sitio es estático). Un rebuild
- * diario en Vercel mantiene el estado al día; ver README.
+ * Se calcula dos veces: al publicar, para que el HTML ya traiga un texto
+ * (y quien no tenga JavaScript vea algo), y otra vez en el navegador de
+ * cada visitante con la hora de Argentina (Estado.astro). Sin lo segundo
+ * el cartel quedaba congelado en la hora de la última publicación: se
+ * publicaba de noche y a la mañana seguía diciendo «Hoy ya cerró».
  */
 
 type Franja = { desde: string; hasta: string };
 type Horario = { dias: number[]; etiqueta: string; franjas: Franja[]; nota?: string };
 type Temporada = { desde: string; hasta: string; abierta: string; cerrada: string };
 
-export type Estado = { texto: string; activo: boolean; detalle?: string };
+export type FuenteEstado = { horarios?: Horario[]; temporada?: Temporada; estadoFijo?: string };
+/** `fuente` son los datos con que se calculó, para recalcular en el navegador. */
+export type Estado = { texto: string; activo: boolean; detalle?: string; fuente?: FuenteEstado };
 
 const ZONA = "America/Argentina/Buenos_Aires";
 
 function ahora() {
-  const f = new Intl.DateTimeFormat("es-AR", {
+  /* El día de la semana en inglés: las abreviaturas en castellano cambian
+     entre versiones de navegador («vie», «vie.»), las inglesas no. */
+  const f = new Intl.DateTimeFormat("en-US", {
     timeZone: ZONA,
     weekday: "short",
     hour: "2-digit",
     minute: "2-digit",
     month: "2-digit",
     day: "2-digit",
-    hour12: false,
+    hourCycle: "h23",
   }).formatToParts(new Date());
   const g = (t: string) => f.find((p) => p.type === t)?.value ?? "";
-  const dias = ["dom", "lun", "mar", "mié", "jue", "vie", "sáb"];
-  const corto = g("weekday").toLowerCase().slice(0, 3);
+  const dias = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
   return {
-    dia: Math.max(0, dias.indexOf(corto)),
-    minutos: Number(g("hour")) * 60 + Number(g("minute")),
+    dia: Math.max(0, dias.indexOf(g("weekday"))),
+    minutos: (Number(g("hour")) % 24) * 60 + Number(g("minute")),
     mesDia: `${g("month")}-${g("day")}`,
   };
 }
@@ -42,11 +48,11 @@ function dentroDelRango(hoy: string, desde: string, hasta: string) {
   return desde <= hasta ? hoy >= desde && hoy <= hasta : hoy >= desde || hoy <= hasta;
 }
 
-export function estadoDeUnidad(opciones: {
-  horarios?: Horario[];
-  temporada?: Temporada;
-  estadoFijo?: string;
-}): Estado {
+export function estadoDeUnidad(opciones: FuenteEstado): Estado {
+  return { ...calcular(opciones), fuente: opciones };
+}
+
+function calcular(opciones: FuenteEstado): Estado {
   const { horarios = [], temporada, estadoFijo } = opciones;
   const hoy = ahora();
 
@@ -63,7 +69,8 @@ export function estadoDeUnidad(opciones: {
       (f) => hoy.minutos >= aMin(f.desde) && hoy.minutos <= aMin(f.hasta),
     );
     if (abierta) {
-      return { texto: `Abierto hasta las ${abierta.hasta}`, activo: true, detalle: deHoy.nota };
+      const hasta = abierta.hasta === "23:59" ? "la medianoche" : `las ${abierta.hasta}`;
+      return { texto: `Abierto hasta ${hasta}`, activo: true, detalle: deHoy.nota };
     }
     const proxima = deHoy.franjas.find((f) => hoy.minutos < aMin(f.desde));
     if (proxima) {
