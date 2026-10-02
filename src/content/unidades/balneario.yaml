@@ -10,9 +10,13 @@ firma: El mismo predio, con los pies en la arena.
 intro:
   # TODO: confirmar modalidades reales
   - >-
-    El balneario abre en diciembre y cierra a fines de marzo. Se contrata por
-    día, por quincena o por temporada completa, y el acceso al restaurante y al
-    hotel es el mismo predio.
+    Hileras de carpas blancas y sombrillas sobre la arena, al pie del complejo
+    y a la altura de Punta Mogotes. El balneario abre en diciembre y cierra a
+    fines de marzo.
+  - >-
+    Se contrata por día, por quincena o por la temporada completa. El auto
+    queda en el estacionamiento del predio y el restaurante está a pasos: se
+    almuerza o se toma algo frente al mar sin salir del complejo.
   - >-
     Los huéspedes de Ili Ili tienen acceso durante su estadía.
 
@@ -24,16 +28,18 @@ hero:
   foco: centro
 
 # El orden importa: las dos primeras de cada unidad son las que salen en la
-# banda de fotos del home.
+# banda de fotos del home. Sólo playa y mar: las del restaurante van en el
+# restaurante, aunque se vea la arena desde la terraza.
 galeria:
-  # Las dos primeras salen también en la banda del home: no pueden ser el
-  # mar entre las plantas, que es la tarjeta del balneario en el home.
-  - src: ../../assets/fotos/balneario/desayuno-baranda.jpg
+  - src: ../../assets/fotos/balneario/carpas-dron.jpg
     alt: >-
-      Una mesa servida junto a la baranda, con la playa abajo
-  - src: ../../assets/fotos/balneario/baranda-mar.jpg
+      El balneario visto desde un dron: las hileras de carpas blancas y las
+      sombrillas sobre la arena, con la pileta y el restaurante detrás
+    foco: abajo
+  - src: ../../assets/fotos/complejo/mar-surfistas.jpg
     alt: >-
-      El restaurante del complejo desde afuera, con las sombrillas blancas de la terraza y el cielo despejado sobre el mar
+      El mar de Mar del Plata desde el aire, con surfistas esperando la ola en
+      agua verde oscuro
   - src: ../../assets/fotos/balneario/mar-plantas.jpg
     alt: >-
       El mar visto entre las plantas del predio, con la ciudad de Mar del Plata a lo lejos
@@ -82,10 +88,10 @@ fotoRelato:
     El complejo visto desde un dron: las filas de carpas sobre la arena, el
     restaurante sobre las rocas, la pileta y el mar abierto
 listasFoto:
-  src: ../../assets/fotos/restaurante/spritz-rabas.jpg
+  src: ../../assets/fotos/complejo/predio-dron-cenital.jpg
   alt: >-
-    Un spritz y un plato de rabas con limón, sobre la mesa de la terraza frente
-    al mar
+    El complejo visto desde arriba con un dron: el mar, el restaurante sobre
+    las rocas, las dos piletas y el balneario sobre la arena
 
 seo:
   titulo: Balneario en Mar del Plata, carpas y sombrillas

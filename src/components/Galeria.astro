@@ -50,8 +50,15 @@ const grandes = await Promise.all(
               <Foto
                 foto={f}
                 unidad={unidad}
-                anchos={[400, 700, 1100]}
-                sizes="(max-width: 640px) 50vw, 33vw"
+                anchos={[400, 700, 1100, 1600]}
+                sizes={
+                  /* La primera ocupa dos columnas: con el sizes de las
+                     demás el navegador bajaba una de la mitad del ancho y
+                     la estiraba. */
+                  i === 0
+                    ? `(max-width: 640px) ${fotos.length % 2 === 1 ? "100vw" : "50vw"}, 66vw`
+                    : "(max-width: 640px) 50vw, 33vw"
+                }
               />
             </button>
           </li>
