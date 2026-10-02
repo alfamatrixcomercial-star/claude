@@ -4,7 +4,7 @@ nombreLargo: Restaurante Mirador Waikiki
 color: verde
 ornamento: vieira
 
-titular: Cocina de mar y fuego, sobre las rocas.
+titular: Sabores de mar, frente al mar.
 bajada: Abierto desde las 8, con el mar de frente
 firma: Una propuesta diferente, frente al mar.
 intro:
@@ -157,6 +157,6 @@ cartaFoto:
 seo:
   titulo: Restaurante frente al mar en Mar del Plata
   descripcion: >-
-    Cocina de mar y fuego sobre las rocas, con vista al océano por tres lados.
+    Sabores de mar frente al mar, con vista al océano por tres lados.
     Desayuno, almuerzo y cena los viernes y sábados. Reservas por Woki o WhatsApp.
 schema: Restaurant

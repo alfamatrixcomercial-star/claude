@@ -378,6 +378,20 @@ const datosEstructurados = {
   .texto :global(.estado),
   .texto :global(.estado .detalle) { color: var(--sobre-oscuro); }
   .acciones { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 0.5rem; }
+  /* En el celular la placa ocupaba casi la mitad de la pantalla y tapaba
+     la foto o el video de fondo, que es lo que vende. Se achica a lo
+     justo: título más chico, menos relleno y botones más compactos. */
+  @media (max-width: 700px) {
+    /* Un poco más transparente que en las otras placas: en el celular va
+       sobre video, y el título y los botones siguen pasando contraste
+       aun sobre los cuadros más oscuros. */
+    .texto .placa { padding: 0.9rem 1rem 1rem; --placa-alfa: 0.66; }
+    .texto h1 { font-size: clamp(1.45rem, 6.2vw, 1.75rem); margin-top: 0.25rem; color: var(--verde-placa-texto); }
+    .texto :global(.marca) { width: 92px; height: auto; }
+    .texto :global(.estado) { font-size: 0.85rem; margin-top: 0.35rem; }
+    .acciones { gap: 0.5rem; margin-top: 0.7rem; }
+    .acciones :global(.boton) { font-size: 0.7rem; padding-left: 1em; }
+  }
   /* El color de los botones lo pone .sobre-foto, no una regla suelta. */
 
   .cuerpo { padding: var(--paso) var(--margen) var(--paso-abajo); }
