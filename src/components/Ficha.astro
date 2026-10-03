@@ -24,10 +24,8 @@ const rango = (f: { desde: string; hasta: string }) =>
           {horarios.map((h) => (
             <div>
               <dt>{h.etiqueta}</dt>
-              <dd>
-                {h.franjas.map(rango).join(" · ")}
-                {h.nota && <span class="nota">{h.nota}</span>}
-              </dd>
+              <dd>{h.franjas.map(rango).join(" · ")}</dd>
+              {h.nota && <dd class="nota">{h.nota}</dd>}
             </div>
           ))}
         </dl>
@@ -86,18 +84,21 @@ const rango = (f: { desde: string; hasta: string }) =>
   dl > div:last-child { border-bottom: 0; }
 
   dt { font-size: 0.925rem; font-weight: 500; }
+  /* El valor va siempre a la derecha, también cuando baja de renglón:
+     antes, al bajar, quedaba suelto en el medio de la ficha. */
   dd {
-    margin: 0;
+    margin: 0 0 0 auto;
     font-size: 0.925rem;
     text-align: right;
     color: var(--tinta-suave);
     font-variant-numeric: tabular-nums;
   }
+  /* La nota del horario («Servicio de cena por la noche») va en su propio
+     renglón, debajo del día y la hora, alineada con el día. */
   .nota {
-    display: block;
+    flex-basis: 100%;
+    margin: 0;
     font-size: 0.82rem;
-    margin-top: 0.2rem;
-    max-width: 26ch;
-    margin-left: auto;
+    text-align: left;
   }
 </style>
