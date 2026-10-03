@@ -93,8 +93,8 @@ giftcard:
   aviso: >-
     Por ahora el pago no se hace en el sitio. El formulario abre un WhatsApp
     con el pedido ya escrito y lo terminamos de coordinar por ahí.
-  # Las propuestas que se regalan. Los platos van con el nombre que tienen en
-  # la carta (mimenulatech.com/miradorwaikiki). El precio va en pesos y sin
+  # Las propuestas que se regalan. Los platos van con el nombre y la
+  # descripción que tienen en la carta (mimenulatech.com/miradorwaikiki). El precio va en pesos y sin
   # puntos; sin precio, la tarjeta dice «Valor a consultar» y el pedido lo
   # pregunta por WhatsApp. «para» dice para cuántos es (el precio es por
   # todo eso, no por persona). Para sacar una, borrá su bloque entero; para
@@ -115,24 +115,38 @@ giftcard:
         - titulo: Entrada
           nota: para compartir
           platos:
-            - Rabas con Limón
-            - Tabla de Mar
-            - Tapeo de Quesos y Fiambres
+            - nombre: Rabas con Limón
+              detalle: Preparadas con calamar fresco, con limón y salsa alioli.
+            - nombre: Tabla de Mar
+              detalle: Fritura de rabas, calamarettes, langostinos, cornalitos y pesca blanca.
+            - nombre: Tapeo de Quesos y Fiambres
+              detalle: >-
+                Quesos pepato, reggianito, gouda, azul y pategrás; jamón serrano,
+                jamón cocido, lomo ahumado, bondiola, salamines y matambre casero.
         - titulo: Principal
           nota: uno por persona
           platos:
-            - Milanesa de Peceto Napolitana con papas fritas
-            - Sorrentinos con Salsa Bolognesa
-            - Bondiola a la Mostaza y Miel con papas españolas
+            - nombre: Milanesa de Peceto Napolitana
+              detalle: Al plato, con papas fritas.
+            - nombre: Sorrentinos con Salsa Bolognesa
+              detalle: Rellenos de jamón y mozzarella.
+            # La carta la sirve con puré; en la gift card va con papas
+            # españolas, como lo pasó el restaurante.
+            - nombre: Bondiola a la Mostaza y Miel
+              detalle: Con papas españolas.
         - titulo: Postre
           nota: para compartir
           platos:
-            - Brownie con crema helada, reducción de frutos rojos y crocante de café
-            - Panqueque de Dulce de Leche con helado
+            - nombre: Brownie
+              detalle: Con crema helada, reducción de frutos rojos y crocante de café.
+            - nombre: Panqueque de Dulce de Leche
+              detalle: Con helado.
         - titulo: Bebida
           platos:
-            - Una botella de Alamos Chardonnay o Alamos Malbec
-            - Un agua Eco de Los Andes por persona, con o sin gas
+            - nombre: Vino Alamos
+              detalle: Una botella, Chardonnay o Malbec.
+            - nombre: Agua Eco de Los Andes
+              detalle: Una por persona, con o sin gas.
     - id: mar-adentro
       nombre: Mar Adentro
       bajada: La más completa, con burrata, gambas, ojo de bife y el Ravioli Nero.
@@ -148,27 +162,36 @@ giftcard:
         - titulo: Entrada
           nota: para compartir
           platos:
-            - Burrata
-            - Gambas al Ajillo
-            - Calamarettes a la Leonesa
+            - nombre: Burrata
+              detalle: Sobre hojas verdes, con tomates confitados, cherrys y nueces.
+            - nombre: Gambas al Ajillo
+              detalle: Con papas españolas.
+            - nombre: Calamarettes a la Leonesa
+              detalle: Con papas españolas.
         - titulo: Principal
           nota: uno por persona
           platos:
-            - Ojo de Bife a la Crema de Hongos y Panceta con papines salteados
-            - Bife de Chorizo al Malbec con papas españolas
-            - Ravioli Nero a la Crema de Verdeo
-            - Salmón Rosado a la Crema de Camarones con puré duquesa
+            - nombre: Ojo de Bife a la Crema de Hongos y Panceta
+              detalle: Con papines salteados.
+            - nombre: Bife de Chorizo al Malbec
+              detalle: Con papas españolas.
+            - nombre: Ravioli Nero a la Crema de Verdeo
+              detalle: Raviolón de masa sepia relleno de salmón rosado y camarones.
+            - nombre: Salmón Rosado a la Crema de Camarones
+              detalle: Con puré duquesa.
         - titulo: Postre
           nota: para compartir
           platos:
-            - Panqueque de Manzanas con helado
-            - Marquise de Chocolate con helado
+            - nombre: Panqueque de Manzanas
+              detalle: Con helado.
+            - nombre: Marquise de Chocolate
+              detalle: Con helado.
         - titulo: Bebida
           platos:
-            - >-
-              Una botella de Nicasia Vineyards Red Blend Cabernet Franc o
-              Nicasia Vineyards Blanc de Blancs
-            - Un agua Eco de Los Andes, con o sin gas
+            - nombre: Vino Nicasia Vineyards
+              detalle: Una botella, Red Blend Cabernet Franc o Blanc de Blancs.
+            - nombre: Agua Eco de Los Andes
+              detalle: Una, con o sin gas.
     - id: escapada-ili-ili
       nombre: Escapada Ili Ili
       bajada: El menú Mar Adentro y, después, una noche en el hotel del complejo.

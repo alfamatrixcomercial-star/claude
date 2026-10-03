@@ -294,7 +294,16 @@ const sitio = defineCollection({
                   z.object({
                     titulo: z.string(),
                     nota: z.string().optional(),
-                    platos: z.array(z.string().min(3)).min(1),
+                    /** Cada plato con su descripción de la carta. Un texto
+                        suelto también vale (sin descripción). */
+                    platos: z
+                      .array(
+                        z.union([
+                          z.string().min(3).transform((nombre) => ({ nombre, detalle: undefined as string | undefined })),
+                          z.object({ nombre: z.string().min(3), detalle: z.string().min(3).optional() }),
+                        ]),
+                      )
+                      .min(1),
                   }),
                 )
                 .min(1),
