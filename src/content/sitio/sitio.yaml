@@ -125,6 +125,7 @@ giftcard:
             - Sorrentinos con Salsa Bolognesa
             - Bondiola a la Mostaza y Miel con papas españolas
         - titulo: Postre
+          nota: para compartir
           platos:
             - Brownie con crema helada, reducción de frutos rojos y crocante de café
             - Panqueque de Dulce de Leche con helado
@@ -134,14 +135,14 @@ giftcard:
             - Un agua Eco de Los Andes por persona, con o sin gas
     - id: mar-adentro
       nombre: Mar Adentro
-      bajada: La más completa, con burrata, gambas, mero y el Ravioli Nero.
+      bajada: La más completa, con burrata, gambas, ojo de bife y el Ravioli Nero.
       precio: 160000
       para: dos
       foto:
-        src: ../../assets/fotos/restaurante/ravioles.jpg
+        src: ../../assets/fotos/restaurante/bife-papas.jpg
         alt: >-
-          Ravioli Nero en salsa de crema con queso rallado y pimentón, con una
-          copa de tinto al lado
+          Ojo de bife con salsa de hongos y papines, con una copa de tinto y la
+          botella detrás, en el salón de noche
         foco: abajo
       tiempos:
         - titulo: Entrada
@@ -153,11 +154,12 @@ giftcard:
         - titulo: Principal
           nota: uno por persona
           platos:
-            - Mero con Salsa Mar del Plata
+            - Ojo de Bife a la Crema de Hongos y Panceta con papines salteados
             - Bife de Chorizo al Malbec con papas españolas
             - Ravioli Nero a la Crema de Verdeo
             - Salmón Rosado a la Crema de Camarones con puré duquesa
         - titulo: Postre
+          nota: para compartir
           platos:
             - Panqueque de Manzanas con helado
             - Marquise de Chocolate con helado
