@@ -18,7 +18,8 @@ intro:
     queda en el estacionamiento del predio y el restaurante está a pasos: se
     almuerza o se toma algo frente al mar sin salir del complejo.
   - >-
-    Los huéspedes de Ili Ili tienen acceso durante su estadía.
+    Los huéspedes de Ili Ili también pueden contratarlo, aparte de la
+    habitación.
 
 hero:
   src: ../../assets/fotos/complejo/predio-dron.jpg
@@ -54,7 +55,7 @@ temporada:
 ficha:
   - { clave: Temporada, valor: Diciembre a marzo }
   - { clave: Contratación, valor: "Día, quincena o temporada" }
-  - { clave: Huéspedes del hotel, valor: Acceso incluido } # TODO: confirmar
+  - { clave: Huéspedes del hotel, valor: Se contrata aparte }
   - { clave: Estacionamiento, valor: Dentro del predio }
 
 ctas:
