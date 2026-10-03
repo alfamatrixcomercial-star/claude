@@ -125,8 +125,8 @@ horarios:
 
 ficha:
   - { clave: Vista, valor: Al mar por tres lados }
-  - { clave: Terraza, valor: "Sí, con reserva previa" } # TODO: confirmar
-  - { clave: Grupos, valor: Hasta 40 personas } # TODO: confirmar capacidad
+  - { clave: Terraza, valor: Por orden de llegada }
+  - { clave: Grupos, valor: "Hasta 10 por mesa sin reserva; recomendamos reservar" }
   - { clave: Desde las 8, valor: Desayunos y café de la tarde }
   - { clave: Cena, valor: Viernes y sábados por la noche }
 
