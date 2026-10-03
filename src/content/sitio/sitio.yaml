@@ -101,7 +101,7 @@ giftcard:
     - id: clasico-waikiki
       nombre: Clásico Waikiki
       bajada: Rabas, milanesa y sorrentinos, para compartir mirando el mar.
-      precio: 110000
+      precio: 130000
       para: dos
       foto:
         src: ../../assets/fotos/restaurante/spritz-rabas.jpg
@@ -133,7 +133,7 @@ giftcard:
     - id: mar-adentro
       nombre: Mar Adentro
       bajada: La más completa, con burrata, gambas, mero y el Ravioli Nero.
-      precio: 125000
+      precio: 160000
       para: dos
       foto:
         src: ../../assets/fotos/restaurante/ravioles.jpg
