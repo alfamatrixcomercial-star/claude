@@ -22,10 +22,10 @@ marca:
   alt: Ili Ili Hotel Boutique
 
 hero:
-  src: ../../assets/fotos/hotel/edificio-parque.jpg
+  src: ../../assets/fotos/hotel/habitacion-vista-mar.jpg
   alt: >-
-    El restaurante del complejo visto desde el parque del predio, con los
-    árboles en primer plano
+    Una habitación del hotel con la cama tendida, los sillones junto al
+    ventanal y el mar y la ciudad detrás de los balcones
   foco: centro
 
 # La tarjeta del hotel en el home: una habitación, que es lo que se busca.
