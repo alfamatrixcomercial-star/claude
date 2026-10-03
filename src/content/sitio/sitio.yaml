@@ -218,6 +218,11 @@ redes:
 # ─────────────────────────────────────────────────────────────────────────
 testimonios: []
 
+# Firma del sitio, chica y al final del pie.
+credito:
+  nombre: "@enzoesp_"
+  url: "https://www.instagram.com/enzoesp_/"
+
 # ── Fotos de los bloques que no son de una unidad ──────────────────────────
 # Cada una con su alt: aunque vaya de fondo, cuenta cómo es el lugar. Para
 # cambiar una foto se cambia la ruta acá; ningún componente la nombra.

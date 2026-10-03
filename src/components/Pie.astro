@@ -71,6 +71,13 @@ const canales = await Promise.all(
       }
     </div>
   </div>
+  {
+    sitio.credito && (
+      <p class="credito">
+        Hecho por <a href={sitio.credito.url} target="_blank" rel="noopener">{sitio.credito.nombre}</a>
+      </p>
+    )
+  }
 </footer>
 
 <style>
@@ -141,6 +148,24 @@ const canales = await Promise.all(
     color: var(--tinta-suave);
     font-variant-numeric: tabular-nums;
   }
+
+  /* La firma del sitio: chica, al final, sin competir con nada. */
+  .credito {
+    max-width: var(--ancho);
+    margin: clamp(1.75rem, 4vw, 2.5rem) auto 0;
+    padding-top: 1rem;
+    border-top: 1px solid var(--linea);
+    font-size: 0.75rem;
+    letter-spacing: 0.04em;
+    color: var(--tinta-suave);
+  }
+  .credito a {
+    display: inline-block;
+    padding-block: 0.35rem;
+    color: inherit;
+    text-underline-offset: 0.2em;
+  }
+  .credito a:hover { color: var(--tinta); }
 
   address {
     font-style: normal;

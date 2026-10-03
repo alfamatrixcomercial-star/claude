@@ -326,6 +326,8 @@ const sitio = defineCollection({
       )
       .default([]),
     redes: z.array(z.object({ nombre: z.string(), url: z.string().url() })).default([]),
+    /** Quién hizo el sitio: una línea chica al pie de todas las páginas. */
+    credito: z.object({ nombre: z.string(), url: z.string().url() }).optional(),
     /**
      * Fotos de los bloques que no son de una unidad. Cada una con su alt:
      * aunque vaya de fondo, la foto cuenta cómo es el lugar.
