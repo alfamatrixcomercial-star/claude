@@ -35,7 +35,9 @@ comoLlegar:
   - Desde el centro, por la avenida costanera, unos quince minutos en auto.
   - Líneas de colectivo que paran en la puerta. # TODO: números de línea
 
-estacionamiento: Estacionamiento propio dentro del predio, sin cargo para clientes.
+estacionamiento: >-
+  Estacionamiento propio dentro del predio, sin cargo las primeras 2 h 30
+  consumiendo en el restaurante. Después tiene costo.
 
 # Un canal por unidad: número y mensaje prellenado. Cambiar un número es
 # cambiar una línea acá, y todos los botones del sitio se actualizan.

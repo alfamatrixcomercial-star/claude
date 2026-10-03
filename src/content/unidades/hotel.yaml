@@ -11,8 +11,7 @@ firma: Amanecé frente al mar.
 intro:
   - >-
     Ili Ili es el primer hotel de Mar del Plata sobre la primera línea de playa.
-    Está dentro del complejo, con bajada directa a la arena: entre la cama y el
-    agua no hay una avenida, hay una escalera.
+    Está dentro del complejo, frente al mar.
   - >-
     En verano la estadía incluye los servicios del balneario en la playa
     Waikiki, y el restaurante está a metros, abierto desde las ocho de la mañana.
@@ -52,7 +51,6 @@ galeria: []
 estadoFijo: Abierto todo el año
 
 ficha:
-  - { clave: Playa, valor: Bajada directa desde el predio }
   - { clave: Balneario, valor: Servicios incluidos en verano }
   - { clave: Restaurante, valor: "A metros, desde las 8" }
   - { clave: Cochera, valor: "Sí, dentro del predio" }
@@ -97,5 +95,5 @@ seo:
   titulo: Ili Ili Hotel Boutique, primera línea de playa
   descripcion: >-
     El primer hotel de Mar del Plata sobre la primera línea de playa, dentro del
-    complejo Mirador Waikiki, con bajada directa a la arena y balneario en verano.
+    complejo Mirador Waikiki, frente al mar y con balneario en verano.
 schema: LodgingBusiness
