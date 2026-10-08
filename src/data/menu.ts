@@ -447,7 +447,7 @@ export const categories: Category[] = [
             "id": "entradas-rabas-con-limon",
             "name": "RABAS CON LIMÓN",
             "price": "31.400",
-            "description": "Preparadas con calamar fresco y acompañadas de limón y salsa alioli.",
+            "description": "Aros de calamar fresco, rebozados y fritos en el momento, con limón y salsa alioli. El clásico para compartir.",
             "suggested": true
           },
           {
@@ -460,38 +460,38 @@ export const categories: Category[] = [
             "id": "entradas-tortilla-espanola",
             "name": "TORTILLA ESPAÑOLA",
             "price": "24.000",
-            "description": "Preparada con papa, cebolla y chorizo colorado."
+            "description": "Tortilla de papa, cebolla y huevo, con chorizo colorado."
           },
           {
             "id": "entradas-langostinos-empanados",
             "name": "LANGOSTINOS EMPANADOS",
             "price": "34.300",
-            "description": "Con guarnición de papas fritas."
+            "description": "Langostinos marinados con provenzal y un toque de ají, empanados y fritos. Con papas fritas."
           },
           {
             "id": "entradas-burrata",
             "name": "BURRATA",
             "price": "30.600",
-            "description": "Sobre colchón de hojas verdes, tomates confitados, cherrys y nueces.",
+            "description": "Queso italiano de corazón cremoso, sobre hojas verdes, con tomates cherry, tomates confitados y nueces. Ideal para dos.",
             "suggested": true
           },
           {
             "id": "entradas-gambas-al-ajillo",
             "name": "GAMBAS AL AJILLO",
             "price": "31.900",
-            "description": "Acompañadas de papas españolas."
+            "description": "Gambas salteadas en aceite de oliva con ajo, vino blanco, pimentón y un toque de ají. Con papas españolas."
           },
           {
             "id": "entradas-tabla-de-mar",
             "name": "TABLA DE MAR",
             "price": "36.200",
-            "description": "Contiene fritura de rabas, calamarettes, langostinos, cornalitos y pesca blanca"
+            "description": "Fritura de rabas, calamarettes, langostinos, cornalitos y pesca blanca. Para compartir entre dos y cuatro personas."
           },
           {
             "id": "entradas-pulpo-a-la-gallega",
             "name": "PULPO A LA GALLEGA",
             "price": "71.500",
-            "description": "Acompañado de papas al natural con pimentón español dip de oliva"
+            "description": "Pulpo con pimentón español y aceite de oliva, sobre papas al natural."
           },
           {
             "id": "entradas-calamarettes-a-la-leonesa",
@@ -561,7 +561,7 @@ export const categories: Category[] = [
             "id": "platos-ensalada-capresse",
             "name": "ENSALADA CAPRESSE",
             "price": "24.500",
-            "description": "Queso fresco en cubos,\ntomate, albahaca y olivas negras"
+            "description": "Queso fresco en cubos, tomate, albahaca y olivas negras."
           },
           {
             "id": "platos-ensalada-salmon-rose",
@@ -590,32 +590,32 @@ export const categories: Category[] = [
             "id": "platos-paella-waikiki",
             "name": "PAELLA WAIKIKI",
             "price": "65.800",
-            "description": "Para 2 personas. Arroz azafranado, pollo, calamares, mejillones, gambas y vieyras.",
+            "description": "El plato de la casa. Arroz azafranado cocinado en caldo de pescado, con pollo, calamares, mejillones, gambas y vieiras. Para 2 personas.",
             "suggested": true
           },
           {
             "id": "platos-caya-chilena",
             "name": "CAYA CHILENA",
             "price": "55.700",
-            "description": "Para 2 personas. Arroz cremoso con champignones, jamón, pollo, lechuga y queso gratinado."
+            "description": "Arroz azafranado y cremoso con pollo, champiñones, jamón y lechuga, gratinado con crema y queso. Para 2 personas."
           },
           {
             "id": "platos-risotto-con-frutos-de-mar",
             "name": "RISOTTO CON FRUTOS DE MAR",
             "price": "43.900",
-            "description": "Arroz cremoso con calamares, mejillones, gambas y vieyras."
+            "description": "Arroz carnaroli cocinado en caldo de pescado y vino blanco, terminado con manteca y queso, con calamares, mejillones, gambas y vieiras."
           },
           {
             "id": "platos-risotto-con-pollo-y-vegetales",
             "name": "RISOTTO CON POLLO Y VEGETALES",
             "price": "33.700",
-            "description": "Arroz cremoso con variedad de vegetales frescos y pollo"
+            "description": "Risotto de arroz carnaroli con pollo y vegetales frescos, terminado con manteca y queso."
           },
           {
             "id": "platos-risotto-vegetariano",
             "name": "RISOTTO VEGETARIANO",
             "price": "30.300",
-            "description": "Arroz cremoso con variedad de vegetales frescos."
+            "description": "Risotto de arroz carnaroli con vegetales frescos, cocinado en caldo de verduras y terminado con manteca y queso."
           }
         ]
       },
@@ -626,49 +626,49 @@ export const categories: Category[] = [
             "id": "platos-abadejo-grille",
             "name": "ABADEJO GRILLÉ",
             "price": "33.700",
-            "description": "Acompañado de vegetales salteados y papas al natural."
+            "description": "Pescado de mar de carne blanca y delicada, con pocas espinas, a la plancha con oliva y limón. Con vegetales salteados y papas al natural."
           },
           {
             "id": "platos-abadejo-con-crema-de-limon",
             "name": "ABADEJO CON CREMA DE LIMÓN",
             "price": "36.000",
-            "description": "Acompañado de puré duquesa."
+            "description": "Abadejo con una salsa cremosa de limón y cúrcuma. Con puré duquesa gratinado."
           },
           {
             "id": "platos-trucha-a-la-manteca-con-alcaparras",
             "name": "TRUCHA A LA MANTECA CON ALCAPARRAS",
             "price": "40.200",
-            "description": "Acompañada de vegetales."
+            "description": "Trucha patagónica de carne suave y sabrosa, con salsa de manteca, limón y alcaparras. Con vegetales."
           },
           {
             "id": "platos-salmon-rosado-grille",
             "name": "SALMÓN ROSADO GRILLÉ",
             "price": "41.800",
-            "description": "Acompañado de vegetales salteados y papas al natural."
+            "description": "Salmón rosado a la plancha, jugoso y de textura mantecosa. Con vegetales salteados y papas al natural."
           },
           {
             "id": "platos-salmon-rosado-a-la-crema-de-camarones",
             "name": "SALMÓN ROSADO A LA CREMA DE CAMARONES",
             "price": "47.500",
-            "description": "Acompañado de puré duquesa."
+            "description": "Salmón rosado a la plancha con salsa de camarones salteados con cebolla y crema, gratinada con queso. Con puré duquesa."
           },
           {
             "id": "platos-mero-grille",
             "name": "MERO GRILLÉ",
             "price": "34.700",
-            "description": "Acompañado de vegetales y papas al natural."
+            "description": "Pescado de aguas profundas del Atlántico Sur, de carne blanca y firme, a la plancha con aceite de oliva. Con vegetales y papas al natural."
           },
           {
             "id": "platos-mero-con-salsa-mar-del-plata",
             "name": "MERO CON SALSA MAR DEL PLATA",
             "price": "41.800",
-            "description": "Acompañado de papas rústicas."
+            "description": "Mero a la plancha con nuestra salsa Mar del Plata: vieiras, gambas y mejillones salteados en manteca y vino blanco. Con papas rústicas."
           },
           {
             "id": "platos-cazuela-de-mariscos",
             "name": "CAZUELA DE MARISCOS",
             "price": "59.800",
-            "description": "Para 2 personas. Con mejillones, calamares, vieyras, gambas y langostinos."
+            "description": "Mejillones, calamares, vieiras, gambas y langostinos en salsa de tomate, caldo de pescado y vino blanco. Para 2 personas."
           }
         ]
       },
@@ -679,46 +679,46 @@ export const categories: Category[] = [
             "id": "platos-lomo-al-champignon",
             "name": "LOMO AL CHAMPIGNON",
             "price": "42.200",
-            "description": "Acompañado de papas rústicas."
+            "description": "Medallón de lomo, el corte más tierno, con salsa de champiñones, cebolla y demi-glace. Con papas rústicas."
           },
           {
             "id": "platos-bife-de-chorizo-al-malbec",
             "name": "BIFE DE CHORIZO AL MALBEC",
             "price": "46.800",
-            "description": "Acompañado de papas españolas.",
+            "description": "El corte emblemático de la parrilla argentina, jugoso y sabroso, con salsa de reducción de Malbec. Con papas españolas.",
             "suggested": true
           },
           {
             "id": "platos-bondiola-a-la-mostaza-y-miel",
             "name": "BONDIOLA A LA MOSTAZA Y MIEL",
             "price": "38.700",
-            "description": "Acompañado de puré de papas.",
+            "description": "Bondiola grillé, jugosa y sabrosa, con salsa de mostaza Dijon, miel y cúrcuma. Con puré de papas.",
             "suggested": true
           },
           {
             "id": "platos-bife-de-chorizo-a-la-pimienta",
             "name": "BIFE DE CHORIZO A LA PIMIENTA",
             "price": "42.400",
-            "description": "Acompañado de papas a la crema."
+            "description": "Bife de chorizo con salsa de pimienta y demi-glace. Con papas a la crema."
           },
           {
             "id": "platos-ojo-de-bife-con-panceta-y-hongos",
             "name": "OJO DE BIFE CON PANCETA Y HONGOS",
             "price": "45.100",
-            "description": "Acompañado de papines salteados.",
+            "description": "Ojo de bife, tierno y marmolado, con salsa de crema, hongos de pino y panceta. Con papines salteados.",
             "suggested": true
           },
           {
             "id": "platos-wok-de-lomo",
             "name": "WOK DE LOMO",
             "price": "33.500",
-            "description": "Con arroz yamaní, vegetales frescos salteados y lomo."
+            "description": "Tiras de lomo salteadas al wok con vegetales frescos y salsa de soja. Con arroz yamaní."
           },
           {
             "id": "platos-wok-de-pollo",
             "name": "WOK DE POLLO",
             "price": "30.500",
-            "description": "Con arroz yamaní, vegetales frescos salteados y pollo."
+            "description": "Pechuga de pollo salteada al wok con vegetales frescos y salsa de soja. Con arroz yamaní."
           }
         ]
       },
@@ -729,32 +729,32 @@ export const categories: Category[] = [
             "id": "platos-cintas-caseras-con-trucha-ahumada",
             "name": "CINTAS CASERAS CON TRUCHA AHUMADA",
             "price": "36.700",
-            "description": "Acompañado de vegetales salteados."
+            "description": "Cintas caseras al huevo con trucha ahumada y vegetales salteados."
           },
           {
             "id": "platos-ravioli-nero-a-la-crema-de-verdeo",
             "name": "RAVIOLI NERO A LA CREMA DE VERDEO",
             "price": "39.600",
-            "description": "Raviolón de masa sepia relleno de salmón rosado y camarones.",
+            "description": "Raviolón negro, hecho con tinta de calamar, relleno de salmón rosado y camarones, en crema de verdeo.",
             "suggested": true
           },
           {
             "id": "platos-cintas-caseras-con-frutos-de-mar",
             "name": "CINTAS CASERAS CON FRUTOS DE MAR",
             "price": "42.500",
-            "description": "Con mejillones, calamares y vieyras."
+            "description": "Cintas caseras al huevo en salsa de tomate y caldo de pescado, con mejillones, calamares y vieiras."
           },
           {
             "id": "platos-noquis-souffle-a-los-4-quesos",
             "name": "ÑOQUIS SOUFFLÉ A LOS 4 QUESOS",
             "price": "29.300",
-            "description": "Salsa a base de crema y variedad de quesos."
+            "description": "Ñoquis livianos y aireados, con un toque de espinaca, en salsa de crema con queso azul, gouda, pategrás y fontina."
           },
           {
             "id": "platos-sorrentinos-con-salsa-bolognesa",
             "name": "SORRENTINOS CON SALSA BOLOGNESA",
             "price": "35.000",
-            "description": "Rellenos de jamón y mozzarella con salsa de tomate fresco."
+            "description": "Sorrentinos rellenos de jamón y mozzarella, con salsa bolognesa de tomate y carne."
           },
           {
             "id": "platos-sorrentinos-de-cabutia-asada-caramelizada-con-miel",
@@ -789,7 +789,7 @@ export const categories: Category[] = [
             "id": "platos-milanesa-de-peceto",
             "name": "MILANESA DE PECETO",
             "price": "25.900",
-            "description": "Al plato, acompañada de papas fritas."
+            "description": "Milanesa de peceto, un corte magro y tierno. Al plato, con papas fritas."
           },
           {
             "id": "platos-milanesa-de-peceto-napolitana",
