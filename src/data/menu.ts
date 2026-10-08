@@ -17,49 +17,9 @@ export const restaurant: Restaurant = {
 
 export const categories: Category[] = [
   {
-    "name": "Menu Ejecutivo",
-    "icon": "ejecutivo",
-    "subcategories": [
-      {
-        "name": "Menu Ejecutivo",
-        "products": [
-          {
-            "id": "menu-ejecutivo-lunes",
-            "name": "Lunes",
-            "price": "21.500",
-            "description": "Plato principal: Merluza a la romana acompañada de puré de papas.\n\nBebida: Agua, Gaseosa, Lata de Stella, Lata de Stella 0.0% o Kombucha.\n\nCafé: Espresso, Americano o cortado."
-          },
-          {
-            "id": "menu-ejecutivo-martes",
-            "name": "Martes",
-            "price": "21.500",
-            "description": "Plato principal: Ensalada César de pollo\n\n\nBebida: Agua, Gaseosa, Lata de Stella, Lata de Stella 0.0% o Kombucha.\n\nCafé: Espresso, Americano o cortado."
-          },
-          {
-            "id": "menu-ejecutivo-miercoles",
-            "name": "Miércoles",
-            "price": "21.500",
-            "description": "Plato principal: Bondiola a la mostaza y miel acompañada de papas españolas.\n\n\nBebida: Agua, Gaseosa, Lata de Stella, Lata de Stella 0.0% o Kombucha.\n\nCafé: Espresso, Americano o cortado."
-          },
-          {
-            "id": "menu-ejecutivo-jueves",
-            "name": "Jueves",
-            "price": "21.500",
-            "description": "Plato principal: Risotto Cremoso de pollo y vegetales.\n\n\nBebida: Agua, Gaseosa, Lata de Stella, Lata de Stella 0.0% o Kombucha.\n\nCafé: Espresso, Americano o cortado."
-          },
-          {
-            "id": "menu-ejecutivo-viernes",
-            "name": "Viernes",
-            "price": "21.500",
-            "description": "Plato principal: Cintas Caseras con salsa mediterránea.\n\n\nBebida: Agua, Gaseosa, Lata de Stella, Lata de Stella 0.0% o Kombucha.\n\nCafé: Espresso, Americano o cortado."
-          }
-        ]
-      }
-    ]
-  },
-  {
     "name": "Cafetería",
     "icon": "cafe",
+    "featured": true,
     "subcategories": [
       {
         "name": "Tradicional",
@@ -237,6 +197,7 @@ export const categories: Category[] = [
   {
     "name": "Pastelería",
     "icon": "pasteleria",
+    "featured": true,
     "subcategories": [
       {
         "name": "Tradicional",
@@ -429,6 +390,47 @@ export const categories: Category[] = [
             "id": "pasteleria-cheese-cake-de-oreo",
             "name": "CHEESE CAKE DE OREO",
             "price": "9.600"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Menu Ejecutivo",
+    "icon": "ejecutivo",
+    "subcategories": [
+      {
+        "name": "Menu Ejecutivo",
+        "products": [
+          {
+            "id": "menu-ejecutivo-lunes",
+            "name": "Lunes",
+            "price": "21.500",
+            "description": "Plato principal: Merluza a la romana acompañada de puré de papas.\n\nBebida: Agua, Gaseosa, Lata de Stella, Lata de Stella 0.0% o Kombucha.\n\nCafé: Espresso, Americano o cortado."
+          },
+          {
+            "id": "menu-ejecutivo-martes",
+            "name": "Martes",
+            "price": "21.500",
+            "description": "Plato principal: Ensalada César de pollo\n\n\nBebida: Agua, Gaseosa, Lata de Stella, Lata de Stella 0.0% o Kombucha.\n\nCafé: Espresso, Americano o cortado."
+          },
+          {
+            "id": "menu-ejecutivo-miercoles",
+            "name": "Miércoles",
+            "price": "21.500",
+            "description": "Plato principal: Bondiola a la mostaza y miel acompañada de papas españolas.\n\n\nBebida: Agua, Gaseosa, Lata de Stella, Lata de Stella 0.0% o Kombucha.\n\nCafé: Espresso, Americano o cortado."
+          },
+          {
+            "id": "menu-ejecutivo-jueves",
+            "name": "Jueves",
+            "price": "21.500",
+            "description": "Plato principal: Risotto Cremoso de pollo y vegetales.\n\n\nBebida: Agua, Gaseosa, Lata de Stella, Lata de Stella 0.0% o Kombucha.\n\nCafé: Espresso, Americano o cortado."
+          },
+          {
+            "id": "menu-ejecutivo-viernes",
+            "name": "Viernes",
+            "price": "21.500",
+            "description": "Plato principal: Cintas Caseras con salsa mediterránea.\n\n\nBebida: Agua, Gaseosa, Lata de Stella, Lata de Stella 0.0% o Kombucha.\n\nCafé: Espresso, Americano o cortado."
           }
         ]
       }

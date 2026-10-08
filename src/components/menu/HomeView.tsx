@@ -1,5 +1,6 @@
 import { restaurant } from "@/data/menu";
 import { CategoryGlyph, StarIcon } from "@/components/icons";
+import { Onda } from "@/components/ui/Onda";
 import type { Strings } from "@/lib/i18n";
 import type { Category } from "@/types/menu";
 
@@ -12,7 +13,24 @@ interface HomeViewProps {
 
 const eyebrow = "text-[11px] font-semibold tracking-[0.2em] text-mw-rotulo uppercase";
 
+function SectionCard({ category, onClick }: { category: Category; onClick: () => void }) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className="flex flex-col items-start gap-3 rounded-2xl border border-mw-arena bg-white p-4 text-left shadow-mw-1 transition-colors hover:border-mw-verde"
+    >
+      <CategoryGlyph icon={category.icon} className="h-7 w-7 text-mw-titulo" />
+      <span className="text-[15px] leading-snug font-medium text-mw-tinta">{category.name}</span>
+    </button>
+  );
+}
+
 export function HomeView({ t, categories, onSelect, onOpenSuggested }: HomeViewProps) {
+  const indexed = categories.map((category, index) => ({ category, index }));
+  const featured = indexed.filter(({ category }) => category.featured);
+  const rest = indexed.filter(({ category }) => !category.featured);
+
   return (
     <div className="space-y-6">
       <div id="secciones" className="scroll-mt-24">
@@ -31,17 +49,15 @@ export function HomeView({ t, categories, onSelect, onOpenSuggested }: HomeViewP
         <span className="font-medium text-mw-tinta">{t.suggested}</span>
       </button>
 
+      <div className="grid grid-cols-2 gap-3">
+        {featured.map(({ category, index }) => (
+          <SectionCard key={category.name} category={category} onClick={() => onSelect(index)} />
+        ))}
+      </div>
+      <Onda className="mx-auto h-[6px] w-24" />
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
-        {categories.map((category, i) => (
-          <button
-            key={category.name}
-            type="button"
-            onClick={() => onSelect(i)}
-            className="flex flex-col items-start gap-3 rounded-2xl border border-mw-arena bg-white p-4 text-left shadow-mw-1 transition-colors hover:border-mw-verde"
-          >
-            <CategoryGlyph icon={category.icon} className="h-7 w-7 text-mw-titulo" />
-            <span className="text-[15px] leading-snug font-medium text-mw-tinta">{category.name}</span>
-          </button>
+        {rest.map(({ category, index }) => (
+          <SectionCard key={category.name} category={category} onClick={() => onSelect(index)} />
         ))}
       </div>
 

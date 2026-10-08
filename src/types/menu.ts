@@ -28,6 +28,8 @@ export type CategoryIcon =
 export interface Category {
   name: string;
   icon: CategoryIcon;
+  /** Shown first, above a separator. */
+  featured?: boolean;
   subcategories: Subcategory[];
 }
 

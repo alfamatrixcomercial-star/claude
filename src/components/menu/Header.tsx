@@ -31,6 +31,38 @@ export function Header({
   onOpenSuggested,
   onOpenFavorites,
 }: HeaderProps) {
+  const chip = (category: Category, i: number) => {
+    const active = i === selected;
+    return (
+      <button
+        key={category.name}
+        type="button"
+        aria-current={active ? "page" : undefined}
+        onClick={() => onSelect(i)}
+        className="flex w-[74px] shrink-0 flex-col items-center gap-1.5"
+      >
+        <span
+          className={cn(
+            "flex h-14 w-14 items-center justify-center rounded-2xl border transition-colors duration-[260ms] ease-mw",
+            active
+              ? "border-mw-accion bg-mw-accion text-white"
+              : "border-mw-arena bg-white text-mw-titulo hover:border-mw-verde",
+          )}
+        >
+          <CategoryGlyph icon={category.icon} className="h-7 w-7" />
+        </span>
+        <span
+          className={cn(
+            "text-center text-[11.5px] leading-tight",
+            active ? "font-semibold text-mw-rotulo" : "text-mw-tinta-suave",
+          )}
+        >
+          {category.name}
+        </span>
+      </button>
+    );
+  };
+
   return (
     <header className="sticky top-0 z-30 bg-mw-crema/85 backdrop-blur-md">
       <div className="mx-auto grid h-16 max-w-3xl grid-cols-[88px_1fr_88px] items-center px-2">
@@ -57,37 +89,9 @@ export function Header({
 
       {selected !== null && (
       <nav aria-label={t.allSections} className="no-scrollbar flex gap-2 overflow-x-auto px-3 pt-1 pb-3 md:justify-center">
-        {categories.map((category, i) => {
-          const active = i === selected;
-          return (
-            <button
-              key={category.name}
-              type="button"
-              aria-current={active ? "page" : undefined}
-              onClick={() => onSelect(i)}
-              className="flex w-[74px] shrink-0 flex-col items-center gap-1.5"
-            >
-              <span
-                className={cn(
-                  "flex h-14 w-14 items-center justify-center rounded-2xl border transition-colors duration-[260ms] ease-mw",
-                  active
-                    ? "border-mw-accion bg-mw-accion text-white"
-                    : "border-mw-arena bg-white text-mw-titulo hover:border-mw-verde",
-                )}
-              >
-                <CategoryGlyph icon={category.icon} className="h-7 w-7" />
-              </span>
-              <span
-                className={cn(
-                  "text-center text-[11.5px] leading-tight",
-                  active ? "font-semibold text-mw-rotulo" : "text-mw-tinta-suave",
-                )}
-              >
-                {category.name}
-              </span>
-            </button>
-          );
-        })}
+        {categories.map((category, i) => category.featured && chip(category, i))}
+        <span aria-hidden="true" className="mx-1 mt-2 h-10 w-px shrink-0 self-start bg-mw-arena-fuerte/70" />
+        {categories.map((category, i) => !category.featured && chip(category, i))}
       </nav>
       )}
       <Onda />
