@@ -2,6 +2,11 @@ import type { Lang } from "@/types/menu";
 
 export const strings = {
   es: {
+    welcome: "Bienvenidos a Mirador Waikiki",
+    tagline: "Sabores de mar, frente al mar.",
+    seeMenu: "Ver la carta",
+    heroAlt:
+      "La entrada al restaurante por la pasarela de madera, con el cartel de Mirador Waikiki sobre la puerta y el techo octogonal detrás",
     title: "Nuestra carta",
     intro: "Elegí una sección para ver los platos.",
     allSections: "Todas las secciones",
@@ -23,6 +28,11 @@ export const strings = {
     of: "de",
   },
   en: {
+    welcome: "Welcome to Mirador Waikiki",
+    tagline: "Flavors of the sea, facing the sea.",
+    seeMenu: "See the menu",
+    heroAlt:
+      "The restaurant entrance along the wooden boardwalk, with the Mirador Waikiki sign above the door and the octagonal roof behind",
     title: "Our menu",
     intro: "Pick a section to see the dishes.",
     allSections: "All sections",

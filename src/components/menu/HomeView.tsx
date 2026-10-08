@@ -15,8 +15,8 @@ const eyebrow = "text-[11px] font-semibold tracking-[0.2em] text-mw-rotulo upper
 export function HomeView({ t, categories, onSelect, onOpenSuggested }: HomeViewProps) {
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-[30px] leading-tight font-semibold tracking-[-0.02em] text-mw-titulo">{t.title}</h1>
+      <div id="secciones" className="scroll-mt-24">
+        <h2 className="text-[30px] leading-tight font-semibold tracking-[-0.02em] text-mw-titulo">{t.title}</h2>
         <p className="mt-1 text-[15px] text-mw-tinta-suave">{t.intro}</p>
       </div>
 

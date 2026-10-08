@@ -99,6 +99,11 @@
   html {
     @apply font-sans;
   }
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
   body {
     margin: 0;
     background: var(--mw-crema);

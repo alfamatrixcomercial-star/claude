@@ -6,6 +6,7 @@ import { strings } from "@/lib/i18n";
 import { usePersistentState } from "@/hooks/usePersistentState";
 import { Header } from "@/components/menu/Header";
 import { HomeView } from "@/components/menu/HomeView";
+import { Hero } from "@/components/menu/Hero";
 import { CategoryView } from "@/components/menu/CategoryView";
 import { SideMenu } from "@/components/menu/SideMenu";
 import { SuggestedDialog } from "@/components/menu/SuggestedDialog";
@@ -80,6 +81,8 @@ export function MenuApp() {
         onOpenSuggested={() => setSuggestedOpen(true)}
         onOpenFavorites={() => setFavoritesOpen(true)}
       />
+
+      {!category && <Hero t={t} />}
 
       <main className="mx-auto max-w-3xl px-4 pt-6">
         {category ? (

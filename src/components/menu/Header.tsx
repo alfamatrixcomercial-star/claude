@@ -55,6 +55,7 @@ export function Header({
         </div>
       </div>
 
+      {selected !== null && (
       <nav aria-label={t.allSections} className="no-scrollbar flex gap-2 overflow-x-auto px-3 pt-1 pb-3 md:justify-center">
         {categories.map((category, i) => {
           const active = i === selected;
@@ -88,6 +89,7 @@ export function Header({
           );
         })}
       </nav>
+      )}
       <Onda />
     </header>
   );
