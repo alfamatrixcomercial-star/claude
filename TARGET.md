@@ -1,19 +1,18 @@
 # Target Website
 
 ## URL
-<!-- Replace with the URL of the website you're reverse-engineering -->
-https://example.com
+https://mimenulatech.com/miradorwaikiki
 
 ## Scope
 
 ### Pages to Replicate
 <!-- List every page you want to rebuild. Be specific. -->
-- [ ] Home page
-- [ ] (add more pages here)
+- [x] Onboarding (`/miradorwaikiki`)
+- [x] Menu (`/miradorwaikiki/menu`) with categories, side menu, suggested and favorites dialogs
 
 ### Fidelity Level
 <!-- Choose one -->
-- [ ] **Pixel-perfect** — exact match in colors, spacing, typography, animations
+- [x] **Pixel-perfect** — exact match in colors, spacing, typography, animations
 - [ ] **High fidelity** — visually similar, same layout and feel, minor deviations OK
 - [ ] **Structural** — same layout and components, custom styling acceptable
 
