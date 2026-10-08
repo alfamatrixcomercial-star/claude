@@ -27,6 +27,12 @@ export const MenuIcon = (p: IconProps) => (
   </Line>
 );
 
+export const HomeIcon = (p: IconProps) => (
+  <Line {...p}>
+    <path d="M4 11l8-6.5 8 6.5M6 9.5V20h12V9.5M10 20v-5h4v5" />
+  </Line>
+);
+
 export const CloseIcon = (p: IconProps) => (
   <Line {...p}>
     <path d="M6 6l12 12M18 6L6 18" />

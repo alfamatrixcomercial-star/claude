@@ -2,9 +2,9 @@ import { asset } from "@/lib/utils";
 import { ChevronRightIcon } from "@/components/icons";
 import type { Strings } from "@/lib/i18n";
 
-const foto = (w: number) => asset(`/images/fotos/mirador-entrada-${w}.webp`);
+const foto = (w: number) => asset(`/images/fotos/complejo-dron-${w}.webp`);
 
-// Welcome photo of the Mirador with a short message. On phones the message
+// Welcome photo of the complex with a short message. On phones the message
 // sits on a translucent crema plate over the photo, like the photo blocks on
 // miradorwaikiki.com; from 768px the portrait photo moves beside the text.
 export function Hero({ t, onStart }: { t: Strings; onStart: () => void }) {
@@ -14,13 +14,13 @@ export function Hero({ t, onStart }: { t: Strings; onStart: () => void }) {
         <picture>
           <source
             type="image/webp"
-            srcSet={`${foto(640)} 640w, ${foto(1024)} 1024w, ${foto(1600)} 1600w`}
+            srcSet={`${foto(640)} 640w, ${foto(1024)} 1024w, ${foto(1440)} 1440w`}
             sizes="(min-width: 768px) 50vw, 100vw"
           />
           <img
-            src={asset("/images/fotos/mirador-entrada-1024.jpg")}
+            src={asset("/images/fotos/complejo-dron-1024.jpg")}
             alt={t.heroAlt}
-            className="absolute inset-0 h-full w-full object-cover object-[center_40%]"
+            className="absolute inset-0 h-full w-full object-cover object-[center_35%]"
             fetchPriority="high"
           />
         </picture>

@@ -6,7 +6,8 @@ export const strings = {
     tagline: "Sabores de mar, frente al mar.",
     seeMenu: "Ver la carta",
     heroAlt:
-      "La entrada al restaurante por la pasarela de madera, con el cartel de Mirador Waikiki sobre la puerta y el techo octogonal detrás",
+      "El complejo visto desde un dron: el restaurante sobre las rocas, la pileta, las carpas sobre la arena y el mar abierto",
+    home: "Inicio",
     title: "Nuestra carta",
     intro: "Elegí una sección para ver los platos.",
     allSections: "Todas las secciones",
@@ -32,7 +33,8 @@ export const strings = {
     tagline: "Flavors of the sea, facing the sea.",
     seeMenu: "See the menu",
     heroAlt:
-      "The restaurant entrance along the wooden boardwalk, with the Mirador Waikiki sign above the door and the octagonal roof behind",
+      "The complex seen from a drone: the restaurant on the rocks, the pool, the beach tents on the sand and the open sea",
+    home: "Home",
     title: "Our menu",
     intro: "Pick a section to see the dishes.",
     allSections: "All sections",

@@ -58,6 +58,9 @@ export function MenuApp() {
     window.scrollTo(0, 0);
   };
 
+  // "Ver la carta": open the first featured section so every section icon shows on top.
+  const openMenu = () => select(categories.findIndex((c) => c.featured));
+
   const toggleFavorite = (id: string) =>
     setFavorites((prev) => (prev.includes(id) ? prev.filter((f) => f !== id) : [...prev, id]));
 
@@ -83,7 +86,7 @@ export function MenuApp() {
         onOpenFavorites={() => setFavoritesOpen(true)}
       />
 
-      {!category && <Hero t={t} onStart={() => select(categories.findIndex((c) => c.featured))} />}
+      {!category && <Hero t={t} onStart={openMenu} />}
 
       <main className="mx-auto max-w-3xl px-4 pt-6">
         {category ? (
@@ -97,7 +100,7 @@ export function MenuApp() {
             onBack={() => select(null)}
           />
         ) : (
-          <HomeView t={t} lang={lang} categories={categories} onSelect={select} onOpenSuggested={() => setSuggestedOpen(true)} />
+          <HomeView t={t} />
         )}
       </main>
 
@@ -110,6 +113,7 @@ export function MenuApp() {
         favoritesCount={favorites.length}
         onClose={() => setMenuOpen(false)}
         onHome={() => select(null)}
+        onSeeMenu={openMenu}
         onSuggested={() => {
           setMenuOpen(false);
           setSuggestedOpen(true);

@@ -24,7 +24,7 @@ export function CategoryView({ t, lang, category, favorites, onToggleFavorite, o
         className="-ml-1 flex items-center gap-1.5 rounded-full px-1 py-1 text-[13px] font-medium text-mw-rotulo hover:text-mw-tinta"
       >
         <ArrowLeftIcon className="h-4 w-4" />
-        {t.allSections}
+        {t.home}
       </button>
       <h1 className="mt-2 text-[30px] leading-tight font-semibold tracking-[-0.02em] text-mw-titulo">{pick(lang, category.name, category.nameEn)}</h1>
 

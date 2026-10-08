@@ -2,7 +2,7 @@
 
 import { asset, cn } from "@/lib/utils";
 import { restaurant } from "@/data/menu";
-import { CloseIcon, HeartIcon, MenuIcon, StarIcon } from "@/components/icons";
+import { CloseIcon, HeartIcon, HomeIcon, MenuIcon, StarIcon } from "@/components/icons";
 import type { Strings } from "@/lib/i18n";
 import type { Lang } from "@/types/menu";
 
@@ -13,6 +13,7 @@ interface SideMenuProps {
   favoritesCount: number;
   onClose: () => void;
   onHome: () => void;
+  onSeeMenu: () => void;
   onSuggested: () => void;
   onFavorites: () => void;
   onLang: (lang: Lang) => void;
@@ -22,7 +23,7 @@ const navItem =
   "flex w-full items-center gap-3 rounded-xl px-3 py-3 text-left text-[15px] font-medium text-mw-tinta transition-colors hover:bg-white";
 const eyebrow = "px-3 text-[11px] font-semibold tracking-[0.2em] text-mw-rotulo uppercase";
 
-export function SideMenu({ open, lang, t, favoritesCount, onClose, onHome, onSuggested, onFavorites, onLang }: SideMenuProps) {
+export function SideMenu({ open, lang, t, favoritesCount, onClose, onHome, onSeeMenu, onSuggested, onFavorites, onLang }: SideMenuProps) {
   return (
     <div className={cn("fixed inset-0 z-40 transition-[visibility] duration-[260ms]", open ? "visible" : "invisible")}>
       <div
@@ -56,8 +57,12 @@ export function SideMenu({ open, lang, t, favoritesCount, onClose, onHome, onSug
 
         <nav className="mt-6 space-y-1">
           <button type="button" onClick={onHome} className={navItem}>
+            <HomeIcon className="h-5 w-5 text-mw-verde" />
+            {t.home}
+          </button>
+          <button type="button" onClick={onSeeMenu} className={navItem}>
             <MenuIcon className="h-5 w-5 text-mw-verde" />
-            {t.allSections}
+            {t.seeMenu}
           </button>
           <button type="button" onClick={onSuggested} className={navItem}>
             <StarIcon className="h-5 w-5 text-mw-verde" />
