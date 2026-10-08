@@ -158,8 +158,13 @@ const unidades = defineCollection({
       ctas: z.array(cta).min(1).max(2),
 
       /* Bloques propios de cada unidad. */
-      /** La carta vive fuera del sitio: acá va el link, no los platos. */
-      cartaUrl: z.string().url().optional(),
+      /** Dónde está la carta: una ruta del sitio ("/carta/") o una URL completa. */
+      cartaUrl: z
+        .string()
+        .refine((v) => v.startsWith("/") || /^https?:\/\//.test(v), {
+          message: 'Una ruta del sitio que empiece con "/" o una URL completa',
+        })
+        .optional(),
 
       /** Video corto del lugar. Va mudo, con poster y sin descargarse solo. */
       video: z

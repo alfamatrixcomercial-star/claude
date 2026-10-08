@@ -93,7 +93,7 @@ giftcard:
     Por ahora el pago no se hace en el sitio. El formulario abre un WhatsApp
     con el pedido ya escrito y lo terminamos de coordinar por ahí.
   # Las propuestas que se regalan. Los platos van con el nombre y la
-  # descripción que tienen en la carta (mimenulatech.com/miradorwaikiki). El precio va en pesos y sin
+  # descripción que tienen en la carta (/carta/). El precio va en pesos y sin
   # puntos; sin precio, la tarjeta dice «Valor a consultar» y el pedido lo
   # pregunta por WhatsApp. «para» dice para cuántos es (el precio es por
   # todo eso, no por persona). Para sacar una, borrá su bloque entero; para

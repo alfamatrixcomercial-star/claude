@@ -38,15 +38,20 @@ en YAML y difíciles de ver:
 - Un `# TODO` dentro de un bloque de texto `>-` **no es un comentario**: es
   texto y sale publicado. Poné la nota en su propia línea.
 
-### La carta y las habitaciones viven fuera del sitio
+### La carta vive en /carta; las habitaciones, fuera del sitio
 
-La carta es un link a la plataforma de menú digital, y las habitaciones se ven
-y se reservan en el sitio propio del hotel. El sitio muestra el lugar y deriva,
-igual que hace con eventos:
+La carta es propia y se sirve desde `public/carta/`: es un sitio estático
+aparte (Next.js, rama `claude/inspiring-cori-8f88ru` de este repo) que se
+compila con base `/carta` y se copia acá tal cual. Para actualizar platos o
+precios se edita esa rama, se corre `npm run build` y se reemplaza
+`public/carta/` por el contenido de su `out/`.
+
+Las habitaciones se ven y se reservan en el sitio propio del hotel. El sitio
+muestra el lugar y deriva, igual que hace con eventos:
 
 ```yaml
 # src/content/unidades/restaurante.yaml
-cartaUrl: "https://mimenulatech.com/miradorwaikiki"
+cartaUrl: "/carta/"
 
 # src/content/unidades/hotel.yaml
 ctas:

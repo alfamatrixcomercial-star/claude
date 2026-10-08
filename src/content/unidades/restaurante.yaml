@@ -135,8 +135,8 @@ ctas:
   - { texto: Reservar mesa, tipo: woki, contexto: restaurante }
   - { texto: Reservar por WhatsApp, tipo: whatsapp, contexto: restaurante }
 
-# La carta vive fuera del sitio, en la plataforma de menú digital.
-cartaUrl: "https://mimenulatech.com/miradorwaikiki"
+# La carta propia, servida desde public/carta/ (ver README).
+cartaUrl: "/carta/"
 
 listas: []
 

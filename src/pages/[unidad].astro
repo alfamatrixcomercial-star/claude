@@ -86,7 +86,7 @@ const datosEstructurados = {
   ...(d.schema === "Restaurant"
     ? {
         servesCuisine: "Cocina de mar",
-        ...(d.cartaUrl ? { hasMenu: d.cartaUrl } : {}),
+        ...(d.cartaUrl ? { hasMenu: new URL(d.cartaUrl, Astro.site).href } : {}),
         openingHoursSpecification: d.horarios.flatMap((h) =>
           h.franjas.map((f) => ({
             "@type": "OpeningHoursSpecification",
@@ -199,7 +199,7 @@ const datosEstructurados = {
                 celular, sin descargar nada.
               </p>
             </div>
-            <Boton href={d.cartaUrl} externo>Ver la carta</Boton>
+            <Boton href={d.cartaUrl}>Ver la carta</Boton>
             </div>
           </div>
         </section>
