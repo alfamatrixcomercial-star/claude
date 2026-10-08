@@ -73,6 +73,7 @@ export function MenuApp() {
     <>
       <Header
         t={t}
+        lang={lang}
         categories={categories}
         selected={selected}
         favoritesCount={favorites.length}
@@ -89,13 +90,14 @@ export function MenuApp() {
           <CategoryView
             key={category.name}
             t={t}
+            lang={lang}
             category={category}
             favorites={favorites}
             onToggleFavorite={toggleFavorite}
             onBack={() => select(null)}
           />
         ) : (
-          <HomeView t={t} categories={categories} onSelect={select} onOpenSuggested={() => setSuggestedOpen(true)} />
+          <HomeView t={t} lang={lang} categories={categories} onSelect={select} onOpenSuggested={() => setSuggestedOpen(true)} />
         )}
       </main>
 
@@ -118,10 +120,11 @@ export function MenuApp() {
         }}
         onLang={setLang}
       />
-      <SuggestedDialog open={suggestedOpen} t={t} products={suggestedProducts} onClose={() => setSuggestedOpen(false)} />
+      <SuggestedDialog open={suggestedOpen} t={t} lang={lang} products={suggestedProducts} onClose={() => setSuggestedOpen(false)} />
       <FavoritesDialog
         open={favoritesOpen}
         t={t}
+        lang={lang}
         products={favoriteProducts}
         onClose={() => setFavoritesOpen(false)}
         onRemove={removeFavorite}

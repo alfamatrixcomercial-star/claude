@@ -1,15 +1,18 @@
 export interface Product {
   id: string;
   name: string;
+  nameEn?: string;
   /** Price without the currency sign, as printed on the menu (e.g. "21.500"). */
   price: string;
   description?: string;
+  descriptionEn?: string;
   suggested?: boolean;
   glutenFree?: boolean;
 }
 
 export interface Subcategory {
   name: string;
+  nameEn?: string;
   products: Product[];
 }
 
@@ -27,6 +30,7 @@ export type CategoryIcon =
 
 export interface Category {
   name: string;
+  nameEn?: string;
   icon: CategoryIcon;
   /** Shown first, above a separator. */
   featured?: boolean;

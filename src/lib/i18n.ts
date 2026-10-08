@@ -56,3 +56,10 @@ export const strings = {
 } satisfies Record<Lang, Record<string, string>>;
 
 export type Strings = (typeof strings)["es"];
+
+/** The English text when browsing in English and one exists; Spanish otherwise. */
+export function pick(lang: Lang, es: string, en?: string): string;
+export function pick(lang: Lang, es: string | undefined, en?: string): string | undefined;
+export function pick(lang: Lang, es: string | undefined, en?: string) {
+  return lang === "en" && en ? en : es;
+}

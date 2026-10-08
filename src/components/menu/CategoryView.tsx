@@ -3,18 +3,19 @@
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { ArrowLeftIcon, ChevronDownIcon, HeartIcon, StarIcon } from "@/components/icons";
-import type { Strings } from "@/lib/i18n";
-import type { Category, Product, Subcategory } from "@/types/menu";
+import { pick, type Strings } from "@/lib/i18n";
+import type { Category, Lang, Product, Subcategory } from "@/types/menu";
 
 interface CategoryViewProps {
   t: Strings;
+  lang: Lang;
   category: Category;
   favorites: string[];
   onToggleFavorite: (id: string) => void;
   onBack: () => void;
 }
 
-export function CategoryView({ t, category, favorites, onToggleFavorite, onBack }: CategoryViewProps) {
+export function CategoryView({ t, lang, category, favorites, onToggleFavorite, onBack }: CategoryViewProps) {
   return (
     <div>
       <button
@@ -25,13 +26,14 @@ export function CategoryView({ t, category, favorites, onToggleFavorite, onBack 
         <ArrowLeftIcon className="h-4 w-4" />
         {t.allSections}
       </button>
-      <h1 className="mt-2 text-[30px] leading-tight font-semibold tracking-[-0.02em] text-mw-titulo">{category.name}</h1>
+      <h1 className="mt-2 text-[30px] leading-tight font-semibold tracking-[-0.02em] text-mw-titulo">{pick(lang, category.name, category.nameEn)}</h1>
 
       <div className="mt-5 space-y-3">
         {category.subcategories.map((subcategory, i) => (
           <SubcategoryCard
             key={subcategory.name}
             t={t}
+            lang={lang}
             subcategory={subcategory}
             defaultOpen={i === 0}
             favorites={favorites}
@@ -45,12 +47,14 @@ export function CategoryView({ t, category, favorites, onToggleFavorite, onBack 
 
 function SubcategoryCard({
   t,
+  lang,
   subcategory,
   defaultOpen,
   favorites,
   onToggleFavorite,
 }: {
   t: Strings;
+  lang: Lang;
   subcategory: Subcategory;
   defaultOpen: boolean;
   favorites: string[];
@@ -67,7 +71,7 @@ function SubcategoryCard({
         className="flex w-full items-center justify-between gap-3 px-4 py-4 text-left"
       >
         <h2 className="text-[12.5px] font-semibold tracking-[0.16em] text-mw-rotulo uppercase">
-          {subcategory.name}
+          {pick(lang, subcategory.name, subcategory.nameEn)}
           <span className="ml-2 font-normal tracking-normal text-mw-tinta-suave">{subcategory.products.length}</span>
         </h2>
         <ChevronDownIcon
@@ -86,6 +90,7 @@ function SubcategoryCard({
               <ProductItem
                 key={product.id}
                 t={t}
+                lang={lang}
                 product={product}
                 favorite={favorites.includes(product.id)}
                 onToggleFavorite={() => onToggleFavorite(product.id)}
@@ -100,21 +105,23 @@ function SubcategoryCard({
 
 function ProductItem({
   t,
+  lang,
   product,
   favorite,
   onToggleFavorite,
 }: {
   t: Strings;
+  lang: Lang;
   product: Product;
   favorite: boolean;
   onToggleFavorite: () => void;
 }) {
-  const description = product.description?.replace(/\n{3,}/g, "\n\n");
+  const description = pick(lang, product.description, product.descriptionEn)?.replace(/\n{3,}/g, "\n\n");
 
   return (
     <li className="py-4">
       <div className="flex items-start gap-3">
-        <h3 className="flex-1 pt-1.5 text-[15px] leading-snug font-semibold text-mw-tinta">{product.name}</h3>
+        <h3 className="flex-1 pt-1.5 text-[15px] leading-snug font-semibold text-mw-tinta">{pick(lang, product.name, product.nameEn)}</h3>
         <p className="pt-1.5 text-[15px] leading-snug font-semibold whitespace-nowrap text-mw-rotulo tabular-nums">
           $ {product.price}
         </p>

@@ -4,11 +4,12 @@ import { asset, cn } from "@/lib/utils";
 import { restaurant } from "@/data/menu";
 import { CategoryGlyph, HeartIcon, MenuIcon, StarIcon } from "@/components/icons";
 import { Onda } from "@/components/ui/Onda";
-import type { Strings } from "@/lib/i18n";
-import type { Category } from "@/types/menu";
+import { pick, type Strings } from "@/lib/i18n";
+import type { Category, Lang } from "@/types/menu";
 
 interface HeaderProps {
   t: Strings;
+  lang: Lang;
   categories: Category[];
   selected: number | null;
   favoritesCount: number;
@@ -23,6 +24,7 @@ const iconButton =
 
 export function Header({
   t,
+  lang,
   categories,
   selected,
   favoritesCount,
@@ -57,7 +59,7 @@ export function Header({
             active ? "font-semibold text-mw-rotulo" : "text-mw-tinta-suave",
           )}
         >
-          {category.name}
+          {pick(lang, category.name, category.nameEn)}
         </span>
       </button>
     );

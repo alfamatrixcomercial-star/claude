@@ -3,12 +3,13 @@
 import { useRef, useState } from "react";
 import { Modal } from "@/components/ui/Modal";
 import { ChevronLeftIcon, ChevronRightIcon, CloseIcon, StarIcon } from "@/components/icons";
-import type { Strings } from "@/lib/i18n";
-import type { Product } from "@/types/menu";
+import { pick, type Strings } from "@/lib/i18n";
+import type { Lang, Product } from "@/types/menu";
 
 interface SuggestedDialogProps {
   open: boolean;
   t: Strings;
+  lang: Lang;
   products: Product[];
   onClose: () => void;
 }
@@ -17,7 +18,7 @@ const SWIPE_THRESHOLD = 50;
 const roundButton =
   "flex h-10 w-10 items-center justify-center rounded-full border border-mw-arena text-mw-rotulo transition-colors hover:border-mw-verde hover:bg-mw-salvia";
 
-export function SuggestedDialog({ open, t, products, onClose }: SuggestedDialogProps) {
+export function SuggestedDialog({ open, t, lang, products, onClose }: SuggestedDialogProps) {
   const [index, setIndex] = useState(0);
   const dragStart = useRef<number | null>(null);
   const count = products.length;
@@ -52,9 +53,11 @@ export function SuggestedDialog({ open, t, products, onClose }: SuggestedDialogP
           }}
         >
           <StarIcon filled className="h-5 w-5 text-mw-verde" />
-          <h3 className="mt-3 text-[22px] leading-tight font-semibold tracking-[-0.01em] text-mw-titulo">{product.name}</h3>
+          <h3 className="mt-3 text-[22px] leading-tight font-semibold tracking-[-0.01em] text-mw-titulo">{pick(lang, product.name, product.nameEn)}</h3>
           {product.description && (
-            <p className="mt-3 text-[14px] leading-relaxed whitespace-pre-line text-mw-tinta-suave">{product.description}</p>
+            <p className="mt-3 text-[14px] leading-relaxed whitespace-pre-line text-mw-tinta-suave">
+              {pick(lang, product.description, product.descriptionEn)}
+            </p>
           )}
           <p className="mt-4 text-[17px] font-semibold text-mw-rotulo tabular-nums">$ {product.price}</p>
         </div>

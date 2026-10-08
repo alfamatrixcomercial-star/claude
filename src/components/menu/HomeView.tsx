@@ -1,11 +1,12 @@
 import { restaurant } from "@/data/menu";
 import { CategoryGlyph, StarIcon } from "@/components/icons";
 import { Onda } from "@/components/ui/Onda";
-import type { Strings } from "@/lib/i18n";
-import type { Category } from "@/types/menu";
+import { pick, type Strings } from "@/lib/i18n";
+import type { Category, Lang } from "@/types/menu";
 
 interface HomeViewProps {
   t: Strings;
+  lang: Lang;
   categories: Category[];
   onSelect: (index: number) => void;
   onOpenSuggested: () => void;
@@ -13,7 +14,7 @@ interface HomeViewProps {
 
 const eyebrow = "text-[11px] font-semibold tracking-[0.2em] text-mw-rotulo uppercase";
 
-function SectionCard({ category, onClick }: { category: Category; onClick: () => void }) {
+function SectionCard({ category, lang, onClick }: { category: Category; lang: Lang; onClick: () => void }) {
   return (
     <button
       type="button"
@@ -21,12 +22,12 @@ function SectionCard({ category, onClick }: { category: Category; onClick: () =>
       className="flex flex-col items-start gap-3 rounded-2xl border border-mw-arena bg-white p-4 text-left shadow-mw-1 transition-colors hover:border-mw-verde"
     >
       <CategoryGlyph icon={category.icon} className="h-7 w-7 text-mw-titulo" />
-      <span className="text-[15px] leading-snug font-medium text-mw-tinta">{category.name}</span>
+      <span className="text-[15px] leading-snug font-medium text-mw-tinta">{pick(lang, category.name, category.nameEn)}</span>
     </button>
   );
 }
 
-export function HomeView({ t, categories, onSelect, onOpenSuggested }: HomeViewProps) {
+export function HomeView({ t, lang, categories, onSelect, onOpenSuggested }: HomeViewProps) {
   const indexed = categories.map((category, index) => ({ category, index }));
   const featured = indexed.filter(({ category }) => category.featured);
   const rest = indexed.filter(({ category }) => !category.featured);
@@ -51,13 +52,13 @@ export function HomeView({ t, categories, onSelect, onOpenSuggested }: HomeViewP
 
       <div className="grid grid-cols-2 gap-3">
         {featured.map(({ category, index }) => (
-          <SectionCard key={category.name} category={category} onClick={() => onSelect(index)} />
+          <SectionCard key={category.name} category={category} lang={lang} onClick={() => onSelect(index)} />
         ))}
       </div>
       <Onda className="mx-auto h-[6px] w-24" />
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
         {rest.map(({ category, index }) => (
-          <SectionCard key={category.name} category={category} onClick={() => onSelect(index)} />
+          <SectionCard key={category.name} category={category} lang={lang} onClick={() => onSelect(index)} />
         ))}
       </div>
 
