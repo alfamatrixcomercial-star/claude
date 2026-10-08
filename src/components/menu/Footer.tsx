@@ -1,11 +1,13 @@
 import { asset } from "@/lib/utils";
 import { restaurant } from "@/data/menu";
 import { ArrowLeftIcon } from "@/components/icons";
+import { Onda } from "@/components/ui/Onda";
 import type { Strings } from "@/lib/i18n";
 
 export function Footer({ t }: { t: Strings }) {
   return (
-    <footer className="mt-12 border-t border-mw-arena bg-mw-crema/60">
+    <footer className="mt-12 bg-mw-arena-clara">
+      <Onda />
       <div className="mx-auto flex max-w-3xl flex-col items-center gap-4 px-4 py-10 text-center">
         <img src={asset(restaurant.logo)} alt={restaurant.name} className="h-14 w-auto" />
         <p className="text-[13px] text-mw-tinta-suave">{restaurant.city}</p>

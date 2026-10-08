@@ -17,12 +17,12 @@ export function FavoritesDialog({ open, t, products, onClose, onRemove }: Favori
   return (
     <Modal open={open} label={t.favorites} onClose={onClose}>
       <div className="flex items-center justify-between">
-        <h2 className="font-display text-[26px] font-medium text-mw-titulo">{t.favorites}</h2>
+        <h2 className="text-[22px] font-semibold tracking-[-0.01em] text-mw-titulo">{t.favorites}</h2>
         <button
           type="button"
           aria-label={t.close}
           onClick={onClose}
-          className="-mr-2 flex h-10 w-10 items-center justify-center rounded-full text-mw-rotulo hover:bg-mw-crema-clarito"
+          className="-mr-2 flex h-10 w-10 items-center justify-center rounded-full text-mw-rotulo hover:bg-mw-salvia"
         >
           <CloseIcon className="h-5 w-5" />
         </button>
@@ -38,7 +38,7 @@ export function FavoritesDialog({ open, t, products, onClose, onRemove }: Favori
               type="button"
               aria-label={`${t.removeFavorite}: ${product.name}`}
               onClick={() => onRemove(product.id)}
-              className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-mw-rotulo hover:bg-mw-crema-clarito"
+              className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-mw-rotulo hover:bg-mw-salvia"
             >
               <TrashIcon className="h-5 w-5" />
             </button>

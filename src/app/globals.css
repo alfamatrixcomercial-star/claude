@@ -8,6 +8,8 @@
   /* Mirador Waikiki palette — classes like bg-mw-crema, text-mw-tinta. */
   --color-mw-crema: var(--mw-crema);
   --color-mw-crema-clarito: var(--mw-crema-clarito);
+  --color-mw-salvia: var(--mw-salvia);
+  --color-mw-arena-clara: var(--mw-arena-clara);
   --color-mw-arena: var(--mw-arena);
   --color-mw-arena-fuerte: var(--mw-arena-fuerte);
   --color-mw-verde: var(--mw-verde);
@@ -20,7 +22,6 @@
   --color-mw-foco: var(--mw-foco);
 
   --font-sans: var(--font-poppins), "Poppins", system-ui, sans-serif;
-  --font-display: var(--font-bodoni), "Bodoni Moda", Georgia, serif;
   --font-mono: ui-monospace, monospace;
 
   --ease-mw: cubic-bezier(0.32, 0.72, 0, 1);
@@ -54,8 +55,10 @@
 :root {
   /* Same values as miradorwaikiki.com (src/styles/tokens.css).
      Change them here to restyle the whole menu. */
-  --mw-crema: #dbd2b5;
-  --mw-crema-clarito: #f8f5f0; /* page background */
+  --mw-crema: #dbd2b5; /* page background, as on the site */
+  --mw-crema-clarito: #f8f5f0;
+  --mw-salvia: #e4e9e1; /* sage band */
+  --mw-arena-clara: #ebe4d1; /* sand band */
   --mw-arena: #cab892; /* borders and lines */
   --mw-arena-fuerte: #a8956b;
   --mw-verde: #6e8f7a; /* icons and details */
@@ -67,7 +70,7 @@
   --mw-accion-hover: #465f50;
   --mw-foco: #3d6b52;
 
-  --background: var(--mw-crema-clarito);
+  --background: var(--mw-crema);
   --foreground: var(--mw-tinta);
   --card: #ffffff;
   --card-foreground: var(--mw-tinta);
@@ -98,7 +101,7 @@
   }
   body {
     margin: 0;
-    background: var(--mw-crema-clarito);
+    background: var(--mw-crema);
     color: var(--mw-tinta);
     -webkit-font-smoothing: antialiased;
   }

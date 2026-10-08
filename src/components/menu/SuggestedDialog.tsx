@@ -15,7 +15,7 @@ interface SuggestedDialogProps {
 
 const SWIPE_THRESHOLD = 50;
 const roundButton =
-  "flex h-10 w-10 items-center justify-center rounded-full border border-mw-arena text-mw-rotulo transition-colors hover:border-mw-verde hover:bg-mw-crema-clarito";
+  "flex h-10 w-10 items-center justify-center rounded-full border border-mw-arena text-mw-rotulo transition-colors hover:border-mw-verde hover:bg-mw-salvia";
 
 export function SuggestedDialog({ open, t, products, onClose }: SuggestedDialogProps) {
   const [index, setIndex] = useState(0);
@@ -32,7 +32,7 @@ export function SuggestedDialog({ open, t, products, onClose }: SuggestedDialogP
           type="button"
           aria-label={t.close}
           onClick={onClose}
-          className="-mr-2 flex h-10 w-10 items-center justify-center rounded-full text-mw-rotulo hover:bg-mw-crema-clarito"
+          className="-mr-2 flex h-10 w-10 items-center justify-center rounded-full text-mw-rotulo hover:bg-mw-salvia"
         >
           <CloseIcon className="h-5 w-5" />
         </button>
@@ -52,7 +52,7 @@ export function SuggestedDialog({ open, t, products, onClose }: SuggestedDialogP
           }}
         >
           <StarIcon filled className="h-5 w-5 text-mw-verde" />
-          <h3 className="mt-3 font-display text-[26px] leading-tight font-medium text-mw-titulo">{product.name}</h3>
+          <h3 className="mt-3 text-[22px] leading-tight font-semibold tracking-[-0.01em] text-mw-titulo">{product.name}</h3>
           {product.description && (
             <p className="mt-3 text-[14px] leading-relaxed whitespace-pre-line text-mw-tinta-suave">{product.description}</p>
           )}

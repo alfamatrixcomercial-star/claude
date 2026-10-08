@@ -3,6 +3,7 @@
 import { asset, cn } from "@/lib/utils";
 import { restaurant } from "@/data/menu";
 import { CategoryGlyph, HeartIcon, MenuIcon, StarIcon } from "@/components/icons";
+import { Onda } from "@/components/ui/Onda";
 import type { Strings } from "@/lib/i18n";
 import type { Category } from "@/types/menu";
 
@@ -18,7 +19,7 @@ interface HeaderProps {
 }
 
 const iconButton =
-  "flex h-11 w-11 items-center justify-center rounded-full text-mw-rotulo transition-colors hover:bg-mw-crema-clarito";
+  "flex h-11 w-11 items-center justify-center rounded-full text-mw-rotulo transition-colors hover:bg-white/60";
 
 export function Header({
   t,
@@ -31,7 +32,7 @@ export function Header({
   onOpenFavorites,
 }: HeaderProps) {
   return (
-    <header className="sticky top-0 z-30 border-b border-mw-arena bg-white/95 backdrop-blur">
+    <header className="sticky top-0 z-30 bg-mw-crema/85 backdrop-blur-md">
       <div className="mx-auto grid h-16 max-w-3xl grid-cols-[88px_1fr_88px] items-center px-2">
         <button type="button" aria-label={t.openMenu} onClick={onOpenMenu} className={iconButton}>
           <MenuIcon className="h-6 w-6" />
@@ -87,6 +88,7 @@ export function Header({
           );
         })}
       </nav>
+      <Onda />
     </header>
   );
 }

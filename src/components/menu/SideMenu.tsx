@@ -19,7 +19,7 @@ interface SideMenuProps {
 }
 
 const navItem =
-  "flex w-full items-center gap-3 rounded-xl px-3 py-3 text-left text-[15px] font-medium text-mw-tinta transition-colors hover:bg-mw-crema-clarito";
+  "flex w-full items-center gap-3 rounded-xl px-3 py-3 text-left text-[15px] font-medium text-mw-tinta transition-colors hover:bg-white";
 const eyebrow = "px-3 text-[11px] font-semibold tracking-[0.2em] text-mw-rotulo uppercase";
 
 export function SideMenu({ open, lang, t, favoritesCount, onClose, onHome, onSuggested, onFavorites, onLang }: SideMenuProps) {
@@ -38,7 +38,7 @@ export function SideMenu({ open, lang, t, favoritesCount, onClose, onHome, onSug
         aria-modal="true"
         aria-label={t.openMenu}
         className={cn(
-          "absolute inset-y-0 left-0 flex w-[300px] max-w-[85vw] flex-col overflow-y-auto rounded-r-3xl bg-white px-4 pt-4 pb-6 shadow-mw-3 transition-transform duration-[260ms] ease-mw",
+          "absolute inset-y-0 left-0 flex w-[300px] max-w-[85vw] flex-col overflow-y-auto rounded-r-3xl bg-mw-crema-clarito px-4 pt-4 pb-6 shadow-mw-3 transition-transform duration-[260ms] ease-mw",
           open ? "translate-x-0" : "-translate-x-full",
         )}
       >
@@ -48,7 +48,7 @@ export function SideMenu({ open, lang, t, favoritesCount, onClose, onHome, onSug
             type="button"
             aria-label={t.close}
             onClick={onClose}
-            className="flex h-11 w-11 items-center justify-center rounded-full text-mw-rotulo hover:bg-mw-crema-clarito"
+            className="flex h-11 w-11 items-center justify-center rounded-full text-mw-rotulo hover:bg-white"
           >
             <CloseIcon className="h-6 w-6" />
           </button>
@@ -92,7 +92,7 @@ export function SideMenu({ open, lang, t, favoritesCount, onClose, onHome, onSug
 
         <div className="mt-8 space-y-2">
           <h2 className={eyebrow}>{t.language}</h2>
-          <div className="mx-3 grid grid-cols-2 rounded-full border border-mw-arena p-1">
+          <div className="mx-3 grid grid-cols-2 rounded-full border border-mw-arena bg-white p-1">
             {(["es", "en"] as const).map((code) => (
               <button
                 key={code}
@@ -101,7 +101,7 @@ export function SideMenu({ open, lang, t, favoritesCount, onClose, onHome, onSug
                 onClick={() => onLang(code)}
                 className={cn(
                   "h-9 rounded-full text-[13px] font-medium transition-colors",
-                  lang === code ? "bg-mw-accion text-white" : "text-mw-tinta hover:bg-mw-crema-clarito",
+                  lang === code ? "bg-mw-accion text-white" : "text-mw-tinta hover:bg-white",
                 )}
               >
                 {code === "es" ? "Español" : "English"}

@@ -16,16 +16,16 @@ export function HomeView({ t, categories, onSelect, onOpenSuggested }: HomeViewP
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="font-display text-[34px] leading-tight font-medium text-mw-titulo">{t.title}</h1>
+        <h1 className="text-[30px] leading-tight font-semibold tracking-[-0.02em] text-mw-titulo">{t.title}</h1>
         <p className="mt-1 text-[15px] text-mw-tinta-suave">{t.intro}</p>
       </div>
 
       <button
         type="button"
         onClick={onOpenSuggested}
-        className="flex w-full items-center gap-3 rounded-2xl border border-mw-arena bg-white p-4 text-left shadow-mw-1 transition-colors hover:border-mw-verde"
+        className="flex w-full items-center gap-3 rounded-2xl border border-mw-verde/40 bg-mw-salvia p-4 text-left shadow-mw-1 transition-colors hover:border-mw-verde"
       >
-        <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-mw-crema-clarito text-mw-verde">
+        <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-white text-mw-verde">
           <StarIcon filled className="h-5 w-5" />
         </span>
         <span className="font-medium text-mw-tinta">{t.suggested}</span>
@@ -45,11 +45,11 @@ export function HomeView({ t, categories, onSelect, onOpenSuggested }: HomeViewP
         ))}
       </div>
 
-      <div className="rounded-2xl border border-mw-arena bg-white p-4 shadow-mw-1">
+      <div className="rounded-2xl border border-mw-arena bg-mw-arena-clara p-4">
         <h2 className={eyebrow}>{t.payments}</h2>
         <ul className="mt-3 flex flex-wrap gap-2">
           {restaurant.paymentMethods.map((method) => (
-            <li key={method} className="rounded-full border border-mw-arena px-3 py-1 text-[13px] text-mw-tinta">
+            <li key={method} className="rounded-full border border-mw-arena bg-white px-3 py-1 text-[13px] text-mw-tinta">
               {method}
             </li>
           ))}

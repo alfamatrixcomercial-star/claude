@@ -25,7 +25,7 @@ export function CategoryView({ t, category, favorites, onToggleFavorite, onBack 
         <ArrowLeftIcon className="h-4 w-4" />
         {t.allSections}
       </button>
-      <h1 className="mt-2 font-display text-[34px] leading-tight font-medium text-mw-titulo">{category.name}</h1>
+      <h1 className="mt-2 text-[30px] leading-tight font-semibold tracking-[-0.02em] text-mw-titulo">{category.name}</h1>
 
       <div className="mt-5 space-y-3">
         {category.subcategories.map((subcategory, i) => (
@@ -123,7 +123,7 @@ function ProductItem({
           aria-pressed={favorite}
           aria-label={favorite ? t.removeFavorite : t.addFavorite}
           onClick={onToggleFavorite}
-          className="-mr-2 flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-mw-verde transition-colors hover:bg-mw-crema-clarito"
+          className="-mr-2 flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-mw-verde transition-colors hover:bg-mw-salvia"
         >
           <HeartIcon filled={favorite} className="h-5 w-5" />
         </button>
@@ -132,7 +132,7 @@ function ProductItem({
       {(product.suggested || product.glutenFree) && (
         <div className="mt-1.5 flex flex-wrap gap-1.5">
           {product.suggested && (
-            <span className="inline-flex items-center gap-1 rounded-full bg-mw-crema-clarito px-2 py-0.5 text-[11.5px] font-medium text-mw-rotulo">
+            <span className="inline-flex items-center gap-1 rounded-full bg-mw-salvia px-2 py-0.5 text-[11.5px] font-medium text-mw-rotulo">
               <StarIcon filled className="h-3 w-3 text-mw-verde" />
               {t.suggestedBadge}
             </span>
