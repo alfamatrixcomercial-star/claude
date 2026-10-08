@@ -1,8 +1,8 @@
 "use client";
 
-import { cn } from "@/lib/utils";
+import { asset, cn } from "@/lib/utils";
 import { restaurant } from "@/data/menu";
-import { FacebookSquareIcon, WhatsappSquareIcon } from "@/components/icons";
+import { CrossIcon, FacebookSquareIcon, WhatsappSquareIcon } from "@/components/icons";
 import type { Strings } from "@/lib/i18n";
 import type { Lang } from "@/types/menu";
 
@@ -35,11 +35,11 @@ function LanguageButton({
       onClick={onClick}
       className={cn(
         "absolute top-[21px] flex h-[38px] w-[140px] cursor-pointer items-center justify-center gap-[5px] rounded-[50px] border border-[#555] px-3 py-1.5 text-[12px] leading-[1.5] focus:shadow-[0_0_0_0.1rem_rgba(0,123,255,0.5)] min-[641px]:h-[34px] min-[641px]:w-[130px]",
-        active ? "z-[1] bg-[rgb(48,84,94)] text-white" : "bg-white text-black",
+        active ? "z-[1] bg-brand-pill text-white" : "bg-white text-black",
         className,
       )}
     >
-      <img src={flag} alt="" className="h-5 w-[30px]" />
+      <img src={asset(flag)} alt="" className="h-5 w-[30px]" />
       <span className="my-3 flex items-center justify-center text-[12px] leading-[18px]">{label}</span>
     </button>
   );
@@ -66,30 +66,30 @@ export function SideMenu({ open, lang, t, onClose, onHome, onSuggested, onLang }
         )}
       >
         <button type="button" aria-label="Close Menu" onClick={onClose} className="fixed top-[15px] left-[15px] h-5 w-6 cursor-pointer">
-          <img src="/images/ui/close.svg" alt="" className="h-5 w-6" />
+          <CrossIcon className="h-5 w-6 text-brand-primary" />
         </button>
 
         <nav className="flex h-full flex-col items-center justify-between font-light">
           <div className="mx-auto mt-[45px] flex flex-col items-center">
             <button type="button" onClick={onHome} className="mt-[45px] flex w-[95px] cursor-pointer flex-col text-center">
-              <span className="mt-2.5 text-[15px] leading-[17.5px] font-bold text-[#002e3c]">{t.home}</span>
+              <span className="mt-2.5 text-[15px] leading-[17.5px] font-bold text-brand-primary">{t.home}</span>
             </button>
             <button type="button" onClick={onSuggested} className="mt-[45px] flex w-[95px] cursor-pointer flex-col text-center">
-              <span className="mt-2.5 text-[15px] leading-[17.5px] font-bold text-[#002e3c]">{t.suggested}</span>
+              <span className="mt-2.5 text-[15px] leading-[17.5px] font-bold text-brand-primary">{t.suggested}</span>
             </button>
           </div>
 
           <div className="flex w-full flex-col items-center">
-            <img src="/images/ui/thx.svg" alt="Gracias por visitarnos" className="mb-5 h-[50px]" />
+            <img src={asset("/images/ui/thx.svg")} alt="Gracias por visitarnos" className="mb-5 h-[50px]" />
           </div>
 
           <div className="flex h-[262px] w-full flex-col items-center text-center">
             <div className="my-5 flex flex-col items-center text-[13px] font-medium">
-              <p className="m-0 w-[200px] text-[13px] leading-[17.3px] text-[#002e3c]">{restaurant.email}</p>
-              <p className="m-0 w-[200px] text-[13px] leading-[17.3px] text-[#002e3c]">{restaurant.phone}</p>
+              <p className="m-0 w-[200px] text-[13px] leading-[17.3px] text-brand-primary">{restaurant.email}</p>
+              <p className="m-0 w-[200px] text-[13px] leading-[17.3px] text-brand-primary">{restaurant.phone}</p>
             </div>
-            <div className="flex justify-center text-[#002e3c]">
-              <a href={restaurant.facebookUrl} target="_blank" rel="noreferrer" aria-label="Facebook" className="mx-[5px]">
+            <div className="flex justify-center text-brand-primary">
+              <a href={asset(restaurant.facebookUrl)} target="_blank" rel="noreferrer" aria-label="Facebook" className="mx-[5px]">
                 <FacebookSquareIcon className="h-[25px] w-[22px]" />
               </a>
               <a href={restaurant.whatsappUrl} target="_blank" rel="noreferrer" aria-label="WhatsApp" className="mx-[5px]">
@@ -115,8 +115,8 @@ export function SideMenu({ open, lang, t, onClose, onHome, onSuggested, onLang }
           </div>
         </nav>
 
-        <div className="fixed bottom-0 left-3 flex w-[285px] items-center justify-center rounded-tl-[20px] rounded-br-[20px] bg-[#f2f2f2] p-5">
-          <img src="/images/ui/sign.svg" alt="" className="mx-auto h-[30px]" />
+        <div className="fixed bottom-0 left-3 flex w-[285px] items-center justify-center rounded-tl-[20px] rounded-br-[20px] bg-brand-surface p-5">
+          <img src={asset(restaurant.logo)} alt="Mirador Waikiki" className="mx-auto h-[40px] w-auto object-contain" />
         </div>
       </div>
     </>

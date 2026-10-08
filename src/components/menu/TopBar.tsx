@@ -1,6 +1,7 @@
 "use client";
 
-import { cn } from "@/lib/utils";
+import { asset, cn } from "@/lib/utils";
+import { CategoryRing, HamburgerIcon, HeartSolidIcon, StarOutlineIcon } from "@/components/icons";
 import { restaurant } from "@/data/menu";
 import type { Category } from "@/types/menu";
 
@@ -32,11 +33,11 @@ export function TopBar({
           onClick={onOpenMenu}
           className="absolute top-5 left-2.5 h-10 w-10 cursor-pointer p-2.5 hover:rounded-full hover:bg-[hsla(0,0%,50.2%,0.089)]"
         >
-          <img src="/images/ui/hamburger.svg" alt="" className="h-5 w-5" />
+          <HamburgerIcon className="h-5 w-5 text-brand-primary" />
         </button>
 
         <div className="fixed top-2.5 left-1/2 flex h-20 w-40 -translate-x-1/2 items-center justify-center">
-          <img src={restaurant.logo} alt="" className="h-full w-auto max-w-full object-contain" />
+          <img src={asset(restaurant.logo)} alt="Mirador Waikiki" className="h-full w-auto max-w-full object-contain" />
         </div>
 
         {hasFavorites && (
@@ -46,7 +47,7 @@ export function TopBar({
             onClick={onOpenFavorites}
             className="absolute top-5 right-[50px] z-[2] m-px flex h-10 min-w-10 cursor-pointer items-center justify-center rounded p-px"
           >
-            <img src="/images/ui/favoritos-4.svg" alt="" className="h-10 w-10 p-2.5" />
+            <HeartSolidIcon className="h-10 w-10 p-2.5 text-brand-primary" />
           </button>
         )}
 
@@ -56,7 +57,7 @@ export function TopBar({
           onClick={onOpenSuggested}
           className="absolute top-5 right-2.5 z-[2] m-px flex h-10 min-w-10 cursor-pointer items-center justify-center rounded p-px"
         >
-          <img src="/images/ui/sug.svg" alt="" className="h-5 w-auto object-contain" />
+          <StarOutlineIcon className="h-5 w-[21px] text-brand-primary" />
         </button>
 
         <div className="relative z-[999] mt-[95px] flex w-full gap-[25px] overflow-x-auto overflow-y-hidden px-2.5 pb-3 text-center min-[640px]:justify-center">
@@ -69,7 +70,7 @@ export function TopBar({
                 tabIndex={0}
                 onClick={() => onSelect(i)}
                 onKeyDown={(e) => e.key === "Enter" && onSelect(i)}
-                className="mx-px inline-block w-[65px] shrink-0 cursor-pointer align-top text-[14px] font-medium text-[#002e3c]"
+                className="mx-px inline-block w-[65px] shrink-0 cursor-pointer align-top text-[14px] font-medium text-brand-primary"
               >
                 <div className="flex items-center justify-center pb-[3px]">
                   <div
@@ -78,15 +79,11 @@ export function TopBar({
                       active ? "opacity-100" : "opacity-50",
                     )}
                   >
-                    <img src={category.icon} alt="" className="mx-auto h-10 w-10" />
+                    <img src={asset(category.icon)} alt="" className="mx-auto h-10 w-10" />
                   </div>
-                  <img
-                    src={active ? "/images/ui/item-border-selected.svg" : "/images/ui/item-border.svg"}
-                    alt=""
-                    className={cn("relative h-[65px] w-[65px]", !active && "opacity-50")}
-                  />
+                  <CategoryRing selected={active} className={cn("relative h-[65px] w-[65px]", !active && "opacity-50")} />
                 </div>
-                <p className="mt-[9px] mb-3 w-[55px] text-[12px] leading-[18px] font-normal whitespace-pre-line text-[#002e3c]">
+                <p className="mt-[9px] mb-3 w-[55px] text-[12px] leading-[18px] font-normal whitespace-pre-line text-brand-primary">
                   {category.name}
                 </p>
               </div>

@@ -1,7 +1,7 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { CloseIcon, DeleteForeverIcon } from "@/components/icons";
+import { CloseIcon, DeleteForeverIcon, HeartSolidIcon } from "@/components/icons";
 import type { Product } from "@/types/menu";
 
 interface FavoritesDialogProps {
@@ -26,9 +26,9 @@ export function FavoritesDialog({ open, products, onClose, onRemove }: Favorites
         >
           <div className="flex w-full items-center justify-between">
             <span className="p-[3px]">
-              <img src="/images/ui/favoritos.svg" alt="" className="h-5 w-5" />
+              <HeartSolidIcon className="h-5 w-5 text-black" />
             </span>
-            <button type="button" aria-label="Cerrar" onClick={onClose} className="cursor-pointer p-[3px] text-[#002e3c]">
+            <button type="button" aria-label="Cerrar" onClick={onClose} className="cursor-pointer p-[3px] text-brand-primary">
               <CloseIcon className="h-8 w-8" />
             </button>
           </div>
@@ -42,7 +42,7 @@ export function FavoritesDialog({ open, products, onClose, onRemove }: Favorites
                       type="button"
                       aria-label={`Quitar ${product.name}`}
                       onClick={() => onRemove(product.id)}
-                      className="cursor-pointer p-[3px] text-[#002e3c]"
+                      className="cursor-pointer p-[3px] text-brand-primary"
                     >
                       <DeleteForeverIcon className="h-8 w-8" />
                     </button>

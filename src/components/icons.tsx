@@ -46,3 +46,61 @@ export function WhatsappSquareIcon(props: IconProps) {
     </svg>
   );
 }
+
+// Brand icons drawn with currentColor so they follow the palette in globals.css.
+
+export function CrossIcon(props: IconProps) {
+  return (
+    <svg viewBox="0 0 41.5 41.51" aria-hidden="true" fill="currentColor" {...props}>
+      <path d="M24.91,20.75,40.64,5A2.94,2.94,0,1,0,36.48.86L20.75,16.6,5,.86A2.94,2.94,0,0,0,.86,5L16.59,20.75.86,36.49A2.94,2.94,0,0,0,5,40.65L20.75,24.91,36.48,40.65a2.94,2.94,0,1,0,4.16-4.16Z" />
+    </svg>
+  );
+}
+
+export function HamburgerIcon(props: IconProps) {
+  return (
+    <svg viewBox="0 0 49.79 31.02" aria-hidden="true" fill="currentColor" {...props}>
+      <rect width="49.79" height="3.83" rx="1.92" />
+      <rect y="13.6" width="41.63" height="3.83" rx="1.92" />
+      <rect y="27.19" width="49.79" height="3.83" rx="1.92" />
+    </svg>
+  );
+}
+
+const starPath =
+  "M27.72,2.92l5.42,11a2.55,2.55,0,0,0,1.92,1.39l12.12,1.76a2.55,2.55,0,0,1,1.41,4.35L39.82,30a2.54,2.54,0,0,0-.73,2.25l2.07,12.08A2.55,2.55,0,0,1,37.46,47l-10.84-5.7a2.55,2.55,0,0,0-2.37,0L13.4,47a2.54,2.54,0,0,1-3.69-2.68l2.07-12.08A2.55,2.55,0,0,0,11,30L2.27,21.41a2.55,2.55,0,0,1,1.41-4.35L15.81,15.3a2.56,2.56,0,0,0,1.92-1.39l5.42-11A2.55,2.55,0,0,1,27.72,2.92Z";
+
+export function StarOutlineIcon(props: IconProps) {
+  return (
+    <svg viewBox="0 0 50.86 48.77" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth={3} {...props}>
+      <path d={starPath} />
+    </svg>
+  );
+}
+
+export function StarFilledIcon(props: IconProps) {
+  return (
+    <svg viewBox="0 0 50.86 48.77" aria-hidden="true" fill="currentColor" {...props}>
+      <path d={starPath} />
+    </svg>
+  );
+}
+
+// MUI Favorite — top-bar favorites button.
+export function HeartSolidIcon(props: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor" {...props}>
+      <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+    </svg>
+  );
+}
+
+// Category ring; the selected state adds the accent dot on top.
+export function CategoryRing({ selected, ...props }: IconProps & { selected: boolean }) {
+  return (
+    <svg viewBox="0 0 118 125" aria-hidden="true" fill="none" {...props}>
+      <circle cx="59" cy="66" r="57.5" stroke="var(--brand-primary)" strokeWidth={2.99} />
+      {selected && <circle cx="59.5" cy="9.8" r="9.3" fill="var(--brand-accent)" stroke="var(--brand-primary)" />}
+    </svg>
+  );
+}

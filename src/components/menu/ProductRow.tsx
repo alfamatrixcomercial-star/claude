@@ -1,6 +1,7 @@
 "use client";
 
-import { cn } from "@/lib/utils";
+import { asset, cn } from "@/lib/utils";
+import { StarFilledIcon } from "@/components/icons";
 import type { Product } from "@/types/menu";
 
 interface ProductRowProps {
@@ -20,7 +21,7 @@ function HeartButton({ favorite, onClick }: { favorite: boolean; onClick: () => 
       onClick={onClick}
       className="flex cursor-pointer items-center justify-center p-0 text-black"
     >
-      <img src={favorite ? "/images/ui/heart-filled.svg" : "/images/ui/heart.svg"} alt="" className="h-3 w-3.5" />
+      <img src={asset(favorite ? "/images/ui/heart-filled.svg" : "/images/ui/heart.svg")} alt="" className="h-3 w-3.5" />
     </button>
   );
 }
@@ -28,9 +29,9 @@ function HeartButton({ favorite, onClick }: { favorite: boolean; onClick: () => 
 function Badges({ product }: { product: Product }) {
   return (
     <>
-      {product.suggested && <img src="/images/ui/sug-icon.svg" alt="Sugerido" className="mr-2.5 h-3" />}
+      {product.suggested && <StarFilledIcon aria-label="Sugerido" className="mr-2.5 h-3 w-3 text-brand-accent" />}
       {product.glutenFree && (
-        <img src="/images/ui/gluten-free.png" alt="Sin TACC" className="mx-[5px] mt-2.5 h-5" />
+        <img src={asset("/images/ui/gluten-free.png")} alt="Sin TACC" className="mx-[5px] mt-2.5 h-5" />
       )}
     </>
   );
@@ -40,11 +41,11 @@ function Details({ product }: { product: Product }) {
   return (
     <>
       {product.description && (
-        <p className="my-[13px] pr-[15px] text-[13px] leading-[19.5px] font-medium [overflow-wrap:anywhere] whitespace-pre-line text-[#808080]">
+        <p className="my-[13px] pr-[15px] text-[13px] leading-[19.5px] font-medium [overflow-wrap:anywhere] whitespace-pre-line text-brand-muted">
           {product.description}
         </p>
       )}
-      <p className="my-[13px] pr-[15px] text-[15px] leading-[21.45px] font-medium tracking-[1px] text-[#808080]">
+      <p className="my-[13px] pr-[15px] text-[15px] leading-[21.45px] font-medium tracking-[1px] text-brand-muted">
         ${product.price}
       </p>
     </>
@@ -52,7 +53,7 @@ function Details({ product }: { product: Product }) {
 }
 
 const titleClass =
-  "m-0 inline-block pt-1 pr-2.5 text-[15px] leading-[17.5px] font-semibold [overflow-wrap:anywhere] text-[#575756]";
+  "m-0 inline-block pt-1 pr-2.5 text-[15px] leading-[17.5px] font-semibold [overflow-wrap:anywhere] text-brand-product";
 
 export function ProductRow({ product, first, wide, favorite, onToggleFavorite }: ProductRowProps) {
   const toggle = onToggleFavorite;
@@ -73,7 +74,7 @@ export function ProductRow({ product, first, wide, favorite, onToggleFavorite }:
             <div className="relative rounded-lg">
               {product.image && (
                 <>
-                  <img src={product.image} alt="product image" className="h-[120px] w-[144px] rounded-lg object-cover" />
+                  <img src={asset(product.image)} alt="product image" className="h-[120px] w-[144px] rounded-lg object-cover" />
                   <div className="absolute top-1 right-1 flex h-[30px] w-[30px] cursor-pointer items-center justify-center rounded-lg bg-white">
                     <HeartButton favorite={favorite} onClick={toggle} />
                   </div>
@@ -92,7 +93,7 @@ export function ProductRow({ product, first, wide, favorite, onToggleFavorite }:
             </div>
             <div className="relative w-1/3 rounded-lg">
               {product.image && (
-                <img src={product.image} alt="product image" className="h-[112px] w-[120px] rounded-lg object-cover" />
+                <img src={asset(product.image)} alt="product image" className="h-[112px] w-[120px] rounded-lg object-cover" />
               )}
               <div className="absolute top-1 right-2 flex h-5 w-5 items-center justify-center rounded-md bg-white">
                 <HeartButton favorite={favorite} onClick={toggle} />
@@ -101,7 +102,7 @@ export function ProductRow({ product, first, wide, favorite, onToggleFavorite }:
           </>
         )}
         <div className="flex w-full items-center justify-center py-[15px]">
-          <img src="/images/ui/divisor.svg" alt="" className="h-0.5 w-[257px]" />
+          <img src={asset("/images/ui/divisor.svg")} alt="" className="h-0.5 w-[257px]" />
         </div>
       </div>
     </li>

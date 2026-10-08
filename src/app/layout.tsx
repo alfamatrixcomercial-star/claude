@@ -9,9 +9,8 @@ const montserrat = Montserrat({
 });
 
 export const metadata: Metadata = {
-  title: "MIMENU | Menú Digital",
-  description: "MIMENU",
-  icons: { icon: "/favicon.ico" },
+  title: "Mirador Waikiki | Carta",
+  description: "Carta digital de Mirador Waikiki",
 };
 
 export const viewport: Viewport = {

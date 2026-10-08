@@ -6,7 +6,7 @@ export const restaurant: Restaurant = {
   logo: "https://mimenu.nyc3.digitaloceanspaces.com/Imagenes/Logo/miradorwaikiki/logoImage",
   email: "info@miradorwaikiki.com.ar",
   phone: "2236333330",
-  facebookUrl: "/miradorwaikiki/menu",
+  facebookUrl: "/menu",
   whatsappUrl: "https://wa.me/",
 };
 

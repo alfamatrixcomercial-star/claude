@@ -1,5 +1,5 @@
-import { redirect } from "next/navigation";
+import { Onboarding } from "@/components/onboarding/Onboarding";
 
-export default function Home() {
-  redirect("/miradorwaikiki");
+export default function OnboardingPage() {
+  return <Onboarding />;
 }

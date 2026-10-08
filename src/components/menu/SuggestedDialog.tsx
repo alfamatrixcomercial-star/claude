@@ -1,7 +1,8 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { cn } from "@/lib/utils";
+import { asset, cn } from "@/lib/utils";
+import { CrossIcon, StarFilledIcon } from "@/components/icons";
 import { restaurant } from "@/data/menu";
 import type { Product } from "@/types/menu";
 
@@ -29,12 +30,12 @@ export function SuggestedDialog({ open, products, onClose }: SuggestedDialogProp
         <div className="pointer-events-auto flex w-4/5 flex-col justify-center rounded-[40px] bg-white text-center min-[500px]:w-[400px]">
           <div className="flex h-[60px] justify-around pt-5 pb-[7px]">
             <button type="button" aria-label="Cerrar" onClick={onClose} className="m-0 h-[30px] cursor-pointer border-none bg-transparent p-0">
-              <img src="/images/ui/black-cross.svg" alt="" className="h-3.5 w-3.5" />
+              <CrossIcon className="h-3.5 w-3.5 text-brand-primary" />
             </button>
             <div className="h-[50px] w-[95px]">
-              <img src={restaurant.logo} alt="" className="h-full w-full object-contain" />
+              <img src={asset(restaurant.logo)} alt="Mirador Waikiki" className="h-full w-full object-contain" />
             </div>
-            <img src="/images/ui/sug-icon.svg" alt="" className="h-5 w-5" />
+            <StarFilledIcon className="h-5 w-5 text-brand-accent" />
           </div>
 
           <div
@@ -58,15 +59,15 @@ export function SuggestedDialog({ open, products, onClose }: SuggestedDialogProp
               {products.map((product) => (
                 <li key={product.id} className="w-full shrink-0">
                   <div className="mt-5 mb-[30px] flex min-h-[350px] flex-col items-center justify-center">
-                    <h2 className="mx-2.5 mt-2.5 mb-0 flex justify-center text-center text-[16px] leading-[22.9px] font-medium [overflow-wrap:anywhere] text-[#201231]">
+                    <h2 className="mx-2.5 mt-2.5 mb-0 flex justify-center text-center text-[16px] leading-[22.9px] font-medium [overflow-wrap:anywhere] text-brand-title">
                       {product.name}
                     </h2>
                     {product.description && (
-                      <p className="mx-10 my-2.5 flex justify-center pt-5 text-center text-[14px] leading-[23px] font-normal tracking-[1px] text-[#808080]">
+                      <p className="mx-10 my-2.5 flex justify-center pt-5 text-center text-[14px] leading-[23px] font-normal tracking-[1px] text-brand-muted">
                         {product.description}
                       </p>
                     )}
-                    <p className="mx-2.5 mt-2.5 mb-0 flex justify-center pt-5 text-[15px] leading-[21.45px] font-light text-[#201231]">
+                    <p className="mx-2.5 mt-2.5 mb-0 flex justify-center pt-5 text-[15px] leading-[21.45px] font-light text-brand-title">
                       ${product.price}
                     </p>
                   </div>
@@ -87,7 +88,7 @@ export function SuggestedDialog({ open, products, onClose }: SuggestedDialogProp
                   aria-label={`slide item ${i + 1}`}
                   onClick={() => setIndex(i)}
                   className={cn(
-                    "mx-2 inline-block h-2 w-2 cursor-pointer rounded-full bg-[#002e3c] shadow-[1px_1px_2px_rgba(0,0,0,0.9)] transition-opacity duration-[250ms] ease-in",
+                    "mx-2 inline-block h-2 w-2 cursor-pointer rounded-full bg-brand-primary shadow-[1px_1px_2px_rgba(0,0,0,0.9)] transition-opacity duration-[250ms] ease-in",
                     i === index ? "opacity-100" : "opacity-30",
                   )}
                 />

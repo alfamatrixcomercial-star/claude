@@ -2,10 +2,11 @@
 
 import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import { cn } from "@/lib/utils";
+import { asset, cn } from "@/lib/utils";
 import { strings } from "@/lib/i18n";
 import { restaurant } from "@/data/menu";
 import { usePersistentState } from "@/hooks/usePersistentState";
+import { CrossIcon } from "@/components/icons";
 import type { Lang } from "@/types/menu";
 
 const SWIPE_THRESHOLD = 50;
@@ -35,11 +36,11 @@ export function Onboarding() {
     <section className="relative h-dvh w-full overflow-hidden">
       <button
         type="button"
-        onClick={() => router.push(`/${restaurant.slug}/menu`)}
+        onClick={() => router.push("/menu")}
         className="absolute top-5 right-5 z-[2] flex w-full cursor-pointer flex-row justify-end"
       >
-        <span className="mt-1 mr-1.5 text-[12px] leading-[10px] text-[#002e3c] capitalize">{t.skip}</span>
-        <img src="/images/ui/close.svg" alt="" className="h-5 w-5" />
+        <span className="mt-1 mr-1.5 text-[12px] leading-[10px] text-brand-primary capitalize">{t.skip}</span>
+        <CrossIcon className="h-5 w-5 text-brand-primary" />
       </button>
 
       <div
@@ -56,26 +57,26 @@ export function Onboarding() {
             <li key={i} className="flex h-dvh w-full shrink-0 flex-col justify-center">
               {i === 0 ? (
                 <div className="flex h-[80dvh] flex-col items-center justify-center">
-                  <img src={restaurant.logo} alt="" className="mt-[50px] w-[150px]" draggable={false} />
+                  <img src={asset(restaurant.logo)} alt="" className="mt-[50px] w-[150px]" draggable={false} />
                   <div className="h-[180px] w-full" />
                   <div>
-                    <p className="my-4 text-center text-[16px] leading-[18.4px] tracking-[3px] text-[#201231]">
+                    <p className="my-4 text-center text-[16px] leading-[18.4px] tracking-[3px] text-brand-title">
                       {slide.title}
                     </p>
                   </div>
                 </div>
               ) : (
                 <div className="flex h-[80dvh] flex-col items-center justify-around">
-                  <img src={restaurant.logo} alt="" className="mt-5 w-[130px]" draggable={false} />
+                  <img src={asset(restaurant.logo)} alt="" className="mt-5 w-[130px]" draggable={false} />
                   <div
                     className="flex h-[230px] w-full justify-center bg-cover bg-bottom bg-no-repeat"
-                    style={{ backgroundImage: `url(${slide.background})` }}
+                    style={{ backgroundImage: `url(${asset(slide.background ?? "")})` }}
                   >
-                    <img src={slide.image} alt="" className="h-[230px] max-w-[230px]" draggable={false} />
+                    <img src={asset(slide.image ?? "")} alt="" className="h-[230px] max-w-[230px]" draggable={false} />
                   </div>
                   <div className="w-full text-center">
-                    <p className="my-4 text-[16px] leading-[18.4px] tracking-[3px] text-[#201231]">{slide.title}</p>
-                    <p className="mt-3.5 mb-[50px] px-[5px] text-[14px] leading-[16.1px] text-[#808080]">
+                    <p className="my-4 text-[16px] leading-[18.4px] tracking-[3px] text-brand-title">{slide.title}</p>
+                    <p className="mt-3.5 mb-[50px] px-[5px] text-[14px] leading-[16.1px] text-brand-muted">
                       {slide.description}
                     </p>
                   </div>
@@ -94,7 +95,7 @@ export function Onboarding() {
             aria-label={`slide ${i + 1}`}
             onClick={() => setIndex(i)}
             className={cn(
-              "mx-2 inline-block h-2 w-2 cursor-pointer rounded-full bg-[#002e3c] shadow-[1px_1px_2px_rgba(0,0,0,0.9)] transition-opacity duration-[250ms] ease-in",
+              "mx-2 inline-block h-2 w-2 cursor-pointer rounded-full bg-brand-primary shadow-[1px_1px_2px_rgba(0,0,0,0.9)] transition-opacity duration-[250ms] ease-in",
               i === index ? "opacity-100" : "opacity-30",
             )}
           />

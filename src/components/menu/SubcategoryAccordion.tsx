@@ -35,7 +35,7 @@ export function SubcategoryAccordion({
         )}
       >
         <span className={cn("flex grow", open ? "my-5" : "my-3")}>
-          <h2 className="m-0 mt-2.5 text-[15px] leading-[18px] font-normal tracking-[1px] text-[rgb(162,79,29)] uppercase">
+          <h2 className="m-0 mt-2.5 text-[15px] leading-[18px] font-normal tracking-[1px] text-brand-heading uppercase">
             {subcategory.name}
           </h2>
         </span>
@@ -51,7 +51,7 @@ export function SubcategoryAccordion({
 
       <div className={cn("accordion-collapse grid", open ? "grid-rows-[1fr]" : "grid-rows-[0fr]")}>
         <div className="overflow-hidden">
-          <div className="mx-auto h-px w-[95vw] bg-[rgba(119,48,10,0.85)] opacity-50" />
+          <div className="mx-auto h-px w-[95vw] bg-brand-heading opacity-50" />
           <ul className={cn("m-0 w-[95vw] list-none p-0", wide && "text-center")}>
             {subcategory.products.map((product, i) => (
               <ProductRow

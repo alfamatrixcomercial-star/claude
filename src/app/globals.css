@@ -5,6 +5,14 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
+  --color-brand-primary: var(--brand-primary);
+  --color-brand-accent: var(--brand-accent);
+  --color-brand-heading: var(--brand-heading);
+  --color-brand-title: var(--brand-title);
+  --color-brand-pill: var(--brand-pill);
+  --color-brand-surface: var(--brand-surface);
+  --color-brand-product: var(--brand-product);
+  --color-brand-muted: var(--brand-muted);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-montserrat), "Montserrat", sans-serif;
@@ -49,6 +57,15 @@
 }
 
 :root {
+  /* Brand palette — change these to restyle the whole menu. */
+  --brand-primary: #002e3c; /* icons, rings, nav text, dots */
+  --brand-accent: #fbb03b; /* suggested star, selected-category dot */
+  --brand-heading: rgb(162, 79, 29); /* subcategory titles and divider */
+  --brand-title: #201231; /* onboarding and suggested titles */
+  --brand-pill: rgb(48, 84, 94); /* active language button */
+  --brand-surface: #f2f2f2; /* footer and side-menu logo card */
+  --brand-product: #575756; /* product names */
+  --brand-muted: #808080; /* descriptions and prices */
   --background: #ffffff;
   --foreground: #002e3c;
   --card: #ffffff;

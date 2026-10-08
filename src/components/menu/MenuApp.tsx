@@ -51,7 +51,7 @@ export function MenuApp() {
   const category = selected === null ? null : categories[selected];
 
   return (
-    <div className="relative grid min-h-dvh w-full grid-rows-[auto_auto_70px] text-[13px] leading-[18.59px] text-[#808080]">
+    <div className="relative grid min-h-dvh w-full grid-rows-[auto_auto_70px] text-[13px] leading-[18.59px] text-brand-muted">
       <TopBar
         categories={categories}
         selected={selected}
