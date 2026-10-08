@@ -14,11 +14,29 @@ const enlaces = [
   { id: "contacto", texto: "Contacto", href: "/contacto" },
 ];
 const wa = await waLink("general");
+const enGiftcard = Astro.url.pathname.replace(/\/$/, "") === "/giftcard";
+
+/* El moño de regalo del botón de gift card: trazo, para que tome el color
+   de la letra. */
+const regalo = `<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13"/><path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"/><path d="M7.5 8a2.5 2.5 0 0 1 0-5C10 3 12 8 12 8s2-5 4.5-5a2.5 2.5 0 0 1 0 5"/></svg>`;
 ---
 
 <header class="cabecera">
   <a href="/" class="logo" aria-label="Mirador Waikiki, inicio">
     <span set:html={isologo} />
+  </a>
+
+  <!-- Gift card: botón propio, dorado y con un brillo que pasa cada tanto,
+       para que se distinga de «Reservar» y del menú. En el celular queda
+       sólo el moño (el texto completo va destacado dentro del menú). -->
+  <a
+    class="regalo"
+    href="/giftcard"
+    aria-current={enGiftcard ? "page" : undefined}
+  >
+    <span class="regalo-icono" set:html={regalo} />
+    <span class="regalo-texto">Gift card</span>
+    <span class="solo-lector">Gift card: regalá una salida frente al mar</span>
   </a>
 
   <a class="reservar" href={wa} target="_blank" rel="noopener">Reservar</a>
@@ -32,9 +50,18 @@ const wa = await waLink("general");
     </summary>
     <nav aria-label="Secciones del complejo">
       <ul>
+        <li class="li-regalo" style="--i: 0">
+          <a href="/giftcard" class="destacado" aria-current={enGiftcard ? "page" : undefined}>
+            <span class="regalo-icono" set:html={regalo} />
+            <span>
+              Gift card
+              <small>Regalá una salida frente al mar</small>
+            </span>
+          </a>
+        </li>
         {
           enlaces.map((e, i) => (
-            <li style={`--i: ${i}`}>
+            <li style={`--i: ${i + 1}`}>
               <a
                 href={e.href}
                 class:list={[`u-${e.id}`, { activo: unidadActiva === e.id }]}
@@ -63,7 +90,7 @@ const wa = await waLink("general");
     right: 0;
     z-index: var(--z-fijo);
     display: grid;
-    grid-template-columns: auto 1fr auto auto;
+    grid-template-columns: auto 1fr auto auto auto;
     align-items: center;
     gap: clamp(0.6rem, 2vw, 1.5rem);
     min-height: var(--alto-cabecera);
@@ -88,7 +115,7 @@ const wa = await waLink("general");
   }
 
   .reservar {
-    grid-area: 1 / 3;
+    grid-area: 1 / 4;
     display: inline-flex;
     align-items: center;
     min-height: var(--toque);
@@ -110,7 +137,101 @@ const wa = await waLink("general");
     border-color: var(--accion-hover-fondo);
   }
 
-  .menu { grid-area: 1 / 4; }
+  .menu { grid-area: 1 / 5; }
+
+  /* ── Gift card ───────────────────────────────────────────────────────
+     Dorado arena con la letra oscura (contraste 8:1) y un brillo que cruza
+     el botón cada pocos segundos. En el celular es un círculo con el moño. */
+  .regalo {
+    grid-area: 1 / 3;
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-width: var(--toque);
+    min-height: var(--toque);
+    padding: 0;
+    border-radius: 999px;
+    background: linear-gradient(135deg, #e6d6aa 0%, #cab892 55%, #d9c591 100%);
+    border: 1px solid rgb(255 255 255 / 0.7);
+    box-shadow: 0 4px 14px rgb(140 112 60 / 0.28), inset 0 1px 0 rgb(255 255 255 / 0.6);
+    color: var(--tinta);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: transform 0.25s var(--curva), box-shadow 0.25s;
+  }
+  .regalo::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(105deg, transparent 30%, rgb(255 255 255 / 0.75) 50%, transparent 70%);
+    transform: translateX(-120%);
+    animation: brillo 5.5s ease-in-out 1.2s infinite;
+  }
+  .regalo:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 20px rgb(140 112 60 / 0.35), inset 0 1px 0 rgb(255 255 255 / 0.6);
+  }
+  .regalo[aria-current="page"] { box-shadow: 0 0 0 2px var(--tinta), inset 0 1px 0 rgb(255 255 255 / 0.6); }
+  .regalo-icono { display: inline-flex; }
+  .regalo-icono :global(svg) { animation: latido 5.5s ease-in-out 1.2s infinite; }
+  .regalo-texto { display: none; }
+  @keyframes brillo {
+    0%, 62% { transform: translateX(-120%); }
+    80%, 100% { transform: translateX(120%); }
+  }
+  @keyframes latido {
+    0%, 62%, 100% { transform: none; }
+    68% { transform: rotate(-12deg) scale(1.12); }
+    74% { transform: rotate(10deg) scale(1.12); }
+    80% { transform: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .regalo::after, .regalo-icono :global(svg) { animation: none; }
+    .regalo { transition: none; }
+  }
+  .solo-lector {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  /* En el menú del celular, primero y destacado. */
+  .menu nav a.destacado {
+    gap: 0.75rem;
+    margin: 0.5rem 0 0.25rem;
+    padding: 0.7rem 0.9rem;
+    border: 1px solid #cab892;
+    border-radius: var(--radio);
+    background: linear-gradient(135deg, #efe4c6 0%, #e2d2a6 100%);
+    color: var(--tinta);
+    font-weight: 600;
+    line-height: 1.25;
+  }
+  .menu nav a.destacado small {
+    display: block;
+    font-size: 0.82rem;
+    font-weight: 400;
+    color: var(--tinta-suave);
+  }
+  .menu nav a.destacado .regalo-icono {
+    display: grid;
+    place-items: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 50%;
+    background: rgb(255 255 255 / 0.6);
+  }
 
   summary {
     display: inline-flex;
@@ -197,10 +318,14 @@ const wa = await waLink("general");
 
   /* A partir de acá el menú es una barra horizontal y el botón desaparece. */
   @media (min-width: 880px) {
-    .cabecera { grid-template-columns: auto 1fr auto; }
+    .cabecera { grid-template-columns: auto 1fr auto auto; }
     .menu { grid-area: 1 / 2; }
     summary { display: none; }
-    .reservar { grid-area: 1 / 3; }
+    .regalo { grid-area: 1 / 3; }
+    .reservar { grid-area: 1 / 4; }
+    /* El renglón destacado es del menú del celular; en la barra ancha ya
+       está el botón. */
+    .li-regalo { display: none; }
 
     .menu nav {
       position: static;
@@ -227,6 +352,12 @@ const wa = await waLink("general");
   }
 
   /* --u para la raya de abajo (detalle, 3:1); --u-txt para la letra (4,5). */
+  /* Con lugar, el botón de gift card muestra el texto además del moño. */
+  @media (min-width: 1180px) {
+    .regalo { padding: 0 1.1rem 0 0.9rem; }
+    .regalo-texto { display: inline; }
+  }
+
   .u-restaurante { --u: var(--u-restaurante); --u-txt: var(--u-restaurante-txt); }
   .u-hotel { --u: var(--u-hotel); --u-txt: var(--u-hotel-txt); }
   .u-balneario { --u: var(--u-balneario); --u-txt: var(--u-balneario-txt); }

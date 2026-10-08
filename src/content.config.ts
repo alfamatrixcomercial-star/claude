@@ -265,8 +265,7 @@ const sitio = defineCollection({
       })
       .default({}),
     /**
-     * Gift card. La página existe en /giftcard pero no se enlaza desde
-     * ningún lado hasta que esté terminada, y lleva noindex.
+     * Gift card: la página /giftcard y las propuestas que se regalan.
      */
     giftcard: z
       .object({

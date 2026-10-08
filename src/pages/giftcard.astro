@@ -2,10 +2,8 @@
 /**
  * Gift card · /giftcard
  *
- * NO se enlaza desde ninguna sección: ni el menú, ni el pie, ni el cruce
- * entre unidades. Se llega escribiendo la dirección. Además lleva noindex y
- * queda fuera del sitemap, porque si no Google la encuentra igual aunque no
- * haya un solo enlace apuntándole.
+ * Pública: tiene su propio botón en la cabecera (Cabecera.astro), un
+ * renglón destacado en el menú del celular y un enlace en el pie.
  *
  * El pago todavía no se hace acá. El formulario valida, arma el pedido y
  * abre WhatsApp con todo escrito: quien atiende recibe los datos completos
@@ -44,7 +42,7 @@ const usos = (await getCollection("unidades"))
   .sort((a, b) => a.data.orden - b.data.orden);
 ---
 
-<Base titulo={g.titulo} descripcion={g.bajada} noindex>
+<Base titulo={g.titulo} descripcion={g.bajada}>
   <section class="portada banda-turquesa-hondo con-fondo portada-foto">
     <FondoFoto foto={g.foto} prioridad />
     <div class="interior sobre-foto">

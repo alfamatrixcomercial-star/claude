@@ -6,11 +6,10 @@ export default defineConfig({
   output: "static",
   integrations: [
     sitemap({
-      /* /giftcard existe pero no se publica, y /gestion es la herramienta
-         interna de gift cards: ninguna va al sitemap y las dos llevan
-         noindex. Sin esto Google las encuentra igual, aunque no haya un
-         solo enlace apuntándoles. */
-      filter: (pagina) => !pagina.includes("/giftcard") && !pagina.includes("/gestion"),
+      /* /gestion es la herramienta interna de gift cards: no va al sitemap
+         y lleva noindex. Sin esto Google la encuentra igual, aunque no haya
+         un solo enlace apuntándole. */
+      filter: (pagina) => !pagina.includes("/gestion"),
     }),
   ],
   build: { inlineStylesheets: "auto" },

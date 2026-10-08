@@ -72,8 +72,7 @@ verificacion:
   facebook: ""
 
 # ── Gift card ────────────────────────────────────────────────────────────
-# La página vive en /giftcard y NO se enlaza desde ninguna sección. Mientras
-# no esté terminada, nadie tiene que llegar por navegación.
+# La página vive en /giftcard, con botón propio en la cabecera.
 giftcard:
   titulo: Regalá una salida frente al mar
   bajada: >-
