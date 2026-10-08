@@ -2,7 +2,7 @@
 
 import { asset, cn } from "@/lib/utils";
 import { restaurant } from "@/data/menu";
-import { CrossIcon, FacebookSquareIcon, WhatsappSquareIcon } from "@/components/icons";
+import { CrossIcon, WhatsappSquareIcon } from "@/components/icons";
 import type { Strings } from "@/lib/i18n";
 import type { Lang } from "@/types/menu";
 
@@ -89,9 +89,6 @@ export function SideMenu({ open, lang, t, onClose, onHome, onSuggested, onLang }
               <p className="m-0 w-[200px] text-[13px] leading-[17.3px] text-brand-primary">{restaurant.phone}</p>
             </div>
             <div className="flex justify-center text-brand-primary">
-              <a href={asset(restaurant.facebookUrl)} target="_blank" rel="noreferrer" aria-label="Facebook" className="mx-[5px]">
-                <FacebookSquareIcon className="h-[25px] w-[22px]" />
-              </a>
               <a href={restaurant.whatsappUrl} target="_blank" rel="noreferrer" aria-label="WhatsApp" className="mx-[5px]">
                 <WhatsappSquareIcon className="h-[25px] w-[22px]" />
               </a>

@@ -8,6 +8,7 @@
   --color-brand-primary: var(--brand-primary);
   --color-brand-accent: var(--brand-accent);
   --color-brand-heading: var(--brand-heading);
+  --color-brand-line: var(--brand-line);
   --color-brand-title: var(--brand-title);
   --color-brand-pill: var(--brand-pill);
   --color-brand-surface: var(--brand-surface);
@@ -57,15 +58,17 @@
 }
 
 :root {
-  /* Brand palette — change these to restyle the whole menu. */
-  --brand-primary: #002e3c; /* icons, rings, nav text, dots */
-  --brand-accent: #fbb03b; /* suggested star, selected-category dot */
-  --brand-heading: rgb(162, 79, 29); /* subcategory titles and divider */
-  --brand-title: #201231; /* onboarding and suggested titles */
-  --brand-pill: rgb(48, 84, 94); /* active language button */
-  --brand-surface: #f2f2f2; /* footer and side-menu logo card */
-  --brand-product: #575756; /* product names */
-  --brand-muted: #808080; /* descriptions and prices */
+  /* Brand palette — change these to restyle the whole menu.
+     Values come from miradorwaikiki.com (src/styles/tokens.css). */
+  --brand-primary: #445b4d; /* icons, rings, nav text, dots — verde rótulo */
+  --brand-accent: #6e8f7a; /* suggested star, selected-category dot — verde de la app */
+  --brand-heading: #516d5c; /* subcategory titles — verde título */
+  --brand-line: #cab892; /* subcategory divider — arena */
+  --brand-title: #1f2d27; /* onboarding and suggested titles — casi negro */
+  --brand-pill: #516d5c; /* active language button, white text 5.69:1 */
+  --brand-surface: #dbd2b5; /* footer and side-menu logo card — crema */
+  --brand-product: #1f2d27; /* product names */
+  --brand-muted: #4f5d55; /* descriptions and prices — tinta suave */
   --background: #ffffff;
   --foreground: #002e3c;
   --card: #ffffff;

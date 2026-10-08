@@ -25,7 +25,6 @@ export interface Restaurant {
   logo: string;
   email: string;
   phone: string;
-  facebookUrl: string;
   whatsappUrl: string;
 }
 

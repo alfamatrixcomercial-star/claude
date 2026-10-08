@@ -3,11 +3,13 @@ import type { Category, Restaurant } from "@/types/menu";
 // Extracted from mimenulatech.com/miradorwaikiki (Firestore data, October 2026).
 export const restaurant: Restaurant = {
   slug: "miradorwaikiki",
-  logo: "https://mimenu.nyc3.digitaloceanspaces.com/Imagenes/Logo/miradorwaikiki/logoImage",
+  logo: "/images/brand/isologo.svg",
   email: "info@miradorwaikiki.com.ar",
   phone: "2236333330",
-  facebookUrl: "/menu",
-  whatsappUrl: "https://wa.me/",
+  // Same number and message as the restaurant button on miradorwaikiki.com.
+  whatsappUrl:
+    "https://wa.me/5492235466065?text=" +
+    encodeURIComponent("Hola! Quiero reservar una mesa en el restaurante de Mirador Waikiki."),
 };
 
 export const categories: Category[] = [

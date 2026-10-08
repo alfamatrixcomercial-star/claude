@@ -51,7 +51,7 @@ export function SubcategoryAccordion({
 
       <div className={cn("accordion-collapse grid", open ? "grid-rows-[1fr]" : "grid-rows-[0fr]")}>
         <div className="overflow-hidden">
-          <div className="mx-auto h-px w-[95vw] bg-brand-heading opacity-50" />
+          <div className="mx-auto h-px w-[95vw] bg-brand-line" />
           <ul className={cn("m-0 w-[95vw] list-none p-0", wide && "text-center")}>
             {subcategory.products.map((product, i) => (
               <ProductRow
