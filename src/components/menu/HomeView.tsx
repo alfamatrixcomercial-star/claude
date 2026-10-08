@@ -33,7 +33,7 @@ export function HomeView({ t, categories, onSelect, onOpenSuggested }: HomeViewP
 
   return (
     <div className="space-y-6">
-      <div id="secciones" className="scroll-mt-24">
+      <div>
         <h2 className="text-[30px] leading-tight font-semibold tracking-[-0.02em] text-mw-titulo">{t.title}</h2>
         <p className="mt-1 text-[15px] text-mw-tinta-suave">{t.intro}</p>
       </div>

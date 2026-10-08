@@ -1,5 +1,5 @@
 import { asset } from "@/lib/utils";
-import { ChevronDownIcon } from "@/components/icons";
+import { ChevronRightIcon } from "@/components/icons";
 import type { Strings } from "@/lib/i18n";
 
 const foto = (w: number) => asset(`/images/fotos/mirador-entrada-${w}.webp`);
@@ -7,7 +7,7 @@ const foto = (w: number) => asset(`/images/fotos/mirador-entrada-${w}.webp`);
 // Welcome photo of the Mirador with a short message. On phones the message
 // sits on a translucent crema plate over the photo, like the photo blocks on
 // miradorwaikiki.com; from 768px the portrait photo moves beside the text.
-export function Hero({ t }: { t: Strings }) {
+export function Hero({ t, onStart }: { t: Strings; onStart: () => void }) {
   return (
     <section className="relative md:mx-auto md:grid md:max-w-5xl md:grid-cols-[1fr_1.05fr] md:items-center md:gap-12 md:px-6 md:pt-12 md:pb-4">
       <div className="relative h-[68svh] max-h-[720px] min-h-[420px] overflow-hidden md:order-2 md:h-[560px] md:max-h-none md:min-h-0 md:rounded-3xl md:shadow-mw-3">
@@ -36,13 +36,14 @@ export function Hero({ t }: { t: Strings }) {
           <h1 className="mt-2 text-[28px] leading-[1.15] font-semibold tracking-[-0.02em] text-mw-tinta md:mt-4 md:text-[46px] md:leading-[1.08] md:tracking-[-0.03em] md:text-mw-titulo">
             {t.tagline}
           </h1>
-          <a
-            href="#secciones"
-            className="mt-4 inline-flex items-center gap-1.5 rounded-full bg-mw-accion px-5 py-2.5 text-[14px] font-medium text-white transition-colors hover:bg-mw-accion-hover md:mt-7"
+          <button
+            type="button"
+            onClick={onStart}
+            className="cta-dorado mt-4 flex h-14 w-full items-center justify-center gap-2 rounded-full text-[15px] font-semibold tracking-[0.14em] uppercase md:mt-7 md:inline-flex md:w-auto md:px-9"
           >
             {t.seeMenu}
-            <ChevronDownIcon className="h-4 w-4" />
-          </a>
+            <ChevronRightIcon className="h-5 w-5" strokeWidth={2} />
+          </button>
         </div>
       </div>
     </section>

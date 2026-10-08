@@ -99,11 +99,7 @@
   html {
     @apply font-sans;
   }
-  @media (prefers-reduced-motion: no-preference) {
-    html {
-      scroll-behavior: smooth;
-    }
-  }
+
   body {
     margin: 0;
     background: var(--mw-crema);
@@ -125,4 +121,42 @@
   &::-webkit-scrollbar {
     display: none;
   }
+}
+
+/* Gold call to action: same recipe as the gift card button on
+   miradorwaikiki.com — sand-gold gradient, dark ink (8:1) and a shine that
+   crosses it every few seconds. */
+.cta-dorado {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: linear-gradient(135deg, #e6d6aa 0%, #cab892 55%, #d9c591 100%);
+  border: 1px solid rgb(255 255 255 / 0.7);
+  box-shadow: 0 6px 18px rgb(140 112 60 / 0.35), inset 0 1px 0 rgb(255 255 255 / 0.6);
+  color: var(--mw-tinta);
+  transition: transform 0.25s var(--ease-mw), box-shadow 0.25s;
+}
+.cta-dorado::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(105deg, transparent 30%, rgb(255 255 255 / 0.75) 50%, transparent 70%);
+  transform: translateX(-120%);
+  animation: cta-brillo 4.5s ease-in-out 0.8s infinite;
+}
+.cta-dorado:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 24px rgb(140 112 60 / 0.4), inset 0 1px 0 rgb(255 255 255 / 0.6);
+}
+.cta-dorado:active {
+  transform: translateY(1px);
+}
+@keyframes cta-brillo {
+  0%, 55% { transform: translateX(-120%); }
+  75%, 100% { transform: translateX(120%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cta-dorado { transition: none; }
+  .cta-dorado::after { animation: none; }
 }

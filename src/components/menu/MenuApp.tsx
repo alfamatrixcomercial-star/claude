@@ -82,7 +82,7 @@ export function MenuApp() {
         onOpenFavorites={() => setFavoritesOpen(true)}
       />
 
-      {!category && <Hero t={t} />}
+      {!category && <Hero t={t} onStart={() => select(categories.findIndex((c) => c.featured))} />}
 
       <main className="mx-auto max-w-3xl px-4 pt-6">
         {category ? (
