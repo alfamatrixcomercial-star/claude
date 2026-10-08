@@ -2,7 +2,7 @@
 
 import { asset, cn } from "@/lib/utils";
 import { restaurant } from "@/data/menu";
-import { CrossIcon, WhatsappSquareIcon } from "@/components/icons";
+import { CloseIcon, HeartIcon, MenuIcon, StarIcon } from "@/components/icons";
 import type { Strings } from "@/lib/i18n";
 import type { Lang } from "@/types/menu";
 
@@ -10,112 +10,110 @@ interface SideMenuProps {
   open: boolean;
   lang: Lang;
   t: Strings;
+  favoritesCount: number;
   onClose: () => void;
   onHome: () => void;
   onSuggested: () => void;
+  onFavorites: () => void;
   onLang: (lang: Lang) => void;
 }
 
-function LanguageButton({
-  active,
-  flag,
-  label,
-  className,
-  onClick,
-}: {
-  active: boolean;
-  flag: string;
-  label: string;
-  className: string;
-  onClick: () => void;
-}) {
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      className={cn(
-        "absolute top-[21px] flex h-[38px] w-[140px] cursor-pointer items-center justify-center gap-[5px] rounded-[50px] border border-[#555] px-3 py-1.5 text-[12px] leading-[1.5] focus:shadow-[0_0_0_0.1rem_rgba(0,123,255,0.5)] min-[641px]:h-[34px] min-[641px]:w-[130px]",
-        active ? "z-[1] bg-brand-pill text-white" : "bg-white text-black",
-        className,
-      )}
-    >
-      <img src={asset(flag)} alt="" className="h-5 w-[30px]" />
-      <span className="my-3 flex items-center justify-center text-[12px] leading-[18px]">{label}</span>
-    </button>
-  );
-}
+const navItem =
+  "flex w-full items-center gap-3 rounded-xl px-3 py-3 text-left text-[15px] font-medium text-mw-tinta transition-colors hover:bg-mw-crema-clarito";
+const eyebrow = "px-3 text-[11px] font-semibold tracking-[0.2em] text-mw-rotulo uppercase";
 
-export function SideMenu({ open, lang, t, onClose, onHome, onSuggested, onLang }: SideMenuProps) {
+export function SideMenu({ open, lang, t, favoritesCount, onClose, onHome, onSuggested, onFavorites, onLang }: SideMenuProps) {
   return (
-    <>
+    <div className={cn("fixed inset-0 z-40 transition-[visibility] duration-[260ms]", open ? "visible" : "invisible")}>
       <div
         aria-hidden="true"
         onClick={onClose}
         className={cn(
-          "side-menu-overlay fixed inset-0 z-[1000] bg-black/30",
-          open ? "opacity-100" : "pointer-events-none opacity-0",
+          "absolute inset-0 bg-mw-tinta/40 transition-opacity duration-[260ms] ease-mw",
+          open ? "opacity-100" : "opacity-0",
         )}
       />
-      <div
+      <aside
         role="dialog"
-        aria-label="Menú"
-        aria-hidden={!open}
+        aria-modal="true"
+        aria-label={t.openMenu}
         className={cn(
-          "side-menu-panel fixed top-0 left-0 z-[1100] h-dvh w-full max-w-[310px] rounded-r-[20px] bg-white text-[15px]",
-          open ? "visible translate-x-0" : "invisible -translate-x-full",
+          "absolute inset-y-0 left-0 flex w-[300px] max-w-[85vw] flex-col overflow-y-auto rounded-r-3xl bg-white px-4 pt-4 pb-6 shadow-mw-3 transition-transform duration-[260ms] ease-mw",
+          open ? "translate-x-0" : "-translate-x-full",
         )}
       >
-        <button type="button" aria-label="Close Menu" onClick={onClose} className="fixed top-[15px] left-[15px] h-5 w-6 cursor-pointer">
-          <CrossIcon className="h-5 w-6 text-brand-primary" />
-        </button>
+        <div className="flex items-center justify-between">
+          <img src={asset(restaurant.logo)} alt={restaurant.name} className="ml-2 h-11 w-auto" />
+          <button
+            type="button"
+            aria-label={t.close}
+            onClick={onClose}
+            className="flex h-11 w-11 items-center justify-center rounded-full text-mw-rotulo hover:bg-mw-crema-clarito"
+          >
+            <CloseIcon className="h-6 w-6" />
+          </button>
+        </div>
 
-        <nav className="flex h-full flex-col items-center justify-between font-light">
-          <div className="mx-auto mt-[45px] flex flex-col items-center">
-            <button type="button" onClick={onHome} className="mt-[45px] flex w-[95px] cursor-pointer flex-col text-center">
-              <span className="mt-2.5 text-[15px] leading-[17.5px] font-bold text-brand-primary">{t.home}</span>
+        <nav className="mt-6 space-y-1">
+          <button type="button" onClick={onHome} className={navItem}>
+            <MenuIcon className="h-5 w-5 text-mw-verde" />
+            {t.allSections}
+          </button>
+          <button type="button" onClick={onSuggested} className={navItem}>
+            <StarIcon className="h-5 w-5 text-mw-verde" />
+            {t.suggested}
+          </button>
+          {favoritesCount > 0 && (
+            <button type="button" onClick={onFavorites} className={navItem}>
+              <HeartIcon className="h-5 w-5 text-mw-verde" />
+              {t.favorites} ({favoritesCount})
             </button>
-            <button type="button" onClick={onSuggested} className="mt-[45px] flex w-[95px] cursor-pointer flex-col text-center">
-              <span className="mt-2.5 text-[15px] leading-[17.5px] font-bold text-brand-primary">{t.suggested}</span>
-            </button>
-          </div>
-
-          <div className="flex w-full flex-col items-center">
-            <img src={asset("/images/ui/thx.svg")} alt="Gracias por visitarnos" className="mb-5 h-[50px]" />
-          </div>
-
-          <div className="flex h-[262px] w-full flex-col items-center text-center">
-            <div className="my-5 flex flex-col items-center text-[13px] font-medium">
-              <p className="m-0 w-[200px] text-[13px] leading-[17.3px] text-brand-primary">{restaurant.email}</p>
-              <p className="m-0 w-[200px] text-[13px] leading-[17.3px] text-brand-primary">{restaurant.phone}</p>
-            </div>
-            <div className="flex justify-center text-brand-primary">
-              <a href={restaurant.whatsappUrl} target="_blank" rel="noreferrer" aria-label="WhatsApp" className="mx-[5px]">
-                <WhatsappSquareIcon className="h-[25px] w-[22px]" />
-              </a>
-            </div>
-            <div className="relative flex h-[160px] w-full items-start justify-center">
-              <LanguageButton
-                active={lang === "es"}
-                flag="/images/ui/flag-es.svg"
-                label={t.spanish}
-                className="left-7 min-[641px]:left-[35px]"
-                onClick={() => onLang("es")}
-              />
-              <LanguageButton
-                active={lang === "en"}
-                flag="/images/ui/flag-en.svg"
-                label={t.english}
-                className="right-7 min-[641px]:right-[35px]"
-                onClick={() => onLang("en")}
-              />
-            </div>
-          </div>
+          )}
         </nav>
 
-        <div className="fixed bottom-0 left-3 flex w-[285px] items-center justify-center rounded-tl-[20px] rounded-br-[20px] bg-brand-surface p-5">
-          <img src={asset(restaurant.logo)} alt="Mirador Waikiki" className="mx-auto h-[40px] w-auto object-contain" />
+        <a
+          href={restaurant.whatsappUrl}
+          target="_blank"
+          rel="noreferrer"
+          className="mt-6 flex h-11 items-center justify-center rounded-full bg-mw-accion text-[14px] font-medium text-white transition-colors hover:bg-mw-accion-hover"
+        >
+          {t.reserve}
+        </a>
+
+        <div className="mt-8 space-y-2">
+          <h2 className={eyebrow}>{t.contact}</h2>
+          <a href={`mailto:${restaurant.email}`} className="block px-3 text-[14px] text-mw-tinta hover:text-mw-rotulo">
+            {restaurant.email}
+          </a>
+          <a href={restaurant.phoneHref} className="block px-3 text-[14px] text-mw-tinta hover:text-mw-rotulo">
+            {restaurant.phone}
+          </a>
         </div>
-      </div>
-    </>
+
+        <div className="mt-8 space-y-2">
+          <h2 className={eyebrow}>{t.language}</h2>
+          <div className="mx-3 grid grid-cols-2 rounded-full border border-mw-arena p-1">
+            {(["es", "en"] as const).map((code) => (
+              <button
+                key={code}
+                type="button"
+                aria-pressed={lang === code}
+                onClick={() => onLang(code)}
+                className={cn(
+                  "h-9 rounded-full text-[13px] font-medium transition-colors",
+                  lang === code ? "bg-mw-accion text-white" : "text-mw-tinta hover:bg-mw-crema-clarito",
+                )}
+              >
+                {code === "es" ? "Español" : "English"}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <a href={restaurant.website} className="mt-auto px-3 pt-8 text-[13px] font-medium text-mw-rotulo hover:text-mw-tinta">
+          {t.backToSite}
+        </a>
+      </aside>
+    </div>
   );
 }

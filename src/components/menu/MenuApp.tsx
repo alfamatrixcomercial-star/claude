@@ -1,13 +1,12 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { categories, suggestedProductIds } from "@/data/menu";
 import { strings } from "@/lib/i18n";
-import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { usePersistentState } from "@/hooks/usePersistentState";
-import { TopBar } from "@/components/menu/TopBar";
-import { RestaurantInfo } from "@/components/menu/RestaurantInfo";
-import { SubcategoryAccordion } from "@/components/menu/SubcategoryAccordion";
+import { Header } from "@/components/menu/Header";
+import { HomeView } from "@/components/menu/HomeView";
+import { CategoryView } from "@/components/menu/CategoryView";
 import { SideMenu } from "@/components/menu/SideMenu";
 import { SuggestedDialog } from "@/components/menu/SuggestedDialog";
 import { FavoritesDialog } from "@/components/menu/FavoritesDialog";
@@ -24,15 +23,39 @@ export function MenuApp() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [suggestedOpen, setSuggestedOpen] = useState(false);
   const [favoritesOpen, setFavoritesOpen] = useState(false);
-  const [lang, setLang] = usePersistentState<Lang>("subsidiaryLanguage", "es");
-  const [favorites, setFavorites] = usePersistentState<string[]>("favorites miradorwaikiki", []);
-  const wide = useMediaQuery("(min-width: 640px)");
+  const [lang, setLang] = usePersistentState<Lang>("mw-carta-idioma", "es");
+  const [favorites, setFavorites] = usePersistentState<string[]>("mw-carta-favoritos", []);
   const t = strings[lang];
 
-  const favoriteProducts = useMemo(
-    () => favorites.flatMap((id) => productsById.get(id) ?? []),
-    [favorites],
-  );
+  const favoriteProducts = useMemo(() => favorites.flatMap((id) => productsById.get(id) ?? []), [favorites]);
+  const overlayOpen = menuOpen || suggestedOpen || favoritesOpen;
+
+  useEffect(() => {
+    document.documentElement.lang = lang;
+  }, [lang]);
+
+  useEffect(() => {
+    if (!overlayOpen) return;
+    const closeAll = (e: KeyboardEvent) => {
+      if (e.key !== "Escape") return;
+      setMenuOpen(false);
+      setSuggestedOpen(false);
+      setFavoritesOpen(false);
+    };
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", closeAll);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", closeAll);
+    };
+  }, [overlayOpen]);
+
+  const select = (index: number | null) => {
+    setSelected(index);
+    setMenuOpen(false);
+    window.scrollTo(0, 0);
+  };
 
   const toggleFavorite = (id: string) =>
     setFavorites((prev) => (prev.includes(id) ? prev.filter((f) => f !== id) : [...prev, id]));
@@ -43,66 +66,63 @@ export function MenuApp() {
     if (next.length === 0) setFavoritesOpen(false);
   };
 
-  const selectCategory = (index: number) => {
-    setSelected(index);
-    window.scrollTo(0, 0);
-  };
-
   const category = selected === null ? null : categories[selected];
 
   return (
-    <div className="relative grid min-h-dvh w-full grid-rows-[auto_auto_70px] text-[13px] leading-[18.59px] text-brand-muted">
-      <TopBar
+    <>
+      <Header
+        t={t}
         categories={categories}
         selected={selected}
-        hasFavorites={favorites.length > 0}
-        onSelect={selectCategory}
+        favoritesCount={favorites.length}
+        onSelect={select}
         onOpenMenu={() => setMenuOpen(true)}
         onOpenSuggested={() => setSuggestedOpen(true)}
         onOpenFavorites={() => setFavoritesOpen(true)}
       />
 
-      {category ? (
-        <div key={category.name} className="flex w-full flex-col items-center justify-start min-[640px]:text-center">
-          {category.subcategories.map((subcategory) => (
-            <SubcategoryAccordion
-              key={subcategory.name}
-              subcategory={subcategory}
-              defaultOpen={category.subcategories.length === 1}
-              wide={wide}
-              favorites={favorites}
-              onToggleFavorite={toggleFavorite}
-            />
-          ))}
-        </div>
-      ) : (
-        <RestaurantInfo cardsText={t.cards} />
-      )}
+      <main className="mx-auto max-w-3xl px-4 pt-6">
+        {category ? (
+          <CategoryView
+            key={category.name}
+            t={t}
+            category={category}
+            favorites={favorites}
+            onToggleFavorite={toggleFavorite}
+            onBack={() => select(null)}
+          />
+        ) : (
+          <HomeView t={t} categories={categories} onSelect={select} onOpenSuggested={() => setSuggestedOpen(true)} />
+        )}
+      </main>
 
-      <Footer />
+      <Footer t={t} />
 
       <SideMenu
         open={menuOpen}
         lang={lang}
         t={t}
+        favoritesCount={favorites.length}
         onClose={() => setMenuOpen(false)}
-        onHome={() => {
-          setSelected(null);
-          setMenuOpen(false);
-        }}
+        onHome={() => select(null)}
         onSuggested={() => {
           setMenuOpen(false);
           setSuggestedOpen(true);
         }}
+        onFavorites={() => {
+          setMenuOpen(false);
+          setFavoritesOpen(true);
+        }}
         onLang={setLang}
       />
-      <SuggestedDialog open={suggestedOpen} products={suggestedProducts} onClose={() => setSuggestedOpen(false)} />
+      <SuggestedDialog open={suggestedOpen} t={t} products={suggestedProducts} onClose={() => setSuggestedOpen(false)} />
       <FavoritesDialog
         open={favoritesOpen}
+        t={t}
         products={favoriteProducts}
         onClose={() => setFavoritesOpen(false)}
         onRemove={removeFavorite}
       />
-    </div>
+    </>
   );
 }

@@ -1,0 +1,92 @@
+"use client";
+
+import { asset, cn } from "@/lib/utils";
+import { restaurant } from "@/data/menu";
+import { CategoryGlyph, HeartIcon, MenuIcon, StarIcon } from "@/components/icons";
+import type { Strings } from "@/lib/i18n";
+import type { Category } from "@/types/menu";
+
+interface HeaderProps {
+  t: Strings;
+  categories: Category[];
+  selected: number | null;
+  favoritesCount: number;
+  onSelect: (index: number | null) => void;
+  onOpenMenu: () => void;
+  onOpenSuggested: () => void;
+  onOpenFavorites: () => void;
+}
+
+const iconButton =
+  "flex h-11 w-11 items-center justify-center rounded-full text-mw-rotulo transition-colors hover:bg-mw-crema-clarito";
+
+export function Header({
+  t,
+  categories,
+  selected,
+  favoritesCount,
+  onSelect,
+  onOpenMenu,
+  onOpenSuggested,
+  onOpenFavorites,
+}: HeaderProps) {
+  return (
+    <header className="sticky top-0 z-30 border-b border-mw-arena bg-white/95 backdrop-blur">
+      <div className="mx-auto grid h-16 max-w-3xl grid-cols-[88px_1fr_88px] items-center px-2">
+        <button type="button" aria-label={t.openMenu} onClick={onOpenMenu} className={iconButton}>
+          <MenuIcon className="h-6 w-6" />
+        </button>
+        <button type="button" onClick={() => onSelect(null)} className="justify-self-center" aria-label={t.title}>
+          <img src={asset(restaurant.logo)} alt={restaurant.name} className="h-11 w-auto" />
+        </button>
+        <div className="flex justify-end">
+          {favoritesCount > 0 && (
+            <button type="button" aria-label={t.favorites} onClick={onOpenFavorites} className={cn(iconButton, "relative")}>
+              <HeartIcon filled className="h-6 w-6 text-mw-verde" />
+              <span className="absolute top-1.5 right-1 min-w-4 rounded-full bg-mw-accion px-1 text-[10px] leading-4 font-semibold text-white">
+                {favoritesCount}
+              </span>
+            </button>
+          )}
+          <button type="button" aria-label={t.suggested} onClick={onOpenSuggested} className={iconButton}>
+            <StarIcon className="h-6 w-6" />
+          </button>
+        </div>
+      </div>
+
+      <nav aria-label={t.allSections} className="no-scrollbar flex gap-2 overflow-x-auto px-3 pt-1 pb-3 md:justify-center">
+        {categories.map((category, i) => {
+          const active = i === selected;
+          return (
+            <button
+              key={category.name}
+              type="button"
+              aria-current={active ? "page" : undefined}
+              onClick={() => onSelect(i)}
+              className="flex w-[74px] shrink-0 flex-col items-center gap-1.5"
+            >
+              <span
+                className={cn(
+                  "flex h-14 w-14 items-center justify-center rounded-2xl border transition-colors duration-[260ms] ease-mw",
+                  active
+                    ? "border-mw-accion bg-mw-accion text-white"
+                    : "border-mw-arena bg-white text-mw-titulo hover:border-mw-verde",
+                )}
+              >
+                <CategoryGlyph icon={category.icon} className="h-7 w-7" />
+              </span>
+              <span
+                className={cn(
+                  "text-center text-[11.5px] leading-tight",
+                  active ? "font-semibold text-mw-rotulo" : "text-mw-tinta-suave",
+                )}
+              >
+                {category.name}
+              </span>
+            </button>
+          );
+        })}
+      </nav>
+    </header>
+  );
+}

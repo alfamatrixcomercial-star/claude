@@ -1,14 +1,30 @@
 import { asset } from "@/lib/utils";
 import { restaurant } from "@/data/menu";
+import { ArrowLeftIcon } from "@/components/icons";
+import type { Strings } from "@/lib/i18n";
 
-export function Footer() {
+export function Footer({ t }: { t: Strings }) {
   return (
-    <div className="row-start-3">
-      <footer className="fixed bottom-0 z-[999] w-full p-0">
-        <div className="flex h-[70px] items-center justify-center rounded-t-[20px] bg-brand-surface">
-          <img src={asset(restaurant.logo)} alt="Mirador Waikiki" className="h-[40px] w-auto object-contain" />
-        </div>
-      </footer>
-    </div>
+    <footer className="mt-12 border-t border-mw-arena bg-mw-crema/60">
+      <div className="mx-auto flex max-w-3xl flex-col items-center gap-4 px-4 py-10 text-center">
+        <img src={asset(restaurant.logo)} alt={restaurant.name} className="h-14 w-auto" />
+        <p className="text-[13px] text-mw-tinta-suave">{restaurant.city}</p>
+        <a
+          href={restaurant.whatsappUrl}
+          target="_blank"
+          rel="noreferrer"
+          className="rounded-full bg-mw-accion px-5 py-2.5 text-[14px] font-medium text-white transition-colors hover:bg-mw-accion-hover"
+        >
+          {t.reserve}
+        </a>
+        <a
+          href={restaurant.website}
+          className="flex items-center gap-1.5 text-[13px] font-medium text-mw-rotulo hover:text-mw-tinta"
+        >
+          <ArrowLeftIcon className="h-4 w-4" />
+          {t.backToSite}
+        </a>
+      </div>
+    </footer>
   );
 }

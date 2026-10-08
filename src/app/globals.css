@@ -5,172 +5,116 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  --color-brand-primary: var(--brand-primary);
-  --color-brand-accent: var(--brand-accent);
-  --color-brand-heading: var(--brand-heading);
-  --color-brand-line: var(--brand-line);
-  --color-brand-title: var(--brand-title);
-  --color-brand-pill: var(--brand-pill);
-  --color-brand-surface: var(--brand-surface);
-  --color-brand-product: var(--brand-product);
-  --color-brand-muted: var(--brand-muted);
+  /* Mirador Waikiki palette — classes like bg-mw-crema, text-mw-tinta. */
+  --color-mw-crema: var(--mw-crema);
+  --color-mw-crema-clarito: var(--mw-crema-clarito);
+  --color-mw-arena: var(--mw-arena);
+  --color-mw-arena-fuerte: var(--mw-arena-fuerte);
+  --color-mw-verde: var(--mw-verde);
+  --color-mw-tinta: var(--mw-tinta);
+  --color-mw-tinta-suave: var(--mw-tinta-suave);
+  --color-mw-rotulo: var(--mw-rotulo);
+  --color-mw-titulo: var(--mw-titulo);
+  --color-mw-accion: var(--mw-accion);
+  --color-mw-accion-hover: var(--mw-accion-hover);
+  --color-mw-foco: var(--mw-foco);
+
+  --font-sans: var(--font-poppins), "Poppins", system-ui, sans-serif;
+  --font-display: var(--font-bodoni), "Bodoni Moda", Georgia, serif;
+  --font-mono: ui-monospace, monospace;
+
+  --ease-mw: cubic-bezier(0.32, 0.72, 0, 1);
+  --shadow-mw-1: 0 1px 2px rgb(92 76 44 / 0.12);
+  --shadow-mw-3: 0 4px 8px rgb(92 76 44 / 0.1), 0 18px 40px rgb(92 76 44 / 0.16);
+
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-montserrat), "Montserrat", sans-serif;
-  --font-mono: ui-monospace, monospace;
-  --font-heading: var(--font-sans);
-  --color-sidebar-ring: var(--sidebar-ring);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar: var(--sidebar);
-  --color-chart-5: var(--chart-5);
-  --color-chart-4: var(--chart-4);
-  --color-chart-3: var(--chart-3);
-  --color-chart-2: var(--chart-2);
-  --color-chart-1: var(--chart-1);
-  --color-ring: var(--ring);
-  --color-input: var(--input);
-  --color-border: var(--border);
-  --color-destructive: var(--destructive);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-accent: var(--accent);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-muted: var(--muted);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-secondary: var(--secondary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-primary: var(--primary);
-  --color-popover-foreground: var(--popover-foreground);
-  --color-popover: var(--popover);
-  --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
   --radius-sm: calc(var(--radius) * 0.6);
   --radius-md: calc(var(--radius) * 0.8);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) * 1.4);
-  --radius-2xl: calc(var(--radius) * 1.8);
-  --radius-3xl: calc(var(--radius) * 2.2);
-  --radius-4xl: calc(var(--radius) * 2.6);
 }
 
 :root {
-  /* Brand palette — change these to restyle the whole menu.
-     Values come from miradorwaikiki.com (src/styles/tokens.css). */
-  --brand-primary: #445b4d; /* icons, rings, nav text, dots — verde rótulo */
-  --brand-accent: #6e8f7a; /* suggested star, selected-category dot — verde de la app */
-  --brand-heading: #516d5c; /* subcategory titles — verde título */
-  --brand-line: #cab892; /* subcategory divider — arena */
-  --brand-title: #1f2d27; /* onboarding and suggested titles — casi negro */
-  --brand-pill: #516d5c; /* active language button, white text 5.69:1 */
-  --brand-surface: #dbd2b5; /* footer and side-menu logo card — crema */
-  --brand-product: #1f2d27; /* product names */
-  --brand-muted: #4f5d55; /* descriptions and prices — tinta suave */
-  --background: #ffffff;
-  --foreground: #002e3c;
-  --card: #ffffff;
-  --card-foreground: #002e3c;
-  --popover: #ffffff;
-  --popover-foreground: #002e3c;
-  --primary: #002e3c;
-  --primary-foreground: #ffffff;
-  --secondary: #f2f2f2;
-  --secondary-foreground: #002e3c;
-  --muted: #f2f2f2;
-  --muted-foreground: #808080;
-  --accent: #30545e;
-  --accent-foreground: #ffffff;
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: #555555;
-  --input: #555555;
-  --ring: rgba(0, 123, 255, 0.5);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-  --radius: 0.625rem;
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
-}
+  /* Same values as miradorwaikiki.com (src/styles/tokens.css).
+     Change them here to restyle the whole menu. */
+  --mw-crema: #dbd2b5;
+  --mw-crema-clarito: #f8f5f0; /* page background */
+  --mw-arena: #cab892; /* borders and lines */
+  --mw-arena-fuerte: #a8956b;
+  --mw-verde: #6e8f7a; /* icons and details */
+  --mw-tinta: #1f2d27; /* main text */
+  --mw-tinta-suave: #4f5d55; /* secondary text, 4.6:1 on crema */
+  --mw-rotulo: #445b4d; /* small labels and prices */
+  --mw-titulo: #516d5c; /* titles */
+  --mw-accion: #516d5c; /* buttons, white text 5.7:1 */
+  --mw-accion-hover: #465f50;
+  --mw-foco: #3d6b52;
 
-.dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+  --background: var(--mw-crema-clarito);
+  --foreground: var(--mw-tinta);
+  --card: #ffffff;
+  --card-foreground: var(--mw-tinta);
+  --popover: #ffffff;
+  --popover-foreground: var(--mw-tinta);
+  --primary: var(--mw-accion);
+  --primary-foreground: #ffffff;
+  --secondary: var(--mw-crema-clarito);
+  --secondary-foreground: var(--mw-tinta);
+  --muted: var(--mw-crema-clarito);
+  --muted-foreground: var(--mw-tinta-suave);
+  --accent: var(--mw-verde);
+  --accent-foreground: #ffffff;
+  --destructive: #b3322b;
+  --border: var(--mw-arena);
+  --input: var(--mw-arena);
+  --ring: var(--mw-foco);
+  --radius: 0.625rem;
+  color-scheme: light;
 }
 
 @layer base {
   * {
-    @apply border-border outline-ring/50;
-  }
-  body {
-    margin: 0;
-    background: #ffffff;
-    color: #000000;
-    font-family: var(--font-montserrat), "Montserrat", sans-serif;
-    line-height: 1.15;
-  }
-  button {
-    font: inherit;
+    @apply border-border;
   }
   html {
     @apply font-sans;
   }
+  body {
+    margin: 0;
+    background: var(--mw-crema-clarito);
+    color: var(--mw-tinta);
+    -webkit-font-smoothing: antialiased;
+  }
+  button {
+    font: inherit;
+    cursor: pointer;
+  }
+  :focus-visible {
+    outline: 2px solid var(--mw-foco);
+    outline-offset: 2px;
+  }
 }
-/* Burger side menu (react-burger-menu "slide" timings from the original). */
-.side-menu-panel {
-  transition: transform 0.5s, visibility 0.5s;
-}
-.side-menu-overlay {
-  transition: opacity 0.3s;
-}
-/* MUI Collapse timing measured on the original accordions. */
-.accordion-collapse {
-  transition: grid-template-rows 0.567s cubic-bezier(0.4, 0, 0.2, 1);
-}
-/* MUI Dialog fade. */
-.dialog-fade {
-  transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1), visibility 225ms;
-}
-/* react-responsive-carousel slide transition. */
-.carousel-track {
-  transition: transform 350ms ease-in-out;
+
+@utility no-scrollbar {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }

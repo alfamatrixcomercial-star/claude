@@ -1,97 +1,108 @@
-import type { SVGProps } from "react";
+import type { ReactNode, SVGProps } from "react";
+import type { CategoryIcon } from "@/types/menu";
 
 type IconProps = SVGProps<SVGSVGElement>;
 
-// MUI ExpandMore — accordion chevron.
-export function ExpandMoreIcon(props: IconProps) {
+// Line icons drawn for Mirador Waikiki: 24×24 grid, 1.6 stroke, round caps.
+function Line({ children, ...props }: IconProps) {
   return (
-    <svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor" {...props}>
-      <path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z" />
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={1.6}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+      {...props}
+    >
+      {children}
     </svg>
   );
 }
 
-// MUI Close — favorites dialog.
-export function CloseIcon(props: IconProps) {
-  return (
-    <svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor" {...props}>
-      <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" />
-    </svg>
-  );
-}
+export const MenuIcon = (p: IconProps) => (
+  <Line {...p}>
+    <path d="M4 7h16M4 12h16M4 17h16" />
+  </Line>
+);
 
-// MUI DeleteForever — remove a favorite.
-export function DeleteForeverIcon(props: IconProps) {
-  return (
-    <svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor" {...props}>
-      <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zm2.46-7.12l1.41-1.41L12 12.59l2.12-2.12 1.41 1.41L13.41 14l2.12 2.12-1.41 1.41L12 15.41l-2.12 2.12-1.41-1.41L10.59 14l-2.13-2.12zM15.5 4l-1-1h-5l-1 1H5v2h14V4z" />
-    </svg>
-  );
-}
+export const CloseIcon = (p: IconProps) => (
+  <Line {...p}>
+    <path d="M6 6l12 12M18 6L6 18" />
+  </Line>
+);
 
-// Font Awesome whatsapp-square (side menu).
-export function WhatsappSquareIcon(props: IconProps) {
-  return (
-    <svg viewBox="0 0 448 512" aria-hidden="true" fill="currentColor" {...props}>
-      <path d="M224 122.8c-72.7 0-131.8 59.1-131.9 131.8 0 24.9 7 49.2 20.2 70.1l3.1 5-13.3 48.6 49.9-13.1 4.8 2.9c20.2 12 43.4 18.4 67.1 18.4h.1c72.6 0 133.3-59.1 133.3-131.8 0-35.2-15.2-68.3-40.1-93.2-25-25-58-38.7-93.2-38.7zm77.5 188.4c-3.3 9.3-19.1 17.7-26.7 18.8-12.6 1.9-22.4.9-47.5-9.9-39.7-17.2-65.7-57.2-67.7-59.8-2-2.6-16.2-21.5-16.2-41s10.2-29.1 13.9-33.1c3.6-4 7.9-5 10.6-5 2.6 0 5.3 0 7.6.1 2.4.1 5.7-.9 8.9 6.8 3.3 7.9 11.2 27.4 12.2 29.4s1.7 4.3.3 6.9c-7.6 15.2-15.7 14.6-11.6 21.6 15.3 26.3 30.6 35.4 53.9 47.1 4 2 6.3 1.7 8.6-1 2.3-2.6 9.9-11.6 12.5-15.5 2.6-4 5.3-3.3 8.9-2 3.6 1.3 23.1 10.9 27.1 12.9s6.6 3 7.6 4.6c.9 1.9.9 9.9-2.4 19.1zM400 32H48C21.5 32 0 53.5 0 80v352c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V80c0-26.5-21.5-48-48-48zM223.9 413.2c-26.6 0-52.7-6.7-75.8-19.3L64 416l22.5-82.2c-13.9-24-21.2-51.3-21.2-79.3C65.4 167.1 136.5 96 223.9 96c42.4 0 82.2 16.5 112.2 46.5 29.9 30 47.9 69.8 47.9 112.2 0 87.4-72.7 158.5-160.1 158.5z" />
-    </svg>
-  );
-}
+export const ChevronDownIcon = (p: IconProps) => (
+  <Line {...p}>
+    <path d="M6 9l6 6 6-6" />
+  </Line>
+);
 
-// Brand icons drawn with currentColor so they follow the palette in globals.css.
+export const ChevronLeftIcon = (p: IconProps) => (
+  <Line {...p}>
+    <path d="M15 6l-6 6 6 6" />
+  </Line>
+);
 
-export function CrossIcon(props: IconProps) {
-  return (
-    <svg viewBox="0 0 41.5 41.51" aria-hidden="true" fill="currentColor" {...props}>
-      <path d="M24.91,20.75,40.64,5A2.94,2.94,0,1,0,36.48.86L20.75,16.6,5,.86A2.94,2.94,0,0,0,.86,5L16.59,20.75.86,36.49A2.94,2.94,0,0,0,5,40.65L20.75,24.91,36.48,40.65a2.94,2.94,0,1,0,4.16-4.16Z" />
-    </svg>
-  );
-}
+export const ChevronRightIcon = (p: IconProps) => (
+  <Line {...p}>
+    <path d="M9 6l6 6-6 6" />
+  </Line>
+);
 
-export function HamburgerIcon(props: IconProps) {
-  return (
-    <svg viewBox="0 0 49.79 31.02" aria-hidden="true" fill="currentColor" {...props}>
-      <rect width="49.79" height="3.83" rx="1.92" />
-      <rect y="13.6" width="41.63" height="3.83" rx="1.92" />
-      <rect y="27.19" width="49.79" height="3.83" rx="1.92" />
-    </svg>
-  );
-}
+export const ArrowLeftIcon = (p: IconProps) => (
+  <Line {...p}>
+    <path d="M19 12H5M11 6l-6 6 6 6" />
+  </Line>
+);
 
 const starPath =
-  "M27.72,2.92l5.42,11a2.55,2.55,0,0,0,1.92,1.39l12.12,1.76a2.55,2.55,0,0,1,1.41,4.35L39.82,30a2.54,2.54,0,0,0-.73,2.25l2.07,12.08A2.55,2.55,0,0,1,37.46,47l-10.84-5.7a2.55,2.55,0,0,0-2.37,0L13.4,47a2.54,2.54,0,0,1-3.69-2.68l2.07-12.08A2.55,2.55,0,0,0,11,30L2.27,21.41a2.55,2.55,0,0,1,1.41-4.35L15.81,15.3a2.56,2.56,0,0,0,1.92-1.39l5.42-11A2.55,2.55,0,0,1,27.72,2.92Z";
+  "M12 3.4L14.29 9.44 20.75 9.76 15.71 13.81 17.41 20.04 12 16.5 6.59 20.04 8.29 13.81 3.25 9.76 9.71 9.44Z";
 
-export function StarOutlineIcon(props: IconProps) {
-  return (
-    <svg viewBox="0 0 50.86 48.77" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth={3} {...props}>
-      <path d={starPath} />
-    </svg>
-  );
-}
+export const StarIcon = ({ filled = false, ...p }: IconProps & { filled?: boolean }) => (
+  <Line {...p} fill={filled ? "currentColor" : "none"}>
+    <path d={starPath} />
+  </Line>
+);
 
-export function StarFilledIcon(props: IconProps) {
-  return (
-    <svg viewBox="0 0 50.86 48.77" aria-hidden="true" fill="currentColor" {...props}>
-      <path d={starPath} />
-    </svg>
-  );
-}
+const heartPath = "M12 20C8 17.5 4 14.5 4 10.25A4.2 4.2 0 0 1 12 8 4.2 4.2 0 0 1 20 10.25C20 14.5 16 17.5 12 20Z";
 
-// MUI Favorite — top-bar favorites button.
-export function HeartSolidIcon(props: IconProps) {
-  return (
-    <svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor" {...props}>
-      <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
-    </svg>
-  );
-}
+export const HeartIcon = ({ filled = false, ...p }: IconProps & { filled?: boolean }) => (
+  <Line {...p} fill={filled ? "currentColor" : "none"}>
+    <path d={heartPath} />
+  </Line>
+);
 
-// Category ring; the selected state adds the accent dot on top.
-export function CategoryRing({ selected, ...props }: IconProps & { selected: boolean }) {
-  return (
-    <svg viewBox="0 0 118 125" aria-hidden="true" fill="none" {...props}>
-      <circle cx="59" cy="66" r="57.5" stroke="var(--brand-primary)" strokeWidth={2.99} />
-      {selected && <circle cx="59.5" cy="9.8" r="9.3" fill="var(--brand-accent)" stroke="var(--brand-primary)" />}
-    </svg>
-  );
-}
+export const TrashIcon = (p: IconProps) => (
+  <Line {...p}>
+    <path d="M4 7h16M9 7V4.5h6V7M6 7l1 13h10l1-13M10 11v5.5M14 11v5.5" />
+  </Line>
+);
+
+const categoryPaths: Record<CategoryIcon, ReactNode> = {
+  ejecutivo: <path d="M5 3v4a2 2 0 0 0 4 0V3M7 3v18M17 21V3c-1.7 1.5-2.5 4.5-2.5 8.5H17" />,
+  cafe: (
+    <path d="M4 9h12v4a6 6 0 0 1-12 0V9zM16 10h1.5a2.5 2.5 0 0 1 0 5H16M3 21h16M8 3c-.8 1 .8 2 0 3M12 3c-.8 1 .8 2 0 3" />
+  ),
+  pasteleria: (
+    <path d="M4 11h16v9H4zM4 15c2.7 1.3 5.3 1.3 8 0s5.3-1.3 8 0M2 20h20M12 11V8M12 5.6c-.9-.8-.9-1.8 0-2.6.9.8.9 1.8 0 2.6z" />
+  ),
+  entradas: (
+    <path d="M3 12h18a9 9 0 0 1-18 0zM9.5 9.5c0-2.4 1.6-4 4-4 0 2.4-1.6 4-4 4zM9.5 9.5l2-2M15.5 9.5c.4-1.5 1.7-2.5 3.5-2.5" />
+  ),
+  platos: <path d="M2.5 19h19M4.5 19a7.5 7.5 0 0 1 15 0M12 11.5V10M10.5 9.2a1.5 1.5 0 1 0 3 0 1.5 1.5 0 0 0-3 0z" />,
+  infantil: (
+    <path d="M12 3a5 5 0 0 1 5 5c0 3.2-2.6 5.8-5 6.8C9.6 13.8 7 11.2 7 8a5 5 0 0 1 5-5zM11 15.3h2M12 15.3c-1.2 2 1.2 3.2 0 5.7" />
+  ),
+  postres: <path d="M7 10a5 5 0 0 1 10 0M6 10h12M7.2 10L12 21l4.8-11M9.5 13.5l4.2 2.6M10.7 17l3-1.9" />,
+  bebidas: <path d="M6 7h12l-1.5 13h-9zM6.6 12h10.8M13 7l2.4-4.5H18" />,
+  cocktails: <path d="M4 4h16l-8 9zM12 13v7M8 20.5h8M8.6 7.6l3.4-.1M10.3 7.5a1.2 1.2 0 1 0 0 .1" />,
+  bodega: (
+    <path d="M8.5 2.5h2V6c0 1 2 1.6 2 3.5V21h-6V9.5c0-1.9 2-2.5 2-3.5zM6.5 13h6M15 9h5c0 3-1.1 4.5-2.5 4.5S15 12 15 9zM17.5 13.5V20.5M15.5 20.5h4" />
+  ),
+};
+
+export const CategoryGlyph = ({ icon, ...p }: IconProps & { icon: CategoryIcon }) => (
+  <Line {...p}>{categoryPaths[icon]}</Line>
+);

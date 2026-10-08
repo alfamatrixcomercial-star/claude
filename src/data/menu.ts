@@ -1,21 +1,24 @@
 import type { Category, Restaurant } from "@/types/menu";
 
-// Extracted from mimenulatech.com/miradorwaikiki (Firestore data, October 2026).
 export const restaurant: Restaurant = {
-  slug: "miradorwaikiki",
+  name: "Mirador Waikiki",
+  city: "Mar del Plata",
   logo: "/images/brand/isologo.svg",
+  website: "https://miradorwaikiki.com",
   email: "info@miradorwaikiki.com.ar",
-  phone: "2236333330",
-  // Same number and message as the restaurant button on miradorwaikiki.com.
+  // Restaurant line, same as the WhatsApp buttons on miradorwaikiki.com.
+  phone: "223 546-6065",
+  phoneHref: "tel:+542235466065",
   whatsappUrl:
     "https://wa.me/5492235466065?text=" +
     encodeURIComponent("Hola! Quiero reservar una mesa en el restaurante de Mirador Waikiki."),
+  paymentMethods: ["Visa", "Mastercard", "American Express", "Mercado Pago"],
 };
 
 export const categories: Category[] = [
   {
     "name": "Menu Ejecutivo",
-    "icon": "/images/categories/generico.png",
+    "icon": "ejecutivo",
     "subcategories": [
       {
         "name": "Menu Ejecutivo",
@@ -56,7 +59,7 @@ export const categories: Category[] = [
   },
   {
     "name": "Cafetería",
-    "icon": "/images/categories/cafeteria.png",
+    "icon": "cafe",
     "subcategories": [
       {
         "name": "Tradicional",
@@ -74,8 +77,7 @@ export const categories: Category[] = [
           {
             "id": "cafeteria-cortado",
             "name": "CORTADO",
-            "price": "5.100",
-            "image": "https://mimenu.nyc3.digitaloceanspaces.com/Imagenes/Productos/ZaGkEnvttDfhH3oERWWNWStc5Ag2/lvvc57e0"
+            "price": "5.100"
           },
           {
             "id": "cafeteria-americano",
@@ -234,7 +236,7 @@ export const categories: Category[] = [
   },
   {
     "name": "Pastelería",
-    "icon": "/images/categories/big-cake.png",
+    "icon": "pasteleria",
     "subcategories": [
       {
         "name": "Tradicional",
@@ -434,7 +436,7 @@ export const categories: Category[] = [
   },
   {
     "name": "Entradas",
-    "icon": "/images/categories/pie.png",
+    "icon": "entradas",
     "subcategories": [
       {
         "name": "Entradas",
@@ -536,7 +538,7 @@ export const categories: Category[] = [
   },
   {
     "name": "Platos",
-    "icon": "/images/categories/platos.png",
+    "icon": "platos",
     "subcategories": [
       {
         "name": "ensaladas",
@@ -811,7 +813,7 @@ export const categories: Category[] = [
   },
   {
     "name": "Menú infantil",
-    "icon": "/images/categories/children.png",
+    "icon": "infantil",
     "subcategories": [
       {
         "name": "Menu Infantil",
@@ -846,7 +848,7 @@ export const categories: Category[] = [
   },
   {
     "name": "Postres",
-    "icon": "/images/categories/postres.png",
+    "icon": "postres",
     "subcategories": [
       {
         "name": "Postres",
@@ -927,7 +929,7 @@ export const categories: Category[] = [
   },
   {
     "name": "Bebidas",
-    "icon": "https://mimenu.nyc3.digitaloceanspaces.com/Imagenes/Categorias/botella%20y%20vaso%20de%20whisky.png",
+    "icon": "bebidas",
     "subcategories": [
       {
         "name": "Jugos y Licuados",
@@ -1142,7 +1144,7 @@ export const categories: Category[] = [
   },
   {
     "name": "Cocktail's",
-    "icon": "/images/categories/tragos.png",
+    "icon": "cocktails",
     "subcategories": [
       {
         "name": "Cocktail’s",
@@ -1323,7 +1325,7 @@ export const categories: Category[] = [
   },
   {
     "name": "Bodega",
-    "icon": "/images/categories/bodega.png",
+    "icon": "bodega",
     "subcategories": [
       {
         "name": "Bodega Catena Zapata",

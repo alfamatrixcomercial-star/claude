@@ -1,10 +1,9 @@
 export interface Product {
   id: string;
   name: string;
-  /** Price without the currency sign, formatted as on the site (e.g. "21.500"). */
+  /** Price without the currency sign, as printed on the menu (e.g. "21.500"). */
   price: string;
   description?: string;
-  image?: string;
   suggested?: boolean;
   glutenFree?: boolean;
 }
@@ -14,18 +13,35 @@ export interface Subcategory {
   products: Product[];
 }
 
+export type CategoryIcon =
+  | "ejecutivo"
+  | "cafe"
+  | "pasteleria"
+  | "entradas"
+  | "platos"
+  | "infantil"
+  | "postres"
+  | "bebidas"
+  | "cocktails"
+  | "bodega";
+
 export interface Category {
   name: string;
-  icon: string;
+  icon: CategoryIcon;
   subcategories: Subcategory[];
 }
 
 export interface Restaurant {
-  slug: string;
+  name: string;
+  city: string;
   logo: string;
+  website: string;
   email: string;
+  /** Phone as shown to guests. */
   phone: string;
+  phoneHref: string;
   whatsappUrl: string;
+  paymentMethods: string[];
 }
 
 export type Lang = "es" | "en";

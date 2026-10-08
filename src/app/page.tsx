@@ -1,5 +1,5 @@
-import { Onboarding } from "@/components/onboarding/Onboarding";
+import { MenuApp } from "@/components/menu/MenuApp";
 
-export default function OnboardingPage() {
-  return <Onboarding />;
+export default function CartaPage() {
+  return <MenuApp />;
 }
