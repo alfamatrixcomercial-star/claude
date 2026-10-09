@@ -1424,8 +1424,8 @@ export const categories: Category[] = [
     "icon": "cocktails",
     "subcategories": [
       {
-        "name": "Cocktail’s",
-        "nameEn": "Signature cocktails",
+        "name": "Cocktail's",
+        "nameEn": "Cocktails",
         "products": [
           {
             "id": "cocktail-s-pisco-sour",
@@ -1481,13 +1481,7 @@ export const categories: Category[] = [
             "price": "14.200",
             "description": "Johnnie Walker Red Label, Sprite, jugo de lima y rodaja de limón.",
             "descriptionEn": "Johnnie Walker Red Label, Sprite, lime juice and a lemon slice."
-          }
-        ]
-      },
-      {
-        "name": "Cocktail's",
-        "nameEn": "Classics & aperitifs",
-        "products": [
+          },
           {
             "id": "cocktail-s-fernet",
             "name": "FERNET",
