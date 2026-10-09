@@ -2,7 +2,7 @@ import Link from 'next/link'
 import { notFound, redirect } from 'next/navigation'
 import { ArrowLeft } from 'lucide-react'
 import { createClient } from '@/lib/supabase/server'
-import { etiquetaSemana, semanaVacia, validarDatos } from '@/lib/horarios'
+import { cantidadDias, etiquetaSemana, semanaVacia, validarDatos } from '@/lib/horarios'
 import EditorHorario from '@/components/admin/EditorHorario'
 
 export const dynamic = 'force-dynamic'
@@ -33,10 +33,10 @@ export default async function EditarHorarioPage({ params }: Props) {
   if (!semana) notFound()
 
   const lunes = semana.week_start as string
-  const etiqueta = etiquetaSemana(lunes)
   // Si alguien tocó la base a mano y dejó algo raro, se arranca vacío en lugar
   // de romper la pantalla.
   const datos = validarDatos(semana.data) ? semana.data : semanaVacia()
+  const etiqueta = etiquetaSemana(lunes, cantidadDias(datos))
 
   return (
     <div className="max-w-6xl mx-auto space-y-4 animate-fade-in">
