@@ -4,6 +4,7 @@ import { ArrowLeft } from 'lucide-react'
 import { createClient } from '@/lib/supabase/server'
 import { cantidadDias, etiquetaSemana, semanaVacia, validarDatos } from '@/lib/horarios'
 import EditorHorario from '@/components/admin/EditorHorario'
+import { pronosticoMarDelPlata } from '@/lib/clima'
 
 export const dynamic = 'force-dynamic'
 
@@ -25,11 +26,15 @@ export default async function EditarHorarioPage({ params }: Props) {
     .single()
   if (me?.role !== 'admin') redirect('/dashboard')
 
-  const { data: semana } = await supabase
-    .from('schedule_weeks')
-    .select('id, week_start, status, data, updated_at')
-    .eq('id', params.id)
-    .maybeSingle()
+  // El pronóstico se pide a la vez que la semana, para no sumar espera.
+  const [{ data: semana }, clima] = await Promise.all([
+    supabase
+      .from('schedule_weeks')
+      .select('id, week_start, status, data, updated_at')
+      .eq('id', params.id)
+      .maybeSingle(),
+    pronosticoMarDelPlata(),
+  ])
   if (!semana) notFound()
 
   const lunes = semana.week_start as string
@@ -63,6 +68,7 @@ export default async function EditarHorarioPage({ params }: Props) {
         publicada={semana.status === 'published'}
         datosIniciales={datos}
         versionInicial={semana.updated_at as string}
+        clima={clima}
       />
     </div>
   )

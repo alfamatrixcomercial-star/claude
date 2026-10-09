@@ -38,6 +38,8 @@ import {
 } from '@/lib/horarios'
 import { claseCelda, claseColumna, claseEncabezadoDia, REFERENCIAS } from '@/components/horario/estilos'
 import { guardarSemanaAction, publicarSemanaAction } from '@/app/actions/horarios'
+import ClimaSemana from '@/components/admin/ClimaSemana'
+import type { ClimaDia } from '@/lib/clima'
 
 interface Props {
   id: string
@@ -47,6 +49,8 @@ interface Props {
   datosIniciales: DatosHorario
   /** Tal cual vino de la base: no pasar por Date, perdería los microsegundos. */
   versionInicial: string
+  /** Pronóstico de Mar del Plata por fecha; null si no se pudo pedir. */
+  clima: Record<string, ClimaDia> | null
 }
 
 type EstadoGuardado =
@@ -67,6 +71,7 @@ export default function EditorHorario({
   publicada,
   datosIniciales,
   versionInicial,
+  clima,
 }: Props) {
   const router = useRouter()
   const [datos, setDatos] = useState<DatosHorario>(datosIniciales)
@@ -478,6 +483,8 @@ export default function EditorHorario({
           acá lo ve el personal al instante.
         </p>
       )}
+
+      <ClimaSemana lunes={lunes} totalDias={totalDias} clima={clima} />
 
       <div className="bg-brand-card border border-brand-border rounded-xl p-3">
         <p className="text-xs font-semibold text-brand-text mb-2">
