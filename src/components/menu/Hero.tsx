@@ -4,23 +4,24 @@ import type { Strings } from "@/lib/i18n";
 
 const foto = (w: number) => asset(`/images/fotos/complejo-dron-${w}.webp`);
 
-// Welcome photo of the complex with a short message. On phones the message
-// sits on a translucent crema plate over the photo, like the photo blocks on
+// Welcome photo of the complex with a short message, filling the screen below
+// the header (4rem bar + 7px wave). On phones the message sits on a
+// translucent crema plate over the photo, like the photo blocks on
 // miradorwaikiki.com; from 768px the portrait photo moves beside the text.
 export function Hero({ t, onStart }: { t: Strings; onStart: () => void }) {
   return (
-    <section className="relative md:mx-auto md:grid md:max-w-5xl md:grid-cols-[1fr_1.05fr] md:items-center md:gap-12 md:px-6 md:pt-12 md:pb-4">
-      <div className="relative h-[68svh] max-h-[720px] min-h-[420px] overflow-hidden md:order-2 md:h-[560px] md:max-h-none md:min-h-0 md:rounded-3xl md:shadow-mw-3">
+    <section className="relative md:mx-auto md:grid md:max-w-5xl md:grid-cols-[1fr_1.05fr] md:min-h-[calc(100svh-4rem-7px)] md:items-center md:gap-12 md:px-6 md:py-10">
+      <div className="relative h-[calc(100svh-4rem-7px)] min-h-[480px] overflow-hidden md:order-2 md:h-[560px] md:min-h-0 md:rounded-3xl md:shadow-mw-3">
         <picture>
           <source
             type="image/webp"
             srcSet={`${foto(640)} 640w, ${foto(1024)} 1024w, ${foto(1440)} 1440w`}
-            sizes="(min-width: 768px) 50vw, 100vw"
+            sizes="(min-width: 768px) 50vw, 160vw"
           />
           <img
             src={asset("/images/fotos/complejo-dron-1024.jpg")}
             alt={t.heroAlt}
-            className="absolute inset-0 h-full w-full object-cover object-[center_35%]"
+            className="absolute inset-0 h-full w-full object-cover object-[60%_center]"
             fetchPriority="high"
           />
         </picture>
