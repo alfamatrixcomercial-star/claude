@@ -1104,6 +1104,72 @@
     .prof-card:hover .prof-link i { transform: translateX(4px); }
     .prof-link i { transition: var(--transition); font-size: 0.75rem; }
 
+    /* ===== AREA B2B ===== */
+    .b2b { padding: 90px 0; background: #fff; }
+    .b2b-head { text-align: center; margin-bottom: 52px; }
+    .b2b-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-bottom: 48px;
+    }
+    .b2b-card {
+      background: var(--blue-pale);
+      border: 1px solid var(--gray-mid);
+      border-radius: 20px;
+      padding: 32px 28px;
+      transition: var(--transition);
+    }
+    .b2b-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow);
+      border-color: rgba(255,107,0,0.3);
+    }
+    .b2b-icon {
+      width: 54px; height: 54px;
+      background: var(--navy);
+      border-radius: 15px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.25rem;
+      color: var(--orange-light);
+      margin-bottom: 18px;
+    }
+    .b2b-card h4 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1rem;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 10px;
+    }
+    .b2b-card p {
+      font-size: 0.88rem;
+      color: var(--gray-text);
+      line-height: 1.7;
+    }
+    .b2b-foot {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      flex-wrap: wrap;
+      border-top: 1px solid var(--gray-mid);
+      padding-top: 32px;
+    }
+    .b2b-sign { display: flex; flex-direction: column; }
+    .b2b-sign-name {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1rem;
+      font-weight: 800;
+      color: var(--navy);
+    }
+    .b2b-sign-role {
+      font-size: 0.78rem;
+      color: var(--orange);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+    }
+
     /* ===== MOBILE NAV ===== */
     .mobile-menu {
       position: fixed;
@@ -1147,6 +1213,7 @@
       .method-steps::after { display: none; }
       .services-grid { grid-template-columns: repeat(2, 1fr); }
       .prof-grid { grid-template-columns: repeat(2, 1fr); }
+      .b2b-grid { grid-template-columns: repeat(2, 1fr); }
       .reach-inner { grid-template-columns: 1fr; gap: 40px; }
     }
     @media (max-width: 768px) {
@@ -1164,6 +1231,8 @@
       .method-steps { grid-template-columns: 1fr; }
       .services-grid { grid-template-columns: 1fr; }
       .prof-grid { grid-template-columns: 1fr; }
+      .b2b-grid { grid-template-columns: 1fr; }
+      .b2b-foot { flex-direction: column; align-items: flex-start; }
       .contact-grid { grid-template-columns: 1fr; }
       .contact-cta-box { padding: 32px 20px; }
       .contact-cta-box h3 { font-size: 1.25rem; }
@@ -1192,6 +1261,7 @@
     <a href="#metodologia" onclick="closeMenu()">Metodología</a>
     <a href="#servicios" onclick="closeMenu()">Programas</a>
     <a href="#servicios-profesionales" onclick="closeMenu()">Servicios Profesionales</a>
+    <a href="#empresas" onclick="closeMenu()">Empresas</a>
     <a href="#contacto" onclick="closeMenu()">Contacto</a>
   </nav>
 
@@ -1207,6 +1277,7 @@
           <li><a href="#nosotros" data-i18n="nav_nosotros">Sobre Nosotros</a></li>
           <li><a href="#metodologia" data-i18n="nav_metodologia">Metodología</a></li>
           <li><a href="#servicios" data-i18n="nav_servicios">Programas</a></li>
+          <li><a href="#empresas" data-i18n="nav_empresas">Empresas</a></li>
           <li><a href="#contacto" class="nav-cta" data-i18n="nav_contact">Contactanos</a></li>
         </ul>
         <button id="langToggle" onclick="toggleLang()" style="background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.35);color:#fff;font-family:'Montserrat',sans-serif;font-size:0.75rem;font-weight:700;letter-spacing:1px;padding:6px 14px;border-radius:50px;cursor:pointer;transition:all 0.3s ease;flex-shrink:0;">
@@ -1257,7 +1328,7 @@
     <div class="container">
       <div class="stats-inner">
         <div class="stat-item fade-in">
-          <span class="stat-num">12</span>
+          <span class="stat-num">13</span>
           <span class="stat-label">Programas Especializados</span>
         </div>
         <div class="stat-item fade-in" style="transition-delay:.1s">
@@ -1421,7 +1492,7 @@
         <span class="section-label" data-i18n="services_label">Nuestros Programas</span>
         <h2 class="section-title" data-i18n="services_title">Formación diseñada para tu crecimiento</h2>
         <p class="section-sub" style="margin:0 auto">
-          Doce programas especializados disponibles para toda Latinoamérica y Europa, en modalidad online sincrónica y asincrónica.
+          Trece programas especializados disponibles para toda Latinoamérica y Europa, en modalidad online sincrónica y asincrónica.
         </p>
       </div>
       <div class="services-grid">
@@ -1646,11 +1717,37 @@
             </p>
             <ul class="card-features">
               <li>ChatGPT, Gemini y Claude: prompts, textos y análisis</li>
-              <li>Canva IA: diseño y creación visual</li>
+              <li>Canva Pro e IA: diseño y creación visual</li>
+              <li>ElevenLabs: generación de voz y audio con IA</li>
+              <li>CapCut: edición de video ágil y asistida</li>
               <li>Aplicación práctica en la rutina laboral</li>
             </ul>
             <div class="card-tag"><i class="fas fa-wand-magic-sparkles"></i> Productividad con IA</div>
             <a href="https://wa.me/5491154021134?text=Hola%2C%20quiero%20info%20sobre%20la%20Formaci%C3%B3n%20en%20IA%20Inicial" class="card-cta" target="_blank" rel="noopener">
+              Consultar Disponibilidad
+            </a>
+          </div>
+        </div>
+
+        <div class="service-card fade-in" style="transition-delay:.2s">
+          <div class="card-header">
+            <div class="card-icon"><i class="fas fa-store"></i></div>
+            <div class="card-duration"><i class="far fa-clock"></i> Consultar</div>
+            <div class="card-title">Negocios Digitales</div>
+          </div>
+          <div class="card-body">
+            <p class="card-desc">
+              Aprendé a emprender en la era digital: descubrí los modelos de negocio más rentables y elegí el ideal para vos. Una formación práctica que derriba mitos y te da una guía objetiva de la economía digital, con la estructura interna de cada modelo, sus costos reales y sus pros y contras.
+            </p>
+            <ul class="card-features">
+              <li>Dropshipping</li>
+              <li>Marketing de Afiliados</li>
+              <li>Network Marketing</li>
+              <li>E-Commerce e Infoproductos</li>
+              <li>Costos de entrada, pros y contras de cada modelo</li>
+            </ul>
+            <div class="card-tag"><i class="fas fa-lightbulb"></i> Economía digital sin mitos</div>
+            <a href="https://wa.me/5491154021134?text=Hola%2C%20quiero%20info%20sobre%20Negocios%20Digitales" class="card-cta" target="_blank" rel="noopener">
               Consultar Disponibilidad
             </a>
           </div>
@@ -1732,6 +1829,45 @@
           <h4 data-i18n="prof_3_title">Estudio de Mercado Laboral LATAM / Europeo</h4>
           <p data-i18n="prof_3_desc">Análisis del mercado laboral en Latinoamérica y Europa aplicado a tu perfil: demanda real, posicionamiento y oportunidades concretas.</p>
           <span class="prof-link" data-i18n="prof_cta">Consultar <i class="fas fa-arrow-right"></i></span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== AREA B2B ===== -->
+  <section class="b2b" id="empresas">
+    <div class="container">
+      <div class="b2b-head fade-in">
+        <span class="section-label" data-i18n="b2b_label">Área B2B · Empresas y PyMEs</span>
+        <h2 class="section-title" data-i18n="b2b_title">Formación de equipos: líderes y comerciales</h2>
+        <p class="section-sub" style="margin:0 auto" data-i18n="b2b_sub">
+          En Academia Método NAE analizamos las necesidades específicas de tu empresa y adaptamos nuestros programas para capacitar tanto a la fuerza de ventas como a los responsables de equipo.
+        </p>
+      </div>
+      <div class="b2b-grid">
+        <div class="b2b-card fade-in">
+          <div class="b2b-icon"><i class="fas fa-compass"></i></div>
+          <h4 data-i18n="b2b_1_title">Alineación Estratégica</h4>
+          <p data-i18n="b2b_1_desc">Equipos comerciales y líderes trabajando bajo los mismos objetivos y valores.</p>
+        </div>
+        <div class="b2b-card fade-in" style="transition-delay:.1s">
+          <div class="b2b-icon"><i class="fas fa-bolt"></i></div>
+          <h4 data-i18n="b2b_2_title">Enfoque en Resultados</h4>
+          <p data-i18n="b2b_2_desc">Herramientas aplicables desde el primer día de formación.</p>
+        </div>
+        <div class="b2b-card fade-in" style="transition-delay:.2s">
+          <div class="b2b-icon"><i class="fas fa-people-arrows"></i></div>
+          <h4 data-i18n="b2b_3_title">Soft Skills y Liderazgo</h4>
+          <p data-i18n="b2b_3_desc">Fomento del trabajo en equipo, la comunicación interna y la motivación constante.</p>
+        </div>
+      </div>
+      <div class="b2b-foot fade-in">
+        <div class="b2b-sign">
+          <span class="b2b-sign-name">Narella A. Espiño</span>
+          <span class="b2b-sign-role" data-i18n="b2b_sign_role">Directora Académica</span>
+        </div>
+        <a href="https://wa.me/5491154021134?text=Hola%2C%20quiero%20info%20sobre%20la%20formaci%C3%B3n%20de%20equipos%20para%20empresas%20(B2B)" class="btn btn-primary" target="_blank" rel="noopener">
+          <i class="fas fa-briefcase"></i> <span data-i18n="b2b_cta">Solicitar Propuesta Corporativa</span>
         </a>
       </div>
     </div>
@@ -1937,8 +2073,10 @@
             <li><a href="#servicios"><i class="fas fa-chevron-right"></i> Ventas para Turismo</a></li>
             <li><a href="#servicios"><i class="fas fa-chevron-right"></i> Sector Gastronómico</a></li>
             <li><a href="#servicios"><i class="fas fa-chevron-right"></i> IA Inicial</a></li>
+            <li><a href="#servicios"><i class="fas fa-chevron-right"></i> Negocios Digitales</a></li>
             <li><a href="#servicios"><i class="fas fa-chevron-right"></i> Comercio y Oratoria</a></li>
             <li><a href="#servicios"><i class="fas fa-chevron-right"></i> Asesoría Personalizada</a></li>
+            <li><a href="#empresas"><i class="fas fa-chevron-right"></i> Área B2B · Empresas</a></li>
           </ul>
         </div>
         <div>
@@ -2020,7 +2158,7 @@
     const translations = {
       es: {
         nav_inicio: 'Inicio', nav_nosotros: 'Sobre Nosotros', nav_metodologia: 'Metodología',
-        nav_servicios: 'Programas', nav_contact: 'Contactanos',
+        nav_servicios: 'Programas', nav_empresas: 'Empresas', nav_contact: 'Contactanos',
         hero_badge: 'Capacitación Estratégica · Certificación Profesional',
         hero_title: 'Transformá tu Carrera<br>con el <span>Método NAE</span>',
         hero_sub: 'Formación técnica y profesional que convierte capacidades en resultados medibles. Acompañamos a personas y empresas a alcanzar su máximo potencial comercial.',
@@ -2040,7 +2178,7 @@
         method_sub: 'Un proceso estructurado en cuatro etapas que garantiza resultados consistentes y medibles para cada participante.',
         services_label: 'Nuestros Programas',
         services_title: 'Formación diseñada para tu crecimiento',
-        services_sub: 'Doce programas especializados disponibles para toda Latinoamérica y Europa, en modalidad online sincrónica y asincrónica.',
+        services_sub: 'Trece programas especializados disponibles para toda Latinoamérica y Europa, en modalidad online sincrónica y asincrónica.',
         egreso_label: 'Al finalizar cada programa',
         egreso_title: 'No solo te vas con el diploma',
         egreso_lead: 'Al completar cualquiera de nuestros programas, cada alumno recibe en mano un kit de valor profesional completo:',
@@ -2057,6 +2195,17 @@
         prof_3_title: 'Estudio de Mercado Laboral LATAM / Europeo',
         prof_3_desc: 'Análisis del mercado laboral en Latinoamérica y Europa aplicado a tu perfil: demanda real, posicionamiento y oportunidades concretas.',
         prof_cta: 'Consultar <i class="fas fa-arrow-right"></i>',
+        b2b_label: 'Área B2B · Empresas y PyMEs',
+        b2b_title: 'Formación de equipos: líderes y comerciales',
+        b2b_sub: 'En Academia Método NAE analizamos las necesidades específicas de tu empresa y adaptamos nuestros programas para capacitar tanto a la fuerza de ventas como a los responsables de equipo.',
+        b2b_1_title: 'Alineación Estratégica',
+        b2b_1_desc: 'Equipos comerciales y líderes trabajando bajo los mismos objetivos y valores.',
+        b2b_2_title: 'Enfoque en Resultados',
+        b2b_2_desc: 'Herramientas aplicables desde el primer día de formación.',
+        b2b_3_title: 'Soft Skills y Liderazgo',
+        b2b_3_desc: 'Fomento del trabajo en equipo, la comunicación interna y la motivación constante.',
+        b2b_sign_role: 'Directora Académica',
+        b2b_cta: 'Solicitar Propuesta Corporativa',
         reach_label: 'Alcance Internacional',
         contact_label: 'Contacto', contact_title: '¿Listo para empezar?',
         contact_sub: 'Contactanos y recibí una propuesta personalizada para tu perfil o empresa.',
@@ -2068,7 +2217,7 @@
       },
       en: {
         nav_inicio: 'Home', nav_nosotros: 'About Us', nav_metodologia: 'Methodology',
-        nav_servicios: 'Programs', nav_contact: 'Contact Us',
+        nav_servicios: 'Programs', nav_empresas: 'For Companies', nav_contact: 'Contact Us',
         hero_badge: 'Strategic Training · Professional Certification',
         hero_title: 'Transform Your Career<br>with the <span>NAE Method</span>',
         hero_sub: 'Technical and professional training that turns capabilities into measurable results. We support individuals and companies in reaching their full commercial potential.',
@@ -2088,7 +2237,7 @@
         method_sub: 'A structured four-stage process that guarantees consistent and measurable results for each participant.',
         services_label: 'Our Programs',
         services_title: 'Training designed for your growth',
-        services_sub: 'Twelve specialized programs available across all of Latin America and Europe, in online synchronous and asynchronous modality.',
+        services_sub: 'Thirteen specialized programs available across all of Latin America and Europe, in online synchronous and asynchronous modality.',
         egreso_label: 'Upon completing each program',
         egreso_title: 'You leave with more than just a diploma',
         egreso_lead: 'Upon completing any of our programs, each student receives a complete professional value kit:',
@@ -2105,6 +2254,17 @@
         prof_3_title: 'LATAM / European Job Market Study',
         prof_3_desc: 'An analysis of the Latin American and European job market applied to your profile: real demand, positioning and concrete opportunities.',
         prof_cta: 'Enquire <i class="fas fa-arrow-right"></i>',
+        b2b_label: 'B2B Area · Companies and SMEs',
+        b2b_title: 'Team training: leaders and sales forces',
+        b2b_sub: 'At Academia Método NAE we analyse your company\'s specific needs and adapt our programs to train both the sales force and the people leading the teams.',
+        b2b_1_title: 'Strategic Alignment',
+        b2b_1_desc: 'Sales teams and leaders working towards the same objectives and values.',
+        b2b_2_title: 'Results Focused',
+        b2b_2_desc: 'Tools that can be applied from the very first day of training.',
+        b2b_3_title: 'Soft Skills and Leadership',
+        b2b_3_desc: 'Building teamwork, internal communication and sustained motivation.',
+        b2b_sign_role: 'Academic Director',
+        b2b_cta: 'Request a Corporate Proposal',
         reach_label: 'International Reach',
         contact_label: 'Contact', contact_title: 'Ready to start?',
         contact_sub: 'Contact us and receive a personalized proposal for your profile or company.',
