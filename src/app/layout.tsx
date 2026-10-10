@@ -1,5 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import { Poppins } from "next/font/google";
+import { venue } from "@venue";
+import { dinnerScript } from "@/lib/dinner";
+import { asset } from "@/lib/utils";
 import "./globals.css";
 
 // Poppins for text and titles, as on miradorwaikiki.com.
@@ -10,8 +13,9 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: "Carta | Mirador Waikiki",
-  description: "La carta del restaurante Mirador Waikiki, Mar del Plata.",
+  title: `Carta | ${venue.restaurant.name}`,
+  description: venue.description,
+  icons: { icon: { url: asset(`/venues/${venue.id}/icon.svg`), type: "image/svg+xml" } },
 };
 
 export const viewport: Viewport = {
@@ -26,7 +30,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="es" className={poppins.variable}>
+    // The dinner script sets an attribute on <html> before React hydrates.
+    <html lang="es" className={poppins.variable} suppressHydrationWarning>
+      {venue.dinner && (
+        <head>
+          <script dangerouslySetInnerHTML={{ __html: dinnerScript(venue.dinner) }} />
+        </head>
+      )}
       <body>{children}</body>
     </html>
   );

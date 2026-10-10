@@ -91,6 +91,7 @@ const categoryPaths: Record<CategoryIcon, ReactNode> = {
   cafe: (
     <path d="M4 9h12v4a6 6 0 0 1-12 0V9zM16 10h1.5a2.5 2.5 0 0 1 0 5H16M3 21h16M8 3c-.8 1 .8 2 0 3M12 3c-.8 1 .8 2 0 3" />
   ),
+  desayuno: <path d="M6 20v-9c-1.7-.7-2.5-2-2.5-3.4C3.5 5.5 5.5 4 8 4h8c2.5 0 4.5 1.5 4.5 3.6 0 1.4-.8 2.7-2.5 3.4v9zM10 12h4v3.5h-4z" />,
   pasteleria: (
     <path d="M4 11h16v9H4zM4 15c2.7 1.3 5.3 1.3 8 0s5.3-1.3 8 0M2 20h20M12 11V8M12 5.6c-.9-.8-.9-1.8 0-2.6.9.8.9 1.8 0 2.6z" />
   ),

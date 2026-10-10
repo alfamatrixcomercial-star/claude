@@ -160,3 +160,14 @@
   .cta-dorado { transition: none; }
   .cta-dorado::after { animation: none; }
 }
+
+/* Welcome photo (Hero.tsx sets the variables). At dinner time the <head>
+   script marks <html data-cena> and the dinner photo takes its place. */
+.foto-hero {
+  background-image: var(--foto-dia);
+  background-position: var(--pos-dia);
+}
+:root[data-cena] .foto-hero {
+  background-image: var(--foto-noche, var(--foto-dia));
+  background-position: var(--pos-noche, var(--pos-dia));
+}

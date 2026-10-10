@@ -1,8 +1,9 @@
 "use client";
 
-import { asset, cn } from "@/lib/utils";
-import { restaurant } from "@/data/menu";
+import { venue } from "@venue";
+import { cn } from "@/lib/utils";
 import { CloseIcon, HeartIcon, HomeIcon, MenuIcon, StarIcon } from "@/components/icons";
+import { Logo } from "@/components/menu/Logo";
 import type { Strings } from "@/lib/i18n";
 import type { Lang } from "@/types/menu";
 
@@ -11,6 +12,7 @@ interface SideMenuProps {
   lang: Lang;
   t: Strings;
   favoritesCount: number;
+  hasSuggested: boolean;
   onClose: () => void;
   onHome: () => void;
   onSeeMenu: () => void;
@@ -22,8 +24,9 @@ interface SideMenuProps {
 const navItem =
   "flex w-full items-center gap-3 rounded-xl px-3 py-3 text-left text-[15px] font-medium text-mw-tinta transition-colors hover:bg-white";
 const eyebrow = "px-3 text-[11px] font-semibold tracking-[0.2em] text-mw-rotulo uppercase";
+const { restaurant } = venue;
 
-export function SideMenu({ open, lang, t, favoritesCount, onClose, onHome, onSeeMenu, onSuggested, onFavorites, onLang }: SideMenuProps) {
+export function SideMenu({ open, lang, t, favoritesCount, hasSuggested, onClose, onHome, onSeeMenu, onSuggested, onFavorites, onLang }: SideMenuProps) {
   return (
     <div className={cn("fixed inset-0 z-40 transition-[visibility] duration-[260ms]", open ? "visible" : "invisible")}>
       <div
@@ -44,7 +47,9 @@ export function SideMenu({ open, lang, t, favoritesCount, onClose, onHome, onSee
         )}
       >
         <div className="flex items-center justify-between">
-          <img src={asset(restaurant.logo)} alt={restaurant.name} className="ml-2 h-11 w-auto" />
+          <span className="ml-2">
+            <Logo className="h-11 w-auto" textClassName="text-[17px]" />
+          </span>
           <button
             type="button"
             aria-label={t.close}
@@ -64,10 +69,12 @@ export function SideMenu({ open, lang, t, favoritesCount, onClose, onHome, onSee
             <MenuIcon className="h-5 w-5 text-mw-verde" />
             {t.seeMenu}
           </button>
-          <button type="button" onClick={onSuggested} className={navItem}>
-            <StarIcon className="h-5 w-5 text-mw-verde" />
-            {t.suggested}
-          </button>
+          {hasSuggested && (
+            <button type="button" onClick={onSuggested} className={navItem}>
+              <StarIcon className="h-5 w-5 text-mw-verde" />
+              {t.suggested}
+            </button>
+          )}
           {favoritesCount > 0 && (
             <button type="button" onClick={onFavorites} className={navItem}>
               <HeartIcon className="h-5 w-5 text-mw-verde" />
@@ -76,20 +83,24 @@ export function SideMenu({ open, lang, t, favoritesCount, onClose, onHome, onSee
           )}
         </nav>
 
-        <a
-          href={restaurant.whatsappUrl}
-          target="_blank"
-          rel="noreferrer"
-          className="mt-6 flex h-11 items-center justify-center rounded-full bg-mw-accion text-[14px] font-medium text-white transition-colors hover:bg-mw-accion-hover"
-        >
-          {t.reserve}
-        </a>
+        {restaurant.whatsappUrl && (
+          <a
+            href={restaurant.whatsappUrl}
+            target="_blank"
+            rel="noreferrer"
+            className="mt-6 flex h-11 items-center justify-center rounded-full bg-mw-accion text-[14px] font-medium text-white transition-colors hover:bg-mw-accion-hover"
+          >
+            {t.reserve}
+          </a>
+        )}
 
         <div className="mt-8 space-y-2">
           <h2 className={eyebrow}>{t.contact}</h2>
-          <a href={`mailto:${restaurant.email}`} className="block px-3 text-[14px] text-mw-tinta hover:text-mw-rotulo">
-            {restaurant.email}
-          </a>
+          {restaurant.email && (
+            <a href={`mailto:${restaurant.email}`} className="block px-3 text-[14px] text-mw-tinta hover:text-mw-rotulo">
+              {restaurant.email}
+            </a>
+          )}
           <a href={restaurant.phoneHref} className="block px-3 text-[14px] text-mw-tinta hover:text-mw-rotulo">
             {restaurant.phone}
           </a>
@@ -115,9 +126,11 @@ export function SideMenu({ open, lang, t, favoritesCount, onClose, onHome, onSee
           </div>
         </div>
 
-        <a href={restaurant.website} className="mt-auto px-3 pt-8 text-[13px] font-medium text-mw-rotulo hover:text-mw-tinta">
-          {t.backToSite}
-        </a>
+        {restaurant.website && (
+          <a href={restaurant.website} className="mt-auto px-3 pt-8 text-[13px] font-medium text-mw-rotulo hover:text-mw-tinta">
+            {t.backTo} {new URL(restaurant.website).host}
+          </a>
+        )}
       </aside>
     </div>
   );

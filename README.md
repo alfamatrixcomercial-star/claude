@@ -1,12 +1,23 @@
-# Carta · Mirador Waikiki
+# Cartas · Mirador Waikiki, Mirador 9 y Hula Kai
 
-Carta digital del restaurante Mirador Waikiki. Next.js 16 + Tailwind v4, exportada como sitio estático
-para servirse en `miradorwaikiki.com/carta`.
+Cartas digitales del grupo, todas con la misma estética. Es un solo proyecto Next.js 16 + Tailwind v4 que
+genera un sitio estático por carta, cada uno servido desde miradorwaikiki.com:
+
+| Carta | Carpeta | Dirección |
+| --- | --- | --- |
+| Mirador Waikiki | `src/venues/waikiki` | `miradorwaikiki.com/carta` |
+| Mirador 9 | `src/venues/mirador9` | `miradorwaikiki.com/mirador9` |
+| Mirador 9 Resto | `src/venues/mirador9resto` | `miradorwaikiki.com/mirador9resto` |
+| Hula Kai | `src/venues/hulakai` | `miradorwaikiki.com/hulakai` |
+
+Las direcciones están en `cartas.json`.
 
 ```bash
 npm install
-npm run dev     # http://localhost:3000/carta
-npm run build   # genera out/ (estático, con base /carta)
+npm run dev                       # Waikiki en http://localhost:3000/carta
+CARTA=hulakai npm run dev         # otra carta: http://localhost:3000/hulakai
+npm run build:cartas              # las cuatro, en dist/carta, dist/mirador9, …
+npm run build:cartas -- hulakai   # solo una
 npm run lint
 ```
 
@@ -14,13 +25,18 @@ npm run lint
 
 | Querés cambiar… | Editá |
 | --- | --- |
-| Platos, precios, descripciones, sugeridos, sin TACC | `src/data/menu.ts` |
-| Teléfono, mail, WhatsApp, medios de pago | `restaurant` en `src/data/menu.ts` |
+| Platos, precios, descripciones, sugeridos, sin TACC | `src/venues/<carta>/menu.ts` |
+| Nombre, teléfono, mail, WhatsApp, medios de pago, frase de bienvenida, foto | `src/venues/<carta>/index.ts` |
+| Horario de cena de Waikiki (secciones que pasan al final y foto de noche) | `dinner` en `src/venues/waikiki/index.ts` |
+| Logo y fotos | `public/venues/<carta>/` (sin `logo`, el nombre se escribe en letras) |
 | Colores | variables `--mw-*` en `src/app/globals.css` (mismos valores que la web) |
 | Textos de la interfaz (es / en) | `src/lib/i18n.ts` |
-| Logo | `public/images/brand/isologo.svg` |
+
+Las fotos de portada van en tres tamaños, `<nombre>-640.webp`, `-1024.webp` y `-1440.webp`, uno por
+densidad de pantalla.
 
 ## Publicar
 
-La carta vive dentro del sitio de miradorwaikiki.com: después de `npm run build`, el contenido de `out/`
-se copia a `public/carta/` del proyecto Astro de la web y se publica con su deploy de Vercel.
+Cada carta vive dentro del sitio de miradorwaikiki.com: después de `npm run build:cartas`, cada carpeta de
+`dist/` se copia a `public/` del proyecto Astro de la web (`dist/carta` → `public/carta`, etc.). Al subir
+esa rama, GitHub Actions la publica por FTP en DonWeb.

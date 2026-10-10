@@ -1,19 +1,4 @@
-import type { Category, Restaurant } from "@/types/menu";
-
-export const restaurant: Restaurant = {
-  name: "Mirador Waikiki",
-  city: "Mar del Plata",
-  logo: "/images/brand/isologo.svg",
-  website: "https://miradorwaikiki.com",
-  email: "info@miradorwaikiki.com.ar",
-  // Restaurant line, same as the WhatsApp buttons on miradorwaikiki.com.
-  phone: "223 546-6065",
-  phoneHref: "tel:+542235466065",
-  whatsappUrl:
-    "https://wa.me/5492235466065?text=" +
-    encodeURIComponent("Hola! Quiero reservar una mesa en el restaurante de Mirador Waikiki."),
-  paymentMethods: ["Visa", "Mastercard", "American Express", "Mercado Pago"],
-};
+import type { Category } from "@/types/menu";
 
 export const categories: Category[] = [
   {

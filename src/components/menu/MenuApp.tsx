@@ -1,9 +1,10 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { categories, suggestedProductIds } from "@/data/menu";
+import { venue } from "@venue";
 import { strings } from "@/lib/i18n";
 import { usePersistentState } from "@/hooks/usePersistentState";
+import { useDinner } from "@/hooks/useDinner";
 import { Header } from "@/components/menu/Header";
 import { HomeView } from "@/components/menu/HomeView";
 import { Hero } from "@/components/menu/Hero";
@@ -14,10 +15,18 @@ import { FavoritesDialog } from "@/components/menu/FavoritesDialog";
 import { Footer } from "@/components/menu/Footer";
 import type { Lang, Product } from "@/types/menu";
 
+const { categories, suggestedProductIds } = venue;
 const productsById = new Map<string, Product>(
   categories.flatMap((c) => c.subcategories.flatMap((s) => s.products.map((p) => [p.id, p] as const))),
 );
 const suggestedProducts = suggestedProductIds.flatMap((id) => productsById.get(id) ?? []);
+
+const indices = categories.map((_, i) => i);
+const isLate = (i: number) => venue.dinner?.late.includes(categories[i].icon) ?? false;
+// The section strip: two groups split by a line. By day the featured sections
+// (coffee, pastries) lead; at dinner time the late ones go last instead.
+const dayGroups = [indices.filter((i) => categories[i].featured), indices.filter((i) => !categories[i].featured)];
+const dinnerGroups = [indices.filter((i) => !isLate(i)), indices.filter(isLate)];
 
 export function MenuApp() {
   const [selected, setSelected] = useState<number | null>(null);
@@ -27,6 +36,8 @@ export function MenuApp() {
   const [lang, setLang] = usePersistentState<Lang>("mw-carta-idioma", "es");
   const [favorites, setFavorites] = usePersistentState<string[]>("mw-carta-favoritos", []);
   const t = strings[lang];
+  const dinner = useDinner(venue.dinner);
+  const groups = (dinner ? dinnerGroups : dayGroups).filter((g) => g.length > 0);
 
   const favoriteProducts = useMemo(() => favorites.flatMap((id) => productsById.get(id) ?? []), [favorites]);
   const overlayOpen = menuOpen || suggestedOpen || favoritesOpen;
@@ -58,8 +69,8 @@ export function MenuApp() {
     window.scrollTo(0, 0);
   };
 
-  // "Ver la carta": open the first featured section so every section icon shows on top.
-  const openMenu = () => select(categories.findIndex((c) => c.featured));
+  // "Ver la carta": open the first section of the strip so every section icon shows on top.
+  const openMenu = () => select(groups[0][0]);
 
   const toggleFavorite = (id: string) =>
     setFavorites((prev) => (prev.includes(id) ? prev.filter((f) => f !== id) : [...prev, id]));
@@ -78,15 +89,17 @@ export function MenuApp() {
         t={t}
         lang={lang}
         categories={categories}
+        groups={groups}
         selected={selected}
         favoritesCount={favorites.length}
+        hasSuggested={suggestedProducts.length > 0}
         onSelect={select}
         onOpenMenu={() => setMenuOpen(true)}
         onOpenSuggested={() => setSuggestedOpen(true)}
         onOpenFavorites={() => setFavoritesOpen(true)}
       />
 
-      {!category && <Hero t={t} onStart={openMenu} />}
+      {!category && <Hero t={t} lang={lang} dinner={dinner} onStart={openMenu} />}
 
       <main className="mx-auto max-w-3xl px-4 pt-6">
         {category ? (
@@ -111,6 +124,7 @@ export function MenuApp() {
         lang={lang}
         t={t}
         favoritesCount={favorites.length}
+        hasSuggested={suggestedProducts.length > 0}
         onClose={() => setMenuOpen(false)}
         onHome={() => select(null)}
         onSeeMenu={openMenu}

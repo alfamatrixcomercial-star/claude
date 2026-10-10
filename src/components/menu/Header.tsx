@@ -1,9 +1,10 @@
 "use client";
 
-import { asset, cn } from "@/lib/utils";
-import { restaurant } from "@/data/menu";
+import { Fragment } from "react";
+import { cn } from "@/lib/utils";
 import { CategoryGlyph, HeartIcon, MenuIcon, StarIcon } from "@/components/icons";
 import { Onda } from "@/components/ui/Onda";
+import { Logo } from "@/components/menu/Logo";
 import { pick, type Strings } from "@/lib/i18n";
 import type { Category, Lang } from "@/types/menu";
 
@@ -11,8 +12,11 @@ interface HeaderProps {
   t: Strings;
   lang: Lang;
   categories: Category[];
+  /** Category indices in strip order, in groups split by a line. */
+  groups: number[][];
   selected: number | null;
   favoritesCount: number;
+  hasSuggested: boolean;
   onSelect: (index: number | null) => void;
   onOpenMenu: () => void;
   onOpenSuggested: () => void;
@@ -26,14 +30,17 @@ export function Header({
   t,
   lang,
   categories,
+  groups,
   selected,
   favoritesCount,
+  hasSuggested,
   onSelect,
   onOpenMenu,
   onOpenSuggested,
   onOpenFavorites,
 }: HeaderProps) {
-  const chip = (category: Category, i: number) => {
+  const chip = (i: number) => {
+    const category = categories[i];
     const active = i === selected;
     return (
       <button
@@ -72,7 +79,7 @@ export function Header({
           <MenuIcon className="h-6 w-6" />
         </button>
         <button type="button" onClick={() => onSelect(null)} className="justify-self-center" aria-label={t.title}>
-          <img src={asset(restaurant.logo)} alt={restaurant.name} className="h-11 w-auto" />
+          <Logo className="h-11 w-auto" textClassName="text-[18px]" />
         </button>
         <div className="flex justify-end">
           {favoritesCount > 0 && (
@@ -83,17 +90,22 @@ export function Header({
               </span>
             </button>
           )}
-          <button type="button" aria-label={t.suggested} onClick={onOpenSuggested} className={iconButton}>
-            <StarIcon className="h-6 w-6" />
-          </button>
+          {hasSuggested && (
+            <button type="button" aria-label={t.suggested} onClick={onOpenSuggested} className={iconButton}>
+              <StarIcon className="h-6 w-6" />
+            </button>
+          )}
         </div>
       </div>
 
       {selected !== null && (
       <nav aria-label={t.allSections} className="no-scrollbar flex gap-2 overflow-x-auto px-3 pt-1 pb-3 md:justify-center">
-        {categories.map((category, i) => category.featured && chip(category, i))}
-        <span aria-hidden="true" className="mx-1 mt-2 h-10 w-px shrink-0 self-start bg-mw-arena-fuerte/70" />
-        {categories.map((category, i) => !category.featured && chip(category, i))}
+        {groups.map((group, g) => (
+          <Fragment key={g}>
+            {g > 0 && <span aria-hidden="true" className="mx-1 mt-2 h-10 w-px shrink-0 self-start bg-mw-arena-fuerte/70" />}
+            {group.map(chip)}
+          </Fragment>
+        ))}
       </nav>
       )}
       <Onda />
