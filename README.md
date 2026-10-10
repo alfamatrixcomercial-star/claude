@@ -42,9 +42,11 @@ en YAML y difíciles de ver:
 
 La carta es propia y se sirve desde `public/carta/`: es un sitio estático
 aparte (Next.js, rama `claude/inspiring-cori-8f88ru` de este repo) que se
-compila con base `/carta` y se copia acá tal cual. Para actualizar platos o
-precios se edita esa rama, se corre `npm run build` y se reemplaza
-`public/carta/` por el contenido de su `out/`.
+compila con base `/carta` y se copia acá tal cual. El mismo proyecto genera
+las cartas de Mirador 9 (`public/mirador9/`), Mirador 9 Resto
+(`public/mirador9resto/`) y Hula Kai (`public/hulakai/`). Para actualizar
+platos o precios se edita esa rama, se corre `npm run build:cartas` y cada
+carpeta de su `dist/` reemplaza a la del mismo nombre en `public/`.
 
 Las habitaciones se ven y se reservan en el sitio propio del hotel. El sitio
 muestra el lugar y deriva, igual que hace con eventos:
