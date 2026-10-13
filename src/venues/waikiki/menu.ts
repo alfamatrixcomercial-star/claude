@@ -496,8 +496,8 @@ export const categories: Category[] = [
             "name": "Martes",
             "nameEn": "Tuesday",
             "price": "21.500",
-            "description": "Plato principal: Ensalada César de pollo\n\n\nBebida: Agua, Gaseosa, Lata de Stella, Lata de Stella 0.0% o Kombucha.\n\nCafé: Espresso, Americano o cortado.",
-            "descriptionEn": "Main course: chicken Caesar salad.\n\nDrink: water, soft drink, can of Stella, Stella 0.0% or kombucha.\n\nCoffee: espresso, Americano or cortado."
+            "description": "Plato principal: Pechuga al verdeo acompañada de papas españolas.\n\nBebida: Agua, Gaseosa, Lata de Stella, Lata de Stella 0.0% o Kombucha.\n\nCafé: Espresso, Americano o cortado.",
+            "descriptionEn": "Main course: chicken breast in scallion cream sauce with Spanish-style potatoes.\n\nDrink: water, soft drink, can of Stella, Stella 0.0% or kombucha.\n\nCoffee: espresso, Americano or cortado."
           },
           {
             "id": "menu-ejecutivo-miercoles",
