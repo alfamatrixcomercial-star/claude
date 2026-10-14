@@ -1,22 +1,28 @@
-// Builds every menu in src/venues/ (or the ones named: `npm run build:cartas -- hulakai`)
-// into dist/carta/<carta>/. dist/carta/ is then copied as is to the website's
-// public/carta/.
+// Builds every menu in src/venues/ into dist/carta/<carta>/, and the admin of
+// all of them (CARTA=gestion) into dist/gestion/cartas/. Or only the ones
+// named: `npm run build:cartas -- hulakai gestion`. dist/carta/ and
+// dist/gestion/cartas/ then go as they are to the same paths of the
+// website's public/.
 import { execFileSync } from "node:child_process";
-import { cpSync, existsSync, readdirSync, rmSync, writeFileSync } from "node:fs";
+import { cpSync, existsSync, mkdirSync, readdirSync, rmSync, writeFileSync } from "node:fs";
 
 const all = readdirSync("src/venues", { withFileTypes: true })
   .filter((d) => d.isDirectory() && existsSync(`src/venues/${d.name}/index.ts`))
   .map((d) => d.name);
-const cartas = process.argv.slice(2).length ? process.argv.slice(2) : all;
+const cartas = process.argv.slice(2).length ? process.argv.slice(2) : [...all, "gestion"];
 
 for (const carta of cartas) {
-  if (!all.includes(carta)) throw new Error(`Unknown carta "${carta}". Use one of: ${all.join(", ")}.`);
-  execFileSync("npx", ["next", "build"], { stdio: "inherit", env: { ...process.env, CARTA: carta } });
-  // public/ holds every menu's photos; keep only this one's.
-  for (const other of readdirSync("out/venues")) {
-    if (other !== carta) rmSync(`out/venues/${other}`, { recursive: true });
+  if (carta !== "gestion" && !all.includes(carta)) {
+    throw new Error(`Unknown carta "${carta}". Use one of: ${all.join(", ")}, gestion.`);
   }
-  const dest = `dist/carta/${carta}`;
+  execFileSync("npx", ["next", "build"], { stdio: "inherit", env: { ...process.env, CARTA: carta } });
+  // public/ holds every menu's photos; keep only this one's (the admin keeps
+  // Mirador Waikiki's, for its logo).
+  const keep = carta === "gestion" ? "miradorwaikiki" : carta;
+  for (const other of readdirSync("out/venues")) {
+    if (other !== keep) rmSync(`out/venues/${other}`, { recursive: true });
+  }
+  const dest = carta === "gestion" ? "dist/gestion/cartas" : `dist/carta/${carta}`;
   rmSync(dest, { recursive: true, force: true });
   cpSync("out", dest, { recursive: true });
   console.log(`\n${carta} → ${dest}\n`);
@@ -25,6 +31,7 @@ for (const carta of cartas) {
 // miradorwaikiki.com/carta/ was Mirador Waikiki's menu before there were
 // four, and it is on printed QR codes: send it there. (The website's
 // .htaccess does the same with a redirect; this page covers servers without it.)
+mkdirSync("dist/carta", { recursive: true });
 writeFileSync(
   "dist/carta/index.html",
   `<!doctype html>

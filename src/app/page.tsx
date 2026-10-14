@@ -1,5 +1,7 @@
-import { MenuApp } from "@/components/menu/MenuApp";
+import { Inicio } from "@inicio";
 
-export default function CartaPage() {
-  return <MenuApp />;
+export { metadata } from "@inicio";
+
+export default function Home() {
+  return <Inicio />;
 }

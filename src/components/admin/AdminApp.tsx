@@ -2,26 +2,47 @@
 
 import { useCallback, useEffect, useMemo, useState, type FormEvent } from "react";
 import type { SupabaseClient } from "@supabase/supabase-js";
-import { venue } from "@venue";
-import { CAMBIO_FIELDS, SUPABASE_KEY, SUPABASE_URL, formatPrice, parsePrice, type Cambio } from "@/lib/cambios";
-import { asset, cn } from "@/lib/utils";
+import { venues } from "@/venues";
+import {
+  CAMBIO_FIELDS,
+  SUPABASE_KEY,
+  SUPABASE_URL,
+  addedProduct,
+  applyCambio,
+  formatPrice,
+  parsePrice,
+  seccionKey,
+  type Cambio,
+} from "@/lib/cambios";
+import { cn } from "@/lib/utils";
 import { Logo } from "@/components/menu/Logo";
 import { ChevronDownIcon } from "@/components/icons";
 import type { Product } from "@/types/menu";
 
-// Admin page of one menu: prices, descriptions and which dishes show. The
-// changes go to Supabase (supabase/carta-cambios.sql) and the menu applies
-// them when it opens, with no new deploy. Only admins of the Mirador Waikiki
-// app can save; the database enforces it, this page only follows along.
+// Admin of the menus, at miradorwaikiki.com/gestion/cartas/: names, prices,
+// descriptions and which dishes show, plus dishes added from here, one menu
+// at a time. The changes go to Supabase (supabase/carta-cambios.sql) and each
+// menu applies them when it opens, with no new deploy. Only admins of the
+// Mirador Waikiki app can save; the database enforces it, this page only
+// follows along.
 
 type View = "cargando" | "login" | "sin-permiso" | "sin-tabla" | "panel";
 
 /** What the form shows for a dish. */
 interface Draft {
+  name: string;
+  nameEn: string;
   price: string;
   visible: boolean;
   description: string;
   descriptionEn: string;
+}
+
+/** A dish in the list: published, or added from here (with its section). */
+interface Row {
+  product: Product;
+  cambio: Cambio | undefined;
+  seccion: string | null;
 }
 
 let client: SupabaseClient | undefined;
@@ -36,59 +57,102 @@ async function supabase() {
   return client;
 }
 
-const products = venue.categories.flatMap((c) => c.subcategories.flatMap((s) => s.products));
-const productsById = new Map(products.map((p) => [p.id, p]));
-
 const normalize = (s: string) =>
   s.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
 
-/** The published dish with its saved change, as the guest sees it now. */
-function current(product: Product, cambio: Cambio | undefined): Draft {
-  const published = parsePrice(product.price);
-  const textChanged = cambio?.descripcion != null;
+/** The menu in the address (?carta=hulakai), so a link opens straight on it. */
+function cartaFromUrl() {
+  const id = new URLSearchParams(window.location.search).get("carta");
+  return venues.some((v) => v.id === id) ? id! : venues[0].id;
+}
+
+const emptyDraft: Draft = { name: "", nameEn: "", price: "", visible: true, description: "", descriptionEn: "" };
+
+/** The dish as guests see it now: published, with its saved change on top. */
+function draftOf(row: Row): Draft {
+  const { product, cambio } = row;
+  const p = cambio ? (cambio.seccion ? addedProduct(cambio) : applyCambio(product, cambio)) : product;
+  const price = parsePrice(p.price);
   return {
-    price: cambio?.precio != null ? formatPrice(cambio.precio) : published ? formatPrice(published) : product.price,
+    name: p.name,
+    nameEn: p.nameEn ?? "",
+    price: price ? formatPrice(price) : p.price,
     visible: !cambio?.oculto,
-    description: textChanged ? (cambio.descripcion ?? "") : (product.description ?? ""),
-    descriptionEn:
-      textChanged || cambio?.descripcion_en != null ? (cambio?.descripcion_en ?? "") : (product.descriptionEn ?? ""),
+    description: p.description ?? "",
+    descriptionEn: p.descriptionEn ?? "",
   };
 }
 
 const sameDraft = (a: Draft, b: Draft) =>
+  a.name.trim() === b.name.trim() &&
+  a.nameEn.trim() === b.nameEn.trim() &&
   parsePrice(a.price) === parsePrice(b.price) &&
   a.visible === b.visible &&
   a.description.trim() === b.description.trim() &&
   a.descriptionEn.trim() === b.descriptionEn.trim();
 
-/** The row to save for a dish, or null when it matches what is published. */
-function toCambio(product: Product, draft: Draft): Omit<Cambio, "producto_id"> | null {
-  const precio = parsePrice(draft.price);
-  const description = draft.description.trim();
-  const descriptionEn = draft.descriptionEn.trim();
-  const descripcion = description === (product.description ?? "") ? null : description;
-  // A new Spanish text always saves its English one, so it never shows a stale translation.
-  const descripcion_en =
-    descripcion !== null || descriptionEn !== (product.descriptionEn ?? "") ? descriptionEn : null;
-  const row = {
-    precio: precio === parsePrice(product.price) ? null : precio,
-    descripcion,
-    descripcion_en,
-    oculto: !draft.visible,
+type Fields = Omit<Cambio, "producto_id" | "creado_en">;
+
+/**
+ * The row to save for a dish. An added dish saves everything; a published one
+ * only what differs from the menu, and null when nothing does.
+ */
+function toCambio(row: Row, draft: Draft): Fields | null {
+  const t = {
+    name: draft.name.trim(),
+    nameEn: draft.nameEn.trim(),
+    description: draft.description.trim(),
+    descriptionEn: draft.descriptionEn.trim(),
   };
-  return row.precio === null && row.descripcion === null && row.descripcion_en === null && !row.oculto ? null : row;
+  const precio = parsePrice(draft.price);
+  if (row.seccion) {
+    return {
+      nombre: t.name,
+      nombre_en: t.nameEn || null,
+      precio,
+      descripcion: t.description || null,
+      descripcion_en: t.descriptionEn || null,
+      oculto: !draft.visible,
+      seccion: row.seccion,
+    };
+  }
+  const p = row.product;
+  const nombre = t.name === p.name ? null : t.name;
+  const descripcion = t.description === (p.description ?? "") ? null : t.description;
+  // A new Spanish text always saves its English one, so it never shows a stale translation.
+  const fields: Fields = {
+    nombre,
+    nombre_en: nombre !== null || t.nameEn !== (p.nameEn ?? "") ? t.nameEn : null,
+    precio: precio === parsePrice(p.price) ? null : precio,
+    descripcion,
+    descripcion_en: descripcion !== null || t.descriptionEn !== (p.descriptionEn ?? "") ? t.descriptionEn : null,
+    oculto: !draft.visible,
+    seccion: null,
+  };
+  const unchanged =
+    fields.nombre === null &&
+    fields.nombre_en === null &&
+    fields.precio === null &&
+    fields.descripcion === null &&
+    fields.descripcion_en === null &&
+    !fields.oculto;
+  return unchanged ? null : fields;
 }
+
+const newId = () => `nuevo-${Date.now().toString(36)}${Math.random().toString(36).slice(2, 6)}`;
 
 function errorMessage(e: unknown) {
   const m = (e as { message?: string })?.message ?? String(e);
   if (/Invalid login credentials/i.test(m)) return "Email o contraseña incorrectos.";
   if (/row-level security|permission denied/i.test(m)) return "Tu usuario no tiene permiso para esto.";
   if (/Failed to fetch|NetworkError|Load failed/i.test(m)) return "No hay conexión con el servidor. Probá de nuevo.";
+  if (/column .* does not exist|could not find the .* column/i.test(m))
+    return "Falta actualizar la tabla de cambios: volvé a correr supabase/carta-cambios.sql en Supabase.";
   return m;
 }
 
 const missingTable = (e: { code?: string; message?: string } | null) =>
-  !!e && (e.code === "PGRST205" || e.code === "42P01" || /carta_cambios/.test(e.message ?? ""));
+  !!e && (e.code === "PGRST205" || e.code === "42P01" || /relation .*carta_cambios/.test(e.message ?? ""));
 
 const field =
   "w-full rounded-xl border border-mw-arena bg-white px-3 py-2.5 text-[15px] text-mw-tinta outline-none focus:border-mw-foco focus:ring-2 focus:ring-mw-foco/20";
@@ -99,19 +163,43 @@ const buttonQuiet =
 
 export function AdminApp() {
   const [view, setView] = useState<View>("cargando");
+  const [cartaId, setCartaId] = useState(venues[0].id);
   const [user, setUser] = useState("");
-  const [saved, setSaved] = useState<Map<string, Cambio>>(new Map());
+  const [saved, setSaved] = useState<Cambio[]>([]);
   const [drafts, setDrafts] = useState<Record<string, Draft>>({});
+  /** Dishes added here and not saved yet: id → section. */
+  const [unsaved, setUnsaved] = useState<Record<string, string>>({});
   const [query, setQuery] = useState("");
   const [saving, setSaving] = useState(false);
   const [notice, setNotice] = useState<{ kind: "ok" | "error"; text: string } | null>(null);
 
-  const loadCambios = useCallback(async () => {
+  const carta = venues.find((v) => v.id === cartaId) ?? venues[0];
+
+  // Every dish of the menu by id, with its saved change, and the added ones per section.
+  const { rows, addedBySeccion } = useMemo(() => {
+    const byId = new Map(saved.map((c) => [c.producto_id, c]));
+    const rows = new Map<string, Row>();
+    for (const c of carta.categories)
+      for (const s of c.subcategories)
+        for (const p of s.products) rows.set(p.id, { product: p, cambio: byId.get(p.id), seccion: null });
+    const addedBySeccion = new Map<string, string[]>();
+    const add = (seccion: string, row: Row) => {
+      rows.set(row.product.id, row);
+      addedBySeccion.set(seccion, [...(addedBySeccion.get(seccion) ?? []), row.product.id]);
+    };
+    for (const c of saved)
+      if (c.seccion && !rows.has(c.producto_id)) add(c.seccion, { product: addedProduct(c), cambio: c, seccion: c.seccion });
+    for (const [id, seccion] of Object.entries(unsaved))
+      add(seccion, { product: { id, name: "", price: "" }, cambio: undefined, seccion });
+    return { rows, addedBySeccion };
+  }, [carta, saved, unsaved]);
+
+  const loadCambios = useCallback(async (id: string) => {
     const sb = await supabase();
-    const { data, error } = await sb.from("carta_cambios").select(CAMBIO_FIELDS).eq("carta", venue.id);
+    const { data, error } = await sb.from("carta_cambios").select(CAMBIO_FIELDS).eq("carta", id).order("creado_en");
     if (missingTable(error)) return setView("sin-tabla");
     if (error) throw error;
-    setSaved(new Map((data as Cambio[]).map((c) => [c.producto_id, c])));
+    setSaved(data as Cambio[]);
     setView("panel");
   }, []);
 
@@ -128,7 +216,9 @@ export function AdminApp() {
         .eq("id", data.session.user.id)
         .maybeSingle();
       setUser(profile?.full_name ?? data.session.user.email ?? "");
-      await loadCambios();
+      const id = cartaFromUrl();
+      setCartaId(id);
+      await loadCambios(id);
     } catch (e) {
       setNotice({ kind: "error", text: errorMessage(e) });
       setView("login");
@@ -142,12 +232,12 @@ export function AdminApp() {
   const dirtyIds = useMemo(
     () =>
       Object.keys(drafts).filter((id) => {
-        const product = productsById.get(id);
-        return product && !sameDraft(drafts[id], current(product, saved.get(id)));
+        const row = rows.get(id);
+        return row && (id in unsaved || !sameDraft(drafts[id], draftOf(row)));
       }),
-    [drafts, saved],
+    [drafts, rows, unsaved],
   );
-  const invalidIds = dirtyIds.filter((id) => parsePrice(drafts[id].price) === null);
+  const invalidIds = dirtyIds.filter((id) => parsePrice(drafts[id].price) === null || drafts[id].name.trim() === "");
 
   // Don't lose edits by closing the tab.
   useEffect(() => {
@@ -157,25 +247,55 @@ export function AdminApp() {
     return () => window.removeEventListener("beforeunload", warn);
   }, [dirtyIds.length]);
 
-  const edit = (product: Product, patch: Partial<Draft>) =>
-    setDrafts((prev) => ({ ...prev, [product.id]: { ...(prev[product.id] ?? current(product, saved.get(product.id))), ...patch } }));
+  const edit = (row: Row, patch: Partial<Draft>) =>
+    setDrafts((prev) => ({ ...prev, [row.product.id]: { ...(prev[row.product.id] ?? draftOf(row)), ...patch } }));
 
-  const restore = (product: Product) => edit(product, current(product, undefined));
+  const restore = (row: Row) => edit(row, draftOf({ ...row, cambio: undefined }));
+
+  const addDish = (seccion: string) => {
+    const id = newId();
+    setUnsaved((prev) => ({ ...prev, [id]: seccion }));
+    setDrafts((prev) => ({ ...prev, [id]: emptyDraft }));
+  };
+
+  const forget = (id: string) => {
+    setDrafts((prev) => Object.fromEntries(Object.entries(prev).filter(([k]) => k !== id)));
+    setUnsaved((prev) => Object.fromEntries(Object.entries(prev).filter(([k]) => k !== id)));
+  };
+
+  const removeAdded = async (row: Row) => {
+    const id = row.product.id;
+    if (id in unsaved) return forget(id);
+    if (!window.confirm(`¿Eliminar «${row.product.name}» de la carta de ${carta.restaurant.name}?`)) return;
+    try {
+      const sb = await supabase();
+      const { error } = await sb.from("carta_cambios").delete().eq("carta", carta.id).eq("producto_id", id);
+      if (error) throw error;
+      forget(id);
+      await loadCambios(carta.id);
+      setNotice({ kind: "ok", text: `Eliminado de la carta de ${carta.restaurant.name}.` });
+    } catch (e) {
+      setNotice({ kind: "error", text: errorMessage(e) });
+    }
+  };
 
   const save = async () => {
     if (invalidIds.length > 0) {
-      setNotice({ kind: "error", text: "Hay precios que no son un número. Corregilos antes de guardar." });
+      setNotice({
+        kind: "error",
+        text: "Hay platos sin nombre o con un precio que no es un número. Corregilos antes de guardar.",
+      });
       return;
     }
     setSaving(true);
     setNotice(null);
     try {
       const sb = await supabase();
-      const upserts: (Cambio & { carta: string })[] = [];
+      const upserts: (Fields & { carta: string; producto_id: string })[] = [];
       const deletes: string[] = [];
       for (const id of dirtyIds) {
-        const row = toCambio(productsById.get(id)!, drafts[id]);
-        if (row) upserts.push({ carta: venue.id, producto_id: id, ...row });
+        const fields = toCambio(rows.get(id)!, drafts[id]);
+        if (fields) upserts.push({ carta: carta.id, producto_id: id, ...fields });
         else deletes.push(id);
       }
       if (upserts.length > 0) {
@@ -183,12 +303,13 @@ export function AdminApp() {
         if (error) throw error;
       }
       if (deletes.length > 0) {
-        const { error } = await sb.from("carta_cambios").delete().eq("carta", venue.id).in("producto_id", deletes);
+        const { error } = await sb.from("carta_cambios").delete().eq("carta", carta.id).in("producto_id", deletes);
         if (error) throw error;
       }
       setDrafts({});
-      await loadCambios();
-      setNotice({ kind: "ok", text: "Guardado. Ya se ve en la carta." });
+      setUnsaved({});
+      await loadCambios(carta.id);
+      setNotice({ kind: "ok", text: `Guardado. Ya se ve en la carta de ${carta.restaurant.name}.` });
     } catch (e) {
       setNotice({ kind: "error", text: errorMessage(e) });
     } finally {
@@ -196,10 +317,34 @@ export function AdminApp() {
     }
   };
 
+  const discard = () => {
+    setDrafts({});
+    setUnsaved({});
+  };
+
+  const choose = async (id: string) => {
+    if (id === carta.id) return;
+    if (dirtyIds.length > 0 && !window.confirm(`Hay cambios sin guardar en ${carta.restaurant.name}. ¿Los descartás?`)) {
+      return;
+    }
+    discard();
+    setQuery("");
+    setNotice(null);
+    setSaved([]);
+    setCartaId(id);
+    window.history.replaceState(null, "", `?carta=${id}`);
+    window.scrollTo(0, 0);
+    try {
+      await loadCambios(id);
+    } catch (e) {
+      setNotice({ kind: "error", text: errorMessage(e) });
+    }
+  };
+
   const signOut = async () => {
     const sb = await supabase();
     await sb.auth.signOut();
-    setDrafts({});
+    discard();
     setView("login");
   };
 
@@ -231,12 +376,21 @@ export function AdminApp() {
   }
 
   const q = normalize(query.trim());
-  const sections = venue.categories
+  const matches = (id: string) => {
+    if (!q || id in unsaved) return true;
+    const d = drafts[id] ?? draftOf(rows.get(id)!);
+    return normalize(d.name).includes(q);
+  };
+  const sections = carta.categories
     .map((category) => ({
       category,
       subcategories: category.subcategories
-        .map((sub) => ({ sub, products: sub.products.filter((p) => !q || normalize(p.name).includes(q)) }))
-        .filter((s) => s.products.length > 0),
+        .map((sub) => {
+          const seccion = seccionKey(category.name, sub.name);
+          const ids = [...sub.products.map((p) => p.id), ...(addedBySeccion.get(seccion) ?? [])];
+          return { sub, seccion, ids: ids.filter(matches) };
+        })
+        .filter((s) => !q || s.ids.length > 0),
     }))
     .filter((s) => s.subcategories.length > 0);
 
@@ -246,16 +400,38 @@ export function AdminApp() {
         <div className="mx-auto flex max-w-3xl items-center gap-3 px-4 py-3">
           <Logo className="h-9 w-auto" textClassName="text-[15px]" />
           <div className="min-w-0 flex-1">
-            <p className="text-[11px] font-semibold tracking-[0.2em] text-mw-rotulo uppercase">Administrar carta</p>
+            <p className="text-[11px] font-semibold tracking-[0.2em] text-mw-rotulo uppercase">Cartas</p>
             <p className="truncate text-[13px] text-mw-tinta-suave">{user}</p>
           </div>
-          <a href={asset("/")} target="_blank" rel="noreferrer" className={buttonQuiet}>
-            Ver carta
+          <a href="/gestion/" className="text-[13px] font-medium text-mw-rotulo hover:text-mw-tinta">
+            Gift cards
           </a>
-          <button type="button" onClick={() => void signOut()} className="text-[13px] font-medium text-mw-rotulo hover:text-mw-tinta">
+          <button
+            type="button"
+            onClick={() => void signOut()}
+            className="text-[13px] font-medium text-mw-rotulo hover:text-mw-tinta"
+          >
             Salir
           </button>
         </div>
+        <nav aria-label="Cartas" className="mx-auto flex max-w-3xl flex-wrap gap-2 px-4 pb-3">
+          {venues.map((v) => (
+            <button
+              key={v.id}
+              type="button"
+              aria-pressed={v.id === carta.id}
+              onClick={() => void choose(v.id)}
+              className={cn(
+                "shrink-0 rounded-full px-4 py-2 text-[14px] font-medium transition-colors",
+                v.id === carta.id
+                  ? "bg-mw-accion text-white"
+                  : "border border-mw-arena bg-white text-mw-tinta hover:border-mw-verde",
+              )}
+            >
+              {v.restaurant.name}
+            </button>
+          ))}
+        </nav>
         <div className="mx-auto max-w-3xl px-4 pb-3">
           <input
             type="search"
@@ -267,7 +443,7 @@ export function AdminApp() {
           />
           {!q && (
             <nav aria-label="Secciones" className="no-scrollbar -mx-4 mt-3 flex gap-2 overflow-x-auto px-4">
-              {venue.categories.map((c) => (
+              {carta.categories.map((c) => (
                 <a
                   key={c.name}
                   href={`#${encodeURIComponent(c.name)}`}
@@ -282,39 +458,55 @@ export function AdminApp() {
       </header>
 
       <main className="mx-auto max-w-3xl px-4 pt-5">
-        <p className="text-[14px] leading-relaxed text-mw-tinta-suave">
-          Cambiá precios, descripciones o lo que se muestra, y tocá <strong>Guardar</strong>: la carta lo toma al
-          abrirse, sin publicar de nuevo.
-        </p>
+        <div className="flex flex-col items-start gap-3 sm:flex-row sm:items-baseline sm:justify-between sm:gap-4">
+          <p className="min-w-0 flex-1 text-[14px] leading-relaxed text-mw-tinta-suave">
+            Cambiá nombres, precios y descripciones, ocultá lo que no hay o agregá platos, y tocá{" "}
+            <strong>Guardar</strong>: la carta lo toma al abrirse, sin publicar de nuevo.
+          </p>
+          <a href={`/carta/${carta.id}/`} target="_blank" rel="noreferrer" className={buttonQuiet}>
+            Ver la carta de {carta.restaurant.name}
+          </a>
+        </div>
 
-        {sections.length === 0 && <p className="mt-8 text-center text-[15px] text-mw-tinta-suave">No hay platos con ese nombre.</p>}
+        {sections.length === 0 && (
+          <p className="mt-8 text-center text-[15px] text-mw-tinta-suave">No hay platos con ese nombre.</p>
+        )}
 
         {sections.map(({ category, subcategories }) => (
-          <section key={category.name} id={encodeURIComponent(category.name)} className="scroll-mt-40 pt-8">
+          <section key={category.name} id={encodeURIComponent(category.name)} className="scroll-mt-56 pt-8">
             <h2 className="text-[24px] font-semibold tracking-[-0.01em] text-mw-titulo">{category.name}</h2>
-            {subcategories.map(({ sub, products: list }) => (
+            {subcategories.map(({ sub, seccion, ids }) => (
               <div key={sub.name} className="mt-4 overflow-hidden rounded-2xl border border-mw-arena bg-white">
                 <h3 className="border-b border-mw-arena-clara px-4 py-3 text-[11px] font-semibold tracking-[0.2em] text-mw-rotulo uppercase">
                   {sub.name}
                 </h3>
                 <ul className="divide-y divide-mw-arena-clara">
-                  {list.map((product) => {
-                    const cambio = saved.get(product.id);
-                    const draft = drafts[product.id] ?? current(product, cambio);
+                  {ids.map((id) => {
+                    const row = rows.get(id)!;
                     return (
                       <ProductRow
-                        key={product.id}
-                        product={product}
-                        draft={draft}
-                        changed={!!cambio}
-                        dirty={dirtyIds.includes(product.id)}
-                        invalid={invalidIds.includes(product.id)}
-                        onEdit={(patch) => edit(product, patch)}
-                        onRestore={() => restore(product)}
+                        key={id}
+                        row={row}
+                        draft={drafts[id] ?? draftOf(row)}
+                        isNew={id in unsaved}
+                        dirty={dirtyIds.includes(id)}
+                        invalid={invalidIds.includes(id)}
+                        onEdit={(patch) => edit(row, patch)}
+                        onRestore={() => restore(row)}
+                        onRemove={() => void removeAdded(row)}
                       />
                     );
                   })}
                 </ul>
+                {!q && (
+                  <button
+                    type="button"
+                    onClick={() => addDish(seccion)}
+                    className="w-full border-t border-mw-arena-clara px-4 py-3 text-left text-[14px] font-medium text-mw-rotulo hover:bg-mw-crema-clarito"
+                  >
+                    + Agregar plato en {sub.name}
+                  </button>
+                )}
               </div>
             ))}
           </section>
@@ -328,7 +520,11 @@ export function AdminApp() {
               role="status"
               className={cn(
                 "min-w-0 flex-1 text-[14px]",
-                notice?.kind === "error" ? "text-red-700" : notice?.kind === "ok" && dirtyIds.length === 0 ? "text-mw-foco" : "text-mw-tinta",
+                notice?.kind === "error"
+                  ? "text-red-700"
+                  : notice?.kind === "ok" && dirtyIds.length === 0
+                    ? "text-mw-foco"
+                    : "text-mw-tinta",
               )}
             >
               {notice && (notice.kind === "error" || dirtyIds.length === 0)
@@ -337,7 +533,7 @@ export function AdminApp() {
             </p>
             {dirtyIds.length > 0 ? (
               <>
-                <button type="button" onClick={() => setDrafts({})} disabled={saving} className={buttonQuiet}>
+                <button type="button" onClick={discard} disabled={saving} className={buttonQuiet}>
                   Descartar
                 </button>
                 <button type="button" onClick={() => void save()} disabled={saving} className={buttonPrimary}>
@@ -357,35 +553,49 @@ export function AdminApp() {
 }
 
 function ProductRow({
-  product,
+  row,
   draft,
-  changed,
+  isNew,
   dirty,
   invalid,
   onEdit,
   onRestore,
+  onRemove,
 }: {
-  product: Product;
+  row: Row;
   draft: Draft;
-  changed: boolean;
+  isNew: boolean;
   dirty: boolean;
   invalid: boolean;
   onEdit: (patch: Partial<Draft>) => void;
   onRestore: () => void;
+  onRemove: () => void;
 }) {
-  const [open, setOpen] = useState(false);
-  const published = parsePrice(product.price);
+  const [open, setOpen] = useState(isNew);
+  const added = row.seccion !== null;
+  const published = added ? null : parsePrice(row.product.price);
   const priceNow = parsePrice(draft.price);
+  const name = draft.name.trim();
+  const label = name || "el plato nuevo";
   return (
     <li className={cn("px-4 py-3.5", !draft.visible && "bg-mw-crema-clarito")}>
       <div className="flex items-start gap-3">
         <div className="min-w-0 flex-1">
-          <p className={cn("text-[15px] leading-snug font-semibold text-mw-tinta", !draft.visible && "text-mw-tinta-suave line-through")}>
-            {product.name}
+          <p
+            className={cn(
+              "text-[15px] leading-snug font-semibold text-mw-tinta",
+              !draft.visible && "text-mw-tinta-suave line-through",
+              !name && "font-normal text-mw-tinta-suave italic",
+            )}
+          >
+            {name || "Plato nuevo, sin nombre"}
           </p>
           <div className="mt-1 flex flex-wrap gap-1.5 text-[11.5px]">
+            {added && <span className="rounded-full bg-mw-salvia px-2 py-0.5 text-mw-rotulo">Agregado desde acá</span>}
             {dirty && <span className="rounded-full bg-mw-arena px-2 py-0.5 text-mw-tinta">Sin guardar</span>}
-            {!dirty && changed && <span className="rounded-full bg-mw-salvia px-2 py-0.5 text-mw-rotulo">Cambiado desde acá</span>}
+            {!dirty && !added && row.cambio && (
+              <span className="rounded-full bg-mw-salvia px-2 py-0.5 text-mw-rotulo">Cambiado desde acá</span>
+            )}
             {published !== null && priceNow !== null && priceNow !== published && (
               <span className="text-mw-tinta-suave">Publicado: $ {formatPrice(published)}</span>
             )}
@@ -399,11 +609,14 @@ function ProductRow({
             value={draft.price}
             onChange={(e) => onEdit({ price: e.target.value })}
             onBlur={() => priceNow !== null && onEdit({ price: formatPrice(priceNow) })}
-            aria-label={`Precio de ${product.name}`}
-            aria-invalid={invalid}
+            aria-label={`Precio de ${label}`}
+            aria-invalid={invalid && priceNow === null}
+            placeholder="0"
             className={cn(
               "w-[96px] rounded-lg border bg-white px-2 py-1.5 text-right text-[15px] font-semibold tabular-nums outline-none focus:ring-2",
-              invalid ? "border-red-600 text-red-700 focus:ring-red-600/20" : "border-mw-arena text-mw-tinta focus:border-mw-foco focus:ring-mw-foco/20",
+              invalid && priceNow === null
+                ? "border-red-600 text-red-700 focus:ring-red-600/20"
+                : "border-mw-arena text-mw-tinta focus:border-mw-foco focus:ring-mw-foco/20",
             )}
           />
         </label>
@@ -433,20 +646,52 @@ function ProductRow({
           onClick={() => setOpen((o) => !o)}
           className="flex items-center gap-1 text-[13px] font-medium text-mw-rotulo hover:text-mw-tinta"
         >
-          Descripción
+          Nombre y descripción
           <ChevronDownIcon className={cn("h-4 w-4 transition-transform", open && "rotate-180")} />
         </button>
-        {(changed || dirty) && (
-          <button type="button" onClick={onRestore} className="text-[13px] text-mw-tinta-suave underline-offset-2 hover:underline">
-            Volver a lo publicado
+        {added ? (
+          <button type="button" onClick={onRemove} className="text-[13px] text-red-700 underline-offset-2 hover:underline">
+            {isNew ? "Descartar" : "Eliminar"}
           </button>
+        ) : (
+          (row.cambio || dirty) && (
+            <button
+              type="button"
+              onClick={onRestore}
+              className="text-[13px] text-mw-tinta-suave underline-offset-2 hover:underline"
+            >
+              Volver a lo publicado
+            </button>
+          )
         )}
       </div>
 
       {open && (
-        <div className="mt-3 space-y-3">
+        <div className="mt-3 grid gap-3 sm:grid-cols-2">
           <label className="block">
-            <span className="text-[12px] font-medium text-mw-tinta-suave">En español</span>
+            <span className="text-[12px] font-medium text-mw-tinta-suave">Nombre</span>
+            <input
+              type="text"
+              value={draft.name}
+              onChange={(e) => onEdit({ name: e.target.value })}
+              maxLength={120}
+              aria-invalid={invalid && !name}
+              autoFocus={isNew}
+              className={cn(field, "mt-1 text-[14px]", invalid && !name && "border-red-600")}
+            />
+          </label>
+          <label className="block">
+            <span className="text-[12px] font-medium text-mw-tinta-suave">Nombre en inglés (vacío: se lee en español)</span>
+            <input
+              type="text"
+              value={draft.nameEn}
+              onChange={(e) => onEdit({ nameEn: e.target.value })}
+              maxLength={120}
+              className={cn(field, "mt-1 text-[14px]")}
+            />
+          </label>
+          <label className="block">
+            <span className="text-[12px] font-medium text-mw-tinta-suave">Descripción</span>
             <textarea
               value={draft.description}
               onChange={(e) => onEdit({ description: e.target.value })}
@@ -457,7 +702,7 @@ function ProductRow({
           </label>
           <label className="block">
             <span className="text-[12px] font-medium text-mw-tinta-suave">
-              En inglés (si lo dejás vacío, en inglés se lee el texto en español)
+              Descripción en inglés (vacía: se lee en español)
             </span>
             <textarea
               value={draft.descriptionEn}
@@ -516,10 +761,8 @@ function Login({ notice, onDone }: { notice: { kind: "ok" | "error"; text: strin
         <div className="flex justify-center">
           <Logo className="h-14 w-auto" textClassName="text-[22px]" />
         </div>
-        <h1 className="mt-5 text-center text-[20px] font-semibold text-mw-titulo">Administrar la carta</h1>
-        <p className="mt-1 text-center text-[13px] text-mw-tinta-suave">
-          Con el mismo usuario de la app de Mirador Waikiki.
-        </p>
+        <h1 className="mt-5 text-center text-[20px] font-semibold text-mw-titulo">Administrar las cartas</h1>
+        <p className="mt-1 text-center text-[13px] text-mw-tinta-suave">Con el mismo usuario de la app de Mirador Waikiki.</p>
         <label className="mt-6 block">
           <span className="text-[13px] font-medium text-mw-tinta">Email</span>
           <input name="email" type="email" autoComplete="username" required className={cn(field, "mt-1")} />

@@ -17,21 +17,23 @@ genera un sitio estático por carta. Cada carta es una carpeta de `src/venues/` 
 npm install
 npm run dev                       # Mirador Waikiki en http://localhost:3000/carta/miradorwaikiki
 CARTA=hulakai npm run dev         # otra carta: http://localhost:3000/carta/hulakai
-npm run build:cartas              # las cuatro, en dist/carta/<carta>/
+npm run build:cartas              # las cuatro en dist/carta/<carta>/ y el panel en dist/gestion/cartas/
 npm run build:cartas -- hulakai   # solo una
 npm run lint
 ```
 
-## Cambiar precios sin publicar
+## Cambiar la carta sin publicar
 
-Cada carta tiene un panel en `/carta/<carta>/admin/` (por ejemplo `miradorwaikiki.com/carta/hulakai/admin/`;
-también hay accesos en `miradorwaikiki.com/gestion`). Se entra con el mismo usuario de la app de Mirador
-Waikiki, y solo pueden guardar sus administradores. Desde ahí se cambian precios y descripciones, y se
-oculta un plato que no hay; la carta toma los cambios al abrirse, sin publicar de nuevo.
+Las cuatro cartas se administran desde un solo panel: `miradorwaikiki.com/gestion/cartas/` (también hay un
+botón en `miradorwaikiki.com/gestion`). Se entra con el mismo usuario de la app de Mirador Waikiki, y solo
+pueden guardar sus administradores. Ahí se elige la carta y se cambian nombres, precios y descripciones (en
+español y en inglés), se oculta un plato que no hay o se agrega uno nuevo en cualquier sección; la carta toma
+los cambios al abrirse, sin publicar de nuevo.
 
 Los cambios viven en la tabla `carta_cambios` del Supabase del grupo (`supabase/carta-cambios.sql`, que se
-corre una vez en el editor SQL del proyecto) y van por encima de lo publicado en `menu.ts`: sin conexión,
-la carta muestra lo publicado. Platos nuevos o secciones nuevas se siguen agregando en `menu.ts`.
+corre en el editor SQL del proyecto; volver a correrlo suma lo que falte) y van por encima de lo publicado en
+`menu.ts`: sin conexión, la carta muestra lo publicado. El panel es el mismo proyecto compilado con
+`CARTA=gestion`. Secciones nuevas se siguen agregando en `menu.ts`.
 
 ## Qué editar
 
@@ -51,5 +53,5 @@ de archivo.
 ## Publicar
 
 Las cartas viven dentro del sitio de miradorwaikiki.com: después de `npm run build:cartas`, `dist/carta/`
-reemplaza a `public/carta/` del proyecto Astro de la web. Al subir esa rama, GitHub Actions la publica por
+reemplaza a `public/carta/` del proyecto Astro de la web, y `dist/gestion/cartas/` a `public/gestion/cartas/`. Al subir esa rama, GitHub Actions la publica por
 FTP en DonWeb.
