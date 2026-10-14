@@ -15,7 +15,7 @@ const unidades = (await getCollection("unidades")).sort((a, b) => a.data.orden -
 
 const canales = await Promise.all(
   unidades.map(async (u) => ({
-    id: u.id as "restaurante" | "hotel" | "balneario" | "eventos",
+    id: u.id as "restaurante" | "hotel" | "balneario" | "hula-kai" | "eventos",
     nombre: u.data.nombreLargo,
     bajada: u.data.bajada,
     hero: u.data.hero,
@@ -211,5 +211,6 @@ const datosEstructurados = {
   .u-restaurante { --u: var(--u-restaurante); }
   .u-hotel { --u: var(--u-hotel); }
   .u-balneario { --u: var(--u-balneario); }
+  .u-hula-kai { --u: var(--u-hula-kai); }
   .u-eventos { --u: var(--u-eventos); }
 </style>

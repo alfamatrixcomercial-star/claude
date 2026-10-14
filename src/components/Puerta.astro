@@ -1,11 +1,11 @@
 ---
 /**
- * Una de las cuatro puertas del home.
+ * Una de las puertas del home, una por unidad.
  *
- * No son cuatro columnas iguales: eso se lee como catálogo y aplana la
- * jerarquía. El restaurante va grande y vertical —es lo que más gente busca,
- * y lo único que abre todos los días— y las otras tres van compactas y
- * horizontales al costado.
+ * No son columnas iguales: eso se lee como catálogo y aplana la jerarquía.
+ * El restaurante va grande y vertical —es lo que más gente busca, y lo
+ * único que abre todos los días— y las demás van compactas y horizontales
+ * al costado.
  *
  * La pieza va montada en bandeja: marco exterior, núcleo adentro, radios
  * concéntricos.
@@ -15,7 +15,7 @@ import Estado from "./Estado.astro";
 import type { Estado as EstadoTipo } from "~/lib/estado";
 
 interface Props {
-  id: "restaurante" | "hotel" | "balneario" | "eventos";
+  id: "restaurante" | "hotel" | "balneario" | "hula-kai" | "eventos";
   nombre: string;
   bajada: string;
   href: string;
@@ -23,7 +23,7 @@ interface Props {
   cta: string;
   ctaHref: string;
   foto: { src: ImageMetadata; alt: string; foco?: "centro" | "arriba" | "abajo" } | null;
-  ornamento: "caracol" | "vieira" | "ammonite" | "coral";
+  ornamento: "caracol" | "vieira" | "ammonite" | "coral" | "caracola";
   destacada?: boolean;
 }
 const { id, nombre, bajada, href, estado, cta, ctaHref, foto, ornamento, destacada = false } =
@@ -177,6 +177,7 @@ const fuera = ctaHref.startsWith("http");
   .u-restaurante { --u: var(--u-restaurante); --u-txt: var(--u-restaurante-txt); }
   .u-hotel { --u: var(--u-hotel); --u-txt: var(--u-hotel-txt); }
   .u-balneario { --u: var(--u-balneario); --u-txt: var(--u-balneario-txt); }
+  .u-hula-kai { --u: var(--u-hula-kai); --u-txt: var(--u-hula-kai-txt); }
   .u-eventos { --u: var(--u-eventos); --u-txt: var(--u-eventos-txt); }
 
   @media (prefers-reduced-motion: reduce) {

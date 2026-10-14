@@ -188,7 +188,7 @@ cambiá `site` en `astro.config.mjs` si el dominio final no es
   de material y por la onda de pincel del manual de marca.
 - **Cada unidad tiene su color** y ese color es la señalética: verde
   restaurante, arena hotel, teal balneario, terracota eventos.
-- **Las cuatro puertas van en el primer scroll del home.** Nadie tiene que
+- **Las puertas de las unidades van en el primer scroll del home.** Nadie tiene que
   atravesar tres secciones de casamientos para reservar una mesa.
 
 ---

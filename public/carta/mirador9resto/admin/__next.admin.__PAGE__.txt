@@ -2,5 +2,5 @@
 2:I[75897,["/carta/mirador9resto/_next/static/chunks/0dbhjjzl8qfwv.js","/carta/mirador9resto/_next/static/chunks/0vw2k8aoma532.js","/carta/mirador9resto/_next/static/chunks/0edz0kzfmh0zk.js"],"AdminApp"]
 3:I[97367,["/carta/mirador9resto/_next/static/chunks/0dbhjjzl8qfwv.js"],"OutletBoundary"]
 4:"$Sreact.suspense"
-0:{"rsc":["$","$1","c",{"children":[["$","$L2",null,{}],[["$","script","script-0",{"src":"/carta/mirador9resto/_next/static/chunks/0vw2k8aoma532.js","async":true}],["$","script","script-1",{"src":"/carta/mirador9resto/_next/static/chunks/0edz0kzfmh0zk.js","async":true}]],["$","$L3",null,{"children":["$","$4",null,{"name":"Next.MetadataOutlet","children":"$@5"}]}]]}],"isPartial":false,"staleTime":300,"varyParams":null,"buildId":"mmqNIIo0dfPGdQSRnCkTZ"}
+0:{"rsc":["$","$1","c",{"children":[["$","$L2",null,{}],[["$","script","script-0",{"src":"/carta/mirador9resto/_next/static/chunks/0vw2k8aoma532.js","async":true}],["$","script","script-1",{"src":"/carta/mirador9resto/_next/static/chunks/0edz0kzfmh0zk.js","async":true}]],["$","$L3",null,{"children":["$","$4",null,{"name":"Next.MetadataOutlet","children":"$@5"}]}]]}],"isPartial":false,"staleTime":300,"varyParams":null,"buildId":"EXZcEDEg4LZxecOU1VkqM"}
 5:null

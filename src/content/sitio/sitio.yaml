@@ -9,11 +9,12 @@
 
 nombre: Mirador Waikiki
 desde: 1999
-lema: Cuatro maneras de estar frente al mar.
+lema: Cinco maneras de estar frente al mar.
 firma: Una propuesta diferente, frente al mar.
 descripcion: >-
-  Restaurante, hotel boutique, balneario y salón de eventos sobre las rocas de
-  Mar del Plata. Un mismo predio frente al mar desde 1999.
+  Restaurante, hotel boutique, balneario, la pileta de Hula Kai y salón de
+  eventos sobre las rocas de Mar del Plata. Un mismo predio frente al mar desde
+  1999.
 
 direccion:
   calle: Av. de los Trabajadores 4320 # confirmado en fichas públicas del complejo
@@ -54,6 +55,9 @@ contacto:
   balneario:
     whatsapp: "5492235803322" # el que pasó el cliente
     mensaje: "Hola! Quiero consultar por una carpa en el balneario de Mirador Waikiki."
+  "hula-kai":
+    whatsapp: "5492235466065" # TODO: confirmar el número de Hula Kai (por ahora, el general)
+    mensaje: "Hola! Quiero consultar por Hula Kai, la pileta de Mirador Waikiki."
   eventos:
     whatsapp: "5492236333330" # el que pasó el cliente
     mensaje: "Hola! Quiero consultar por un evento en Mirador Waikiki."

@@ -10,7 +10,7 @@ import type { Estado } from "~/lib/estado";
 
 interface Props {
   estado: Estado;
-  unidad: "restaurante" | "hotel" | "balneario" | "eventos";
+  unidad: "restaurante" | "hotel" | "balneario" | "hula-kai" | "eventos";
   class?: string;
 }
 const { estado, unidad, class: clase } = Astro.props;
@@ -63,6 +63,7 @@ const { estado, unidad, class: clase } = Astro.props;
   .u-restaurante { --u: var(--u-restaurante); }
   .u-hotel { --u: var(--u-hotel); }
   .u-balneario { --u: var(--u-balneario); }
+  .u-hula-kai { --u: var(--u-hula-kai); }
   .u-eventos { --u: var(--u-eventos); }
 </style>
 

@@ -10,8 +10,8 @@ import Ornamento from "./Ornamento.astro";
 
 interface Props {
   foto: { src: ImageMetadata; alt: string; foco?: "centro" | "arriba" | "abajo" } | null;
-  unidad?: "restaurante" | "hotel" | "balneario" | "eventos" | "complejo";
-  ornamento?: "caracol" | "vieira" | "ammonite" | "coral";
+  unidad?: "restaurante" | "hotel" | "balneario" | "hula-kai" | "eventos" | "complejo";
+  ornamento?: "caracol" | "vieira" | "ammonite" | "coral" | "caracola";
   pendiente?: string;
   /** En el hero la etiqueta va al margen: si no, choca con el titular. */
   variante?: "normal" | "hero";
@@ -119,6 +119,7 @@ const {
   .u-restaurante { --u: var(--verde); }
   .u-hotel { --u: var(--arena); }
   .u-balneario { --u: var(--teal); }
+  .u-hula-kai { --u: var(--u-hula-kai); }
   .u-eventos { --u: var(--terracota); }
   .u-complejo { --u: var(--teal); }
 </style>

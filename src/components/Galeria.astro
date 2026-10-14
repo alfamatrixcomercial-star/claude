@@ -8,7 +8,7 @@ import Foto from "./Foto.astro";
 
 interface Props {
   fotos: { src: ImageMetadata; alt: string; foco?: "centro" | "arriba" | "abajo" }[];
-  unidad?: "restaurante" | "hotel" | "balneario" | "eventos" | "complejo";
+  unidad?: "restaurante" | "hotel" | "balneario" | "hula-kai" | "eventos" | "complejo";
   titulo?: string;
 }
 const { fotos, unidad = "complejo", titulo } = Astro.props;

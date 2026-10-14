@@ -1,6 +1,6 @@
 1:"$Sreact.fragment"
-2:I[64657,["/carta/miradorwaikiki/_next/static/chunks/0dbhjjzl8qfwv.js","/carta/miradorwaikiki/_next/static/chunks/0nu_4ln6ueo.~.js","/carta/miradorwaikiki/_next/static/chunks/0r_j1xt.ntzl_.js"],"MenuApp"]
+2:I[64657,["/carta/miradorwaikiki/_next/static/chunks/0dbhjjzl8qfwv.js","/carta/miradorwaikiki/_next/static/chunks/0vmwpowin.zr0.js","/carta/miradorwaikiki/_next/static/chunks/0u9wvb-uarzn9.js"],"MenuApp"]
 3:I[97367,["/carta/miradorwaikiki/_next/static/chunks/0dbhjjzl8qfwv.js"],"OutletBoundary"]
 4:"$Sreact.suspense"
-0:{"rsc":["$","$1","c",{"children":[["$","$L2",null,{}],[["$","script","script-0",{"src":"/carta/miradorwaikiki/_next/static/chunks/0nu_4ln6ueo.~.js","async":true}],["$","script","script-1",{"src":"/carta/miradorwaikiki/_next/static/chunks/0r_j1xt.ntzl_.js","async":true}]],["$","$L3",null,{"children":["$","$4",null,{"name":"Next.MetadataOutlet","children":"$@5"}]}]]}],"isPartial":false,"staleTime":300,"varyParams":null,"buildId":"VIxSB8OgUWObzaESA5DrA"}
+0:{"rsc":["$","$1","c",{"children":[["$","$L2",null,{}],[["$","script","script-0",{"src":"/carta/miradorwaikiki/_next/static/chunks/0vmwpowin.zr0.js","async":true}],["$","script","script-1",{"src":"/carta/miradorwaikiki/_next/static/chunks/0u9wvb-uarzn9.js","async":true}]],["$","$L3",null,{"children":["$","$4",null,{"name":"Next.MetadataOutlet","children":"$@5"}]}]]}],"isPartial":false,"staleTime":300,"varyParams":null,"buildId":"XHd0jAl1duCViuW8HX9CB"}
 5:null

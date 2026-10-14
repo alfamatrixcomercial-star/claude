@@ -28,7 +28,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 type Props = { u: CollectionEntry<"unidades"> };
 const { u } = Astro.props as Props;
 const d = u.data;
-const id = u.id as "restaurante" | "hotel" | "balneario" | "eventos";
+const id = u.id as "restaurante" | "hotel" | "balneario" | "hula-kai" | "eventos";
 
 const sitio = await datosSitio();
 const woki = await wokiLink();
@@ -52,6 +52,7 @@ const banda = {
   restaurante: "banda-verde",
   hotel: "banda-salvia",
   balneario: "banda-turquesa",
+  "hula-kai": "banda-turquesa-hondo",
   eventos: "banda-arena",
 }[id];
 
@@ -291,6 +292,7 @@ const datosEstructurados = {
   .u-restaurante { --u: var(--u-restaurante); --u-txt: var(--u-restaurante-txt); }
   .u-hotel { --u: var(--u-hotel); --u-txt: var(--u-hotel-txt); }
   .u-balneario { --u: var(--u-balneario); --u-txt: var(--u-balneario-txt); }
+  .u-hula-kai { --u: var(--u-hula-kai); --u-txt: var(--u-hula-kai-txt); }
   .u-eventos { --u: var(--u-eventos); --u-txt: var(--u-eventos-txt); }
 
   .hero { position: relative; isolation: isolate; overflow: hidden; }

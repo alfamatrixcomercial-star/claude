@@ -1,6 +1,6 @@
 import { getEntry } from "astro:content";
 
-export type Unidad = "restaurante" | "hotel" | "balneario" | "eventos";
+export type Unidad = "restaurante" | "hotel" | "balneario" | "hula-kai" | "eventos";
 type Canal = Unidad | "general";
 
 export async function datosSitio() {
