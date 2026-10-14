@@ -7,6 +7,12 @@ ornamento: caracola
 titular: La pileta frente al mar, todo el verano.
 bajada: Pileta, camastros y un salón con gastronomía, sólo en verano
 firma: Abre con el verano.
+
+# El logo de Hula Kai, en la tinta del sitio (el original es gris claro para
+# fondo blanco y en la placa no se leería).
+marca:
+  src: ../../assets/logos/hula-kai.png
+  alt: Hula Kai by Waikiki
 intro:
   - >-
     Hula Kai es el sector de la pileta de Mirador Waikiki: agua frente al mar,
