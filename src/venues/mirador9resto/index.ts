@@ -1,13 +1,13 @@
 import type { Venue } from "@/types/menu";
 import { categories, suggestedProductIds } from "./menu";
 
-// No logo yet: the name is set in type (see Logo.tsx). The photo is a
-// placeholder from miradorwaikiki.com until there is one of the place.
+// The photo is a placeholder from miradorwaikiki.com until there is one of the place.
 export const venue: Venue = {
   id: "mirador9resto",
   restaurant: {
     name: "Mirador 9 Resto",
     city: "Mar del Plata",
+    logo: "/venues/mirador9resto/logo.png",
     email: "info@mareventos.com.ar",
     phone: "223 633-3330",
     phoneHref: "tel:+542236333330",

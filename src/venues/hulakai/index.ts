@@ -1,13 +1,13 @@
 import type { Venue } from "@/types/menu";
 import { categories, suggestedProductIds } from "./menu";
 
-// No logo yet: the name is set in type (see Logo.tsx). The photo is Hula
-// Kai's pool, from mareventos.com.ar/salon-hula-kai.
+// The photo is Hula Kai's pool, from mareventos.com.ar/salon-hula-kai.
 export const venue: Venue = {
   id: "hulakai",
   restaurant: {
     name: "Hula Kai",
     city: "Mar del Plata",
+    logo: "/venues/hulakai/logo.svg",
     website: "https://miradorwaikiki.com/hula-kai",
     email: "info@miradorwaikiki.com.ar",
     phone: "223 633-3330",
