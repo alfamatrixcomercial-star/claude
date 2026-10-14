@@ -18,6 +18,7 @@ export const venue: Venue = {
   welcome: { es: "Bienvenidos a Mirador 9", en: "Welcome to Mirador 9" },
   tagline: { es: "Café, cocina y algo rico para cada momento.", en: "Coffee, food and something tasty for every moment." },
   description: "La carta de Mirador 9, Mar del Plata.",
+  banda: "turquesa",
   photo: {
     prefix: "/venues/mirador9/aerea",
     widths: [1080, 1440],

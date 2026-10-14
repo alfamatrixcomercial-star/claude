@@ -8,11 +8,11 @@ const { restaurant } = venue;
 
 export function Footer({ t }: { t: Strings }) {
   return (
-    <footer className="mt-12 bg-mw-arena-clara">
+    <footer className="mt-12 bg-mw-arena-clara banda:bg-mw-turquesa">
       <Onda />
       <div className="mx-auto flex max-w-3xl flex-col items-center gap-4 px-4 py-10 text-center">
-        <Logo className="h-14 w-auto" textClassName="text-[24px]" />
-        <p className="text-[13px] text-mw-tinta-suave">{restaurant.city}</p>
+        <Logo className="h-14 w-auto banda:brightness-0 banda:invert" textClassName="text-[24px] banda:text-white" />
+        <p className="text-[13px] text-mw-tinta-suave banda:text-white">{restaurant.city}</p>
         {restaurant.whatsappUrl && (
           <a
             href={restaurant.whatsappUrl}
@@ -26,7 +26,7 @@ export function Footer({ t }: { t: Strings }) {
         {restaurant.website && (
           <a
             href={restaurant.website}
-            className="flex items-center gap-1.5 text-[13px] font-medium text-mw-rotulo hover:text-mw-tinta"
+            className="flex items-center gap-1.5 text-[13px] font-medium text-mw-rotulo hover:text-mw-tinta banda:text-white banda:hover:text-white/80"
           >
             <ArrowLeftIcon className="h-4 w-4" />
             {t.backTo} {new URL(restaurant.website).host}

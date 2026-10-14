@@ -3,6 +3,9 @@
 @import "shadcn/tailwind.css";
 
 @custom-variant dark (&:is(.dark *));
+/* Venues whose logo bars (header and footer) are turquoise instead of sand:
+   <html data-banda="turquesa">, set from venue.banda. */
+@custom-variant banda (&:where([data-banda="turquesa"] *));
 
 @theme inline {
   /* Mirador Waikiki palette — classes like bg-mw-crema, text-mw-tinta. */
@@ -20,6 +23,7 @@
   --color-mw-accion: var(--mw-accion);
   --color-mw-accion-hover: var(--mw-accion-hover);
   --color-mw-foco: var(--mw-foco);
+  --color-mw-turquesa: var(--mw-turquesa);
 
   --font-sans: var(--font-poppins), "Poppins", system-ui, sans-serif;
   --font-mono: ui-monospace, monospace;
@@ -69,6 +73,7 @@
   --mw-accion: #516d5c; /* buttons, white text 5.7:1 */
   --mw-accion-hover: #465f50;
   --mw-foco: #3d6b52;
+  --mw-turquesa: #5b8a75; /* banner of Mirador 9's printed menu */
 
   --background: var(--mw-crema);
   --foreground: var(--mw-tinta);

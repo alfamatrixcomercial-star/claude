@@ -83,4 +83,6 @@ export interface Venue {
   description: string;
   photo: HeroPhoto;
   dinner?: DinnerTime;
+  /** Turquoise logo bars (header and footer) instead of sand, as on Mirador 9's printed menu. */
+  banda?: "turquesa";
 }

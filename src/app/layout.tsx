@@ -21,7 +21,8 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  themeColor: "#dbd2b5",
+  // The browser bar takes the color of the logo bar (--mw-turquesa or --mw-crema).
+  themeColor: venue.banda ? "#5b8a75" : "#dbd2b5",
 };
 
 export default function RootLayout({
@@ -31,7 +32,7 @@ export default function RootLayout({
 }>) {
   return (
     // The dinner script sets an attribute on <html> before React hydrates.
-    <html lang="es" className={poppins.variable} suppressHydrationWarning>
+    <html lang="es" className={poppins.variable} data-banda={venue.banda} suppressHydrationWarning>
       {venue.dinner && (
         <head>
           <script dangerouslySetInnerHTML={{ __html: dinnerScript(venue.dinner) }} />

@@ -18,6 +18,7 @@ export const venue: Venue = {
   welcome: { es: "Bienvenidos a Mirador 9 Resto", en: "Welcome to Mirador 9 Resto" },
   tagline: { es: "Cocina de mar, carnes y pastas.", en: "Seafood, meats and pasta." },
   description: "La carta de Mirador 9 Resto, Mar del Plata.",
+  banda: "turquesa",
   photo: {
     prefix: "/venues/mirador9resto/terraza",
     widths: [640, 1024, 1350],
