@@ -1,6 +1,0 @@
-1:"$Sreact.fragment"
-2:I[75897,["/carta/miradorwaikiki/_next/static/chunks/0dbhjjzl8qfwv.js","/carta/miradorwaikiki/_next/static/chunks/0pb~ilnq9lnuy.js","/carta/miradorwaikiki/_next/static/chunks/0tld52xsiuqw3.js"],"AdminApp"]
-3:I[97367,["/carta/miradorwaikiki/_next/static/chunks/0dbhjjzl8qfwv.js"],"OutletBoundary"]
-4:"$Sreact.suspense"
-0:{"rsc":["$","$1","c",{"children":[["$","$L2",null,{}],[["$","script","script-0",{"src":"/carta/miradorwaikiki/_next/static/chunks/0pb~ilnq9lnuy.js","async":true}],["$","script","script-1",{"src":"/carta/miradorwaikiki/_next/static/chunks/0tld52xsiuqw3.js","async":true}]],["$","$L3",null,{"children":["$","$4",null,{"name":"Next.MetadataOutlet","children":"$@5"}]}]]}],"isPartial":false,"staleTime":300,"varyParams":null,"buildId":"XHd0jAl1duCViuW8HX9CB"}
-5:null

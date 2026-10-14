@@ -47,6 +47,10 @@ y `/carta/hulakai/`. Son sitios estáticos aparte (Next.js, rama
 actualizar platos o precios se edita esa rama, se corre `npm run build:cartas`
 y su `dist/carta/` reemplaza a `public/carta/`.
 
+Las cuatro se administran (precios, nombres, descripciones, platos nuevos) en
+`/gestion/cartas/`, con el mismo usuario que las gift cards: también es un
+sitio compilado de esa rama, que se copia a `public/gestion/cartas/`.
+
 `/carta/` sola lleva a la de Mirador Waikiki, que estuvo ahí primero y está en
 los QR impresos. Las direcciones que tuvieron las otras al principio
 (`/mirador9/`, `/mirador9resto/`, `/hulakai/`) redirigen a las nuevas; las dos

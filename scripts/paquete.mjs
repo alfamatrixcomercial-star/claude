@@ -86,6 +86,8 @@ ErrorDocument 404 /404.html
 # Las otras tres empezaron en la raíz; esas direcciones siguen andando.
 RedirectMatch 302 ^/carta/?(index\\.html)?$ /carta/miradorwaikiki/
 RedirectMatch 301 ^/(mirador9|mirador9resto|hulakai)(/.*)?$ /carta/$1/
+# Cada carta tuvo un rato su propio panel; ahora es uno solo para las cuatro.
+RedirectMatch 302 ^/carta/([a-z0-9]+)/admin/?$ /gestion/cartas/?carta=$1
 
 # ── Compresión ────────────────────────────────────────────────────────────
 # Sólo lo que comprime de verdad. Las imágenes y los videos ya vienen

@@ -85,6 +85,8 @@ const pesos = (n: number) => `$ ${n.toLocaleString("es-AR")}`;
         </a>
         <div class="barra-acciones">
           <span class="tenue usuario" data-usuario></span>
+          <!-- Las cuatro cartas se administran en /gestion/cartas/, con este mismo usuario. -->
+          <a class="btn" href="/gestion/cartas/">Cartas</a>
           <a class="btn primario" href="#nueva">Nueva gift card</a>
           <button class="btn" type="button" data-salir>Salir</button>
         </div>
@@ -93,14 +95,6 @@ const pesos = (n: number) => `$ ${n.toLocaleString("es-AR")}`;
       <main class="contenido">
         <!-- Lista -->
         <div data-sub="lista">
-          <!-- Los precios de las cartas se cambian en el panel de cada una, con este mismo usuario. -->
-          <nav class="cartas-admin" aria-label="Precios de las cartas">
-            <span class="tenue">Precios de las cartas:</span>
-            <a href="/carta/miradorwaikiki/admin/">Mirador Waikiki</a>
-            <a href="/carta/mirador9/admin/">Mirador 9</a>
-            <a href="/carta/mirador9resto/admin/">Mirador 9 Resto</a>
-            <a href="/carta/hulakai/admin/">Hula Kai</a>
-          </nav>
           <div class="resumen" data-resumen></div>
           <div class="filtros">
             <div class="chips" role="group" aria-label="Filtrar por estado" data-filtros>
@@ -314,9 +308,6 @@ const pesos = (n: number) => `$ ${n.toLocaleString("es-AR")}`;
   .resumen .dato span { font-size: 0.82rem; color: var(--tinta-suave); }
 
   .filtros { display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; justify-content: space-between; margin-bottom: 0.9rem; }
-  .cartas-admin { display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem 0.6rem; margin-bottom: 1.25rem; font-size: 0.85rem; }
-  .cartas-admin a { padding: 0.3rem 0.9rem; border-radius: 999px; border: 1px solid var(--borde-caja); background: var(--superficie); color: var(--tinta); text-decoration: none; }
-  .cartas-admin a:hover { border-color: var(--accion-fondo); }
   .chips { display: flex; flex-wrap: wrap; gap: 0.4rem; }
   .chips button { min-height: 38px; padding: 0.3rem 0.9rem; font: inherit; font-size: 0.85rem; border-radius: 999px; border: 1px solid var(--borde-caja); background: var(--superficie); color: var(--tinta); cursor: pointer; }
   .chips button[aria-pressed="true"] { background: var(--accion-fondo); border-color: var(--accion-fondo); color: #fff; }
