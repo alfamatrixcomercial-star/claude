@@ -1,7 +1,7 @@
 import type { Venue } from "@/types/menu";
 import { categories, suggestedProductIds } from "./menu";
 
-// The photo is a placeholder from miradorwaikiki.com until there is one of the place.
+// The photo is Mirador 9 from the air; landscape, so wider files than the rest.
 export const venue: Venue = {
   id: "mirador9",
   restaurant: {
@@ -19,12 +19,12 @@ export const venue: Venue = {
   tagline: { es: "Café, cocina y algo rico para cada momento.", en: "Coffee, food and something tasty for every moment." },
   description: "La carta de Mirador 9, Mar del Plata.",
   photo: {
-    prefix: "/venues/mirador9/mar",
-    widths: [640, 1024, 1440],
-    position: "center",
+    prefix: "/venues/mirador9/aerea",
+    widths: [1080, 1440],
+    position: "35% center",
     alt: {
-      es: "El mar visto desde arriba, con surfistas entre las olas",
-      en: "The sea seen from above, with surfers among the waves",
+      es: "Mirador 9 desde el aire: el restaurante con su deck de madera sobre las rocas, la pileta, las carpas sobre la arena y el bosque detrás",
+      en: "Mirador 9 from the air: the restaurant and its wooden deck above the rocks, the pool, the beach tents and the woods behind",
     },
   },
 };

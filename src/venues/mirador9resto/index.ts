@@ -1,7 +1,7 @@
 import type { Venue } from "@/types/menu";
 import { categories, suggestedProductIds } from "./menu";
 
-// The photo is a placeholder from miradorwaikiki.com until there is one of the place.
+// The photo is Mirador 9's terrace over the sea.
 export const venue: Venue = {
   id: "mirador9resto",
   restaurant: {
@@ -19,12 +19,12 @@ export const venue: Venue = {
   tagline: { es: "Cocina de mar, carnes y pastas.", en: "Seafood, meats and pasta." },
   description: "La carta de Mirador 9 Resto, Mar del Plata.",
   photo: {
-    prefix: "/venues/mirador9resto/tallarines",
-    widths: [640, 1024, 1440],
-    position: "center",
+    prefix: "/venues/mirador9resto/terraza",
+    widths: [640, 1024, 1350],
+    position: "40% center",
     alt: {
-      es: "Tallarines con salsa de tomate, una copa de vino blanco y una botella de Nicasia sobre la mesa",
-      en: "Tagliatelle with tomato sauce, a glass of white wine and a bottle of Nicasia on the table",
+      es: "La terraza de madera con mesas, sillas blancas y sombrillas, y el mar azul detrás de la baranda",
+      en: "The wooden terrace with tables, white chairs and umbrellas, and the blue sea beyond the railing",
     },
   },
 };
