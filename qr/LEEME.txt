@@ -1,0 +1,22 @@
+QR de las cartas de miradorwaikiki.com
+
+tarjetas-qr.pdf      Las cuatro tarjetas listas para imprimir: A6 (10,5 x 14,8 cm), una por página, en vector.
+tarjeta-*.png        Las mismas tarjetas en imagen, para ver o mandar por WhatsApp.
+qr-*.svg             Solo el código, en vector: para que la imprenta o un diseñador lo ponga en su
+                     propio diseño, a cualquier tamaño.
+qr-*.png             Solo el código, en imagen grande (unos 1700 px de lado).
+
+Cada QR abre:
+  qr-miradorwaikiki   https://miradorwaikiki.com/carta/miradorwaikiki/
+  qr-mirador9         https://miradorwaikiki.com/carta/mirador9/
+  qr-mirador9resto    https://miradorwaikiki.com/carta/mirador9resto/
+  qr-hulakai          https://miradorwaikiki.com/carta/hulakai/
+
+Para imprimir
+- Que el código mida al menos 2,5 x 2,5 cm; en la tarjeta mide 5,2 cm.
+- Código oscuro sobre fondo claro, sin invertir los colores.
+- Dejar el margen blanco alrededor del código.
+- Llevan corrección de errores alta (Q): se siguen leyendo aunque se manchen o rayen un poco.
+
+Los precios y platos se cambian desde miradorwaikiki.com/gestion/cartas sin tocar el QR:
+no hace falta volver a imprimir cuando cambia la carta.
