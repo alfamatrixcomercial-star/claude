@@ -1,5 +1,11 @@
 QR de las cartas de miradorwaikiki.com
 
+stickers/            Los stickers de 5 x 5 cm con el diseño de «Nuestro menú» (franjas de color, el QR en
+                     el recuadro blanco y el logo abajo): Mirador Waikiki, Mirador 9 y Mirador 9 Resto con
+                     los colores de la web; Hula Kai en grises.
+                       stickers-qr.pdf     los cuatro, uno por página, en vector
+                       sticker-*.pdf       cada uno suelto, en vector
+                       sticker-*.png       cada uno en imagen (fondo transparente), para ver o mandar
 tarjetas-qr.pdf      Las cuatro tarjetas listas para imprimir: A6 (10,5 x 14,8 cm), una por página, en vector.
 tarjeta-*.png        Las mismas tarjetas en imagen, para ver o mandar por WhatsApp.
 qr-*.svg             Solo el código, en vector: para que la imprenta o un diseñador lo ponga en su
