@@ -3,7 +3,8 @@ QR de las cartas de miradorwaikiki.com
 stickers-diseno/     Los stickers «Nuestro menú» de 5 x 5 cm, sobre el diseño original de Canva: mismo
                      fondo, título, recuadro y logo; sólo cambia el QR, que ahora abre la carta en
                      miradorwaikiki.com y no en MIMENU. Mirador 9 y Mirador 9 Resto en los mismos
-                     tonos con el logo de Mirador 9; Hula Kai en grises con su logo.
+                     tonos con el logo de Mirador 9. Hula Kai va sobre su propio diseño, el de rayas
+                     grises con su logo en blanco.
                        sticker-*.pdf       en vector, para la imprenta
                        sticker-*.png       en imagen de alta resolución (1200 dpi)
 tarjetas-qr.pdf      Las cuatro tarjetas listas para imprimir: A6 (10,5 x 14,8 cm), una por página, en vector.
