@@ -34,7 +34,8 @@ export function MenuApp() {
   const [suggestedOpen, setSuggestedOpen] = useState(false);
   const [favoritesOpen, setFavoritesOpen] = useState(false);
   const [lang, setLang] = usePersistentState<Lang>("mw-carta-idioma", "es");
-  const [favorites, setFavorites] = usePersistentState<string[]>("mw-carta-favoritos", []);
+  // All the menus share miradorwaikiki.com, so each keeps its own favorites.
+  const [favorites, setFavorites] = usePersistentState<string[]>(`mw-carta-favoritos-${venue.id}`, []);
   const t = strings[lang];
   const dinner = useDinner(venue.dinner);
   const groups = (dinner ? dinnerGroups : dayGroups).filter((g) => g.length > 0);
@@ -91,7 +92,7 @@ export function MenuApp() {
         categories={categories}
         groups={groups}
         selected={selected}
-        favoritesCount={favorites.length}
+        favoritesCount={favoriteProducts.length}
         hasSuggested={suggestedProducts.length > 0}
         onSelect={select}
         onOpenMenu={() => setMenuOpen(true)}
@@ -123,7 +124,7 @@ export function MenuApp() {
         open={menuOpen}
         lang={lang}
         t={t}
-        favoritesCount={favorites.length}
+        favoritesCount={favoriteProducts.length}
         hasSuggested={suggestedProducts.length > 0}
         onClose={() => setMenuOpen(false)}
         onHome={() => select(null)}

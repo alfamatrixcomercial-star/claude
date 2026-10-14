@@ -1,14 +1,14 @@
+import { existsSync } from "node:fs";
 import type { NextConfig } from "next";
-import basePaths from "./cartas.json";
 
 // One codebase, one static site per menu: `CARTA=hulakai next build`.
-// cartas.json lists each menu and the path it is served from on miradorwaikiki.com.
-
-const carta = (process.env.CARTA ?? "waikiki") as keyof typeof basePaths;
-if (!(carta in basePaths)) {
-  throw new Error(`Unknown CARTA "${carta}". Use one of: ${Object.keys(basePaths).join(", ")}.`);
+// Each menu lives in src/venues/<carta>/ and is served from
+// miradorwaikiki.com/carta/<carta>/.
+const carta = process.env.CARTA ?? "miradorwaikiki";
+if (!existsSync(`./src/venues/${carta}/index.ts`)) {
+  throw new Error(`Unknown CARTA "${carta}": there is no src/venues/${carta}/index.ts.`);
 }
-const basePath = basePaths[carta];
+const basePath = `/carta/${carta}`;
 
 const nextConfig: NextConfig = {
   output: "export",

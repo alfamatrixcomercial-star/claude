@@ -2,11 +2,11 @@ import type { Venue } from "@/types/menu";
 import { categories, suggestedProductIds } from "./menu";
 
 export const venue: Venue = {
-  id: "waikiki",
+  id: "miradorwaikiki",
   restaurant: {
     name: "Mirador Waikiki",
     city: "Mar del Plata",
-    logo: "/venues/waikiki/logo.svg",
+    logo: "/venues/miradorwaikiki/logo.svg",
     website: "https://miradorwaikiki.com",
     email: "info@miradorwaikiki.com.ar",
     // Restaurant line, same as the WhatsApp buttons on miradorwaikiki.com.
@@ -23,7 +23,7 @@ export const venue: Venue = {
   tagline: { es: "Sabores de mar, frente al mar.", en: "Flavors of the sea, facing the sea." },
   description: "La carta del restaurante Mirador Waikiki, Mar del Plata.",
   photo: {
-    prefix: "/venues/waikiki/complejo",
+    prefix: "/venues/miradorwaikiki/complejo",
     widths: [640, 1024, 1440],
     position: "60% center",
     alt: {
@@ -38,7 +38,7 @@ export const venue: Venue = {
     until: 6,
     late: ["cafe", "pasteleria", "ejecutivo"],
     photo: {
-      prefix: "/venues/waikiki/cazuela",
+      prefix: "/venues/miradorwaikiki/cazuela",
       widths: [640, 1024],
       position: "65% center",
       alt: {
