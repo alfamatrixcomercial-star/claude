@@ -20,15 +20,16 @@ const photoVars = {
   }),
 } as CSSProperties;
 
-// Welcome photo with a short message, filling the screen below the header
-// (4rem bar + 7px wave). On phones the message sits on a translucent crema
+// Welcome photo with a short message, filling the screen below the header's
+// 4rem bar. On phones it starts 7px higher, under the header's wave, so it
+// meets the line itself. On phones the message sits on a translucent crema
 // plate over the photo, like the photo blocks on miradorwaikiki.com; from
 // 768px the portrait photo moves beside the text.
 export function Hero({ t, lang, dinner, onStart }: { t: Strings; lang: Lang; dinner: boolean; onStart: () => void }) {
   const photo = dinner && venue.dinner ? venue.dinner.photo : venue.photo;
   return (
-    <section className="relative md:mx-auto md:grid md:min-h-[calc(100svh-4rem-7px)] md:max-w-5xl md:grid-cols-[1fr_1.05fr] md:items-center md:gap-12 md:px-6 md:py-10">
-      <div className="relative h-[calc(100svh-4rem-7px)] min-h-[480px] overflow-hidden md:order-2 md:h-[560px] md:min-h-0 md:rounded-3xl md:shadow-mw-3">
+    <section className="relative -mt-[7px] md:mx-auto md:mt-0 md:grid md:min-h-[calc(100svh-4rem-7px)] md:max-w-5xl md:grid-cols-[1fr_1.05fr] md:items-center md:gap-12 md:px-6 md:py-10">
+      <div className="relative h-[calc(100svh-4rem)] min-h-[480px] overflow-hidden md:order-2 md:h-[560px] md:min-h-0 md:rounded-3xl md:shadow-mw-3">
         <div role="img" aria-label={photo.alt[lang]} className="foto-hero absolute inset-0 bg-cover" style={photoVars} />
         <div
           aria-hidden="true"

@@ -3,7 +3,7 @@
 import { Fragment } from "react";
 import { cn } from "@/lib/utils";
 import { CategoryGlyph, HeartIcon, MenuIcon, StarIcon } from "@/components/icons";
-import { Onda } from "@/components/ui/Onda";
+import { FondoOndulado, Onda } from "@/components/ui/Onda";
 import { Logo } from "@/components/menu/Logo";
 import { pick, type Strings } from "@/lib/i18n";
 import type { Category, Lang } from "@/types/menu";
@@ -73,7 +73,8 @@ export function Header({
   };
 
   return (
-    <header className="sticky top-0 z-30 bg-mw-crema/85 backdrop-blur-md banda:bg-mw-turquesa/95">
+    <header className="sticky top-0 z-30">
+      <FondoOndulado borde="abajo" className="bg-mw-crema/85 backdrop-blur-md banda:bg-mw-turquesa/95" />
       <div className="mx-auto grid h-16 max-w-3xl grid-cols-[88px_1fr_88px] items-center px-2">
         <button type="button" aria-label={t.openMenu} onClick={onOpenMenu} className={iconButton}>
           <MenuIcon className="h-6 w-6" />

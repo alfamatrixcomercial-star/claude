@@ -1,6 +1,6 @@
 import { venue } from "@venue";
 import { ArrowLeftIcon } from "@/components/icons";
-import { Onda } from "@/components/ui/Onda";
+import { FondoOndulado, Onda } from "@/components/ui/Onda";
 import { Logo } from "@/components/menu/Logo";
 import type { Strings } from "@/lib/i18n";
 
@@ -8,7 +8,8 @@ const { restaurant } = venue;
 
 export function Footer({ t }: { t: Strings }) {
   return (
-    <footer className="mt-12 bg-mw-arena-clara banda:bg-mw-turquesa">
+    <footer className="relative isolate mt-12">
+      <FondoOndulado borde="arriba" className="bg-mw-arena-clara banda:bg-mw-turquesa" />
       <Onda />
       <div className="mx-auto flex max-w-3xl flex-col items-center gap-4 px-4 py-10 text-center">
         <Logo className="h-14 w-auto banda:brightness-0 banda:invert" textClassName="text-[24px] banda:text-white" />
