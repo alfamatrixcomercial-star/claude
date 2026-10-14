@@ -80,6 +80,13 @@ DirectoryIndex index.html index.htm
 # ── Página de error propia ────────────────────────────────────────────────
 ErrorDocument 404 /404.html
 
+# ── Cartas ────────────────────────────────────────────────────────────────
+# Viven en /carta/<carta>/. /carta/ sola lleva a la de Mirador Waikiki, que
+# está en los QR impresos (302: algún día puede ser un índice de cartas).
+# Las otras tres empezaron en la raíz; esas direcciones siguen andando.
+RedirectMatch 302 ^/carta/?(index\\.html)?$ /carta/miradorwaikiki/
+RedirectMatch 301 ^/(mirador9|mirador9resto|hulakai)(/.*)?$ /carta/$1/
+
 # ── Compresión ────────────────────────────────────────────────────────────
 # Sólo lo que comprime de verdad. Las imágenes y los videos ya vienen
 # comprimidos: pasarlos por gzip gasta CPU y no baja un byte.

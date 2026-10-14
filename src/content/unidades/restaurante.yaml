@@ -135,8 +135,8 @@ ctas:
   - { texto: Reservar mesa, tipo: woki, contexto: restaurante }
   - { texto: Reservar por WhatsApp, tipo: whatsapp, contexto: restaurante }
 
-# La carta propia, servida desde public/carta/ (ver README).
-cartaUrl: "/carta/"
+# La carta propia, servida desde public/carta/miradorwaikiki/ (ver README).
+cartaUrl: "/carta/miradorwaikiki/"
 
 listas: []
 

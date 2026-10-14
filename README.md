@@ -38,15 +38,19 @@ en YAML y difíciles de ver:
 - Un `# TODO` dentro de un bloque de texto `>-` **no es un comentario**: es
   texto y sale publicado. Poné la nota en su propia línea.
 
-### La carta vive en /carta; las habitaciones, fuera del sitio
+### Las cartas viven en /carta; las habitaciones, fuera del sitio
 
-La carta es propia y se sirve desde `public/carta/`: es un sitio estático
-aparte (Next.js, rama `claude/inspiring-cori-8f88ru` de este repo) que se
-compila con base `/carta` y se copia acá tal cual. El mismo proyecto genera
-las cartas de Mirador 9 (`public/mirador9/`), Mirador 9 Resto
-(`public/mirador9resto/`) y Hula Kai (`public/hulakai/`). Para actualizar
-platos o precios se edita esa rama, se corre `npm run build:cartas` y cada
-carpeta de su `dist/` reemplaza a la del mismo nombre en `public/`.
+Las cartas son propias y se sirven desde `public/carta/`, una carpeta por
+carta: `/carta/miradorwaikiki/`, `/carta/mirador9/`, `/carta/mirador9resto/`
+y `/carta/hulakai/`. Son sitios estáticos aparte (Next.js, rama
+`claude/inspiring-cori-8f88ru` de este repo) que se copian acá tal cual: para
+actualizar platos o precios se edita esa rama, se corre `npm run build:cartas`
+y su `dist/carta/` reemplaza a `public/carta/`.
+
+`/carta/` sola lleva a la de Mirador Waikiki, que estuvo ahí primero y está en
+los QR impresos. Las direcciones que tuvieron las otras al principio
+(`/mirador9/`, `/mirador9resto/`, `/hulakai/`) redirigen a las nuevas; las dos
+cosas las hace el `.htaccess` (ver `scripts/paquete.mjs`).
 
 Las habitaciones se ven y se reservan en el sitio propio del hotel. El sitio
 muestra el lugar y deriva, igual que hace con eventos:
