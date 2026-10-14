@@ -1,6 +1,6 @@
 1:"$Sreact.fragment"
-2:I[64657,["/carta/miradorwaikiki/_next/static/chunks/0dbhjjzl8qfwv.js","/carta/miradorwaikiki/_next/static/chunks/02n7kcck27s-k.js"],"MenuApp"]
+2:I[64657,["/carta/miradorwaikiki/_next/static/chunks/0dbhjjzl8qfwv.js","/carta/miradorwaikiki/_next/static/chunks/0zrfdoav1.efz.js"],"MenuApp"]
 3:I[97367,["/carta/miradorwaikiki/_next/static/chunks/0dbhjjzl8qfwv.js"],"OutletBoundary"]
 4:"$Sreact.suspense"
-0:{"rsc":["$","$1","c",{"children":[["$","$L2",null,{}],[["$","script","script-0",{"src":"/carta/miradorwaikiki/_next/static/chunks/02n7kcck27s-k.js","async":true}]],["$","$L3",null,{"children":["$","$4",null,{"name":"Next.MetadataOutlet","children":"$@5"}]}]]}],"isPartial":false,"staleTime":300,"varyParams":null,"buildId":"-rVCN8CqwNh-7-23_6LXR"}
+0:{"rsc":["$","$1","c",{"children":[["$","$L2",null,{}],[["$","script","script-0",{"src":"/carta/miradorwaikiki/_next/static/chunks/0zrfdoav1.efz.js","async":true}]],["$","$L3",null,{"children":["$","$4",null,{"name":"Next.MetadataOutlet","children":"$@5"}]}]]}],"isPartial":false,"staleTime":300,"varyParams":null,"buildId":"RskPa26dp2__q-0SNjGqV"}
 5:null
