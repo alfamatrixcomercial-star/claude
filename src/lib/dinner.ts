@@ -2,6 +2,14 @@ import type { DinnerTime } from "@/types/menu";
 
 export const DINNER_ATTR = "data-cena";
 
+/** Breakfast and afternoon tea (local hours): coffee and pastries lead every menu. */
+export const COFFEE_HOURS: [from: number, until: number][] = [
+  [7, 12],
+  [16, 20],
+];
+
+export const isCoffeeTime = (hour: number) => COFFEE_HOURS.some(([from, until]) => hour >= from && hour < until);
+
 export function isDinner(hour: number, { from, until }: Pick<DinnerTime, "from" | "until">) {
   return from > until ? hour >= from || hour < until : hour >= from && hour < until;
 }

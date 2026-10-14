@@ -35,7 +35,7 @@ export const venue: Venue = {
   // lunch menu move to the end, and the welcome photo turns to a dinner dish.
   dinner: {
     from: 20,
-    until: 6,
+    until: 7,
     late: ["cafe", "pasteleria", "ejecutivo"],
     photo: {
       prefix: "/venues/miradorwaikiki/cazuela",

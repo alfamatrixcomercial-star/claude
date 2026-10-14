@@ -5,6 +5,8 @@ import { venue } from "@venue";
 import { strings } from "@/lib/i18n";
 import { usePersistentState } from "@/hooks/usePersistentState";
 import { useDinner } from "@/hooks/useDinner";
+import { useHour } from "@/hooks/useHour";
+import { isCoffeeTime } from "@/lib/dinner";
 import { useMenu } from "@/hooks/useMenu";
 import { Header } from "@/components/menu/Header";
 import { HomeView } from "@/components/menu/HomeView";
@@ -21,9 +23,13 @@ import type { Lang, Product } from "@/types/menu";
 const { categories: published, suggestedProductIds } = venue;
 const indices = published.map((_, i) => i);
 const isLate = (i: number) => venue.dinner?.late.includes(published[i].icon) ?? false;
-// The section strip: two groups split by a line. By day the featured sections
-// (coffee, pastries) lead; at dinner time the late ones go last instead.
-const dayGroups = [indices.filter((i) => published[i].featured), indices.filter((i) => !published[i].featured)];
+// The section strip: two groups split by a line. At breakfast and afternoon
+// tea the featured sections (coffee, pastries) lead; at lunch they go last,
+// and at a menu's dinner time so do its late ones (e.g. the set lunch).
+const featured = indices.filter((i) => published[i].featured);
+const others = indices.filter((i) => !published[i].featured);
+const coffeeGroups = [featured, others];
+const mealGroups = [others, featured];
 const dinnerGroups = [indices.filter((i) => !isLate(i)), indices.filter(isLate)];
 
 export function MenuApp() {
@@ -48,7 +54,10 @@ export function MenuApp() {
     [productsById],
   );
   const dinner = useDinner(venue.dinner);
-  const groups = (dinner ? dinnerGroups : dayGroups).filter((g) => g.length > 0);
+  const hour = useHour();
+  const groups = (hour < 0 || isCoffeeTime(hour) ? coffeeGroups : dinner ? dinnerGroups : mealGroups).filter(
+    (g) => g.length > 0,
+  );
 
   const favoriteProducts = useMemo(
     () => favorites.flatMap((id) => productsById.get(id) ?? []),
