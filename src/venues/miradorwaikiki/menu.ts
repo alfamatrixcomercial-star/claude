@@ -1587,7 +1587,7 @@ export const categories: Category[] = [
           {
             "id": "cocktail-s-gancia-cero",
             "name": "GANCIA CERO",
-            "price": "7800"
+            "price": "7.800"
           },
           {
             "id": "cocktail-s-gin-tonic-tanqueray-london",

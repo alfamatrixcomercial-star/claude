@@ -5,6 +5,7 @@ import { venue } from "@venue";
 import { strings } from "@/lib/i18n";
 import { usePersistentState } from "@/hooks/usePersistentState";
 import { useDinner } from "@/hooks/useDinner";
+import { useMenu } from "@/hooks/useMenu";
 import { Header } from "@/components/menu/Header";
 import { HomeView } from "@/components/menu/HomeView";
 import { Hero } from "@/components/menu/Hero";
@@ -15,17 +16,14 @@ import { FavoritesDialog } from "@/components/menu/FavoritesDialog";
 import { Footer } from "@/components/menu/Footer";
 import type { Lang, Product } from "@/types/menu";
 
-const { categories, suggestedProductIds } = venue;
-const productsById = new Map<string, Product>(
-  categories.flatMap((c) => c.subcategories.flatMap((s) => s.products.map((p) => [p.id, p] as const))),
-);
-const suggestedProducts = suggestedProductIds.flatMap((id) => productsById.get(id) ?? []);
-
-const indices = categories.map((_, i) => i);
-const isLate = (i: number) => venue.dinner?.late.includes(categories[i].icon) ?? false;
+// Sections never disappear (a hidden dish only hides itself), so the strip
+// can be worked out once from the published menu.
+const { categories: published, suggestedProductIds } = venue;
+const indices = published.map((_, i) => i);
+const isLate = (i: number) => venue.dinner?.late.includes(published[i].icon) ?? false;
 // The section strip: two groups split by a line. By day the featured sections
 // (coffee, pastries) lead; at dinner time the late ones go last instead.
-const dayGroups = [indices.filter((i) => categories[i].featured), indices.filter((i) => !categories[i].featured)];
+const dayGroups = [indices.filter((i) => published[i].featured), indices.filter((i) => !published[i].featured)];
 const dinnerGroups = [indices.filter((i) => !isLate(i)), indices.filter(isLate)];
 
 export function MenuApp() {
@@ -37,10 +35,25 @@ export function MenuApp() {
   // All the menus share miradorwaikiki.com, so each keeps its own favorites.
   const [favorites, setFavorites] = usePersistentState<string[]>(`mw-carta-favoritos-${venue.id}`, []);
   const t = strings[lang];
+  const categories = useMenu(venue);
+  const productsById = useMemo(
+    () =>
+      new Map<string, Product>(
+        categories.flatMap((c) => c.subcategories.flatMap((s) => s.products.map((p) => [p.id, p] as const))),
+      ),
+    [categories],
+  );
+  const suggestedProducts = useMemo(
+    () => suggestedProductIds.flatMap((id) => productsById.get(id) ?? []),
+    [productsById],
+  );
   const dinner = useDinner(venue.dinner);
   const groups = (dinner ? dinnerGroups : dayGroups).filter((g) => g.length > 0);
 
-  const favoriteProducts = useMemo(() => favorites.flatMap((id) => productsById.get(id) ?? []), [favorites]);
+  const favoriteProducts = useMemo(
+    () => favorites.flatMap((id) => productsById.get(id) ?? []),
+    [favorites, productsById],
+  );
   const overlayOpen = menuOpen || suggestedOpen || favoritesOpen;
 
   useEffect(() => {

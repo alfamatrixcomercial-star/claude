@@ -22,6 +22,17 @@ npm run build:cartas -- hulakai   # solo una
 npm run lint
 ```
 
+## Cambiar precios sin publicar
+
+Cada carta tiene un panel en `/carta/<carta>/admin/` (por ejemplo `miradorwaikiki.com/carta/hulakai/admin/`;
+también hay accesos en `miradorwaikiki.com/gestion`). Se entra con el mismo usuario de la app de Mirador
+Waikiki, y solo pueden guardar sus administradores. Desde ahí se cambian precios y descripciones, y se
+oculta un plato que no hay; la carta toma los cambios al abrirse, sin publicar de nuevo.
+
+Los cambios viven en la tabla `carta_cambios` del Supabase del grupo (`supabase/carta-cambios.sql`, que se
+corre una vez en el editor SQL del proyecto) y van por encima de lo publicado en `menu.ts`: sin conexión,
+la carta muestra lo publicado. Platos nuevos o secciones nuevas se siguen agregando en `menu.ts`.
+
 ## Qué editar
 
 | Querés cambiar… | Editá |
