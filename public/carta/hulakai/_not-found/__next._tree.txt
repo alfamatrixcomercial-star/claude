@@ -1,0 +1,2 @@
+:HL["/carta/hulakai/_next/static/chunks/0129zlyap_n_7.css","style"]
+0:{"tree":{"name":"","param":null,"prefetchHints":16,"slots":{"children":{"name":"/_not-found","param":null,"prefetchHints":0,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":0,"slots":null}}}}},"staleTime":300,"buildId":"JUe_Z5qzxRcBNCwROY9zt"}

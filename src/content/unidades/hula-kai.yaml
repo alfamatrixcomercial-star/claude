@@ -1,0 +1,106 @@
+orden: 4
+nombre: Hula Kai
+nombreLargo: Hula Kai en Mirador Waikiki
+color: celeste
+ornamento: caracola
+
+titular: La pileta frente al mar, todo el verano.
+bajada: Pileta, camastros y un salón con gastronomía, sólo en verano
+firma: Abre con el verano.
+
+# El logo de Hula Kai, en la tinta del sitio (el original es gris claro para
+# fondo blanco y en la placa no se leería).
+marca:
+  src: ../../assets/logos/hula-kai.png
+  alt: Hula Kai by Waikiki
+intro:
+  - >-
+    Hula Kai es el sector de la pileta de Mirador Waikiki: agua frente al mar,
+    sombrillas y camastros alrededor, y la costa de Mar del Plata de un lado a
+    otro del horizonte.
+  - >-
+    Junto a la pileta está su salón, luminoso y de ventanales, con barra,
+    sillones de ratán y tablas de surf en las paredes. En temporada tiene
+    carta propia: café y pastelería, platos para el mediodía, algo para picar,
+    postres y tragos.
+  - >-
+    Abre sólo en verano. Además, el salón se reserva para eventos privados de
+    25 a 50 personas, con la producción de Mar Eventos.
+
+# Fotos del salón y de la pileta, de mareventos.com.ar/salon-hula-kai.
+hero:
+  src: ../../assets/fotos/hula-kai/piscina-mar.jpg
+  alt: >-
+    La pileta de agua turquesa con gente alrededor, sombrillas y camastros, y
+    el mar y la ciudad al fondo, vista desde la baranda blanca de madera
+  foco: centro
+
+galeria:
+  - src: ../../assets/fotos/hula-kai/interior-bar.jpg
+    alt: >-
+      Un rincón del salón con un sillón de ratán, almohadones a rayas, plantas
+      y dos tablas de surf de madera en la pared
+  - src: ../../assets/fotos/hula-kai/tablas-detalle.jpg
+    alt: >-
+      Dos tablas de surf de madera colgadas en la pared del salón, con frutas
+      fuera de foco adelante
+
+fotoRelato:
+  src: ../../assets/fotos/hula-kai/interior-amplio.jpg
+  alt: >-
+    El salón de Hula Kai con sillones de ratán, mesas de madera, plantas y
+    tablas de surf en las paredes, con luz de día por los ventanales
+cartaFoto:
+  src: ../../assets/fotos/hula-kai/interior-full.jpg
+  alt: >-
+    La barra de Hula Kai con su nombre al frente, la cafetera y las botellas,
+    y el salón con mesas y ventanales detrás
+
+# TODO: confirmar fechas exactas de apertura y cierre (por ahora, las del balneario).
+temporada:
+  desde: "12-01"
+  hasta: "03-31"
+  abierta: Temporada abierta
+  cerrada: Abre en verano
+
+ficha:
+  - { clave: Temporada, valor: Verano }
+  - { clave: Pileta, valor: Con sombrillas y camastros }
+  - { clave: Gastronomía, valor: Carta propia en temporada }
+  - { clave: Eventos privados, valor: De 25 a 50 personas }
+
+ctas:
+  - { texto: Ver la carta, tipo: interno, href: "/carta/hulakai/" }
+  - { texto: Consultar por WhatsApp, tipo: whatsapp, contexto: hula-kai }
+
+# La carta propia, servida desde public/carta/hulakai/ (ver README).
+cartaUrl: "/carta/hulakai/"
+
+listas:
+  - titulo: En Hula Kai
+    items:
+      - Pileta frente al mar
+      - Sombrillas y camastros
+      - Salón con barra y ventanales
+      - Carta propia en temporada
+      - Eventos privados de 25 a 50 personas
+
+derivacion:
+  rotulo: Eventos privados
+  titulo: El salón, para tu evento
+  texto: >-
+    Reuniones, festejos y encuentros corporativos de 25 a 50 invitados, con
+    servicio de finger food. La propuesta se arma a medida con Mar Eventos,
+    que produce los eventos del complejo.
+  texto_cta: Ver el salón en mareventos.com.ar
+  url: "https://mareventos.com.ar/salon-hula-kai"
+  logo:
+    src: ../../assets/logos/mar-eventos.png
+    alt: Logo de Mar Eventos
+
+seo:
+  titulo: "Hula Kai: pileta y gastronomía frente al mar, Mar del Plata"
+  descripcion: >-
+    La pileta de Mirador Waikiki frente al mar, con sombrillas, camastros y un
+    salón con gastronomía en verano. También para eventos privados de 25 a 50 personas.
+schema: Restaurant

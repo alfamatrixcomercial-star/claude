@@ -86,6 +86,8 @@ const pesos = (n: number) => `$ ${n.toLocaleString("es-AR")}`;
         </a>
         <div class="barra-acciones">
           <span class="tenue usuario" data-usuario></span>
+          <!-- Las cuatro cartas se administran en /gestion/cartas/, con este mismo usuario. -->
+          <a class="btn" href="/gestion/cartas/">Cartas</a>
           <a class="btn primario" href="#nueva">Nueva gift card</a>
           <button class="btn" type="button" data-salir>Salir</button>
         </div>

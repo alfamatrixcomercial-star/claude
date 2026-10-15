@@ -20,7 +20,7 @@ const otras = (await getCollection("unidades"))
 <section class="cruce">
   <div class="interior">
     <h2>También en el complejo</h2>
-    <ul data-revelar-grupo="3">
+    <ul data-revelar-grupo="4">
       {
         otras.map((u) => (
           <li class:list={["caja", `u-${u.id}`]}>
@@ -118,6 +118,7 @@ const otras = (await getCollection("unidades"))
   .u-restaurante { --u: var(--u-restaurante-txt); }
   .u-hotel { --u: var(--u-hotel-txt); }
   .u-balneario { --u: var(--u-balneario-txt); }
+  .u-hula-kai { --u: var(--u-hula-kai-txt); }
   .u-eventos { --u: var(--u-eventos-txt); }
 
   /* La tarjeta entera lleva a la unidad. Antes sólo respondía el título:

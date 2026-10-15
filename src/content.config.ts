@@ -70,8 +70,8 @@ const unidades = defineCollection({
       orden: z.number().int(),
       nombre: z.string(),
       nombreLargo: z.string(),
-      color: z.enum(["verde", "arena", "teal", "terracota"]),
-      ornamento: z.enum(["caracol", "vieira", "ammonite", "coral"]),
+      color: z.enum(["verde", "arena", "teal", "celeste", "terracota"]),
+      ornamento: z.enum(["caracol", "vieira", "ammonite", "coral", "caracola"]),
 
       titular: publicable(z.string().min(10)),
       bajada: publicable(
@@ -128,9 +128,9 @@ const unidades = defineCollection({
       galeria: z.array(foto(image)).default([]),
       /**
        * Foto de la tarjeta de la unidad en el home, si no es la principal.
-       * Las cuatro tarjetas van juntas y tienen que combinar entre sí: luz
+       * Las tarjetas del home van juntas y tienen que combinar entre sí: luz
        * de día, blanco y mar. La principal de cada unidad se elige para su
-       * propia página y no siempre acompaña a las otras tres.
+       * propia página y no siempre acompaña a las otras.
        */
       fotoPuerta: foto(image).optional(),
       /** Junto a la introducción, en el hueco que deja al lado la ficha. */
@@ -254,6 +254,7 @@ const sitio = defineCollection({
       restaurante: canal,
       hotel: canal,
       balneario: canal,
+      "hula-kai": canal,
       eventos: canal,
     }),
     woki: z.string().url().nullable(),

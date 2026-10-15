@@ -37,7 +37,7 @@ const puertas = await Promise.all(
     const href =
       primera.tipo === "woki" && woki
         ? woki
-        : primera.tipo === "externo" && primera.href
+        : (primera.tipo === "externo" || primera.tipo === "interno") && primera.href
           ? primera.href
           : await waLink(u.id as any);
     return {
@@ -54,14 +54,15 @@ const puertas = await Promise.all(
 );
 
 /* La banda de fotos del home se arma sola desde las galerías: tres de la
-   primera unidad y dos de cada una de las demás. Si a alguna le faltan
-   fotos, el hueco lo completan las otras, así siempre son nueve: una pieza
-   grande más dos filas de cuatro, sin un agujero al final. Cargar una foto
-   en un YAML la trae acá sin tocar esta página. */
+   primera unidad y el resto repartido entre las demás, de a una por vuelta
+   y en el orden del sitio. Si a alguna le faltan fotos, el hueco lo
+   completan las otras, así siempre son nueve: una pieza grande más dos
+   filas de cuatro, sin un agujero al final. Cargar una foto en un YAML la
+   trae acá sin tocar esta página. */
 const TOTAL_TIRA = 9;
 type Item = {
   foto: (typeof unidades)[number]["data"]["galeria"][number];
-  unidad: "restaurante" | "hotel" | "balneario" | "eventos";
+  unidad: "restaurante" | "hotel" | "balneario" | "hula-kai" | "eventos";
   nombre: string;
 };
 const aItem = (u: (typeof unidades)[number]) => (foto: Item["foto"]): Item => ({
@@ -87,15 +88,21 @@ const enOtroBloque = new Set(
     .map((f) => f!.src),
 );
 const galerias = unidades.map((u) => u.data.galeria.filter((f) => !enOtroBloque.has(f.src.src)));
-const cupo = unidades.map((u, i) => galerias[i].slice(0, i === 0 ? 3 : 2).map(aItem(u)));
-const resto = unidades.map((u, i) => galerias[i].slice(i === 0 ? 3 : 2).map(aItem(u)));
-const tira: Item[] = cupo.flat();
-for (let vuelta = 0; tira.length < TOTAL_TIRA && resto.some((r) => r.length); vuelta++) {
-  for (const r of resto) {
-    const siguiente = r.shift();
-    if (siguiente && tira.length < TOTAL_TIRA) tira.push(siguiente);
+const cupo = galerias.map((g, i) => (i === 0 ? Math.min(3, g.length) : 0));
+let libres = TOTAL_TIRA - cupo[0];
+for (let hay = true; libres > 0 && hay; ) {
+  hay = false;
+  for (let i = 1; i < galerias.length && libres > 0; i++) {
+    if (cupo[i] < galerias[i].length) {
+      cupo[i]++;
+      libres--;
+      hay = true;
+    }
   }
 }
+// Si a las demás no les alcanza, completa la primera.
+cupo[0] = Math.min(galerias[0].length, cupo[0] + libres);
+const tira: Item[] = unidades.flatMap((u, i) => galerias[i].slice(0, cupo[i]).map(aItem(u)));
 
 const datosEstructurados = {
   "@context": "https://schema.org",
@@ -156,8 +163,8 @@ const datosEstructurados = {
 
   <Onda animada />
 
-  <!-- Presentación: lo que antes iba sobre el video. «Cuatro maneras» y,
-       justo abajo, las cuatro. -->
+  <!-- Presentación: lo que antes iba sobre el video. «Cinco maneras» y,
+       justo abajo, las cinco. -->
   <section class="bienvenida">
     <div class="interior-bienvenida">
       <p class="eyebrow">
@@ -165,16 +172,16 @@ const datosEstructurados = {
       </p>
       <h1>{sitio.lema}</h1>
       <p class="valor">
-        Restaurante, hotel, balneario y salón de eventos en un mismo predio
-        sobre las rocas, frente al mar.
+        Restaurante, hotel, balneario, la pileta de Hula Kai y salón de
+        eventos en un mismo predio sobre las rocas, frente al mar.
       </p>
     </div>
   </section>
 
-  <!-- Las cuatro puertas, en el primer scroll. Nadie atraviesa tres
-       secciones de casamientos para reservar una mesa. -->
-  <h2 class="vo">Las cuatro unidades del complejo</h2>
-  <div class="puertas" data-revelar-grupo="4">
+  <!-- Las puertas, en el primer scroll. Nadie atraviesa tres secciones de
+       casamientos para reservar una mesa. -->
+  <h2 class="vo">Las unidades del complejo</h2>
+  <div class="puertas" data-revelar-grupo={puertas.length} style={`--compactas: ${puertas.length - 1}`}>
     {
       puertas.map((p, i) => (
         <Puerta
@@ -271,7 +278,7 @@ const datosEstructurados = {
     )
   }
 
-  <TiraFotos items={tira} rotulo="El predio" titulo="Cuatro lugares, un mismo mar" />
+  <TiraFotos items={tira} rotulo="El predio" titulo="Cinco lugares, un mismo mar" />
 
   <Onda />
 
@@ -380,7 +387,7 @@ const datosEstructurados = {
 
   /* Bento, no catálogo. Cuatro columnas iguales aplanan la jerarquía y se
      leen como una grilla de plantilla; acá el restaurante ocupa la mitad
-     izquierda entera y las otras tres se apilan al costado.
+     izquierda entera y las demás se apilan al costado.
 
      Empieza debajo del hero, sin taparlo: el primer pantallazo es entero
      del video. */
@@ -397,9 +404,10 @@ const datosEstructurados = {
   @media (min-width: 900px) {
     .puertas {
       grid-template-columns: minmax(0, 1.08fr) minmax(0, 1fr);
-      /* auto y no 1fr: con filas iguales las tres compactas se estiran a la
-         altura de la grande y el botón queda flotando lejos del texto. */
-      grid-template-rows: auto auto auto;
+      /* auto y no 1fr: con filas iguales las compactas se estiran a la
+         altura de la grande y el botón queda flotando lejos del texto. Una
+         fila por compacta, para que la grande las abarque a todas. */
+      grid-template-rows: repeat(var(--compactas, 3), auto);
       align-items: start;
     }
     /* La destacada toma la columna izquierda entera. */
@@ -503,6 +511,7 @@ const datosEstructurados = {
   .u-restaurante { --u: var(--u-restaurante); }
   .u-hotel { --u: var(--u-hotel); }
   .u-balneario { --u: var(--u-balneario); }
+  .u-hula-kai { --u: var(--u-hula-kai); }
   .u-eventos { --u: var(--u-eventos); }
 
   .llegar { padding: var(--paso) var(--margen) var(--paso-abajo); }
