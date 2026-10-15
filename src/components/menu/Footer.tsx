@@ -9,7 +9,7 @@ const { restaurant } = venue;
 export function Footer({ t }: { t: Strings }) {
   return (
     <footer className="relative isolate mt-12">
-      <FondoOndulado borde="arriba" className="bg-mw-arena-clara banda:bg-mw-turquesa" />
+      <FondoOndulado borde="arriba" className="bg-mw-arena-clara banda:bg-mw-banda" />
       <Onda />
       <div className="mx-auto flex max-w-3xl flex-col items-center gap-4 px-4 py-10 text-center">
         <Logo className="h-14 w-auto banda:brightness-0 banda:invert" textClassName="text-[24px] banda:text-white" />

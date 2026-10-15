@@ -54,7 +54,7 @@ export function Header({
           className={cn(
             "flex h-14 w-14 items-center justify-center rounded-2xl border transition-colors duration-[260ms] ease-mw",
             active
-              ? "border-mw-accion bg-mw-accion text-white banda:border-white banda:bg-white banda:text-mw-turquesa"
+              ? "border-mw-accion bg-mw-accion text-white banda:border-white banda:bg-white banda:text-mw-banda"
               : "border-mw-arena bg-white text-mw-titulo hover:border-mw-verde banda:border-white/45 banda:bg-white/15 banda:text-white banda:hover:border-white",
           )}
         >
@@ -74,7 +74,7 @@ export function Header({
 
   return (
     <header className="sticky top-0 z-30">
-      <FondoOndulado borde="abajo" className="bg-mw-crema/85 backdrop-blur-md banda:bg-mw-turquesa/95" />
+      <FondoOndulado borde="abajo" className="bg-mw-crema/85 backdrop-blur-md banda:bg-mw-banda/95" />
       <div className="mx-auto grid h-16 max-w-3xl grid-cols-[88px_1fr_88px] items-center px-2">
         <button type="button" aria-label={t.openMenu} onClick={onOpenMenu} className={iconButton}>
           <MenuIcon className="h-6 w-6" />
@@ -86,7 +86,7 @@ export function Header({
           {favoritesCount > 0 && (
             <button type="button" aria-label={t.favorites} onClick={onOpenFavorites} className={cn(iconButton, "relative")}>
               <HeartIcon filled className="h-6 w-6 text-mw-verde banda:text-white" />
-              <span className="absolute top-1.5 right-1 min-w-4 rounded-full bg-mw-accion px-1 text-[10px] leading-4 font-semibold text-white banda:bg-white banda:text-mw-turquesa">
+              <span className="absolute top-1.5 right-1 min-w-4 rounded-full bg-mw-accion px-1 text-[10px] leading-4 font-semibold text-white banda:bg-white banda:text-mw-banda">
                 {favoritesCount}
               </span>
             </button>

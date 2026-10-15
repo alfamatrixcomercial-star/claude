@@ -44,7 +44,7 @@ corre en el editor SQL del proyecto; volver a correrlo suma lo que falte) y van 
 | Horario de cena de Waikiki (secciones que pasan al final y foto de noche) | `dinner` en `src/venues/miradorwaikiki/index.ts` |
 | Logo y fotos | `public/venues/<carta>/` (sin `logo`, el nombre se escribe en letras) |
 | Colores | variables `--mw-*` en `src/app/globals.css` (mismos valores que la web) |
-| Barra del logo (arriba y en el pie) turquesa en vez de arena, como en Mirador 9 | `banda: "turquesa"` en `src/venues/<carta>/index.ts`; el color es `--mw-turquesa` |
+| Barra del logo (arriba y en el pie) de color en vez de arena, con el logo en blanco | `banda: "turquesa"` (Mirador 9) o `banda: "gris"` (Hula Kai) en `src/venues/<carta>/index.ts`; los colores son `--mw-turquesa` y `--mw-gris` |
 | Textos de la interfaz (es / en) | `src/lib/i18n.ts` |
 
 Las fotos de portada van en tres tamaños, `<nombre>-640.webp`, `-1024.webp` y `-1440.webp`, uno por

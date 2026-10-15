@@ -19,6 +19,7 @@ export const venue: Venue = {
   welcome: { es: "Bienvenidos a Hula Kai", en: "Welcome to Hula Kai" },
   tagline: { es: "Algo rico, a pasos del mar.", en: "Something tasty, steps from the sea." },
   description: "La carta de Hula Kai, Mar del Plata.",
+  banda: "gris",
   photo: {
     // Landscape, so it is cropped hard on a phone: wider files than the rest.
     prefix: "/venues/hulakai/pileta",

@@ -83,6 +83,8 @@ export interface Venue {
   description: string;
   photo: HeroPhoto;
   dinner?: DinnerTime;
-  /** Turquoise logo bars (header and footer) instead of sand, as on Mirador 9's printed menu. */
-  banda?: "turquesa";
+  /** Logo bars (header and footer) in a color instead of sand, with the logo
+   *  and icons in white: turquoise as on Mirador 9's printed menu, grey as on
+   *  Hula Kai's sticker. */
+  banda?: "turquesa" | "gris";
 }

@@ -21,8 +21,8 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  // The browser bar takes the color of the logo bar (--mw-turquesa or --mw-crema).
-  themeColor: venue.banda ? "#5b8a75" : "#dbd2b5",
+  // The browser bar takes the color of the logo bar (--mw-banda or --mw-crema).
+  themeColor: venue.banda ? { turquesa: "#5b8a75", gris: "#737373" }[venue.banda] : "#dbd2b5",
 };
 
 export default function RootLayout({
