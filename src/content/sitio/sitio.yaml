@@ -92,6 +92,10 @@ giftcard:
   aviso: >-
     Por ahora el pago no se hace en el sitio. El formulario abre un WhatsApp
     con el pedido ya escrito y lo terminamos de coordinar por ahí.
+  # Cuántos meses vale cada gift card desde que se emite. La página lo dice
+  # junto al aviso y el panel de /gestion lo usa para el vencimiento. Las
+  # que ya se emitieron conservan la fecha que tienen impresa.
+  validezMeses: 2
   # Las propuestas que se regalan. Los platos van con el nombre y la
   # descripción que tienen en la carta (/carta/). El precio va en pesos y sin
   # puntos; sin precio, la tarjeta dice «Valor a consultar» y el pedido lo

@@ -39,7 +39,7 @@ create table if not exists public.giftcards (
                         check (estado in ('activa', 'canjeada', 'anulada')),
   emitida_en            timestamptz not null default now(),
   vence_en              date not null
-                        default ((now() at time zone 'America/Argentina/Buenos_Aires') + interval '6 months')::date,
+                        default ((now() at time zone 'America/Argentina/Buenos_Aires') + interval '2 months')::date,
   emitida_por           uuid default auth.uid() references public.profiles (id) on delete set null,
   canjeada_en           timestamptz,
   canjeada_por          uuid references public.profiles (id) on delete set null,

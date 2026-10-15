@@ -279,6 +279,8 @@ const sitio = defineCollection({
         intro: z.array(z.string()).min(1),
         pasos: z.array(z.object({ titulo: z.string(), texto: z.string() })).min(2),
         aviso: z.string().min(20),
+        /** Cuántos meses vale desde que se emite. La web lo dice y el panel lo usa para el vencimiento. */
+        validezMeses: z.number().int().min(1).max(24),
         /**
          * Las propuestas que se regalan. Sin precio, la tarjeta dice «Valor a
          * consultar» y el pedido lo pregunta por WhatsApp.

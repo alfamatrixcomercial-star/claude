@@ -40,6 +40,7 @@ const config = {
   propuestas,
   pie: `Reservas por WhatsApp al ${telefonoLegible(whatsapp)} · miradorwaikiki.com`,
   logoSvg: isologo,
+  validezMeses: sitio.giftcard!.validezMeses,
 };
 const pesos = (n: number) => `$ ${n.toLocaleString("es-AR")}`;
 ---
@@ -381,7 +382,7 @@ const pesos = (n: number) => `$ ${n.toLocaleString("es-AR")}`;
   import { dibujarTarjeta, aArchivo, type DatosTarjeta } from "~/lib/gestion/tarjeta";
 
   type Propuesta = { id: string; nombre: string; para: string | null; precio: number | null; foto: string };
-  type Config = { propuestas: Propuesta[]; pie: string; logoSvg: string };
+  type Config = { propuestas: Propuesta[]; pie: string; logoSvg: string; validezMeses: number };
   type Estado = "activa" | "canjeada" | "anulada";
   type GiftCard = {
     id: string;
@@ -445,9 +446,10 @@ const pesos = (n: number) => `$ ${n.toLocaleString("es-AR")}`;
     });
   /** Hoy en Argentina, AAAA-MM-DD. */
   const hoy = () => new Intl.DateTimeFormat("en-CA", { timeZone: "America/Argentina/Buenos_Aires" }).format(new Date());
-  const enSeisMeses = () => {
+  /** El vencimiento de una gift card nueva: hoy más la validez de sitio.yaml. */
+  const vencimiento = () => {
     const [a, m, d] = hoy().split("-").map(Number);
-    const f = new Date(Date.UTC(a, m - 1 + 6, d));
+    const f = new Date(Date.UTC(a, m - 1 + config.validezMeses, d));
     return f.toISOString().slice(0, 10);
   };
   const soloNumero = (s: string) => s.replace(/\D/g, "");
@@ -631,7 +633,7 @@ const pesos = (n: number) => `$ ${n.toLocaleString("es-AR")}`;
 
   function abrirNueva() {
     mostrarSub("nueva");
-    if (!campoN("vence_en").value) campoN("vence_en").value = enSeisMeses();
+    if (!campoN("vence_en").value) campoN("vence_en").value = vencimiento();
     alCambiarPropuesta();
     pintarPrevia();
   }
@@ -652,7 +654,7 @@ const pesos = (n: number) => `$ ${n.toLocaleString("es-AR")}`;
       mensaje: campoN<HTMLTextAreaElement>("mensaje").value.trim() || null,
       propuesta: p.nombre,
       paraCuantos: p.para,
-      venceEn: campoN("vence_en").value || enSeisMeses(),
+      venceEn: campoN("vence_en").value || vencimiento(),
       foto: p.foto,
     };
     await new Promise((r) => setTimeout(r, 60));

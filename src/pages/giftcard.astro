@@ -32,6 +32,7 @@ const whatsapp = sitio.contacto.general.whatsapp;
 const menus = g.menus;
 const pesos = (n: number) => `$ ${n.toLocaleString("es-AR")}`;
 const valor = (m: (typeof menus)[number]) => (m.precio ? pesos(m.precio) : "Valor a consultar");
+const validez = `La gift card vale ${g.validezMeses} ${g.validezMeses === 1 ? "mes" : "meses"} desde que la enviamos.`;
 
 /* «Para usar en»: una foto por unidad donde se puede usar la tarjeta. Es la
    misma de su tarjeta en el home (o la principal, si no tiene), así
@@ -164,7 +165,7 @@ const usos = (await getCollection("unidades"))
             ))}
           </ul>
         </div>
-        <p class="aviso"><b>Importante.</b> {g.aviso}</p>
+        <p class="aviso"><b>Importante.</b> {g.aviso} {validez}</p>
       </div>
 
       <div class="bandeja marco-form" id="pedido">
