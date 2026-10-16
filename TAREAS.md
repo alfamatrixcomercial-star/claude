@@ -24,7 +24,9 @@ Lista de trabajo para el modo noche (ver `MODO-NOCHE.md`). Claude toma la primer
 
 - [ ] **8. Plan de códigos únicos (solo documento).** `negocio/V2-CODIGOS-UNICOS.md`: cómo generar un código único por comprador usando el webhook de Impultienda (si lo tiene) + una base de datos (por ejemplo Supabase) + validación en la app. Paso a paso para alguien no técnico, con costos. No crear nada en servicios externos. *Terminado:* documento creado.
 
-- [ ] **9. Versión Brasil (más adelante).** `sitio-br/` en portugués de Brasil con tono popular, mismo sistema de códigos. *Terminado:* se abre sin errores y no quedan textos en otro idioma.
+- [ ] **9. Pasar las mejoras de instalación a la versión en español.** Copiar a `sitio-es/app/index.html` y `sitio-es/gracias.html` lo que se agregó en inglés: avisos para iPhone, navegadores internos de Instagram/TikTok y app instalada sin desbloquear, y el código que queda en la dirección. Textos en español rioplatense. *Terminado:* mismas pruebas que en inglés, sin errores.
+
+- [ ] **10. Versión Brasil (más adelante).** `sitio-br/` en portugués de Brasil con tono popular, mismo sistema de códigos. *Terminado:* se abre sin errores y no quedan textos en otro idioma.
 
 ---
 
@@ -39,3 +41,4 @@ _(vacío)_
 - [x] **App Picante en español** (`sitio-es/`), landing, gracias, términos, anuncios y guías LatAm (`negocio/latam/`). — 16/10/2026
 - [x] **Versión USA en inglés** (`sitio/`): app, landing, thanks con `?code=`, terms, 5 anuncios en inglés, estrategia y guía de ugly ads para USA, códigos nuevos privados. — 16/10/2026
 - [x] **Guía del modo noche** y script local. — 16/10/2026
+- [x] **Instalación como app web mejorada** (inglés): aviso para iPhone, aviso y “copiar link” en navegadores internos de Instagram/TikTok, aviso en la app instalada sin desbloquear, y el código queda en la dirección para que lo herede la app instalada. — 16/10/2026

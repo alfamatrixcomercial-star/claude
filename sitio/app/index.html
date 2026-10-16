@@ -144,6 +144,11 @@ h1,h2,h3{font-family:var(--font-h);line-height:1.15;font-weight:700}
 .noche span{color:var(--muted);font-size:15px}
 .noche.bloq{opacity:.55}
 .intro{color:var(--muted);font-weight:600}
+.aviso{display:flex;flex-direction:column;gap:10px;padding:14px;border-radius:16px;background:linear-gradient(135deg,rgba(251,191,36,.16),rgba(225,29,72,.12));border:1px solid rgba(251,191,36,.5);font-size:15px}
+.aviso .row{display:flex;gap:8px;align-items:flex-start}
+.aviso .txt{flex:1;display:flex;flex-direction:column;gap:2px}
+.aviso .txt span{color:var(--muted);font-weight:600}
+.aviso .x{width:44px;height:44px;flex:none;margin:-10px -8px 0 0;border-radius:12px;color:var(--muted);font-size:18px}
 
 /* modal */
 .modal{position:fixed;inset:0;z-index:50;background:rgba(10,2,6,.78);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);display:none;align-items:flex-end;justify-content:center;padding:16px}
@@ -201,6 +206,7 @@ h1,h2,h3{font-family:var(--font-h);line-height:1.15;font-weight:700}
     </div>
 
     <div class="estado" id="estado"></div>
+    <div class="aviso" id="aviso" hidden></div>
 
     <div class="jugadores">
       <div><label for="n0">Your name</label><input id="n0" maxlength="14" autocomplete="off" placeholder="e.g. Sam"></div>
@@ -216,7 +222,7 @@ h1,h2,h3{font-family:var(--font-h);line-height:1.15;font-weight:700}
       <button class="modo" data-ir="noches"><span class="ico" aria-hidden="true">🗓️</span><b>7-Night Challenge</b><span>One week to break the routine</span></button>
     </div>
 
-    <button class="btn btn-ghost btn-sm" data-ir="instalar">📲 Add it to your home screen</button>
+    <button class="btn btn-ghost btn-sm" data-ir="instalar" id="b-instalar">📲 Add it to your home screen</button>
     <p class="regla"><b>Golden rule:</b> if either of you isn't into a card, say “PASS” and move on. No pressure, ever. 💯</p>
   </section>
 
@@ -274,12 +280,13 @@ h1,h2,h3{font-family:var(--font-h);line-height:1.15;font-weight:700}
   <section class="screen" id="s-instalar">
     <div class="top"><button class="back" data-ir="inicio" aria-label="Back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><h2>Add to home screen</h2></div>
     <p class="intro">Keep it on your phone like any other app, one tap away.</p>
+    <div class="aviso" id="aviso-instalar" hidden></div>
     <button class="btn btn-main" id="instalar-ya" hidden>Install now</button>
     <div class="pasos">
-      <div class="paso-i"><b>iPhone (Safari)</b><ol><li>Tap the Share button (the square with the arrow).</li><li>Choose “Add to Home Screen”.</li><li>Done! The 🌶️ icon shows up.</li></ol></div>
+      <div class="paso-i"><b>iPhone (Safari)</b><ol><li>Open this page in Safari and tap the Share button (the square with the arrow).</li><li>Choose “Add to Home Screen”.</li><li>Done! The 🌶️ icon shows up.</li></ol></div>
       <div class="paso-i"><b>Android (Chrome)</b><ol><li>Tap the 3 dots ⋮ in the top right.</li><li>Choose “Add to Home screen” or “Install app”.</li><li>Done! The 🌶️ icon shows up.</li></ol></div>
     </div>
-    <p class="regla">Your access is saved on this phone. If you switch phones or clear your browser data, just enter your code again.</p>
+    <p class="regla">Your access is saved on this phone. If the installed app opens locked the first time, or you switch phones, just enter your code again. It's in your purchase email.</p>
   </section>
 </div>
 
@@ -636,10 +643,10 @@ function sha256(ascii){
 const normalizar = c => (c || "").toUpperCase().replace(/\s+/g, "").normalize("NFD").replace(/[̀-ͯ]/g, "");
 
 function activarCodigo(raw){
-  const h = sha256(normalizar(raw));
+  const n = normalizar(raw), h = sha256(n);
   if(!h) return null;
-  if(CONFIG.codigosExtra.includes(h)){ S.extra = true; S.completo = true; }
-  else if(CONFIG.codigosCompleto.includes(h)){ S.completo = true; }
+  if(CONFIG.codigosExtra.includes(h)){ S.extra = true; S.completo = true; store.set("codeExtra", n); }
+  else if(CONFIG.codigosCompleto.includes(h)){ S.completo = true; store.set("codeFull", n); }
   else return null;
   store.set("completo", S.completo); store.set("extra", S.extra);
   return S.extra ? "extra" : "completo";
@@ -715,6 +722,7 @@ function pintar(){
     });
   });
   $$("[data-turno]").forEach(t => { t.textContent = ""; const s = document.createElement("small"); s.textContent = "Your turn,"; t.append(s, document.createTextNode(ns[S.turno] + " 👉")); });
+  pintarAviso();
   $("#dados-nota").textContent = S.extra ? "All body parts unlocked 😈" : S.completo ? "Unlock the Unfiltered Pack to add more spots 😈" : "Trial dice have fewer options. Unlock everything to get them all. 🔓";
 }
 document.addEventListener("click", e => {
@@ -898,8 +906,8 @@ function pintarMensajes(){
     d.append(p, row); box.appendChild(d);
   });
 }
-function copiar(t){
-  const ok = () => toast("Copied! Paste it in your chat 😏");
+function copiar(t, msg){
+  const ok = () => toast(msg || "Copied! Paste it in your chat 😏");
   if(navigator.clipboard && window.isSecureContext){ navigator.clipboard.writeText(t).then(ok, () => viejo()); } else viejo();
   function viejo(){ const ta = document.createElement("textarea"); ta.value = t; document.body.appendChild(ta); ta.select(); try{ document.execCommand("copy"); ok(); }catch(e){} ta.remove(); }
 }
@@ -940,6 +948,7 @@ document.addEventListener("keydown", e => { if(e.key === "Escape") cerrarModal()
 function intentarCodigo(){
   const r = activarCodigo($("#codigo").value);
   if(!r){ $("#m-err").textContent = "That code isn't valid. Double-check it and try again."; return; }
+  try{ const q = new URLSearchParams(location.search); q.set("code", store.get("codeExtra", "") || store.get("codeFull", "")); history.replaceState(null, "", location.pathname + "?" + q + location.hash); }catch(e){}
   cerrarModal(); refrescarTodo(); festejar();
   toast(r === "extra" ? "Done! You've got EVERYTHING + Unfiltered 😈🔥" : "Done! Full access unlocked 🔥");
 }
@@ -970,9 +979,53 @@ let tt;
 function toast(t){ const el = $("#toast"); el.textContent = t; el.classList.add("on"); clearTimeout(tt); tt = setTimeout(() => el.classList.remove("on"), 2600); }
 
 /* --- install (PWA) --- */
+const UA = navigator.userAgent || "";
+const ES_IOS = /iPhone|iPad|iPod/i.test(UA) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+// in-app browsers (Instagram, Facebook, TikTok…) can't install web apps
+const EN_APP_AJENA = /Instagram|FBAN|FBAV|FB_IAB|FBIOS|TikTok|musical_ly|Bytedance|Snapchat|Pinterest|Twitter|Line\//i.test(UA);
+const INSTALADA = matchMedia("(display-mode: standalone)").matches || navigator.standalone === true;
+const NAVEGADOR = ES_IOS ? "Safari" : "Chrome";
+const SHARE = '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align:-3px"><path d="M12 3v12M8 7l4-4 4 4"/><path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/></svg>';
 let promptInstalar = null;
-window.addEventListener("beforeinstallprompt", e => { e.preventDefault(); promptInstalar = e; $("#instalar-ya").hidden = false; });
-$("#instalar-ya").onclick = async () => { if(!promptInstalar) return; promptInstalar.prompt(); await promptInstalar.userChoice; promptInstalar = null; $("#instalar-ya").hidden = true; };
+
+const avisoAppAjena = () => ({
+  html: `<b>📲 Want it as an app on your phone?</b><span>This page is open inside another app (like Instagram or TikTok). Open it in ${NAVEGADOR}: tap the ${ES_IOS ? "⋯" : "⋮"} menu and choose “Open in browser”, or copy the link and paste it there.</span>`,
+  btn: ["Copy link", () => copiar(location.href, `Link copied! Paste it in ${NAVEGADOR} 📲`)]
+});
+function avisoActual(){
+  if(INSTALADA && !S.completo && !store.get("avisoApp", false))
+    return { id:"avisoApp", html:"<b>📲 You're in the app!</b><span>Already bought Picante? Enter your code once to unlock it here. It's in your purchase email.</span>", btn:["Enter my code", () => abrirModal("completo")] };
+  if(INSTALADA) return null;
+  if(EN_APP_AJENA) return avisoAppAjena();
+  if(ES_IOS && !store.get("avisoIOS", false))
+    return { id:"avisoIOS", html:`<b>📲 Get it as an app</b><span>In Safari, tap ${SHARE} Share and then “Add to Home Screen”.</span>` };
+  if(promptInstalar && !store.get("avisoAndroid", false))
+    return { id:"avisoAndroid", html:"<b>📲 Install Picante as an app</b><span>One tap and it's on your home screen.</span>", btn:["Install", instalar] };
+  return null;
+}
+function llenarAviso(box, a){
+  box.hidden = !a;
+  box.innerHTML = "";
+  if(!a) return;
+  box.innerHTML = `<div class="row"><div class="txt">${a.html}</div>${a.id ? '<button class="x" aria-label="Close">✕</button>' : ""}</div>`;
+  if(a.btn){ const b = document.createElement("button"); b.className = "btn btn-main btn-sm"; b.textContent = a.btn[0]; b.onclick = a.btn[1]; box.appendChild(b); }
+  const x = box.querySelector(".x");
+  if(x) x.onclick = () => { store.set(a.id, true); pintarAviso(); };
+}
+function pintarAviso(){
+  llenarAviso($("#aviso"), avisoActual());
+  llenarAviso($("#aviso-instalar"), EN_APP_AJENA && !INSTALADA ? avisoAppAjena() : null);
+  $("#b-instalar").hidden = INSTALADA;
+}
+async function instalar(){
+  if(!promptInstalar) return ir("instalar");
+  promptInstalar.prompt();
+  await promptInstalar.userChoice;
+  promptInstalar = null; $("#instalar-ya").hidden = true; pintarAviso();
+}
+window.addEventListener("beforeinstallprompt", e => { e.preventDefault(); promptInstalar = e; $("#instalar-ya").hidden = false; pintarAviso(); });
+window.addEventListener("appinstalled", () => { promptInstalar = null; $("#instalar-ya").hidden = true; store.set("avisoAndroid", true); pintarAviso(); });
+$("#instalar-ya").onclick = instalar;
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){ navigator.serviceWorker.register("sw.js").catch(() => {}); }
 
 /* --- age gate + start --- */
@@ -980,16 +1033,23 @@ $("#edad-si").onclick = () => { store.set("edad", true); ir("inicio"); };
 $("#edad-no").onclick = () => { document.querySelector("#s-edad p").textContent = "Come back when you're 18! 😉"; };
 
 (function arrancar(){
-  // ?code=XXXX in the delivery link unlocks automatically
+  // ?code=XXXX in the delivery link unlocks automatically.
+  // The code stays in the address bar so "Add to Home Screen" carries it into the installed app
+  // (on iPhone the installed app doesn't share storage with Safari).
   const params = new URLSearchParams(location.search);
   const cod = params.get("code") || params.get("codigo");
+  const nivelAcceso = () => S.extra ? 2 : S.completo ? 1 : 0;
+  const antes = nivelAcceso();
   let msg = "";
   if(cod){
     const r = activarCodigo(cod);
-    msg = r ? (r === "extra" ? "Welcome! You've got EVERYTHING + Unfiltered 😈🔥" : "Welcome! Full access unlocked 🔥") : "The code in this link isn't valid. Please contact us.";
-    params.delete("code"); params.delete("codigo");
-    try{ history.replaceState(null, "", location.pathname + (params.toString() ? "?" + params : "") + location.hash); }catch(e){}
+    if(!r) msg = "The code in this link isn't valid. Please contact us.";
+    else if(nivelAcceso() > antes) msg = r === "extra" ? "Welcome! You've got EVERYTHING + Unfiltered 😈🔥" : "Welcome! Full access unlocked 🔥";
   }
+  params.delete("code"); params.delete("codigo");
+  const guardado = store.get("codeExtra", "") || store.get("codeFull", "");
+  if(guardado) params.set("code", guardado);
+  try{ history.replaceState(null, "", location.pathname + (params.toString() ? "?" + params : "") + location.hash); }catch(e){}
   pintarMensajes(); pintarNoches();
   ir(store.get("edad", false) ? "inicio" : "edad");
   if(msg) toast(msg);

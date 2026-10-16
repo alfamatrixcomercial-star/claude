@@ -26,6 +26,9 @@ p{color:var(--muted);font-weight:700}
 .caja b{font-family:"Fredoka",system-ui,sans-serif;font-size:19px}
 .caja ol{padding-left:20px;color:var(--muted);font-weight:700;margin-top:6px}
 a.soporte{color:var(--gold);font-weight:800}
+.aviso{background:linear-gradient(135deg,rgba(251,191,36,.16),rgba(225,29,72,.12));border:1px solid rgba(251,191,36,.5);border-radius:18px;padding:16px;text-align:left;display:flex;flex-direction:column;gap:10px}
+.aviso b{font-family:"Fredoka",system-ui,sans-serif;font-size:19px}
+.aviso button{min-height:48px;border:0;border-radius:14px;background:#fff;color:#2a0b18;font:inherit;font-weight:900;cursor:pointer}
 </style>
 </head>
 <body>
@@ -38,12 +41,18 @@ a.soporte{color:var(--gold);font-weight:800}
     <p>Your code (save it in case you switch phones):</p>
     <b id="cod"></b>
   </div>
+  <div class="aviso" id="inapp" hidden>
+    <b>📲 One more step to get it as an app</b>
+    <p>This page is open inside another app (like Instagram or TikTok), where you can't install it. Open it in <span data-nav>Safari</span>: tap the <span data-menu>⋯</span> menu and choose “Open in browser”, or copy the link and paste it there.</p>
+    <button id="copiar">Copy my game link</button>
+  </div>
   <div class="caja">
     <b>📲 Add it to your home screen</b>
     <ol>
       <li><b>iPhone:</b> in Safari, tap Share → “Add to Home Screen”.</li>
       <li><b>Android:</b> in Chrome, tap ⋮ → “Add to Home screen”.</li>
     </ol>
+    <p style="margin-top:6px">If the app opens locked the first time, enter your code once and you're set.</p>
   </div>
   <div class="caja">
     <b>😈 Added the Unfiltered Pack?</b>
@@ -66,6 +75,21 @@ if(code && /^[A-Za-z0-9-]{4,40}$/.test(code)){
   document.getElementById("entrar").hidden = false;
   document.getElementById("caja-cod").hidden = false;
   document.getElementById("intro").textContent = "Tap the button and the game opens with everything unlocked. We also emailed you the link.";
+}
+// buyers coming from an ad often land here inside Instagram/TikTok, where web apps can't be installed
+const UA = navigator.userAgent || "";
+if(/Instagram|FBAN|FBAV|FB_IAB|FBIOS|TikTok|musical_ly|Bytedance|Snapchat|Pinterest|Twitter|Line\//i.test(UA)){
+  const ios = /iPhone|iPad|iPod/i.test(UA);
+  document.getElementById("inapp").hidden = false;
+  document.querySelector("[data-nav]").textContent = ios ? "Safari" : "Chrome";
+  document.querySelector("[data-menu]").textContent = ios ? "⋯" : "⋮";
+  const link = new URL(document.getElementById("entrar").getAttribute("href"), location.href).href;
+  const btn = document.getElementById("copiar");
+  btn.onclick = () => {
+    const ok = () => { btn.textContent = "Copied! Now paste it in " + (ios ? "Safari" : "Chrome"); };
+    if(navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(link).then(ok, viejo); else viejo();
+    function viejo(){ const ta = document.createElement("textarea"); ta.value = link; document.body.appendChild(ta); ta.select(); try{ document.execCommand("copy"); ok(); }catch(e){} ta.remove(); }
+  };
 }
 const s = document.getElementById("soporte");
 if(ENTREGA.email){ s.innerHTML = 'Any issues? <a class="soporte"></a>'; const a = s.querySelector("a"); a.href = "mailto:" + ENTREGA.email; a.textContent = ENTREGA.email; } else s.remove();
