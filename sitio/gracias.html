@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>¡Gracias! · Picante</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="app/icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=Nunito:wght@600;800;900&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#14060c;--surface:#26101b;--line:rgba(255,255,255,.12);--text:#fff3f6;--muted:#dfb3c1;--gold:#fbbf24;--green:#16a34a;--green2:#15803d}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:radial-gradient(120% 55% at 50% -8%,#541033 0%,rgba(20,6,12,0) 62%),var(--bg);color:var(--text);font-family:"Nunito",system-ui,sans-serif;font-size:17px;line-height:1.55;min-height:100vh}
+main{max-width:480px;margin:0 auto;padding:32px 16px 48px;display:flex;flex-direction:column;gap:18px;text-align:center}
+h1{font-family:"Fredoka",system-ui,sans-serif;font-size:38px;line-height:1.1}
+.big{font-size:64px;line-height:1}
+p{color:var(--muted);font-weight:700}
+.cta{display:flex;align-items:center;justify-content:center;min-height:64px;border-radius:18px;background:var(--green);color:#fff;font-weight:900;font-size:21px;text-decoration:none;box-shadow:0 8px 0 var(--green2)}
+.cta:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+.codigo{background:var(--surface);border:2px dashed var(--gold);border-radius:18px;padding:16px}
+.codigo b{display:block;font-family:"Fredoka",system-ui,sans-serif;font-size:30px;letter-spacing:3px;color:var(--gold)}
+.caja{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:16px;text-align:left}
+.caja b{font-family:"Fredoka",system-ui,sans-serif;font-size:19px}
+.caja ol{padding-left:20px;color:var(--muted);font-weight:700;margin-top:6px}
+a.soporte{color:var(--gold);font-weight:800}
+</style>
+</head>
+<body>
+<main>
+  <div class="big" aria-hidden="true">🔥</div>
+  <h1>¡Listo! Ya tienen su acceso</h1>
+  <p>Tocá el botón y el juego se abre con todo desbloqueado.</p>
+  <a class="cta" id="entrar" href="app/">ENTRAR AL JUEGO 👉</a>
+  <div class="codigo">
+    <p>Tu código (guardalo por si cambiás de celu):</p>
+    <b id="cod"></b>
+  </div>
+  <div class="caja">
+    <b>📲 Dejalo instalado en el celu</b>
+    <ol>
+      <li><b>Android:</b> en Chrome tocá ⋮ → “Agregar a la pantalla principal”.</li>
+      <li><b>iPhone:</b> en Safari tocá compartir → “Agregar a inicio”.</li>
+    </ol>
+  </div>
+  <div class="caja">
+    <b>😈 ¿Sumaste el Pack Sin Filtro?</b>
+    <p style="margin-top:6px">Te llega otro código a tu mail. Lo ponés en el juego tocando el candadito del nivel “Sin Filtro”.</p>
+  </div>
+  <p id="soporte"></p>
+</main>
+<script>
+/* ============ CONFIGURÁ ACÁ ============ */
+const ENTREGA = {
+  codigo: "PICANTE2026",   // el mismo código que pusiste (en forma de huella) en app/index.html
+  whatsapp: ""             // ej "5491122334455"
+};
+/* ====================================== */
+document.getElementById("cod").textContent = ENTREGA.codigo;
+document.getElementById("entrar").href = "app/?codigo=" + encodeURIComponent(ENTREGA.codigo);
+const s = document.getElementById("soporte");
+if(ENTREGA.whatsapp){ s.innerHTML = '¿Algún problema? <a class="soporte" target="_blank" rel="noopener">Escribinos por WhatsApp</a>'; s.querySelector("a").href = "https://wa.me/" + ENTREGA.whatsapp; } else s.remove();
+</script>
+</body>
+</html>

@@ -1,0 +1,293 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Picante · El juego para encender la pareja</title>
+<meta name="description" content="Verdad o reto, ruleta y dados picantes para jugar en pareja desde el celu. Se abre al toque y lo juegan esta noche.">
+<meta name="theme-color" content="#e11d48">
+<meta property="og:title" content="Picante · El juego para encender la pareja 🔥">
+<meta property="og:description" content="Más de 100 preguntas y retos picantes para jugar en pareja desde el celu.">
+<meta property="og:image" content="img/pantalla-inicio.webp">
+<link rel="icon" href="app/icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#fff7f3; --bg2:#ffe9e4; --surface:#ffffff; --ink:#2a0b18; --muted:#6b3a4b; --line:#f3cfd6;
+  --rose:#e11d48; --orange:#f97316; --gold:#fbbf24; --green:#16a34a; --green2:#15803d; --dark:#14060c;
+  --grad:linear-gradient(135deg,#e11d48 0%,#f97316 100%);
+  --font-h:"Fredoka",ui-rounded,system-ui,sans-serif;
+  --font-b:"Nunito",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:var(--font-b);font-size:17px;line-height:1.55;overflow-x:hidden}
+img{max-width:100%;display:block}
+a{color:inherit}
+h1,h2,h3{font-family:var(--font-h);line-height:1.12;font-weight:700}
+a:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid var(--orange);outline-offset:3px}
+.wrap{max-width:560px;margin:0 auto;padding:0 16px}
+section{padding:44px 0}
+.franja{background:var(--dark);color:#fff;text-align:center;font-weight:800;font-size:14px;padding:9px 12px;letter-spacing:.3px}
+.franja b{color:var(--gold)}
+
+/* hero */
+.hero{padding:28px 0 40px;background:radial-gradient(120% 70% at 50% 0%,#ffd9cf 0%,var(--bg) 70%)}
+.tag{display:inline-block;background:var(--ink);color:#fff;font-weight:900;font-size:13px;letter-spacing:1px;padding:5px 12px;border-radius:999px}
+.hero h1{font-size:clamp(32px,8.6vw,46px);margin:14px 0 12px}
+.hero h1 em{font-style:normal;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p.sub{font-size:19px;color:var(--muted);font-weight:600}
+.cel{position:relative;width:min(78%,300px);margin:26px auto 26px;border:11px solid #111;border-radius:46px;overflow:hidden;background:#111;box-shadow:0 30px 60px -20px rgba(225,29,72,.55),0 0 0 2px #333}
+.cel img{width:100%;height:auto}
+.burbuja{position:absolute;right:-6px;top:22%;background:#fff;color:var(--ink);font-weight:900;font-size:14px;padding:8px 12px;border-radius:14px;box-shadow:0 10px 24px rgba(0,0,0,.25);transform:rotate(4deg)}
+.cta{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;min-height:64px;padding:14px 18px;border-radius:18px;background:var(--green);color:#fff;font-weight:900;font-size:20px;text-decoration:none;text-align:center;box-shadow:0 8px 0 var(--green2),0 18px 30px -10px rgba(22,163,74,.6);transition:transform .12s ease,box-shadow .12s ease;animation:late 2.4s ease-in-out infinite}
+.cta:active{transform:translateY(4px);box-shadow:0 4px 0 var(--green2)}
+@keyframes late{0%,100%{transform:scale(1)}50%{transform:scale(1.025)}}
+.micro{display:flex;flex-wrap:wrap;justify-content:center;gap:6px 14px;margin-top:14px;font-size:14px;font-weight:800;color:var(--muted)}
+.demo{display:block;text-align:center;margin-top:12px;font-weight:800;color:var(--rose);padding:10px}
+
+/* bloques */
+.titulo{font-size:clamp(27px,7vw,36px);text-align:center;margin-bottom:20px}
+.dolor{background:var(--dark);color:#fff}
+.dolor .titulo{color:#fff}
+.lista{list-style:none;display:flex;flex-direction:column;gap:12px}
+.lista li{display:flex;gap:12px;align-items:flex-start;font-weight:700;font-size:18px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);padding:14px;border-radius:16px}
+.lista li span{flex:none;font-size:22px;line-height:1.2}
+.remate{text-align:center;font-family:var(--font-h);font-size:24px;font-weight:600;margin-top:22px;color:var(--gold)}
+.lista.ok li{background:var(--surface);border-color:var(--line);color:var(--ink)}
+.grid{display:grid;grid-template-columns:1fr;gap:12px}
+.feat{display:flex;gap:14px;align-items:flex-start;background:var(--surface);border:2px solid var(--line);border-radius:20px;padding:16px}
+.feat i{font-style:normal;font-size:34px;line-height:1;flex:none}
+.feat b{font-family:var(--font-h);font-size:20px;font-weight:600;display:block;line-height:1.2}
+.feat p{color:var(--muted);font-weight:600;font-size:16px}
+.feat.extra{border-style:dashed;border-color:#c084fc;background:#faf5ff}
+.pantallas{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;padding:6px 16px 16px;margin:0 -16px;scrollbar-width:none}
+.pantallas::-webkit-scrollbar{display:none}
+.pantallas figure{flex:0 0 62%;max-width:240px;scroll-snap-align:center;border:8px solid #111;border-radius:34px;overflow:hidden;background:#111;box-shadow:0 18px 40px -18px rgba(0,0,0,.6)}
+.pantallas figcaption{text-align:center;background:#111;color:#fff;font-weight:800;font-size:14px;padding:6px}
+.desliza{text-align:center;color:var(--muted);font-weight:700;font-size:14px}
+.pasos{counter-reset:p;display:flex;flex-direction:column;gap:12px}
+.pasos div{counter-increment:p;display:flex;gap:14px;align-items:center;background:var(--surface);border:2px solid var(--line);border-radius:18px;padding:14px;font-weight:700}
+.pasos div::before{content:counter(p);flex:none;width:44px;height:44px;border-radius:50%;background:var(--grad);color:#fff;font-family:var(--font-h);font-size:22px;display:grid;place-items:center}
+
+/* oferta */
+.oferta{background:var(--bg2)}
+.caja{background:var(--surface);border:3px solid var(--rose);border-radius:26px;padding:22px 18px;box-shadow:0 24px 50px -24px rgba(225,29,72,.6)}
+.caja h2{text-align:center;font-size:28px}
+.caja .incluye{list-style:none;margin:16px 0;display:flex;flex-direction:column;gap:8px;font-weight:700}
+.caja .incluye li::before{content:"✅ "}
+.precio{text-align:center;margin:10px 0 16px}
+.precio s{color:var(--muted);font-weight:800;font-size:18px}
+.precio .ahora{display:block;font-family:var(--font-h);font-size:56px;font-weight:700;color:var(--rose);line-height:1.05}
+.precio small{display:block;font-weight:800;color:var(--muted)}
+.bump{margin-top:14px;background:#faf5ff;border:2px dashed #c084fc;border-radius:16px;padding:12px 14px;font-weight:700;font-size:15.5px}
+.garantia{display:flex;gap:14px;align-items:center;margin-top:18px;background:var(--surface);border:2px solid var(--line);border-radius:18px;padding:16px}
+.garantia .sello{flex:none;width:86px;height:86px;border-radius:50%;background:var(--gold);color:var(--ink);display:grid;place-items:center;text-align:center;font-family:var(--font-h);font-weight:700;font-size:13px;line-height:1.05;border:4px dashed #fff;box-shadow:0 0 0 3px var(--gold)}
+.garantia p{font-weight:700}
+
+/* testimonios: se muestran solo cuando cargues testimonios REALES */
+.testis .t{background:var(--surface);border:2px solid var(--line);border-radius:18px;padding:16px;font-weight:700}
+.testis .t img{border-radius:12px;margin-bottom:8px}
+
+/* faq */
+details{background:var(--surface);border:2px solid var(--line);border-radius:16px;margin-bottom:10px}
+summary{cursor:pointer;list-style:none;padding:16px 44px 16px 16px;font-weight:900;position:relative;min-height:56px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";position:absolute;right:16px;top:50%;transform:translateY(-50%);font-size:26px;color:var(--rose);font-weight:900}
+details[open] summary::after{content:"–"}
+details p{padding:0 16px 16px;color:var(--muted);font-weight:600}
+
+footer{background:var(--dark);color:#d9b3bf;text-align:center;font-size:14px;padding:30px 16px calc(110px + env(safe-area-inset-bottom))}
+footer a{color:#fff;font-weight:700}
+footer p+p{margin-top:8px}
+
+/* barra fija */
+.fija{position:fixed;left:0;right:0;bottom:0;z-index:20;padding:10px 16px calc(10px + env(safe-area-inset-bottom));background:rgba(255,247,243,.94);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-top:1px solid var(--line);transform:translateY(110%);transition:transform .25s ease}
+.fija.on{transform:none}
+.fija .cta{max-width:528px;margin:0 auto;min-height:56px;font-size:18px;animation:none}
+
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
+@media (min-width:700px){.grid{grid-template-columns:1fr 1fr}.feat.ancho{grid-column:1/-1}}
+</style>
+</head>
+<body>
+
+<div class="franja">🔥 <b>PRECIO DE LANZAMIENTO</b> · Acceso inmediato</div>
+
+<header class="hero">
+  <div class="wrap" style="text-align:center">
+    <span class="tag">SOLO PAREJAS +18</span>
+    <h1>¿La rutina les apagó la llama? <em>Este jueguito la prende de nuevo</em> 🔥</h1>
+    <p class="sub">Verdad o reto, ruleta y dados picantes para jugar en pareja desde el celu. No se descarga nada: lo abrís y lo juegan <b>esta misma noche</b>.</p>
+    <a class="cta" href="#comprar" style="margin-top:22px">QUIERO JUGAR ESTA NOCHE 👉</a>
+    <div class="micro"><span>⚡ Acceso al toque</span><span>💳 Pago único</span><span>🛡️ Garantía 7 días</span></div>
+    <div class="cel">
+      <img src="img/pantalla-inicio.webp" width="390" height="844" alt="Pantalla de inicio del juego Picante en el celular">
+      <span class="burbuja">4 niveles 🌶️</span>
+    </div>
+    <a class="demo" href="app/">¿Querés ver cómo es? Probá la demo gratis →</a>
+  </div>
+</header>
+
+<section class="dolor">
+  <div class="wrap">
+    <h2 class="titulo">¿Les pasa esto?</h2>
+    <ul class="lista">
+      <li><span>❌</span>Llegan del laburo re cansados y cada uno termina en su celu.</li>
+      <li><span>❌</span>Siempre lo mismo, el mismo día, de la misma forma.</li>
+      <li><span>❌</span>Querés proponer algo nuevo pero te da vergüenza o no sabés cómo arrancar.</li>
+      <li><span>❌</span>Extrañás las ganas que se tenían al principio.</li>
+    </ul>
+    <p class="remate">No es falta de amor. Es la rutina.<br>Y la rutina se rompe jugando. 😏</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2 class="titulo">Picante hace la parte difícil por ustedes</h2>
+    <ul class="lista ok">
+      <li><span>✅</span>El juego propone y ustedes se animan. Nadie tiene que “pedir” nada.</li>
+      <li><span>✅</span>Arrancan suave y van subiendo de nivel a su ritmo.</li>
+      <li><span>✅</span>Se ríen, se provocan y terminan la noche como al principio.</li>
+      <li><span>✅</span>Regla de oro: si una carta no les copa, dicen “paso” y sale otra.</li>
+    </ul>
+  </div>
+</section>
+
+<section style="padding-top:0">
+  <div class="wrap">
+    <h2 class="titulo">Todo lo que te llevás</h2>
+    <div class="grid">
+      <div class="feat ancho"><i>🃏</i><div><b>Verdad o Reto en 3 niveles</b><p>Romántico 💕, Picante 🌶️ y Fuego 🔥. Más de 100 preguntas y retos, con cronómetro y puntos.</p></div></div>
+      <div class="feat"><i>🎡</i><div><b>Ruleta Picante</b><p>Beso, masaje, prenda, castigo, comodín… que decida la suerte.</p></div></div>
+      <div class="feat"><i>🎲</i><div><b>Dados Calientes</b><p>Acción + zona + tiempo. Tirás y a cumplir.</p></div></div>
+      <div class="feat"><i>💌</i><div><b>30 mensajes picantes</b><p>Para mandarle por WhatsApp con un toque y calentarle el día.</p></div></div>
+      <div class="feat"><i>🗓️</i><div><b>Reto 7 Noches</b><p>Una misión por noche durante una semana para salir de la rutina.</p></div></div>
+      <div class="feat"><i>📲</i><div><b>Se instala como app</b><p>Con su iconito en el celu. Android o iPhone. Funciona hasta sin internet.</p></div></div>
+      <div class="feat"><i>🔒</i><div><b>100% privado</b><p>No pide registro ni datos para jugar. Lo que pasa en el juego queda entre ustedes.</p></div></div>
+      <div class="feat extra ancho"><i>😈</i><div><b>Pack Sin Filtro (opcional)</b><p>35 cartas más para los que se animan a todo. Lo sumás al pagar si querés.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<section style="padding-top:0">
+  <div class="wrap">
+    <h2 class="titulo">Así se ve en tu celu</h2>
+    <div class="pantallas">
+      <figure><img src="img/pantalla-carta.webp" width="390" height="844" alt="Carta de reto del nivel Fuego" loading="lazy"><figcaption>Verdad o Reto 🔥</figcaption></figure>
+      <figure><img src="img/pantalla-ruleta.webp" width="390" height="844" alt="Ruleta picante girando" loading="lazy"><figcaption>Ruleta Picante 🎡</figcaption></figure>
+      <figure><img src="img/pantalla-dados.webp" width="390" height="844" alt="Dados calientes con acción, zona y tiempo" loading="lazy"><figcaption>Dados Calientes 🎲</figcaption></figure>
+    </div>
+    <p class="desliza">← deslizá para ver más →</p>
+  </div>
+</section>
+
+<section style="padding-top:0">
+  <div class="wrap">
+    <h2 class="titulo">¿Cómo funciona?</h2>
+    <div class="pasos">
+      <div>Tocás el botón verde y pagás. Tarda un minuto.</div>
+      <div>Al toque te llega a tu mail el link y tu código de acceso.</div>
+      <div>Lo abren en el celu y a jugar. Esta misma noche. 🔥</div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIOS: dejalo oculto hasta tener capturas REALES de clientes (con su permiso).
+     Para mostrarlo, borrá el atributo "hidden". Nunca inventes testimonios. -->
+<section class="testis" hidden>
+  <div class="wrap">
+    <h2 class="titulo">Lo que dicen las parejas</h2>
+    <div class="grid">
+      <!-- Copiá este bloque por cada testimonio real:
+      <div class="t"><img src="img/testimonio-1.webp" alt="Captura de mensaje de un cliente"></div>
+      -->
+    </div>
+  </div>
+</section>
+
+<section class="oferta" id="comprar">
+  <div class="wrap">
+    <div class="caja">
+      <h2>Picante · Acceso completo</h2>
+      <ul class="incluye">
+        <li>Verdad o Reto: niveles Romántico, Picante y Fuego</li>
+        <li>Ruleta Picante y Dados Calientes completos</li>
+        <li>30 mensajes picantes para WhatsApp</li>
+        <li>Reto 7 Noches</li>
+        <li>Se instala como app · Acceso para siempre</li>
+      </ul>
+      <div class="precio">
+        <s data-precio-antes></s>
+        <span class="ahora" data-precio></span>
+        <small>pago único · sin suscripción</small>
+      </div>
+      <a class="cta" data-link-pago href="#">QUIERO MI ACCESO AHORA 👉</a>
+      <div class="micro"><span>🔒 Pago 100% seguro</span><span>⚡ Te llega al instante</span></div>
+      <p class="bump">😈 <b>¿Se animan a más?</b> Al pagar vas a ver el <b>Pack Sin Filtro</b>: 35 cartas extra por <span data-precio-bump></span>. Tildalo si querés.</p>
+    </div>
+    <div class="garantia">
+      <div class="sello">7 DÍAS<br>DE<br>GARANTÍA</div>
+      <p>Si lo prueban y no les gusta, te devolvemos la plata dentro de los 7 días. Sin preguntas, sin vueltas.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2 class="titulo">Preguntas frecuentes</h2>
+    <details><summary>¿Hay que descargar algo?</summary><p>No. Es una app web: la abrís desde el link en cualquier celu, Android o iPhone. Si querés, la dejás instalada con su iconito como cualquier app.</p></details>
+    <details><summary>¿Es muy zarpado?</summary><p>Vos elegís hasta dónde llegar. Arranca romántico y va subiendo de a poco. Y siempre vale la regla de oro: si a alguno no le copa una carta, dice “paso” y sale otra.</p></details>
+    <details><summary>¿Alguien se va a enterar?</summary><p>No. Para jugar no pide registro ni datos personales, y lo que juegan no se guarda en ningún servidor: queda solo en tu celu.</p></details>
+    <details><summary>¿Sirve para cualquier pareja?</summary><p>Sí. Novios, casados, de muchos años o recién arrancando. Ponen sus nombres y el juego se adapta a ustedes.</p></details>
+    <details><summary>¿Cómo me llega?</summary><p>Apenas se acredita el pago te llega un mail con el link y tu código. Si no lo ves, revisá en spam o escribinos y te lo mandamos.</p></details>
+    <details><summary>¿Es pago único?</summary><p>Sí. Pagás una vez y es tuyo. Sin suscripciones ni cobros escondidos.</p></details>
+  </div>
+</section>
+
+<section style="padding-top:0">
+  <div class="wrap" style="text-align:center">
+    <h2 class="titulo">Esta noche puede ser distinta 😏</h2>
+    <a class="cta" data-link-pago href="#">QUIERO JUGAR ESTA NOCHE 👉</a>
+    <a class="demo" href="app/">O probá la demo gratis primero →</a>
+  </div>
+</section>
+
+<footer>
+  <p><b>Picante</b> es un juego para mayores de 18 años, pensado para parejas adultas que juegan de común acuerdo.</p>
+  <p data-contacto></p>
+  <p><a href="terminos.html">Términos, privacidad y devoluciones</a> · <a href="terminos.html#arrepentimiento">Botón de arrepentimiento</a></p>
+</footer>
+
+<div class="fija" id="fija"><a class="cta" data-link-pago href="#">QUIERO MI ACCESO 👉</a></div>
+
+<script>
+/* ============ CONFIGURÁ TU OFERTA ACÁ ============ */
+const OFERTA = {
+  linkPago: "#comprar",        // tu link de checkout (Hotmart, Kiwify, Mercado Pago…)
+  precio: "$4.990",            // precio que se cobra
+  precioAntes: "",             // precio tachado. Dejalo vacío si no es real
+  precioBump: "$2.990",        // precio del Pack Sin Filtro
+  whatsapp: ""                 // ej "5491122334455" para mostrar contacto
+};
+/* ================================================= */
+document.querySelectorAll("[data-precio]").forEach(e => e.textContent = OFERTA.precio);
+document.querySelectorAll("[data-precio-bump]").forEach(e => e.textContent = OFERTA.precioBump);
+document.querySelectorAll("[data-precio-antes]").forEach(e => { if(OFERTA.precioAntes) e.textContent = "Antes " + OFERTA.precioAntes; else e.remove(); });
+document.querySelectorAll("[data-link-pago]").forEach(e => { e.href = OFERTA.linkPago; if(OFERTA.linkPago.startsWith("http")) e.rel = "noopener"; });
+const c = document.querySelector("[data-contacto]");
+if(OFERTA.whatsapp){ const a = document.createElement("a"); a.href = "https://wa.me/" + OFERTA.whatsapp; a.textContent = "¿Dudas? Escribinos por WhatsApp"; a.target = "_blank"; a.rel = "noopener"; c.appendChild(a); } else c.remove();
+// barra fija: aparece cuando ya pasaste el botón principal
+const fija = document.getElementById("fija"), heroCta = document.querySelector(".hero .cta"), oferta = document.getElementById("comprar");
+function sync(){
+  const h = heroCta.getBoundingClientRect(), o = oferta.getBoundingClientRect();
+  fija.classList.toggle("on", h.bottom < 0 && !(o.top < innerHeight && o.bottom > 0));
+}
+addEventListener("scroll", sync, { passive: true });
+addEventListener("resize", sync);
+sync();
+</script>
+</body>
+</html>

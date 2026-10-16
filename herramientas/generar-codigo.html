@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Generador de códigos · Picante</title>
+<style>
+body{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:#14060c;color:#fff3f6;margin:0;line-height:1.5}
+main{max-width:620px;margin:0 auto;padding:28px 16px 48px;display:flex;flex-direction:column;gap:14px}
+h1{font-size:26px;margin:0}
+p,li{color:#dfb3c1}
+label{font-weight:700}
+input{width:100%;box-sizing:border-box;font-size:22px;font-weight:800;letter-spacing:2px;text-transform:uppercase;padding:12px 14px;border-radius:12px;border:2px solid #4a2030;background:#26101b;color:#fff}
+pre{white-space:pre-wrap;word-break:break-all;background:#26101b;border:1px solid #4a2030;border-radius:12px;padding:12px;font-size:14px;margin:0}
+button{font-size:16px;font-weight:800;padding:12px 16px;border-radius:12px;border:0;background:#e11d48;color:#fff;cursor:pointer;min-height:48px}
+.paso{background:#26101b;border-radius:12px;padding:12px 14px}
+</style>
+</head>
+<body>
+<main>
+  <h1>🔑 Generador de códigos de acceso</h1>
+  <p>Abrí este archivo en tu compu o celu (no lo subas a internet). Escribí el código que querés vender y te da la “huella” para pegar en la app. Así el código real nunca queda visible en el código de la app.</p>
+  <label for="c">Tu código (letras y números, sin tildes):</label>
+  <input id="c" value="PICANTE2026" autocomplete="off">
+  <div class="paso"><b>1.</b> Pegá esta huella en <code>sitio/app/index.html</code>, dentro de <code>codigosCompleto</code> (o <code>codigosExtra</code> si es el del Pack Sin Filtro):</div>
+  <pre id="h"></pre>
+  <button id="copiar">Copiar huella</button>
+  <div class="paso"><b>2.</b> Link de entrega para el mail de la plataforma de pago (cambiá el dominio por el tuyo):</div>
+  <pre id="l"></pre>
+  <div class="paso"><b>3.</b> Si es el código principal, ponelo también en <code>sitio/gracias.html</code> → <code>ENTREGA.codigo</code>.</div>
+</main>
+<script>
+function sha256(ascii){
+  function rr(v,a){return (v>>>a)|(v<<(32-a));}
+  const maxWord = Math.pow(2,32); let result = ""; const words = []; const bitLen = ascii.length*8;
+  let hash = [], k = [], pc = 0; const comp = {};
+  for(let c = 2; pc < 64; c++){ if(!comp[c]){ for(let i = 0; i < 313; i += c) comp[i] = c; hash[pc] = (Math.pow(c,.5)*maxWord)|0; k[pc++] = (Math.pow(c,1/3)*maxWord)|0; } }
+  ascii += "\x80"; while(ascii.length % 64 - 56) ascii += "\x00";
+  for(let i = 0; i < ascii.length; i++){ const j = ascii.charCodeAt(i); if(j >> 8) return ""; words[i>>2] |= j << ((3 - i) % 4) * 8; }
+  words[words.length] = (bitLen / maxWord)|0; words[words.length] = bitLen;
+  for(let j = 0; j < words.length;){
+    const w = words.slice(j, j += 16), old = hash; hash = hash.slice(0, 8);
+    for(let i = 0; i < 64; i++){
+      const w15 = w[i-15], w2 = w[i-2], a = hash[0], e = hash[4];
+      const t1 = hash[7] + (rr(e,6)^rr(e,11)^rr(e,25)) + ((e&hash[5])^((~e)&hash[6])) + k[i]
+        + (w[i] = (i < 16) ? w[i] : (w[i-16] + (rr(w15,7)^rr(w15,18)^(w15>>>3)) + w[i-7] + (rr(w2,17)^rr(w2,19)^(w2>>>10)))|0);
+      const t2 = (rr(a,2)^rr(a,13)^rr(a,22)) + ((a&hash[1])^(a&hash[2])^(hash[1]&hash[2]));
+      hash = [(t1 + t2)|0].concat(hash); hash[4] = (hash[4] + t1)|0;
+    }
+    for(let i = 0; i < 8; i++) hash[i] = (hash[i] + old[i])|0;
+  }
+  for(let i = 0; i < 8; i++) for(let j = 3; j + 1; j--){ const b = (hash[i] >> (j*8)) & 255; result += (b < 16 ? "0" : "") + b.toString(16); }
+  return result;
+}
+const normalizar = c => (c || "").toUpperCase().replace(/\s+/g, "").normalize("NFD").replace(/[̀-ͯ]/g, "");
+const c = document.getElementById("c"), h = document.getElementById("h"), l = document.getElementById("l");
+function upd(){
+  const n = normalizar(c.value);
+  const x = sha256(n);
+  h.textContent = x ? '"' + x + '"' : "Usá solo letras y números, sin tildes ni ñ.";
+  l.textContent = "https://TU-DOMINIO.netlify.app/app/?codigo=" + encodeURIComponent(n);
+}
+c.addEventListener("input", upd); upd();
+document.getElementById("copiar").onclick = () => {
+  const t = h.textContent;
+  if(navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(t).then(() => alert("¡Copiado!"));
+  else { const ta = document.createElement("textarea"); ta.value = t; document.body.appendChild(ta); ta.select(); document.execCommand("copy"); ta.remove(); alert("¡Copiado!"); }
+};
+</script>
+</body>
+</html>
