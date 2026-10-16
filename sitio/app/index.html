@@ -1,10 +1,10 @@
 <!doctype html>
-<html lang="es">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Picante · El juego de la pareja</title>
-<meta name="description" content="El juego para encender la pareja: verdad o reto, ruleta, dados y más.">
+<title>Picante · The Spicy Game for Couples</title>
+<meta name="description" content="The spicy game for couples: truth or dare, spin the wheel, spicy dice and more.">
 <meta name="robots" content="noindex">
 <meta name="theme-color" content="#14060c">
 <link rel="manifest" href="manifest.webmanifest">
@@ -18,6 +18,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
+[hidden]{display:none!important}
 :root{
   --bg:#14060c; --surface:#26101b; --surface2:#331424; --line:rgba(255,255,255,.10);
   --text:#fff3f6; --muted:#dfb3c1; --dim:#a87c8b;
@@ -182,417 +183,417 @@ h1,h2,h3{font-family:var(--font-h);line-height:1.15;font-weight:700}
 <body>
 <div class="app">
 
-  <!-- ===== +18 ===== -->
+  <!-- ===== 18+ ===== -->
   <section class="screen edad" id="s-edad" aria-labelledby="t-edad">
     <div class="big" aria-hidden="true">🌶️</div>
-    <h1 id="t-edad" style="font-size:34px">Solo para mayores de&nbsp;18</h1>
-    <p>Este juego es para parejas adultas que quieren pasarla bien. Hay preguntas y retos subidos de tono.</p>
-    <p><b style="color:var(--text)">Regla de oro:</b> si algo no le copa a alguno, se dice <b style="color:var(--text)">“PASO”</b> y se saca otra carta. Nadie obliga a nadie.</p>
-    <button class="btn btn-main" id="edad-si">Somos mayores de 18, ¡vamos!</button>
-    <button class="link" id="edad-no">No, soy menor</button>
+    <h1 id="t-edad" style="font-size:34px">Adults 18+ only</h1>
+    <p>This game is for adult couples who want to have fun. Some questions and dares get pretty spicy.</p>
+    <p><b style="color:var(--text)">Golden rule:</b> if either of you isn't into a card, say <b style="color:var(--text)">“PASS”</b> and draw another. No pressure, ever.</p>
+    <button class="btn btn-main" id="edad-si">We're both 18+, let's go!</button>
+    <button class="link" id="edad-no">No, I'm under 18</button>
   </section>
 
-  <!-- ===== INICIO ===== -->
+  <!-- ===== HOME ===== -->
   <section class="screen" id="s-inicio">
     <div class="logo">
       <h1>PICANTE</h1>
-      <p>el juego para encender la pareja 🔥</p>
+      <p>the spicy game for couples 🔥</p>
     </div>
 
     <div class="estado" id="estado"></div>
 
     <div class="jugadores">
-      <div><label for="n0">Tu nombre</label><input id="n0" maxlength="14" autocomplete="off" placeholder="Ej: Juli"></div>
+      <div><label for="n0">Your name</label><input id="n0" maxlength="14" autocomplete="off" placeholder="e.g. Sam"></div>
       <div class="corazon" aria-hidden="true">❤️</div>
-      <div><label for="n1">Tu pareja</label><input id="n1" maxlength="14" autocomplete="off" placeholder="Ej: Mati"></div>
+      <div><label for="n1">Your partner</label><input id="n1" maxlength="14" autocomplete="off" placeholder="e.g. Alex"></div>
     </div>
 
     <div class="modos">
-      <button class="modo grande" data-ir="juego"><span class="ico" aria-hidden="true">🃏</span><div><b>Verdad o Reto</b><br><span>4 niveles, del romántico al sin filtro</span></div></button>
-      <button class="modo" data-ir="ruleta"><span class="ico" aria-hidden="true">🎡</span><b>Ruleta Picante</b><span>Girala y que decida la suerte</span></button>
-      <button class="modo" data-ir="dados"><span class="ico" aria-hidden="true">🎲</span><b>Dados Calientes</b><span>Acción + zona + tiempo</span></button>
-      <button class="modo" data-ir="mensajes"><span class="ico" aria-hidden="true">💌</span><b>Mensajes</b><span>Para calentarle el día por WhatsApp</span></button>
-      <button class="modo" data-ir="noches"><span class="ico" aria-hidden="true">🗓️</span><b>Reto 7 Noches</b><span>Una semana para salir de la rutina</span></button>
+      <button class="modo grande" data-ir="juego"><span class="ico" aria-hidden="true">🃏</span><div><b>Truth or Dare</b><br><span>4 levels, from romantic to unfiltered</span></div></button>
+      <button class="modo" data-ir="ruleta"><span class="ico" aria-hidden="true">🎡</span><b>Spin the Wheel</b><span>Let luck decide</span></button>
+      <button class="modo" data-ir="dados"><span class="ico" aria-hidden="true">🎲</span><b>Spicy Dice</b><span>Action + body part + time</span></button>
+      <button class="modo" data-ir="mensajes"><span class="ico" aria-hidden="true">💌</span><b>Flirty Texts</b><span>Heat up their day</span></button>
+      <button class="modo" data-ir="noches"><span class="ico" aria-hidden="true">🗓️</span><b>7-Night Challenge</b><span>One week to break the routine</span></button>
     </div>
 
-    <button class="btn btn-ghost btn-sm" data-ir="instalar">📲 Instalar como app en el celu</button>
-    <p class="regla"><b>Regla de oro:</b> si algo no le copa a alguno, se dice “PASO” y listo. Nadie obliga a nadie. 💯</p>
+    <button class="btn btn-ghost btn-sm" data-ir="instalar">📲 Add it to your home screen</button>
+    <p class="regla"><b>Golden rule:</b> if either of you isn't into a card, say “PASS” and move on. No pressure, ever. 💯</p>
   </section>
 
-  <!-- ===== VERDAD O RETO ===== -->
+  <!-- ===== TRUTH OR DARE ===== -->
   <section class="screen" id="s-juego">
-    <div class="top"><button class="back" data-ir="inicio" aria-label="Volver"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><h2>Verdad o Reto</h2></div>
+    <div class="top"><button class="back" data-ir="inicio" aria-label="Back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><h2>Truth or Dare</h2></div>
     <div class="niveles" data-niveles></div>
     <div class="marcador" data-marcador></div>
     <div class="turnode" data-turno></div>
     <div class="eleccion" id="juego-eleccion">
-      <button class="btn btn-ghost" id="elige-verdad"><i aria-hidden="true">🤫</i>Verdad</button>
-      <button class="btn btn-main" id="elige-reto"><i aria-hidden="true">🔥</i>Reto</button>
+      <button class="btn btn-ghost" id="elige-verdad"><i aria-hidden="true">🤫</i>Truth</button>
+      <button class="btn btn-main" id="elige-reto"><i aria-hidden="true">🔥</i>Dare</button>
     </div>
     <div id="juego-zona"></div>
   </section>
 
-  <!-- ===== RULETA ===== -->
+  <!-- ===== WHEEL ===== -->
   <section class="screen" id="s-ruleta">
-    <div class="top"><button class="back" data-ir="inicio" aria-label="Volver"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><h2>Ruleta Picante</h2></div>
+    <div class="top"><button class="back" data-ir="inicio" aria-label="Back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><h2>Spin the Wheel</h2></div>
     <div class="niveles" data-niveles></div>
     <div class="marcador" data-marcador></div>
     <div class="turnode" data-turno></div>
     <div class="rueda-wrap"><div class="puntero" aria-hidden="true"></div><svg viewBox="0 0 300 300" aria-hidden="true"><g id="rueda"></g><circle cx="150" cy="150" r="26" fill="#14060c" stroke="#fbbf24" stroke-width="4"/><text x="150" y="158" text-anchor="middle" font-size="22">🌶️</text></svg></div>
-    <button class="btn btn-main" id="girar">GIRAR LA RULETA</button>
+    <button class="btn btn-main" id="girar">SPIN THE WHEEL</button>
     <div id="ruleta-zona"></div>
   </section>
 
-  <!-- ===== DADOS ===== -->
+  <!-- ===== DICE ===== -->
   <section class="screen" id="s-dados">
-    <div class="top"><button class="back" data-ir="inicio" aria-label="Volver"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><h2>Dados Calientes</h2></div>
+    <div class="top"><button class="back" data-ir="inicio" aria-label="Back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><h2>Spicy Dice</h2></div>
     <div class="marcador" data-marcador></div>
     <div class="turnode" data-turno></div>
-    <div class="dados" aria-live="polite"><div class="dado" id="d0">¿QUÉ?</div><div class="dado" id="d1">¿DÓNDE?</div><div class="dado" id="d2">¿CUÁNTO?</div></div>
-    <div class="dados-label"><span>ACCIÓN</span><span>ZONA</span><span>TIEMPO</span></div>
-    <button class="btn btn-main" id="tirar">TIRAR LOS DADOS</button>
+    <div class="dados" aria-live="polite"><div class="dado" id="d0">WHAT?</div><div class="dado" id="d1">WHERE?</div><div class="dado" id="d2">HOW LONG?</div></div>
+    <div class="dados-label"><span>ACTION</span><span>BODY PART</span><span>TIME</span></div>
+    <button class="btn btn-main" id="tirar">ROLL THE DICE</button>
     <div id="dados-zona"></div>
     <p class="regla" id="dados-nota"></p>
   </section>
 
-  <!-- ===== MENSAJES ===== -->
+  <!-- ===== TEXTS ===== -->
   <section class="screen" id="s-mensajes">
-    <div class="top"><button class="back" data-ir="inicio" aria-label="Volver"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><h2>Mensajes picantes</h2></div>
-    <p class="intro">Mandale uno durante el día y llegá a la noche con todo encendido. 😏</p>
+    <div class="top"><button class="back" data-ir="inicio" aria-label="Back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><h2>Flirty Texts</h2></div>
+    <p class="intro">Send one during the day so things are already heating up by tonight. 😏</p>
     <div class="lista" id="lista-msj"></div>
   </section>
 
-  <!-- ===== 7 NOCHES ===== -->
+  <!-- ===== 7 NIGHTS ===== -->
   <section class="screen" id="s-noches">
-    <div class="top"><button class="back" data-ir="inicio" aria-label="Volver"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><h2>Reto 7 Noches</h2></div>
-    <p class="intro">Una misión por noche durante una semana. Tachá cada noche que cumplan. 🔥</p>
+    <div class="top"><button class="back" data-ir="inicio" aria-label="Back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><h2>7-Night Challenge</h2></div>
+    <p class="intro">One mission per night for a whole week. Check off each night you complete. 🔥</p>
     <div class="lista" id="lista-noches"></div>
   </section>
 
-  <!-- ===== INSTALAR ===== -->
+  <!-- ===== INSTALL ===== -->
   <section class="screen" id="s-instalar">
-    <div class="top"><button class="back" data-ir="inicio" aria-label="Volver"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><h2>Instalar en el celu</h2></div>
-    <p class="intro">Dejalo como una app más, con su iconito, para abrirlo al toque.</p>
-    <button class="btn btn-main" id="instalar-ya" hidden>Instalar ahora</button>
+    <div class="top"><button class="back" data-ir="inicio" aria-label="Back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><h2>Add to home screen</h2></div>
+    <p class="intro">Keep it on your phone like any other app, one tap away.</p>
+    <button class="btn btn-main" id="instalar-ya" hidden>Install now</button>
     <div class="pasos">
-      <div class="paso-i"><b>Android (Chrome)</b><ol><li>Tocá los 3 puntitos ⋮ arriba a la derecha.</li><li>Elegí “Agregar a la pantalla principal” o “Instalar app”.</li><li>¡Listo! Te aparece el ícono 🌶️.</li></ol></div>
-      <div class="paso-i"><b>iPhone (Safari)</b><ol><li>Tocá el botón de compartir (el cuadradito con la flecha).</li><li>Elegí “Agregar a inicio”.</li><li>¡Listo! Te aparece el ícono 🌶️.</li></ol></div>
+      <div class="paso-i"><b>iPhone (Safari)</b><ol><li>Tap the Share button (the square with the arrow).</li><li>Choose “Add to Home Screen”.</li><li>Done! The 🌶️ icon shows up.</li></ol></div>
+      <div class="paso-i"><b>Android (Chrome)</b><ol><li>Tap the 3 dots ⋮ in the top right.</li><li>Choose “Add to Home screen” or “Install app”.</li><li>Done! The 🌶️ icon shows up.</li></ol></div>
     </div>
-    <p class="regla">Tu acceso queda guardado en este celu. Si cambiás de celu o borrás los datos, volvé a poner tu código.</p>
+    <p class="regla">Your access is saved on this phone. If you switch phones or clear your browser data, just enter your code again.</p>
   </section>
 </div>
 
-<!-- ===== DESBLOQUEAR ===== -->
+<!-- ===== UNLOCK ===== -->
 <div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="m-tit">
   <div class="hoja">
-    <h3 id="m-tit">Desbloqueá todo 🔓</h3>
+    <h3 id="m-tit">Unlock everything 🔓</h3>
     <ul id="m-lista"></ul>
-    <label for="codigo" style="font-weight:700;color:var(--muted)">¿Ya compraste? Poné tu código:</label>
-    <input id="codigo" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="TU CÓDIGO">
+    <label for="codigo" style="font-weight:700;color:var(--muted)">Already bought it? Enter your code:</label>
+    <input id="codigo" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="YOUR CODE">
     <div class="err" id="m-err" aria-live="polite"></div>
-    <button class="btn btn-main" id="m-activar">Activar código</button>
-    <a class="btn btn-ghost" id="m-comprar" target="_blank" rel="noopener">Todavía no tengo código</a>
-    <button class="link" id="m-cerrar">Cerrar</button>
+    <button class="btn btn-main" id="m-activar">Activate code</button>
+    <a class="btn btn-ghost" id="m-comprar" target="_blank" rel="noopener">I don't have a code yet</a>
+    <button class="link" id="m-cerrar">Close</button>
   </div>
 </div>
 <div class="toast" id="toast" role="status"></div>
 
 <script>
 /* =====================================================================
-   CONFIGURACIÓN — lo único que tenés que tocar para vender
+   SETTINGS — the only part you need to touch to sell
    ===================================================================== */
 const CONFIG = {
-  // Link de pago del producto principal (Hotmart, Kiwify, Mercado Pago, etc.)
-  linkCompra: "../index.html#comprar",
-  // Link de pago del "Pack Sin Filtro" (order bump / upsell)
-  linkPackExtra: "../index.html#comprar",
-  // Huellas SHA-256 de tus códigos. NO pongas el código en texto plano.
-  // Generalas con herramientas/generar-codigo.html y pegalas acá.
-  // Por defecto: PICANTE2026 (acceso completo) y SINFILTRO2026 (pack extra). ¡CAMBIALOS!
-  codigosCompleto: ["9a97d616b4f4c81023614df34c3da000ec8132d1354df25c7a6a45b666b7c098"],
-  codigosExtra:    ["6c9dd6fc32d0eb82d7080f55731d0f225f4b45ee9e4416359404a6b253e1caf4"],
-  // Cartas gratis por tipo en el modo prueba
+  // Checkout link for the main product
+  linkCompra: "../index.html#buy",
+  // Checkout link for the "Unfiltered Pack" (order bump / upsell)
+  linkPackExtra: "../index.html#buy",
+  // SHA-256 fingerprints of your access codes. NEVER put the plain code here.
+  // Generate them with herramientas/generar-codigo.html and paste them below.
+  codigosCompleto: ["eb93566a6198fe767008a6a7343112c81d794defb150f8cddb4aa3df215c0d33"],
+  codigosExtra:    ["908de6f4ff5f7778b2abd7dc50c2b678f22f1f40e06336b8790f0df31351cbc8"],
+  // Free cards per type in trial mode
   gratis: 5
 };
 
 /* =====================================================================
-   CONTENIDO — {B} se reemplaza por el nombre de la pareja
-   Un reto puede ser "texto" o ["texto", segundos] para mostrar cronómetro
+   CONTENT — {B} is replaced with the partner's name
+   A dare can be "text" or ["text", seconds] to show a timer
    ===================================================================== */
 const NIVELES = [
-  { id:1, nombre:"Romántico", emoji:"💕", color:"var(--l1)", pts:1, acceso:"gratis",
+  { id:1, nombre:"Romantic", emoji:"💕", color:"var(--l1)", pts:1, acceso:"gratis",
     verdades:[
-      "¿Qué fue lo primero que te gustó de {B}?",
-      "¿En qué momento te diste cuenta de que {B} te gustaba en serio?",
-      "¿Qué es lo que más extrañás de cuando recién empezaban?",
-      "Contá el recuerdo más lindo que tenés con {B}.",
-      "¿Qué hace {B} que te derrite y nunca se lo dijiste?",
-      "¿Qué parte del cuerpo de {B} es tu favorita? Sin vergüenza.",
-      "Si se pudieran escapar un finde sin laburo ni obligaciones, ¿a dónde irían?",
-      "¿Qué canción te hace acordar a {B}? Cantá un pedacito.",
-      "¿Qué es lo más lindo que {B} hizo por vos?",
-      "Decile a {B} tres cosas que te encantan de su persona. Mirándole a los ojos.",
-      "¿Cuál fue el mejor beso que se dieron? ¿Dónde fue?",
-      "¿Qué te gustaría que hagan más seguido?",
-      "¿Qué ropa de {B} te pierde?",
-      "¿Qué es algo que nunca le dijiste a {B} y hoy se lo querés decir?",
-      "¿Qué pensaste la primera vez que viste a {B}? La verdad, eh."
+      "What was the very first thing you liked about {B}?",
+      "When did you realize you were actually falling for {B}?",
+      "What do you miss most about when you two first started dating?",
+      "Tell {B} your favorite memory together.",
+      "What does {B} do that melts you, that you've never admitted?",
+      "What's your favorite part of {B}'s body? No shame.",
+      "If you could sneak away for a weekend with zero responsibilities, where would you go?",
+      "What song reminds you of {B}? Sing a little bit of it.",
+      "What's the sweetest thing {B} has ever done for you?",
+      "Tell {B} three things you love about them. Eye contact required.",
+      "What was your best kiss ever with {B}? Where was it?",
+      "What's something you wish you two did more often?",
+      "What outfit of {B}'s drives you crazy?",
+      "What's something you've never told {B} but want to say tonight?",
+      "What did you honestly think the first time you saw {B}? The truth."
     ],
     retos:[
-      ["Dale a {B} un abrazo bien apretado y no lo sueltes hasta que suene el tiempo.",30],
-      ["Mírense a los ojos sin hablar. El primero que se ríe, pierde.",60],
-      "Dale 10 besos a {B}, cada uno en un lugar distinto de la cara.",
-      ["Hacele a {B} masajes en los hombros.",60],
-      "Elegí un tema lento y bailen abrazados hasta que termine.",
-      "Decile a {B} al oído lo que más te gusta de su cuerpo.",
-      ["Dale a {B} un beso de película. De esos largos.",20],
-      "Escribile a {B} una palabra en la espalda con el dedo. Si no adivina, te debe un beso.",
-      "Imitá a {B} cuando se enoja. 😂",
-      "Mandale a {B} un audio de WhatsApp diciéndole algo romántico, aunque esté al lado.",
-      ["Hacele cosquillas en el cuello a {B} solo con los labios.",20],
-      "Agarrá la mano de {B} y besale cada dedo, despacito.",
-      "Recreen su primer beso. Lo más parecido posible.",
-      "Tirale a {B} un piropo bien de barrio. Cuanto más grasa, mejor. 😂",
-      ["Acostate con {B} y hagan cucharita.",60],
-      "Dale a {B} tres besos en el cuello, bien despacito.",
-      "Sacate una media o el abrigo. Arrancamos suave. 😏",
-      ["Acariciale el pelo a {B}.",60],
-      "Dale a {B} un beso esquimal y uno de mariposa (con las pestañas).",
-      "Sentate en la falda de {B} hasta tu próximo turno.",
-      "Hacele a {B} una declaración de amor como si relataras un gol en la final del mundial. 😂",
-      ["Hacele a {B} masajes en los pies.",60],
-      "Besá a {B} sin usar las manos. Las manos atrás, eh.",
-      "Contale a {B} qué fue lo que te enamoró. Con detalles.",
-      ["Abrazá a {B} por la espalda y quédense así, sin hablar.",30]
+      ["Give {B} a tight hug and don't let go until the timer ends.",30],
+      ["Stare into each other's eyes without talking. First one to laugh loses.",60],
+      "Give {B} 10 kisses, each one on a different spot on their face.",
+      ["Give {B} a shoulder massage.",60],
+      "Pick a slow song and slow dance together until it ends.",
+      "Whisper in {B}'s ear what you love most about their body.",
+      ["Give {B} a movie kiss. The long kind.",20],
+      "Write a word on {B}'s back with your finger. If they don't guess it, they owe you a kiss.",
+      "Do your best impression of {B} when they're mad. 😂",
+      "Send {B} a voice note saying something romantic, even though they're right next to you.",
+      ["Tickle {B}'s neck using only your lips.",20],
+      "Take {B}'s hand and kiss every finger, slowly.",
+      "Recreate your first kiss. As close to the real thing as possible.",
+      "Hit {B} with your cheesiest pickup line. The cornier, the better. 😂",
+      ["Lie down with {B} and spoon.",60],
+      "Give {B} three slow kisses on the neck.",
+      "Take off one sock or your hoodie. We're starting easy. 😏",
+      ["Run your fingers through {B}'s hair.",60],
+      "Give {B} an Eskimo kiss and a butterfly kiss (with your eyelashes).",
+      "Sit on {B}'s lap until your next turn.",
+      "Declare your love for {B} like a sportscaster calling the game-winning touchdown. 😂",
+      ["Give {B} a foot massage.",60],
+      "Kiss {B} without using your hands. Hands behind your back.",
+      "Tell {B} the exact moment you fell for them. Details, please.",
+      ["Hug {B} from behind and stay like that, no talking.",30]
     ]},
-  { id:2, nombre:"Picante", emoji:"🌶️", color:"var(--l2)", pts:2, acceso:"completo",
+  { id:2, nombre:"Spicy", emoji:"🌶️", color:"var(--l2)", pts:2, acceso:"completo",
     verdades:[
-      "¿Cuál es la fantasía más tranqui que nunca le contaste a {B}?",
-      "¿Cuál es el lugar más loco donde te gustaría estar a solas con {B}?",
-      "¿Qué ropa interior de {B} es tu favorita?",
-      "¿Qué es lo que más te calienta que haga {B}?",
-      "Contá la mejor noche que pasaron juntos. Con detalles. 😏",
-      "¿Alguna vez pensaste en {B} en un momento re inoportuno? ¿Dónde estabas?",
-      "Del 1 al 10, ¿cuánto te gusta cuando {B} toma la iniciativa?",
-      "¿En qué parte del cuerpo te gusta que te besen?",
-      "¿Qué es algo que te gustaría probar y nunca se animaron?",
-      "¿Luz prendida o apagada? ¿Por qué?",
-      "¿Qué es lo más atrevido que mandaste por mensaje?",
-      "¿Mañana, tarde o noche? ¿Cuál es tu momento favorito para estar con {B}?",
-      "¿Alguna peli o serie te dio ideas? ¿Cuál?",
-      "¿Qué te gustaría que {B} te diga al oído?",
-      "¿Qué es lo primero que le mirás a {B} cuando sale de bañarse?"
+      "What's the mildest fantasy you've never told {B}?",
+      "What's the craziest place you'd like to be alone with {B}?",
+      "What's your favorite pair of underwear {B} owns?",
+      "What does {B} do that turns you on the most?",
+      "Describe the best night you two ever had. In detail. 😏",
+      "Have you ever thought about {B} at a totally inappropriate moment? Where were you?",
+      "On a scale of 1 to 10, how much do you like it when {B} makes the first move?",
+      "Where on your body do you love being kissed?",
+      "What's something you'd like to try that you two have never dared to?",
+      "Lights on or lights off? Why?",
+      "What's the boldest thing you've ever sent in a text?",
+      "Morning, afternoon or night: when's your favorite time to be with {B}?",
+      "Has a movie or show ever given you ideas? Which one?",
+      "What would you love {B} to whisper in your ear?",
+      "What's the first thing you look at when {B} steps out of the shower?"
     ],
     retos:[
-      "Sacate una prenda. La elige {B}.",
-      "Dale a {B} un beso en el cuello y bajá despacito hasta el hombro.",
-      "Susurrale a {B} al oído lo que le harías esta noche.",
-      ["Hacele a {B} un mini striptease con un tema de cumbia. 🔥",30],
-      "Vendale los ojos a {B} y dale besos en 3 lugares sorpresa.",
-      ["Hacele a {B} masajes en la espalda, pero solo con la punta de los dedos.",60],
-      "Mordele suave el labio de abajo a {B}.",
-      "Sacale una prenda a {B} usando solo los dientes.",
-      ["Sentate encima de {B} y mírense fijo sin besarse. El que besa primero, pierde.",30],
-      ["Soplale suave a {B} en el cuello y en la oreja.",20],
-      ["Pasale un cubito de hielo por el cuello a {B}. Si no hay hielo, usá los labios.",20],
-      "Mandale a {B} el mensaje más subido de tono que se te ocurra. Después lo tiene que leer en voz alta. 😂",
-      "Besá a {B} en el lugar que te diga. Sin protestar.",
-      "Hagan de cuenta que se conocen en un boliche. Encarale a {B} con tu mejor chamuyo.",
-      ["Hacele a {B} masajes con crema o aceite donde elija.",60],
-      ["Bailen un reggaetón bien pegados.",60],
-      ["Acariciale a {B} la espalda por debajo de la remera.",30],
-      ["Quedate sin moverte mientras {B} te besa donde quiera.",30],
-      ["Dale a {B} besitos en la panza, despacito.",20],
-      "Hacé tu mejor imitación de gemido de película. 😂",
-      "Elegí una parte del cuerpo de {B} y dale 10 besos ahí.",
-      "Sacate una prenda vos y sacale una a {B}.",
-      "Decile a {B} tres cosas que le harías si se quedaran encerrados en un ascensor.",
-      "Dejale a {B} un chupón donde no se vea. 😏",
-      ["Pasá los labios por el cuello de {B} sin besar, solo rozando.",20]
+      "Take off one piece of clothing. {B} picks which.",
+      "Kiss {B}'s neck and slowly work your way down to their shoulder.",
+      "Whisper in {B}'s ear what you'd do to them tonight.",
+      ["Give {B} a mini striptease to whatever song comes on next. 🔥",30],
+      "Blindfold {B} and kiss them in 3 surprise spots.",
+      ["Massage {B}'s back using only your fingertips.",60],
+      "Gently bite {B}'s bottom lip.",
+      "Take off one piece of {B}'s clothing using only your teeth.",
+      ["Sit on {B}'s lap and stare at each other without kissing. First one to kiss loses.",30],
+      ["Softly blow on {B}'s neck and ear.",20],
+      ["Run an ice cube along {B}'s neck. No ice? Use your lips.",20],
+      "Text {B} the dirtiest message you can come up with. Then they have to read it out loud. 😂",
+      "Kiss {B} wherever they tell you. No complaining.",
+      "Pretend you just met at a bar. Hit on {B} with your best line.",
+      ["Give {B} a massage with lotion or oil wherever they choose.",60],
+      ["Dance super close to a club song.",60],
+      ["Run your hands over {B}'s back, under their shirt.",30],
+      ["Stay perfectly still while {B} kisses you wherever they want.",30],
+      ["Give {B} soft little kisses on their stomach.",20],
+      "Do your best fake movie moan. 😂",
+      "Pick a part of {B}'s body and give it 10 kisses.",
+      "Take off one piece of your clothing, and one of {B}'s.",
+      "Tell {B} three things you'd do if you two got stuck in an elevator.",
+      "Leave a hickey on {B} somewhere nobody will see. 😏",
+      ["Brush your lips along {B}'s neck without kissing. Just barely touching.",20]
     ]},
-  { id:3, nombre:"Fuego", emoji:"🔥", color:"var(--l3)", pts:3, acceso:"completo",
+  { id:3, nombre:"Fire", emoji:"🔥", color:"var(--l3)", pts:3, acceso:"completo",
     verdades:[
-      "¿Cuál es tu fantasía más zarpada con {B}? Contala entera.",
-      "¿Qué es lo que más te gusta que te haga {B} en la cama?",
-      "¿Hay algo que te gustaría que {B} haga distinto? Decilo con amor.",
-      "¿Cuál es tu posición favorita? Explicala sin palabras, solo con gestos. 😂",
-      "¿Alguna vez fingiste? Respondé con la verdad.",
-      "¿Qué lugar de la casa todavía no estrenaron? 😏",
-      "¿Qué es lo más atrevido que te animarías a hacer esta noche?",
-      "Del 1 al 10, ¿cuántas ganas le tenés a {B} ahora mismo?",
-      "¿Qué disfraz te gustaría que {B} se ponga para vos?",
-      "¿Qué es lo que más te gusta escuchar en el momento?",
-      "¿Te gustaría probar algún juguete? ¿Cuál?",
-      "¿Cuál fue la vez que más te costó aguantarte las ganas con {B}?"
+      "What's your wildest fantasy with {B}? Tell the whole thing.",
+      "What do you love most when {B} does it to you in bed?",
+      "Is there anything you'd like {B} to do differently? Say it with love.",
+      "What's your favorite position? Explain it with no words, just gestures. 😂",
+      "Have you ever faked it? Tell the truth.",
+      "Which room in the house haven't you two christened yet? 😏",
+      "What's the boldest thing you'd be up for tonight?",
+      "On a scale of 1 to 10, how badly do you want {B} right now?",
+      "What costume would you love {B} to wear for you?",
+      "What do you love hearing in the moment?",
+      "Would you like to try a toy? Which one?",
+      "When was it hardest to keep your hands off {B}?"
     ],
     retos:[
-      "Sacale a {B} toda la ropa de arriba. Despacito.",
-      ["Hacele a {B} masajes con aceite, de los pies a la cabeza. Sin apuro.",120],
-      ["Vendale los ojos a {B} y hacé lo que quieras (dentro de lo que le guste).",60],
-      ["Besá a {B} desde el cuello hasta la cintura.",30],
-      "Elegí: le hacés un striptease completo a {B} o te sacás dos prendas.",
-      "Atale las manos a {B} con algo suave (una bufanda, una corbata) hasta tu próximo turno. Solo si quiere.",
-      ["Ponete arriba de {B} y movete al ritmo de un tema.",60],
-      ["{B} te dice dónde besar y vos obedecés.",60],
-      ["Hacé que a {B} se le escape un gemido sin usar las manos. 😏",60],
-      ["Pasá un cubito de hielo por la parte del cuerpo de {B} que elijas.",30],
-      "Dale a {B} el mejor beso de su vida. Si dice que no fue, repetí.",
-      ["Acariciá todo el cuerpo de {B} con un pañuelo, una pluma o la punta de los dedos.",60],
-      ["Hablale sucio a {B} al oído.",30],
-      "Quedate en ropa interior hasta el final del juego.",
-      "Elegí un lugar de la casa que no sea la cama. Ahí van a terminar la noche. 😈",
-      ["Dale a {B} un adelanto de lo que viene. 😏",60],
-      "Ponete un cubito de hielo en la boca y pasáselo a {B} con un beso.",
-      ["Juego de rol: elegí los personajes (jefe y empleado, doctor y paciente, desconocidos en un bar) y actúen.",120],
-      ["Recorré con la lengua el cuello y la oreja de {B}.",30],
-      "Desvestite frente a {B} como si fuera una película.",
-      "Sentate en la falda de {B} sin ropa de arriba hasta tu próximo turno.",
-      ["Hacele a {B} lo que más le gusta. Ya sabés qué. 😏",60],
-      "Prohibido usar las manos hasta tu próximo turno. Usá todo lo demás.",
-      ["Hacele a {B} masajes en la zona que te pida.",60],
-      "Turno doble: hacé dos retos seguidos de este nivel. 🔥"
+      "Take off everything {B} is wearing from the waist up. Slowly.",
+      ["Give {B} an oil massage, head to toe. No rushing.",120],
+      ["Blindfold {B} and do whatever you want (within what they're into).",60],
+      ["Kiss {B} from their neck all the way down to their waist.",30],
+      "Your choice: give {B} a full striptease, or take off two pieces of clothing.",
+      "Tie {B}'s hands with something soft (a scarf, a tie) until your next turn. Only if they're up for it.",
+      ["Get on top of {B} and move to the beat of a song.",60],
+      ["{B} tells you where to kiss and you obey.",60],
+      ["Make {B} moan without using your hands. 😏",60],
+      ["Run an ice cube over any part of {B}'s body you choose.",30],
+      "Give {B} the best kiss of their life. If they say it wasn't, try again.",
+      ["Trace {B}'s whole body with a scarf, a feather or your fingertips.",60],
+      ["Talk dirty in {B}'s ear.",30],
+      "Stay in your underwear for the rest of the game.",
+      "Pick a spot in the house that isn't the bed. That's where tonight ends. 😈",
+      ["Give {B} a little preview of what's coming. 😏",60],
+      "Put an ice cube in your mouth and pass it to {B} with a kiss.",
+      ["Role play: pick the characters (boss and assistant, doctor and patient, strangers at a bar) and stay in character.",120],
+      ["Trace {B}'s neck and ear with your tongue.",30],
+      "Undress in front of {B} like it's a movie scene.",
+      "Sit on {B}'s lap topless until your next turn.",
+      ["Do the thing {B} loves most. You know what it is. 😏",60],
+      "No hands until your next turn. Use everything else.",
+      ["Massage whatever spot {B} asks for.",60],
+      "Double turn: do two dares in a row from this level. 🔥"
     ]},
-  { id:4, nombre:"Sin Filtro", emoji:"😈", color:"var(--l4)", pts:4, acceso:"extra",
+  { id:4, nombre:"Unfiltered", emoji:"😈", color:"var(--l4)", pts:4, acceso:"extra",
     verdades:[
-      "¿Cuál es la fantasía que nunca te animaste a contar? Hoy es el día.",
-      "¿Qué es lo más zarpado que te gustaría que {B} te haga?",
-      "¿Qué te gustaría probar que te da un poquito de vergüenza?",
-      "¿Cuál es tu lugar favorito del cuerpo de {B} para besar?",
-      "¿Qué te gustaría que {B} se ponga esta noche para vos?",
-      "¿Lento o con todo? ¿Por qué?",
-      "¿Cuál fue la vez que mejor la pasaron? ¿Qué la hizo tan especial?",
-      "¿Hoy querés mandar vos o que mande {B}?",
-      "Describí con tres palabras cómo querés que termine esta noche.",
-      "¿Hubo algún lugar donde te dieron ganas y no se pudo? Contalo. 😂"
+      "What's the fantasy you've never dared to share? Tonight's the night.",
+      "What's the wildest thing you'd want {B} to do to you?",
+      "What would you like to try that makes you a little shy?",
+      "Where's your favorite place to kiss on {B}'s body?",
+      "What would you love {B} to wear for you tonight?",
+      "Slow, or all in? Why?",
+      "What was your best night ever together? What made it so good?",
+      "Tonight, do you want to be in charge, or let {B} take over?",
+      "Describe in three words how you want tonight to end.",
+      "Was there ever a place you really wanted to but couldn't? Spill. 😂"
     ],
     retos:[
-      ["Esta ronda manda {B}: hacés lo que te pida (dentro de lo que te guste).",120],
-      ["Sacate todo. {B} puede mirar pero no tocar.",30],
-      ["Recorré el cuerpo de {B} con besos, de arriba hacia abajo.",90],
-      ["Hacé que {B} te ruegue. 😈",60],
-      "Elegí una posición para esta noche y explicásela a {B} al oído.",
-      ["Poné crema, aceite o chocolate en el cuerpo de {B} y sacalo a besos.",60],
-      ["{B} con los ojos vendados y las manos quietas. Vos hacés lo que quieras.",120],
-      "Juego de rol: son dos desconocidos que se levantan en un bar. Arranquen ya y no salgan del personaje.",
-      ["El que se ríe pierde: se tocan sin poder hacer ni un ruido.",60],
-      "Llevá a {B} al lugar de la casa que eligieron antes. Ya. 😈",
-      ["Mostrale a {B} cómo te gusta que te toquen. Tu mano sobre la suya.",60],
-      ["Hacé tu mejor baile del caño (una puerta o una silla sirven). 😂",60],
-      ["Ponete arriba y no dejes que {B} se mueva.",60],
-      ["Hablale sucio a {B} sin parar.",60],
-      ["Hacé con la boca lo que {B} elija. 😏",60],
-      ["Juego del hielo: un cubito, el cuerpo de {B}, y hasta donde llegue.",60],
-      "El próximo reto lo inventa {B}. Y vos lo cumplís.",
-      ["Susurrale a {B} lo que le vas a hacer… y hacelo.",90],
-      "Cambio de escenario: terminan el juego en la ducha. 🚿",
-      ["Mordiscos suaves en el lugar que más le guste a {B}.",30],
-      "Dejá que {B} te ate las manos con algo suave. Hasta el final del juego.",
-      "{B} elige una de las fantasías que contaron. Esta noche se cumple (si los dos quieren).",
-      ["Modo espejo: todo lo que {B} te hace, se lo devolvés.",120],
-      ["Sentate en la falda de {B} sin ropa y no te muevas. Si te movés, perdés.",30],
-      "Último reto: apaguen el celu. Lo que sigue ya no necesita juego. 😈🔥"
+      ["{B} is in charge this round: do whatever they ask (within what you're into).",120],
+      ["Take it all off. {B} can look but not touch.",30],
+      ["Cover {B}'s body in kisses, top to bottom.",90],
+      ["Make {B} beg. 😈",60],
+      "Pick a position for tonight and describe it in {B}'s ear.",
+      ["Put lotion, oil or chocolate on {B}'s body and kiss it all off.",60],
+      ["{B} is blindfolded and keeps their hands still. You do whatever you want.",120],
+      "Role play: you're two strangers who just met at a bar. Start now and don't break character.",
+      ["First one to make a sound loses: touch each other in total silence.",60],
+      "Take {B} to the spot in the house you picked earlier. Right now. 😈",
+      ["Show {B} exactly how you like to be touched. Your hand over theirs.",60],
+      ["Give {B} your best pole dance (a door frame or a chair works). 😂",60],
+      ["Get on top and don't let {B} move.",60],
+      ["Talk dirty to {B} nonstop.",60],
+      ["Use your mouth however {B} chooses. 😏",60],
+      ["Ice cube game: one ice cube, {B}'s body, see how far it goes.",60],
+      "{B} makes up your next dare. And you do it.",
+      ["Whisper to {B} what you're about to do to them… then do it.",90],
+      "Change of scenery: finish the game in the shower. 🚿",
+      ["Gentle bites on {B}'s favorite spot.",30],
+      "Let {B} tie your hands with something soft. Until the game is over.",
+      "{B} picks one of the fantasies you shared tonight. It happens tonight (if you both want it).",
+      ["Mirror mode: whatever {B} does to you, you do right back.",120],
+      ["Sit on {B}'s lap naked and don't move. If you move, you lose.",30],
+      "Final dare: put the phone down. What comes next doesn't need a game. 😈🔥"
     ]}
 ];
 
 const CASTIGOS = [
-  "Sacate una prenda.",
-  "Le debés a {B} masajes de 5 minutos mañana.",
-  "Mañana lavás los platos vos. 😂",
-  "Dale a {B} 10 besos donde elija.",
-  "Cantá una cumbia con todo el sentimiento.",
-  "Mañana le llevás el desayuno a la cama a {B}.",
-  "{B} elige tu próximo reto.",
-  "Hacé 10 sentadillas. Ya. 😂",
-  "Contá tu momento más vergonzoso.",
-  "{B} tiene el control remoto toda la semana.",
-  "Mandale a {B} un audio cantándole una canción de amor.",
-  "Le debés a {B} una salida. Pagás vos."
+  "Take off one piece of clothing.",
+  "You owe {B} a 5-minute massage tomorrow.",
+  "You're doing the dishes tomorrow. 😂",
+  "Give {B} 10 kisses wherever they choose.",
+  "Sing a love song with full emotion.",
+  "Tomorrow you bring {B} breakfast in bed.",
+  "{B} picks your next dare.",
+  "Do 10 squats. Right now. 😂",
+  "Share your most embarrassing moment.",
+  "{B} controls the TV remote for a whole week.",
+  "Send {B} a voice note of you singing them a love song.",
+  "You owe {B} a date night. You're paying."
 ];
 
 const RULETA = [
-  { e:"VERDAD", c:"#e11d48" }, { e:"BESO", c:"#f97316" }, { e:"RETO", c:"#be123c" }, { e:"MASAJE", c:"#ea580c" },
-  { e:"PRENDA", c:"#e11d48" }, { e:"COMODÍN", c:"#f59e0b" }, { e:"RETO", c:"#be123c" }, { e:"CASTIGO", c:"#7c2d12" }
+  { e:"TRUTH", k:"VERDAD", c:"#e11d48" }, { e:"KISS", k:"BESO", c:"#f97316" }, { e:"DARE", k:"RETO", c:"#be123c" }, { e:"MASSAGE", k:"MASAJE", c:"#ea580c" },
+  { e:"STRIP", k:"PRENDA", c:"#e11d48" }, { e:"WILDCARD", k:"COMODIN", c:"#f59e0b" }, { e:"DARE", k:"RETO", c:"#be123c" }, { e:"PENALTY", k:"CASTIGO", c:"#7c2d12" }
 ];
 const POOLS = {
   "BESO":[
-    "Dale a {B} un beso en el cuello.", ["Dale a {B} un beso de película.",15], "Dale a {B} un beso en la oreja, bien despacito.",
-    "Beso esquimal con {B} (nariz con nariz) y después uno de verdad.", "Dale a {B} un beso en la panza.", "Dale a {B} un beso en la espalda.",
-    "Besá a {B} sin manos: las manos atrás.", "Besá a {B} con una mordidita en el labio.", "Dale a {B} un beso donde elija.", "Besale la mano a {B}, bien de galán. 😂"
+    "Kiss {B} on the neck.", ["Give {B} a movie kiss.",15], "Kiss {B}'s ear, really slowly.",
+    "Eskimo kiss {B} (nose to nose), then a real one.", "Kiss {B}'s stomach.", "Kiss {B}'s back.",
+    "Kiss {B} with no hands. Hands behind your back.", "Kiss {B} with a little bite on the lip.", "Kiss {B} wherever they choose.", "Kiss {B}'s hand like a true gentleman. 😂"
   ],
   "MASAJE":[
-    ["Hacele masajes en los hombros a {B}.",60], ["Hacele masajes en los pies a {B}.",60], ["Hacele masajes en la espalda a {B}.",60],
-    ["Hacele masajes en la cabeza a {B}.",60], ["Hacele masajes con aceite a {B} donde elija.",60], ["Hacele masajes en las manos a {B}.",30],
-    ["Hacele masajes en el cuello a {B}.",45], ["Hacele masajes en las piernas a {B}.",60]
+    ["Massage {B}'s shoulders.",60], ["Massage {B}'s feet.",60], ["Massage {B}'s back.",60],
+    ["Give {B} a head massage.",60], ["Give {B} an oil massage wherever they choose.",60], ["Massage {B}'s hands.",30],
+    ["Massage {B}'s neck.",45], ["Massage {B}'s legs.",60]
   ],
   "PRENDA":[
-    "Sacate una prenda.", "Sacale una prenda a {B}.", "Sacale una prenda a {B} con los dientes.", "{B} elige qué prenda te sacás.",
-    "Sacate una prenda de la forma más sexy que puedas. 😏", "¡Te salvaste! Ponete una prenda de vuelta. 😂"
+    "Take off one piece of clothing.", "Take off one piece of {B}'s clothing.", "Take off one piece of {B}'s clothing with your teeth.", "{B} picks what you take off.",
+    "Take off one piece of clothing as sexily as you can. 😏", "Lucky you! Put one piece of clothing back on. 😂"
   ],
-  "COMODÍN":[
-    "Comodín: te salvás de un reto cuando quieras. ¡Guardalo!", "Elegí vos el próximo reto de {B}.", "Intercambio: {B} juega tu turno.",
-    "Pedile a {B} lo que quieras (dentro de lo que le guste).", "Doble o nada: si cumplís el próximo reto, vale el doble.", "Elegí una verdad o un reto del nivel que quieras."
+  "COMODIN":[
+    "Wildcard: skip any dare whenever you want. Save it!", "You pick {B}'s next dare.", "Swap: {B} plays your turn.",
+    "Ask {B} for anything you want (within what they're into).", "Double or nothing: if you complete your next dare, it's worth double.", "Pick any truth or dare from any level you want."
   ]
 };
 
+/* own:true → "Kiss Alex's neck" · own:false → "Kiss Alex wherever they choose" */
 const DADOS = {
   acciones:{
-    gratis:[{d:"BESÁ",f:"Besale"},{d:"ACARICIÁ",f:"Acariciale"},{d:"MASAJEÁ",f:"Masajeale"},{d:"SOPLÁ",f:"Soplale"},{d:"MORDÉ SUAVE",f:"Mordele suave"},{d:"RASGUÑÁ SUAVE",f:"Rasguñale suave"}],
-    completo:[{d:"LAMÉ",f:"Lamele"},{d:"ROZÁ CON LOS LABIOS",f:"Rozale con los labios"}],
+    gratis:[{d:"KISS",f:"Kiss"},{d:"CARESS",f:"Caress"},{d:"MASSAGE",f:"Massage"},{d:"BLOW ON",f:"Gently blow on"},{d:"NIBBLE",f:"Nibble"},{d:"SCRATCH",f:"Lightly scratch"}],
+    completo:[{d:"LICK",f:"Lick"},{d:"LIP GRAZE",f:"Graze your lips over"}],
     extra:[]
   },
   zonas:{
-    gratis:[{d:"CUELLO",f:"el cuello"},{d:"OREJA",f:"la oreja"},{d:"LABIOS",f:"los labios"},{d:"ESPALDA",f:"la espalda"},{d:"PANZA",f:"la panza"},{d:"MANOS",f:"las manos"}],
-    completo:[{d:"MUSLOS",f:"los muslos"},{d:"PECHO",f:"el pecho"},{d:"CINTURA",f:"la cintura"},{d:"COLA 😏",f:"la cola"},{d:"DONDE ELIJA",f:"donde elija"}],
-    extra:[{d:"DONDE QUIERAS 😈",f:"donde vos quieras"},{d:"TODO EL CUERPO",f:"todo el cuerpo"}]
+    gratis:[{d:"NECK",f:"neck",own:1},{d:"EAR",f:"ear",own:1},{d:"LIPS",f:"lips",own:1},{d:"BACK",f:"back",own:1},{d:"STOMACH",f:"stomach",own:1},{d:"HANDS",f:"hands",own:1}],
+    completo:[{d:"THIGHS",f:"thighs",own:1},{d:"CHEST",f:"chest",own:1},{d:"WAIST",f:"waist",own:1},{d:"BUTT 😏",f:"butt",own:1},{d:"THEIR PICK",f:"wherever they choose",own:0}],
+    extra:[{d:"WHEREVER 😈",f:"wherever you want",own:0},{d:"WHOLE BODY",f:"whole body",own:1}]
   },
   tiempos:[10,15,20,30,45,60]
 };
 
 const MENSAJES = [
-  "Hoy no me saco tu sonrisa de la cabeza. Ni otras cosas tuyas. 😏",
-  "Te aviso que esta noche no vas a dormir temprano. 🔥",
-  "Estoy pensando en vos y no es en algo tierno. 😈",
-  "Llegá rápido que te tengo una sorpresa. Pista: no tiene envoltorio.",
-  "Esta noche jugamos a un juego. El que pierde se saca algo. 🌶️",
-  "Me acordé de aquella noche… y quiero repetir.",
-  "Sos como el asado del domingo: lo que más espero en toda la semana. 🥩❤️",
-  "Me puse eso que te gusta. No te digo qué. Adiviná. 😏",
-  "Hoy te toca masaje. Y lo que viene después también.",
-  "Estoy en el laburo pero la cabeza está en otro lado… en vos.",
-  "Tengo ganas de vos. Así, sin vueltas.",
-  "Apagá la tele temprano hoy. Tengo planes.",
-  "Sos mi debilidad y lo sabés.",
-  "No sé qué me hiciste pero no te saco de la cabeza.",
-  "Si te portás bien hoy… no, mejor portate mal. 😈",
-  "Traé hambre. Y no hablo de la cena.",
-  "Me acordé de cómo me miraste anoche y me subió la temperatura. 🥵",
-  "Hoy los chicos se van a dormir temprano. Te aviso nomás. 😏",
-  "Tengo un antojo. Sos vos.",
-  "Cuento las horas para verte. Literal.",
-  "Si me mandás un 🔥 esta noche tenés sorpresa.",
-  "Te extraño. Y extraño tu perfume.",
-  "¿Ducha juntos cuando llegues? Es para ahorrar agua. 😇",
-  "Pensé en vos toda la mañana. Y ahora ni te cuento.",
-  "Hoy elegís vos la cena. Pero el postre lo elijo yo. 😏",
-  "Hoy no hay serie. Hay otra cosa.",
-  "Pregunta: ¿qué te pondrías si te digo que hoy es noche especial?",
-  "Te debo un beso. Bueno, varios. Te los cobro esta noche.",
-  "Ya preparé la cama. Falta lo más importante: vos. 😏",
-  "Sos lo más lindo que me pasó. Y lo más rico también. 🔥"
+  "Can't stop thinking about your smile today. Among other things. 😏",
+  "Just a heads up: you're not going to sleep early tonight. 🔥",
+  "I'm thinking about you and it's not exactly PG. 😈",
+  "Hurry home. I've got a surprise for you. Hint: it's not wrapped.",
+  "Tonight we're playing a game. Loser takes something off. 🌶️",
+  "I keep thinking about that one night… let's do it again.",
+  "You're my favorite part of every day. Especially the night part. 🌙",
+  "I'm wearing that thing you like. Not telling you which. Guess. 😏",
+  "Tonight you're getting a massage. And whatever comes after.",
+  "I'm at work but my mind is somewhere else… on you.",
+  "I want you. No small talk.",
+  "Turn the TV off early tonight. I have plans.",
+  "You're my weakness and you know it.",
+  "I don't know what you did to me but I can't get you out of my head.",
+  "Be good today… actually no, be bad. 😈",
+  "Come home hungry. And I don't mean for dinner.",
+  "Remembered how you looked at me last night and now it's getting hot in here. 🥵",
+  "Kids are going to bed early tonight. Just saying. 😏",
+  "I have a craving. It's you.",
+  "Counting the hours until I see you. Literally.",
+  "Send me a 🔥 and there's a surprise waiting for you tonight.",
+  "I miss you. And I miss the way you smell.",
+  "Shower together when you get home? It's for the environment. 😇",
+  "Been thinking about you all morning. Don't even ask about right now.",
+  "You pick dinner tonight. I'm picking dessert. 😏",
+  "No Netflix tonight. Something better.",
+  "Quick question: what would you wear if I said tonight is a special night?",
+  "I owe you a kiss. Well, several. Collecting tonight.",
+  "Bed's ready. Just missing the most important thing: you. 😏",
+  "You're the best thing that ever happened to me. And the hottest. 🔥"
 ];
 
 const NOCHES = [
-  ["Cita en casa","Cenen sin celulares, con luz bajita o una vela. Después, Verdad o Reto en nivel Romántico."],
-  ["Noche de masajes","10 minutos de masajes cada uno, con crema o aceite. Lo que pase después, pasa. 😏"],
-  ["Día de mensajes","Durante el día mándense 3 mensajes de la sección Mensajes. A la noche, Ruleta Picante."],
-  ["Noche de recuerdos","Miren fotos de cuando se conocieron y recreen su primera cita, tal cual."],
-  ["Dados calientes","10 tiradas de dados cada uno. El que se arruga, castigo."],
-  ["Noche de fantasías","Jueguen solo verdades del nivel Fuego. Elijan una fantasía para cumplir."],
-  ["La noche perfecta","Armen la noche con lo que más les gustó de la semana. Sin juego, sin reloj. 🔥"]
+  ["Date night at home","Dinner with no phones, low lights or a candle. Then Truth or Dare on the Romantic level."],
+  ["Massage night","10 minutes of massage each, with lotion or oil. Whatever happens next, happens. 😏"],
+  ["Text day","Send each other 3 messages from Flirty Texts during the day. At night: Spin the Wheel."],
+  ["Memory lane","Look at photos from when you first met and recreate your first date, exactly."],
+  ["Dice night","10 rolls of the Spicy Dice each. Whoever chickens out gets a penalty."],
+  ["Fantasy night","Play only truths from the Fire level. Pick one fantasy to make happen."],
+  ["The perfect night","Build the night out of your favorite moments from the week. No game, no clock. 🔥"]
 ];
 
 /* =====================================================================
-   MOTOR
+   ENGINE
    ===================================================================== */
 const $ = s => document.querySelector(s);
 const $$ = s => Array.from(document.querySelectorAll(s));
@@ -608,6 +609,7 @@ const S = {
   nivel: 1, turno: 0, puntos: [0, 0], comodin: false
 };
 const LOCK = '<svg class="lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>';
+const TIPO = { VERDAD:"TRUTH", RETO:"DARE", CASTIGO:"PENALTY", BESO:"KISS", MASAJE:"MASSAGE", PRENDA:"STRIP", COMODIN:"WILDCARD", DADOS:"DICE" };
 
 function sha256(ascii){
   function rr(v,a){return (v>>>a)|(v<<(32-a));}
@@ -643,12 +645,12 @@ function activarCodigo(raw){
   return S.extra ? "extra" : "completo";
 }
 
-const nombres = () => [S.nombres[0].trim() || "Jugador 1", S.nombres[1].trim() || "Jugador 2"];
+const nombres = () => [S.nombres[0].trim() || "Player 1", S.nombres[1].trim() || "Player 2"];
 const llenar = t => t.split("{B}").join(nombres()[1 - S.turno]);
 const nivelActual = () => NIVELES.find(n => n.id === S.nivel);
 const puedeNivel = n => n.acceso === "gratis" || (n.acceso === "completo" && S.completo) || (n.acceso === "extra" && S.extra);
 
-/* bolsas sin repetición */
+/* no-repeat bags */
 const bolsas = {}, usados = {};
 function sacar(clave, arr, limite){
   const tope = limite ? Math.min(limite, arr.length) : arr.length;
@@ -662,7 +664,7 @@ function sacar(clave, arr, limite){
 const limiteDe = n => (n.acceso === "gratis" && !S.completo) ? CONFIG.gratis : 0;
 const azar = a => a[Math.floor(Math.random() * a.length)];
 
-/* navegación */
+/* navigation */
 let pantalla = "inicio";
 function ir(id){
   if(id === "inicio") limpiarTimers();
@@ -677,16 +679,14 @@ document.addEventListener("click", e => {
 });
 
 function pintar(){
-  // estado de acceso
   const est = $("#estado");
   if(S.completo){
     est.className = "estado";
-    est.innerHTML = `<span>✅ Acceso completo${S.extra ? " + 😈 Sin Filtro" : ""}</span>` + (S.extra ? "" : `<button class="btn btn-ghost btn-sm" id="b-extra">Sumar 😈</button>`);
+    est.innerHTML = `<span>✅ Full access${S.extra ? " + 😈 Unfiltered" : ""}</span>` + (S.extra ? "" : `<button class="btn btn-ghost btn-sm" id="b-extra">Add 😈</button>`);
   }else{
     est.className = "estado prueba";
-    est.innerHTML = `<span>🔒 Modo prueba</span><button class="btn btn-main btn-sm" id="b-desbloquear">Desbloquear todo</button>`;
+    est.innerHTML = `<span>🔒 Trial mode</span><button class="btn btn-main btn-sm" id="b-desbloquear">Unlock everything</button>`;
   }
-  // niveles
   $$("[data-niveles]").forEach(box => {
     box.innerHTML = "";
     NIVELES.forEach(n => {
@@ -703,7 +703,6 @@ function pintar(){
       box.appendChild(b);
     });
   });
-  // marcador
   const ns = nombres();
   $$("[data-marcador]").forEach(m => {
     m.innerHTML = "";
@@ -715,22 +714,22 @@ function pintar(){
       d.append(n, p); m.appendChild(d);
     });
   });
-  $$("[data-turno]").forEach(t => { t.textContent = ""; const s = document.createElement("small"); s.textContent = "Le toca a"; t.append(s, document.createTextNode(ns[S.turno] + " 👉")); });
-  $("#dados-nota").textContent = S.extra ? "Dados con todas las zonas desbloqueadas 😈" : S.completo ? "Desbloqueá el Pack Sin Filtro para sumar más zonas 😈" : "En el modo prueba los dados tienen menos opciones. Desbloqueá todo para sumar más. 🔓";
+  $$("[data-turno]").forEach(t => { t.textContent = ""; const s = document.createElement("small"); s.textContent = "Your turn,"; t.append(s, document.createTextNode(ns[S.turno] + " 👉")); });
+  $("#dados-nota").textContent = S.extra ? "All body parts unlocked 😈" : S.completo ? "Unlock the Unfiltered Pack to add more spots 😈" : "Trial dice have fewer options. Unlock everything to get them all. 🔓";
 }
 document.addEventListener("click", e => {
   if(e.target.closest("#b-desbloquear")) abrirModal("completo");
   if(e.target.closest("#b-extra")) abrirModal("extra");
 });
 
-/* jugadores */
+/* players */
 ["n0","n1"].forEach((id, i) => {
   const inp = $("#" + id);
   inp.value = S.nombres[i];
   inp.addEventListener("input", () => { S.nombres[i] = inp.value; store.set("nombres", S.nombres); });
 });
 
-/* carta + acciones (compartido) */
+/* card + actions (shared) */
 let timers = [];
 function limpiarTimers(){ timers.forEach(clearInterval); timers = []; }
 
@@ -740,19 +739,19 @@ function mostrarCarta(zona, {tipo, texto, seg, color, pts, alPasar}){
   const c = document.createElement("div");
   c.className = "carta"; c.style.setProperty("--c", color || "var(--l1)");
   c.setAttribute("aria-live", "polite");
-  const t = document.createElement("span"); t.className = "tipo"; t.textContent = tipo;
-  const q = document.createElement("span"); q.className = "quien"; q.textContent = "Para " + nombres()[S.turno];
+  const t = document.createElement("span"); t.className = "tipo"; t.textContent = TIPO[tipo] || tipo;
+  const q = document.createElement("span"); q.className = "quien"; q.textContent = "For " + nombres()[S.turno];
   const x = document.createElement("p"); x.className = "txt"; x.textContent = llenar(texto);
   c.append(t, q, x);
   if(seg){
     const tm = document.createElement("div"); tm.className = "timer";
-    const b = document.createElement("button"); b.className = "btn btn-ghost btn-sm"; b.textContent = `⏱ Arrancar ${seg} segundos`;
+    const b = document.createElement("button"); b.className = "btn btn-ghost btn-sm"; b.textContent = `⏱ Start ${seg}-second timer`;
     b.onclick = () => {
       tm.innerHTML = `<div class="num">${seg}</div><div class="barra"><i></i></div>`;
       const num = tm.querySelector(".num"), bar = tm.querySelector(".barra i");
       let r = seg;
       const id = setInterval(() => {
-        r--; num.textContent = r > 0 ? r : "¡Tiempo! ⏰"; bar.style.transform = `scaleX(${Math.max(r, 0) / seg})`;
+        r--; num.textContent = r > 0 ? r : "Time's up! ⏰"; bar.style.transform = `scaleX(${Math.max(r, 0) / seg})`;
         if(r <= 0){ clearInterval(id); avisar(); }
       }, 1000);
       timers.push(id);
@@ -763,19 +762,19 @@ function mostrarCarta(zona, {tipo, texto, seg, color, pts, alPasar}){
 
   const a = document.createElement("div"); a.className = "acciones";
   if(tipo === "CASTIGO"){
-    const ok = document.createElement("button"); ok.className = "btn btn-main"; ok.style.gridColumn = "1/-1"; ok.textContent = "Listo, siguiente 👉";
+    const ok = document.createElement("button"); ok.className = "btn btn-main"; ok.style.gridColumn = "1/-1"; ok.textContent = "Done, next 👉";
     ok.onclick = () => siguienteTurno(zona);
     a.appendChild(ok);
   }else{
-    const ok = document.createElement("button"); ok.className = "btn btn-ok"; ok.textContent = `✅ Cumplido +${pts}`;
+    const ok = document.createElement("button"); ok.className = "btn btn-ok"; ok.textContent = `✅ Done +${pts}`;
     ok.onclick = () => {
       S.puntos[S.turno] += S.comodin ? pts * 2 : pts;
-      S.comodin = texto.startsWith("Doble o nada");
+      S.comodin = texto.startsWith("Double or nothing");
       festejar(); siguienteTurno(zona);
     };
-    const no = document.createElement("button"); no.className = "btn btn-ghost"; no.textContent = "🐔 Me arrugo";
+    const no = document.createElement("button"); no.className = "btn btn-ghost"; no.textContent = "🐔 Chicken out";
     no.onclick = () => mostrarCarta(zona, { tipo:"CASTIGO", texto: sacar("castigos", CASTIGOS), color:"#7c2d12", pts:0 });
-    const paso = document.createElement("button"); paso.className = "link paso"; paso.textContent = "Paso, esta no me copa";
+    const paso = document.createElement("button"); paso.className = "link paso"; paso.textContent = "Pass, not into this one";
     paso.onclick = () => { if(alPasar) alPasar(); };
     a.append(ok, no, paso);
   }
@@ -794,11 +793,11 @@ function siguienteTurno(zona){
 
 function agotado(zona){
   limpiarTimers();
-  zona.innerHTML = `<div class="carta agotado" style="--c:var(--gold)"><span class="tipo">FIN DE LA PRUEBA</span><p class="txt">¡Se terminaron las cartas gratis! 😢</p><p class="intro">Desbloqueá los 4 niveles, la ruleta completa, los dados con todas las zonas y los 30 mensajes.</p><button class="btn btn-main">Desbloquear todo 🔓</button></div>`;
+  zona.innerHTML = `<div class="carta agotado" style="--c:var(--gold)"><span class="tipo">END OF TRIAL</span><p class="txt">You've used all the free cards! 😢</p><p class="intro">Unlock all the levels, the full wheel, every dice option and 30 flirty texts.</p><button class="btn btn-main">Unlock everything 🔓</button></div>`;
   zona.querySelector("button").onclick = () => abrirModal("completo");
 }
 
-/* --- verdad o reto --- */
+/* --- truth or dare --- */
 function volverAEleccion(){ $("#juego-eleccion").style.display = ""; $("#juego-zona").innerHTML = ""; limpiarTimers(); }
 function jugar(tipo){
   const n = nivelActual(), zona = $("#juego-zona");
@@ -812,7 +811,7 @@ function jugar(tipo){
 $("#elige-verdad").onclick = () => jugar("VERDAD");
 $("#elige-reto").onclick = () => jugar("RETO");
 
-/* --- ruleta --- */
+/* --- wheel --- */
 (function dibujarRueda(){
   const g = $("#rueda"), cx = 150, cy = 150, r = 146, paso = 360 / RULETA.length;
   const pt = (ang, rad) => [cx + rad * Math.sin(ang * Math.PI / 180), cy - rad * Math.cos(ang * Math.PI / 180)];
@@ -820,7 +819,7 @@ $("#elige-reto").onclick = () => jugar("RETO");
   RULETA.forEach((s, i) => {
     const a0 = i * paso, a1 = a0 + paso, [x0, y0] = pt(a0, r), [x1, y1] = pt(a1, r), m = a0 + paso / 2;
     html += `<path d="M${cx},${cy} L${x0.toFixed(2)},${y0.toFixed(2)} A${r},${r} 0 0,1 ${x1.toFixed(2)},${y1.toFixed(2)} Z" fill="${s.c}" stroke="#14060c" stroke-width="3"/>`;
-    html += `<text x="${cx}" y="${cy - 96}" transform="rotate(${m} ${cx} ${cy})" text-anchor="middle" fill="#fff" font-family="Fredoka, sans-serif" font-weight="700" font-size="15">${s.e}</text>`;
+    html += `<text x="${cx}" y="${cy - 96}" transform="rotate(${m} ${cx} ${cy})" text-anchor="middle" fill="#fff" font-family="Fredoka, sans-serif" font-weight="700" font-size="${s.e.length > 7 ? 13 : 15}">${s.e}</text>`;
   });
   html += `<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="#fbbf24" stroke-width="5"/>`;
   g.innerHTML = html;
@@ -834,7 +833,7 @@ $("#girar").onclick = () => {
   const destino = (360 - centro + jitter + 360) % 360;
   rot = rot - (rot % 360) + 360 * 6 + destino;
   $("#rueda").style.transform = `rotate(${rot}deg)`;
-  const fin = () => { girando = false; $("#girar").disabled = false; resultadoRuleta(RULETA[i].e); };
+  const fin = () => { girando = false; $("#girar").disabled = false; resultadoRuleta(RULETA[i].k); };
   setTimeout(fin, matchMedia("(prefers-reduced-motion: reduce)").matches ? 700 : 4300);
 };
 function resultadoRuleta(seg){
@@ -852,7 +851,7 @@ function resultadoRuleta(seg){
   mostrarCarta(zona, { tipo: seg, texto, seg: s, color: "var(--l2)", pts: 1, alPasar: repetir });
 }
 
-/* --- dados --- */
+/* --- dice --- */
 function caras(tipo){
   const d = DADOS[tipo];
   return d.gratis.concat(S.completo ? d.completo : [], S.extra ? d.extra : []);
@@ -871,11 +870,12 @@ $("#tirar").onclick = () => {
     ds[0].textContent = a.d; ds[1].textContent = z.d; ds[2].textContent = t + "s";
     ds.forEach(d => d.classList.remove("gira"));
     tirando = false; $("#tirar").disabled = false;
-    mostrarCarta($("#dados-zona"), { tipo:"DADOS", texto: `${a.f} a {B} ${z.f}.`, seg: t, color: "var(--l3)", pts: S.extra ? 2 : 1, alPasar: () => $("#tirar").click() });
+    const frase = z.own ? `${a.f} {B}'s ${z.f}.` : `${a.f} {B} ${z.f}.`;
+    mostrarCarta($("#dados-zona"), { tipo:"DADOS", texto: frase, seg: t, color: "var(--l3)", pts: S.extra ? 2 : 1, alPasar: () => $("#tirar").click() });
   }, matchMedia("(prefers-reduced-motion: reduce)").matches ? 200 : 1100);
 };
 
-/* --- mensajes --- */
+/* --- texts --- */
 function pintarMensajes(){
   const box = $("#lista-msj"); box.innerHTML = "";
   MENSAJES.forEach((m, i) => {
@@ -884,14 +884,14 @@ function pintarMensajes(){
     const p = document.createElement("p"); p.textContent = m;
     const row = document.createElement("div"); row.className = "row";
     if(libre){
-      const wa = document.createElement("a"); wa.className = "btn btn-sm wa"; wa.textContent = "Mandar por WhatsApp";
-      wa.href = "https://wa.me/?text=" + encodeURIComponent(m); wa.target = "_blank"; wa.rel = "noopener";
-      const cp = document.createElement("button"); cp.className = "btn btn-ghost btn-sm"; cp.textContent = "Copiar";
+      const sms = document.createElement("a"); sms.className = "btn btn-sm wa"; sms.textContent = "Send as a text";
+      sms.href = "sms:?&body=" + encodeURIComponent(m);
+      const cp = document.createElement("button"); cp.className = "btn btn-ghost btn-sm"; cp.textContent = "Copy";
       cp.style.flex = "0 0 auto";
       cp.onclick = () => copiar(m);
-      row.append(wa, cp);
+      row.append(sms, cp);
     }else{
-      const b = document.createElement("button"); b.className = "btn btn-ghost btn-sm"; b.innerHTML = LOCK + " Desbloquear";
+      const b = document.createElement("button"); b.className = "btn btn-ghost btn-sm"; b.innerHTML = LOCK + " Unlock";
       b.onclick = () => abrirModal("completo");
       row.appendChild(b);
     }
@@ -899,12 +899,12 @@ function pintarMensajes(){
   });
 }
 function copiar(t){
-  const ok = () => toast("¡Copiado! Pegalo en WhatsApp 😏");
+  const ok = () => toast("Copied! Paste it in your chat 😏");
   if(navigator.clipboard && window.isSecureContext){ navigator.clipboard.writeText(t).then(ok, () => viejo()); } else viejo();
   function viejo(){ const ta = document.createElement("textarea"); ta.value = t; document.body.appendChild(ta); ta.select(); try{ document.execCommand("copy"); ok(); }catch(e){} ta.remove(); }
 }
 
-/* --- 7 noches --- */
+/* --- 7 nights --- */
 function pintarNoches(){
   const box = $("#lista-noches"); box.innerHTML = "";
   NOCHES.forEach(([tit, txt], i) => {
@@ -913,8 +913,8 @@ function pintarNoches(){
     const cb = document.createElement("input"); cb.type = "checkbox"; cb.checked = S.noches.includes(i); cb.disabled = !libre;
     cb.onchange = () => { S.noches = cb.checked ? [...new Set([...S.noches, i])] : S.noches.filter(x => x !== i); store.set("noches", S.noches); if(cb.checked) festejar(); };
     const div = document.createElement("div");
-    const b = document.createElement("b"); b.textContent = `Noche ${i + 1}: ${tit}`;
-    const s = document.createElement("span"); s.textContent = libre ? txt : "Desbloqueá todo para ver esta noche. 🔒";
+    const b = document.createElement("b"); b.textContent = `Night ${i + 1}: ${tit}`;
+    const s = document.createElement("span"); s.textContent = libre ? txt : "Unlock everything to see this night. 🔒";
     div.append(b, s); l.append(cb, div);
     if(!libre) l.onclick = e => { e.preventDefault(); abrirModal("completo"); };
     box.appendChild(l);
@@ -924,10 +924,10 @@ function pintarNoches(){
 /* --- modal --- */
 function abrirModal(tipo){
   const extra = tipo === "extra";
-  $("#m-tit").textContent = extra ? "Pack Sin Filtro 😈" : "Desbloqueá todo 🔓";
+  $("#m-tit").textContent = extra ? "Unfiltered Pack 😈" : "Unlock everything 🔓";
   $("#m-lista").innerHTML = extra
-    ? "<li>😈 Nivel Sin Filtro: 35 verdades y retos para valientes</li><li>🎲 Dados con zonas sin límite</li><li>🔥 Vale 4 puntos cada carta</li>"
-    : "<li>🌶️ Niveles Picante y Fuego completos</li><li>🎡 Ruleta y 🎲 dados con todo</li><li>💌 30 mensajes para mandar por WhatsApp</li><li>🗓️ Reto 7 Noches completo</li>";
+    ? "<li>😈 Unfiltered level: 35 truths and dares for the bold</li><li>🎲 Dice with no-limits body parts</li><li>🔥 Every card is worth 4 points</li>"
+    : "<li>🌶️ Spicy and Fire levels, complete</li><li>🎡 Full wheel and 🎲 every dice option</li><li>💌 30 flirty texts</li><li>🗓️ The full 7-Night Challenge</li>";
   $("#m-comprar").href = extra ? CONFIG.linkPackExtra : CONFIG.linkCompra;
   $("#m-err").textContent = ""; $("#codigo").value = "";
   $("#modal").classList.add("on");
@@ -939,15 +939,15 @@ $("#modal").addEventListener("click", e => { if(e.target.id === "modal") cerrarM
 document.addEventListener("keydown", e => { if(e.key === "Escape") cerrarModal(); });
 function intentarCodigo(){
   const r = activarCodigo($("#codigo").value);
-  if(!r){ $("#m-err").textContent = "Ese código no es válido. Revisalo y probá de nuevo."; return; }
+  if(!r){ $("#m-err").textContent = "That code isn't valid. Double-check it and try again."; return; }
   cerrarModal(); refrescarTodo(); festejar();
-  toast(r === "extra" ? "¡Listo! Tenés TODO + Sin Filtro 😈🔥" : "¡Listo! Acceso completo desbloqueado 🔥");
+  toast(r === "extra" ? "Done! You've got EVERYTHING + Unfiltered 😈🔥" : "Done! Full access unlocked 🔥");
 }
 $("#m-activar").onclick = intentarCodigo;
 $("#codigo").addEventListener("keydown", e => { if(e.key === "Enter") intentarCodigo(); });
 function refrescarTodo(){ for(const k in usados) delete usados[k]; for(const k in bolsas) delete bolsas[k]; pintar(); pintarMensajes(); pintarNoches(); }
 
-/* --- efectos --- */
+/* --- effects --- */
 function festejar(){
   if(matchMedia("(prefers-reduced-motion: reduce)").matches) return;
   const em = ["🔥","❤️","🌶️","💋","✨"];
@@ -969,25 +969,25 @@ function avisar(){
 let tt;
 function toast(t){ const el = $("#toast"); el.textContent = t; el.classList.add("on"); clearTimeout(tt); tt = setTimeout(() => el.classList.remove("on"), 2600); }
 
-/* --- instalar (PWA) --- */
+/* --- install (PWA) --- */
 let promptInstalar = null;
 window.addEventListener("beforeinstallprompt", e => { e.preventDefault(); promptInstalar = e; $("#instalar-ya").hidden = false; });
 $("#instalar-ya").onclick = async () => { if(!promptInstalar) return; promptInstalar.prompt(); await promptInstalar.userChoice; promptInstalar = null; $("#instalar-ya").hidden = true; };
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){ navigator.serviceWorker.register("sw.js").catch(() => {}); }
 
-/* --- edad + arranque --- */
+/* --- age gate + start --- */
 $("#edad-si").onclick = () => { store.set("edad", true); ir("inicio"); };
-$("#edad-no").onclick = () => { document.querySelector("#s-edad p").textContent = "¡Volvé cuando tengas 18! 😉"; };
+$("#edad-no").onclick = () => { document.querySelector("#s-edad p").textContent = "Come back when you're 18! 😉"; };
 
 (function arrancar(){
-  // ?codigo=XXXX en el link de entrega desbloquea automáticamente
+  // ?code=XXXX in the delivery link unlocks automatically
   const params = new URLSearchParams(location.search);
-  const cod = params.get("codigo");
+  const cod = params.get("code") || params.get("codigo");
   let msg = "";
   if(cod){
     const r = activarCodigo(cod);
-    msg = r ? (r === "extra" ? "¡Bienvenidos! Tienen TODO + Sin Filtro 😈🔥" : "¡Bienvenidos! Acceso completo activado 🔥") : "El código del link no es válido. Escribinos.";
-    params.delete("codigo");
+    msg = r ? (r === "extra" ? "Welcome! You've got EVERYTHING + Unfiltered 😈🔥" : "Welcome! Full access unlocked 🔥") : "The code in this link isn't valid. Please contact us.";
+    params.delete("code"); params.delete("codigo");
     try{ history.replaceState(null, "", location.pathname + (params.toString() ? "?" + params : "") + location.hash); }catch(e){}
   }
   pintarMensajes(); pintarNoches();

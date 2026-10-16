@@ -1,8 +1,8 @@
 {
-  "name": "Picante · El juego de la pareja",
+  "name": "Picante · The Spicy Game for Couples",
   "short_name": "Picante",
-  "description": "Verdad o reto, ruleta y dados para encender la pareja.",
-  "lang": "es",
+  "description": "Truth or dare, spin the wheel and spicy dice for couples.",
+  "lang": "en",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",

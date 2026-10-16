@@ -25,9 +25,9 @@ button{font-size:16px;font-weight:800;padding:12px 16px;border-radius:12px;borde
   <div class="paso"><b>1.</b> Pegá esta huella en <code>sitio/app/index.html</code>, dentro de <code>codigosCompleto</code> (o <code>codigosExtra</code> si es el del Pack Sin Filtro):</div>
   <pre id="h"></pre>
   <button id="copiar">Copiar huella</button>
-  <div class="paso"><b>2.</b> Link de entrega para el mail de la plataforma de pago (cambiá el dominio por el tuyo):</div>
+  <div class="paso"><b>2.</b> Links para cargar en Impultienda (cambiá TU-SITIO por tu dominio):</div>
   <pre id="l"></pre>
-  <div class="paso"><b>3.</b> Si es el código principal, ponelo también en <code>sitio/gracias.html</code> → <code>ENTREGA.codigo</code>.</div>
+  <div class="paso"><b>3.</b> Agregá la huella nueva sin borrar la vieja, así los que ya compraron siguen entrando. El código en texto plano guardalo solo en Impultienda, nunca en el repositorio.</div>
 </main>
 <script>
 function sha256(ascii){
@@ -58,7 +58,7 @@ function upd(){
   const n = normalizar(c.value);
   const x = sha256(n);
   h.textContent = x ? '"' + x + '"' : "Usá solo letras y números, sin tildes ni ñ.";
-  l.textContent = "https://TU-DOMINIO.netlify.app/app/?codigo=" + encodeURIComponent(n);
+  l.textContent = "Entrega: https://TU-SITIO/app/?code=" + encodeURIComponent(n) + "\nGracias (solo código principal): https://TU-SITIO/thanks.html?code=" + encodeURIComponent(n);
 }
 c.addEventListener("input", upd); upd();
 document.getElementById("copiar").onclick = () => {

@@ -1,157 +1,144 @@
-# Estrategia: cómo vender Picante (low ticket + ugly ads)
+# Estrategia USA: vender Picante en dólares desde Argentina
 
-## 1. La idea en una línea
+> La versión para Latinoamérica (en español) está en `negocio/latam/`. El sitio en español, en `sitio-es/`.
 
-Un juego para parejas que se abre desde el celu, se vende barato (lo que sale una birra), se compra por impulso desde un anuncio “feo” en Reels/TikTok y se entrega al instante con un link + código.
+## 1. La idea
 
-**Por qué funciona este nicho:**
-- El dolor es universal: rutina, cansancio, cada uno con su celu.
-- La compra es por impulso y para *esta noche*: no hay que pensarla.
-- El precio bajo elimina la objeción (“si no sirve, perdí una birra”).
-- Es privado: no hay que ir a un sex shop ni pedirle nada a nadie.
-- Margen casi 100%: el producto es digital, se vende infinitas veces.
+Mismo juego, mercado más grande y que paga en dólares. Un juego para parejas que se abre desde el celu, se compra por impulso desde un anuncio con pinta casera (ugly ad) y se entrega al instante con un link + código.
 
-**Importante:** no uses el nombre, diseño ni textos de “El Juego del Deseo” ni de ningún competidor. Picante es tuyo, con nombre, contenido y diseño propios. Si querés otro nombre, se cambia en un rato.
+**Lo que cambia en USA:**
+- **Los anuncios cuestan bastante más** (en Meta, mostrar un anuncio 1.000 veces en USA cuesta varias veces más que en Argentina). Con un ticket bajo, el negocio solo cierra si cada cliente compra algo más (order bump + upsell) y si los anuncios enganchan mucho.
+- **El contenido orgánico vale oro:** TikTok, Reels y YouTube Shorts en inglés traen ventas sin pagar anuncios. Empezá por ahí.
+- **No hace falta que hables inglés en cámara:** se puede hacer todo con videos sin cara (texto en pantalla y grabaciones de la app) o contratando creadores de USA (ver `UGLY-ADS.md`).
 
 ---
 
 ## 2. La oferta
 
-| Pieza | Qué es | Precio sugerido |
+| Pieza | Qué es | Precio inicial |
 |---|---|---|
-| **Producto principal** | Picante: niveles Romántico, Picante y Fuego (117 cartas) + ruleta + dados + 30 mensajes + Reto 7 Noches | Equivalente a **USD 4 a 7** |
-| **Order bump** (casilla al pagar) | Pack Sin Filtro: nivel 4 (35 cartas) + dados con todas las zonas | **USD 2 a 4** |
-| **Upsell** (después de pagar) | Segundo producto, por ejemplo “Noche Perfecta: 30 citas en casa” (ver TAREAS.md) | USD 7 a 12 |
-| **Garantía** | 7 días, devolución total | — |
+| **Producto principal** | Picante: niveles Romantic, Spicy y Fire (117 cartas) + Spin the Wheel + Spicy Dice + 30 Flirty Texts + 7-Night Challenge | **USD 7,99** |
+| **Order bump** | Unfiltered Pack: nivel 4 (35 cartas) + dados con todas las zonas | **USD 4,99** |
+| **Upsell** (después de pagar) | Segundo producto, a crear (ver TAREAS.md) | USD 14,99–19,99 |
+| **Garantía** | 30 días, devolución total | — |
 
-**Precio en Argentina:** tomá como referencia el precio de una cerveza de litro o un atado de cigarrillos *del día* y poné el producto en ese número o un poquito abajo. Así el anuncio “sale menos que una birra” es verdad. En la landing se cambia en `sitio/index.html` → `OFERTA.precio`.
+Después probá USD 9,99 contra USD 7,99: a veces el precio un poco más alto vende casi igual y deja más margen.
 
-**No inventes un “precio antes”.** Si nunca lo vendiste más caro, dejá `precioAntes` vacío. Si hacés precio de lanzamiento, que sea real: después subilo.
+**No inventes un “precio regular” tachado** si nunca lo cobraste. En USA la FTC lo considera publicidad engañosa.
+
+Dónde se cambia: `sitio/index.html` → `OFERTA` (precio, bump, días de garantía, email de soporte, link de pago).
 
 ---
 
-## 3. El embudo (de punta a punta)
+## 3. El embudo
 
 ```
-Anuncio feo (Reels / TikTok / Stories)
-        │  toca “Más información”
+Anuncio o video orgánico (TikTok / Reels / Shorts)
         ▼
-Landing  sitio/index.html  ──►  “Probá la demo gratis” (app en modo prueba)
-        │  toca el botón verde                   │ se le acaban las 5 cartas
-        ▼                                        ▼
-Checkout (Hotmart / Kiwify / Mercado Pago)  ◄── “Desbloquear todo”
-   + casilla Pack Sin Filtro (order bump)
-        │  paga
+Landing  sitio/index.html  ──►  “Try the free demo” (la app en modo prueba)
+        ▼                                  ▼ se terminan las 5 cartas gratis
+Checkout de Impultienda (USD)  ◄────  “Unlock everything”
+   + casilla Unfiltered Pack (order bump)
+   + upsell de 1 clic (cuando exista)
         ▼
-Página de gracias  sitio/gracias.html  →  botón “ENTRAR AL JUEGO” (link con código)
-   + mail automático de la plataforma con link y código
-        ▼
-Juegan esa noche  →  le pedís un mensaje/captura de cómo les fue (testimonios reales)
+thanks.html?code=TU-CODIGO  →  “OPEN THE GAME” (abre la app ya desbloqueada)
+   + mail de entrega con el link
 ```
 
-La demo gratis es clave: el que la prueba y se queda con ganas compra mucho más que el que solo leyó la landing.
+---
+
+## 4. Cobrar con Impultienda
+
+Según su web, Impultienda cobra en **USD con Stripe, PayPal o Whop sin necesidad de abrir una LLC**, el dinero va directo a tu cuenta y tiene **order bumps y upsells de 1 clic**. En el plan Max la comisión que publican es del 2%, más lo que cobre el procesador de pago.
+
+**Antes de lanzar, confirmá (en su soporte, hola@impultienda.ar):**
+1. Que el checkout se puede mostrar **en inglés y en USD**.
+2. Cómo te llega la plata a Argentina con cada procesador, y en cuánto tiempo.
+3. Si permite poner un **link de entrega** por producto y un **redirect a tu página de gracias**.
+4. Si permite instalar el **Pixel de Meta** (y el de TikTok) en el checkout.
+
+### ⚠️ Lo más importante: las reglas de los procesadores de pago
+
+Stripe y PayPal restringen el contenido sexual. Picante es un juego de texto, sin imágenes ni nada gráfico, pero tiene retos sexuales (sobre todo el pack Unfiltered). Si un procesador decide que tu producto entra en su lista de prohibidos, te puede **cerrar la cuenta y retener la plata durante meses**.
+
+- **Leé la lista de negocios restringidos** de cada procesador antes de conectar (Stripe: “Prohibited and restricted businesses”; PayPal: “Acceptable Use Policy”).
+- **Describí el producto tal cual es:** “juego digital para parejas adultas con preguntas y retos picantes”. No lo disfraces de otra cosa: si lo descubren después, es peor.
+- **Si no entra en las reglas de uno, usá otro.** Preguntale al soporte de Impultienda cuál de sus procesadores (Stripe, PayPal o Whop) acepta este tipo de producto, y confirmalo en las reglas de ese procesador. Tener varios para elegir sirve justamente para esto.
+- **Retirá la plata seguido** y no dependas de un solo procesador.
 
 ---
 
-## 4. Dónde cobrar
+## 5. Entrega del acceso (ya configurado)
 
-| Opción | Para quién | Pros | Contras |
-|---|---|---|---|
-| **Hotmart** | Vender a toda Latinoamérica | Cobra en moneda local en muchos países, tiene order bump, upsell, garantía y afiliados | Revisa el producto: tiene que presentarse como juego para parejas, sin contenido explícito |
-| **Kiwify** | Alternativa a Hotmart | Checkout rápido, order bump | Más fuerte en Brasil |
-| **Mercado Pago (link de pago)** | Solo Argentina, para validar rápido | Todo el mundo lo tiene, confianza total | La entrega del código es manual (por WhatsApp) salvo que armes la automatización (TAREAS.md, tarea de códigos únicos) |
+Ya generé códigos nuevos y privados. En la app están solo sus “huellas” (el código real no aparece en ningún archivo público). Los códigos te los paso por el chat, no están en el repositorio.
 
-**Recomendación:** arrancá con lo que puedas activar hoy. Si es Mercado Pago, perfecto para las primeras 20–50 ventas (entregás por WhatsApp y de paso juntás testimonios). Cuando funcione, pasá a Hotmart para automatizar y escalar.
+En Impultienda:
+- **Link de entrega del producto principal:** `https://TU-SITIO/app/?code=CODIGO-PRINCIPAL`
+- **Link de entrega del Unfiltered Pack:** `https://TU-SITIO/app/?code=CODIGO-EXTRA`
+- **Página de gracias (redirect):** `https://TU-SITIO/thanks.html?code=CODIGO-PRINCIPAL`
 
-Las comisiones de cada plataforma cambian; antes de fijar el precio, mirá la tabla actual de la que elijas.
-
-**Cómo describir el producto en la plataforma** (para que no te lo rechacen): “Juego digital para parejas adultas: preguntas, retos y dinámicas para mejorar la conexión y salir de la rutina. +18.” Sin fotos con piel, sin palabras explícitas.
+Para cambiar los códigos más adelante: `herramientas/generar-codigo.html` → pegás la huella nueva en `sitio/app/index.html` → `CONFIG`, sin borrar la vieja (así los que ya compraron siguen entrando).
 
 ---
 
-## 5. Cómo entregar el acceso
-
-1. Elegí tus códigos (no uses los de ejemplo). Abrí `herramientas/generar-codigo.html`, escribí el código y copiá la “huella”.
-2. Pegá la huella en `sitio/app/index.html` → `CONFIG.codigosCompleto` (y la del pack en `codigosExtra`).
-3. Poné el código principal en `sitio/gracias.html` → `ENTREGA.codigo`.
-4. En la plataforma de pago:
-   - **Página de agradecimiento / redirect:** `https://TU-DOMINIO/gracias.html`
-   - **Mail de entrega del producto principal:** el link `https://TU-DOMINIO/app/?codigo=TUCODIGO`
-   - **Mail de entrega del Pack Sin Filtro:** `https://TU-DOMINIO/app/?codigo=TUCODIGOEXTRA`
-5. En la app, `CONFIG.linkCompra` y `CONFIG.linkPackExtra` → tus links de checkout (para el botón “Todavía no tengo código”).
-6. En la landing, `OFERTA.linkPago` → tu link de checkout.
-
-**Sobre la seguridad:** es un sistema simple de código compartido. Alguien puede pasarle el link a un amigo. Para un producto de USD 5 está bien (el costo de perder alguna venta es menor que el de complicar la compra). Si empieza a venderse mucho, la mejora es un código único por comprador (está en TAREAS.md).
-
-Cada tanto cambiá el código (agregás la huella nueva y dejás la vieja para no romperle el acceso a los que ya compraron).
-
----
-
-## 6. Subirlo a internet en 5 minutos (gratis)
-
-1. Entrá a **app.netlify.com/drop** (o creá cuenta gratis en Netlify).
-2. Arrastrá la carpeta **`sitio`** entera.
-3. Te da un link tipo `https://algo-raro.netlify.app`. En “Site settings” le cambiás el nombre (ej. `picante-juego.netlify.app`).
-4. Listo: `/` es la landing, `/app/` es el juego, `/gracias.html` es la de gracias.
-
-Más adelante podés comprar un dominio propio (ej. `jugapicante.com`) y conectarlo en Netlify. Alternativas igual de buenas: Vercel, Cloudflare Pages, GitHub Pages.
-
----
-
-## 7. Los números (para no perder plata)
+## 6. Los números en USA
 
 Fórmulas:
-- **Ticket promedio** = precio + (precio del bump × % que lo agrega)
-- **Ingreso neto por venta** = ticket promedio − comisión de la plataforma
-- **CPA máximo (punto de equilibrio)** = ingreso neto por venta
+- **Ticket promedio** = precio + (bump × % que lo agrega) + (upsell × % que lo compra)
+- **CPA máximo** = ticket promedio − comisiones
 - **CPA esperado** = CPM ÷ (1000 × CTR × conversión de la landing)
 
-Ejemplo con USD 5,90 + bump de USD 2,90 que agrega el 30%, y ~10% de comisión:
-- Ticket promedio ≈ 5,90 + 0,87 = **USD 6,77**
-- Neto ≈ **USD 6,00** → si cada venta te cuesta menos de USD 6 en anuncios, ganás.
+Ejemplo: USD 7,99 + bump de 4,99 que agrega el 35% + upsell de 14,99 que compra el 10% → ticket promedio ≈ **USD 11,24**. Con ~8% de comisiones, neto ≈ **USD 10,30**.
 
-| CPM | CTR | Conversión landing | CPA | ¿Gana? |
+| CPM (USA) | CTR | Conversión landing | CPA | ¿Gana? |
 |---|---|---|---|---|
-| USD 2 | 1,0% | 2% | USD 10,00 | ❌ perdés |
-| USD 2 | 1,5% | 3% | USD 4,44 | ✅ ganás ~1,50 por venta |
-| USD 2 | 2,0% | 4% | USD 2,50 | ✅✅ ganás ~3,50 por venta |
+| USD 15 | 1,0% | 3% | USD 50 | ❌ perdés mucho |
+| USD 15 | 2,0% | 5% | USD 15 | ❌ perdés |
+| USD 12 | 2,5% | 6% | USD 8 | ✅ ganás ~2,30 por venta |
+| USD 10 | 3,0% | 8% | USD 4,17 | ✅✅ ganás ~6 por venta |
 
-Lo que más mueve los números es el **CTR** (el gancho del anuncio) y la **conversión** (landing + demo). Por eso se testean muchos anuncios.
+**Conclusión:** en USA, con anuncios pagos solo ganás si el anuncio engancha mucho (CTR de 2,5% o más) y la landing convierte bien (5% o más). Por eso:
+1. **Arrancá con orgánico** (gratis) para descubrir qué ganchos funcionan.
+2. Los videos orgánicos que exploten, **promocionalos** como anuncio (Spark Ads en TikTok, “impulsar” en Instagram).
+3. **Armá el upsell rápido:** es lo que hace que los anuncios cierren.
 
-En low ticket la ganancia por venta es chica: el negocio está en el **volumen** y en el **upsell**. Un upsell de USD 9 que compra 1 de cada 10 suma +USD 0,90 por cliente sin gastar más en anuncios.
-
----
-
-## 8. Plan de lanzamiento (primeras 2 semanas)
-
-**Día 1–2: dejarlo andando**
-- [ ] Cambiar códigos de ejemplo, precio y links (punto 5).
-- [ ] Subir `sitio/` a Netlify y probar la compra completa con tu propia tarjeta (después te devolvés la plata).
-- [ ] Crear el Pixel de Meta y conectarlo a la landing y a la plataforma de pago.
-
-**Día 3: anuncios**
-- [ ] Subir los 5 anuncios estáticos de `negocio/anuncios/` + grabar 3 videos de `UGLY-ADS.md`.
-- [ ] Campaña de Ventas, presupuesto chico (USD 5–10 por día por conjunto), público abierto +18.
-
-**Día 4–10: testear**
-- [ ] Cada 48 h, apagar lo que no vende y duplicar lo que vende (reglas en `UGLY-ADS.md`).
-- [ ] Mandar 2 creativos nuevos por semana. Los anuncios se “queman”: hay que reponerlos.
-
-**Día 7+: prueba social real**
-- [ ] A cada comprador, a los 2 días: “¿Cómo les fue con el juego? 😏”. Con permiso, usar las respuestas como testimonios (sin nombre ni foto si no quieren).
-- [ ] Activar la sección de testimonios de la landing (está oculta hasta que tengas reales).
-
-**Día 10+: escalar**
-- [ ] Subir presupuesto 20–30% cada 48 h en lo que funciona.
-- [ ] Lanzar versión para otros países (TAREAS.md) y el upsell.
+Los CPM de la tabla son de referencia. Medí los tuyos en los primeros días y recalculá.
 
 ---
 
-## 9. Lo legal y lo que NO hacer
+## 7. Plan de lanzamiento
 
-- **+18 siempre:** público de anuncios mayor de 18, aviso en la app y en la landing (ya está).
-- **No inventes testimonios, números de ventas, ni “quedan 3 lugares”.** Además de ser ilegal en muchos países, Meta te cierra la cuenta publicitaria.
-- **No prometas resultados** tipo “salvá tu matrimonio”. Prometé lo que es: un juego divertido para esta noche.
-- **Argentina:** si vendés online a consumidores tenés que tener un **“Botón de arrepentimiento”** visible (ya está en el pie de la landing, apuntando a términos). Y para facturar necesitás estar inscripto (monotributo). Consultalo con un contador.
-- **Términos y privacidad:** completá `sitio/terminos.html` con tus datos.
-- **Contenido:** el juego es picante pero no explícito, y siempre consensuado (regla del “paso”). Mantenelo así: es lo que te deja anunciar y cobrar sin que te bloqueen.
+**Semana 1: dejarlo andando y orgánico**
+- [ ] Subir el sitio a Netlify (lo hace el prompt de Claude en el navegador).
+- [ ] Configurar producto, bump y entrega en Impultienda (también el prompt).
+- [ ] Compra de prueba real de punta a punta y después pedir la devolución.
+- [ ] Crear cuentas de TikTok, Instagram y YouTube para la marca y publicar 2 o 3 videos por día (`UGLY-ADS.md`).
+
+**Semana 2: primeros anuncios**
+- [ ] Pixel de Meta instalado (landing + checkout).
+- [ ] Promocionar los 2 o 3 videos orgánicos que mejor anduvieron, más los 5 estáticos de `negocio/anuncios/`.
+- [ ] Público: USA, 21–55 años, abierto. USD 10–20 por día para empezar.
+
+**Semana 3 en adelante**
+- [ ] Apagar lo que no vende y escalar lo que sí (reglas en `UGLY-ADS.md`).
+- [ ] Lanzar el upsell.
+- [ ] Juntar testimonios reales: a los 2 días de cada compra, mandale un mail al cliente preguntando cómo les fue.
+
+---
+
+## 8. Lo legal
+
+**En USA (FTC):**
+- **Nada de reseñas ni testimonios inventados.** Desde 2024 la FTC multa las reseñas falsas. La sección de testimonios de la landing está oculta hasta que tengas reales.
+- **Si le pagás a un creador por un video, el anuncio tiene que decirlo** (#ad o “paid partnership”).
+- Nada de urgencia falsa (“quedan 3”, relojes que se reinician).
+- **Cumplí la garantía de 30 días** que promete la landing.
+- Público de anuncios **18+** (mejor 21+). La app tiene aviso de +18.
+
+**Impuestos:**
+- **En USA:** algunos estados cobran impuesto a las ventas sobre productos digitales una vez que superás cierto volumen de ventas en ese estado. Con Stripe o PayPal directos, ese tema es tuyo. Cuando empiece a haber volumen, consultalo con un contador que conozca ventas a USA, o evaluá una plataforma que cobre y pague los impuestos por vos.
+- **En Argentina:** cobrar en dólares desde el exterior es exportación de servicios. Necesitás estar inscripto (monotributo o el régimen que corresponda) y facturar. Hablalo con tu contador **antes** de vender en volumen.
+
+**Términos:** completá los datos entre corchetes de `sitio/terms.html`.
+
+**Nombre:** “Picante” suena latino y se entiende en USA (muchos conocen “picante sauce”), y te diferencia de las apps de parejas que ya existen. Antes de invertir fuerte, buscá que no haya una marca registrada igual en tu rubro (en el buscador de marcas de la USPTO).

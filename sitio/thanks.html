@@ -1,15 +1,16 @@
 <!doctype html>
-<html lang="es">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>¡Gracias! · Picante</title>
+<title>Thank you! · Picante</title>
 <meta name="robots" content="noindex">
 <link rel="icon" href="app/icon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=Nunito:wght@600;800;900&display=swap" rel="stylesheet">
 <style>
+[hidden]{display:none!important}
 :root{--bg:#14060c;--surface:#26101b;--line:rgba(255,255,255,.12);--text:#fff3f6;--muted:#dfb3c1;--gold:#fbbf24;--green:#16a34a;--green2:#15803d}
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:radial-gradient(120% 55% at 50% -8%,#541033 0%,rgba(20,6,12,0) 62%),var(--bg);color:var(--text);font-family:"Nunito",system-ui,sans-serif;font-size:17px;line-height:1.55;min-height:100vh}
@@ -20,7 +21,7 @@ p{color:var(--muted);font-weight:700}
 .cta{display:flex;align-items:center;justify-content:center;min-height:64px;border-radius:18px;background:var(--green);color:#fff;font-weight:900;font-size:21px;text-decoration:none;box-shadow:0 8px 0 var(--green2)}
 .cta:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
 .codigo{background:var(--surface);border:2px dashed var(--gold);border-radius:18px;padding:16px}
-.codigo b{display:block;font-family:"Fredoka",system-ui,sans-serif;font-size:30px;letter-spacing:3px;color:var(--gold)}
+.codigo b{display:block;font-family:"Fredoka",system-ui,sans-serif;font-size:30px;letter-spacing:3px;color:var(--gold);word-break:break-all}
 .caja{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:16px;text-align:left}
 .caja b{font-family:"Fredoka",system-ui,sans-serif;font-size:19px}
 .caja ol{padding-left:20px;color:var(--muted);font-weight:700;margin-top:6px}
@@ -30,37 +31,44 @@ a.soporte{color:var(--gold);font-weight:800}
 <body>
 <main>
   <div class="big" aria-hidden="true">🔥</div>
-  <h1>¡Listo! Ya tienen su acceso</h1>
-  <p>Tocá el botón y el juego se abre con todo desbloqueado.</p>
-  <a class="cta" id="entrar" href="app/">ENTRAR AL JUEGO 👉</a>
-  <div class="codigo">
-    <p>Tu código (guardalo por si cambiás de celu):</p>
+  <h1>You're in! Thanks for your order</h1>
+  <p id="intro">Your access link and code are on their way to your email. Check your spam folder if you don't see it in a few minutes.</p>
+  <a class="cta" id="entrar" href="app/" hidden>OPEN THE GAME 👉</a>
+  <div class="codigo" id="caja-cod" hidden>
+    <p>Your code (save it in case you switch phones):</p>
     <b id="cod"></b>
   </div>
   <div class="caja">
-    <b>📲 Dejalo instalado en el celu</b>
+    <b>📲 Add it to your home screen</b>
     <ol>
-      <li><b>Android:</b> en Chrome tocá ⋮ → “Agregar a la pantalla principal”.</li>
-      <li><b>iPhone:</b> en Safari tocá compartir → “Agregar a inicio”.</li>
+      <li><b>iPhone:</b> in Safari, tap Share → “Add to Home Screen”.</li>
+      <li><b>Android:</b> in Chrome, tap ⋮ → “Add to Home screen”.</li>
     </ol>
   </div>
   <div class="caja">
-    <b>😈 ¿Sumaste el Pack Sin Filtro?</b>
-    <p style="margin-top:6px">Te llega otro código a tu mail. Lo ponés en el juego tocando el candadito del nivel “Sin Filtro”.</p>
+    <b>😈 Added the Unfiltered Pack?</b>
+    <p style="margin-top:6px">You'll get a second code by email. Enter it in the game by tapping the lock on the “Unfiltered” level.</p>
   </div>
   <p id="soporte"></p>
 </main>
 <script>
-/* ============ CONFIGURÁ ACÁ ============ */
+/* ============ SETTINGS ============ */
 const ENTREGA = {
-  codigo: "PICANTE2026",   // el mismo código que pusiste (en forma de huella) en app/index.html
-  whatsapp: ""             // ej "5491122334455"
+  email: ""   // support email, e.g. "hello@yourdomain.com"
 };
-/* ====================================== */
-document.getElementById("cod").textContent = ENTREGA.codigo;
-document.getElementById("entrar").href = "app/?codigo=" + encodeURIComponent(ENTREGA.codigo);
+/* The code is NOT written in this file. Set your checkout's thank-you redirect to:
+   https://YOUR-SITE/thanks.html?code=YOURCODE  → the button opens the game already unlocked. */
+/* ================================== */
+const code = new URLSearchParams(location.search).get("code");
+if(code && /^[A-Za-z0-9-]{4,40}$/.test(code)){
+  document.getElementById("cod").textContent = code;
+  document.getElementById("entrar").href = "app/?code=" + encodeURIComponent(code);
+  document.getElementById("entrar").hidden = false;
+  document.getElementById("caja-cod").hidden = false;
+  document.getElementById("intro").textContent = "Tap the button and the game opens with everything unlocked. We also emailed you the link.";
+}
 const s = document.getElementById("soporte");
-if(ENTREGA.whatsapp){ s.innerHTML = '¿Algún problema? <a class="soporte" target="_blank" rel="noopener">Escribinos por WhatsApp</a>'; s.querySelector("a").href = "https://wa.me/" + ENTREGA.whatsapp; } else s.remove();
+if(ENTREGA.email){ s.innerHTML = 'Any issues? <a class="soporte"></a>'; const a = s.querySelector("a"); a.href = "mailto:" + ENTREGA.email; a.textContent = ENTREGA.email; } else s.remove();
 </script>
 </body>
 </html>

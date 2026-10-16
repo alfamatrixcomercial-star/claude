@@ -1,0 +1,1000 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Picante · El juego de la pareja</title>
+<meta name="description" content="El juego para encender la pareja: verdad o reto, ruleta, dados y más.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#14060c">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Picante">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+[hidden]{display:none!important}
+:root{
+  --bg:#14060c; --surface:#26101b; --surface2:#331424; --line:rgba(255,255,255,.10);
+  --text:#fff3f6; --muted:#dfb3c1; --dim:#a87c8b;
+  --rose:#e11d48; --rose2:#fb7185; --orange:#f97316; --gold:#fbbf24; --green:#22c55e;
+  --l1:#fb7185; --l2:#f97316; --l3:#ef4444; --l4:#c084fc;
+  --grad:linear-gradient(135deg,#e11d48 0%,#f97316 100%);
+  --font-h:"Fredoka",ui-rounded,system-ui,sans-serif;
+  --font-b:"Nunito",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{background:var(--bg)}
+body{
+  min-height:100vh;min-height:100dvh;color:var(--text);font-family:var(--font-b);font-size:16px;line-height:1.5;
+  background:radial-gradient(120% 55% at 50% -8%,#541033 0%,rgba(20,6,12,0) 62%),var(--bg);
+  -webkit-tap-highlight-color:transparent;overflow-x:hidden;
+}
+button,input{font:inherit;color:inherit}
+button{border:0;background:none;cursor:pointer}
+a{color:var(--gold)}
+button:focus-visible,a:focus-visible,input:focus-visible,summary:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+h1,h2,h3{font-family:var(--font-h);line-height:1.15;font-weight:700}
+.app{max-width:480px;margin:0 auto;padding:max(16px,env(safe-area-inset-top)) 16px calc(28px + env(safe-area-inset-bottom));min-height:100vh;min-height:100dvh;display:flex;flex-direction:column}
+.screen{display:none;flex:1;flex-direction:column;gap:16px}
+.screen.on{display:flex;animation:in .25s ease}
+@keyframes in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+/* botones */
+.btn{display:flex;align-items:center;justify-content:center;gap:8px;min-height:54px;padding:12px 20px;border-radius:16px;font-weight:800;font-size:17px;text-align:center;text-decoration:none;transition:transform .15s ease,filter .15s ease}
+.btn:active{transform:scale(.97)}
+.btn-main{background:var(--grad);color:#fff;box-shadow:0 12px 30px -12px rgba(225,29,72,.8)}
+.btn-ghost{background:var(--surface);border:1px solid var(--line);color:var(--text)}
+.btn-ok{background:var(--green);color:#06210f}
+.btn-sm{min-height:44px;font-size:15px;padding:8px 14px;border-radius:12px}
+.link{color:var(--muted);text-decoration:underline;font-weight:700;padding:10px;min-height:44px}
+
+/* barra superior */
+.top{display:flex;align-items:center;gap:10px;min-height:48px}
+.top h2{font-size:22px;flex:1}
+.back{width:44px;height:44px;border-radius:12px;background:var(--surface);border:1px solid var(--line);display:grid;place-items:center;flex:none}
+.back svg{width:22px;height:22px}
+
+/* portada */
+.logo{text-align:center;padding:8px 0 0}
+.logo h1{font-size:54px;letter-spacing:1px;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 6px 24px rgba(225,29,72,.45))}
+.logo p{color:var(--muted);font-weight:700;margin-top:-2px}
+.estado{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 14px;border-radius:16px;background:var(--surface);border:1px solid var(--line);font-weight:700;font-size:15px}
+.estado.prueba{border-color:rgba(251,191,36,.45);background:linear-gradient(135deg,rgba(251,191,36,.12),rgba(225,29,72,.10))}
+.jugadores{display:grid;grid-template-columns:1fr auto 1fr;align-items:end;gap:8px;padding:14px;border-radius:20px;background:var(--surface);border:1px solid var(--line)}
+.jugadores label{display:block;font-size:13px;color:var(--muted);font-weight:700;margin-bottom:4px}
+.jugadores input{width:100%;min-height:48px;border-radius:12px;border:1px solid var(--line);background:var(--bg);padding:10px 12px;font-size:16px;font-weight:700}
+.jugadores .corazon{font-size:24px;padding-bottom:8px}
+.modos{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.modo{position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:4px;padding:16px;border-radius:20px;background:var(--surface);border:1px solid var(--line);text-align:left;min-height:118px;transition:transform .15s ease,border-color .15s ease}
+.modo:active{transform:scale(.97)}
+.modo .ico{font-size:30px;line-height:1}
+.modo b{font-family:var(--font-h);font-size:19px;font-weight:600;line-height:1.15}
+.modo span{color:var(--muted);font-size:13.5px;line-height:1.3}
+.modo.grande{grid-column:1/-1;flex-direction:row;align-items:center;gap:14px;min-height:96px;background:var(--grad);border:0;box-shadow:0 14px 34px -14px rgba(225,29,72,.85)}
+.modo.grande .ico{font-size:40px}
+.modo.grande b{font-size:24px}
+.modo.grande span{color:#ffe4ea}
+.regla{font-size:14px;color:var(--muted);text-align:center;padding:12px 14px;border-radius:14px;border:1px dashed var(--line)}
+.regla b{color:var(--text)}
+
+/* niveles */
+.niveles{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none;margin:0 -16px;padding-left:16px;padding-right:16px}
+.niveles::-webkit-scrollbar{display:none}
+.chip{flex:none;display:flex;align-items:center;gap:6px;min-height:44px;padding:8px 14px;border-radius:999px;background:var(--surface);border:2px solid var(--line);font-weight:800;font-size:15px;white-space:nowrap}
+.chip.on{border-color:var(--c);background:var(--surface2);background:color-mix(in srgb,var(--c) 22%,var(--surface))}
+.chip .lock{width:15px;height:15px;opacity:.8}
+
+/* marcador */
+.marcador{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.pj{display:flex;align-items:center;justify-content:space-between;gap:6px;padding:10px 14px;border-radius:14px;background:var(--surface);border:2px solid transparent;font-weight:800;min-width:0}
+.pj .n{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pj .p{font-family:var(--font-h);font-size:20px;color:var(--gold)}
+.pj.turno{border-color:var(--gold);background:var(--surface2);background:color-mix(in srgb,var(--gold) 12%,var(--surface))}
+.turnode{text-align:center;font-family:var(--font-h);font-size:26px;font-weight:600}
+.turnode small{display:block;font-family:var(--font-b);font-size:14px;color:var(--muted);font-weight:700}
+
+/* carta */
+.eleccion{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.eleccion .btn{min-height:120px;flex-direction:column;font-family:var(--font-h);font-size:26px;font-weight:700;border-radius:22px}
+.eleccion .btn i{font-style:normal;font-size:38px;line-height:1}
+.carta{--c:var(--l1);position:relative;border-radius:26px;padding:22px 20px 20px;background:linear-gradient(160deg,color-mix(in srgb,var(--c) 26%,var(--surface2)),var(--surface) 70%);border:2px solid color-mix(in srgb,var(--c) 70%,transparent);box-shadow:0 18px 50px -20px color-mix(in srgb,var(--c) 80%,transparent);min-height:220px;display:flex;flex-direction:column;gap:14px;animation:flip .35s ease}
+@supports not (background:color-mix(in srgb,red 50%,blue)){.carta{background:var(--surface2);border-color:var(--rose2)}.carta .tipo{background:rgba(255,255,255,.14)}}
+@keyframes flip{from{opacity:0;transform:perspective(800px) rotateY(-70deg)}to{opacity:1;transform:none}}
+.carta .tipo{align-self:flex-start;font-weight:800;font-size:13px;letter-spacing:1.5px;padding:4px 10px;border-radius:999px;background:color-mix(in srgb,var(--c) 30%,transparent);color:#fff}
+.carta .txt{font-family:var(--font-h);font-size:25px;font-weight:600;line-height:1.25;flex:1}
+.carta .quien{font-size:14px;color:var(--muted);font-weight:700}
+.timer{display:flex;flex-direction:column;gap:8px}
+.timer .barra{height:10px;border-radius:99px;background:rgba(255,255,255,.12);overflow:hidden}
+.timer .barra i{display:block;height:100%;width:100%;background:var(--gold);transform-origin:left;transition:transform 1s linear}
+.timer .num{font-family:var(--font-h);font-size:34px;font-weight:700;text-align:center;color:var(--gold)}
+.acciones{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.acciones .paso{grid-column:1/-1;justify-self:center}
+.agotado{text-align:center;display:flex;flex-direction:column;gap:12px}
+
+/* ruleta */
+.rueda-wrap{position:relative;width:min(100%,340px);aspect-ratio:1;margin:0 auto}
+.rueda-wrap svg{width:100%;height:100%;display:block}
+#rueda{transform-box:view-box;transform-origin:50% 50%;transition:transform 4.2s cubic-bezier(.12,.75,.12,1)}
+.puntero{position:absolute;left:50%;top:-6px;transform:translateX(-50%);width:0;height:0;border-left:16px solid transparent;border-right:16px solid transparent;border-top:30px solid var(--gold);filter:drop-shadow(0 3px 6px rgba(0,0,0,.6));z-index:2}
+
+/* dados */
+.dados{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.dado{aspect-ratio:1;border-radius:20px;background:#fff;color:#2a0b18;display:flex;align-items:center;justify-content:center;text-align:center;padding:8px;font-family:var(--font-h);font-weight:700;font-size:16px;line-height:1.1;box-shadow:inset 0 -6px 0 rgba(0,0,0,.12),0 12px 24px -12px rgba(0,0,0,.8);word-break:break-word}
+.dado.gira{animation:gira .12s linear infinite}
+@keyframes gira{0%{transform:rotate(-6deg)}50%{transform:rotate(6deg)}100%{transform:rotate(-6deg)}}
+.dados-label{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;text-align:center;font-size:12.5px;color:var(--muted);font-weight:800;letter-spacing:1px;margin-top:-8px}
+
+/* mensajes y noches */
+.lista{display:flex;flex-direction:column;gap:10px}
+.msj{padding:14px;border-radius:18px;background:var(--surface);border:1px solid var(--line);display:flex;flex-direction:column;gap:10px}
+.msj p{font-weight:700;font-size:16.5px}
+.msj .row{display:flex;gap:8px}
+.msj .row .btn{flex:1}
+.msj.bloq p{filter:blur(6px);user-select:none}
+.wa{background:#25d366;color:#052e14}
+.noche{display:flex;gap:12px;align-items:flex-start;padding:14px;border-radius:18px;background:var(--surface);border:1px solid var(--line)}
+.noche input{width:26px;height:26px;accent-color:var(--rose);flex:none;margin-top:2px}
+.noche b{font-family:var(--font-h);font-size:18px;font-weight:600;display:block}
+.noche span{color:var(--muted);font-size:15px}
+.noche.bloq{opacity:.55}
+.intro{color:var(--muted);font-weight:600}
+
+/* modal */
+.modal{position:fixed;inset:0;z-index:50;background:rgba(10,2,6,.78);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);display:none;align-items:flex-end;justify-content:center;padding:16px}
+.modal.on{display:flex}
+.hoja{width:100%;max-width:448px;background:var(--surface);border:1px solid var(--line);border-radius:26px;padding:22px 18px calc(18px + env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:14px;animation:in .25s ease}
+.hoja h3{font-size:24px}
+.hoja input{width:100%;min-height:54px;border-radius:14px;border:2px solid var(--line);background:var(--bg);padding:10px 14px;font-size:20px;font-weight:800;letter-spacing:2px;text-transform:uppercase;text-align:center}
+.hoja .err{color:#fda4af;font-weight:700;min-height:24px;text-align:center}
+.hoja ul{list-style:none;display:flex;flex-direction:column;gap:6px;color:var(--muted);font-weight:700}
+
+/* edad */
+.edad{justify-content:center;text-align:center;gap:20px}
+.edad .big{font-size:72px;line-height:1}
+.edad p{color:var(--muted);font-weight:600}
+.pasos{display:flex;flex-direction:column;gap:12px}
+.paso-i{padding:14px;border-radius:18px;background:var(--surface);border:1px solid var(--line)}
+.paso-i b{font-family:var(--font-h);font-size:18px;font-weight:600}
+.paso-i ol{padding-left:20px;color:var(--muted);font-weight:600;margin-top:6px}
+
+/* festejo */
+.chispa{position:fixed;z-index:60;pointer-events:none;font-size:28px;animation:sube 1.1s ease-out forwards}
+@keyframes sube{from{opacity:1;transform:translate(0,0) scale(.6)}to{opacity:0;transform:translate(var(--dx),-260px) scale(1.2)}}
+.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom));transform:translateX(-50%);background:#fff;color:#2a0b18;font-weight:800;padding:12px 18px;border-radius:14px;z-index:70;box-shadow:0 10px 30px rgba(0,0,0,.5);display:none;max-width:calc(100% - 32px);text-align:center}
+.toast.on{display:block;animation:in .2s ease}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+  #rueda{transition-duration:.6s!important}
+}
+@media (max-width:360px){
+  .logo h1{font-size:44px}
+  .carta .txt{font-size:22px}
+  .dado{font-size:14px}
+}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- ===== +18 ===== -->
+  <section class="screen edad" id="s-edad" aria-labelledby="t-edad">
+    <div class="big" aria-hidden="true">🌶️</div>
+    <h1 id="t-edad" style="font-size:34px">Solo para mayores de&nbsp;18</h1>
+    <p>Este juego es para parejas adultas que quieren pasarla bien. Hay preguntas y retos subidos de tono.</p>
+    <p><b style="color:var(--text)">Regla de oro:</b> si algo no le copa a alguno, se dice <b style="color:var(--text)">“PASO”</b> y se saca otra carta. Nadie obliga a nadie.</p>
+    <button class="btn btn-main" id="edad-si">Somos mayores de 18, ¡vamos!</button>
+    <button class="link" id="edad-no">No, soy menor</button>
+  </section>
+
+  <!-- ===== INICIO ===== -->
+  <section class="screen" id="s-inicio">
+    <div class="logo">
+      <h1>PICANTE</h1>
+      <p>el juego para encender la pareja 🔥</p>
+    </div>
+
+    <div class="estado" id="estado"></div>
+
+    <div class="jugadores">
+      <div><label for="n0">Tu nombre</label><input id="n0" maxlength="14" autocomplete="off" placeholder="Ej: Juli"></div>
+      <div class="corazon" aria-hidden="true">❤️</div>
+      <div><label for="n1">Tu pareja</label><input id="n1" maxlength="14" autocomplete="off" placeholder="Ej: Mati"></div>
+    </div>
+
+    <div class="modos">
+      <button class="modo grande" data-ir="juego"><span class="ico" aria-hidden="true">🃏</span><div><b>Verdad o Reto</b><br><span>4 niveles, del romántico al sin filtro</span></div></button>
+      <button class="modo" data-ir="ruleta"><span class="ico" aria-hidden="true">🎡</span><b>Ruleta Picante</b><span>Girala y que decida la suerte</span></button>
+      <button class="modo" data-ir="dados"><span class="ico" aria-hidden="true">🎲</span><b>Dados Calientes</b><span>Acción + zona + tiempo</span></button>
+      <button class="modo" data-ir="mensajes"><span class="ico" aria-hidden="true">💌</span><b>Mensajes</b><span>Para calentarle el día por WhatsApp</span></button>
+      <button class="modo" data-ir="noches"><span class="ico" aria-hidden="true">🗓️</span><b>Reto 7 Noches</b><span>Una semana para salir de la rutina</span></button>
+    </div>
+
+    <button class="btn btn-ghost btn-sm" data-ir="instalar">📲 Instalar como app en el celu</button>
+    <p class="regla"><b>Regla de oro:</b> si algo no le copa a alguno, se dice “PASO” y listo. Nadie obliga a nadie. 💯</p>
+  </section>
+
+  <!-- ===== VERDAD O RETO ===== -->
+  <section class="screen" id="s-juego">
+    <div class="top"><button class="back" data-ir="inicio" aria-label="Volver"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><h2>Verdad o Reto</h2></div>
+    <div class="niveles" data-niveles></div>
+    <div class="marcador" data-marcador></div>
+    <div class="turnode" data-turno></div>
+    <div class="eleccion" id="juego-eleccion">
+      <button class="btn btn-ghost" id="elige-verdad"><i aria-hidden="true">🤫</i>Verdad</button>
+      <button class="btn btn-main" id="elige-reto"><i aria-hidden="true">🔥</i>Reto</button>
+    </div>
+    <div id="juego-zona"></div>
+  </section>
+
+  <!-- ===== RULETA ===== -->
+  <section class="screen" id="s-ruleta">
+    <div class="top"><button class="back" data-ir="inicio" aria-label="Volver"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><h2>Ruleta Picante</h2></div>
+    <div class="niveles" data-niveles></div>
+    <div class="marcador" data-marcador></div>
+    <div class="turnode" data-turno></div>
+    <div class="rueda-wrap"><div class="puntero" aria-hidden="true"></div><svg viewBox="0 0 300 300" aria-hidden="true"><g id="rueda"></g><circle cx="150" cy="150" r="26" fill="#14060c" stroke="#fbbf24" stroke-width="4"/><text x="150" y="158" text-anchor="middle" font-size="22">🌶️</text></svg></div>
+    <button class="btn btn-main" id="girar">GIRAR LA RULETA</button>
+    <div id="ruleta-zona"></div>
+  </section>
+
+  <!-- ===== DADOS ===== -->
+  <section class="screen" id="s-dados">
+    <div class="top"><button class="back" data-ir="inicio" aria-label="Volver"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><h2>Dados Calientes</h2></div>
+    <div class="marcador" data-marcador></div>
+    <div class="turnode" data-turno></div>
+    <div class="dados" aria-live="polite"><div class="dado" id="d0">¿QUÉ?</div><div class="dado" id="d1">¿DÓNDE?</div><div class="dado" id="d2">¿CUÁNTO?</div></div>
+    <div class="dados-label"><span>ACCIÓN</span><span>ZONA</span><span>TIEMPO</span></div>
+    <button class="btn btn-main" id="tirar">TIRAR LOS DADOS</button>
+    <div id="dados-zona"></div>
+    <p class="regla" id="dados-nota"></p>
+  </section>
+
+  <!-- ===== MENSAJES ===== -->
+  <section class="screen" id="s-mensajes">
+    <div class="top"><button class="back" data-ir="inicio" aria-label="Volver"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><h2>Mensajes picantes</h2></div>
+    <p class="intro">Mandale uno durante el día y llegá a la noche con todo encendido. 😏</p>
+    <div class="lista" id="lista-msj"></div>
+  </section>
+
+  <!-- ===== 7 NOCHES ===== -->
+  <section class="screen" id="s-noches">
+    <div class="top"><button class="back" data-ir="inicio" aria-label="Volver"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><h2>Reto 7 Noches</h2></div>
+    <p class="intro">Una misión por noche durante una semana. Tachá cada noche que cumplan. 🔥</p>
+    <div class="lista" id="lista-noches"></div>
+  </section>
+
+  <!-- ===== INSTALAR ===== -->
+  <section class="screen" id="s-instalar">
+    <div class="top"><button class="back" data-ir="inicio" aria-label="Volver"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><h2>Instalar en el celu</h2></div>
+    <p class="intro">Dejalo como una app más, con su iconito, para abrirlo al toque.</p>
+    <button class="btn btn-main" id="instalar-ya" hidden>Instalar ahora</button>
+    <div class="pasos">
+      <div class="paso-i"><b>Android (Chrome)</b><ol><li>Tocá los 3 puntitos ⋮ arriba a la derecha.</li><li>Elegí “Agregar a la pantalla principal” o “Instalar app”.</li><li>¡Listo! Te aparece el ícono 🌶️.</li></ol></div>
+      <div class="paso-i"><b>iPhone (Safari)</b><ol><li>Tocá el botón de compartir (el cuadradito con la flecha).</li><li>Elegí “Agregar a inicio”.</li><li>¡Listo! Te aparece el ícono 🌶️.</li></ol></div>
+    </div>
+    <p class="regla">Tu acceso queda guardado en este celu. Si cambiás de celu o borrás los datos, volvé a poner tu código.</p>
+  </section>
+</div>
+
+<!-- ===== DESBLOQUEAR ===== -->
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="m-tit">
+  <div class="hoja">
+    <h3 id="m-tit">Desbloqueá todo 🔓</h3>
+    <ul id="m-lista"></ul>
+    <label for="codigo" style="font-weight:700;color:var(--muted)">¿Ya compraste? Poné tu código:</label>
+    <input id="codigo" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="TU CÓDIGO">
+    <div class="err" id="m-err" aria-live="polite"></div>
+    <button class="btn btn-main" id="m-activar">Activar código</button>
+    <a class="btn btn-ghost" id="m-comprar" target="_blank" rel="noopener">Todavía no tengo código</a>
+    <button class="link" id="m-cerrar">Cerrar</button>
+  </div>
+</div>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+/* =====================================================================
+   CONFIGURACIÓN — lo único que tenés que tocar para vender
+   ===================================================================== */
+const CONFIG = {
+  // Link de pago del producto principal (Hotmart, Kiwify, Mercado Pago, etc.)
+  linkCompra: "../index.html#comprar",
+  // Link de pago del "Pack Sin Filtro" (order bump / upsell)
+  linkPackExtra: "../index.html#comprar",
+  // Huellas SHA-256 de tus códigos. NO pongas el código en texto plano.
+  // Generalas con herramientas/generar-codigo.html y pegalas acá.
+  // Por defecto: PICANTE2026 (acceso completo) y SINFILTRO2026 (pack extra). ¡CAMBIALOS!
+  codigosCompleto: ["9a97d616b4f4c81023614df34c3da000ec8132d1354df25c7a6a45b666b7c098"],
+  codigosExtra:    ["6c9dd6fc32d0eb82d7080f55731d0f225f4b45ee9e4416359404a6b253e1caf4"],
+  // Cartas gratis por tipo en el modo prueba
+  gratis: 5
+};
+
+/* =====================================================================
+   CONTENIDO — {B} se reemplaza por el nombre de la pareja
+   Un reto puede ser "texto" o ["texto", segundos] para mostrar cronómetro
+   ===================================================================== */
+const NIVELES = [
+  { id:1, nombre:"Romántico", emoji:"💕", color:"var(--l1)", pts:1, acceso:"gratis",
+    verdades:[
+      "¿Qué fue lo primero que te gustó de {B}?",
+      "¿En qué momento te diste cuenta de que {B} te gustaba en serio?",
+      "¿Qué es lo que más extrañás de cuando recién empezaban?",
+      "Contá el recuerdo más lindo que tenés con {B}.",
+      "¿Qué hace {B} que te derrite y nunca se lo dijiste?",
+      "¿Qué parte del cuerpo de {B} es tu favorita? Sin vergüenza.",
+      "Si se pudieran escapar un finde sin laburo ni obligaciones, ¿a dónde irían?",
+      "¿Qué canción te hace acordar a {B}? Cantá un pedacito.",
+      "¿Qué es lo más lindo que {B} hizo por vos?",
+      "Decile a {B} tres cosas que te encantan de su persona. Mirándole a los ojos.",
+      "¿Cuál fue el mejor beso que se dieron? ¿Dónde fue?",
+      "¿Qué te gustaría que hagan más seguido?",
+      "¿Qué ropa de {B} te pierde?",
+      "¿Qué es algo que nunca le dijiste a {B} y hoy se lo querés decir?",
+      "¿Qué pensaste la primera vez que viste a {B}? La verdad, eh."
+    ],
+    retos:[
+      ["Dale a {B} un abrazo bien apretado y no lo sueltes hasta que suene el tiempo.",30],
+      ["Mírense a los ojos sin hablar. El primero que se ríe, pierde.",60],
+      "Dale 10 besos a {B}, cada uno en un lugar distinto de la cara.",
+      ["Hacele a {B} masajes en los hombros.",60],
+      "Elegí un tema lento y bailen abrazados hasta que termine.",
+      "Decile a {B} al oído lo que más te gusta de su cuerpo.",
+      ["Dale a {B} un beso de película. De esos largos.",20],
+      "Escribile a {B} una palabra en la espalda con el dedo. Si no adivina, te debe un beso.",
+      "Imitá a {B} cuando se enoja. 😂",
+      "Mandale a {B} un audio de WhatsApp diciéndole algo romántico, aunque esté al lado.",
+      ["Hacele cosquillas en el cuello a {B} solo con los labios.",20],
+      "Agarrá la mano de {B} y besale cada dedo, despacito.",
+      "Recreen su primer beso. Lo más parecido posible.",
+      "Tirale a {B} un piropo bien de barrio. Cuanto más grasa, mejor. 😂",
+      ["Acostate con {B} y hagan cucharita.",60],
+      "Dale a {B} tres besos en el cuello, bien despacito.",
+      "Sacate una media o el abrigo. Arrancamos suave. 😏",
+      ["Acariciale el pelo a {B}.",60],
+      "Dale a {B} un beso esquimal y uno de mariposa (con las pestañas).",
+      "Sentate en la falda de {B} hasta tu próximo turno.",
+      "Hacele a {B} una declaración de amor como si relataras un gol en la final del mundial. 😂",
+      ["Hacele a {B} masajes en los pies.",60],
+      "Besá a {B} sin usar las manos. Las manos atrás, eh.",
+      "Contale a {B} qué fue lo que te enamoró. Con detalles.",
+      ["Abrazá a {B} por la espalda y quédense así, sin hablar.",30]
+    ]},
+  { id:2, nombre:"Picante", emoji:"🌶️", color:"var(--l2)", pts:2, acceso:"completo",
+    verdades:[
+      "¿Cuál es la fantasía más tranqui que nunca le contaste a {B}?",
+      "¿Cuál es el lugar más loco donde te gustaría estar a solas con {B}?",
+      "¿Qué ropa interior de {B} es tu favorita?",
+      "¿Qué es lo que más te calienta que haga {B}?",
+      "Contá la mejor noche que pasaron juntos. Con detalles. 😏",
+      "¿Alguna vez pensaste en {B} en un momento re inoportuno? ¿Dónde estabas?",
+      "Del 1 al 10, ¿cuánto te gusta cuando {B} toma la iniciativa?",
+      "¿En qué parte del cuerpo te gusta que te besen?",
+      "¿Qué es algo que te gustaría probar y nunca se animaron?",
+      "¿Luz prendida o apagada? ¿Por qué?",
+      "¿Qué es lo más atrevido que mandaste por mensaje?",
+      "¿Mañana, tarde o noche? ¿Cuál es tu momento favorito para estar con {B}?",
+      "¿Alguna peli o serie te dio ideas? ¿Cuál?",
+      "¿Qué te gustaría que {B} te diga al oído?",
+      "¿Qué es lo primero que le mirás a {B} cuando sale de bañarse?"
+    ],
+    retos:[
+      "Sacate una prenda. La elige {B}.",
+      "Dale a {B} un beso en el cuello y bajá despacito hasta el hombro.",
+      "Susurrale a {B} al oído lo que le harías esta noche.",
+      ["Hacele a {B} un mini striptease con un tema de cumbia. 🔥",30],
+      "Vendale los ojos a {B} y dale besos en 3 lugares sorpresa.",
+      ["Hacele a {B} masajes en la espalda, pero solo con la punta de los dedos.",60],
+      "Mordele suave el labio de abajo a {B}.",
+      "Sacale una prenda a {B} usando solo los dientes.",
+      ["Sentate encima de {B} y mírense fijo sin besarse. El que besa primero, pierde.",30],
+      ["Soplale suave a {B} en el cuello y en la oreja.",20],
+      ["Pasale un cubito de hielo por el cuello a {B}. Si no hay hielo, usá los labios.",20],
+      "Mandale a {B} el mensaje más subido de tono que se te ocurra. Después lo tiene que leer en voz alta. 😂",
+      "Besá a {B} en el lugar que te diga. Sin protestar.",
+      "Hagan de cuenta que se conocen en un boliche. Encarale a {B} con tu mejor chamuyo.",
+      ["Hacele a {B} masajes con crema o aceite donde elija.",60],
+      ["Bailen un reggaetón bien pegados.",60],
+      ["Acariciale a {B} la espalda por debajo de la remera.",30],
+      ["Quedate sin moverte mientras {B} te besa donde quiera.",30],
+      ["Dale a {B} besitos en la panza, despacito.",20],
+      "Hacé tu mejor imitación de gemido de película. 😂",
+      "Elegí una parte del cuerpo de {B} y dale 10 besos ahí.",
+      "Sacate una prenda vos y sacale una a {B}.",
+      "Decile a {B} tres cosas que le harías si se quedaran encerrados en un ascensor.",
+      "Dejale a {B} un chupón donde no se vea. 😏",
+      ["Pasá los labios por el cuello de {B} sin besar, solo rozando.",20]
+    ]},
+  { id:3, nombre:"Fuego", emoji:"🔥", color:"var(--l3)", pts:3, acceso:"completo",
+    verdades:[
+      "¿Cuál es tu fantasía más zarpada con {B}? Contala entera.",
+      "¿Qué es lo que más te gusta que te haga {B} en la cama?",
+      "¿Hay algo que te gustaría que {B} haga distinto? Decilo con amor.",
+      "¿Cuál es tu posición favorita? Explicala sin palabras, solo con gestos. 😂",
+      "¿Alguna vez fingiste? Respondé con la verdad.",
+      "¿Qué lugar de la casa todavía no estrenaron? 😏",
+      "¿Qué es lo más atrevido que te animarías a hacer esta noche?",
+      "Del 1 al 10, ¿cuántas ganas le tenés a {B} ahora mismo?",
+      "¿Qué disfraz te gustaría que {B} se ponga para vos?",
+      "¿Qué es lo que más te gusta escuchar en el momento?",
+      "¿Te gustaría probar algún juguete? ¿Cuál?",
+      "¿Cuál fue la vez que más te costó aguantarte las ganas con {B}?"
+    ],
+    retos:[
+      "Sacale a {B} toda la ropa de arriba. Despacito.",
+      ["Hacele a {B} masajes con aceite, de los pies a la cabeza. Sin apuro.",120],
+      ["Vendale los ojos a {B} y hacé lo que quieras (dentro de lo que le guste).",60],
+      ["Besá a {B} desde el cuello hasta la cintura.",30],
+      "Elegí: le hacés un striptease completo a {B} o te sacás dos prendas.",
+      "Atale las manos a {B} con algo suave (una bufanda, una corbata) hasta tu próximo turno. Solo si quiere.",
+      ["Ponete arriba de {B} y movete al ritmo de un tema.",60],
+      ["{B} te dice dónde besar y vos obedecés.",60],
+      ["Hacé que a {B} se le escape un gemido sin usar las manos. 😏",60],
+      ["Pasá un cubito de hielo por la parte del cuerpo de {B} que elijas.",30],
+      "Dale a {B} el mejor beso de su vida. Si dice que no fue, repetí.",
+      ["Acariciá todo el cuerpo de {B} con un pañuelo, una pluma o la punta de los dedos.",60],
+      ["Hablale sucio a {B} al oído.",30],
+      "Quedate en ropa interior hasta el final del juego.",
+      "Elegí un lugar de la casa que no sea la cama. Ahí van a terminar la noche. 😈",
+      ["Dale a {B} un adelanto de lo que viene. 😏",60],
+      "Ponete un cubito de hielo en la boca y pasáselo a {B} con un beso.",
+      ["Juego de rol: elegí los personajes (jefe y empleado, doctor y paciente, desconocidos en un bar) y actúen.",120],
+      ["Recorré con la lengua el cuello y la oreja de {B}.",30],
+      "Desvestite frente a {B} como si fuera una película.",
+      "Sentate en la falda de {B} sin ropa de arriba hasta tu próximo turno.",
+      ["Hacele a {B} lo que más le gusta. Ya sabés qué. 😏",60],
+      "Prohibido usar las manos hasta tu próximo turno. Usá todo lo demás.",
+      ["Hacele a {B} masajes en la zona que te pida.",60],
+      "Turno doble: hacé dos retos seguidos de este nivel. 🔥"
+    ]},
+  { id:4, nombre:"Sin Filtro", emoji:"😈", color:"var(--l4)", pts:4, acceso:"extra",
+    verdades:[
+      "¿Cuál es la fantasía que nunca te animaste a contar? Hoy es el día.",
+      "¿Qué es lo más zarpado que te gustaría que {B} te haga?",
+      "¿Qué te gustaría probar que te da un poquito de vergüenza?",
+      "¿Cuál es tu lugar favorito del cuerpo de {B} para besar?",
+      "¿Qué te gustaría que {B} se ponga esta noche para vos?",
+      "¿Lento o con todo? ¿Por qué?",
+      "¿Cuál fue la vez que mejor la pasaron? ¿Qué la hizo tan especial?",
+      "¿Hoy querés mandar vos o que mande {B}?",
+      "Describí con tres palabras cómo querés que termine esta noche.",
+      "¿Hubo algún lugar donde te dieron ganas y no se pudo? Contalo. 😂"
+    ],
+    retos:[
+      ["Esta ronda manda {B}: hacés lo que te pida (dentro de lo que te guste).",120],
+      ["Sacate todo. {B} puede mirar pero no tocar.",30],
+      ["Recorré el cuerpo de {B} con besos, de arriba hacia abajo.",90],
+      ["Hacé que {B} te ruegue. 😈",60],
+      "Elegí una posición para esta noche y explicásela a {B} al oído.",
+      ["Poné crema, aceite o chocolate en el cuerpo de {B} y sacalo a besos.",60],
+      ["{B} con los ojos vendados y las manos quietas. Vos hacés lo que quieras.",120],
+      "Juego de rol: son dos desconocidos que se levantan en un bar. Arranquen ya y no salgan del personaje.",
+      ["El que se ríe pierde: se tocan sin poder hacer ni un ruido.",60],
+      "Llevá a {B} al lugar de la casa que eligieron antes. Ya. 😈",
+      ["Mostrale a {B} cómo te gusta que te toquen. Tu mano sobre la suya.",60],
+      ["Hacé tu mejor baile del caño (una puerta o una silla sirven). 😂",60],
+      ["Ponete arriba y no dejes que {B} se mueva.",60],
+      ["Hablale sucio a {B} sin parar.",60],
+      ["Hacé con la boca lo que {B} elija. 😏",60],
+      ["Juego del hielo: un cubito, el cuerpo de {B}, y hasta donde llegue.",60],
+      "El próximo reto lo inventa {B}. Y vos lo cumplís.",
+      ["Susurrale a {B} lo que le vas a hacer… y hacelo.",90],
+      "Cambio de escenario: terminan el juego en la ducha. 🚿",
+      ["Mordiscos suaves en el lugar que más le guste a {B}.",30],
+      "Dejá que {B} te ate las manos con algo suave. Hasta el final del juego.",
+      "{B} elige una de las fantasías que contaron. Esta noche se cumple (si los dos quieren).",
+      ["Modo espejo: todo lo que {B} te hace, se lo devolvés.",120],
+      ["Sentate en la falda de {B} sin ropa y no te muevas. Si te movés, perdés.",30],
+      "Último reto: apaguen el celu. Lo que sigue ya no necesita juego. 😈🔥"
+    ]}
+];
+
+const CASTIGOS = [
+  "Sacate una prenda.",
+  "Le debés a {B} masajes de 5 minutos mañana.",
+  "Mañana lavás los platos vos. 😂",
+  "Dale a {B} 10 besos donde elija.",
+  "Cantá una cumbia con todo el sentimiento.",
+  "Mañana le llevás el desayuno a la cama a {B}.",
+  "{B} elige tu próximo reto.",
+  "Hacé 10 sentadillas. Ya. 😂",
+  "Contá tu momento más vergonzoso.",
+  "{B} tiene el control remoto toda la semana.",
+  "Mandale a {B} un audio cantándole una canción de amor.",
+  "Le debés a {B} una salida. Pagás vos."
+];
+
+const RULETA = [
+  { e:"VERDAD", c:"#e11d48" }, { e:"BESO", c:"#f97316" }, { e:"RETO", c:"#be123c" }, { e:"MASAJE", c:"#ea580c" },
+  { e:"PRENDA", c:"#e11d48" }, { e:"COMODÍN", c:"#f59e0b" }, { e:"RETO", c:"#be123c" }, { e:"CASTIGO", c:"#7c2d12" }
+];
+const POOLS = {
+  "BESO":[
+    "Dale a {B} un beso en el cuello.", ["Dale a {B} un beso de película.",15], "Dale a {B} un beso en la oreja, bien despacito.",
+    "Beso esquimal con {B} (nariz con nariz) y después uno de verdad.", "Dale a {B} un beso en la panza.", "Dale a {B} un beso en la espalda.",
+    "Besá a {B} sin manos: las manos atrás.", "Besá a {B} con una mordidita en el labio.", "Dale a {B} un beso donde elija.", "Besale la mano a {B}, bien de galán. 😂"
+  ],
+  "MASAJE":[
+    ["Hacele masajes en los hombros a {B}.",60], ["Hacele masajes en los pies a {B}.",60], ["Hacele masajes en la espalda a {B}.",60],
+    ["Hacele masajes en la cabeza a {B}.",60], ["Hacele masajes con aceite a {B} donde elija.",60], ["Hacele masajes en las manos a {B}.",30],
+    ["Hacele masajes en el cuello a {B}.",45], ["Hacele masajes en las piernas a {B}.",60]
+  ],
+  "PRENDA":[
+    "Sacate una prenda.", "Sacale una prenda a {B}.", "Sacale una prenda a {B} con los dientes.", "{B} elige qué prenda te sacás.",
+    "Sacate una prenda de la forma más sexy que puedas. 😏", "¡Te salvaste! Ponete una prenda de vuelta. 😂"
+  ],
+  "COMODÍN":[
+    "Comodín: te salvás de un reto cuando quieras. ¡Guardalo!", "Elegí vos el próximo reto de {B}.", "Intercambio: {B} juega tu turno.",
+    "Pedile a {B} lo que quieras (dentro de lo que le guste).", "Doble o nada: si cumplís el próximo reto, vale el doble.", "Elegí una verdad o un reto del nivel que quieras."
+  ]
+};
+
+const DADOS = {
+  acciones:{
+    gratis:[{d:"BESÁ",f:"Besale"},{d:"ACARICIÁ",f:"Acariciale"},{d:"MASAJEÁ",f:"Masajeale"},{d:"SOPLÁ",f:"Soplale"},{d:"MORDÉ SUAVE",f:"Mordele suave"},{d:"RASGUÑÁ SUAVE",f:"Rasguñale suave"}],
+    completo:[{d:"LAMÉ",f:"Lamele"},{d:"ROZÁ CON LOS LABIOS",f:"Rozale con los labios"}],
+    extra:[]
+  },
+  zonas:{
+    gratis:[{d:"CUELLO",f:"el cuello"},{d:"OREJA",f:"la oreja"},{d:"LABIOS",f:"los labios"},{d:"ESPALDA",f:"la espalda"},{d:"PANZA",f:"la panza"},{d:"MANOS",f:"las manos"}],
+    completo:[{d:"MUSLOS",f:"los muslos"},{d:"PECHO",f:"el pecho"},{d:"CINTURA",f:"la cintura"},{d:"COLA 😏",f:"la cola"},{d:"DONDE ELIJA",f:"donde elija"}],
+    extra:[{d:"DONDE QUIERAS 😈",f:"donde vos quieras"},{d:"TODO EL CUERPO",f:"todo el cuerpo"}]
+  },
+  tiempos:[10,15,20,30,45,60]
+};
+
+const MENSAJES = [
+  "Hoy no me saco tu sonrisa de la cabeza. Ni otras cosas tuyas. 😏",
+  "Te aviso que esta noche no vas a dormir temprano. 🔥",
+  "Estoy pensando en vos y no es en algo tierno. 😈",
+  "Llegá rápido que te tengo una sorpresa. Pista: no tiene envoltorio.",
+  "Esta noche jugamos a un juego. El que pierde se saca algo. 🌶️",
+  "Me acordé de aquella noche… y quiero repetir.",
+  "Sos como el asado del domingo: lo que más espero en toda la semana. 🥩❤️",
+  "Me puse eso que te gusta. No te digo qué. Adiviná. 😏",
+  "Hoy te toca masaje. Y lo que viene después también.",
+  "Estoy en el laburo pero la cabeza está en otro lado… en vos.",
+  "Tengo ganas de vos. Así, sin vueltas.",
+  "Apagá la tele temprano hoy. Tengo planes.",
+  "Sos mi debilidad y lo sabés.",
+  "No sé qué me hiciste pero no te saco de la cabeza.",
+  "Si te portás bien hoy… no, mejor portate mal. 😈",
+  "Traé hambre. Y no hablo de la cena.",
+  "Me acordé de cómo me miraste anoche y me subió la temperatura. 🥵",
+  "Hoy los chicos se van a dormir temprano. Te aviso nomás. 😏",
+  "Tengo un antojo. Sos vos.",
+  "Cuento las horas para verte. Literal.",
+  "Si me mandás un 🔥 esta noche tenés sorpresa.",
+  "Te extraño. Y extraño tu perfume.",
+  "¿Ducha juntos cuando llegues? Es para ahorrar agua. 😇",
+  "Pensé en vos toda la mañana. Y ahora ni te cuento.",
+  "Hoy elegís vos la cena. Pero el postre lo elijo yo. 😏",
+  "Hoy no hay serie. Hay otra cosa.",
+  "Pregunta: ¿qué te pondrías si te digo que hoy es noche especial?",
+  "Te debo un beso. Bueno, varios. Te los cobro esta noche.",
+  "Ya preparé la cama. Falta lo más importante: vos. 😏",
+  "Sos lo más lindo que me pasó. Y lo más rico también. 🔥"
+];
+
+const NOCHES = [
+  ["Cita en casa","Cenen sin celulares, con luz bajita o una vela. Después, Verdad o Reto en nivel Romántico."],
+  ["Noche de masajes","10 minutos de masajes cada uno, con crema o aceite. Lo que pase después, pasa. 😏"],
+  ["Día de mensajes","Durante el día mándense 3 mensajes de la sección Mensajes. A la noche, Ruleta Picante."],
+  ["Noche de recuerdos","Miren fotos de cuando se conocieron y recreen su primera cita, tal cual."],
+  ["Dados calientes","10 tiradas de dados cada uno. El que se arruga, castigo."],
+  ["Noche de fantasías","Jueguen solo verdades del nivel Fuego. Elijan una fantasía para cumplir."],
+  ["La noche perfecta","Armen la noche con lo que más les gustó de la semana. Sin juego, sin reloj. 🔥"]
+];
+
+/* =====================================================================
+   MOTOR
+   ===================================================================== */
+const $ = s => document.querySelector(s);
+const $$ = s => Array.from(document.querySelectorAll(s));
+const store = {
+  get(k, d){ try{ const v = localStorage.getItem("picante." + k); return v === null ? d : JSON.parse(v); }catch(e){ return d; } },
+  set(k, v){ try{ localStorage.setItem("picante." + k, JSON.stringify(v)); }catch(e){} }
+};
+const S = {
+  completo: store.get("completo", false),
+  extra: store.get("extra", false),
+  nombres: store.get("nombres", ["", ""]),
+  noches: store.get("noches", []),
+  nivel: 1, turno: 0, puntos: [0, 0], comodin: false
+};
+const LOCK = '<svg class="lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>';
+
+function sha256(ascii){
+  function rr(v,a){return (v>>>a)|(v<<(32-a));}
+  const maxWord = Math.pow(2,32); let result = ""; const words = []; const bitLen = ascii.length*8;
+  let hash = [], k = [], pc = 0; const comp = {};
+  for(let c = 2; pc < 64; c++){ if(!comp[c]){ for(let i = 0; i < 313; i += c) comp[i] = c; hash[pc] = (Math.pow(c,.5)*maxWord)|0; k[pc++] = (Math.pow(c,1/3)*maxWord)|0; } }
+  ascii += "\x80"; while(ascii.length % 64 - 56) ascii += "\x00";
+  for(let i = 0; i < ascii.length; i++){ const j = ascii.charCodeAt(i); if(j >> 8) return ""; words[i>>2] |= j << ((3 - i) % 4) * 8; }
+  words[words.length] = (bitLen / maxWord)|0; words[words.length] = bitLen;
+  for(let j = 0; j < words.length;){
+    const w = words.slice(j, j += 16), old = hash; hash = hash.slice(0, 8);
+    for(let i = 0; i < 64; i++){
+      const w15 = w[i-15], w2 = w[i-2], a = hash[0], e = hash[4];
+      const t1 = hash[7] + (rr(e,6)^rr(e,11)^rr(e,25)) + ((e&hash[5])^((~e)&hash[6])) + k[i]
+        + (w[i] = (i < 16) ? w[i] : (w[i-16] + (rr(w15,7)^rr(w15,18)^(w15>>>3)) + w[i-7] + (rr(w2,17)^rr(w2,19)^(w2>>>10)))|0);
+      const t2 = (rr(a,2)^rr(a,13)^rr(a,22)) + ((a&hash[1])^(a&hash[2])^(hash[1]&hash[2]));
+      hash = [(t1 + t2)|0].concat(hash); hash[4] = (hash[4] + t1)|0;
+    }
+    for(let i = 0; i < 8; i++) hash[i] = (hash[i] + old[i])|0;
+  }
+  for(let i = 0; i < 8; i++) for(let j = 3; j + 1; j--){ const b = (hash[i] >> (j*8)) & 255; result += (b < 16 ? "0" : "") + b.toString(16); }
+  return result;
+}
+const normalizar = c => (c || "").toUpperCase().replace(/\s+/g, "").normalize("NFD").replace(/[̀-ͯ]/g, "");
+
+function activarCodigo(raw){
+  const h = sha256(normalizar(raw));
+  if(!h) return null;
+  if(CONFIG.codigosExtra.includes(h)){ S.extra = true; S.completo = true; }
+  else if(CONFIG.codigosCompleto.includes(h)){ S.completo = true; }
+  else return null;
+  store.set("completo", S.completo); store.set("extra", S.extra);
+  return S.extra ? "extra" : "completo";
+}
+
+const nombres = () => [S.nombres[0].trim() || "Jugador 1", S.nombres[1].trim() || "Jugador 2"];
+const llenar = t => t.split("{B}").join(nombres()[1 - S.turno]);
+const nivelActual = () => NIVELES.find(n => n.id === S.nivel);
+const puedeNivel = n => n.acceso === "gratis" || (n.acceso === "completo" && S.completo) || (n.acceso === "extra" && S.extra);
+
+/* bolsas sin repetición */
+const bolsas = {}, usados = {};
+function sacar(clave, arr, limite){
+  const tope = limite ? Math.min(limite, arr.length) : arr.length;
+  if(limite){ usados[clave] = usados[clave] || 0; if(usados[clave] >= tope) return null; usados[clave]++; }
+  if(!bolsas[clave] || !bolsas[clave].length){
+    bolsas[clave] = Array.from({length: tope}, (_, i) => i);
+    for(let i = bolsas[clave].length - 1; i > 0; i--){ const j = Math.floor(Math.random() * (i + 1)); [bolsas[clave][i], bolsas[clave][j]] = [bolsas[clave][j], bolsas[clave][i]]; }
+  }
+  return arr[bolsas[clave].pop()];
+}
+const limiteDe = n => (n.acceso === "gratis" && !S.completo) ? CONFIG.gratis : 0;
+const azar = a => a[Math.floor(Math.random() * a.length)];
+
+/* navegación */
+let pantalla = "inicio";
+function ir(id){
+  if(id === "inicio") limpiarTimers();
+  pantalla = id;
+  $$(".screen").forEach(s => s.classList.toggle("on", s.id === "s-" + id));
+  window.scrollTo(0, 0);
+  pintar();
+}
+document.addEventListener("click", e => {
+  const b = e.target.closest("[data-ir]");
+  if(b){ ir(b.dataset.ir); }
+});
+
+function pintar(){
+  // estado de acceso
+  const est = $("#estado");
+  if(S.completo){
+    est.className = "estado";
+    est.innerHTML = `<span>✅ Acceso completo${S.extra ? " + 😈 Sin Filtro" : ""}</span>` + (S.extra ? "" : `<button class="btn btn-ghost btn-sm" id="b-extra">Sumar 😈</button>`);
+  }else{
+    est.className = "estado prueba";
+    est.innerHTML = `<span>🔒 Modo prueba</span><button class="btn btn-main btn-sm" id="b-desbloquear">Desbloquear todo</button>`;
+  }
+  // niveles
+  $$("[data-niveles]").forEach(box => {
+    box.innerHTML = "";
+    NIVELES.forEach(n => {
+      const b = document.createElement("button");
+      b.className = "chip" + (n.id === S.nivel ? " on" : "");
+      b.style.setProperty("--c", n.color);
+      b.innerHTML = `<span aria-hidden="true">${n.emoji}</span>${n.nombre}${puedeNivel(n) ? "" : LOCK}`;
+      b.setAttribute("aria-pressed", n.id === S.nivel);
+      b.onclick = () => {
+        if(!puedeNivel(n)) return abrirModal(n.acceso);
+        S.nivel = n.id; pintar();
+        if(pantalla === "juego") volverAEleccion();
+      };
+      box.appendChild(b);
+    });
+  });
+  // marcador
+  const ns = nombres();
+  $$("[data-marcador]").forEach(m => {
+    m.innerHTML = "";
+    [0, 1].forEach(i => {
+      const d = document.createElement("div");
+      d.className = "pj" + (S.turno === i ? " turno" : "");
+      const n = document.createElement("span"); n.className = "n"; n.textContent = ns[i];
+      const p = document.createElement("span"); p.className = "p"; p.textContent = S.puntos[i];
+      d.append(n, p); m.appendChild(d);
+    });
+  });
+  $$("[data-turno]").forEach(t => { t.textContent = ""; const s = document.createElement("small"); s.textContent = "Le toca a"; t.append(s, document.createTextNode(ns[S.turno] + " 👉")); });
+  $("#dados-nota").textContent = S.extra ? "Dados con todas las zonas desbloqueadas 😈" : S.completo ? "Desbloqueá el Pack Sin Filtro para sumar más zonas 😈" : "En el modo prueba los dados tienen menos opciones. Desbloqueá todo para sumar más. 🔓";
+}
+document.addEventListener("click", e => {
+  if(e.target.closest("#b-desbloquear")) abrirModal("completo");
+  if(e.target.closest("#b-extra")) abrirModal("extra");
+});
+
+/* jugadores */
+["n0","n1"].forEach((id, i) => {
+  const inp = $("#" + id);
+  inp.value = S.nombres[i];
+  inp.addEventListener("input", () => { S.nombres[i] = inp.value; store.set("nombres", S.nombres); });
+});
+
+/* carta + acciones (compartido) */
+let timers = [];
+function limpiarTimers(){ timers.forEach(clearInterval); timers = []; }
+
+function mostrarCarta(zona, {tipo, texto, seg, color, pts, alPasar}){
+  limpiarTimers();
+  zona.innerHTML = "";
+  const c = document.createElement("div");
+  c.className = "carta"; c.style.setProperty("--c", color || "var(--l1)");
+  c.setAttribute("aria-live", "polite");
+  const t = document.createElement("span"); t.className = "tipo"; t.textContent = tipo;
+  const q = document.createElement("span"); q.className = "quien"; q.textContent = "Para " + nombres()[S.turno];
+  const x = document.createElement("p"); x.className = "txt"; x.textContent = llenar(texto);
+  c.append(t, q, x);
+  if(seg){
+    const tm = document.createElement("div"); tm.className = "timer";
+    const b = document.createElement("button"); b.className = "btn btn-ghost btn-sm"; b.textContent = `⏱ Arrancar ${seg} segundos`;
+    b.onclick = () => {
+      tm.innerHTML = `<div class="num">${seg}</div><div class="barra"><i></i></div>`;
+      const num = tm.querySelector(".num"), bar = tm.querySelector(".barra i");
+      let r = seg;
+      const id = setInterval(() => {
+        r--; num.textContent = r > 0 ? r : "¡Tiempo! ⏰"; bar.style.transform = `scaleX(${Math.max(r, 0) / seg})`;
+        if(r <= 0){ clearInterval(id); avisar(); }
+      }, 1000);
+      timers.push(id);
+    };
+    tm.appendChild(b); c.appendChild(tm);
+  }
+  zona.appendChild(c);
+
+  const a = document.createElement("div"); a.className = "acciones";
+  if(tipo === "CASTIGO"){
+    const ok = document.createElement("button"); ok.className = "btn btn-main"; ok.style.gridColumn = "1/-1"; ok.textContent = "Listo, siguiente 👉";
+    ok.onclick = () => siguienteTurno(zona);
+    a.appendChild(ok);
+  }else{
+    const ok = document.createElement("button"); ok.className = "btn btn-ok"; ok.textContent = `✅ Cumplido +${pts}`;
+    ok.onclick = () => {
+      S.puntos[S.turno] += S.comodin ? pts * 2 : pts;
+      S.comodin = texto.startsWith("Doble o nada");
+      festejar(); siguienteTurno(zona);
+    };
+    const no = document.createElement("button"); no.className = "btn btn-ghost"; no.textContent = "🐔 Me arrugo";
+    no.onclick = () => mostrarCarta(zona, { tipo:"CASTIGO", texto: sacar("castigos", CASTIGOS), color:"#7c2d12", pts:0 });
+    const paso = document.createElement("button"); paso.className = "link paso"; paso.textContent = "Paso, esta no me copa";
+    paso.onclick = () => { if(alPasar) alPasar(); };
+    a.append(ok, no, paso);
+  }
+  zona.appendChild(a);
+  c.scrollIntoView({ behavior: "smooth", block: "nearest" });
+}
+
+function siguienteTurno(zona){
+  limpiarTimers();
+  S.turno = 1 - S.turno;
+  zona.innerHTML = "";
+  if(pantalla === "juego") volverAEleccion();
+  pintar();
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function agotado(zona){
+  limpiarTimers();
+  zona.innerHTML = `<div class="carta agotado" style="--c:var(--gold)"><span class="tipo">FIN DE LA PRUEBA</span><p class="txt">¡Se terminaron las cartas gratis! 😢</p><p class="intro">Desbloqueá los 4 niveles, la ruleta completa, los dados con todas las zonas y los 30 mensajes.</p><button class="btn btn-main">Desbloquear todo 🔓</button></div>`;
+  zona.querySelector("button").onclick = () => abrirModal("completo");
+}
+
+/* --- verdad o reto --- */
+function volverAEleccion(){ $("#juego-eleccion").style.display = ""; $("#juego-zona").innerHTML = ""; limpiarTimers(); }
+function jugar(tipo){
+  const n = nivelActual(), zona = $("#juego-zona");
+  const arr = tipo === "VERDAD" ? n.verdades : n.retos;
+  const item = sacar(`${n.id}-${tipo}`, arr, limiteDe(n));
+  $("#juego-eleccion").style.display = "none";
+  if(item === null) return agotado(zona);
+  const [texto, seg] = Array.isArray(item) ? item : [item, 0];
+  mostrarCarta(zona, { tipo, texto, seg, color: n.color, pts: n.pts, alPasar: () => jugar(tipo) });
+}
+$("#elige-verdad").onclick = () => jugar("VERDAD");
+$("#elige-reto").onclick = () => jugar("RETO");
+
+/* --- ruleta --- */
+(function dibujarRueda(){
+  const g = $("#rueda"), cx = 150, cy = 150, r = 146, paso = 360 / RULETA.length;
+  const pt = (ang, rad) => [cx + rad * Math.sin(ang * Math.PI / 180), cy - rad * Math.cos(ang * Math.PI / 180)];
+  let html = "";
+  RULETA.forEach((s, i) => {
+    const a0 = i * paso, a1 = a0 + paso, [x0, y0] = pt(a0, r), [x1, y1] = pt(a1, r), m = a0 + paso / 2;
+    html += `<path d="M${cx},${cy} L${x0.toFixed(2)},${y0.toFixed(2)} A${r},${r} 0 0,1 ${x1.toFixed(2)},${y1.toFixed(2)} Z" fill="${s.c}" stroke="#14060c" stroke-width="3"/>`;
+    html += `<text x="${cx}" y="${cy - 96}" transform="rotate(${m} ${cx} ${cy})" text-anchor="middle" fill="#fff" font-family="Fredoka, sans-serif" font-weight="700" font-size="15">${s.e}</text>`;
+  });
+  html += `<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="#fbbf24" stroke-width="5"/>`;
+  g.innerHTML = html;
+})();
+let rot = 0, girando = false;
+$("#girar").onclick = () => {
+  if(girando) return;
+  girando = true; limpiarTimers(); $("#ruleta-zona").innerHTML = ""; $("#girar").disabled = true;
+  const paso = 360 / RULETA.length, i = Math.floor(Math.random() * RULETA.length);
+  const centro = i * paso + paso / 2, jitter = (Math.random() - .5) * paso * .6;
+  const destino = (360 - centro + jitter + 360) % 360;
+  rot = rot - (rot % 360) + 360 * 6 + destino;
+  $("#rueda").style.transform = `rotate(${rot}deg)`;
+  const fin = () => { girando = false; $("#girar").disabled = false; resultadoRuleta(RULETA[i].e); };
+  setTimeout(fin, matchMedia("(prefers-reduced-motion: reduce)").matches ? 700 : 4300);
+};
+function resultadoRuleta(seg){
+  const zona = $("#ruleta-zona"), n = nivelActual();
+  const repetir = () => resultadoRuleta(seg);
+  if(seg === "VERDAD" || seg === "RETO"){
+    const item = sacar(`${n.id}-${seg}`, seg === "VERDAD" ? n.verdades : n.retos, limiteDe(n));
+    if(item === null) return agotado(zona);
+    const [texto, s] = Array.isArray(item) ? item : [item, 0];
+    return mostrarCarta(zona, { tipo: seg, texto, seg: s, color: n.color, pts: n.pts, alPasar: repetir });
+  }
+  if(seg === "CASTIGO") return mostrarCarta(zona, { tipo:"CASTIGO", texto: sacar("castigos", CASTIGOS), color:"#7c2d12", pts:0 });
+  const item = sacar("r-" + seg, POOLS[seg]);
+  const [texto, s] = Array.isArray(item) ? item : [item, 0];
+  mostrarCarta(zona, { tipo: seg, texto, seg: s, color: "var(--l2)", pts: 1, alPasar: repetir });
+}
+
+/* --- dados --- */
+function caras(tipo){
+  const d = DADOS[tipo];
+  return d.gratis.concat(S.completo ? d.completo : [], S.extra ? d.extra : []);
+}
+let tirando = false;
+$("#tirar").onclick = () => {
+  if(tirando) return;
+  tirando = true; limpiarTimers(); $("#dados-zona").innerHTML = ""; $("#tirar").disabled = true;
+  const ac = caras("acciones"), zo = caras("zonas"), ti = DADOS.tiempos;
+  const ds = [$("#d0"), $("#d1"), $("#d2")];
+  ds.forEach(d => d.classList.add("gira"));
+  const id = setInterval(() => { ds[0].textContent = azar(ac).d; ds[1].textContent = azar(zo).d; ds[2].textContent = azar(ti) + "s"; }, 90);
+  setTimeout(() => {
+    clearInterval(id);
+    const a = azar(ac), z = azar(zo), t = azar(ti);
+    ds[0].textContent = a.d; ds[1].textContent = z.d; ds[2].textContent = t + "s";
+    ds.forEach(d => d.classList.remove("gira"));
+    tirando = false; $("#tirar").disabled = false;
+    mostrarCarta($("#dados-zona"), { tipo:"DADOS", texto: `${a.f} a {B} ${z.f}.`, seg: t, color: "var(--l3)", pts: S.extra ? 2 : 1, alPasar: () => $("#tirar").click() });
+  }, matchMedia("(prefers-reduced-motion: reduce)").matches ? 200 : 1100);
+};
+
+/* --- mensajes --- */
+function pintarMensajes(){
+  const box = $("#lista-msj"); box.innerHTML = "";
+  MENSAJES.forEach((m, i) => {
+    const libre = S.completo || i < CONFIG.gratis;
+    const d = document.createElement("div"); d.className = "msj" + (libre ? "" : " bloq");
+    const p = document.createElement("p"); p.textContent = m;
+    const row = document.createElement("div"); row.className = "row";
+    if(libre){
+      const wa = document.createElement("a"); wa.className = "btn btn-sm wa"; wa.textContent = "Mandar por WhatsApp";
+      wa.href = "https://wa.me/?text=" + encodeURIComponent(m); wa.target = "_blank"; wa.rel = "noopener";
+      const cp = document.createElement("button"); cp.className = "btn btn-ghost btn-sm"; cp.textContent = "Copiar";
+      cp.style.flex = "0 0 auto";
+      cp.onclick = () => copiar(m);
+      row.append(wa, cp);
+    }else{
+      const b = document.createElement("button"); b.className = "btn btn-ghost btn-sm"; b.innerHTML = LOCK + " Desbloquear";
+      b.onclick = () => abrirModal("completo");
+      row.appendChild(b);
+    }
+    d.append(p, row); box.appendChild(d);
+  });
+}
+function copiar(t){
+  const ok = () => toast("¡Copiado! Pegalo en WhatsApp 😏");
+  if(navigator.clipboard && window.isSecureContext){ navigator.clipboard.writeText(t).then(ok, () => viejo()); } else viejo();
+  function viejo(){ const ta = document.createElement("textarea"); ta.value = t; document.body.appendChild(ta); ta.select(); try{ document.execCommand("copy"); ok(); }catch(e){} ta.remove(); }
+}
+
+/* --- 7 noches --- */
+function pintarNoches(){
+  const box = $("#lista-noches"); box.innerHTML = "";
+  NOCHES.forEach(([tit, txt], i) => {
+    const libre = S.completo || i === 0;
+    const l = document.createElement("label"); l.className = "noche" + (libre ? "" : " bloq");
+    const cb = document.createElement("input"); cb.type = "checkbox"; cb.checked = S.noches.includes(i); cb.disabled = !libre;
+    cb.onchange = () => { S.noches = cb.checked ? [...new Set([...S.noches, i])] : S.noches.filter(x => x !== i); store.set("noches", S.noches); if(cb.checked) festejar(); };
+    const div = document.createElement("div");
+    const b = document.createElement("b"); b.textContent = `Noche ${i + 1}: ${tit}`;
+    const s = document.createElement("span"); s.textContent = libre ? txt : "Desbloqueá todo para ver esta noche. 🔒";
+    div.append(b, s); l.append(cb, div);
+    if(!libre) l.onclick = e => { e.preventDefault(); abrirModal("completo"); };
+    box.appendChild(l);
+  });
+}
+
+/* --- modal --- */
+function abrirModal(tipo){
+  const extra = tipo === "extra";
+  $("#m-tit").textContent = extra ? "Pack Sin Filtro 😈" : "Desbloqueá todo 🔓";
+  $("#m-lista").innerHTML = extra
+    ? "<li>😈 Nivel Sin Filtro: 35 verdades y retos para valientes</li><li>🎲 Dados con zonas sin límite</li><li>🔥 Vale 4 puntos cada carta</li>"
+    : "<li>🌶️ Niveles Picante y Fuego completos</li><li>🎡 Ruleta y 🎲 dados con todo</li><li>💌 30 mensajes para mandar por WhatsApp</li><li>🗓️ Reto 7 Noches completo</li>";
+  $("#m-comprar").href = extra ? CONFIG.linkPackExtra : CONFIG.linkCompra;
+  $("#m-err").textContent = ""; $("#codigo").value = "";
+  $("#modal").classList.add("on");
+  setTimeout(() => $("#codigo").focus(), 50);
+}
+const cerrarModal = () => $("#modal").classList.remove("on");
+$("#m-cerrar").onclick = cerrarModal;
+$("#modal").addEventListener("click", e => { if(e.target.id === "modal") cerrarModal(); });
+document.addEventListener("keydown", e => { if(e.key === "Escape") cerrarModal(); });
+function intentarCodigo(){
+  const r = activarCodigo($("#codigo").value);
+  if(!r){ $("#m-err").textContent = "Ese código no es válido. Revisalo y probá de nuevo."; return; }
+  cerrarModal(); refrescarTodo(); festejar();
+  toast(r === "extra" ? "¡Listo! Tenés TODO + Sin Filtro 😈🔥" : "¡Listo! Acceso completo desbloqueado 🔥");
+}
+$("#m-activar").onclick = intentarCodigo;
+$("#codigo").addEventListener("keydown", e => { if(e.key === "Enter") intentarCodigo(); });
+function refrescarTodo(){ for(const k in usados) delete usados[k]; for(const k in bolsas) delete bolsas[k]; pintar(); pintarMensajes(); pintarNoches(); }
+
+/* --- efectos --- */
+function festejar(){
+  if(matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const em = ["🔥","❤️","🌶️","💋","✨"];
+  for(let i = 0; i < 16; i++){
+    const s = document.createElement("span"); s.className = "chispa"; s.textContent = azar(em);
+    s.style.left = (innerWidth / 2 + (Math.random() - .5) * 120) + "px"; s.style.top = (innerHeight * .7) + "px";
+    s.style.setProperty("--dx", ((Math.random() - .5) * 260) + "px"); s.style.animationDelay = (Math.random() * .2) + "s";
+    document.body.appendChild(s); setTimeout(() => s.remove(), 1500);
+  }
+}
+function avisar(){
+  try{ navigator.vibrate && navigator.vibrate([200, 100, 200]); }catch(e){}
+  try{
+    const ctx = new (window.AudioContext || window.webkitAudioContext)(), o = ctx.createOscillator(), g = ctx.createGain();
+    o.frequency.value = 880; o.connect(g); g.connect(ctx.destination); g.gain.setValueAtTime(.2, ctx.currentTime);
+    g.gain.exponentialRampToValueAtTime(.001, ctx.currentTime + .6); o.start(); o.stop(ctx.currentTime + .6);
+  }catch(e){}
+}
+let tt;
+function toast(t){ const el = $("#toast"); el.textContent = t; el.classList.add("on"); clearTimeout(tt); tt = setTimeout(() => el.classList.remove("on"), 2600); }
+
+/* --- instalar (PWA) --- */
+let promptInstalar = null;
+window.addEventListener("beforeinstallprompt", e => { e.preventDefault(); promptInstalar = e; $("#instalar-ya").hidden = false; });
+$("#instalar-ya").onclick = async () => { if(!promptInstalar) return; promptInstalar.prompt(); await promptInstalar.userChoice; promptInstalar = null; $("#instalar-ya").hidden = true; };
+if("serviceWorker" in navigator && location.protocol.startsWith("http")){ navigator.serviceWorker.register("sw.js").catch(() => {}); }
+
+/* --- edad + arranque --- */
+$("#edad-si").onclick = () => { store.set("edad", true); ir("inicio"); };
+$("#edad-no").onclick = () => { document.querySelector("#s-edad p").textContent = "¡Volvé cuando tengas 18! 😉"; };
+
+(function arrancar(){
+  // ?codigo=XXXX en el link de entrega desbloquea automáticamente
+  const params = new URLSearchParams(location.search);
+  const cod = params.get("codigo") || params.get("code");
+  let msg = "";
+  if(cod){
+    const r = activarCodigo(cod);
+    msg = r ? (r === "extra" ? "¡Bienvenidos! Tienen TODO + Sin Filtro 😈🔥" : "¡Bienvenidos! Acceso completo activado 🔥") : "El código del link no es válido. Escribinos.";
+    params.delete("codigo"); params.delete("code");
+    try{ history.replaceState(null, "", location.pathname + (params.toString() ? "?" + params : "") + location.hash); }catch(e){}
+  }
+  pintarMensajes(); pintarNoches();
+  ir(store.get("edad", false) ? "inicio" : "edad");
+  if(msg) toast(msg);
+})();
+</script>
+</body>
+</html>
